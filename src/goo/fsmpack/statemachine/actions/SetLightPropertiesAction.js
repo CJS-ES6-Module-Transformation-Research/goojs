@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetLightPropertiesAction /*id, settings*/;
 
-export default function SetLightPropertiesAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetLightPropertiesAction.prototype = Object.create(Action.prototype);
+function SetLightPropertiesAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetLightPropertiesAction.prototype = Object.create(_Action2.default.prototype);
 SetLightPropertiesAction.prototype.constructor = SetLightPropertiesAction;
 
 SetLightPropertiesAction.external = {
@@ -46,13 +57,12 @@ SetLightPropertiesAction.external = {
 };
 
 SetLightPropertiesAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
-	if (entity &&
-		entity.lightComponent &&
-		entity.lightComponent.light) {
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
+	if (entity && entity.lightComponent && entity.lightComponent.light) {
 		entity.lightComponent.light.color.setDirect(this.color[0], this.color[1], this.color[2]);
 		entity.lightComponent.light.intensity = this.intensity;
 		entity.lightComponent.light.specularIntensity = this.specularIntensity;
 		entity.lightComponent.light.range = this.range;
 	}
 };
+module.exports = exports.default;

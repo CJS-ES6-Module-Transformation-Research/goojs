@@ -1,4 +1,15 @@
-import Light from "../../renderer/light/Light";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PointLight;
+
+var _Light = require("../../renderer/light/Light");
+
+var _Light2 = _interopRequireDefault(_Light);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
@@ -6,13 +17,13 @@ import Light from "../../renderer/light/Light";
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export default function PointLight(color) {
-	Light.call(this, color);
+function PointLight(color) {
+	_Light2.default.call(this, color);
 
 	/**
-	 * The range of the light (default is 1000)
-	 * @type {number}
-	 */
+  * The range of the light (default is 1000)
+  * @type {number}
+  */
 	this.range = 1000;
 
 	// @ifdef DEBUG
@@ -20,7 +31,7 @@ export default function PointLight(color) {
 	// @endif
 }
 
-PointLight.prototype = Object.create(Light.prototype);
+PointLight.prototype = Object.create(_Light2.default.prototype);
 PointLight.prototype.constructor = PointLight;
 
 /**
@@ -33,7 +44,7 @@ PointLight.prototype.update = function (transform) {
 };
 
 PointLight.prototype.copy = function (source) {
-	Light.prototype.copy.call(this, source);
+	_Light2.default.prototype.copy.call(this, source);
 
 	this.range = source.range;
 
@@ -45,3 +56,4 @@ PointLight.prototype.clone = function () {
 	clone.copy(this);
 	return clone;
 };
+module.exports = exports.default;

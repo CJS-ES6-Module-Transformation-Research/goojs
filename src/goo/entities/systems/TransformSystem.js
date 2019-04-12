@@ -1,4 +1,15 @@
-import System from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TransformSystem;
+
+var _System = require('../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 // has to stay here because it's used by traverseFunc below
 // it's pretty crappy how it's sprinkled over the code
@@ -9,12 +20,12 @@ var numUpdates;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
  * @extends System
  */
-export default function TransformSystem() {
-	System.call(this, 'TransformSystem', ['TransformComponent']);
+function TransformSystem() {
+	_System2.default.call(this, 'TransformSystem', ['TransformComponent']);
 	this.numUpdates = 0;
 }
 
-TransformSystem.prototype = Object.create(System.prototype);
+TransformSystem.prototype = Object.create(_System2.default.prototype);
 TransformSystem.prototype.constructor = TransformSystem;
 
 TransformSystem.prototype.process = function () {
@@ -53,3 +64,4 @@ function traverseFunc(entity) {
 		}
 	}
 }
+module.exports = exports.default;

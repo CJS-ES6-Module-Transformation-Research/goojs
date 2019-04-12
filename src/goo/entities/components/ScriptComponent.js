@@ -1,9 +1,26 @@
-import Component from "../../entities/components/Component";
-import SystemBus from "../../entities/SystemBus";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ScriptComponent;
 
-function getGooClasses(){
-	return (typeof window !== 'undefined' && window.goo) || {};
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function getGooClasses() {
+	return typeof window !== 'undefined' && window.goo || {};
 }
 
 /**
@@ -16,8 +33,8 @@ function getGooClasses(){
  * The script object can also define the function <code>setup({@link Entity} entity)</code>, called upon script creation.
  * @extends Component
  */
-export default function ScriptComponent(scripts) {
-	Component.apply(this, arguments);
+function ScriptComponent(scripts) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'ScriptComponent';
 
@@ -27,15 +44,15 @@ export default function ScriptComponent(scripts) {
 		this.scripts = [scripts];
 	} else {
 		/**
-		* Array of scripts tied to this script component. Scripts can be added to the component
-		* using the constructor or by manually adding to the array.
-		* @type {Array}
-		* @example
-		* // Add a script to script component
-		* var scriptComponent = new ScriptComponent();
-		* var controlScript = new WasdControlScript();
-		* scriptComponent.scripts.push(controlScript);
-		*/
+  * Array of scripts tied to this script component. Scripts can be added to the component
+  * using the constructor or by manually adding to the array.
+  * @type {Array}
+  * @example
+  * // Add a script to script component
+  * var scriptComponent = new ScriptComponent();
+  * var controlScript = new WasdControlScript();
+  * scriptComponent.scripts.push(controlScript);
+  */
 		this.scripts = [];
 	}
 
@@ -46,7 +63,7 @@ export default function ScriptComponent(scripts) {
 
 ScriptComponent.type = 'ScriptComponent';
 
-ScriptComponent.prototype = Object.create(Component.prototype);
+ScriptComponent.prototype = Object.create(_Component2.default.prototype);
 ScriptComponent.prototype.constructor = ScriptComponent;
 
 /**
@@ -59,7 +76,7 @@ ScriptComponent.prototype.constructor = ScriptComponent;
 ScriptComponent.prototype.setup = function (entity) {
 	var systemContext = entity._world.getSystem('ScriptSystem').context;
 	var componentContext = Object.create(systemContext);
-	ObjectUtils.extend(componentContext, {
+	_ObjectUtils2.default.extend(componentContext, {
 		entity: entity,
 		entityData: {}
 	});
@@ -158,11 +175,7 @@ ScriptComponent.prototype.cleanup = function () {
 	for (var i = 0; i < this.scripts.length; i++) {
 		var script = this.scripts[i];
 		if (script.context) {
-			if (script.cleanup &&
-				(script.parameters && script.parameters.enabled !== undefined ?
-					script.parameters.enabled :
-					script.enabled)
-			) {
+			if (script.cleanup && (script.parameters && script.parameters.enabled !== undefined ? script.parameters.enabled : script.enabled)) {
 				try {
 					script.cleanup(script.parameters, script.context, getGooClasses());
 				} catch (e) {
@@ -220,7 +233,7 @@ ScriptComponent.prototype._handleError = function (script, error, phase) {
 	}
 	/**/
 	console.error(err.errors[0].message, err);
-	SystemBus.emit('goo.scriptError', err);
+	_SystemBus2.default.emit('goo.scriptError', err);
 };
 
 /**
@@ -238,7 +251,7 @@ ScriptComponent.prototype._handleError = function (script, error, phase) {
  * @returns {boolean}
  */
 ScriptComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Function || (obj && obj.run instanceof Function) || (obj && obj.update instanceof Function)) {
+	if (obj instanceof Function || obj && obj.run instanceof Function || obj && obj.update instanceof Function) {
 		var scriptComponent;
 		if (!entity.scriptComponent) {
 			scriptComponent = new ScriptComponent();
@@ -251,3 +264,4 @@ ScriptComponent.applyOnEntity = function (obj, entity) {
 		return true;
 	}
 };
+module.exports = exports.default;

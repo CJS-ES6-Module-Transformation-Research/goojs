@@ -1,7 +1,21 @@
-import AudioContext from "../sound/AudioContext";
-import MathUtils from "../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = OscillatorSound;
 
-export default function OscillatorSound() {
+var _AudioContext = require("../sound/AudioContext");
+
+var _AudioContext2 = _interopRequireDefault(_AudioContext);
+
+var _MathUtils = require("../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function OscillatorSound() {
 	// Settings
 	this.id = null;
 	this._volume = 1.0;
@@ -9,7 +23,7 @@ export default function OscillatorSound() {
 	this._type = 'sine';
 
 	// Nodes
-	this._outNode = AudioContext.getContext().createGain();
+	this._outNode = _AudioContext2.default.getContext().createGain();
 
 	this.connectTo();
 }
@@ -20,7 +34,7 @@ OscillatorSound.prototype.stop = function () {
 };
 
 OscillatorSound.prototype.play = function () {
-	this._oscNode = AudioContext.getContext().createOscillator();
+	this._oscNode = _AudioContext2.default.getContext().createOscillator();
 	this._oscNode.connect(this._outNode);
 	this._oscNode.frequency.value = this._frequency;
 	this._oscNode.type = this._type;
@@ -30,7 +44,7 @@ OscillatorSound.prototype.play = function () {
 
 OscillatorSound.prototype.update = function (config) {
 	if (config.volume !== undefined) {
-		this._volume = MathUtils.clamp(config.volume, 0, 1);
+		this._volume = _MathUtils2.default.clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.frequency !== undefined) {
@@ -52,7 +66,7 @@ OscillatorSound.prototype.update = function (config) {
  * @param {(Array<AudioNode> | AudioNode)} nodes
  */
 OscillatorSound.prototype.connectTo = function (nodes) {
-	if (!AudioContext.isSupported()) {
+	if (!_AudioContext2.default.isSupported()) {
 		console.warn('WebAudio not supported');
 		return;
 	}
@@ -68,10 +82,5 @@ OscillatorSound.prototype.connectTo = function (nodes) {
 	}
 };
 
-OscillatorSound.TYPES = [
-	'sine',
-	'square',
-	'sawtooth',
-	'triangle',
-	'custom'
-];
+OscillatorSound.TYPES = ['sine', 'square', 'sawtooth', 'triangle', 'custom'];
+module.exports = exports.default;

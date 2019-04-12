@@ -1,28 +1,39 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = WaitAction /*id, settings*/;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * @private
  * @extends Action
  */
-export default function WaitAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function WaitAction() {
+	_Action2.default.apply(this, arguments);
 
 	/**
-	 * Current time, in milliseconds.
-	 * @type {number}
-	 */
+  * Current time, in milliseconds.
+  * @type {number}
+  */
 	this.currentTime = 0;
 
 	/**
-	 * Wait time, in milliseconds.
-	 * @type {number}
-	 */
+  * Wait time, in milliseconds.
+  * @type {number}
+  */
 	this.totalWait = 0;
 
 	this.completed = false;
 }
 
-WaitAction.prototype = Object.create(Action.prototype);
+WaitAction.prototype = Object.create(_Action2.default.prototype);
 WaitAction.prototype.constructor = WaitAction;
 
 WaitAction.external = {
@@ -50,7 +61,7 @@ WaitAction.external = {
 	}]
 };
 
-WaitAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+WaitAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'timeUp' ? 'On Wait End' : undefined;
 };
 
@@ -67,3 +78,4 @@ WaitAction.prototype.update = function (fsm) {
 		fsm.send(this.transitions.timeUp);
 	}
 };
+module.exports = exports.default;

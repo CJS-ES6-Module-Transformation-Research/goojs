@@ -1,11 +1,22 @@
-import Vector3 from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RenderQueue;
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * The RenderQueue handles sorting of entities. Entities are ordered by their renderQueue value into buckets.
  * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
  * back to front.
  */
-export default function RenderQueue() {
+function RenderQueue() {
 	this.opaqueSorter = function (a, b) {
 		var shader1 = a.meshRendererComponent.materials[0].shader;
 		var shader2 = b.meshRendererComponent.materials[0].shader;
@@ -36,7 +47,7 @@ export default function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3();
+var tmpVec = new _Vector2.default();
 
 /**
  * @param {Array<Entity>} renderList
@@ -121,3 +132,4 @@ RenderQueue.TRANSPARENT = 2000;
  * @default
  */
 RenderQueue.OVERLAY = 3000;
+module.exports = exports.default;

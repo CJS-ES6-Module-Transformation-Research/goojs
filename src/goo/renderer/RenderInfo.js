@@ -1,11 +1,25 @@
-import Entity from "../entities/Entity";
-import Transform from "../math/Transform";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RenderInfo;
+
+var _Entity = require("../entities/Entity");
+
+var _Entity2 = _interopRequireDefault(_Entity);
+
+var _Transform = require("../math/Transform");
+
+var _Transform2 = _interopRequireDefault(_Transform);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Holds configuration data for renderable objects.
  */
 
-export default function RenderInfo() {
+function RenderInfo() {
 	this.reset();
 
 	// @ifdef DEBUG
@@ -37,10 +51,10 @@ RenderInfo.prototype.reset = function () {
  */
 
 RenderInfo.prototype.fill = function (renderable) {
-	if (renderable instanceof Entity) {
+	if (renderable instanceof _Entity2.default) {
 		this.meshData = renderable.meshDataComponent.meshData;
 		this.materials = renderable.meshRendererComponent.materials;
-		this.transform = renderable.particleComponent ? Transform.IDENTITY : renderable.transformComponent.sync().worldTransform;
+		this.transform = renderable.particleComponent ? _Transform2.default.IDENTITY : renderable.transformComponent.sync().worldTransform;
 		if (renderable.meshDataComponent.currentPose) {
 			this.currentPose = renderable.meshDataComponent.currentPose;
 		} else {
@@ -59,3 +73,4 @@ RenderInfo.prototype.fill = function (renderable) {
 
 	this.renderable = renderable;
 };
+module.exports = exports.default;

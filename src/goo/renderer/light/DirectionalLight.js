@@ -1,5 +1,19 @@
-import Vector3 from "../../math/Vector3";
-import Light from "../../renderer/light/Light";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = DirectionalLight;
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Light = require("../../renderer/light/Light");
+
+var _Light2 = _interopRequireDefault(_Light);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A directional light
@@ -7,22 +21,22 @@ import Light from "../../renderer/light/Light";
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export default function DirectionalLight(color) {
-	Light.call(this, color);
+function DirectionalLight(color) {
+	_Light2.default.call(this, color);
 
 	/**
-	 * The direction vector of the light
-	 * @readonly
-	 * @type {Vector3}
-	 */
-	this.direction = new Vector3();
+  * The direction vector of the light
+  * @readonly
+  * @type {Vector3}
+  */
+	this.direction = new _Vector2.default();
 
 	// @ifdef DEBUG
 	Object.seal(this);
 	// @endif
 }
 
-DirectionalLight.prototype = Object.create(Light.prototype);
+DirectionalLight.prototype = Object.create(_Light2.default.prototype);
 DirectionalLight.prototype.constructor = DirectionalLight;
 
 /**
@@ -37,7 +51,7 @@ DirectionalLight.prototype.update = function (transform) {
 };
 
 DirectionalLight.prototype.copy = function (source) {
-	Light.prototype.copy.call(this, source);
+	_Light2.default.prototype.copy.call(this, source);
 
 	this.direction.copy(source.direction);
 
@@ -49,3 +63,4 @@ DirectionalLight.prototype.clone = function () {
 	clone.copy(this);
 	return clone;
 };
+module.exports = exports.default;

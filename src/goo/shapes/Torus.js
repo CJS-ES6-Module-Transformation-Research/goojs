@@ -1,7 +1,27 @@
-import MeshData from "../renderer/MeshData";
-import Vector3 from "../math/Vector3";
-import MathUtils from "../math/MathUtils";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Torus;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _MathUtils = require("../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A donut-shaped model.
@@ -11,7 +31,7 @@ import ObjectUtils from "../util/ObjectUtils";
  * @param {number} [tubeRadius=1] Radius of tube.
  * @param {number} [centerRadius=2] Radius from center.
  */
-export default function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
+function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		circleSamples = props.circleSamples;
@@ -25,20 +45,20 @@ export default function Torus(circleSamples, radialSamples, tubeRadius, centerRa
 	this.centerRadius = centerRadius !== undefined ? centerRadius : 2;
 
 	/** Inward-facing normals.
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.viewInside = false;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = _MeshData2.default.defaultMap([_MeshData2.default.POSITION, _MeshData2.default.NORMAL, _MeshData2.default.TEXCOORD0]);
 	var vertices = (this.circleSamples + 1) * (this.radialSamples + 1);
 	var indices = 6 * this.circleSamples * this.radialSamples;
-	MeshData.call(this, attributeMap, vertices, indices);
+	_MeshData2.default.call(this, attributeMap, vertices, indices);
 
 	this.rebuild();
 }
 
-Torus.prototype = Object.create(MeshData.prototype);
+Torus.prototype = Object.create(_MeshData2.default.prototype);
 Torus.prototype.constructor = Torus;
 
 /**
@@ -46,9 +66,9 @@ Torus.prototype.constructor = Torus;
  * @returns {Torus} Self for chaining.
  */
 Torus.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshData.POSITION);
-	var norms = this.getAttributeBuffer(MeshData.NORMAL);
-	var texs = this.getAttributeBuffer(MeshData.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(_MeshData2.default.POSITION);
+	var norms = this.getAttributeBuffer(_MeshData2.default.NORMAL);
+	var texs = this.getAttributeBuffer(_MeshData2.default.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	// generate geometry
@@ -56,11 +76,13 @@ Torus.prototype.rebuild = function () {
 	var inverseRadialSamples = 1.0 / this.radialSamples;
 	var i = 0;
 	// generate the cylinder itself
-	var radialAxis = new Vector3(), torusMiddle = new Vector3(), tempNormal = new Vector3();
+	var radialAxis = new _Vector2.default(),
+	    torusMiddle = new _Vector2.default(),
+	    tempNormal = new _Vector2.default();
 	for (var circleCount = 0; circleCount < this.circleSamples; circleCount++) {
 		// compute center point on torus circle at specified angle
 		var circleFraction = circleCount * inverseCircleSamples;
-		var theta = MathUtils.TWO_PI * circleFraction;
+		var theta = _MathUtils2.default.TWO_PI * circleFraction;
 		var cosTheta = Math.cos(theta);
 		var sinTheta = Math.sin(theta);
 		radialAxis.setDirect(cosTheta, sinTheta, 0);
@@ -71,7 +93,7 @@ Torus.prototype.rebuild = function () {
 		for (var radialCount = 0; radialCount < this.radialSamples; radialCount++) {
 			var radialFraction = radialCount * inverseRadialSamples;
 			// in [0, 1)
-			var phi = MathUtils.TWO_PI * radialFraction;
+			var phi = _MathUtils2.default.TWO_PI * radialFraction;
 			var cosPhi = Math.cos(phi);
 			var sinPhi = Math.sin(phi);
 
@@ -166,8 +188,8 @@ function copyInternal2(buf, from, to) {
  * @returns {Torus}
  */
 Torus.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this,
-		['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
+	var options = _ObjectUtils2.default.shallowSelectiveClone(this, ['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
 
 	return new Torus(options);
 };
+module.exports = exports.default;

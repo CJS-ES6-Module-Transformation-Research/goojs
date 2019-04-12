@@ -1,7 +1,27 @@
-import ConfigHandler from "../../loaders/handlers/ConfigHandler";
-import AnimationLayer from "../../animationpack/layer/AnimationLayer";
-import RSVP from "../../util/rsvp";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationLayersHandler;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _AnimationLayer = require("../../animationpack/layer/AnimationLayer");
+
+var _AnimationLayer2 = _interopRequireDefault(_AnimationLayer);
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading animation layers
@@ -11,13 +31,13 @@ import ObjectUtils from "../../util/ObjectUtils";
  * @extends ConfigHandler
  * @private
  */
-export default function AnimationLayersHandler() {
-	ConfigHandler.apply(this, arguments);
+function AnimationLayersHandler() {
+	_ConfigHandler2.default.apply(this, arguments);
 }
 
-AnimationLayersHandler.prototype = Object.create(ConfigHandler.prototype);
+AnimationLayersHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 AnimationLayersHandler.prototype.constructor = AnimationLayersHandler;
-ConfigHandler._registerClass('animation', AnimationLayersHandler);
+_ConfigHandler2.default._registerClass('animation', AnimationLayersHandler);
 
 /**
  * Creates an empty array to store animation layers
@@ -56,16 +76,18 @@ AnimationLayersHandler.prototype._setInitialState = function (layer, stateKey) {
  */
 AnimationLayersHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
-		if (!object) { return; }
+	return _ConfigHandler2.default.prototype._update.call(this, ref, config, options).then(function (object) {
+		if (!object) {
+			return;
+		}
 		var promises = [];
 
 		var i = 0;
-		ObjectUtils.forEach(config.layers, function (layerCfg) {
+		_ObjectUtils2.default.forEach(config.layers, function (layerCfg) {
 			promises.push(that._parseLayer(layerCfg, object[i++], options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (layers) {
+		return _rsvp2.default.all(promises).then(function (layers) {
 			object.length = layers.length;
 			for (var i = 0; i < layers.length; i++) {
 				object[i] = layers[i];
@@ -86,13 +108,13 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	var that = this;
 
 	if (!layer) {
-		layer = new AnimationLayer(layerConfig.name);
+		layer = new _AnimationLayer2.default(layerConfig.name);
 	} else {
 		layer._name = layerConfig.name;
 	}
 
 	layer.id = layerConfig.id;
-	layer._transitions = ObjectUtils.deepClone(layerConfig.transitions);
+	layer._transitions = _ObjectUtils2.default.deepClone(layerConfig.transitions);
 
 	if (layer._layerBlender) {
 		if (layerConfig.blendWeight !== undefined) {
@@ -104,15 +126,16 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 
 	// Load all the stuff we need
 	var promises = [];
-	ObjectUtils.forEach(layerConfig.states, function (stateCfg) {
+	_ObjectUtils2.default.forEach(layerConfig.states, function (stateCfg) {
 		promises.push(that.loadObject(stateCfg.stateRef, options).then(function (state) {
 			layer.setState(state.id, state);
 		}));
 	}, null, 'sortValue');
 
 	// Populate layer
-	return RSVP.all(promises).then(function () {
+	return _rsvp2.default.all(promises).then(function () {
 		that._setInitialState(layer, layerConfig.initialStateRef);
 		return layer;
 	});
 };
+module.exports = exports.default;

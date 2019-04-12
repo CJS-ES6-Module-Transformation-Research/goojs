@@ -1,5 +1,19 @@
-import Component from "../../entities/components/Component";
-import ObjectUtil from "../../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = P2Component;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _ObjectUtil = require("../../util/ObjectUtil");
+
+var _ObjectUtil2 = _interopRequireDefault(_ObjectUtil);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * P2 physics component.
@@ -29,25 +43,26 @@ import ObjectUtil from "../../util/ObjectUtil";
  * });
  * entity.setComponent(p2comp);
  */
-export default function P2Component(options) {
-	Component.apply(this, arguments);
+function P2Component(options) {
+  _Component2.default.apply(this, arguments);
 
-	this.type = 'P2Component';
+  this.type = 'P2Component';
 
-	ObjectUtil.copyOptions(this, options, {
-		mass: 0,
-		linearDamping: 0,
-		angularDamping: 0,
-		shapes: [],
-		scale: 1,
-		offsetX: 0,
-		offsetY: 0,
-		offsetZ: 0,
-		offsetAngleX: 0,
-		offsetAngleY: 0,
-		offsetAngleZ: 0
-	});
+  _ObjectUtil2.default.copyOptions(this, options, {
+    mass: 0,
+    linearDamping: 0,
+    angularDamping: 0,
+    shapes: [],
+    scale: 1,
+    offsetX: 0,
+    offsetY: 0,
+    offsetZ: 0,
+    offsetAngleX: 0,
+    offsetAngleY: 0,
+    offsetAngleZ: 0
+  });
 }
 
-P2Component.prototype = Object.create(Component.prototype);
+P2Component.prototype = Object.create(_Component2.default.prototype);
 P2Component.prototype.constructor = P2Component;
+module.exports = exports.default;

@@ -1,21 +1,35 @@
-import Vector3 from "../math/Vector3";
-import MathUtils from "../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AxisAlignedCamControlScript;
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _MathUtils = require("../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Axis aligned camera control script
  * @returns {{setup: setup, update: update, cleanup: cleanup}}
  */
-export default function AxisAlignedCamControlScript() {
+function AxisAlignedCamControlScript() {
 	function setup(params, env) {
 		// Look axis
-		env.axis = Vector3.UNIT_Z.clone();
+		env.axis = _Vector2.default.UNIT_Z.clone();
 		// Up axis will most often be Y but you never know...
-		env.upAxis = Vector3.UNIT_Y.clone();
+		env.upAxis = _Vector2.default.UNIT_Y.clone();
 		setView(params, env, params.view);
 		env.currentView = params.view;
-		env.lookAtPoint	= new Vector3();
-		env.distance	= params.distance;
-		env.smoothness	= Math.pow(MathUtils.clamp(params.smoothness, 0, 1), 0.3);
+		env.lookAtPoint = new _Vector2.default();
+		env.distance = params.distance;
+		env.smoothness = Math.pow(_MathUtils2.default.clamp(params.smoothness, 0, 1), 0.3);
 		env.axisAlignedDirty = true;
 	}
 
@@ -26,12 +40,12 @@ export default function AxisAlignedCamControlScript() {
 		env.currentView = view;
 		switch (view) {
 			case 'XY':
-				env.axis.set(Vector3.UNIT_Z);
-				env.upAxis.set(Vector3.UNIT_Y);
+				env.axis.set(_Vector2.default.UNIT_Z);
+				env.upAxis.set(_Vector2.default.UNIT_Y);
 				break;
 			case 'ZY':
-				env.axis.set(Vector3.UNIT_X);
-				env.upAxis.set(Vector3.UNIT_Y);
+				env.axis.set(_Vector2.default.UNIT_X);
+				env.upAxis.set(_Vector2.default.UNIT_Y);
 				break;
 		}
 		env.axisAlignedDirty = true;
@@ -55,8 +69,7 @@ export default function AxisAlignedCamControlScript() {
 	}
 
 	// Removes all listeners
-	function cleanup(/*params, env*/) {
-	}
+	function cleanup() /*params, env*/{}
 
 	return {
 		setup: setup,
@@ -92,3 +105,4 @@ AxisAlignedCamControlScript.externals = {
 		options: ['XY', 'ZY']
 	}]
 };
+module.exports = exports.default;

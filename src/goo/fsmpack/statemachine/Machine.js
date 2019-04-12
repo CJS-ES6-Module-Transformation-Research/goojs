@@ -1,4 +1,8 @@
-export default function Machine(id, name) {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Machine;
+function Machine(id, name) {
 	this.id = id;
 	this.name = name;
 	this._states = {};
@@ -130,8 +134,12 @@ Machine.prototype.recursiveRemove = function () {
 };
 
 Machine.prototype.removeState = function (id) {
-	if (!this._states[id]) { return; }
-	if (this.initialState === id) { throw new Error('Cannot remove initial state'); }
+	if (!this._states[id]) {
+		return;
+	}
+	if (this.initialState === id) {
+		throw new Error('Cannot remove initial state');
+	}
 	if (this.currentState === this._states[id]) {
 		this.reset();
 	}
@@ -141,3 +149,4 @@ Machine.prototype.removeState = function (id) {
 Machine.prototype.setInitialState = function (initialState) {
 	this.initialState = initialState;
 };
+module.exports = exports.default;

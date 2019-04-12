@@ -1,14 +1,25 @@
-import AbstractTransitionState from "../../animationpack/state/AbstractTransitionState";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = FrozenTransitionState;
+
+var _AbstractTransitionState = require("../../animationpack/state/AbstractTransitionState");
+
+var _AbstractTransitionState2 = _interopRequireDefault(_AbstractTransitionState);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A two state transition that freezes the starting state at its current position and blends that over time with a target state. The target
  *        state moves forward in time during the blend as normal.
  */
-export default function FrozenTransitionState() {
-	AbstractTransitionState.call(this);
+function FrozenTransitionState() {
+	_AbstractTransitionState2.default.call(this);
 }
 
-FrozenTransitionState.prototype = Object.create(AbstractTransitionState.prototype);
+FrozenTransitionState.prototype = Object.create(_AbstractTransitionState2.default.prototype);
 FrozenTransitionState.prototype.constructor = FrozenTransitionState;
 
 /**
@@ -16,7 +27,7 @@ FrozenTransitionState.prototype.constructor = FrozenTransitionState;
  * @param {number} globalTime the current global time.
  */
 FrozenTransitionState.prototype.update = function (globalTime) {
-	AbstractTransitionState.prototype.update.call(this, globalTime);
+	_AbstractTransitionState2.default.prototype.update.call(this, globalTime);
 
 	// update only the target state - the source state is frozen
 	if (this._targetState) {
@@ -40,11 +51,12 @@ FrozenTransitionState.prototype.postUpdate = function () {
  * @param {number} globalTime
  */
 FrozenTransitionState.prototype.resetClips = function (globalTime) {
-	AbstractTransitionState.prototype.resetClips.call(this, globalTime);
+	_AbstractTransitionState2.default.prototype.resetClips.call(this, globalTime);
 	this._targetState.resetClips(globalTime);
 };
 
 FrozenTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractTransitionState.prototype.shiftClipTime.call(this, shiftTime);
+	_AbstractTransitionState2.default.prototype.shiftClipTime.call(this, shiftTime);
 	this._targetState.shiftClipTime(shiftTime);
 };
+module.exports = exports.default;

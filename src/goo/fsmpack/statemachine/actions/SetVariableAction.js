@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetVariableAction /*id, settings*/;
 
-export default function SetVariableAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var _FsmUtils2 = _interopRequireDefault(_FsmUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetVariableAction.prototype = Object.create(Action.prototype);
+function SetVariableAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetVariableAction.prototype = Object.create(_Action2.default.prototype);
 SetVariableAction.prototype.constructor = SetVariableAction;
 
 SetVariableAction.external = {
@@ -34,7 +48,8 @@ SetVariableAction.external = {
 SetVariableAction.prototype.enter = function (fsm) {
 	if (this.variable) {
 		fsm.applyOnVariable(this.variable, function () {
-			return FsmUtils.getValue(this.amount, fsm);
+			return _FsmUtils2.default.getValue(this.amount, fsm);
 		}.bind(this));
 	}
 };
+module.exports = exports.default;

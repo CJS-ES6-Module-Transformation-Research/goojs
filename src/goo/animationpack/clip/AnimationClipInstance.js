@@ -1,10 +1,21 @@
-import World from "../../entities/World";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationClipInstance;
+
+var _World = require("../../entities/World");
+
+var _World2 = _interopRequireDefault(_World);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Maintains state information about an instance of a specific animation clip, such as time scaling applied, active flag, start time of the
  *        instance, etc.
  */
-export default function AnimationClipInstance() {
+function AnimationClipInstance() {
 	this._active = true;
 	this._loopCount = 0;
 	this._timeScale = 1.0;
@@ -20,7 +31,7 @@ export default function AnimationClipInstance() {
  * @param {number} [globalTime=World.time]
  */
 AnimationClipInstance.prototype.setTimeScale = function (scale, globalTime) {
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : _World2.default.time;
 	if (this._active && this._timeScale !== scale) {
 		if (this._timeScale !== 0.0 && scale !== 0.0) {
 			// move startTime to account for change in scale
@@ -61,3 +72,4 @@ AnimationClipInstance.prototype.clone = function () {
 
 	return cloned;
 };
+module.exports = exports.default;

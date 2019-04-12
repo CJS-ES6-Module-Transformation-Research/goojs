@@ -1,7 +1,21 @@
-import ArrayUtils from "../../util/ArrayUtils";
-import SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = State;
 
-export default function State(uuid) {
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function State(uuid) {
 	this.uuid = uuid;
 	this._fsm = null;
 	this.parent = null;
@@ -36,7 +50,7 @@ export default function State(uuid) {
 		getEntityById: function (id) {
 			return this._fsm.entity._world.by.id(id).first();
 		}.bind(this),
-		send: function (channels/*, data*/) {
+		send: function (channels /*, data*/) {
 			if (channels) {
 				if (typeof channels === 'string' && this._transitions[channels]) {
 					this.requestTransition(this._transitions[channels]);
@@ -106,7 +120,7 @@ State.prototype.requestTransition = function (target) {
 				};
 				data.error = 'Exceeded max loop depth (' + this.parent.maxLoopDepth + ') in "' + [data.entityName, data.machineName, data.stateName].join('" / "') + '"';
 				console.warn(data.error);
-				SystemBus.emit('goo.fsm.error', data);
+				_SystemBus2.default.emit('goo.fsm.error', data);
 				return;
 			}
 
@@ -129,7 +143,7 @@ State.prototype.clearTransition = function (eventName) {
 };
 
 State.prototype.enter = function () {
-	SystemBus.emit('goo.fsm.enter', {
+	_SystemBus2.default.emit('goo.fsm.enter', {
 		entityId: this._fsm && this._fsm.entity ? this._fsm.entity.id : '',
 		machineName: this.parent ? this.parent.name : '',
 		stateId: this.uuid,
@@ -198,7 +212,7 @@ State.prototype.update = function () {
 };
 
 State.prototype.kill = function () {
-	SystemBus.emit('goo.fsm.exit', {
+	_SystemBus2.default.emit('goo.fsm.exit', {
 		entityId: this._fsm && this._fsm.entity ? this._fsm.entity.id : '',
 		machineName: this.parent ? this.parent.name : '',
 		stateId: this.uuid,
@@ -285,7 +299,7 @@ State.prototype.removeAction = function (action) {
 		action.onDestroy(this.proxy);
 	}
 
-	ArrayUtils.remove(this._actions, action);
+	_ArrayUtils2.default.remove(this._actions, action);
 };
 
 State.prototype.addMachine = function (machine) {
@@ -299,5 +313,6 @@ State.prototype.addMachine = function (machine) {
 
 State.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);
+	_ArrayUtils2.default.remove(this._machines, machine);
 };
+module.exports = exports.default;

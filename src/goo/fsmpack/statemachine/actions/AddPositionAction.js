@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AddPositionAction /*id, settings*/;
 
-export default function AddPositionAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var _FsmUtils2 = _interopRequireDefault(_FsmUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-AddPositionAction.prototype = Object.create(Action.prototype);
+function AddPositionAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+AddPositionAction.prototype = Object.create(_Action2.default.prototype);
 AddPositionAction.prototype.constructor = AddPositionAction;
 
 AddPositionAction.external = {
@@ -52,15 +66,11 @@ AddPositionAction.prototype.addPosition = function (fsm) {
 	if (this.entity) {
 		var tpf = fsm.getTpf();
 
-		var dx = FsmUtils.getValue(this.amountX, fsm);
-		var dy = FsmUtils.getValue(this.amountY, fsm);
-		var dz = FsmUtils.getValue(this.amountZ, fsm);
+		var dx = _FsmUtils2.default.getValue(this.amountX, fsm);
+		var dy = _FsmUtils2.default.getValue(this.amountY, fsm);
+		var dz = _FsmUtils2.default.getValue(this.amountZ, fsm);
 
-		this.entity.transformComponent.transform.translation.addDirect(
-			dx * this.speed * tpf,
-			dy * this.speed * tpf,
-			dz * this.speed * tpf
-		);
+		this.entity.transformComponent.transform.translation.addDirect(dx * this.speed * tpf, dy * this.speed * tpf, dz * this.speed * tpf);
 
 		this.entity.transformComponent.setUpdated();
 	}
@@ -77,3 +87,4 @@ AddPositionAction.prototype.update = function (fsm) {
 		this.addPosition(fsm);
 	}
 };
+module.exports = exports.default;

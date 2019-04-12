@@ -1,9 +1,35 @@
-import ConfigHandler from "../loaders/handlers/ConfigHandler";
-import ObjectUtils from "../util/ObjectUtils";
-import State from "../fsmpack/statemachine/State";
-import Machine from "../fsmpack/statemachine/Machine";
-import Actions from "../fsmpack/statemachine/actions/Actions";
-import RSVP from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MachineHandler;
+
+var _ConfigHandler = require("../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _State = require("../fsmpack/statemachine/State");
+
+var _State2 = _interopRequireDefault(_State);
+
+var _Machine = require("../fsmpack/statemachine/Machine");
+
+var _Machine2 = _interopRequireDefault(_Machine);
+
+var _Actions = require("../fsmpack/statemachine/actions/Actions");
+
+var _Actions2 = _interopRequireDefault(_Actions);
+
+var _rsvp = require("../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading materials into engine
@@ -13,14 +39,14 @@ import RSVP from "../util/rsvp";
  * @param {Function} getConfig
  * @param {Function} updateObject
  */
-export default function MachineHandler() {
-	ConfigHandler.apply(this, arguments);
+function MachineHandler() {
+	_ConfigHandler2.default.apply(this, arguments);
 }
 
-MachineHandler.prototype = Object.create(ConfigHandler.prototype);
+MachineHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 MachineHandler.prototype.constructor = MachineHandler;
 
-ConfigHandler._registerClass('machine', MachineHandler);
+_ConfigHandler2.default._registerClass('machine', MachineHandler);
 
 /**
  * Creates an empty machine
@@ -28,7 +54,7 @@ ConfigHandler._registerClass('machine', MachineHandler);
  * @private
  */
 MachineHandler.prototype._create = function () {
-	return new Machine();
+	return new _Machine2.default();
 };
 
 /**
@@ -37,7 +63,7 @@ MachineHandler.prototype._create = function () {
  * @private
  */
 MachineHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	_ObjectUtils2.default.defaults(config, {
 		maxLoopDepth: 100,
 		asyncMode: true
 	});
@@ -53,8 +79,10 @@ MachineHandler.prototype._prepare = function (config) {
  */
 MachineHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (machine) {
-		if (!machine) { return; }
+	return _ConfigHandler2.default.prototype._update.call(this, ref, config, options).then(function (machine) {
+		if (!machine) {
+			return;
+		}
 		machine.id = ref;
 		machine.name = config.name;
 		machine.maxLoopDepth = config.maxLoopDepth;
@@ -71,7 +99,7 @@ MachineHandler.prototype._update = function (ref, config, options) {
 		for (var key in config.states) {
 			promises.push(that._updateState(machine, config.states[key], options));
 		}
-		return RSVP.all(promises).then(function () {
+		return _rsvp2.default.all(promises).then(function () {
 			machine.setInitialState(config.initialState);
 			return machine;
 		});
@@ -97,10 +125,10 @@ MachineHandler.prototype._updateActions = function (state, stateConfig) {
 	// Update new and existing ones
 	// For actions, order is (or will be) important
 	var actions = [];
-	ObjectUtils.forEach(stateConfig.actions, function (actionConfig) {
+	_ObjectUtils2.default.forEach(stateConfig.actions, function (actionConfig) {
 		var action = state.getAction(actionConfig.id);
 		if (!action) {
-			var Action = Actions.actionForType(actionConfig.type);
+			var Action = _Actions2.default.actionForType(actionConfig.type);
 			action = new Action(actionConfig.id, actionConfig.options);
 			if (action.onCreate) {
 				action.onCreate(state.proxy);
@@ -139,7 +167,7 @@ MachineHandler.prototype._updateState = function (machine, stateConfig, options)
 	if (machine._states && machine._states[stateConfig.id]) {
 		state = machine._states[stateConfig.id];
 	} else {
-		state = new State(stateConfig.id);
+		state = new _State2.default(stateConfig.id);
 		machine.addState(state);
 	}
 	state.name = stateConfig.name;
@@ -164,16 +192,17 @@ MachineHandler.prototype._updateState = function (machine, stateConfig, options)
 	}
 
 	/*
-	// TODO: Test and use this. Will make the promises sorted correctly.
-	ObjectUtils.forEach(stateConfig.childMachines, function (childMachineConfig) {
-		promises.push(that._load(childMachineConfig.machineRef, options));
-	}, null, 'sortValue');
-	*/
+ // TODO: Test and use this. Will make the promises sorted correctly.
+ ObjectUtils.forEach(stateConfig.childMachines, function (childMachineConfig) {
+ 	promises.push(that._load(childMachineConfig.machineRef, options));
+ }, null, 'sortValue');
+ */
 
-	return RSVP.all(promises).then(function (machines) {
+	return _rsvp2.default.all(promises).then(function (machines) {
 		for (var i = 0; i < machines; i++) {
 			state.addMachine(machines[i]);
 		}
 		return state;
 	});
 };
+module.exports = exports.default;

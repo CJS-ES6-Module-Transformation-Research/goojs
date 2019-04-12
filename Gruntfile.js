@@ -1,10 +1,8 @@
-import path from "path";
-import webpack from "webpack";
-import fs from "fs";
-import * as toc from "./tools/table-of-contents";
-import child_process_moduleObject from "child_process";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-export default function (grunt) {
+exports.default = function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
@@ -37,9 +35,7 @@ export default function (grunt) {
 				output: {
 					filename: 'out/[name].js'
 				},
-				plugins: [
-					new webpack.optimize.CommonsChunkPlugin('goo', 'out/goo.js')
-				]
+				plugins: [new _webpack2.default.optimize.CommonsChunkPlugin('goo', 'out/goo.js')]
 			}
 		},
 
@@ -50,7 +46,7 @@ export default function (grunt) {
 				dest: 'out',
 				expand: true,
 				options: {
-					context : {}
+					context: {}
 				}
 			}
 		},
@@ -60,12 +56,7 @@ export default function (grunt) {
 				src: 'out/*.js',
 				dest: '', // Same as the infile
 				options: {
-					wrapper: [
-						'/* Goo Engine ' + (grunt.option('goo-version') || 'UNOFFICIAL') + '\n' +
-						' * Copyright ' + (new Date()).getFullYear() + ' Goo Technologies AB\n' +
-						' */\n',
-						''
-					]
+					wrapper: ['/* Goo Engine ' + (grunt.option('goo-version') || 'UNOFFICIAL') + '\n' + ' * Copyright ' + new Date().getFullYear() + ' Goo Technologies AB\n' + ' */\n', '']
 				}
 			}
 		},
@@ -104,24 +95,15 @@ export default function (grunt) {
 
 		clean: {
 			out: {
-				src: [
-					'out/'
-				]
+				src: ['out/']
 			},
 			toc: {
-				src: [
-					'visual-test/index.html',
-					'examples/index.html'
-				]
+				src: ['visual-test/index.html', 'examples/index.html']
 			},
 			coverage: {
-				src: [
-					'coverage/'
-				]
+				src: ['coverage/']
 			},
-			docs: [
-				'out-doc/'
-			]
+			docs: ['out-doc/']
 		},
 
 		'generate-toc': {
@@ -165,7 +147,7 @@ export default function (grunt) {
 				options: {
 					stdout: true
 				},
-				command: path.resolve('node_modules/webdriver-manager/bin/webdriver-manager') + ' update --standalone --chrome'
+				command: _path2.default.resolve('node_modules/webdriver-manager/bin/webdriver-manager') + ' update --standalone --chrome'
 			},
 			e2e: {
 				command: 'node test/e2etesting/manualSpec.js'
@@ -204,29 +186,26 @@ export default function (grunt) {
 	grunt.loadNpmTasks('grunt-preprocess');
 	grunt.loadNpmTasks('grunt-contrib-copy');
 
-	grunt.registerTask('jsdoc',		 ['shell:jsdoc']);
-	grunt.registerTask('tern',		 ['shell:tern']);
-	grunt.registerTask('unittest',	 ['karma:unit']);
-	grunt.registerTask('coverage',	 ['karma:coverage']);
-	grunt.registerTask('e2e',		 ['shell:e2e']);
-	grunt.registerTask('test',		 ['unittest', 'e2e']);
+	grunt.registerTask('jsdoc', ['shell:jsdoc']);
+	grunt.registerTask('tern', ['shell:tern']);
+	grunt.registerTask('unittest', ['karma:unit']);
+	grunt.registerTask('coverage', ['karma:coverage']);
+	grunt.registerTask('e2e', ['shell:e2e']);
+	grunt.registerTask('test', ['unittest', 'e2e']);
 	grunt.registerTask('modoc-test', ['shell:modoc-test']);
 
 	grunt.registerTask('init-git', function () {
-		fs.writeFileSync('.git/hooks/pre-commit', '#!/bin/sh\nexec node tools/pre-commit.js\n');
-		fs.chmodSync('.git/hooks/pre-commit', '777');
+		_fs2.default.writeFileSync('.git/hooks/pre-commit', '#!/bin/sh\nexec node tools/pre-commit.js\n');
+		_fs2.default.chmodSync('.git/hooks/pre-commit', '777');
 	});
 
 	grunt.registerMultiTask('generate-toc', 'Generates the Table of contents for a directory', function () {
-		toc.run(
-			this.data.path,
-			this.data.title
-		);
+		toc.run(this.data.path, this.data.title);
 	});
 
 	grunt.registerTask('refs', function () {
 		var done = this.async();
-		child_process_moduleObject.exec('node test/e2etesting/generate-reference-screenshots', function (error, stdout, stderr) {
+		_child_process2.default.exec('node test/e2etesting/generate-reference-screenshots', function (error, stdout, stderr) {
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
 			if (error !== null) {
@@ -240,4 +219,31 @@ export default function (grunt) {
 	grunt.registerTask('minify-no-mangle', ['minify']); // TODO
 	grunt.registerTask('minify-dev', ['webpack', 'wrap', 'copy']);
 	grunt.registerTask('default', ['minify']);
-};;
+};
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _webpack = require("webpack");
+
+var _webpack2 = _interopRequireDefault(_webpack);
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _tableOfContents = require("./tools/table-of-contents");
+
+var toc = _interopRequireWildcard(_tableOfContents);
+
+var _child_process = require("child_process");
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+;;
+module.exports = exports.default;

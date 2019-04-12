@@ -1,5 +1,19 @@
-import ConfigHandler from "../../loaders/handlers/ConfigHandler";
-import PromiseUtils from "../../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = JsonHandler;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading json objects.
@@ -11,13 +25,13 @@ import PromiseUtils from "../../util/PromiseUtils";
  * @extends ConfigHandler
  * @private
  */
-export default function JsonHandler() {
-	ConfigHandler.apply(this, arguments);
+function JsonHandler() {
+  _ConfigHandler2.default.apply(this, arguments);
 }
 
-JsonHandler.prototype = Object.create(ConfigHandler.prototype);
+JsonHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 JsonHandler.prototype.constructor = JsonHandler;
-ConfigHandler._registerClass('json', JsonHandler);
+_ConfigHandler2.default._registerClass('json', JsonHandler);
 
 /**
  * Adds/updates/removes a json data object.
@@ -27,17 +41,18 @@ ConfigHandler._registerClass('json', JsonHandler);
  * @returns {RSVP.Promise} Resolves with the updated shader or null if removed
  */
 JsonHandler.prototype._update = function (ref, config) {
-	if (!config) {
-		this._remove(ref);
-		return PromiseUtils.resolve();
-	}
+  if (!config) {
+    this._remove(ref);
+    return _PromiseUtils2.default.resolve();
+  }
 
-	var data;
-	try {
-		data = JSON.parse(config.body);
-	} catch (error) {
-		data = {};
-	}
+  var data;
+  try {
+    data = JSON.parse(config.body);
+  } catch (error) {
+    data = {};
+  }
 
-	return PromiseUtils.resolve(data)
+  return _PromiseUtils2.default.resolve(data);
 };
+module.exports = exports.default;

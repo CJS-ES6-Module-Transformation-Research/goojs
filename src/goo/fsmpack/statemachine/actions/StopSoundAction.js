@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StopSoundAction /*id, settings*/;
 
-export default function StopSoundAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-StopSoundAction.prototype = Object.create(Action.prototype);
+function StopSoundAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+StopSoundAction.prototype = Object.create(_Action2.default.prototype);
 StopSoundAction.prototype.constructor = StopSoundAction;
 
 StopSoundAction.external = {
@@ -31,3 +42,4 @@ StopSoundAction.prototype.enter = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;

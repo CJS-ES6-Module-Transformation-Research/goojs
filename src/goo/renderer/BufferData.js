@@ -1,4 +1,15 @@
-import BufferUtils from "../renderer/BufferUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BufferData;
+
+var _BufferUtils = require("../renderer/BufferUtils");
+
+var _BufferUtils2 = _interopRequireDefault(_BufferUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * The purpose of this class is to hold additional information regarding a typedarray buffer, like vbo 'usage' flags
@@ -7,7 +18,7 @@ import BufferUtils from "../renderer/BufferUtils";
  * @property {ArrayBuffer} data Data to wrap
  * @property {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
  */
-export default function BufferData(data, target) {
+function BufferData(data, target) {
 	this.data = data;
 	this.target = target;
 
@@ -60,7 +71,8 @@ BufferData.prototype.copy = function (source) {
 		var sourceView = new Uint8Array(source.data);
 		var destinationView = new Uint8Array(this.data);
 		destinationView.set(sourceView);
-	} else { // TypedArray
+	} else {
+		// TypedArray
 		this.data.set(source.data);
 	}
 	this.target = source.target;
@@ -77,8 +89,9 @@ BufferData.prototype.clone = function () {
 	var clonedData;
 	if (this.data instanceof ArrayBuffer) {
 		clonedData = this.data.slice(0);
-	} else { // TypedArray
-		clonedData = BufferUtils.cloneTypedArray(this.data);
+	} else {
+		// TypedArray
+		clonedData = _BufferUtils2.default.cloneTypedArray(this.data);
 	}
 
 	var clone = new BufferData(clonedData, this.target);
@@ -86,3 +99,4 @@ BufferData.prototype.clone = function () {
 	clone._dataNeedsRefresh = false; //?
 	return clone;
 };
+module.exports = exports.default;

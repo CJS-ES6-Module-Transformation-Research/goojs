@@ -1,23 +1,49 @@
-import Component from "../../entities/components/Component";
-import World from "../../entities/World";
-import AnimationLayer from "../../animationpack/layer/AnimationLayer";
-import JointData from "../../animationpack/clip/JointData";
-import TransformData from "../../animationpack/clip/TransformData";
-import TriggerData from "../../animationpack/clip/TriggerData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _World = require("../../entities/World");
+
+var _World2 = _interopRequireDefault(_World);
+
+var _AnimationLayer = require("../../animationpack/layer/AnimationLayer");
+
+var _AnimationLayer2 = _interopRequireDefault(_AnimationLayer);
+
+var _JointData = require("../../animationpack/clip/JointData");
+
+var _JointData2 = _interopRequireDefault(_JointData);
+
+var _TransformData = require("../../animationpack/clip/TransformData");
+
+var _TransformData2 = _interopRequireDefault(_TransformData);
+
+var _TriggerData = require("../../animationpack/clip/TriggerData");
+
+var _TriggerData2 = _interopRequireDefault(_TriggerData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Holds the animation data.
  * @extends Component
  * @param {SkeletonPose} pose pose
  */
-export default function AnimationComponent(pose) {
-	Component.apply(this, arguments);
+function AnimationComponent(pose) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'AnimationComponent';
 
 	/**
-	 * @type {Array<AnimationLayer>}
-	 */
+  * @type {Array<AnimationLayer>}
+  */
 	this.layers = [];
 	this.floats = {};
 
@@ -26,7 +52,7 @@ export default function AnimationComponent(pose) {
 	this._triggerCallbacks = {};
 
 	// Base layer
-	var layer = new AnimationLayer(AnimationLayer.BASE_LAYER_NAME);
+	var layer = new _AnimationLayer2.default(_AnimationLayer2.default.BASE_LAYER_NAME);
 	this.layers.push(layer);
 	this._skeletonPose = pose;
 
@@ -36,7 +62,7 @@ export default function AnimationComponent(pose) {
 
 AnimationComponent.type = 'AnimationComponent';
 
-AnimationComponent.prototype = Object.create(Component.prototype);
+AnimationComponent.prototype = Object.create(_Component2.default.prototype);
 AnimationComponent.prototype.constructor = AnimationComponent;
 
 /**
@@ -82,7 +108,7 @@ AnimationComponent.prototype.update = function (globalTime) {
 	}
 
 	// grab current global time
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : _World2.default.time;
 
 	// check throttle
 	if (this._updateRate !== 0.0) {
@@ -105,7 +131,9 @@ AnimationComponent.prototype.update = function (globalTime) {
  */
 AnimationComponent.prototype.apply = function (transformComponent) {
 	var data = this.getCurrentSourceData();
-	if (!data) { return; }
+	if (!data) {
+		return;
+	}
 
 	var pose = this._skeletonPose;
 
@@ -114,16 +142,16 @@ AnimationComponent.prototype.apply = function (transformComponent) {
 	for (var i = 0, l = keys.length; i < l; i++) {
 		var key = keys[i];
 		var value = data[key];
-		if (value instanceof JointData) {
+		if (value instanceof _JointData2.default) {
 			if (pose && value._jointIndex >= 0) {
 				value.applyTo(pose._localTransforms[value._jointIndex]);
 			}
-		} else if (value instanceof TransformData) {
+		} else if (value instanceof _TransformData2.default) {
 			if (transformComponent) {
 				transformComponent.sync();
 				value.applyTo(transformComponent.transform);
 			}
-		} else if (value instanceof TriggerData) {
+		} else if (value instanceof _TriggerData2.default) {
 			if (value.armed) {
 				// pull callback(s) for the current trigger key, if exists, and call.
 				// TODO: Integrate with GameMaker somehow
@@ -205,7 +233,7 @@ AnimationComponent.prototype.setTimeScale = function (timeScale) {
 
 AnimationComponent.prototype.pause = function () {
 	if (!this.paused) {
-		this.lastTimeOfPause = World.time;
+		this.lastTimeOfPause = _World2.default.time;
 		this.paused = true;
 	}
 };
@@ -221,9 +249,9 @@ AnimationComponent.prototype.stop = function () {
 AnimationComponent.prototype.resume = function () {
 	if (this.paused || this.lastTimeOfPause === -1) {
 		if (this.lastTimeOfPause === -1) {
-			this.resetClips(World.time);
+			this.resetClips(_World2.default.time);
 		} else {
-			this.shiftClipTime(World.time - this.lastTimeOfPause);
+			this.shiftClipTime(_World2.default.time - this.lastTimeOfPause);
 		}
 	}
 	this.paused = false;
@@ -237,3 +265,4 @@ AnimationComponent.prototype.clone = function () {
 	});
 	return cloned;
 };
+module.exports = exports.default;

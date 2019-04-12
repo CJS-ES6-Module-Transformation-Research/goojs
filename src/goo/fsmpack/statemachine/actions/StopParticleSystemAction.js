@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StopParticleSystemAction /*id, settings*/;
 
-export default function StopParticleSystemAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-StopParticleSystemAction.prototype = Object.create(Action.prototype);
+function StopParticleSystemAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+StopParticleSystemAction.prototype = Object.create(_Action2.default.prototype);
 StopParticleSystemAction.prototype.constructor = StopParticleSystemAction;
 
 StopParticleSystemAction.external = {
@@ -19,6 +30,9 @@ StopParticleSystemAction.external = {
 
 StopParticleSystemAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.particleSystemComponent) { return; }
+	if (!entity || !entity.particleSystemComponent) {
+		return;
+	}
 	entity.particleSystemComponent.stop();
 };
+module.exports = exports.default;

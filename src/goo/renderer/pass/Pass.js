@@ -1,12 +1,17 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Pass;
 /**
  * Base pass class
  */
-export default function Pass() {}
+function Pass() {}
 
-Pass.prototype.destroy = function (/* renderer */) {};
+Pass.prototype.destroy = function () /* renderer */{};
 
-Pass.prototype.render = function (/* renderer, writeBuffer, readBuffer, delta, maskActive, camera, lights, clearColor */) {};
+Pass.prototype.render = function () /* renderer, writeBuffer, readBuffer, delta, maskActive, camera, lights, clearColor */{};
 
-Pass.prototype.updateSize = function (/* size, renderer */) {};
+Pass.prototype.updateSize = function () /* size, renderer */{};
 
-Pass.prototype.invalidateHandles = function (/* renderer */) {};
+Pass.prototype.invalidateHandles = function () /* renderer */{};
+module.exports = exports.default;

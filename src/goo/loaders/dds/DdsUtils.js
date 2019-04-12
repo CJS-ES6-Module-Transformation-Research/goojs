@@ -1,8 +1,20 @@
-import Capabilities from "../../renderer/Capabilities";
-export default function DdsUtils() {}
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = DdsUtils;
+
+var _Capabilities = require('../../renderer/Capabilities');
+
+var _Capabilities2 = _interopRequireDefault(_Capabilities);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function DdsUtils() {}
 
 DdsUtils.isSupported = function () {
-	return !!Capabilities.CompressedTextureS3TC;
+	return !!_Capabilities2.default.CompressedTextureS3TC;
 };
 
 /**
@@ -197,9 +209,9 @@ DdsUtils.getUInt24 = function (input, offset) {
 };
 
 DdsUtils.getBytesFromUInt24 = function (input, offset, uint24) {
-	input[offset + 0] = (uint24 & 0x000000ff);
-	input[offset + 1] = ((uint24 & 0x0000ff00) >> 8);
-	input[offset + 2] = ((uint24 & 0x00ff0000) >> 16);
+	input[offset + 0] = uint24 & 0x000000ff;
+	input[offset + 1] = (uint24 & 0x0000ff00) >> 8;
+	input[offset + 2] = (uint24 & 0x00ff0000) >> 16;
 };
 
 DdsUtils.ThreeBitMask = 0x7;
@@ -211,21 +223,21 @@ DdsUtils.flipUInt24 = function (uint24) {
 	}
 
 	// extract 3 bits each into the array
-	threeBits[0][0] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[0][0] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[0][1] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[0][1] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[0][2] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[0][2] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[0][3] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[0][3] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][0] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[1][0] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][1] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[1][1] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][2] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[1][2] = uint24 & DdsUtils.ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][3] = (uint24 & DdsUtils.ThreeBitMask);
+	threeBits[1][3] = uint24 & DdsUtils.ThreeBitMask;
 
 	// stuff 8x 3bits into 3 bytes
 	var result = 0;
@@ -239,3 +251,4 @@ DdsUtils.flipUInt24 = function (uint24) {
 	result |= threeBits[0][3] << 21;
 	return result;
 };
+module.exports = exports.default;

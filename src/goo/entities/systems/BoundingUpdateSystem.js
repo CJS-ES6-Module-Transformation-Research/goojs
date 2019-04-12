@@ -1,17 +1,31 @@
-import System from "../../entities/systems/System";
-import BoundingBox from "../../renderer/bounds/BoundingBox";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BoundingUpdateSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Calculates and updates all boundings on entities with both transform, meshrenderer and meshdata components
  * @extends System
  */
-export default function BoundingUpdateSystem() {
-	System.call(this, 'BoundingUpdateSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent']);
-	this._worldBound = new BoundingBox();
+function BoundingUpdateSystem() {
+	_System2.default.call(this, 'BoundingUpdateSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent']);
+	this._worldBound = new _BoundingBox2.default();
 	this._computeWorldBound = null;
 }
 
-BoundingUpdateSystem.prototype = Object.create(System.prototype);
+BoundingUpdateSystem.prototype = Object.create(_System2.default.prototype);
 BoundingUpdateSystem.prototype.constructor = BoundingUpdateSystem;
 
 BoundingUpdateSystem.prototype.process = function (entities) {
@@ -66,6 +80,7 @@ BoundingUpdateSystem.prototype.getWorldBound = function (callback) {
 
 BoundingUpdateSystem.prototype.deleted = function (entity) {
 	if (entity.meshRendererComponent) {
-		entity.meshRendererComponent.worldBound = new BoundingBox();
+		entity.meshRendererComponent.worldBound = new _BoundingBox2.default();
 	}
 };
+module.exports = exports.default;

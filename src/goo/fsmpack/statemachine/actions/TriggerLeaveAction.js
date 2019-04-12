@@ -1,12 +1,26 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TriggerLeaveAction /*id, settings*/;
 
-export default function TriggerLeaveAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TriggerLeaveAction() {
+	_Action2.default.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerLeaveAction.prototype = Object.create(Action.prototype);
+TriggerLeaveAction.prototype = Object.create(_Action2.default.prototype);
 TriggerLeaveAction.prototype.constructor = TriggerLeaveAction;
 
 TriggerLeaveAction.external = {
@@ -22,7 +36,7 @@ TriggerLeaveAction.external = {
 	}]
 };
 
-TriggerLeaveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TriggerLeaveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'leave' ? 'On Trigger Leave' : undefined;
 };
 
@@ -36,10 +50,11 @@ TriggerLeaveAction.prototype.enter = function (fsm) {
 			fsm.send(that.transitions.leave);
 		}
 	};
-	SystemBus.addListener('goo.physics.triggerExit', this.listener);
+	_SystemBus2.default.addListener('goo.physics.triggerExit', this.listener);
 };
 
-TriggerLeaveAction.prototype.exit = function (/*fsm*/) {
-	SystemBus.removeListener('goo.physics.triggerExit', this.listener);
+TriggerLeaveAction.prototype.exit = function () /*fsm*/{
+	_SystemBus2.default.removeListener('goo.physics.triggerExit', this.listener);
 	this.entity = null;
 };
+module.exports = exports.default;

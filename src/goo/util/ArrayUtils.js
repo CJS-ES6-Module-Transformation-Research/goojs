@@ -1,7 +1,11 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ArrayUtils;
 /**
  * Utilities for arrays and typed arrays
  */
-export default function ArrayUtils() {}
+function ArrayUtils() {}
 
 /**
  * Create a typed array view on an ArrayBuffer, using the supplied pointer. Notice that this
@@ -26,17 +30,13 @@ ArrayUtils.getTypedArray = function (arrayBuffer, pointer) {
 
 	if (format === 'float32') {
 		return new Float32Array(arrayBuffer, start, length);
-	}
-	else if (format === 'uint8') {
+	} else if (format === 'uint8') {
 		return new Uint8Array(arrayBuffer, start, length);
-	}
-	else if (format === 'uint16') {
+	} else if (format === 'uint16') {
 		return new Uint16Array(arrayBuffer, start, length);
-	}
-	else if (format === 'uint32') {
+	} else if (format === 'uint32') {
 		return new Uint32Array(arrayBuffer, start, length);
-	}
-	else {
+	} else {
 		throw new Error('Binary format ' + format + ' is not supported');
 	}
 };
@@ -50,8 +50,7 @@ ArrayUtils.remove = function (array, value, equals) {
 				break;
 			}
 		}
-	}
-	else {
+	} else {
 		idx = array.indexOf(value);
 	}
 	if (idx > -1) {
@@ -85,12 +84,12 @@ ArrayUtils.fromKeys = function (collection) {
 	collection.forEach(function (value, key) {
 		array.push(key);
 	});
-//		var iterator = collection.keys();
-//		var entry = iterator.next();
-//		while (!entry.done) {
-//			array.push(entry.value);
-//			entry = iterator.next();
-//		}
+	//		var iterator = collection.keys();
+	//		var entry = iterator.next();
+	//		while (!entry.done) {
+	//			array.push(entry.value);
+	//			entry = iterator.next();
+	//		}
 	return array;
 };
 
@@ -105,11 +104,12 @@ ArrayUtils.fromValues = function (collection) {
 	collection.forEach(function (value) {
 		array.push(value);
 	});
-//		var iterator = collection.values();
-//		var entry = iterator.next();
-//		while (!entry.done) {
-//			array.push(entry.value);
-//			entry = iterator.next();
-//		}
+	//		var iterator = collection.values();
+	//		var entry = iterator.next();
+	//		while (!entry.done) {
+	//			array.push(entry.value);
+	//			entry = iterator.next();
+	//		}
 	return array;
 };
+module.exports = exports.default;

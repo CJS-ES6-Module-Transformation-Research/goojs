@@ -1,22 +1,48 @@
-import System from "../../entities/systems/System";
-import SystemBus from "../../entities/SystemBus";
-import SimplePartitioner from "../../renderer/SimplePartitioner";
-import Material from "../../renderer/Material";
-import ShaderLib from "../../renderer/shaders/ShaderLib";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RenderSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+var _SimplePartitioner = require("../../renderer/SimplePartitioner");
+
+var _SimplePartitioner2 = _interopRequireDefault(_SimplePartitioner);
+
+var _Material = require("../../renderer/Material");
+
+var _Material2 = _interopRequireDefault(_Material);
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _ShaderLib2 = _interopRequireDefault(_ShaderLib);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Renders entities/renderables using a configurable partitioner for culling
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export default function RenderSystem() {
-	System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
+function RenderSystem() {
+	_System2.default.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
 	this.entities = [];
 	this.renderList = [];
 	this.postRenderables = [];
-	this.partitioner = new SimplePartitioner();
+	this.partitioner = new _SimplePartitioner2.default();
 	this.preRenderers = [];
 	this.composers = [];
 	this._composersActive = true;
@@ -30,11 +56,11 @@ export default function RenderSystem() {
 	this.lights = [];
 	this.currentTpf = 0.0;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	_SystemBus2.default.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 
-	SystemBus.addListener('goo.setLights', function (lights) {
+	_SystemBus2.default.addListener('goo.setLights', function (lights) {
 		this.lights = lights;
 	}.bind(this));
 
@@ -43,14 +69,14 @@ export default function RenderSystem() {
 		x: 0,
 		y: 0,
 		pickingStore: {},
-		pickingCallback: function (id, depth) {
+		pickingCallback: function pickingCallback(id, depth) {
 			console.log(id, depth);
 		},
 		skipUpdateBuffer: false
 	};
 }
 
-RenderSystem.prototype = Object.create(System.prototype);
+RenderSystem.prototype = Object.create(_System2.default.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 
 RenderSystem.prototype.pick = function (x, y, callback, skipUpdateBuffer) {
@@ -126,25 +152,25 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 	switch (key) {
 		case 'wireframe':
 		case 'color':
-			fshader = ObjectUtils.deepClone(ShaderLib.simpleColored.fshader);
+			fshader = _ObjectUtils2.default.deepClone(_ShaderLib2.default.simpleColored.fshader);
 			break;
 		case 'lit':
-			fshader = ObjectUtils.deepClone(ShaderLib.simpleLit.fshader);
+			fshader = _ObjectUtils2.default.deepClone(_ShaderLib2.default.simpleLit.fshader);
 			break;
 		case 'texture':
-			fshader = ObjectUtils.deepClone(ShaderLib.textured.fshader);
+			fshader = _ObjectUtils2.default.deepClone(_ShaderLib2.default.textured.fshader);
 			break;
 		case 'normals':
-			fshader = ObjectUtils.deepClone(ShaderLib.showNormals.fshader);
+			fshader = _ObjectUtils2.default.deepClone(_ShaderLib2.default.showNormals.fshader);
 			break;
 		case 'simple':
-			fshader = ObjectUtils.deepClone(ShaderLib.simple.fshader);
+			fshader = _ObjectUtils2.default.deepClone(_ShaderLib2.default.simple.fshader);
 			break;
 	}
-	var shaderDef = ObjectUtils.deepClone(ShaderLib.uber);
+	var shaderDef = _ObjectUtils2.default.deepClone(_ShaderLib2.default.uber);
 	shaderDef.fshader = fshader;
 	if (key !== 'flat') {
-		this._debugMaterials[key] = new Material(shaderDef, key);
+		this._debugMaterials[key] = new _Material2.default(shaderDef, key);
 		if (key === 'wireframe') {
 			this._debugMaterials[key].wireframe = true;
 		}
@@ -160,7 +186,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 			};
 		}
 	} else {
-		this._debugMaterials[key] = Material.createEmptyMaterial(null, key);
+		this._debugMaterials[key] = _Material2.default.createEmptyMaterial(null, key);
 		this._debugMaterials[key].flat = true;
 	}
 };
@@ -204,3 +230,4 @@ RenderSystem.prototype.invalidateHandles = function (renderer) {
 
 	renderer.rendererRecord = null; // might hold on to stuff
 };
+module.exports = exports.default;

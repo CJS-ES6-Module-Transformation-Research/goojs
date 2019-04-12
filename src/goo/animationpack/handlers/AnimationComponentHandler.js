@@ -1,6 +1,23 @@
-import ComponentHandler from "../../loaders/handlers/ComponentHandler";
-import AnimationComponent from "../../animationpack/components/AnimationComponent";
-import RSVP from "../../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationComponentHandler;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _ComponentHandler2 = _interopRequireDefault(_ComponentHandler);
+
+var _AnimationComponent = require("../../animationpack/components/AnimationComponent");
+
+var _AnimationComponent2 = _interopRequireDefault(_AnimationComponent);
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * For handling loading of animation components
@@ -10,14 +27,14 @@ import RSVP from "../../util/rsvp";
  * @extends ComponentHandler
  * @hidden
  */
-export default function AnimationComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+function AnimationComponentHandler() {
+	_ComponentHandler2.default.apply(this, arguments);
 	this._type = 'AnimationComponent';
 }
 
-AnimationComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+AnimationComponentHandler.prototype = Object.create(_ComponentHandler2.default.prototype);
 AnimationComponentHandler.prototype.constructor = AnimationComponentHandler;
-ComponentHandler._registerClass('animation', AnimationComponentHandler);
+_ComponentHandler2.default._registerClass('animation', AnimationComponentHandler);
 
 /**
  * Create animation component.
@@ -25,7 +42,7 @@ ComponentHandler._registerClass('animation', AnimationComponentHandler);
  * @private
  */
 AnimationComponentHandler.prototype._create = function () {
-	return new AnimationComponent();
+	return new _AnimationComponent2.default();
 };
 
 /**
@@ -38,8 +55,10 @@ AnimationComponentHandler.prototype._create = function () {
 AnimationComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler2.default.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var promises = [];
 		var p;
@@ -60,8 +79,9 @@ AnimationComponentHandler.prototype.update = function (entity, config, options) 
 			});
 			promises.push(p);
 		}
-		return RSVP.all(promises).then(function () {
+		return _rsvp2.default.all(promises).then(function () {
 			return component;
 		});
 	});
 };
+module.exports = exports.default;

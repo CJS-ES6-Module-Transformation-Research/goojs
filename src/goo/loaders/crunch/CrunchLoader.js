@@ -1,12 +1,26 @@
-import DdsUtils from "../../loaders/dds/DdsUtils";
-import Capabilities from "../../renderer/Capabilities";
-import "../../loaders/dds/DdsLoader";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CrunchLoader;
+
+var _DdsUtils = require("../../loaders/dds/DdsUtils");
+
+var _DdsUtils2 = _interopRequireDefault(_DdsUtils);
+
+var _Capabilities = require("../../renderer/Capabilities");
+
+var _Capabilities2 = _interopRequireDefault(_Capabilities);
+
+require("../../loaders/dds/DdsLoader");
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * @private
  */
-export default function CrunchLoader() {
-}
+function CrunchLoader() {}
 
 CrunchLoader.cCRNFmtDXT1 = 0;
 CrunchLoader.cCRNFmtDXT3 = 1;
@@ -14,10 +28,10 @@ CrunchLoader.cCRNFmtDXT5 = 2;
 
 CrunchLoader.prototype.arrayBufferCopy = function (src, dst, dstByteOffset, numBytes) {
 	var dst32Offset = dstByteOffset / 4,
-		tail = (numBytes % 4),
-		src32 = new Uint32Array(src.buffer, 0, (numBytes - tail) / 4),
-		dst32 = new Uint32Array(dst.buffer),
-		i;
+	    tail = numBytes % 4,
+	    src32 = new Uint32Array(src.buffer, 0, (numBytes - tail) / 4),
+	    dst32 = new Uint32Array(dst.buffer),
+	    i;
 
 	for (i = 0; i < src32.length; i++) {
 		dst32[dst32Offset + i] = src32[i];
@@ -27,8 +41,8 @@ CrunchLoader.prototype.arrayBufferCopy = function (src, dst, dstByteOffset, numB
 	}
 };
 
-CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped/*, arrayByteOffset, arrayByteLength*/) {
-	if (typeof (window.CrunchModule) === 'undefined') {
+CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped /*, arrayByteOffset, arrayByteLength*/) {
+	if (typeof window.CrunchModule === 'undefined') {
 		console.warn('Crunch library not loaded! Include a script tag pointing to lib/crunch/crunch.js in your html-file.');
 		return;
 	}
@@ -36,10 +50,16 @@ CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped/*, arrayBy
 	var CrunchModule = window.CrunchModule;
 
 	var bytes = new Uint8Array(arrayBuffer),
-		srcSize = arrayBuffer.byteLength,
-		src = CrunchModule._malloc(srcSize),
-		format, dst, dstSize,
-		width, height, levels, dxtData, i;
+	    srcSize = arrayBuffer.byteLength,
+	    src = CrunchModule._malloc(srcSize),
+	    format,
+	    dst,
+	    dstSize,
+	    width,
+	    height,
+	    levels,
+	    dxtData,
+	    i;
 
 	this.arrayBufferCopy(bytes, CrunchModule.HEAPU8, src, srcSize);
 
@@ -89,7 +109,7 @@ CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped/*, arrayBy
 		CrunchModule._crn_decompress(src, srcSize, dst, dstSize, i);
 		dxtData = new Uint8Array(CrunchModule.HEAPU8.buffer, dst, dstSize);
 		if (flipped) {
-			dxtData = DdsUtils.flipDXT(dxtData, width, height, texture.format);
+			dxtData = _DdsUtils2.default.flipDXT(dxtData, width, height, texture.format);
 		}
 
 		imageData.push(dxtData);
@@ -148,11 +168,11 @@ CrunchLoader.prototype.dxtToRgb565 = function (src, src16Offset, width, height) 
 	var dstI = 0;
 	var i = 0;
 	var r0 = 0,
-		g0 = 0,
-		b0 = 0,
-		r1 = 0,
-		g1 = 0,
-		b1 = 0;
+	    g0 = 0,
+	    b0 = 0,
+	    r1 = 0,
+	    g1 = 0,
+	    b1 = 0;
 
 	var blockWidth = width / 4;
 	var blockHeight = height / 4;
@@ -171,39 +191,40 @@ CrunchLoader.prototype.dxtToRgb565 = function (src, src16Offset, width, height) 
 			// Note that we approximate 1/3 as 3/8 and 2/3 as 5/8 for
 			// speed.  This also appears to be what the hardware DXT
 			// decoder in many GPUs does :)
-			c[2] = ((5 * r0 + 3 * r1) >> 3) | (((5 * g0 + 3 * g1) >> 3) & 0x7e0) | (((5 * b0 + 3 * b1) >> 3) & 0xf800);
-			c[3] = ((5 * r1 + 3 * r0) >> 3) | (((5 * g1 + 3 * g0) >> 3) & 0x7e0) | (((5 * b1 + 3 * b0) >> 3) & 0xf800);
+			c[2] = 5 * r0 + 3 * r1 >> 3 | 5 * g0 + 3 * g1 >> 3 & 0x7e0 | 5 * b0 + 3 * b1 >> 3 & 0xf800;
+			c[3] = 5 * r1 + 3 * r0 >> 3 | 5 * g1 + 3 * g0 >> 3 & 0x7e0 | 5 * b1 + 3 * b0 >> 3 & 0xf800;
 			m = src[i + 2];
-			dstI = (blockY * 4) * width + blockX * 4;
+			dstI = blockY * 4 * width + blockX * 4;
 			dst[dstI] = c[m & 0x3];
-			dst[dstI + 1] = c[(m >> 2) & 0x3];
-			dst[dstI + 2] = c[(m >> 4) & 0x3];
-			dst[dstI + 3] = c[(m >> 6) & 0x3];
+			dst[dstI + 1] = c[m >> 2 & 0x3];
+			dst[dstI + 2] = c[m >> 4 & 0x3];
+			dst[dstI + 3] = c[m >> 6 & 0x3];
 			dstI += width;
-			dst[dstI] = c[(m >> 8) & 0x3];
-			dst[dstI + 1] = c[(m >> 10) & 0x3];
-			dst[dstI + 2] = c[(m >> 12) & 0x3];
-			dst[dstI + 3] = c[(m >> 14)];
+			dst[dstI] = c[m >> 8 & 0x3];
+			dst[dstI + 1] = c[m >> 10 & 0x3];
+			dst[dstI + 2] = c[m >> 12 & 0x3];
+			dst[dstI + 3] = c[m >> 14];
 			m = src[i + 3];
 			dstI += width;
 			dst[dstI] = c[m & 0x3];
-			dst[dstI + 1] = c[(m >> 2) & 0x3];
-			dst[dstI + 2] = c[(m >> 4) & 0x3];
-			dst[dstI + 3] = c[(m >> 6) & 0x3];
+			dst[dstI + 1] = c[m >> 2 & 0x3];
+			dst[dstI + 2] = c[m >> 4 & 0x3];
+			dst[dstI + 3] = c[m >> 6 & 0x3];
 			dstI += width;
-			dst[dstI] = c[(m >> 8) & 0x3];
-			dst[dstI + 1] = c[(m >> 10) & 0x3];
-			dst[dstI + 2] = c[(m >> 12) & 0x3];
-			dst[dstI + 3] = c[(m >> 14)];
+			dst[dstI] = c[m >> 8 & 0x3];
+			dst[dstI + 1] = c[m >> 10 & 0x3];
+			dst[dstI + 2] = c[m >> 12 & 0x3];
+			dst[dstI + 3] = c[m >> 14];
 		}
 	}
 	return dst;
 };
 
 CrunchLoader.prototype.isSupported = function () {
-	return !!Capabilities.CompressedTextureS3TC;
+	return !!_Capabilities2.default.CompressedTextureS3TC;
 };
 
 CrunchLoader.prototype.toString = function () {
 	return 'CrunchLoader';
 };
+module.exports = exports.default;

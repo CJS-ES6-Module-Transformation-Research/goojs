@@ -1,4 +1,7 @@
-export default {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
 	"Context": {
 		"!type": "fn()",
 		"!url": "http://goocreate.com/learn/the-ctx-object/",
@@ -47,4 +50,6 @@ export default {
 		"!url": "http://goocreate.com/learn/parameters/",
 		"!doc": "To define custom parameters in a Create script, the parameter array and the args object are used."
 	}
-};;
+};
+;
+module.exports = exports.default;

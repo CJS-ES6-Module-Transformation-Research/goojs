@@ -1,11 +1,22 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CopyJointTransformAction;
 
-export default function CopyJointTransformAction() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function CopyJointTransformAction() {
+	_Action2.default.apply(this, arguments);
 	this.everyFrame = true;
 }
 
-CopyJointTransformAction.prototype = Object.create(Action.prototype);
+CopyJointTransformAction.prototype = Object.create(_Action2.default.prototype);
 CopyJointTransformAction.prototype.constructor = CopyJointTransformAction;
 
 CopyJointTransformAction.external = {
@@ -25,17 +36,25 @@ CopyJointTransformAction.external = {
 };
 
 CopyJointTransformAction.prototype.update = function (fsm) {
-	if (this.jointIndex === null) { return; }
+	if (this.jointIndex === null) {
+		return;
+	}
 
 	var entity = fsm.getOwnerEntity();
 	var parent = entity.transformComponent.parent;
-	if (!parent) { return; }
+	if (!parent) {
+		return;
+	}
 
 	parent = parent.entity;
-	if (!parent.animationComponent || !parent.animationComponent._skeletonPose) { return; }
+	if (!parent.animationComponent || !parent.animationComponent._skeletonPose) {
+		return;
+	}
 	var pose = parent.animationComponent._skeletonPose;
 	var jointTransform = pose._globalTransforms[this.jointIndex];
-	if (!jointTransform) { return; }
+	if (!jointTransform) {
+		return;
+	}
 
 	entity.transformComponent.transform.matrix.copy(jointTransform.matrix);
 	jointTransform.matrix.getTranslation(entity.transformComponent.transform.translation);
@@ -49,13 +68,11 @@ function updateWorldTransform(transformComponent) {
 	transformComponent.sync();
 	var entity = transformComponent.entity;
 	if (entity && entity.meshDataComponent && entity.meshRendererComponent) {
-		entity.meshRendererComponent.updateBounds(
-			entity.meshDataComponent.modelBound,
-			transformComponent.sync().worldTransform
-		);
+		entity.meshRendererComponent.updateBounds(entity.meshDataComponent.modelBound, transformComponent.sync().worldTransform);
 	}
 
 	for (var i = 0; i < transformComponent.children.length; i++) {
 		updateWorldTransform(transformComponent.children[i]);
 	}
 }
+module.exports = exports.default;

@@ -1,25 +1,43 @@
-import SoundHandler from "../loaders/handlers/SoundHandler";
-import AudioContext from "../sound/AudioContext";
-import Ajax from "../util/Ajax";
-import StringUtils from "../util/StringUtils";
-import PromiseUtils from "../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SoundCreator;
+
+var _SoundHandler = require("../loaders/handlers/SoundHandler");
+
+var _SoundHandler2 = _interopRequireDefault(_SoundHandler);
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _AudioContext2 = _interopRequireDefault(_AudioContext);
+
+var _Ajax = require("../util/Ajax");
+
+var _Ajax2 = _interopRequireDefault(_Ajax);
+
+var _StringUtils = require("../util/StringUtils");
+
+var _StringUtils2 = _interopRequireDefault(_StringUtils);
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Provides a simple way to load sounds
  */
-export default function SoundCreator() {
-	var ajax = this.ajax = new Ajax();
+function SoundCreator() {
+	var ajax = this.ajax = new _Ajax2.default();
 
-	this.soundHandler = new SoundHandler(
-		{},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		},
-		function () {},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		}
-	);
+	this.soundHandler = new _SoundHandler2.default({}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	}, function () {}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	});
 }
 
 /**
@@ -37,15 +55,15 @@ SoundCreator.prototype.clear = function () {
  * @returns {RSVP.Promise}
  */
 SoundCreator.prototype.loadSound = function (url, settings) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils.reject(new Error('AudioContext is not supported!'));
+	if (!_AudioContext2.default.isSupported()) {
+		return _PromiseUtils2.default.reject(new Error('AudioContext is not supported!'));
 	}
 
-	var id = StringUtils.createUniqueId('sound');
+	var id = _StringUtils2.default.createUniqueId('sound');
 	settings = settings || {};
 	settings.audioRefs = {};
 
-	var fileExtension = StringUtils.getAfterLast(url, '.');
+	var fileExtension = _StringUtils2.default.getAfterLast(url, '.');
 	settings.audioRefs[fileExtension] = url;
 
 	var sound = this.soundHandler._create();
@@ -53,3 +71,4 @@ SoundCreator.prototype.loadSound = function (url, settings) {
 
 	return this.soundHandler.update(id, settings, {});
 };
+module.exports = exports.default;

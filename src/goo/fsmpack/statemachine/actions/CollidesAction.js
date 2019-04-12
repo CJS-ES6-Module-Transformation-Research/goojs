@@ -1,12 +1,29 @@
-import EntitySelection from "../../../entities/EntitySelection";
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import ProximitySystem from "../../../fsmpack/proximity/ProximitySystem";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CollidesAction /*id, settings*/;
 
-export default function CollidesAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _EntitySelection = require("../../../entities/EntitySelection");
+
+var _EntitySelection2 = _interopRequireDefault(_EntitySelection);
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _ProximitySystem = require("../../../fsmpack/proximity/ProximitySystem");
+
+var _ProximitySystem2 = _interopRequireDefault(_ProximitySystem);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-CollidesAction.prototype = Object.create(Action.prototype);
+function CollidesAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+CollidesAction.prototype = Object.create(_Action2.default.prototype);
 CollidesAction.prototype.constructor = CollidesAction;
 
 CollidesAction.external = {
@@ -36,7 +53,7 @@ var labels = {
 	notCollides: 'On bounds Separate'
 };
 
-CollidesAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+CollidesAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -44,7 +61,7 @@ CollidesAction.prototype.ready = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	var world = entity._world;
 	if (!world.getSystem('ProximitySystem')) {
-		world.setSystem(new ProximitySystem());
+		world.setSystem(new _ProximitySystem2.default());
 	}
 };
 
@@ -53,9 +70,7 @@ CollidesAction.prototype.update = function (fsm) {
 	var world = entity._world;
 	var proximitySystem = world.getSystem('ProximitySystem');
 
-	var entities = new EntitySelection(proximitySystem.getFor(this.tag))
-		.and(world.by.tag(this.tag))
-		.toArray();
+	var entities = new _EntitySelection2.default(proximitySystem.getFor(this.tag)).and(world.by.tag(this.tag)).toArray();
 
 	var collides = false;
 
@@ -88,3 +103,4 @@ CollidesAction.prototype.update = function (fsm) {
 
 	fsm.send(collides ? this.transitions.collides : this.transitions.notCollides);
 };
+module.exports = exports.default;

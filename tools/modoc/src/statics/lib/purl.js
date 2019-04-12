@@ -1,3 +1,11 @@
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 /*
  * Purl (A JavaScript URL parser) v2.3.1
  * Developed and maintanined by Mark Perkins, mark@allmarkedup.com
@@ -5,45 +13,47 @@
  * Licensed under an MIT-style license. See https://github.com/allmarkedup/jQuery-URL-Parser/blob/master/LICENSE for details.
  */
 
-;(function(factory) {
+;(function (factory) {
 	if (typeof define === 'function' && define.amd) {
 		define(factory);
 	} else {
 		window.purl = factory();
 	}
-})(function() {
+})(function () {
 
 	var tag2attr = {
-			a       : 'href',
-			img     : 'src',
-			form    : 'action',
-			base    : 'href',
-			script  : 'src',
-			iframe  : 'src',
-			link    : 'href',
-			embed   : 'src',
-			object  : 'data'
-		},
+		a: 'href',
+		img: 'src',
+		form: 'action',
+		base: 'href',
+		script: 'src',
+		iframe: 'src',
+		link: 'href',
+		embed: 'src',
+		object: 'data'
+	},
+	    key = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'fragment'],
 
-		key = ['source', 'protocol', 'authority', 'userInfo', 'user', 'password', 'host', 'port', 'relative', 'path', 'directory', 'file', 'query', 'fragment'], // keys available to query
+	// keys available to query
 
-		aliases = { 'anchor' : 'fragment' }, // aliases for backwards compatability
+	aliases = { 'anchor': 'fragment' },
 
-		parser = {
-			strict : /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,  //less intuitive, more accurate to the specs
-			loose :  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ // more intuitive, fails on relative paths and deviates from specs
-		},
+	// aliases for backwards compatability
 
-		isint = /^[0-9]+$/;
+	parser = {
+		strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/, //less intuitive, more accurate to the specs
+		loose: /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/ // more intuitive, fails on relative paths and deviates from specs
+	},
+	    isint = /^[0-9]+$/;
 
-	function parseUri( url, strictMode ) {
-		var str = decodeURI( url ),
-			res   = parser[ strictMode || false ? 'strict' : 'loose' ].exec( str ),
-			uri = { attr : {}, param : {}, seg : {} },
-			i   = 14;
+	function parseUri(url, strictMode) {
+		var str = decodeURI(url),
+		    res = parser[strictMode || false ? 'strict' : 'loose'].exec(str),
+		    uri = { attr: {}, param: {}, seg: {} },
+		    i = 14;
 
-		while ( i-- ) {
-			uri.attr[ key[i] ] = res[i] || '';
+		while (i--) {
+			uri.attr[key[i]] = res[i] || '';
 		}
 
 		// build query and fragment parameters
@@ -51,26 +61,27 @@
 		uri.param['fragment'] = parseString(uri.attr['fragment']);
 
 		// split path and fragement into segments
-		uri.seg['path'] = uri.attr.path.replace(/^\/+|\/+$/g,'').split('/');
-		uri.seg['fragment'] = uri.attr.fragment.replace(/^\/+|\/+$/g,'').split('/');
+		uri.seg['path'] = uri.attr.path.replace(/^\/+|\/+$/g, '').split('/');
+		uri.seg['fragment'] = uri.attr.fragment.replace(/^\/+|\/+$/g, '').split('/');
 
 		// compile a 'base' domain attribute
-		uri.attr['base'] = uri.attr.host ? (uri.attr.protocol ?  uri.attr.protocol+'://'+uri.attr.host : uri.attr.host) + (uri.attr.port ? ':'+uri.attr.port : '') : '';
+		uri.attr['base'] = uri.attr.host ? (uri.attr.protocol ? uri.attr.protocol + '://' + uri.attr.host : uri.attr.host) + (uri.attr.port ? ':' + uri.attr.port : '') : '';
 
 		return uri;
 	}
 
-	function getAttrName( elm ) {
+	function getAttrName(elm) {
 		var tn = elm.tagName;
-		if ( typeof tn !== 'undefined' ) return tag2attr[tn.toLowerCase()];
+		if (typeof tn !== 'undefined') return tag2attr[tn.toLowerCase()];
 		return tn;
 	}
 
 	function promote(parent, key) {
 		if (parent[key].length === 0) return parent[key] = {};
 		var t = {};
-		for (var i in parent[key]) t[i] = parent[key][i];
-		parent[key] = t;
+		for (var i in parent[key]) {
+			t[i] = parent[key][i];
+		}parent[key] = t;
 		return t;
 	}
 
@@ -79,7 +90,7 @@
 		if (!part) {
 			if (isArray(parent[key])) {
 				parent[key].push(val);
-			} else if ('object' == typeof parent[key]) {
+			} else if ('object' == _typeof(parent[key])) {
 				parent[key] = val;
 			} else if ('undefined' == typeof parent[key]) {
 				parent[key] = val;
@@ -91,7 +102,7 @@
 			if (']' == part) {
 				if (isArray(obj)) {
 					if ('' !== val) obj.push(val);
-				} else if ('object' == typeof obj) {
+				} else if ('object' == (typeof obj === 'undefined' ? 'undefined' : _typeof(obj))) {
 					obj[keys(obj).length] = val;
 				} else {
 					obj = parent[key] = [parent[key], val];
@@ -115,8 +126,9 @@
 		} else {
 			if (!isint.test(key) && isArray(parent.base)) {
 				var t = {};
-				for (var k in parent.base) t[k] = parent.base[k];
-				parent.base = t;
+				for (var k in parent.base) {
+					t[k] = parent.base[k];
+				}parent.base = t;
 			}
 			if (key !== '') {
 				set(parent.base, key, val);
@@ -126,16 +138,16 @@
 	}
 
 	function parseString(str) {
-		return reduce(String(str).split(/&|;/), function(ret, pair) {
+		return reduce(String(str).split(/&|;/), function (ret, pair) {
 			try {
 				pair = decodeURIComponent(pair.replace(/\+/g, ' '));
-			} catch(e) {
+			} catch (e) {
 				// ignore
 			}
 			var eql = pair.indexOf('='),
-				brace = lastBraceInKey(pair),
-				key = pair.substr(0, brace || eql),
-				val = pair.substr(brace || eql, pair.length);
+			    brace = lastBraceInKey(pair),
+			    key = pair.substr(0, brace || eql),
+			    val = pair.substr(brace || eql, pair.length);
 
 			val = val.substr(val.indexOf('=') + 1, val.length);
 
@@ -161,8 +173,8 @@
 
 	function lastBraceInKey(str) {
 		var len = str.length,
-			brace,
-			c;
+		    brace,
+		    c;
 		for (var i = 0; i < len; ++i) {
 			c = str[i];
 			if (']' == c) brace = false;
@@ -171,10 +183,10 @@
 		}
 	}
 
-	function reduce(obj, accumulator){
+	function reduce(obj, accumulator) {
 		var i = 0,
-			l = obj.length >> 0,
-			curr = arguments[2];
+		    l = obj.length >> 0,
+		    curr = arguments[2];
 		while (i < l) {
 			if (i in obj) curr = accumulator.call(undefined, curr, obj[i], i, obj);
 			++i;
@@ -188,14 +200,14 @@
 
 	function keys(obj) {
 		var key_array = [];
-		for ( var prop in obj ) {
-			if ( obj.hasOwnProperty(prop) ) key_array.push(prop);
+		for (var prop in obj) {
+			if (obj.hasOwnProperty(prop)) key_array.push(prop);
 		}
 		return key_array;
 	}
 
-	function purl( url, strictMode ) {
-		if ( arguments.length === 1 && url === true ) {
+	function purl(url, strictMode) {
+		if (arguments.length === 1 && url === true) {
 			strictMode = true;
 			url = undefined;
 		}
@@ -204,27 +216,27 @@
 
 		return {
 
-			data : parseUri(url, strictMode),
+			data: parseUri(url, strictMode),
 
 			// get various attributes from the URI
-			attr : function( attr ) {
-				attr = aliases[attr] || attr;
-				return typeof attr !== 'undefined' ? this.data.attr[attr] : this.data.attr;
+			attr: function attr(_attr) {
+				_attr = aliases[_attr] || _attr;
+				return typeof _attr !== 'undefined' ? this.data.attr[_attr] : this.data.attr;
 			},
 
 			// return query string parameters
-			param : function( param ) {
-				return typeof param !== 'undefined' ? this.data.param.query[param] : this.data.param.query;
+			param: function param(_param) {
+				return typeof _param !== 'undefined' ? this.data.param.query[_param] : this.data.param.query;
 			},
 
 			// return fragment parameters
-			fparam : function( param ) {
+			fparam: function fparam(param) {
 				return typeof param !== 'undefined' ? this.data.param.fragment[param] : this.data.param.fragment;
 			},
 
 			// return path segments
-			segment : function( seg ) {
-				if ( typeof seg === 'undefined' ) {
+			segment: function segment(seg) {
+				if (typeof seg === 'undefined') {
 					return this.data.seg.path;
 				} else {
 					seg = seg < 0 ? this.data.seg.path.length + seg : seg - 1; // negative segments count from the end
@@ -233,8 +245,8 @@
 			},
 
 			// return fragment segments
-			fsegment : function( seg ) {
-				if ( typeof seg === 'undefined' ) {
+			fsegment: function fsegment(seg) {
+				if (typeof seg === 'undefined') {
 					return this.data.seg.fragment;
 				} else {
 					seg = seg < 0 ? this.data.seg.fragment.length + seg : seg - 1; // negative segments count from the end
@@ -243,17 +255,16 @@
 			}
 
 		};
-
 	}
 
-	purl.jQuery = function($){
+	purl.jQuery = function ($) {
 		if ($ != null) {
-			$.fn.url = function( strictMode ) {
+			$.fn.url = function (strictMode) {
 				var url = '';
-				if ( this.length ) {
-					url = $(this).attr( getAttrName(this[0]) ) || '';
+				if (this.length) {
+					url = $(this).attr(getAttrName(this[0])) || '';
 				}
-				return purl( url, strictMode );
+				return purl(url, strictMode);
 			};
 
 			$.url = purl;
@@ -263,5 +274,4 @@
 	purl.jQuery(window.jQuery);
 
 	return purl;
-
 });

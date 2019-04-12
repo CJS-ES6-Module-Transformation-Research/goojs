@@ -1,9 +1,35 @@
-import ConfigHandler from "../../loaders/handlers/ConfigHandler";
-import Joint from "../../animationpack/Joint";
-import Skeleton from "../../animationpack/Skeleton";
-import SkeletonPose from "../../animationpack/SkeletonPose";
-import PromiseUtils from "../../util/PromiseUtils";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SkeletonHandler;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _Joint = require("../../animationpack/Joint");
+
+var _Joint2 = _interopRequireDefault(_Joint);
+
+var _Skeleton = require("../../animationpack/Skeleton");
+
+var _Skeleton2 = _interopRequireDefault(_Skeleton);
+
+var _SkeletonPose = require("../../animationpack/SkeletonPose");
+
+var _SkeletonPose2 = _interopRequireDefault(_SkeletonPose);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading skeletons into engine
@@ -13,17 +39,17 @@ import ObjectUtils from "../../util/ObjectUtils";
  * @param {Function} updateObject
  * @private
  */
-export default function SkeletonHandler() {
-	ConfigHandler.apply(this, arguments);
+function SkeletonHandler() {
+	_ConfigHandler2.default.apply(this, arguments);
 }
 
-SkeletonHandler.prototype = Object.create(ConfigHandler.prototype);
+SkeletonHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 SkeletonHandler.prototype.constructor = SkeletonHandler;
-ConfigHandler._registerClass('skeleton', SkeletonHandler);
+_ConfigHandler2.default._registerClass('skeleton', SkeletonHandler);
 
 SkeletonHandler.prototype._create = function () {
-	var skeleton = new Skeleton('', []);
-	var pose = new SkeletonPose(skeleton);
+	var skeleton = new _Skeleton2.default('', []);
+	var pose = new _SkeletonPose2.default(skeleton);
 	return pose;
 };
 
@@ -36,13 +62,13 @@ SkeletonHandler.prototype._create = function () {
  * @returns {RSVP.Promise} Resolves with the updated entity or null if removed
  */
 SkeletonHandler.prototype._update = function (ref, config, options) {
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (pose) {
+	return _ConfigHandler2.default.prototype._update.call(this, ref, config, options).then(function (pose) {
 		if (!config) {
-			return PromiseUtils.resolve();
+			return _PromiseUtils2.default.resolve();
 		}
 		var joints = [];
-		ObjectUtils.forEach(config.joints, function (jointConfig) {
-			var joint = new Joint(jointConfig.name);
+		_ObjectUtils2.default.forEach(config.joints, function (jointConfig) {
+			var joint = new _Joint2.default(jointConfig.name);
 			joint._index = jointConfig.index;
 			joint._parentIndex = jointConfig.parentIndex;
 			joint._inverseBindPose.matrix.data.set(jointConfig.inverseBindPose);
@@ -56,6 +82,7 @@ SkeletonHandler.prototype._update = function (ref, config, options) {
 		pose.allocateTransforms();
 		pose.setToBindPose();
 
-		return PromiseUtils.resolve(pose);
+		return _PromiseUtils2.default.resolve(pose);
 	});
 };
+module.exports = exports.default;

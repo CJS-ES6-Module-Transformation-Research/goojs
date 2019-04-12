@@ -1,5 +1,19 @@
-import AbstractAnimationChannel from "../../animationpack/clip/AbstractAnimationChannel";
-import MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = InterpolatedFloatChannel;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _AbstractAnimationChannel2 = _interopRequireDefault(_AbstractAnimationChannel);
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * An animation source channel consisting of float value samples. These samples are interpolated between key frames. Potential uses for
@@ -9,19 +23,19 @@ import MathUtils from "../../math/MathUtils";
  * @param {Array<number>} values our value samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export default function InterpolatedFloatChannel(channelName, times, values, blendType) {
-	AbstractAnimationChannel.call(this, channelName, times, blendType);
-	this._values = values ? values.slice(0) : null;
+function InterpolatedFloatChannel(channelName, times, values, blendType) {
+  _AbstractAnimationChannel2.default.call(this, channelName, times, blendType);
+  this._values = values ? values.slice(0) : null;
 }
 
-InterpolatedFloatChannel.prototype = Object.create(AbstractAnimationChannel.prototype);
+InterpolatedFloatChannel.prototype = Object.create(_AbstractAnimationChannel2.default.prototype);
 
 /*
  * Creates a data item for this type of channel
  * @returns {Array<number>}
  */
 InterpolatedFloatChannel.prototype.createStateDataObject = function () {
-	return [0.0];
+  return [0.0];
 };
 
 /*
@@ -31,7 +45,7 @@ InterpolatedFloatChannel.prototype.createStateDataObject = function () {
  * @param {Array<number>} value The data item to apply animation to
  */
 InterpolatedFloatChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent, value) {
-	value[0] = MathUtils.lerp(progressPercent, this._values[sampleIndex], this._values[sampleIndex + 1]);
+  value[0] = _MathUtils2.default.lerp(progressPercent, this._values[sampleIndex], this._values[sampleIndex + 1]);
 };
 
 /**
@@ -41,7 +55,8 @@ InterpolatedFloatChannel.prototype.setCurrentSample = function (sampleIndex, pro
  * @returns {Array<number>} our resulting TransformData.
  */
 InterpolatedFloatChannel.prototype.getData = function (index, store) {
-	var rVal = store || [];
-	rVal[0] = this._values[index];
-	return rVal;
+  var rVal = store || [];
+  rVal[0] = this._values[index];
+  return rVal;
 };
+module.exports = exports.default;

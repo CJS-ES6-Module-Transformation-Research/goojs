@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = IncrementCounterAction /*id, settings*/;
 
-export default function IncrementCounterAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-IncrementCounterAction.prototype = Object.create(Action.prototype);
+function IncrementCounterAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+IncrementCounterAction.prototype = Object.create(_Action2.default.prototype);
 IncrementCounterAction.prototype.constructor = IncrementCounterAction;
 
 IncrementCounterAction.external = {
@@ -61,3 +72,4 @@ IncrementCounterAction.prototype.update = function (fsm) {
 IncrementCounterAction.prototype.cleanup = function (fsm) {
 	fsm.getFsm().removeVariable(this.name);
 };
+module.exports = exports.default;

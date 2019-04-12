@@ -1,9 +1,29 @@
-import Vector3 from "../math/Vector3";
-import Renderer from "../renderer/Renderer";
-import SystemBus from "../entities/SystemBus";
-import Camera from "../renderer/Camera";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PanCamScript;
 
-export default function PanCamScript() {
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Renderer = require("../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+var _SystemBus = require("../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+var _Camera = require("../renderer/Camera");
+
+var _Camera2 = _interopRequireDefault(_Camera);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function PanCamScript() {
 	var fwdVector, leftVector, calcVector, calcVector2;
 	var lookAtPoint;
 	var mouseState;
@@ -32,15 +52,14 @@ export default function PanCamScript() {
 		argsUpdated(parameters, environment);
 
 		lookAtPoint = environment.goingToLookAt;
-		fwdVector = Vector3.UNIT_Y.clone();
-		leftVector = Vector3.UNIT_X.clone().negate();
-		calcVector = new Vector3();
-		calcVector2 = new Vector3();
+		fwdVector = _Vector2.default.UNIT_Y.clone();
+		leftVector = _Vector2.default.UNIT_X.clone().negate();
+		calcVector = new _Vector2.default();
+		calcVector2 = new _Vector2.default();
 		environment.translation = environment.entity.transformComponent.transform.translation.clone();
 
 		var renderer = environment.world.gooRunner.renderer;
-		environment.devicePixelRatio = renderer._useDevicePixelRatio && window.devicePixelRatio ?
-			window.devicePixelRatio / renderer.svg.currentScale : 1;
+		environment.devicePixelRatio = renderer._useDevicePixelRatio && window.devicePixelRatio ? window.devicePixelRatio / renderer.svg.currentScale : 1;
 
 		mouseState = {
 			x: 0,
@@ -52,7 +71,7 @@ export default function PanCamScript() {
 			down: false
 		};
 		listeners = {
-			mousedown: function (event) {
+			mousedown: function mousedown(event) {
 				if (!parameters.whenUsed || environment.entity === environment.activeCameraEntity) {
 					var button = event.button;
 					if (button === 0) {
@@ -64,14 +83,14 @@ export default function PanCamScript() {
 					}
 					if (button === environment.panButton || environment.panButton === -1) {
 						mouseState.down = true;
-						var x = (event.offsetX !== undefined) ? event.offsetX : event.layerX;
-						var y = (event.offsetY !== undefined) ? event.offsetY : event.layerY;
+						var x = event.offsetX !== undefined ? event.offsetX : event.layerX;
+						var y = event.offsetY !== undefined ? event.offsetY : event.layerY;
 						mouseState.ox = mouseState.x = x;
 						mouseState.oy = mouseState.y = y;
 					}
 				}
 			},
-			mouseup: function (event) {
+			mouseup: function mouseup(event) {
 				var button = event.button;
 				if (button === 0) {
 					if (event.altKey) {
@@ -83,35 +102,39 @@ export default function PanCamScript() {
 				mouseState.down = false;
 				mouseState.dx = mouseState.dy = 0;
 			},
-			mousemove: function (event) {
+			mousemove: function mousemove(event) {
 				if (!parameters.whenUsed || environment.entity === environment.activeCameraEntity) {
 					if (mouseState.down) {
-						var x = (event.offsetX !== undefined) ? event.offsetX : event.layerX;
-						var y = (event.offsetY !== undefined) ? event.offsetY : event.layerY;
+						var x = event.offsetX !== undefined ? event.offsetX : event.layerX;
+						var y = event.offsetY !== undefined ? event.offsetY : event.layerY;
 						mouseState.x = x;
 						mouseState.y = y;
 						environment.dirty = true;
 					}
 				}
 			},
-			mouseleave: function (/*event*/) {
+			mouseleave: function mouseleave() /*event*/{
 				mouseState.down = false;
 				mouseState.ox = mouseState.x;
 				mouseState.oy = mouseState.y;
 			},
-			touchstart: function (event) {
+			touchstart: function touchstart(event) {
 				if (!parameters.whenUsed || environment.entity === environment.activeCameraEntity) {
-					mouseState.down = (parameters.touchMode === 'Any' || (parameters.touchMode === 'Single' && event.targetTouches.length === 1) || (parameters.touchMode === 'Double' && event.targetTouches.length === 2));
-					if (!mouseState.down) { return; }
+					mouseState.down = parameters.touchMode === 'Any' || parameters.touchMode === 'Single' && event.targetTouches.length === 1 || parameters.touchMode === 'Double' && event.targetTouches.length === 2;
+					if (!mouseState.down) {
+						return;
+					}
 
 					var center = getTouchCenter(event.targetTouches);
 					mouseState.ox = mouseState.x = center[0];
 					mouseState.oy = mouseState.y = center[1];
 				}
 			},
-			touchmove: function (event) {
+			touchmove: function touchmove(event) {
 				if (!parameters.whenUsed || environment.entity === environment.activeCameraEntity) {
-					if (!mouseState.down) { return; }
+					if (!mouseState.down) {
+						return;
+					}
 
 					var center = getTouchCenter(event.targetTouches);
 					mouseState.x = center[0];
@@ -119,7 +142,7 @@ export default function PanCamScript() {
 					environment.dirty = true;
 				}
 			},
-			touchend: function (/*event*/) {
+			touchend: function touchend() /*event*/{
 				mouseState.down = false;
 				mouseState.ox = mouseState.x;
 				mouseState.oy = mouseState.y;
@@ -154,7 +177,7 @@ export default function PanCamScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Renderer.mainCamera;
+		var mainCam = _Renderer2.default.mainCamera;
 
 		var entity = environment.entity;
 		var transform = entity.transformComponent.transform;
@@ -167,19 +190,10 @@ export default function PanCamScript() {
 			var width = environment.viewportWidth / environment.devicePixelRatio;
 			var height = environment.viewportHeight / environment.devicePixelRatio;
 			mainCam.getScreenCoordinates(lookAtPoint, width, height, calcVector);
-			calcVector.subDirect(
-				mouseState.dx,/// (environment.viewportWidth/devicePixelRatio),
-				mouseState.dy,/// (environment.viewportHeight/devicePixelRatio),
-				0
-			);
-			mainCam.getWorldCoordinates(
-				calcVector.x,
-				calcVector.y,
-				width,
-				height,
-				calcVector.z,
-				calcVector
-			);
+			calcVector.subDirect(mouseState.dx, /// (environment.viewportWidth/devicePixelRatio),
+			mouseState.dy, /// (environment.viewportHeight/devicePixelRatio),
+			0);
+			mainCam.getWorldCoordinates(calcVector.x, calcVector.y, width, height, calcVector.z, calcVector);
 			lookAtPoint.set(calcVector);
 		} else {
 			calcVector.set(fwdVector).scale(mouseState.dy);
@@ -187,9 +201,9 @@ export default function PanCamScript() {
 
 			//! schteppe: use world coordinates for both by default?
 			//if (parameters.screenMove) {
-				// In the case of screenMove, we normalize the camera movement
-				// to the near plane instead of using pixels. This makes the parallel
-				// camera map mouse world movement to camera movement 1-1
+			// In the case of screenMove, we normalize the camera movement
+			// to the near plane instead of using pixels. This makes the parallel
+			// camera map mouse world movement to camera movement 1-1
 			if (entity.cameraComponent && entity.cameraComponent.camera) {
 				var camera = entity.cameraComponent.camera;
 				calcVector.scale((camera._frustumTop - camera._frustumBottom) / environment.viewportHeight);
@@ -199,8 +213,8 @@ export default function PanCamScript() {
 			calcVector.add(calcVector2);
 			calcVector.applyPost(transform.rotation);
 			//if (!parameters.screenMove) {
-				// panSpeed should be 1 in the screenMove case, to make movement sync properly
-			if (camera.projectionMode === Camera.Perspective) {
+			// panSpeed should be 1 in the screenMove case, to make movement sync properly
+			if (camera.projectionMode === _Camera2.default.Perspective) {
 				// RB: I know, very arbitrary but looks ok
 				calcVector.scale(parameters.panSpeed * 20);
 			} else {
@@ -210,7 +224,7 @@ export default function PanCamScript() {
 			entity.transformComponent.setTranslation(environment.translation);
 			environment.dirty = false;
 		}
-		SystemBus.emit('goo.cameraPositionChanged', {
+		_SystemBus2.default.emit('goo.cameraPositionChanged', {
 			translation: transform.translation.toArray(),
 			lookAtPoint: lookAtPoint ? lookAtPoint.toArray() : null,
 			id: entity.id
@@ -269,11 +283,11 @@ PanCamScript.externals = {
 		key: 'panSpeed',
 		type: 'float',
 		'default': 1,
-		scale: 0.01
-	}/*, {
-		key: 'screenMove',
-		type: 'boolean',
-		'default': false,
-		description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
-	}*/]
+		scale: 0.01 /*, {
+              key: 'screenMove',
+              type: 'boolean',
+              'default': false,
+              description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
+              }*/ }]
 };
+module.exports = exports.default;

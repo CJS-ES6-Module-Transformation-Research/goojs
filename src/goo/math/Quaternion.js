@@ -1,9 +1,44 @@
-import Vector from "./Vector";
-import Vector3 from "./Vector3";
-import Vector4 from "./Vector4";
-import Matrix3 from "./Matrix3";
-import MathUtils from "./MathUtils";
-import ObjectUtils from "../util/ObjectUtils";
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+exports.default = Quaternion;
+
+var _Vector = require("./Vector");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Vector3 = require("./Vector3");
+
+var _Vector4 = _interopRequireDefault(_Vector3);
+
+var _Vector5 = require("./Vector4");
+
+var _Vector6 = _interopRequireDefault(_Vector5);
+
+var _Matrix = require("./Matrix3");
+
+var _Matrix2 = _interopRequireDefault(_Matrix);
+
+var _MathUtils = require("./MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Quaternions provide a convenient mathematical notation for
@@ -16,7 +51,7 @@ import ObjectUtils from "../util/ObjectUtils";
  * @param {number} z
  * @param {number} w
  */
-export default function Quaternion(x, y, z, w) {
+function Quaternion(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
 	this._y = 0;
@@ -30,7 +65,7 @@ export default function Quaternion(x, y, z, w) {
 		this.y = 0;
 		this.z = 0;
 		this.w = 1;
-	} else if (arguments.length === 1 && typeof arguments[0] === 'object') {
+	} else if (arguments.length === 1 && _typeof(arguments[0]) === 'object') {
 		if (arguments[0] instanceof Quaternion) {
 			// Quaternion
 			this.copy(arguments[0]);
@@ -55,15 +90,15 @@ export default function Quaternion(x, y, z, w) {
 }
 
 // @ifdef DEBUG
-Vector.setupAliases(Quaternion.prototype, [['x'], ['y'], ['z'], ['w']]);
+_Vector2.default.setupAliases(Quaternion.prototype, [['x'], ['y'], ['z'], ['w']]);
 // @endif
 
-Quaternion.prototype.setDirect = Vector4.prototype.setDirect;
-Quaternion.prototype.dot = Vector4.prototype.dot;
-Quaternion.prototype.length = Vector4.prototype.length;
-Quaternion.prototype.lengthSquared = Vector4.prototype.lengthSquared;
-Quaternion.prototype.normalize = Vector4.prototype.normalize;
-Quaternion.prototype.equals = Vector4.prototype.equals;
+Quaternion.prototype.setDirect = _Vector6.default.prototype.setDirect;
+Quaternion.prototype.dot = _Vector6.default.prototype.dot;
+Quaternion.prototype.length = _Vector6.default.prototype.length;
+Quaternion.prototype.lengthSquared = _Vector6.default.prototype.lengthSquared;
+Quaternion.prototype.normalize = _Vector6.default.prototype.normalize;
+Quaternion.prototype.equals = _Vector6.default.prototype.equals;
 
 Quaternion.IDENTITY = new Quaternion(0, 0, 0, 1);
 
@@ -127,7 +162,8 @@ Quaternion.slerp = function (startQuat, endQuat, changeAmnt, workQuat) {
 
 	// Check if the angle between the 2 quaternions was big enough to
 	// warrant such calculations
-	if (1 - result > 0.1) {// Get the angle between the 2 quaternions,
+	if (1 - result > 0.1) {
+		// Get the angle between the 2 quaternions,
 		// and then store the sin() of that angle
 		var theta = Math.acos(result);
 		var invSinTheta = 1 / Math.sin(theta);
@@ -191,8 +227,14 @@ Quaternion.prototype.invert = function () {
  * @returns {Quaternion} Self for chaining.
  */
 Quaternion.prototype.mul = function (rhs) {
-	var ax = this.x, ay = this.y, az = this.z, aw = this.w;
-	var bx = rhs.x, by = rhs.y, bz = rhs.z, bw = rhs.w;
+	var ax = this.x,
+	    ay = this.y,
+	    az = this.z,
+	    aw = this.w;
+	var bx = rhs.x,
+	    by = rhs.y,
+	    bz = rhs.z,
+	    bw = rhs.w;
 
 	this.x = ax * bw + aw * bx + ay * bz - az * by;
 	this.y = ay * bw + aw * by + az * bx - ax * bz;
@@ -206,11 +248,11 @@ Quaternion.prototype.mul = function (rhs) {
 	var slerpWorkQuat = new Quaternion();
 
 	/**
-	 * Computes the spherical linear interpolation from the current quaternion towards endQuat.
-	 * @param {Quaternion} endQuat End quaternion.
-	 * @param {number} changeAmount Interpolation factor between 0.0 and 1.0.
-	 * @returns {Quaternion} Self for chaining.
-	 */
+  * Computes the spherical linear interpolation from the current quaternion towards endQuat.
+  * @param {Quaternion} endQuat End quaternion.
+  * @param {number} changeAmount Interpolation factor between 0.0 and 1.0.
+  * @returns {Quaternion} Self for chaining.
+  */
 	Quaternion.prototype.slerp = function (endQuat, changeAmount) {
 		slerpWorkQuat.copy(endQuat);
 		Quaternion.slerp(this, endQuat, changeAmount, slerpWorkQuat);
@@ -235,7 +277,8 @@ Quaternion.prototype.fromRotationMatrix = function (matrix) {
 
 	// we protect the division by s by ensuring that s>=1
 	var x, y, z, w;
-	if (t >= 0) { // |w| >= .5
+	if (t >= 0) {
+		// |w| >= .5
 		var s = Math.sqrt(t + 1); // |s|>=1 ...
 		w = 0.5 * s;
 		s = 0.5 / s; // so this division isn't bad
@@ -274,7 +317,7 @@ Quaternion.prototype.fromRotationMatrix = function (matrix) {
  * @returns {Matrix3} The normalized rotation matrix representation of this quaternion.
  */
 Quaternion.prototype.toRotationMatrix = function (store) {
-	var result = store || new Matrix3();
+	var result = store || new _Matrix2.default();
 
 	var norm = this.lengthSquared();
 	var s = norm > 0.0 ? 2.0 / norm : 0.0;
@@ -307,25 +350,25 @@ Quaternion.prototype.toRotationMatrix = function (store) {
 };
 
 (function () {
-	var pivotVector = new Vector3();
+	var pivotVector = new _Vector4.default();
 
 	/**
-	 * Sets this quaternion to the one that will rotate vector "from" into vector "to". Vectors do not have to be the same length.
-	 * @param {Vector3} from The source vector.
-	 * @param {Vector3} to The destination vector into which to rotate the source vector.
-	 * @returns {Quaternion} Self for chaining.
-	 */
+  * Sets this quaternion to the one that will rotate vector "from" into vector "to". Vectors do not have to be the same length.
+  * @param {Vector3} from The source vector.
+  * @param {Vector3} to The destination vector into which to rotate the source vector.
+  * @returns {Quaternion} Self for chaining.
+  */
 	Quaternion.prototype.fromVectorToVector = function (from, to) {
 		var a = from; //! AT: why this aliasing?
 		var b = to;
 
 		var factor = a.length() * b.length();
-		if (Math.abs(factor) > MathUtils.EPSILON) {
+		if (Math.abs(factor) > _MathUtils2.default.EPSILON) {
 			// Vectors have length > 0
 			var dot = a.dot(b) / factor;
 			var theta = Math.acos(Math.max(-1.0, Math.min(dot, 1.0)));
 			pivotVector.copy(a).cross(b);
-			if (dot < 0.0 && pivotVector.length() < MathUtils.EPSILON) {
+			if (dot < 0.0 && pivotVector.length() < _MathUtils2.default.EPSILON) {
 				// Vectors parallel and opposite direction, therefore a rotation of 180 degrees about any vector
 				// perpendicular to this vector will rotate vector a onto vector b.
 
@@ -344,7 +387,7 @@ Quaternion.prototype.toRotationMatrix = function (store) {
 						dominantIndex = 2;
 					}
 				}
-				pivotVector.setValue(dominantIndex, -a[((dominantIndex + 1) % 3)]);
+				pivotVector.setValue(dominantIndex, -a[(dominantIndex + 1) % 3]);
 				pivotVector.setValue((dominantIndex + 1) % 3, a[dominantIndex]);
 				pivotVector.setValue((dominantIndex + 2) % 3, 0.0);
 			}
@@ -356,15 +399,15 @@ Quaternion.prototype.toRotationMatrix = function (store) {
 })();
 
 (function () {
-	var tmpStoreVector3 = new Vector3();
+	var tmpStoreVector3 = new _Vector4.default();
 	/**
-	 * Sets the values of this quaternion to the values represented by a given angle and axis of rotation.
-	 * Note that this method creates an object, so use fromAngleNormalAxis if your axis is already normalized.
-	 * If axis == (0, 0, 0) the quaternion is set to identity.
-	 * @param {number} angle The angle to rotate (in radians).
-	 * @param {Vector3} axis The axis of rotation.
-	 * @returns {Quaternion} Self for chaining.
-	 */
+  * Sets the values of this quaternion to the values represented by a given angle and axis of rotation.
+  * Note that this method creates an object, so use fromAngleNormalAxis if your axis is already normalized.
+  * If axis == (0, 0, 0) the quaternion is set to identity.
+  * @param {number} angle The angle to rotate (in radians).
+  * @param {Vector3} axis The axis of rotation.
+  * @returns {Quaternion} Self for chaining.
+  */
 	Quaternion.prototype.fromAngleAxis = function (angle, axis) {
 		tmpStoreVector3.copy(axis).normalize();
 		return this.fromAngleNormalAxis(angle, tmpStoreVector3);
@@ -379,7 +422,7 @@ Quaternion.prototype.toRotationMatrix = function (store) {
  * @returns {Quaternion} Self for chaining.
  */
 Quaternion.prototype.fromAngleNormalAxis = function (angle, axis) {
-	if (axis.equals(Vector3.ZERO)) {
+	if (axis.equals(_Vector4.default.ZERO)) {
 		return this.set(Quaternion.IDENTITY);
 	}
 
@@ -401,7 +444,8 @@ Quaternion.prototype.fromAngleNormalAxis = function (angle, axis) {
 Quaternion.prototype.toAngleAxis = function (axisStore) {
 	var sqrLength = this.x * this.x + this.y * this.y + this.z * this.z;
 	var angle;
-	if (Math.abs(sqrLength) <= MathUtils.EPSILON) { // length is ~0
+	if (Math.abs(sqrLength) <= _MathUtils2.default.EPSILON) {
+		// length is ~0
 		angle = 0.0;
 		if (axisStore !== null) {
 			axisStore.x = 1.0;
@@ -439,11 +483,7 @@ Quaternion.prototype.dot = function (q) {
 };
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Quaternion.prototype, [
-	'dot', 'dotDirect',
-	'length', 'lengthSquared',
-	'distance', 'distanceSquared'
-]);
+_Vector2.default.addReturnChecks(Quaternion.prototype, ['dot', 'dotDirect', 'length', 'lengthSquared', 'distance', 'distanceSquared']);
 // @endif
 
 /**
@@ -478,333 +518,282 @@ Quaternion.prototype.setArray = function (array) {
 	return this;
 };
 
-
 // SHIM START
 
 Object.defineProperty(Quaternion.prototype, 'data', {
-	get: ObjectUtils.warnOnce(
-		'The .data property of Quaternion was removed. Please use the .x, .y, .z and .w properties instead.',
-		function () {
-			var data = [];
-			var that = this;
-			Object.defineProperties(data, {
-				'0': {
-					get: function () {
-						return that.x;
-					},
-					set: function (value) {
-						that.x = value;
-					}
+	get: _ObjectUtils2.default.warnOnce('The .data property of Quaternion was removed. Please use the .x, .y, .z and .w properties instead.', function () {
+		var data = [];
+		var that = this;
+		Object.defineProperties(data, {
+			'0': {
+				get: function get() {
+					return that.x;
 				},
-				'1': {
-					get: function () {
-						return that.y;
-					},
-					set: function (value) {
-						that.y = value;
-					}
-				},
-				'2': {
-					get: function () {
-						return that.z;
-					},
-					set: function (value) {
-						that.z = value;
-					}
-				},
-				'3': {
-					get: function () {
-						return that.w;
-					},
-					set: function (value) {
-						that.w = value;
-					}
+				set: function set(value) {
+					that.x = value;
 				}
-			});
-			return data;
-		}
-	)
+			},
+			'1': {
+				get: function get() {
+					return that.y;
+				},
+				set: function set(value) {
+					that.y = value;
+				}
+			},
+			'2': {
+				get: function get() {
+					return that.z;
+				},
+				set: function set(value) {
+					that.z = value;
+				}
+			},
+			'3': {
+				get: function get() {
+					return that.w;
+				},
+				set: function set(value) {
+					that.w = value;
+				}
+			}
+		});
+		return data;
+	})
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.add = ObjectUtils.warnOnce(
-	'Quaternion.add is deprecated.',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		target.x = lhs.x + rhs.x;
-		target.y = lhs.y + rhs.y;
-		target.z = lhs.z + rhs.z;
-		target.w = lhs.w + rhs.w;
-
-		return target;
+Quaternion.add = _ObjectUtils2.default.warnOnce('Quaternion.add is deprecated.', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
+
+	target.x = lhs.x + rhs.x;
+	target.y = lhs.y + rhs.y;
+	target.z = lhs.z + rhs.z;
+	target.w = lhs.w + rhs.w;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.div = ObjectUtils.warnOnce(
-	'Quaternion.div is deprecated',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		var clean = true;
-
-		target.x = (clean &= rhs.x < 0 || rhs.x > 0) ? lhs.x / rhs.x : 0;
-		target.y = (clean &= rhs.y < 0 || rhs.y > 0) ? lhs.y / rhs.y : 0;
-		target.z = (clean &= rhs.z < 0 || rhs.z > 0) ? lhs.z / rhs.z : 0;
-		target.w = (clean &= rhs.w < 0 || rhs.w > 0) ? lhs.w / rhs.w : 0;
-
-		return target;
+Quaternion.div = _ObjectUtils2.default.warnOnce('Quaternion.div is deprecated', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
+
+	var clean = true;
+
+	target.x = (clean &= rhs.x < 0 || rhs.x > 0) ? lhs.x / rhs.x : 0;
+	target.y = (clean &= rhs.y < 0 || rhs.y > 0) ? lhs.y / rhs.y : 0;
+	target.z = (clean &= rhs.z < 0 || rhs.z > 0) ? lhs.z / rhs.z : 0;
+	target.w = (clean &= rhs.w < 0 || rhs.w > 0) ? lhs.w / rhs.w : 0;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.mul = Quaternion.mul2 = ObjectUtils.warnOnce(
-	'Quaternion.mul is deprecated.',
-	function (a, b, out) {
-		var ax = a.x, ay = a.y, az = a.z, aw = a.w,
-			bx = b.x, by = b.y, bz = b.z, bw = b.w;
+Quaternion.mul = Quaternion.mul2 = _ObjectUtils2.default.warnOnce('Quaternion.mul is deprecated.', function (a, b, out) {
+	var ax = a.x,
+	    ay = a.y,
+	    az = a.z,
+	    aw = a.w,
+	    bx = b.x,
+	    by = b.y,
+	    bz = b.z,
+	    bw = b.w;
 
-		out.x = ax * bw + aw * bx + ay * bz - az * by;
-		out.y = ay * bw + aw * by + az * bx - ax * bz;
-		out.z = az * bw + aw * bz + ax * by - ay * bx;
-		out.w = aw * bw - ax * bx - ay * by - az * bz;
-		return out;
-	}
-);
-
-/**
- * @hidden
- * @deprecated
- */
-Quaternion.sub = ObjectUtils.warnOnce(
-	'Quaternion.sub is deprecated.',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		target.x = lhs.x - rhs.x;
-		target.y = lhs.y - rhs.y;
-		target.z = lhs.z - rhs.z;
-		target.w = lhs.w - rhs.w;
-
-		return target;
-	}
-);
+	out.x = ax * bw + aw * bx + ay * bz - az * by;
+	out.y = ay * bw + aw * by + az * bx - ax * bz;
+	out.z = az * bw + aw * bz + ax * by - ay * bx;
+	out.w = aw * bw - ax * bx - ay * by - az * bz;
+	return out;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.add = ObjectUtils.warnOnce(
-	'Quaternion.prototype.add is deprecated.',
-	function (rhs) {
-		return Quaternion.add(this, rhs, this);
+Quaternion.sub = _ObjectUtils2.default.warnOnce('Quaternion.sub is deprecated.', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
+
+	target.x = lhs.x - rhs.x;
+	target.y = lhs.y - rhs.y;
+	target.z = lhs.z - rhs.z;
+	target.w = lhs.w - rhs.w;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.div = ObjectUtils.warnOnce(
-	'Quaternion.prototype.div is deprecated.',
-	function (rhs) {
-		return Quaternion.div(this, rhs, this);
-	}
-);
+Quaternion.prototype.add = _ObjectUtils2.default.warnOnce('Quaternion.prototype.add is deprecated.', function (rhs) {
+	return Quaternion.add(this, rhs, this);
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.magnitude = ObjectUtils.warnOnce(
-	'Quaternion.prototype.magnitude is deprecated.',
-	function () {
-		var magnitudeSQ = this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
-		if (magnitudeSQ === 1.0) {
-			return 1.0;
-		}
-		return Math.sqrt(magnitudeSQ);
-	}
-);
+Quaternion.prototype.div = _ObjectUtils2.default.warnOnce('Quaternion.prototype.div is deprecated.', function (rhs) {
+	return Quaternion.div(this, rhs, this);
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.magnitudeSquared = ObjectUtils.warnOnce(
-	'Quaternion.prototype.magnitudeSquared is deprecated.',
-	function () {
-		return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
+Quaternion.prototype.magnitude = _ObjectUtils2.default.warnOnce('Quaternion.prototype.magnitude is deprecated.', function () {
+	var magnitudeSQ = this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
+	if (magnitudeSQ === 1.0) {
+		return 1.0;
 	}
-);
+	return Math.sqrt(magnitudeSQ);
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.scalarAdd = ObjectUtils.warnOnce(
-	'Quaternion.prototype.scalarAdd is deprecated.',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		target.x = lhs.x + rhs;
-		target.y = lhs.y + rhs;
-		target.z = lhs.z + rhs;
-		target.w = lhs.w + rhs;
-
-		return target;
-	}
-);
+Quaternion.prototype.magnitudeSquared = _ObjectUtils2.default.warnOnce('Quaternion.prototype.magnitudeSquared is deprecated.', function () {
+	return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.scalarDiv = ObjectUtils.warnOnce(
-	'Quaternion.scalarDiv is deprecated.',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		var clean = true;
-
-		rhs = (clean &= rhs < 0.0 || rhs > 0.0) ? 1.0 / rhs : 0.0;
-
-		target.x = lhs.x * rhs;
-		target.y = lhs.y * rhs;
-		target.z = lhs.z * rhs;
-		target.w = lhs.w * rhs;
-
-		return target;
+Quaternion.scalarAdd = _ObjectUtils2.default.warnOnce('Quaternion.prototype.scalarAdd is deprecated.', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
+
+	target.x = lhs.x + rhs;
+	target.y = lhs.y + rhs;
+	target.z = lhs.z + rhs;
+	target.w = lhs.w + rhs;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.scalarMul = ObjectUtils.warnOnce(
-	'Quaternion.scalarMul is deprecated.',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		target.x = lhs.x * rhs;
-		target.y = lhs.y * rhs;
-		target.z = lhs.z * rhs;
-		target.w = lhs.w * rhs;
-
-		return target;
+Quaternion.scalarDiv = _ObjectUtils2.default.warnOnce('Quaternion.scalarDiv is deprecated.', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
+
+	var clean = true;
+
+	rhs = (clean &= rhs < 0.0 || rhs > 0.0) ? 1.0 / rhs : 0.0;
+
+	target.x = lhs.x * rhs;
+	target.y = lhs.y * rhs;
+	target.z = lhs.z * rhs;
+	target.w = lhs.w * rhs;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.scalarSub = ObjectUtils.warnOnce(
-	'Quaternion.scalarSub is deprecated.',
-	function (lhs, rhs, target) {
-		if (!target) {
-			target = new Quaternion();
-		}
-
-		target.x = lhs.x - rhs;
-		target.y = lhs.y - rhs;
-		target.z = lhs.z - rhs;
-		target.w = lhs.w - rhs;
-
-		return target;
+Quaternion.scalarMul = _ObjectUtils2.default.warnOnce('Quaternion.scalarMul is deprecated.', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
+
+	target.x = lhs.x * rhs;
+	target.y = lhs.y * rhs;
+	target.z = lhs.z * rhs;
+	target.w = lhs.w * rhs;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.setVector = ObjectUtils.warnOnce(
-	'Quaternion.prototype.setVector is deprecated.',
-	function (quat) {
-		this.x = quat.x;
-		this.y = quat.y;
-		this.z = quat.z;
-		this.w = quat.w;
-
-		return this;
+Quaternion.scalarSub = _ObjectUtils2.default.warnOnce('Quaternion.scalarSub is deprecated.', function (lhs, rhs, target) {
+	if (!target) {
+		target = new Quaternion();
 	}
-);
 
-/**
- * @hidden
- * @deprecated
- */
-Quaternion.prototype.sub = ObjectUtils.warnOnce(
-	'Quaternion.prototype.sub is deprecated.',
-	function (rhs) {
-		return Quaternion.sub(this, rhs, this);
-	}
-);
+	target.x = lhs.x - rhs;
+	target.y = lhs.y - rhs;
+	target.z = lhs.z - rhs;
+	target.w = lhs.w - rhs;
+
+	return target;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarAdd = ObjectUtils.warnOnce(
-	'Quaternion.prototype.scalarAdd is deprecated.',
-	function (rhs) {
-		return Quaternion.scalarAdd(this, rhs, this);
-	}
-);
+Quaternion.prototype.setVector = _ObjectUtils2.default.warnOnce('Quaternion.prototype.setVector is deprecated.', function (quat) {
+	this.x = quat.x;
+	this.y = quat.y;
+	this.z = quat.z;
+	this.w = quat.w;
+
+	return this;
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarSub = ObjectUtils.warnOnce(
-	'Quaternion.prototype.scalarSub is deprecated.',
-	function (rhs) {
-		return Quaternion.scalarSub(this, rhs, this);
-	}
-);
+Quaternion.prototype.sub = _ObjectUtils2.default.warnOnce('Quaternion.prototype.sub is deprecated.', function (rhs) {
+	return Quaternion.sub(this, rhs, this);
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarMul = ObjectUtils.warnOnce(
-	'Quaternion.prototype.scalarMul is deprecated.',
-	function (rhs) {
-		return Quaternion.scalarMul(this, rhs, this);
-	}
-);
+Quaternion.prototype.scalarAdd = _ObjectUtils2.default.warnOnce('Quaternion.prototype.scalarAdd is deprecated.', function (rhs) {
+	return Quaternion.scalarAdd(this, rhs, this);
+});
 
 /**
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarDiv = ObjectUtils.warnOnce(
-	'Quaternion.prototype.scalarDiv is deprecated.',
-	function (rhs) {
-		return Quaternion.scalarDiv(this, rhs, this);
-	}
-);
+Quaternion.prototype.scalarSub = _ObjectUtils2.default.warnOnce('Quaternion.prototype.scalarSub is deprecated.', function (rhs) {
+	return Quaternion.scalarSub(this, rhs, this);
+});
+
+/**
+ * @hidden
+ * @deprecated
+ */
+Quaternion.prototype.scalarMul = _ObjectUtils2.default.warnOnce('Quaternion.prototype.scalarMul is deprecated.', function (rhs) {
+	return Quaternion.scalarMul(this, rhs, this);
+});
+
+/**
+ * @hidden
+ * @deprecated
+ */
+Quaternion.prototype.scalarDiv = _ObjectUtils2.default.warnOnce('Quaternion.prototype.scalarDiv is deprecated.', function (rhs) {
+	return Quaternion.scalarDiv(this, rhs, this);
+});
+module.exports = exports.default;

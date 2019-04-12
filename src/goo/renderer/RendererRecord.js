@@ -1,8 +1,12 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RendererRecord;
 /**
  * Holds the renderer's state
  * @hidden
  */
-export default function RendererRecord() {
+function RendererRecord() {
 	this.currentBuffer = {
 		'ArrayBuffer': {
 			buffer: null,
@@ -47,3 +51,4 @@ RendererRecord.prototype.invalidateBuffer = function (target) {
 	this.currentBuffer[target].buffer = null;
 	this.currentBuffer[target].valid = false;
 };
+module.exports = exports.default;

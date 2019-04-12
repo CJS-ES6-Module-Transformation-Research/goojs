@@ -1,11 +1,25 @@
-import Action from "./Action";
-import FsmUtils from "../FsmUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CopyVariableAction /*id, settings*/;
 
-export default function CopyVariableAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _FsmUtils = require("../FsmUtils");
+
+var _FsmUtils2 = _interopRequireDefault(_FsmUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-CopyVariableAction.prototype = Object.create(Action.prototype);
+function CopyVariableAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+CopyVariableAction.prototype = Object.create(_Action2.default.prototype);
 CopyVariableAction.prototype.constructor = CopyVariableAction;
 
 CopyVariableAction.external = {
@@ -53,9 +67,9 @@ CopyVariableAction.prototype.copy = function (fsm) {
 		try {
 			var val;
 			if (this.variableSource) {
-				val = FsmUtils.getValue(this.variableSource, fsm);
+				val = _FsmUtils2.default.getValue(this.variableSource, fsm);
 			} else {
-				val = FsmUtils.getValue(this.value, fsm);
+				val = _FsmUtils2.default.getValue(this.value, fsm);
 			}
 			ownerEntity[this.variableTarget] = val;
 		} catch (err) {
@@ -63,3 +77,4 @@ CopyVariableAction.prototype.copy = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;

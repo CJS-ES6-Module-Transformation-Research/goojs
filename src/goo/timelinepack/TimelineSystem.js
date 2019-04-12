@@ -1,14 +1,25 @@
-import System from "../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TimelineSystem;
+
+var _System = require('../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Manages entities with a TimelineComponent
  * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
  */
-export default function TimelineSystem() {
-	System.call(this, 'TimelineSystem', ['TimelineComponent']);
+function TimelineSystem() {
+	_System2.default.call(this, 'TimelineSystem', ['TimelineComponent']);
 }
 
-TimelineSystem.prototype = Object.create(System.prototype);
+TimelineSystem.prototype = Object.create(_System2.default.prototype);
 TimelineSystem.prototype.constructor = TimelineSystem;
 
 TimelineSystem.prototype.process = function (entities, tpf) {
@@ -61,3 +72,4 @@ TimelineSystem.prototype.stop = function () {
 		component.stop();
 	}
 };
+module.exports = exports.default;

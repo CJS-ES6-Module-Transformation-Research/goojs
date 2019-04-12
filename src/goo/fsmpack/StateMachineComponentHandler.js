@@ -1,7 +1,27 @@
-import ComponentHandler from "../loaders/handlers/ComponentHandler";
-import StateMachineComponent from "../fsmpack/statemachine/StateMachineComponent";
-import RSVP from "../util/rsvp";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StateMachineComponentHandler;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _ComponentHandler2 = _interopRequireDefault(_ComponentHandler);
+
+var _StateMachineComponent = require("../fsmpack/statemachine/StateMachineComponent");
+
+var _StateMachineComponent2 = _interopRequireDefault(_StateMachineComponent);
+
+var _rsvp = require("../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * For handling loading of state machine components
@@ -11,14 +31,14 @@ import ObjectUtils from "../util/ObjectUtils";
  * @extends ComponentHandler
  * @hidden
  */
-export default function StateMachineComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+function StateMachineComponentHandler() {
+	_ComponentHandler2.default.apply(this, arguments);
 	this._type = 'StateMachineComponent';
 }
 
-StateMachineComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+StateMachineComponentHandler.prototype = Object.create(_ComponentHandler2.default.prototype);
 StateMachineComponentHandler.prototype.constructor = StateMachineComponentHandler;
-ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
+_ComponentHandler2.default._registerClass('stateMachine', StateMachineComponentHandler);
 
 /**
  * Create statemachine component
@@ -26,7 +46,7 @@ ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
  * @hidden
  */
 StateMachineComponentHandler.prototype._create = function () {
-	return new StateMachineComponent();
+	return new _StateMachineComponent2.default();
 };
 
 StateMachineComponentHandler.prototype._remove = function (entity) {
@@ -57,15 +77,17 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 	options.reload = true;
 	options.instantiate = true;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler2.default.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var promises = [];
-		ObjectUtils.forEach(config.machines, function (machineConfig) {
+		_ObjectUtils2.default.forEach(config.machines, function (machineConfig) {
 			promises.push(that._load(machineConfig.machineRef, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (machines) {
+		return _rsvp2.default.all(promises).then(function (machines) {
 			// Adding new machines
 			for (var i = 0; i < machines.length; i++) {
 				if (component._machines.indexOf(machines[i]) === -1) {
@@ -82,3 +104,4 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 		});
 	});
 };
+module.exports = exports.default;

@@ -1,18 +1,35 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector3 from "../../../math/Vector3";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenMoveAction /*id, settings*/;
 
-export default function TweenMoveAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromPos = new Vector3();
-	this.toPos = new Vector3();
-	this.deltaPos = new Vector3();
-	this.oldPos = new Vector3();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenMoveAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.fromPos = new _Vector2.default();
+	this.toPos = new _Vector2.default();
+	this.deltaPos = new _Vector2.default();
+	this.oldPos = new _Vector2.default();
 	this.completed = false;
 }
 
-TweenMoveAction.prototype = Object.create(Action.prototype);
+TweenMoveAction.prototype = Object.create(_Action2.default.prototype);
 TweenMoveAction.prototype.constructor = TweenMoveAction;
 
 TweenMoveAction.external = {
@@ -62,7 +79,7 @@ TweenMoveAction.external = {
 	}]
 };
 
-TweenMoveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenMoveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Move Complete' : undefined;
 };
 
@@ -87,7 +104,7 @@ TweenMoveAction.prototype.update = function (fsm) {
 	var transformComponent = fsm.getOwnerEntity().transformComponent.sync();
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
 
 	if (this.relative) {
 		this.deltaPos.set(this.fromPos).lerp(this.toPos, fT).sub(this.oldPos);
@@ -104,3 +121,4 @@ TweenMoveAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

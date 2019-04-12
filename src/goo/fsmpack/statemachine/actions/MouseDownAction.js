@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MouseDownAction /*id, settings*/;
 
-export default function MouseDownAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-MouseDownAction.prototype = Object.create(Action.prototype);
+function MouseDownAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+MouseDownAction.prototype = Object.create(_Action2.default.prototype);
 MouseDownAction.prototype.constructor = MouseDownAction;
 
 MouseDownAction.external = {
@@ -36,7 +47,7 @@ var labels = {
 	touchDown: 'On touch start'
 };
 
-MouseDownAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+MouseDownAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -45,11 +56,7 @@ MouseDownAction.prototype.enter = function (fsm) {
 		if (button === 'touch') {
 			fsm.send(this.transitions.touchDown);
 		} else {
-			fsm.send([
-				this.transitions.mouseLeftDown,
-				this.transitions.middleMouseDown,
-				this.transitions.rightMouseDown
-			][button]);
+			fsm.send([this.transitions.mouseLeftDown, this.transitions.middleMouseDown, this.transitions.rightMouseDown][button]);
 		}
 	}.bind(this);
 
@@ -69,3 +76,4 @@ MouseDownAction.prototype.exit = function () {
 	document.removeEventListener('mousedown', this.mouseEventListener);
 	document.removeEventListener('touchstart', this.touchEventListener);
 };
+module.exports = exports.default;

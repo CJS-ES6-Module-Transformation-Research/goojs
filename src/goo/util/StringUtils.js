@@ -1,7 +1,11 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StringUtils;
 /**
  * Provides string manipulation methods
  */
-export default function StringUtils() {}
+function StringUtils() {}
 
 StringUtils.endsWith = function (str, suffix) {
 	return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -142,7 +146,7 @@ StringUtils.hashCode = function (str) {
 
 	for (var i = 0; i < str.length; i++) {
 		var character = str.charCodeAt(i);
-		hash = ((hash << 5) - hash) + character;
+		hash = (hash << 5) - hash + character;
 		hash &= hash; // Convert to 32bit integer
 	}
 
@@ -200,24 +204,18 @@ StringUtils.escapeHtmlEntities = function (text) {
 /**
  * @private
  */
-var splitRegExp = new RegExp(
-	'^' +
-	'(?:' +
-	'([^:/?#.]+)' +                         // scheme - ignore special characters
-	// used by other URL parts such as :,
-	// ?, /, #, and .
-	':)?' +
-	'(?://' +
-	'(?:([^/?#]*)@)?' +                     // userInfo
-	'([\\w\\d\\-\\u0100-\\uffff.%]*)' +     // domain - restrict to letters,
-	// digits, dashes, dots, percent
-	// escapes, and unicode characters.
-	'(?::([0-9]+))?' +                      // port
-	')?' +
-	'([^?#]+)?' +                           // path
-	'(?:\\?([^#]*))?' +                     // query
-	'(?:#(.*))?' +                          // fragment
-	'$');
+var splitRegExp = new RegExp('^' + '(?:' + '([^:/?#.]+)' + // scheme - ignore special characters
+// used by other URL parts such as :,
+// ?, /, #, and .
+':)?' + '(?://' + '(?:([^/?#]*)@)?' + // userInfo
+'([\\w\\d\\-\\u0100-\\uffff.%]*)' + // domain - restrict to letters,
+// digits, dashes, dots, percent
+// escapes, and unicode characters.
+'(?::([0-9]+))?' + // port
+')?' + '([^?#]+)?' + // path
+'(?:\\?([^#]*))?' + // query
+'(?:#(.*))?' + // fragment
+'$');
 
 StringUtils.parseURL = function (uri) {
 	var split = uri.match(splitRegExp);
@@ -231,3 +229,4 @@ StringUtils.parseURL = function (uri) {
 		'fragment': split[7]
 	};
 };
+module.exports = exports.default;

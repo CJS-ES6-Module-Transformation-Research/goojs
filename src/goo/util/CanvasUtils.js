@@ -1,12 +1,26 @@
-import PromiseUtils from "../util/PromiseUtils";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CanvasUtils;
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 // TODO: make promise based instead of sending callbacks
 
 /**
  * Provides useful canvas-related methods
  */
-export default function CanvasUtils() {}
+function CanvasUtils() {}
 
 // REVIEW: add documentation about what happens if the image is corrupt
 /**
@@ -57,7 +71,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			return callback();
 		}
 
-		ObjectUtils.defaults(options, {
+		_ObjectUtils2.default.defaults(options, {
 			// Canvas size
 			width: img.width,
 			height: img.height,
@@ -73,7 +87,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			destY: 0
 		});
 
-		ObjectUtils.defaults(options, {
+		_ObjectUtils2.default.defaults(options, {
 			destWidth: options.width,
 			destHeight: options.height
 		});
@@ -95,13 +109,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 		canvas.height = options.height;
 
 		// Render to canvas
-		context.drawImage(
-			img,
-			options.sourceX, options.sourceY,
-			options.sourceWidth, options.sourceHeight,
-			options.destX, options.destY,
-			options.destWidth, options.destHeight
-		);
+		context.drawImage(img, options.sourceX, options.sourceY, options.sourceWidth, options.sourceHeight, options.destX, options.destY, options.destWidth, options.destHeight);
 
 		callback(canvas);
 	};
@@ -139,7 +147,7 @@ CanvasUtils.renderSvgToCanvas = function (svgSource, options, callback) {
 CanvasUtils.getMatrixFromCanvas = function (canvas) {
 	var context = canvas.getContext('2d');
 
-	var getAt = function (x, y) {
+	var getAt = function getAt(x, y) {
 		if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
 			return 0;
 		} else {
@@ -171,7 +179,7 @@ CanvasUtils.svgDataToImage = function (data) {
 	var img = new Image();
 	img.src = DOMURL.createObjectURL(svg);
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return _PromiseUtils2.default.createPromise(function (resolve, reject) {
 		img.onload = function () {
 			resolve(img);
 		};
@@ -180,3 +188,4 @@ CanvasUtils.svgDataToImage = function (data) {
 		};
 	});
 };
+module.exports = exports.default;

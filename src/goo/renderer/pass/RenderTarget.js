@@ -1,5 +1,19 @@
-import Vector2 from "../../math/Vector2";
-import ObjectUtil from "../../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RenderTarget;
+
+var _Vector = require("../../math/Vector2");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _ObjectUtil = require("../../util/ObjectUtil");
+
+var _ObjectUtil2 = _interopRequireDefault(_ObjectUtil);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Creates a new RenderTarget object
@@ -9,7 +23,7 @@ import ObjectUtil from "../../util/ObjectUtil";
  * @param {number} height Height of rendertarget
  * @param {Object} options Options
  */
-export default function RenderTarget(width, height, options) {
+function RenderTarget(width, height, options) {
 	this.glTexture = null;
 	this._glRenderBuffer = null;
 	this._glFrameBuffer = null;
@@ -17,7 +31,7 @@ export default function RenderTarget(width, height, options) {
 	this.width = Math.max(Math.floor(width), 1);
 	this.height = Math.max(Math.floor(height), 1);
 
-	ObjectUtil.copyOptions(this, options, {
+	_ObjectUtil2.default.copyOptions(this, options, {
 		wrapS: 'EdgeClamp',
 		wrapT: 'EdgeClamp',
 		magFilter: 'Bilinear',
@@ -35,8 +49,8 @@ export default function RenderTarget(width, height, options) {
 
 	this.variant = '2D'; // CUBE
 
-	this.offset = new Vector2(0, 0);
-	this.repeat = new Vector2(1, 1);
+	this.offset = new _Vector2.default(0, 0);
+	this.repeat = new _Vector2.default(1, 1);
 
 	this.textureRecord = {};
 }
@@ -102,3 +116,4 @@ RenderTarget.prototype.destroy = function (context) {
 		this._glFrameBuffer = null;
 	}
 };
+module.exports = exports.default;

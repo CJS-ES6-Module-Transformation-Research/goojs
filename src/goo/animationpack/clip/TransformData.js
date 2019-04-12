@@ -1,14 +1,28 @@
-import Quaternion from "../../math/Quaternion";
-import Vector3 from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TransformData;
+
+var _Quaternion = require("../../math/Quaternion");
+
+var _Quaternion2 = _interopRequireDefault(_Quaternion);
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Describes a relative transform as a Quaternion-Vector-Vector tuple. We use QVV to make it simpler to do LERP blending.
  * @param {TransformData} [source] source to copy.
  */
-export default function TransformData(source) {
-	this._rotation = new Quaternion().copy(source ? source._rotation : Quaternion.IDENTITY);
-	this._scale = new Vector3().copy(source ? source._scale : Vector3.ONE);
-	this._translation = new Vector3().copy(source ? source._translation : Vector3.ZERO);
+function TransformData(source) {
+	this._rotation = new _Quaternion2.default().copy(source ? source._rotation : _Quaternion2.default.IDENTITY);
+	this._scale = new _Vector2.default().copy(source ? source._scale : _Vector2.default.ONE);
+	this._translation = new _Vector2.default().copy(source ? source._translation : _Vector2.default.ZERO);
 }
 
 /*
@@ -47,6 +61,7 @@ TransformData.prototype.blend = function (blendTo, blendWeight, store) {
 
 	tData._translation.set(this._translation).lerp(blendTo._translation, blendWeight);
 	tData._scale.set(this._scale).lerp(blendTo._scale, blendWeight);
-	Quaternion.slerp(this._rotation, blendTo._rotation, blendWeight, tData._rotation);
+	_Quaternion2.default.slerp(this._rotation, blendTo._rotation, blendWeight, tData._rotation);
 	return tData;
 };
+module.exports = exports.default;

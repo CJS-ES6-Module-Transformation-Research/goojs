@@ -1,11 +1,28 @@
-import ObjectUtils from "../util/ObjectUtils";
-import MathUtils from "../math/MathUtils";
-import Capabilities from "../renderer/Capabilities";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RendererUtils;
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _MathUtils = require("../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _Capabilities = require("../renderer/Capabilities");
+
+var _Capabilities2 = _interopRequireDefault(_Capabilities);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Renderer-related utilities
  */
-export default function RendererUtils() {}
+function RendererUtils() {}
 
 /**
  * Get size in bytes of a specific type.
@@ -51,17 +68,13 @@ RendererUtils.checkGLError = function (gl) {
 	while (error !== gl.NO_ERROR) {
 		wasError = true;
 		if (error === gl.INVALID_ENUM) {
-			console
-				.error('An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.INVALID_VALUE) {
-			console
-				.error('A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.INVALID_OPERATION) {
-			console
-				.error('The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.FRAMEBUFFER_COMPLETE) {
-			console
-				.error('The command is trying to render to or read from the framebuffer while the currently bound framebuffer is not framebuffer complete (i.e. the return value from glCheckFramebufferStatus is not GL_FRAMEBUFFER_COMPLETE). The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('The command is trying to render to or read from the framebuffer while the currently bound framebuffer is not framebuffer complete (i.e. the return value from glCheckFramebufferStatus is not GL_FRAMEBUFFER_COMPLETE). The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.OUT_OF_MEMORY) {
 			throw new Error('There is not enough memory left to execute the command. The state of the GL is undefined, except for the state of the error flags, after this error is recorded.');
 		}
@@ -80,7 +93,7 @@ RendererUtils.checkGLError = function (gl) {
  * @param {number} value Number to check for power of two
  * @returns true if value is power of two
  */
-RendererUtils.isPowerOfTwo = MathUtils.isPowerOfTwo;
+RendererUtils.isPowerOfTwo = _MathUtils2.default.isPowerOfTwo;
 
 /**
  * Converts input number to closest power of two
@@ -89,7 +102,7 @@ RendererUtils.isPowerOfTwo = MathUtils.isPowerOfTwo;
  * @param {number} number Number to convert to power of two
  * @returns {number} Nearest power of two of input
  */
-RendererUtils.nearestPowerOfTwo = MathUtils.nearestPowerOfTwo;
+RendererUtils.nearestPowerOfTwo = _MathUtils2.default.nearestPowerOfTwo;
 
 /**
  * Clones an object recursively
@@ -97,12 +110,12 @@ RendererUtils.nearestPowerOfTwo = MathUtils.nearestPowerOfTwo;
  * @param {*} object Object to clone
  * @returns {*} Cloned object
  */
-RendererUtils.clone = ObjectUtils.deepClone;
+RendererUtils.clone = _ObjectUtils2.default.deepClone;
 
 RendererUtils._blankImages = {};
 RendererUtils.getBlankImage = function (texture, color, width, height, maxSize, index) {
-	var newWidth = MathUtils.nearestPowerOfTwo(width);
-	var newHeight = MathUtils.nearestPowerOfTwo(height);
+	var newWidth = _MathUtils2.default.nearestPowerOfTwo(width);
+	var newHeight = _MathUtils2.default.nearestPowerOfTwo(height);
 	newWidth = Math.min(newWidth, maxSize);
 	newHeight = Math.min(newHeight, maxSize);
 
@@ -143,8 +156,8 @@ function getImage(data, width, height) {
 }
 
 RendererUtils.scaleImage = function (texture, image, width, height, maxSize, index) {
-	var newWidth = MathUtils.nearestPowerOfTwo(width);
-	var newHeight = MathUtils.nearestPowerOfTwo(height);
+	var newWidth = _MathUtils2.default.nearestPowerOfTwo(width);
+	var newHeight = _MathUtils2.default.nearestPowerOfTwo(height);
 	newWidth = Math.min(newWidth, maxSize);
 	newHeight = Math.min(newHeight, maxSize);
 
@@ -285,7 +298,7 @@ RendererUtils.getGLDataType = function (context, type) {
 			glDataType = context.UNSIGNED_SHORT_5_5_5_1;
 			break;
 		case 'HalfFloat':
-			glDataType = Capabilities.TextureHalfFloat.HALF_FLOAT_OES;
+			glDataType = _Capabilities2.default.TextureHalfFloat.HALF_FLOAT_OES;
 			break;
 
 		default:
@@ -576,3 +589,4 @@ RendererUtils.getGLBlendParam = function (context, param) {
 
 	return glBlendParam;
 };
+module.exports = exports.default;

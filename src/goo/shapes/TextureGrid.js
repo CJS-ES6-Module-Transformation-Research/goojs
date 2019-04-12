@@ -1,5 +1,19 @@
-import MeshData from "../renderer/MeshData";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TextureGrid;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Meshdata for a grid; useful for displaying tiles
@@ -7,18 +21,18 @@ import ObjectUtils from "../util/ObjectUtils";
  * @param matrix
  * @param textureUnitsPerLine
  */
-export default function TextureGrid(matrix, textureUnitsPerLine) {
+function TextureGrid(matrix, textureUnitsPerLine) {
 	this.matrix = matrix;
 	this.textureUnitsPerLine = textureUnitsPerLine || 8;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = _MeshData2.default.defaultMap([_MeshData2.default.POSITION, _MeshData2.default.NORMAL, _MeshData2.default.TEXCOORD0]);
 	var nCells = countCells(matrix);
-	MeshData.call(this, attributeMap, nCells * 4, nCells * 6);
+	_MeshData2.default.call(this, attributeMap, nCells * 4, nCells * 6);
 
 	this.rebuild();
 }
 
-TextureGrid.prototype = Object.create(MeshData.prototype);
+TextureGrid.prototype = Object.create(_MeshData2.default.prototype);
 TextureGrid.prototype.constructor = TextureGrid;
 
 function countCells(matrix) {
@@ -44,43 +58,25 @@ TextureGrid.prototype.rebuild = function () {
 	for (var i = 0; i < this.matrix.length; i++) {
 		var halfWidth = this.matrix[i].length / 2;
 		for (var j = 0; j < this.matrix[i].length; j++) {
-			verts.push(
-				j - halfWidth, -i - 1 + halfHeight, 0,
-				j - halfWidth, -i + halfHeight, 0,
-				j + 1 - halfWidth, -i + halfHeight, 0,
-				j + 1 - halfWidth, -i - 1 + halfHeight, 0
-			);
+			verts.push(j - halfWidth, -i - 1 + halfHeight, 0, j - halfWidth, -i + halfHeight, 0, j + 1 - halfWidth, -i + halfHeight, 0, j + 1 - halfWidth, -i - 1 + halfHeight, 0);
 
-			norms.push(
-				0, 0, 1,
-				0, 0, 1,
-				0, 0, 1,
-				0, 0, 1
-			);
+			norms.push(0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1);
 
-			var texX = (this.matrix[i][j] % this.textureUnitsPerLine) / this.textureUnitsPerLine;
+			var texX = this.matrix[i][j] % this.textureUnitsPerLine / this.textureUnitsPerLine;
 			var texY = Math.floor(this.matrix[i][j] / this.textureUnitsPerLine) / this.textureUnitsPerLine;
 			texY = 1 - texY;
 
-			tex.push(
-				texX, texY - 1 / this.textureUnitsPerLine,
-				texX, texY,
-				texX + 1 / this.textureUnitsPerLine, texY,
-				texX + 1 / this.textureUnitsPerLine, texY - 1 / this.textureUnitsPerLine
-			);
+			tex.push(texX, texY - 1 / this.textureUnitsPerLine, texX, texY, texX + 1 / this.textureUnitsPerLine, texY, texX + 1 / this.textureUnitsPerLine, texY - 1 / this.textureUnitsPerLine);
 
-			indices.push(
-				indexCounter + 3, indexCounter + 1, indexCounter + 0,
-				indexCounter + 2, indexCounter + 1, indexCounter + 3
-			);
+			indices.push(indexCounter + 3, indexCounter + 1, indexCounter + 0, indexCounter + 2, indexCounter + 1, indexCounter + 3);
 
 			indexCounter += 4;
 		}
 	}
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData2.default.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData2.default.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData2.default.TEXCOORD0).set(tex);
 
 	this.getIndexBuffer().set(indices);
 
@@ -92,7 +88,7 @@ TextureGrid.prototype.rebuild = function () {
  * @returns {TextureGrid}
  */
 TextureGrid.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
+	var options = _ObjectUtils2.default.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
 
 	return new TextureGrid(options);
 };
@@ -113,3 +109,4 @@ function stringToMatrix(str) {
 TextureGrid.fromString = function (str) {
 	return new TextureGrid(stringToMatrix(str), 16);
 };
+module.exports = exports.default;

@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetClearColorAction /*id, settings*/;
 
-export default function SetClearColorAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetClearColorAction.prototype = Object.create(Action.prototype);
+function SetClearColorAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetClearColorAction.prototype = Object.create(_Action2.default.prototype);
 SetClearColorAction.prototype.constructor = SetClearColorAction;
 
 SetClearColorAction.external = {
@@ -27,3 +38,4 @@ SetClearColorAction.prototype.enter = function (fsm) {
 	var color = this.color;
 	entity._world.gooRunner.renderer.setClearColor(color[0], color[1], color[2], color[3]);
 };
+module.exports = exports.default;

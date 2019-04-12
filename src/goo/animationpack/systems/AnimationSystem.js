@@ -1,21 +1,35 @@
-import System from "../../entities/systems/System";
-import World from "../../entities/World";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _World = require("../../entities/World");
+
+var _World2 = _interopRequireDefault(_World);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Processes all entities with animation components, updating the animations
  * @extends System
  */
-export default function AnimationSystem() {
-	System.call(this, 'AnimationSystem', ['AnimationComponent']);
+function AnimationSystem() {
+	_System2.default.call(this, 'AnimationSystem', ['AnimationComponent']);
 }
 
-AnimationSystem.prototype = Object.create(System.prototype);
+AnimationSystem.prototype = Object.create(_System2.default.prototype);
 
 AnimationSystem.prototype.process = function () {
 	for (var i = 0; i < this._activeEntities.length; i++) {
 		var entity = this._activeEntities[i];
 		var animationComponent = entity.animationComponent;
-		animationComponent.update(World.time);
+		animationComponent.update(_World2.default.time);
 		animationComponent.apply(entity.transformComponent);
 		animationComponent.postUpdate();
 	}
@@ -45,3 +59,4 @@ AnimationSystem.prototype.stop = function () {
 		entity.animationComponent.stop();
 	}
 };
+module.exports = exports.default;

@@ -1,5 +1,19 @@
-import Component from "../../entities/components/Component";
-import RenderTarget from "../../renderer/pass/RenderTarget";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PortalComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
+var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Renders to the texture of the host object<br>
@@ -12,8 +26,8 @@ import RenderTarget from "../../renderer/pass/RenderTarget";
  * @param {Material} [overrideMaterial=null] Optional override material to use when rendering to the host object
  * @extends Component
  */
-export default function PortalComponent(camera, height, options, overrideMaterial) {
-	Component.apply(this, arguments);
+function PortalComponent(camera, height, options, overrideMaterial) {
+	_Component2.default.apply(this, arguments);
 
 	height = height || 200;
 
@@ -30,17 +44,17 @@ export default function PortalComponent(camera, height, options, overrideMateria
 	this.type = 'PortalComponent';
 
 	/**
-	 * @type {Camera}
-	 */
+  * @type {Camera}
+  */
 	this.camera = camera;
 
 	/**
-	 * @type {RenderTarget}
-	 */
-	this.target = new RenderTarget(height, height / aspect);
+  * @type {RenderTarget}
+  */
+	this.target = new _RenderTarget2.default(height, height / aspect);
 
 	if (this.options.preciseRecursion) {
-		this.secondaryTarget = new RenderTarget(height, height / aspect);
+		this.secondaryTarget = new _RenderTarget2.default(height, height / aspect);
 	}
 
 	// @ifdef DEBUG
@@ -50,7 +64,7 @@ export default function PortalComponent(camera, height, options, overrideMateria
 
 PortalComponent.type = 'PortalComponent';
 
-PortalComponent.prototype = Object.create(Component.prototype);
+PortalComponent.prototype = Object.create(_Component2.default.prototype);
 PortalComponent.prototype.constructor = PortalComponent;
 
 /**
@@ -59,3 +73,4 @@ PortalComponent.prototype.constructor = PortalComponent;
 PortalComponent.prototype.requestUpdate = function () {
 	this.doUpdate = true;
 };
+module.exports = exports.default;

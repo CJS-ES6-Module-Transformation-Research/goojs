@@ -1,25 +1,57 @@
-import ComponentHandler from "../../../loaders/handlers/ComponentHandler";
-import ColliderComponent from "../../../addons/physicspack/components/ColliderComponent";
-import ObjectUtils from "../../../util/ObjectUtils";
-import SphereCollider from "../../../addons/physicspack/colliders/SphereCollider";
-import BoxCollider from "../../../addons/physicspack/colliders/BoxCollider";
-import PlaneCollider from "../../../addons/physicspack/colliders/PlaneCollider";
-import CylinderCollider from "../../../addons/physicspack/colliders/CylinderCollider";
-import PhysicsMaterial from "../../../addons/physicspack/PhysicsMaterial";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ColliderComponentHandler;
+
+var _ComponentHandler = require("../../../loaders/handlers/ComponentHandler");
+
+var _ComponentHandler2 = _interopRequireDefault(_ComponentHandler);
+
+var _ColliderComponent = require("../../../addons/physicspack/components/ColliderComponent");
+
+var _ColliderComponent2 = _interopRequireDefault(_ColliderComponent);
+
+var _ObjectUtils = require("../../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _SphereCollider = require("../../../addons/physicspack/colliders/SphereCollider");
+
+var _SphereCollider2 = _interopRequireDefault(_SphereCollider);
+
+var _BoxCollider = require("../../../addons/physicspack/colliders/BoxCollider");
+
+var _BoxCollider2 = _interopRequireDefault(_BoxCollider);
+
+var _PlaneCollider = require("../../../addons/physicspack/colliders/PlaneCollider");
+
+var _PlaneCollider2 = _interopRequireDefault(_PlaneCollider);
+
+var _CylinderCollider = require("../../../addons/physicspack/colliders/CylinderCollider");
+
+var _CylinderCollider2 = _interopRequireDefault(_CylinderCollider);
+
+var _PhysicsMaterial = require("../../../addons/physicspack/PhysicsMaterial");
+
+var _PhysicsMaterial2 = _interopRequireDefault(_PhysicsMaterial);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * For handling loading of collider components
  * @extends ComponentHandler
  * @hidden
  */
-export default function ColliderComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+function ColliderComponentHandler() {
+	_ComponentHandler2.default.apply(this, arguments);
 	this._type = 'ColliderComponent';
 }
 
-ColliderComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+ColliderComponentHandler.prototype = Object.create(_ComponentHandler2.default.prototype);
 ColliderComponentHandler.prototype.constructor = ColliderComponentHandler;
-ComponentHandler._registerClass('collider', ColliderComponentHandler);
+_ComponentHandler2.default._registerClass('collider', ColliderComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -28,7 +60,7 @@ ComponentHandler._registerClass('collider', ColliderComponentHandler);
  * @private
  */
 ColliderComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
+	return _ObjectUtils2.default.defaults(config, {
 		shape: 'Box',
 		shapeOptions: {
 			halfExtents: [1, 1, 1],
@@ -47,7 +79,7 @@ ColliderComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 ColliderComponentHandler.prototype._create = function () {
-	return new ColliderComponent({ material: new PhysicsMaterial() });
+	return new _ColliderComponent2.default({ material: new _PhysicsMaterial2.default() });
 };
 
 /**
@@ -66,27 +98,29 @@ ColliderComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 ColliderComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler2.default.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		switch (config.shape) {
-		default:
-		case 'Box':
-			component.collider = new BoxCollider(config.shapeOptions);
-			component.worldCollider = new BoxCollider();
-			break;
-		case 'Sphere':
-			component.collider = new SphereCollider(config.shapeOptions);
-			component.worldCollider = new SphereCollider();
-			break;
-		case 'Plane':
-			component.collider = new PlaneCollider();
-			component.worldCollider = new PlaneCollider();
-			break;
-		case 'Cylinder':
-			component.collider = new CylinderCollider(config.shapeOptions);
-			component.worldCollider = new CylinderCollider();
-			break;
+			default:
+			case 'Box':
+				component.collider = new _BoxCollider2.default(config.shapeOptions);
+				component.worldCollider = new _BoxCollider2.default();
+				break;
+			case 'Sphere':
+				component.collider = new _SphereCollider2.default(config.shapeOptions);
+				component.worldCollider = new _SphereCollider2.default();
+				break;
+			case 'Plane':
+				component.collider = new _PlaneCollider2.default();
+				component.worldCollider = new _PlaneCollider2.default();
+				break;
+			case 'Cylinder':
+				component.collider = new _CylinderCollider2.default(config.shapeOptions);
+				component.worldCollider = new _CylinderCollider2.default();
+				break;
 		}
 
 		component.material.friction = config.friction;
@@ -96,3 +130,4 @@ ColliderComponentHandler.prototype.update = function (entity, config, options) {
 		return component;
 	});
 };
+module.exports = exports.default;

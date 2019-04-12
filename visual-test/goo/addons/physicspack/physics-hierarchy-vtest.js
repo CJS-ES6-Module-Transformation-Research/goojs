@@ -30,29 +30,11 @@ var rbComponent = new RigidBodyComponent({
 	isKinematic: true
 });
 var halfExtents = new Vector3(4, 1, 4);
-world.createEntity(new Box(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2), V.getColoredMaterial(), [0, 0, 0])
-	.set(rbComponent)
-	.set(
-		new ColliderComponent({
-			collider: new BoxCollider({
-				halfExtents: halfExtents
-			})
-		})
-	).addToWorld()
-	.setScale(1,1,1)
-	.attachChild(
-		createBox().attachChild(
-			createBox().attachChild(
-				createBox().attachChild(
-					createBox().attachChild(
-						createBox().attachChild(
-							createBox()
-						)
-					)
-				)
-			)
-		)
-	);
+world.createEntity(new Box(halfExtents.x * 2, halfExtents.y * 2, halfExtents.z * 2), V.getColoredMaterial(), [0, 0, 0]).set(rbComponent).set(new ColliderComponent({
+	collider: new BoxCollider({
+		halfExtents: halfExtents
+	})
+})).addToWorld().setScale(1, 1, 1).attachChild(createBox().attachChild(createBox().attachChild(createBox().attachChild(createBox().attachChild(createBox().attachChild(createBox()))))));
 rbComponent.initialize();
 
 V.addLights();

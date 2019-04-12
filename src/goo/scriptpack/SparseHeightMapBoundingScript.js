@@ -1,8 +1,12 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SparseHeightMapBoundingScript;
 /**
  * Bounds the host entity to a height map computed from a set of terrain points
  * @param {Array<Number>} elevationData The array of height points given as a flat array
  */
-export default function SparseHeightMapBoundingScript(elevationData) {
+function SparseHeightMapBoundingScript(elevationData) {
 	this.elevationData = elevationData;
 }
 
@@ -16,9 +20,7 @@ SparseHeightMapBoundingScript.prototype.getClosest = function (x, z) {
 	var minDist = Number.MAX_VALUE;
 	var minIndex = -1;
 	for (var i = 0; i < this.elevationData.length; i += 3) {
-		var dist =
-			Math.pow(this.elevationData[i + 0] - x, 2) +
-			Math.pow(this.elevationData[i + 2] - z, 2);
+		var dist = Math.pow(this.elevationData[i + 0] - x, 2) + Math.pow(this.elevationData[i + 2] - z, 2);
 		if (dist < minDist) {
 			minDist = dist;
 			minIndex = i;
@@ -33,3 +35,4 @@ SparseHeightMapBoundingScript.prototype.run = function (entity) {
 	var diff = translation.y - closest;
 	translation.y -= diff * 0.1;
 };
+module.exports = exports.default;

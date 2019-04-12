@@ -1,20 +1,31 @@
-import Component from "../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TimelineComponent;
+
+var _Component = require('../entities/components/Component');
+
+var _Component2 = _interopRequireDefault(_Component);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Timeline component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
  */
-export default function TimelineComponent() {
-	Component.apply(this, arguments);
+function TimelineComponent() {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'TimelineComponent';
 
 	this.channels = [];
 
 	/**
-	 * Current time, locally in this timeline.
-	 * @type {number}
-	 */
+  * Current time, locally in this timeline.
+  * @type {number}
+  */
 	this.time = 0;
 
 	this.duration = 0;
@@ -23,13 +34,13 @@ export default function TimelineComponent() {
 	this.playing = true;
 
 	/**
-	 * If set to true, the TimelineSystem will automatically run .start() on the component when the TimelineSystem starts.
-	 * @type {Boolean}
-	 */
+  * If set to true, the TimelineSystem will automatically run .start() on the component when the TimelineSystem starts.
+  * @type {Boolean}
+  */
 	this.autoStart = true;
 }
 
-TimelineComponent.prototype = Object.create(Component.prototype);
+TimelineComponent.prototype = Object.create(_Component2.default.prototype);
 TimelineComponent.prototype.constructor = TimelineComponent;
 
 /**
@@ -90,7 +101,6 @@ TimelineComponent.prototype.pause = function () {
 	this.playing = false;
 };
 
-
 /**
  * Stop updating entities and resets the state machines to their initial state
  */
@@ -132,3 +142,4 @@ TimelineComponent.prototype.getValues = function () {
 
 	return retVal;
 };
+module.exports = exports.default;

@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import PromiseUtil from "../../../util/PromiseUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SoundFadeInAction /*id, settings*/;
 
-export default function SoundFadeInAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _PromiseUtil = require("../../../util/PromiseUtil");
+
+var _PromiseUtil2 = _interopRequireDefault(_PromiseUtil);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SoundFadeInAction.prototype = Object.create(Action.prototype);
+function SoundFadeInAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SoundFadeInAction.prototype = Object.create(_Action2.default.prototype);
 SoundFadeInAction.prototype.constructor = SoundFadeInAction;
 
 SoundFadeInAction.external = {
@@ -42,17 +56,21 @@ var labels = {
 	complete: 'On Sound Fade In Complete'
 };
 
-SoundFadeInAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+SoundFadeInAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
 SoundFadeInAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('SoundComponent')) { return; }
+	if (!entity.hasComponent('SoundComponent')) {
+		return;
+	}
 
 	var sound = entity.soundComponent.getSoundById(this.sound);
-	if (!sound) { return; }
+	if (!sound) {
+		return;
+	}
 
 	var endPromise;
 	try {
@@ -63,10 +81,11 @@ SoundFadeInAction.prototype.enter = function (fsm) {
 		}
 	} catch (e) {
 		console.warn('Could not play sound: ' + e);
-		endPromise = PromiseUtil.resolve();
+		endPromise = _PromiseUtil2.default.resolve();
 	}
 
 	endPromise.then(function () {
 		fsm.send(this.transitions.complete);
 	}.bind(this));
 };
+module.exports = exports.default;

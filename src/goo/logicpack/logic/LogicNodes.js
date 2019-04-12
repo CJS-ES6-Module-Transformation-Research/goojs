@@ -1,8 +1,12 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LogicNodes;
 /**
  * Base class/module for all logic boxes
  * @private
  */
-export default function LogicNodes() {}
+function LogicNodes() {}
 
 LogicNodes.types = {};
 
@@ -43,3 +47,4 @@ LogicNodes.getAllTypes = function () {
 	}
 	return out;
 };
+module.exports = exports.default;

@@ -1,6 +1,23 @@
-import MeshData from "../renderer/MeshData";
-import Capabilities from "../renderer/Capabilities";
-import Vector3 from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MeshBuilder;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+var _Capabilities = require("../renderer/Capabilities");
+
+var _Capabilities2 = _interopRequireDefault(_Capabilities);
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Combines the MeshData of passed-in entities into one new MeshData. This can be useful to reduce draw calls.
@@ -25,7 +42,7 @@ import Vector3 from "../math/Vector3";
  * goo.world.createEntity( meshData, new Material(ShaderLib.simpleLit)).addToWorld();
 
  */
-export default function MeshBuilder() {
+function MeshBuilder() {
 	this.meshDatas = [];
 
 	this.vertexData = {};
@@ -51,13 +68,13 @@ MeshBuilder.prototype.addEntity = function (entity) {
 };
 
 // var normalMatrix = new Matrix3();
-var vert = new Vector3();
+var vert = new _Vector2.default();
 /**
  * add MeshData to this MeshBuilder
  * @param {MeshData} meshData
  */
 MeshBuilder.prototype.addMeshData = function (meshData, transform) {
-	if (!Capabilities.ElementIndexUInt) {
+	if (!_Capabilities2.default.ElementIndexUInt) {
 		if (meshData.vertexCount >= 65536) {
 			throw new Error('Maximum number of vertices for a mesh to add is 65535. Got: ' + meshData.vertexCount);
 		} else if (this.vertexCounter + meshData.vertexCount >= 65536) {
@@ -96,7 +113,7 @@ MeshBuilder.prototype.addMeshData = function (meshData, transform) {
 		var array = attribute.array;
 		var count = map.count;
 		var vertexPos = this.vertexCounter * count;
-		if (key === MeshData.POSITION) {
+		if (key === _MeshData2.default.POSITION) {
 			for (var i = 0; i < viewLength; i += count) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 				vert.applyPostPoint(matrix);
@@ -104,7 +121,7 @@ MeshBuilder.prototype.addMeshData = function (meshData, transform) {
 				array[vertexPos + i + 1] = vert.y;
 				array[vertexPos + i + 2] = vert.z;
 			}
-		} else if (key === MeshData.NORMAL) {
+		} else if (key === _MeshData2.default.NORMAL) {
 			for (var i = 0; i < viewLength; i += count) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 				vert.applyPost(rotation);
@@ -112,7 +129,7 @@ MeshBuilder.prototype.addMeshData = function (meshData, transform) {
 				array[vertexPos + i + 1] = vert.y;
 				array[vertexPos + i + 2] = vert.z;
 			}
-		} else if (key === MeshData.TANGENT) {
+		} else if (key === _MeshData2.default.TANGENT) {
 			for (var i = 0; i < viewLength; i += count) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 				vert.applyPost(rotation);
@@ -150,7 +167,7 @@ MeshBuilder.prototype._generateMesh = function () {
 		attributeMap[key] = data.map;
 	}
 
-	var meshData = new MeshData(attributeMap, this.vertexCounter, this.indexCounter);
+	var meshData = new _MeshData2.default(attributeMap, this.vertexCounter, this.indexCounter);
 	for (var key in this.vertexData) {
 		var data = this.vertexData[key].array;
 		meshData.getAttributeBuffer(key).set(data);
@@ -221,3 +238,4 @@ MeshBuilder.prototype.reset = function () {
 	this.indexLengths = [];
 	this.indexModes = [];
 };
+module.exports = exports.default;

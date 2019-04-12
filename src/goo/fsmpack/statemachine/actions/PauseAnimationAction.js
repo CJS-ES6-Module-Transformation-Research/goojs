@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PauseAnimationAction /*id, settings*/;
 
-export default function PauseAnimationAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-PauseAnimationAction.prototype = Object.create(Action.prototype);
+function PauseAnimationAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+PauseAnimationAction.prototype = Object.create(_Action2.default.prototype);
 PauseAnimationAction.prototype.constructor = PauseAnimationAction;
 
 PauseAnimationAction.external = {
@@ -34,3 +45,4 @@ PauseAnimationAction.prototype.enter = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;

@@ -1,12 +1,26 @@
-import System from "../../entities/systems/System";
-import SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ScriptSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Processes all entities with script components, running the scripts where applicable
  * @extends System
  */
-export default function ScriptSystem(world) {
-	System.call(this, 'ScriptSystem', ['ScriptComponent']);
+function ScriptSystem(world) {
+	_System2.default.call(this, 'ScriptSystem', ['ScriptComponent']);
 
 	//! AT: why this?
 	this._world = world;
@@ -25,11 +39,11 @@ export default function ScriptSystem(world) {
 
 	this._playing = true;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (data) {
+	_SystemBus2.default.addListener('goo.setCurrentCamera', function (data) {
 		this.context.activeCameraEntity = data.entity;
 	}.bind(this));
 
-	SystemBus.addListener('goo.viewportResize', function (data) {
+	_SystemBus2.default.addListener('goo.viewportResize', function (data) {
 		this.context.viewportWidth = data.width;
 		this.context.viewportHeight = data.height;
 	}.bind(this));
@@ -39,7 +53,7 @@ export default function ScriptSystem(world) {
 	this.priority = 500;
 }
 
-ScriptSystem.prototype = Object.create(System.prototype);
+ScriptSystem.prototype = Object.create(_System2.default.prototype);
 ScriptSystem.prototype.constructor = ScriptSystem;
 
 /*
@@ -118,5 +132,6 @@ ScriptSystem.prototype.clear = function () {
 	this._world = null;
 	this.context = null;
 
-	System.prototype.clear.call(this);
+	_System2.default.prototype.clear.call(this);
 };
+module.exports = exports.default;

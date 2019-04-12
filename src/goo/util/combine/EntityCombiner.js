@@ -1,9 +1,35 @@
-import Entity from "../../entities/Entity";
-import MeshBuilder from "../../util/MeshBuilder";
-import Transform from "../../math/Transform";
-import Vector3 from "../../math/Vector3";
-import BoundingBox from "../../renderer/bounds/BoundingBox";
-import BoundingSphere from "../../renderer/bounds/BoundingSphere";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = EntityCombiner;
+
+var _Entity = require("../../entities/Entity");
+
+var _Entity2 = _interopRequireDefault(_Entity);
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _MeshBuilder2 = _interopRequireDefault(_MeshBuilder);
+
+var _Transform = require("../../math/Transform");
+
+var _Transform2 = _interopRequireDefault(_Transform);
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+var _BoundingSphere = require("../../renderer/bounds/BoundingSphere");
+
+var _BoundingSphere2 = _interopRequireDefault(_BoundingSphere);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Runs a mesh combine optimization on the whole scene, based on
@@ -13,7 +39,7 @@ import BoundingSphere from "../../renderer/bounds/BoundingSphere";
  * @param {boolean} [removeOldData=true] Remove old data which is now unused after combining
  * @param {boolean} [keepEntities=false] Keep all entities even if they are unused after combine
  */
-export default function EntityCombiner(gooWorld, gridCount, removeOldData, keepEntities) {
+function EntityCombiner(gooWorld, gridCount, removeOldData, keepEntities) {
 	this.world = gooWorld;
 	this.gridCount = gridCount || 1;
 	this.gridSize = 1;
@@ -40,7 +66,7 @@ EntityCombiner.prototype.combine = function () {
 EntityCombiner.prototype._combineList = function (entities) {
 	var root = entities;
 	this.createdEntities = [];
-	if (entities instanceof Entity === true) {
+	if (entities instanceof _Entity2.default === true) {
 		root = [entities];
 	}
 
@@ -73,8 +99,7 @@ EntityCombiner.prototype._buildSubs = function (entity, baseSubs, subs) {
 		baseSubs.set(entity, subs);
 	}
 
-	if (entity.static && entity.meshDataComponent && entity.meshRendererComponent &&
-		entity.meshRendererComponent.worldBound) {
+	if (entity.static && entity.meshDataComponent && entity.meshRendererComponent && entity.meshRendererComponent.worldBound) {
 		subs.push(entity);
 	}
 
@@ -86,8 +111,8 @@ EntityCombiner.prototype._buildSubs = function (entity, baseSubs, subs) {
 
 EntityCombiner.prototype._combine = function (root, combineList) {
 	var rootTransform = root.transformComponent.sync().worldTransform;
-	var invertTransform = new Transform();
-	var calcTransform = new Transform();
+	var invertTransform = new _Transform2.default();
+	var calcTransform = new _Transform2.default();
 	rootTransform.invert(invertTransform);
 
 	var entities = new Map();
@@ -128,7 +153,7 @@ EntityCombiner.prototype._combine = function (root, combineList) {
 				return;
 			}
 
-			var meshBuilder = new MeshBuilder();
+			var meshBuilder = new _MeshBuilder2.default();
 			for (var k = 0; k < toCombine.length; k++) {
 				var entity = toCombine[k];
 
@@ -167,20 +192,20 @@ EntityCombiner.prototype._combine = function (root, combineList) {
 
 EntityCombiner.prototype._calculateBounds = function (entities) {
 	var first = true;
-	var wb = new BoundingBox();
+	var wb = new _BoundingBox2.default();
 	for (var i = 0; i < entities.length; i++) {
 		var rootEntity = entities[i];
 		rootEntity.traverse(function (entity) {
 			if (entity.meshRendererComponent && !entity.particleComponent) {
 				if (first) {
 					var bound = entity.meshRendererComponent.worldBound;
-					if (bound instanceof BoundingBox) {
+					if (bound instanceof _BoundingBox2.default) {
 						wb.copy(bound);
-					} else if (bound instanceof BoundingSphere) {
+					} else if (bound instanceof _BoundingSphere2.default) {
 						wb.center.set(bound.center);
 						wb.xExtent = wb.yExtent = wb.zExtent = bound.radius;
 					} else {
-						wb.center.set(Vector3.ZERO);
+						wb.center.set(_Vector2.default.ZERO);
 						wb.xExtent = wb.yExtent = wb.zExtent = 10;
 					}
 
@@ -205,3 +230,4 @@ EntityCombiner.prototype.cleanup = function () {
 		});
 	}
 };
+module.exports = exports.default;

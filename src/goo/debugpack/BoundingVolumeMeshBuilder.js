@@ -1,46 +1,45 @@
-import BoundingBox from "../renderer/bounds/BoundingBox";
-import BoundingSphere from "../renderer/bounds/BoundingSphere";
-import MeshBuilder from "../util/MeshBuilder";
-import MeshData from "../renderer/MeshData";
-import Transform from "../math/Transform";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BoundingVolumeMeshBuilder;
+
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+var _BoundingSphere = require("../renderer/bounds/BoundingSphere");
+
+var _BoundingSphere2 = _interopRequireDefault(_BoundingSphere);
+
+var _MeshBuilder = require("../util/MeshBuilder");
+
+var _MeshBuilder2 = _interopRequireDefault(_MeshBuilder);
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+var _Transform = require("../math/Transform");
+
+var _Transform2 = _interopRequireDefault(_Transform);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Provides methods for building bounding volume debug meshes
  */
-export default function BoundingVolumeMeshBuilder() {}
+function BoundingVolumeMeshBuilder() {}
 
 function buildBox(dx, dy, dz) {
-	var verts = [
-		dx,  dy,  dz,
-		dx,  dy, -dz,
-		dx, -dy,  dz,
-		dx, -dy, -dz,
-		-dx,  dy,  dz,
-		-dx,  dy, -dz,
-		-dx, -dy,  dz,
-		-dx, -dy, -dz
-	];
+	var verts = [dx, dy, dz, dx, dy, -dz, dx, -dy, dz, dx, -dy, -dz, -dx, dy, dz, -dx, dy, -dz, -dx, -dy, dz, -dx, -dy, -dz];
 
-	var indices = [
-		0, 1,
-		0, 2,
-		1, 3,
-		2, 3,
+	var indices = [0, 1, 0, 2, 1, 3, 2, 3, 4, 5, 4, 6, 5, 7, 6, 7, 0, 4, 1, 5, 2, 6, 3, 7];
 
-		4, 5,
-		4, 6,
-		5, 7,
-		6, 7,
+	var meshData = new _MeshData2.default(_MeshData2.default.defaultMap([_MeshData2.default.POSITION]), verts.length / 3, indices.length);
 
-		0, 4,
-		1, 5,
-		2, 6,
-		3, 7
-	];
-
-	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
-
-	meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(_MeshData2.default.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -69,9 +68,9 @@ function buildCircle(radius, nSegments) {
 	}
 	indices[indices.length - 1] = 0;
 
-	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), nSegments, indices.length);
+	var meshData = new _MeshData2.default(_MeshData2.default.defaultMap([_MeshData2.default.POSITION]), nSegments, indices.length);
 
-	meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(_MeshData2.default.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -83,20 +82,20 @@ function buildCircle(radius, nSegments) {
 function buildSphere(radius) {
 	radius = radius || 1;
 
-	var meshBuilder = new MeshBuilder();
+	var meshBuilder = new _MeshBuilder2.default();
 	var nSegments = 128;
 	var circle = buildCircle(radius, nSegments);
 	var transform;
 
-	transform = new Transform();
+	transform = new _Transform2.default();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transform();
+	transform = new _Transform2.default();
 	transform.rotation.fromAngles(0, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transform();
+	transform = new _Transform2.default();
 	transform.rotation.fromAngles(Math.PI / 2, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
@@ -112,9 +111,10 @@ BoundingVolumeMeshBuilder.buildSphere = function (boundingSphere) {
 };
 
 BoundingVolumeMeshBuilder.build = function (boundingVolume) {
-	if (boundingVolume instanceof BoundingBox) {
+	if (boundingVolume instanceof _BoundingBox2.default) {
 		return BoundingVolumeMeshBuilder.buildBox(boundingVolume);
-	} else if (boundingVolume instanceof BoundingSphere) {
+	} else if (boundingVolume instanceof _BoundingSphere2.default) {
 		return BoundingVolumeMeshBuilder.buildSphere(boundingVolume);
 	}
 };
+module.exports = exports.default;

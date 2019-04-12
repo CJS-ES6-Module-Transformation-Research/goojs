@@ -1,29 +1,40 @@
 // jshint node:true
 'use strict';
 
-export var makeToken = function (type, data) {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var makeToken = exports.makeToken = function makeToken(type, data) {
 	var token = { type: type };
-	if (data) { token.data = data; }
+	if (data) {
+		token.data = data;
+	}
 	return token;
 };
 
-var isIdentifier = function (char) {
-	return /[_?\w\.]/.test(char);
+var isIdentifier = function isIdentifier(char) {
+	return (/[_?\w\.]/.test(char)
+	);
 };
 
-var isSymbol = function (char) {
-	return /[*:,|(){}<>\[\]]/.test(char);
+var isSymbol = function isSymbol(char) {
+	return (/[*:,|(){}<>\[\]]/.test(char)
+	);
 };
 
-var chopIdentifier = function (string, offset) {
+var chopIdentifier = function chopIdentifier(string, offset) {
 	var result = /^((?:\?|\.{3})?)([_A-Za-z][.\w]*[\w]?)(=?)/.exec(string.substr(offset));
 
 	var token = makeToken('identifier', result[2]);
 
 	// nullable/optional notations should be handled by the parser, not the lexer
 	// but this a tad simpler
-	if (result[1]) { token.nullable = true; }
-	if (result[3]) { token.optional = true; }
+	if (result[1]) {
+		token.nullable = true;
+	}
+	if (result[3]) {
+		token.optional = true;
+	}
 
 	return {
 		token: token,
@@ -31,19 +42,16 @@ var chopIdentifier = function (string, offset) {
 	};
 };
 
-var chopSymbol = function (string, offset) {
+var chopSymbol = function chopSymbol(string, offset) {
 	return {
 		token: makeToken('symbol', string[offset]),
 		pointer: offset + 1
 	};
 };
 
-var choppers = [
-	{ test: isIdentifier, chop: chopIdentifier },
-	{ test: isSymbol, chop: chopSymbol }
-];
+var choppers = [{ test: isIdentifier, chop: chopIdentifier }, { test: isSymbol, chop: chopSymbol }];
 
-export var tokenize = function (string) {
+var tokenize = exports.tokenize = function tokenize(string) {
 	var tokens = [];
 	var pointer = 0;
 

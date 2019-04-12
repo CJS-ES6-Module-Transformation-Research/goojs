@@ -1,5 +1,19 @@
-import TransformChannel from "../../animationpack/clip/TransformChannel";
-import JointData from "../../animationpack/clip/JointData";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = JointChannel;
+
+var _TransformChannel = require("../../animationpack/clip/TransformChannel");
+
+var _TransformChannel2 = _interopRequireDefault(_TransformChannel);
+
+var _JointData = require("../../animationpack/clip/JointData");
+
+var _JointData2 = _interopRequireDefault(_JointData);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Transform animation channel, specifically geared towards describing the motion of skeleton joints.
@@ -10,14 +24,14 @@ import JointData from "../../animationpack/clip/JointData";
  * @param {Array<number>} translations the translations to set on this channel at each time offset.
  * @param {Array<number>} scales the scales to set on this channel at each time offset.
  */
-export default function JointChannel(jointIndex, jointName, times, rotations, translations, scales, blendType) {
-	TransformChannel.call(this, jointName, times, rotations, translations, scales, blendType);
+function JointChannel(jointIndex, jointName, times, rotations, translations, scales, blendType) {
+  _TransformChannel2.default.call(this, jointName, times, rotations, translations, scales, blendType);
 
-	this._jointName = jointName; // Joint has a name even though index is used for id, this can be used for debugging purposes.
-	this._jointIndex = jointIndex;
+  this._jointName = jointName; // Joint has a name even though index is used for id, this can be used for debugging purposes.
+  this._jointIndex = jointIndex;
 }
 
-JointChannel.prototype = Object.create(TransformChannel.prototype);
+JointChannel.prototype = Object.create(_TransformChannel2.default.prototype);
 
 /**
  * @type {string}
@@ -31,7 +45,7 @@ JointChannel.JOINT_CHANNEL_NAME = '_jnt';
  * @returns {JointData}
  */
 JointChannel.prototype.createStateDataObject = function () {
-	return new JointData();
+  return new _JointData2.default();
 };
 
 /*
@@ -41,8 +55,8 @@ JointChannel.prototype.createStateDataObject = function () {
  * @param {JointData} value The data item to apply animation to
  */
 JointChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent, jointData) {
-	TransformChannel.prototype.setCurrentSample.call(this, sampleIndex, progressPercent, jointData);
-	jointData._jointIndex = this._jointIndex;
+  _TransformChannel2.default.prototype.setCurrentSample.call(this, sampleIndex, progressPercent, jointData);
+  jointData._jointIndex = this._jointIndex;
 };
 
 /**
@@ -52,8 +66,9 @@ JointChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent
  * @returns {JointData} our resulting TransformData.
  */
 JointChannel.prototype.getData = function (index, store) {
-	var rVal = store ? store : new JointData();
-	TransformChannel.prototype.getData.call(this, index, rVal);
-	rVal._jointIndex = this._jointIndex;
-	return rVal;
+  var rVal = store ? store : new _JointData2.default();
+  _TransformChannel2.default.prototype.getData.call(this, index, rVal);
+  rVal._jointIndex = this._jointIndex;
+  return rVal;
 };
+module.exports = exports.default;

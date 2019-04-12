@@ -1,7 +1,11 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Selection;
 /**
  * Generic selection class
  */
-export default function Selection() {
+function Selection() {
 	this.stack = [];
 
 	//! AT: may rather use toArray
@@ -39,7 +43,9 @@ Selection.EMPTY = new Selection();
  * @returns {boolean}
  */
 Selection.prototype.contains = function (element) {
-	if (this.top === null) { return false; }
+	if (this.top === null) {
+		return false;
+	}
 
 	return this.top.indexOf(element) !== -1;
 };
@@ -49,7 +55,9 @@ Selection.prototype.contains = function (element) {
  * @returns {number}
  */
 Selection.prototype.size = function () {
-	if (this.top === null) { return 0; }
+	if (this.top === null) {
+		return 0;
+	}
 
 	return this.top.length;
 };
@@ -61,7 +69,9 @@ Selection.prototype.size = function () {
  */
 Selection.prototype.each = function (fun) {
 	//! AT: this check should be done automatically before each method
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	for (var i = 0; i < this.top.length; i++) {
 		if (fun(this.top[i], i) === false) {
@@ -85,7 +95,9 @@ Selection.prototype.forEach = Selection.prototype.each;
  */
 Selection.prototype.filter = function (predicate) {
 	//! AT: this check should be done automatically before each method
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var top = this.top.filter(predicate);
 	this.stack.push(top);
@@ -101,7 +113,9 @@ Selection.prototype.filter = function (predicate) {
  */
 Selection.prototype.map = function (fun) {
 	//! AT: this check should be done automatically before each method
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var top = this.top.map(fun);
 	this.stack.push(top);
@@ -117,10 +131,14 @@ Selection.prototype.map = function (fun) {
  */
 Selection.prototype.flatMap = function (fun) {
 	//! AT: this check should be done automatically before each method
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var map = this.top.map(fun);
-	var flatMap = map.reduce(function (prev, cur) { return prev.concat(cur); }, []);
+	var flatMap = map.reduce(function (prev, cur) {
+		return prev.concat(cur);
+	}, []);
 	this.stack.push(flatMap);
 	this.top = flatMap;
 
@@ -135,7 +153,9 @@ Selection.prototype.flatMap = function (fun) {
  */
 Selection.prototype.reduce = function (fun, initialValue) {
 	//! AT: this check should be done automatically before each method
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var top = [this.top.reduce(fun, initialValue)];
 	this.stack.push(top);
@@ -150,7 +170,9 @@ Selection.prototype.reduce = function (fun, initialValue) {
  * @returns {Selection} Returns self to allow chaining
  */
 Selection.prototype.and = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var elements = toArray.apply(null, arguments);
 
@@ -168,7 +190,9 @@ Selection.prototype.and = function () {
  * @returns {Selection} Returns self to allow chaining
  */
 Selection.prototype.intersects = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var elements = toArray.apply(null, arguments);
 
@@ -208,7 +232,9 @@ Selection.prototype.intersects = function () {
  * @returns {Selection} Returns self to allow chaining
  */
 Selection.prototype.without = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var elements = toArray.apply(null, arguments);
 
@@ -232,9 +258,13 @@ Selection.prototype.without = function () {
  * @returns {Selection} Returns self to allow chaining
  */
 Selection.prototype.andSelf = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
-	if (this.stack.length <= 1) { return this; }
+	if (this.stack.length <= 1) {
+		return this;
+	}
 
 	var prev = this.stack[this.stack.length - 2];
 
@@ -251,7 +281,9 @@ Selection.prototype.andSelf = function () {
  * @returns {Selection} Returns self to allow chaining
  */
 Selection.prototype.end = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	this.stack.pop();
 
@@ -354,3 +386,4 @@ function toArray() {
 		return [];
 	}
 }
+module.exports = exports.default;

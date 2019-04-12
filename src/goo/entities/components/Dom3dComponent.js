@@ -1,7 +1,27 @@
-import Component from "../../entities/components/Component";
-import Quad from "../../shapes/Quad";
-import MeshRendererComponent from "../../entities/components/MeshRendererComponent";
-import MeshDataComponent from "../../entities/components/MeshDataComponent";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Dom3dComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _Quad = require("../../shapes/Quad");
+
+var _Quad2 = _interopRequireDefault(_Quad);
+
+var _MeshRendererComponent = require("../../entities/components/MeshRendererComponent");
+
+var _MeshRendererComponent2 = _interopRequireDefault(_MeshRendererComponent);
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
+var _MeshDataComponent2 = _interopRequireDefault(_MeshDataComponent);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Connects a domElement to an entity and applies the transforms of the entity to the domElement with CSS3 3D transforms.
@@ -10,16 +30,16 @@ import MeshDataComponent from "../../entities/components/MeshDataComponent";
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
  */
-export default function Dom3dComponent(domElement, settings) {
-	Component.apply(this, arguments);
+function Dom3dComponent(domElement, settings) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'Dom3dComponent';
 
 	settings = settings || {};
 
 	/**
-	 * @type {boolean}
-	 */
+  * @type {boolean}
+  */
 	this.hidden = false;
 
 	this.width = settings.width || 500;
@@ -30,9 +50,9 @@ export default function Dom3dComponent(domElement, settings) {
 	this.entity = null;
 	this.initDom(domElement);
 
-	this.meshData = new Quad(1, 1);
-	this.meshDataComponent = new MeshDataComponent(this.meshData);
-	this.meshRendererComponent = new MeshRendererComponent();
+	this.meshData = new _Quad2.default(1, 1);
+	this.meshDataComponent = new _MeshDataComponent2.default(this.meshData);
+	this.meshRendererComponent = new _MeshRendererComponent2.default();
 
 	this._transformDirty = true;
 	this._transformUpdatedListener = null;
@@ -44,7 +64,7 @@ export default function Dom3dComponent(domElement, settings) {
 
 Dom3dComponent.type = 'Dom3dComponent';
 
-Dom3dComponent.prototype = Object.create(Component.prototype);
+Dom3dComponent.prototype = Object.create(_Component2.default.prototype);
 Dom3dComponent.prototype.constructor = Dom3dComponent;
 
 Dom3dComponent.prototype.attached = function (entity) {
@@ -100,3 +120,4 @@ Dom3dComponent.prototype.setSize = function (width, height) {
 Dom3dComponent.prototype.destroy = function (context) {
 	this.meshData.destroy(context);
 };
+module.exports = exports.default;

@@ -1,4 +1,8 @@
-export default function AbstractTimelineChannel(id) {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AbstractTimelineChannel;
+function AbstractTimelineChannel(id) {
 	this.id = id;
 	this.enabled = true;
 
@@ -18,7 +22,9 @@ AbstractTimelineChannel.prototype._find = function (sortedArray, time) {
 	var end = sortedArray.length - 1;
 	var lastTime = sortedArray[sortedArray.length - 1].time;
 
-	if (time > lastTime) { return end; }
+	if (time > lastTime) {
+		return end;
+	}
 
 	while (end - start > 1) {
 		var mid = Math.floor((end + start) / 2);
@@ -46,3 +52,4 @@ AbstractTimelineChannel.prototype.sort = function () {
 
 	return this;
 };
+module.exports = exports.default;

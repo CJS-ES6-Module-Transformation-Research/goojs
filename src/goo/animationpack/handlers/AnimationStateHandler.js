@@ -1,12 +1,47 @@
-import ConfigHandler from "../../loaders/handlers/ConfigHandler";
-import SteadyState from "../../animationpack/state/SteadyState";
-import ClipSource from "../../animationpack/blendtree/ClipSource";
-import ManagedTransformSource from "../../animationpack/blendtree/ManagedTransformSource";
-import BinaryLerpSource from "../../animationpack/blendtree/BinaryLerpSource";
-import FrozenClipSource from "../../animationpack/blendtree/FrozenClipSource";
-import RSVP from "../../util/rsvp";
-import PromiseUtils from "../../util/PromiseUtils";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationStateHandler;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _SteadyState = require("../../animationpack/state/SteadyState");
+
+var _SteadyState2 = _interopRequireDefault(_SteadyState);
+
+var _ClipSource = require("../../animationpack/blendtree/ClipSource");
+
+var _ClipSource2 = _interopRequireDefault(_ClipSource);
+
+var _ManagedTransformSource = require("../../animationpack/blendtree/ManagedTransformSource");
+
+var _ManagedTransformSource2 = _interopRequireDefault(_ManagedTransformSource);
+
+var _BinaryLerpSource = require("../../animationpack/blendtree/BinaryLerpSource");
+
+var _BinaryLerpSource2 = _interopRequireDefault(_BinaryLerpSource);
+
+var _FrozenClipSource = require("../../animationpack/blendtree/FrozenClipSource");
+
+var _FrozenClipSource2 = _interopRequireDefault(_FrozenClipSource);
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading animation states into engine
@@ -16,13 +51,13 @@ import ObjectUtils from "../../util/ObjectUtils";
  * @extends ConfigHandler
  * @private
  */
-export default function AnimationStateHandler() {
-	ConfigHandler.apply(this, arguments);
+function AnimationStateHandler() {
+	_ConfigHandler2.default.apply(this, arguments);
 }
 
-AnimationStateHandler.prototype = Object.create(ConfigHandler.prototype);
+AnimationStateHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 AnimationStateHandler.prototype.constructor = AnimationStateHandler;
-ConfigHandler._registerClass('animstate', AnimationStateHandler);
+_ConfigHandler2.default._registerClass('animstate', AnimationStateHandler);
 
 /**
  * Creates an empty animation state
@@ -31,7 +66,7 @@ ConfigHandler._registerClass('animstate', AnimationStateHandler);
  * @private
  */
 AnimationStateHandler.prototype._create = function (ref) {
-	var steadyState = new SteadyState();
+	var steadyState = new _SteadyState2.default();
 	this._objects.set(ref, steadyState);
 	return steadyState;
 };
@@ -45,11 +80,13 @@ AnimationStateHandler.prototype._create = function (ref) {
  */
 AnimationStateHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (state) {
-		if (!state) { return; }
+	return _ConfigHandler2.default.prototype._update.call(this, ref, config, options).then(function (state) {
+		if (!state) {
+			return;
+		}
 		state._name = config.name;
 		state.id = config.id;
-		state._transitions = ObjectUtils.deepClone(config.transitions);
+		state._transitions = _ObjectUtils2.default.deepClone(config.transitions);
 
 		return that._parseClipSource(config.clipSource, state._sourceTree, options).then(function (source) {
 			state._sourceTree = source;
@@ -68,11 +105,11 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 	switch (cfg.type) {
 		case 'Clip':
 			return this.loadObject(cfg.clipRef, options).then(function (clip) {
-				if (clipSource && (clipSource instanceof ClipSource)) {
+				if (clipSource && clipSource instanceof _ClipSource2.default) {
 					clipSource._clip = clip;
 					clipSource.setFilter(cfg.filter, cfg.channels);
 				} else {
-					clipSource = new ClipSource(clip, cfg.filter, cfg.channels);
+					clipSource = new _ClipSource2.default(clip, cfg.filter, cfg.channels);
 				}
 
 				if (cfg.loopCount !== undefined) {
@@ -89,7 +126,9 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 					var channel = clip._channels[i];
 					for (var j = 0; j < channel._times.length; j++) {
 						var time = channel._times[j];
-						if (time < minTime) { minTime = time; }
+						if (time < minTime) {
+							minTime = time;
+						}
 					}
 				}
 				clipSource._startTime = Math.max(clipSource._startTime, minTime);
@@ -97,8 +136,8 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 				return clipSource;
 			});
 		case 'Managed':
-			if (!clipSource || !(clipSource instanceof ManagedTransformSource)) {
-				clipSource = new ManagedTransformSource();
+			if (!clipSource || !(clipSource instanceof _ManagedTransformSource2.default)) {
+				clipSource = new _ManagedTransformSource2.default();
 			}
 			if (cfg.clipRef) {
 				return this.loadObject(cfg.clipRef, options).then(function (clip) {
@@ -106,16 +145,13 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 					return clipSource;
 				});
 			} else {
-				return PromiseUtils.resolve(clipSource);
+				return _PromiseUtils2.default.resolve(clipSource);
 			}
 		case 'Lerp':
 			// TODO reuse object like the other parsers
-			var promises = [
-				this._parseClipSource(cfg.clipSourceA, null, options),
-				this._parseClipSource(cfg.clipSourceB, null, options)
-			];
-			return RSVP.all(promises).then(function (clipSources) {
-				clipSource = new BinaryLerpSource(clipSources[0], clipSources[1]);
+			var promises = [this._parseClipSource(cfg.clipSourceA, null, options), this._parseClipSource(cfg.clipSourceB, null, options)];
+			return _rsvp2.default.all(promises).then(function (clipSources) {
+				clipSource = new _BinaryLerpSource2.default(clipSources[0], clipSources[1]);
 				if (cfg.blendWeight) {
 					clipSource.blendWeight = cfg.blendWeight;
 				}
@@ -123,8 +159,8 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 			});
 		case 'Frozen':
 			return this._parseClipSource(cfg.clipSource).then(function (subClipSource) {
-				if (!clipSource || !(clipSource instanceof FrozenClipSource)) {
-					clipSource = new FrozenClipSource(subClipSource, cfg.frozenTime || 0.0);
+				if (!clipSource || !(clipSource instanceof _FrozenClipSource2.default)) {
+					clipSource = new _FrozenClipSource2.default(subClipSource, cfg.frozenTime || 0.0);
 				} else {
 					clipSource._source = subClipSource;
 					clipSource._time = cfg.frozenTime || 0.0;
@@ -133,6 +169,7 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 			});
 		default:
 			console.error('Unable to parse clip source');
-			return PromiseUtils.resolve();
+			return _PromiseUtils2.default.resolve();
 	}
 };
+module.exports = exports.default;

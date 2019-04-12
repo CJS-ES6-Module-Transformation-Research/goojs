@@ -1,15 +1,38 @@
-import TextureHandler from "../loaders/handlers/TextureHandler";
-import PromiseUtils from "../util/PromiseUtils";
-import ObjectUtils from "../util/ObjectUtils";
-import StringUtils from "../util/StringUtils";
-import RSVP from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Ajax;
+
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
+
+var _TextureHandler2 = _interopRequireDefault(_TextureHandler);
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _StringUtils = require("../util/StringUtils");
+
+var _StringUtils2 = _interopRequireDefault(_StringUtils);
+
+var _rsvp = require("../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Ajax helper class
  * @param {string} rootPath
  * @param {Object} options
  */
-export default function Ajax(rootPath, options) {
+function Ajax(rootPath, options) {
 	if (rootPath) {
 		this._rootPath = rootPath;
 		if (rootPath.slice(-1) !== '/') {
@@ -29,7 +52,7 @@ Ajax.prototype.prefill = function (bundle, clear) {
 	if (clear) {
 		this._cache = bundle;
 	} else {
-		ObjectUtils.extend(this._cache, bundle);
+		_ObjectUtils2.default.extend(this._cache, bundle);
 	}
 };
 
@@ -61,8 +84,8 @@ Ajax.prototype.get = function (options) {
 		request.responseType = options.responseType;
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
-		var handleStateChange = function () {
+	return _PromiseUtils2.default.createPromise(function (resolve, reject) {
+		var handleStateChange = function handleStateChange() {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
 					request.removeEventListener('readystatechange', handleStateChange);
@@ -88,7 +111,6 @@ Ajax.ARRAY_BUFFER = 'arraybuffer';
  */
 Ajax.crossOrigin = false;
 
-
 var MIME_TYPES = {
 	mp4: 'video/mp4',
 	ogv: 'video/ogg',
@@ -106,7 +128,7 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = StringUtils.parseURL(path).path;//! AT: dunno what to call this
+	var path2 = _StringUtils2.default.parseURL(path).path; //! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
@@ -114,22 +136,22 @@ Ajax.prototype.load = function (path, reload) {
 	}
 
 	if (!path) {
-		PromiseUtils.reject('Path was undefined'); //! AT: no return?
+		_PromiseUtils2.default.reject('Path was undefined'); //! AT: no return?
 		// anyways, the engine should not call this method without a path
 	}
 
 	if (path.indexOf(Ajax.ENGINE_SHADER_PREFIX) === 0) {
-		return PromiseUtils.resolve();
+		return _PromiseUtils2.default.resolve();
 	}
 
 	if (this._cache[path] && !reload) {
 		if (typeInGroup(type, 'bundle')) {
 			this.prefill(this._cache[path], reload);
 		}
-		if (this._cache[path] instanceof RSVP.Promise) {
+		if (this._cache[path] instanceof _rsvp2.default.Promise) {
 			return this._cache[path];
 		} else {
-			return PromiseUtils.resolve(this._cache[path]);
+			return _PromiseUtils2.default.resolve(this._cache[path]);
 		}
 	}
 
@@ -154,8 +176,7 @@ Ajax.prototype.load = function (path, reload) {
 		ajaxProperties.responseType = Ajax.ARRAY_BUFFER;
 	}
 
-	return this._cache[path] = this.get(ajaxProperties)
-	.then(function (request) {
+	return this._cache[path] = this.get(ajaxProperties).then(function (request) {
 		if (typeInGroup(type, 'bundle')) {
 			var bundle = JSON.parse(request.response);
 			that.prefill(bundle, reload);
@@ -172,7 +193,7 @@ Ajax.prototype.load = function (path, reload) {
 
 Ajax.prototype.update = function (path, config) {
 	this._cache[path] = config;
-	return PromiseUtils.resolve(config);
+	return _PromiseUtils2.default.resolve(config);
 };
 
 /**
@@ -192,7 +213,7 @@ Ajax.prototype._loadImage = function (url) {
 		image.crossOrigin = 'anonymous';
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return _PromiseUtils2.default.createPromise(function (resolve, reject) {
 		var onLoad = function loadHandler() {
 			image.dataReady = true;
 			if (window.URL && window.URL.revokeObjectURL !== undefined) {
@@ -224,10 +245,10 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 		video.crossOrigin = 'anonymous';
 	}
 
-	var promise = PromiseUtils.createPromise(function (resolve, reject) {
+	var promise = _PromiseUtils2.default.createPromise(function (resolve, reject) {
 		var timeout;
 
-		var _resolve = function () {
+		var _resolve = function _resolve() {
 			if (!video.dataReady) {
 				console.warn('Video is not ready');
 			}
@@ -237,16 +258,15 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 			resolve(video);
 		};
 
-		var canPlay = function () {
+		var canPlay = function canPlay() {
 			video.dataReady = true;
 			_resolve();
 		};
 
-		var loadStart = function () {
+		var loadStart = function loadStart() {
 			if (iOS) {
 				_resolve();
-			}
-			else {
+			} else {
 				timeout = setTimeout(_resolve, VIDEO_LOAD_TIMEOUT);
 			}
 		};
@@ -281,8 +301,7 @@ Ajax.prototype._loadAudio = function (url) {
 	};
 	return this.get(ajaxProperties).then(function (request) {
 		return request.response;
-	})
-	.then(null, function (err) {
+	}).then(null, function (err) {
 		throw new Error('Could not load data from ' + url + ', ' + err);
 	});
 };
@@ -336,7 +355,7 @@ Ajax.types = {
 	binary: addKeys({
 		dat: true,
 		bin: true
-	}, Object.keys(TextureHandler.loaders)),
+	}, Object.keys(_TextureHandler2.default.loaders)),
 	audio: {
 		mp3: true,
 		wav: true,
@@ -347,8 +366,5 @@ Ajax.types = {
 	}
 };
 
-Ajax.types.asset = addKeys(
-	{},
-	Object.keys(Ajax.types.image)
-		.concat(Object.keys(Ajax.types.binary))
-);
+Ajax.types.asset = addKeys({}, Object.keys(Ajax.types.image).concat(Object.keys(Ajax.types.binary)));
+module.exports = exports.default;

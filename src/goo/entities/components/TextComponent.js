@@ -1,12 +1,23 @@
-import Component from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TextComponent;
+
+var _Component = require('../../entities/components/Component');
+
+var _Component2 = _interopRequireDefault(_Component);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Provides ways for the entity to display text
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
  */
-export default function TextComponent(text) {
-	Component.apply(this, arguments);
+function TextComponent(text) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'TextComponent';
 
@@ -20,7 +31,7 @@ export default function TextComponent(text) {
 
 TextComponent.type = 'TextComponent';
 
-TextComponent.prototype = Object.create(Component.prototype);
+TextComponent.prototype = Object.create(_Component2.default.prototype);
 TextComponent.prototype.constructor = TextComponent;
 
 /**
@@ -35,3 +46,4 @@ TextComponent.prototype.setText = function (text) {
 	}
 	return this;
 };
+module.exports = exports.default;

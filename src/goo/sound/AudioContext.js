@@ -1,6 +1,9 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var supported = true;
 
-var AudioContext = typeof(window) !== 'undefined' && (window.AudioContext || window.webkitAudioContext);
+var AudioContext = typeof window !== 'undefined' && (window.AudioContext || window.webkitAudioContext);
 if (!AudioContext) {
 	// warn once
 	console.warn('WebAudio not supported');
@@ -20,8 +23,8 @@ var context;
  *     // ...operate on context...
  * }
  */
-export default {
-	getContext: function () {
+exports.default = {
+	getContext: function getContext() {
 		// try to get a context if it's supposedly supported or not cached
 		if (!context && supported) {
 			try {
@@ -34,7 +37,9 @@ export default {
 		}
 		return context;
 	},
-	isSupported: function () {
+	isSupported: function isSupported() {
 		return supported;
 	}
-};;
+};
+;
+module.exports = exports.default;

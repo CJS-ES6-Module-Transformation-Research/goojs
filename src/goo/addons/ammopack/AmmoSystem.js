@@ -1,4 +1,15 @@
-import System from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AmmoSystem;
+
+var _System = require('../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /*global Ammo */
 
@@ -18,13 +29,13 @@ import System from "../../entities/systems/System";
  * var ammoSystem = new AmmoSystem({stepFrequency: 60});
  * goo.world.setSystem(ammoSystem);
  */
-export default function AmmoSystem(settings) {
-	System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
+function AmmoSystem(settings) {
+	_System2.default.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
 	this.settings = settings || {};
 	this.fixedTime = 1 / (this.settings.stepFrequency || 60);
 	this.maxSubSteps = this.settings.maxSubSteps || 5;
 	var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
-	var dispatcher = new Ammo.btCollisionDispatcher( collisionConfiguration );
+	var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
 	var overlappingPairCache = new Ammo.btDbvtBroadphase();
 	var solver = new Ammo.btSequentialImpulseConstraintSolver();
 	this.ammoWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
@@ -35,7 +46,7 @@ export default function AmmoSystem(settings) {
 	this.ammoWorld.setGravity(new Ammo.btVector3(0, gravity, 0));
 }
 
-AmmoSystem.prototype = Object.create(System.prototype);
+AmmoSystem.prototype = Object.create(_System2.default.prototype);
 
 AmmoSystem.prototype.inserted = function (entity) {
 	if (entity.ammoComponent) {
@@ -53,7 +64,7 @@ AmmoSystem.prototype.deleted = function (entity) {
 };
 
 AmmoSystem.prototype.process = function (entities, tpf) {
-	this.ammoWorld.stepSimulation( tpf, this.maxSubSteps, this.fixedTime);
+	this.ammoWorld.stepSimulation(tpf, this.maxSubSteps, this.fixedTime);
 
 	for (var i = 0; i < entities.length; i++) {
 		var e = entities[i];
@@ -62,3 +73,4 @@ AmmoSystem.prototype.process = function (entities, tpf) {
 		}
 	}
 };
+module.exports = exports.default;

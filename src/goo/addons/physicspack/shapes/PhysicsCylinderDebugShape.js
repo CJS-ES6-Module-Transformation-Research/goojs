@@ -1,20 +1,31 @@
-import MeshData from "../../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PhysicsCylinderDebugShape;
+
+var _MeshData = require("../../../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A wireframe mesh indicating the position and orientation of a CylinderCollider.
  * @param {number} [numSegments=32]
  * @extends MeshData
  */
-export default function PhysicsCylinderDebugShape(numSegments) {
+function PhysicsCylinderDebugShape(numSegments) {
 	numSegments = numSegments || 32;
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = _MeshData2.default.defaultMap([_MeshData2.default.POSITION]);
 	this.numSegments = numSegments;
-	MeshData.call(this, attributeMap, 2 * 3 * numSegments + 3 * 8, 2 * 2 * numSegments + 2 * 8);
+	_MeshData2.default.call(this, attributeMap, 2 * 3 * numSegments + 3 * 8, 2 * 2 * numSegments + 2 * 8);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
 
-PhysicsCylinderDebugShape.prototype = Object.create(MeshData.prototype);
+PhysicsCylinderDebugShape.prototype = Object.create(_MeshData2.default.prototype);
 PhysicsCylinderDebugShape.prototype.constructor = PhysicsCylinderDebugShape;
 
 /**
@@ -44,26 +55,13 @@ PhysicsCylinderDebugShape.prototype.rebuild = function () {
 		indices.push(numSegments + i, numSegments + (i + 1) % numSegments);
 	}
 
-	verts.push(
-		Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), -0.5,
-		Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), 0.5,
-		Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), -0.5,
-		Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), 0.5,
-		Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), -0.5,
-		Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), 0.5,
-		Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), -0.5,
-		Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), 0.5
-	);
+	verts.push(Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), -0.5, Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), 0.5, Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), -0.5, Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), 0.5, Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), -0.5, Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), 0.5, Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), -0.5, Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), 0.5);
 
-	indices.push(
-		2 * numSegments + 0, 2 * numSegments + 1,
-		2 * numSegments + 2, 2 * numSegments + 3,
-		2 * numSegments + 4, 2 * numSegments + 5,
-		2 * numSegments + 6, 2 * numSegments + 7
-	);
+	indices.push(2 * numSegments + 0, 2 * numSegments + 1, 2 * numSegments + 2, 2 * numSegments + 3, 2 * numSegments + 4, 2 * numSegments + 5, 2 * numSegments + 6, 2 * numSegments + 7);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData2.default.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 
 	return this;
 };
+module.exports = exports.default;

@@ -1,16 +1,33 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector2 from "../../../math/Vector2";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenTextureOffsetAction /*id, settings*/;
 
-export default function TweenTextureOffsetAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromOffset = new Vector2();
-	this.toOffset = new Vector2();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector2");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenTextureOffsetAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.fromOffset = new _Vector2.default();
+	this.toOffset = new _Vector2.default();
 	this.completed = false;
 }
 
-TweenTextureOffsetAction.prototype = Object.create(Action.prototype);
+TweenTextureOffsetAction.prototype = Object.create(_Action2.default.prototype);
 TweenTextureOffsetAction.prototype.constructor = TweenTextureOffsetAction;
 
 TweenTextureOffsetAction.external = {
@@ -60,7 +77,7 @@ TweenTextureOffsetAction.external = {
 	}]
 };
 
-TweenTextureOffsetAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenTextureOffsetAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On UV Tween Complete' : undefined;
 };
 
@@ -96,7 +113,7 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
 
 	this.texture.offset.set(this.fromOffset).lerp(this.toOffset, fT);
 
@@ -105,3 +122,4 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

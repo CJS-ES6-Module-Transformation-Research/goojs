@@ -1,4 +1,15 @@
-import Vector3 from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ParticleData;
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Container for particle data in the ParticleSystemComponent.
@@ -6,74 +17,74 @@ import Vector3 from "../../math/Vector3";
  * @constructor
  * @param {ParticleSystemComponent} particleComponent
  */
-export default function ParticleData(particleComponent) {
+function ParticleData(particleComponent) {
 
 	/**
-	 * The owner component
-	 * @type {number}
-	 */
+  * The owner component
+  * @type {number}
+  */
 	this.component = particleComponent;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.index = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.lifeTime = 1;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.emitTime = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.active = 1;
 
 	/**
-	 * @type {Vector3}
-	 */
-	this.startPosition = new Vector3();
+  * @type {Vector3}
+  */
+	this.startPosition = new _Vector2.default();
 
 	/**
-	 * @type {Vector3}
-	 */
-	this.startDirection = new Vector3();
+  * @type {Vector3}
+  */
+	this.startDirection = new _Vector2.default();
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.startAngle = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.startSize = 1;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.sortValue = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.emitRandom = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.loopAfter = 0;
 }
 
-var dirDelta = new Vector3();
-var gravityDelta = new Vector3();
-var localVelocityDelta = new Vector3();
-var worldVelocityDelta = new Vector3();
+var dirDelta = new _Vector2.default();
+var gravityDelta = new _Vector2.default();
+var localVelocityDelta = new _Vector2.default();
+var worldVelocityDelta = new _Vector2.default();
 
 /**
  * Get the world position of the particle
@@ -121,3 +132,4 @@ ParticleData.prototype.getWorldPosition = function (store) {
 
 	return store;
 };
+module.exports = exports.default;

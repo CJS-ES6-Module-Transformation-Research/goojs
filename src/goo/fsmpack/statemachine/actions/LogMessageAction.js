@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LogMessageAction /*id, settings*/;
 
-export default function LogMessageAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-LogMessageAction.prototype = Object.create(Action.prototype);
+function LogMessageAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+LogMessageAction.prototype = Object.create(_Action2.default.prototype);
 LogMessageAction.prototype.constructor = LogMessageAction;
 
 LogMessageAction.external = {
@@ -27,14 +38,15 @@ LogMessageAction.external = {
 	transitions: []
 };
 
-LogMessageAction.prototype.enter = function (/*fsm*/) {
+LogMessageAction.prototype.enter = function () /*fsm*/{
 	if (!this.everyFrame) {
 		console.log(this.message);
 	}
 };
 
-LogMessageAction.prototype.update = function (/*fsm*/) {
+LogMessageAction.prototype.update = function () /*fsm*/{
 	if (this.everyFrame) {
 		console.log(this.message);
 	}
 };
+module.exports = exports.default;

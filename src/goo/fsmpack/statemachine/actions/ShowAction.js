@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ShowAction /*id, settings*/;
 
-export default function ShowAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-ShowAction.prototype = Object.create(Action.prototype);
+function ShowAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+ShowAction.prototype = Object.create(_Action2.default.prototype);
 ShowAction.prototype.constructor = ShowAction;
 
 ShowAction.external = {
@@ -20,3 +31,4 @@ ShowAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	entity.show();
 };
+module.exports = exports.default;

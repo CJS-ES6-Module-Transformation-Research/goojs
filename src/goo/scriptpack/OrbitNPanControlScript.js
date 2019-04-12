@@ -1,11 +1,31 @@
-import Scripts from "../scripts/Scripts";
-import OrbitCamControlScript from "../scripts/OrbitCamControlScript";
-import PanCamControlScript from "../scriptpack/PanCamScript";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = OrbitNPan;
 
-export default function OrbitNPan() {
-	var orbitScript = Scripts.create(OrbitCamControlScript);
-	var panScript = Scripts.create(PanCamControlScript);
+var _Scripts = require("../scripts/Scripts");
+
+var _Scripts2 = _interopRequireDefault(_Scripts);
+
+var _OrbitCamControlScript = require("../scripts/OrbitCamControlScript");
+
+var _OrbitCamControlScript2 = _interopRequireDefault(_OrbitCamControlScript);
+
+var _PanCamScript = require("../scriptpack/PanCamScript");
+
+var _PanCamScript2 = _interopRequireDefault(_PanCamScript);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function OrbitNPan() {
+	var orbitScript = _Scripts2.default.create(_OrbitCamControlScript2.default);
+	var panScript = _Scripts2.default.create(_PanCamScript2.default);
 	function setup(parameters, environment, goo) {
 		parameters.touchMode = 'Double'; // should alaways be 2 touch mode for panning
 		orbitScript.setup(parameters, environment, goo);
@@ -32,11 +52,11 @@ export default function OrbitNPan() {
 	};
 }
 
-var orbitParams = OrbitCamControlScript.externals.parameters;
-var panParams = PanCamControlScript.externals.parameters;
+var orbitParams = _OrbitCamControlScript2.default.externals.parameters;
+var panParams = _PanCamScript2.default.externals.parameters;
 
 // Make sure we don't change parameters for the other scripts
-var params = ObjectUtils.deepClone(orbitParams.concat(panParams.slice(1)));
+var params = _ObjectUtils2.default.deepClone(orbitParams.concat(panParams.slice(1)));
 
 // Remove the panSpeed and touchMode parameters
 for (var i = params.length - 1; i >= 0; i--) {
@@ -68,5 +88,6 @@ OrbitNPan.externals = {
 	key: 'OrbitNPanControlScript',
 	name: 'Orbit and Pan Control',
 	description: 'This is a combo of orbitcamcontrolscript and pancamcontrolscript',
-	parameters:	params
+	parameters: params
 };
+module.exports = exports.default;

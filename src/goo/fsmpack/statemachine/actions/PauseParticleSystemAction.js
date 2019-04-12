@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PauseParticleSystemAction /*id, settings*/;
 
-export default function PauseParticleSystemAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-PauseParticleSystemAction.prototype = Object.create(Action.prototype);
+function PauseParticleSystemAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+PauseParticleSystemAction.prototype = Object.create(_Action2.default.prototype);
 PauseParticleSystemAction.prototype.constructor = PauseParticleSystemAction;
 
 PauseParticleSystemAction.external = {
@@ -19,6 +30,9 @@ PauseParticleSystemAction.external = {
 
 PauseParticleSystemAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.particleSystemComponent) { return; }
+	if (!entity || !entity.particleSystemComponent) {
+		return;
+	}
 	entity.particleSystemComponent.pause();
 };
+module.exports = exports.default;

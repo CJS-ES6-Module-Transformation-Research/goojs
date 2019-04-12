@@ -1,8 +1,40 @@
-import ObjectUtils from "../util/ObjectUtils";
-import MathUtils from "./MathUtils";
-import Vector from "./Vector";
-import Vector3 from "./Vector3";
-import Vector4 from "./Vector4";
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+  return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+  return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+exports.default = Vector2;
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _MathUtils = require("./MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _Vector = require("./Vector");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Vector3 = require("./Vector3");
+
+var _Vector4 = _interopRequireDefault(_Vector3);
+
+var _Vector5 = require("./Vector4");
+
+var _Vector6 = _interopRequireDefault(_Vector5);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Vector with 2 components
@@ -13,45 +45,45 @@ import Vector4 from "./Vector4";
  * var v1 = new Vector2(); // v1 == (0, 0)
  * var v2 = new Vector2(1, 2); // v2 == (1, 2)
  */
-export default function Vector2(x, y) {
-	// @ifdef DEBUG
-	this._x = 0;
-	this._y = 0;
-	// @endif
+function Vector2(x, y) {
+  // @ifdef DEBUG
+  this._x = 0;
+  this._y = 0;
+  // @endif
 
-	if (arguments.length === 0) {
-		// Nothing given
-		this.x = 0;
-		this.y = 0;
-	} else if (arguments.length === 1 && typeof arguments[0] === 'object') {
-		if (arguments[0] instanceof Vector2) {
-			// Vector2
-			this.copy(arguments[0]);
-		} else {
-			// Array
-			this.x = arguments[0][0];
-			this.y = arguments[0][1];
-		}
-	} else {
-		// Numbers
-		this.x = x;
-		this.y = y;
-	}
+  if (arguments.length === 0) {
+    // Nothing given
+    this.x = 0;
+    this.y = 0;
+  } else if (arguments.length === 1 && _typeof(arguments[0]) === 'object') {
+    if (arguments[0] instanceof Vector2) {
+      // Vector2
+      this.copy(arguments[0]);
+    } else {
+      // Array
+      this.x = arguments[0][0];
+      this.y = arguments[0][1];
+    }
+  } else {
+    // Numbers
+    this.x = x;
+    this.y = y;
+  }
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
-Vector2.prototype = Object.create(Vector.prototype);
+Vector2.prototype = Object.create(_Vector2.default.prototype);
 Vector2.prototype.constructor = Vector2;
 
 // @ifdef DEBUG
-Vector.setupAliases(Vector2.prototype, [['x'], ['y']]);
-Vector.setupIndices(Vector2.prototype, 2);
+_Vector2.default.setupAliases(Vector2.prototype, [['x'], ['y']]);
+_Vector2.default.setupIndices(Vector2.prototype, 2);
 // @endif
 
-Vector.setupAliases(Vector2.prototype, [['u'], ['v']]);
+_Vector2.default.setupAliases(Vector2.prototype, [['u'], ['v']]);
 
 /**
  * Zero-vector (0, 0)
@@ -84,10 +116,12 @@ Vector2.UNIT_Y = new Vector2(0, 1);
  * @returns {number}
  */
 Vector2.prototype.getComponent = function (index) {
-	switch (index) {
-		case 0: return this.x;
-		case 1: return this.y;
-	}
+  switch (index) {
+    case 0:
+      return this.x;
+    case 1:
+      return this.y;
+  }
 };
 
 /**
@@ -98,11 +132,13 @@ Vector2.prototype.getComponent = function (index) {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.setComponent = function (index, value) {
-	switch (index) {
-		case 0: this.x = value; break;
-		case 1: this.y = value; break;
-	}
-	return this;
+  switch (index) {
+    case 0:
+      this.x = value;break;
+    case 1:
+      this.y = value;break;
+  }
+  return this;
 };
 
 /**
@@ -115,10 +151,10 @@ Vector2.prototype.setComponent = function (index, value) {
  * v1.add(v2); // v1 == (5, 7)
  */
 Vector2.prototype.add = function (rhs) {
-	this.x += rhs.x;
-	this.y += rhs.y;
+  this.x += rhs.x;
+  this.y += rhs.y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -131,10 +167,10 @@ Vector2.prototype.add = function (rhs) {
  * v.addDirect(2, 4); // v == (3, 6)
  */
 Vector2.prototype.addDirect = function (x, y) {
-	this.x += x;
-	this.y += y;
+  this.x += x;
+  this.y += y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -147,10 +183,10 @@ Vector2.prototype.addDirect = function (x, y) {
  * v1.sub(v2); // v1 == (3, 3)
  */
 Vector2.prototype.sub = function (rhs) {
-	this.x -= rhs.x;
-	this.y -= rhs.y;
+  this.x -= rhs.x;
+  this.y -= rhs.y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -163,10 +199,10 @@ Vector2.prototype.sub = function (rhs) {
  * v.subDirect(1, 2); // v == (-1, -2)
  */
 Vector2.prototype.subDirect = function (x, y) {
-	this.x -= x;
-	this.y -= y;
+  this.x -= x;
+  this.y -= y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -174,10 +210,10 @@ Vector2.prototype.subDirect = function (x, y) {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.negate = function () {
-	this.x = -this.x;
-	this.y = -this.y;
+  this.x = -this.x;
+  this.y = -this.y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -190,10 +226,10 @@ Vector2.prototype.negate = function () {
  * v1.mul(v2); // v1 == (4, 10)
  */
 Vector2.prototype.mul = function (rhs) {
-	this.x *= rhs.x;
-	this.y *= rhs.y;
+  this.x *= rhs.x;
+  this.y *= rhs.y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -206,10 +242,10 @@ Vector2.prototype.mul = function (rhs) {
  * v.mulDirect(2, 4); // v == (2, 8)
  */
 Vector2.prototype.mulDirect = function (x, y) {
-	this.x *= x;
-	this.y *= y;
+  this.x *= x;
+  this.y *= y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -218,10 +254,10 @@ Vector2.prototype.mulDirect = function (x, y) {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.scale = function (factor) {
-	this.x *= factor;
-	this.y *= factor;
+  this.x *= factor;
+  this.y *= factor;
 
-	return this;
+  return this;
 };
 
 /**
@@ -233,10 +269,10 @@ Vector2.prototype.scale = function (factor) {
  * v.div(2, 4); // v == (2, 16)
  */
 Vector2.prototype.div = function (rhs) {
-	this.x /= rhs.x;
-	this.y /= rhs.y;
+  this.x /= rhs.x;
+  this.y /= rhs.y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -249,10 +285,10 @@ Vector2.prototype.div = function (rhs) {
  * v.divDirect(2, 3); // v == (2, 3)
  */
 Vector2.prototype.divDirect = function (x, y) {
-	this.x /= x;
-	this.y /= y;
+  this.x /= x;
+  this.y /= y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -261,8 +297,7 @@ Vector2.prototype.divDirect = function (x, y) {
  * @returns {number}
  */
 Vector2.prototype.dot = function (rhs) {
-	return this.x * rhs.x +
-		this.y * rhs.y;
+  return this.x * rhs.x + this.y * rhs.y;
 };
 
 /**
@@ -272,8 +307,7 @@ Vector2.prototype.dot = function (rhs) {
  * @returns {number}
  */
 Vector2.prototype.dotDirect = function (x, y) {
-	return this.x * x +
-		this.y * y;
+  return this.x * x + this.y * y;
 };
 
 /**
@@ -282,8 +316,7 @@ Vector2.prototype.dotDirect = function (x, y) {
  * @returns {boolean}
  */
 Vector2.prototype.equals = function (rhs) {
-	return (Math.abs(this.x - rhs.x) <= MathUtils.EPSILON) &&
-		(Math.abs(this.y - rhs.y) <= MathUtils.EPSILON);
+  return Math.abs(this.x - rhs.x) <= _MathUtils2.default.EPSILON && Math.abs(this.y - rhs.y) <= _MathUtils2.default.EPSILON;
 };
 
 /**
@@ -293,8 +326,7 @@ Vector2.prototype.equals = function (rhs) {
  * @returns {boolean}
  */
 Vector2.prototype.equalsDirect = function (x, y) {
-	return (Math.abs(this.x - x) <= MathUtils.EPSILON) &&
-		(Math.abs(this.y - y) <= MathUtils.EPSILON);
+  return Math.abs(this.x - x) <= _MathUtils2.default.EPSILON && Math.abs(this.y - y) <= _MathUtils2.default.EPSILON;
 };
 
 /**
@@ -308,26 +340,26 @@ Vector2.prototype.equalsDirect = function (x, y) {
  * var midway = from.clone().lerp(to, 0.5); // midway == (2, 3)
  */
 Vector2.prototype.lerp = function (end, factor) {
-	this.x += (end.x - this.x) * factor;
-	this.y += (end.y - this.y) * factor;
+  this.x += (end.x - this.x) * factor;
+  this.y += (end.y - this.y) * factor;
 
-	return this;
+  return this;
 };
 
 (function () {
-	var tmpVec = new Vector2();
+  var tmpVec = new Vector2();
 
-	/**
-	 * Reflects a vector relative to the plane obtained from the normal parameter.
-	 * @param {Vector2} normal Defines the plane that reflects the vector. Assumed to be of unit length.
-	 * @returns {Vector2} Self to allow chaining
-	 */
-	Vector2.prototype.reflect = function (normal) {
-		tmpVec.copy(normal);
-		tmpVec.scale(2 * this.dot(normal));
-		this.sub(tmpVec);
-		return this;
-	};
+  /**
+   * Reflects a vector relative to the plane obtained from the normal parameter.
+   * @param {Vector2} normal Defines the plane that reflects the vector. Assumed to be of unit length.
+   * @returns {Vector2} Self to allow chaining
+   */
+  Vector2.prototype.reflect = function (normal) {
+    tmpVec.copy(normal);
+    tmpVec.scale(2 * this.dot(normal));
+    this.sub(tmpVec);
+    return this;
+  };
 })();
 
 /**
@@ -339,15 +371,15 @@ Vector2.prototype.lerp = function (end, factor) {
  * v.set(new Vector2(2, 4)); // v == (2, 4)
  */
 Vector2.prototype.set = function (rhs) {
-	if (rhs instanceof Vector2 || rhs instanceof Vector3 || rhs instanceof Vector4) {
-		this.x = rhs.x;
-		this.y = rhs.y;
-	} else {
-		this.x = arguments[0];
-		this.y = arguments[1];
-	}
+  if (rhs instanceof Vector2 || rhs instanceof _Vector4.default || rhs instanceof _Vector6.default) {
+    this.x = rhs.x;
+    this.y = rhs.y;
+  } else {
+    this.x = arguments[0];
+    this.y = arguments[1];
+  }
 
-	return this;
+  return this;
 };
 
 /**
@@ -360,10 +392,10 @@ Vector2.prototype.set = function (rhs) {
  * v.setDirect(2, 4); // v == (2, 4)
  */
 Vector2.prototype.setDirect = function (x, y) {
-	this.x = x;
-	this.y = y;
+  this.x = x;
+  this.y = y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -376,7 +408,7 @@ Vector2.prototype.setDirect = function (x, y) {
  * v.lengthSquared(); // 81
  */
 Vector2.prototype.lengthSquared = function () {
-	return this.x * this.x + this.y * this.y;
+  return this.x * this.x + this.y * this.y;
 };
 
 /**
@@ -384,7 +416,7 @@ Vector2.prototype.lengthSquared = function () {
  * @returns {number} length squared
  */
 Vector2.prototype.length = function () {
-	return Math.sqrt(this.lengthSquared());
+  return Math.sqrt(this.lengthSquared());
 };
 
 /**
@@ -392,17 +424,17 @@ Vector2.prototype.length = function () {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.normalize = function () {
-	var length = this.length();
+  var length = this.length();
 
-	if (length < MathUtils.EPSILON) {
-		this.x = 0;
-		this.y = 0;
-	} else {
-		this.x /= length;
-		this.y /= length;
-	}
+  if (length < _MathUtils2.default.EPSILON) {
+    this.x = 0;
+    this.y = 0;
+  } else {
+    this.x /= length;
+    this.y /= length;
+  }
 
-	return this;
+  return this;
 };
 
 /**
@@ -410,12 +442,12 @@ Vector2.prototype.normalize = function () {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.unsafeNormalize = function () {
-	var length = this.length();
+  var length = this.length();
 
-	this.x /= length;
-	this.y /= length;
+  this.x /= length;
+  this.y /= length;
 
-	return this;
+  return this;
 };
 
 /**
@@ -430,10 +462,10 @@ Vector2.prototype.unsafeNormalize = function () {
  * v1.distanceSquared(v2); // 81
  */
 Vector2.prototype.distanceSquared = function (rhs) {
-	var deltaX = this.x - rhs.x;
-	var deltaY = this.y - rhs.y;
+  var deltaX = this.x - rhs.x;
+  var deltaY = this.y - rhs.y;
 
-	return deltaX * deltaX + deltaY * deltaY;
+  return deltaX * deltaX + deltaY * deltaY;
 };
 
 /**
@@ -448,7 +480,7 @@ Vector2.prototype.distanceSquared = function (rhs) {
  * v1.distance(v2); // 9
  */
 Vector2.prototype.distance = function (rhs) {
-	return Math.sqrt(this.distanceSquared(rhs));
+  return Math.sqrt(this.distanceSquared(rhs));
 };
 
 /**
@@ -457,15 +489,15 @@ Vector2.prototype.distance = function (rhs) {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.applyPre = function (matrix) {
-	var source = matrix.data;
+  var source = matrix.data;
 
-	var x = this.x;
-	var y = this.y;
+  var x = this.x;
+  var y = this.y;
 
-	this.x = source[0] * x + source[1] * y;
-	this.y = source[2] * x + source[3] * y;
+  this.x = source[0] * x + source[1] * y;
+  this.y = source[2] * x + source[3] * y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -474,15 +506,15 @@ Vector2.prototype.applyPre = function (matrix) {
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.applyPost = function (matrix) {
-	var source = matrix.data;
+  var source = matrix.data;
 
-	var x = this.x;
-	var y = this.y;
+  var x = this.x;
+  var y = this.y;
 
-	this.x = source[0] * x + source[2] * y;
-	this.y = source[1] * x + source[3] * y;
+  this.x = source[0] * x + source[2] * y;
+  this.y = source[1] * x + source[3] * y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -490,7 +522,7 @@ Vector2.prototype.applyPost = function (matrix) {
  * @returns {Vector2} Clone of self
  */
 Vector2.prototype.clone = function () {
-	return new Vector2(this.x, this.y);
+  return new Vector2(this.x, this.y);
 };
 
 /**
@@ -507,10 +539,10 @@ Vector2.prototype.copy = Vector2.prototype.set;
  * @returns {Vector2} Self to allow chaining
  */
 Vector2.prototype.copyTo = function (target) {
-	target.x = this.x;
-	target.y = this.y;
+  target.x = this.x;
+  target.y = this.y;
 
-	return this;
+  return this;
 };
 
 /**
@@ -519,7 +551,7 @@ Vector2.prototype.copyTo = function (target) {
  * @returns {Vector2}
  */
 Vector2.fromArray = function (array) {
-	return new Vector2(array[0], array[1]);
+  return new Vector2(array[0], array[1]);
 };
 
 /**
@@ -527,14 +559,14 @@ Vector2.fromArray = function (array) {
  * @returns {Vector2}
  */
 Vector2.fromAny = function () {
-	if (arguments.length === 2) {
-		return Vector2.fromArray(arguments);
-	} else if (arguments[0] instanceof Array) {
-		return Vector2.fromArray(arguments[0]);
-	} else {
-		var vectorLike = arguments[0];
-		return new Vector2(vectorLike.x, vectorLike.y);
-	}
+  if (arguments.length === 2) {
+    return Vector2.fromArray(arguments);
+  } else if (arguments[0] instanceof Array) {
+    return Vector2.fromArray(arguments[0]);
+  } else {
+    var vectorLike = arguments[0];
+    return new Vector2(vectorLike.x, vectorLike.y);
+  }
 };
 
 /**
@@ -542,10 +574,10 @@ Vector2.fromAny = function () {
  * @param {Array<number>} array
  */
 Vector2.prototype.setArray = function (array) {
-	this.x = array[0];
-	this.y = array[1];
+  this.x = array[0];
+  this.y = array[1];
 
-	return this;
+  return this;
 };
 
 /**
@@ -553,214 +585,208 @@ Vector2.prototype.setArray = function (array) {
  * @returns {Array<number>}
  */
 Vector2.prototype.toArray = function () {
-	return [this.x, this.y];
+  return [this.x, this.y];
 };
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Vector2.prototype, [
-	'dot', 'dotDirect',
-	'length', 'lengthSquared',
-	'distance', 'distanceSquared'
-]);
+_Vector2.default.addReturnChecks(Vector2.prototype, ['dot', 'dotDirect', 'length', 'lengthSquared', 'distance', 'distanceSquared']);
 // @endif
 
 // SHIM START
 Object.defineProperty(Vector2.prototype, 'data', {
-	get: ObjectUtils.warnOnce('The .data property of Vector2 was removed. Please use the .x and .y properties instead.', function () {
-		var data = [];
-		var that = this;
-		Object.defineProperties(data, {
-			'0': {
-				get: function () {
-					return that.x;
-				},
-				set: function (value) {
-					that.x = value;
-				}
-			},
-			'1': {
-				get: function () {
-					return that.y;
-				},
-				set: function (value) {
-					that.y = value;
-				}
-			}
-		});
-		return data;
-	})
+  get: _ObjectUtils2.default.warnOnce('The .data property of Vector2 was removed. Please use the .x and .y properties instead.', function () {
+    var data = [];
+    var that = this;
+    Object.defineProperties(data, {
+      '0': {
+        get: function get() {
+          return that.x;
+        },
+        set: function set(value) {
+          that.x = value;
+        }
+      },
+      '1': {
+        get: function get() {
+          return that.y;
+        },
+        set: function set(value) {
+          that.y = value;
+        }
+      }
+    });
+    return data;
+  })
 });
 
-Vector2.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vector2 was removed. Please use the set method instead.', function (rhs) {
-	return this.set(rhs);
-});
-
-/**
- * @hidden
- * @deprecated
- */
-Vector2.add = ObjectUtils.warnOnce('Vector2.add is deprecated.', function (lhs, rhs, target) {
-	if (typeof lhs === 'number') {
-		lhs = [lhs, lhs];
-	}
-
-	if (typeof rhs === 'number') {
-		rhs = [rhs, rhs];
-	}
-
-	if (!target) {
-		target = new Vector2();
-	}
-
-	var ldata = lhs.data || lhs;
-	var rdata = rhs.data || rhs;
-
-	target.data[0] = ldata[0] + rdata[0];
-	target.data[1] = ldata[1] + rdata[1];
-
-	return target;
+Vector2.prototype.setVector = _ObjectUtils2.default.warnOnce('The setVector method of Vector2 was removed. Please use the set method instead.', function (rhs) {
+  return this.set(rhs);
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.sub = ObjectUtils.warnOnce('Vector2.sub is deprecated.', function (lhs, rhs, target) {
-	if (typeof lhs === 'number') {
-		lhs = [lhs, lhs];
-	}
+Vector2.add = _ObjectUtils2.default.warnOnce('Vector2.add is deprecated.', function (lhs, rhs, target) {
+  if (typeof lhs === 'number') {
+    lhs = [lhs, lhs];
+  }
 
-	if (typeof rhs === 'number') {
-		rhs = [rhs, rhs];
-	}
+  if (typeof rhs === 'number') {
+    rhs = [rhs, rhs];
+  }
 
-	if (!target) {
-		target = new Vector2();
-	}
+  if (!target) {
+    target = new Vector2();
+  }
 
-	var ldata = lhs.data || lhs;
-	var rdata = rhs.data || rhs;
+  var ldata = lhs.data || lhs;
+  var rdata = rhs.data || rhs;
 
+  target.data[0] = ldata[0] + rdata[0];
+  target.data[1] = ldata[1] + rdata[1];
 
-	target.data[0] = ldata[0] - rdata[0];
-	target.data[1] = ldata[1] - rdata[1];
-
-	return target;
+  return target;
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.mul = ObjectUtils.warnOnce('Vector2.mul is deprecated.', function (lhs, rhs, target) {
-	if (typeof lhs === 'number') {
-		lhs = [lhs, lhs];
-	}
+Vector2.sub = _ObjectUtils2.default.warnOnce('Vector2.sub is deprecated.', function (lhs, rhs, target) {
+  if (typeof lhs === 'number') {
+    lhs = [lhs, lhs];
+  }
 
-	if (typeof rhs === 'number') {
-		rhs = [rhs, rhs];
-	}
+  if (typeof rhs === 'number') {
+    rhs = [rhs, rhs];
+  }
 
-	if (!target) {
-		target = new Vector2();
-	}
+  if (!target) {
+    target = new Vector2();
+  }
 
-	var ldata = lhs.data || lhs;
-	var rdata = rhs.data || rhs;
+  var ldata = lhs.data || lhs;
+  var rdata = rhs.data || rhs;
 
-	target.data[0] = ldata[0] * rdata[0];
-	target.data[1] = ldata[1] * rdata[1];
+  target.data[0] = ldata[0] - rdata[0];
+  target.data[1] = ldata[1] - rdata[1];
 
-	return target;
+  return target;
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.div = ObjectUtils.warnOnce('Vector2.div is deprecated.', function (lhs, rhs, target) {
-	if (typeof lhs === 'number') {
-		lhs = [lhs, lhs];
-	}
+Vector2.mul = _ObjectUtils2.default.warnOnce('Vector2.mul is deprecated.', function (lhs, rhs, target) {
+  if (typeof lhs === 'number') {
+    lhs = [lhs, lhs];
+  }
 
-	if (typeof rhs === 'number') {
-		rhs = [rhs, rhs];
-	}
+  if (typeof rhs === 'number') {
+    rhs = [rhs, rhs];
+  }
 
-	if (!target) {
-		target = new Vector2();
-	}
+  if (!target) {
+    target = new Vector2();
+  }
 
-	var ldata = lhs.data || lhs;
-	var rdata = rhs.data || rhs;
+  var ldata = lhs.data || lhs;
+  var rdata = rhs.data || rhs;
 
-	target.data[0] = ldata[0] / rdata[0];
-	target.data[1] = ldata[1] / rdata[1];
+  target.data[0] = ldata[0] * rdata[0];
+  target.data[1] = ldata[1] * rdata[1];
 
-	return target;
+  return target;
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.dot = ObjectUtils.warnOnce('Vector2.dot is deprecated.', function (lhs, rhs) {
-	if (typeof lhs === 'number') {
-		lhs = [lhs, lhs];
-	}
+Vector2.div = _ObjectUtils2.default.warnOnce('Vector2.div is deprecated.', function (lhs, rhs, target) {
+  if (typeof lhs === 'number') {
+    lhs = [lhs, lhs];
+  }
 
-	if (typeof rhs === 'number') {
-		rhs = [rhs, rhs];
-	}
+  if (typeof rhs === 'number') {
+    rhs = [rhs, rhs];
+  }
 
-	var ldata = lhs.data || lhs;
-	var rdata = rhs.data || rhs;
+  if (!target) {
+    target = new Vector2();
+  }
 
-	return ldata[0] * rdata[0] +
-		ldata[1] * rdata[1];
+  var ldata = lhs.data || lhs;
+  var rdata = rhs.data || rhs;
+
+  target.data[0] = ldata[0] / rdata[0];
+  target.data[1] = ldata[1] / rdata[1];
+
+  return target;
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.prototype.dotVector = ObjectUtils.warnOnce('Vector2.prototype.dotVector is deprecated.', function (rhs) {
-	var ldata = this.data;
-	var rdata = rhs.data;
+Vector2.dot = _ObjectUtils2.default.warnOnce('Vector2.dot is deprecated.', function (lhs, rhs) {
+  if (typeof lhs === 'number') {
+    lhs = [lhs, lhs];
+  }
 
-	return ldata[0] * rdata[0] +
-		ldata[1] * rdata[1];
+  if (typeof rhs === 'number') {
+    rhs = [rhs, rhs];
+  }
+
+  var ldata = lhs.data || lhs;
+  var rdata = rhs.data || rhs;
+
+  return ldata[0] * rdata[0] + ldata[1] * rdata[1];
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.prototype.addVector = ObjectUtils.warnOnce('Vector2.prototype.addVector is deprecated.', function (vector) {
-	this.data[0] += vector.data[0];
-	this.data[1] += vector.data[1];
+Vector2.prototype.dotVector = _ObjectUtils2.default.warnOnce('Vector2.prototype.dotVector is deprecated.', function (rhs) {
+  var ldata = this.data;
+  var rdata = rhs.data;
 
-	return this;
+  return ldata[0] * rdata[0] + ldata[1] * rdata[1];
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.prototype.mulVector = ObjectUtils.warnOnce('Vector2.prototype.mulVector is deprecated.', function (vector) {
-	this.data[0] *= vector.data[0];
-	this.data[1] *= vector.data[1];
+Vector2.prototype.addVector = _ObjectUtils2.default.warnOnce('Vector2.prototype.addVector is deprecated.', function (vector) {
+  this.data[0] += vector.data[0];
+  this.data[1] += vector.data[1];
 
-	return this;
+  return this;
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector2.prototype.subVector = ObjectUtils.warnOnce('Vector2.prototype.subVector is deprecated.', function (vector) {
-	this.data[0] -= vector.data[0];
-	this.data[1] -= vector.data[1];
+Vector2.prototype.mulVector = _ObjectUtils2.default.warnOnce('Vector2.prototype.mulVector is deprecated.', function (vector) {
+  this.data[0] *= vector.data[0];
+  this.data[1] *= vector.data[1];
 
-	return this;
+  return this;
 });
+
+/**
+ * @hidden
+ * @deprecated
+ */
+Vector2.prototype.subVector = _ObjectUtils2.default.warnOnce('Vector2.prototype.subVector is deprecated.', function (vector) {
+  this.data[0] -= vector.data[0];
+  this.data[1] -= vector.data[1];
+
+  return this;
+});
+module.exports = exports.default;

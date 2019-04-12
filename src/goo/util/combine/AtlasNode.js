@@ -1,4 +1,15 @@
-import Rectangle from "../../util/combine/Rectangle";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AtlasNode;
+
+var _Rectangle = require("../../util/combine/Rectangle");
+
+var _Rectangle2 = _interopRequireDefault(_Rectangle);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Atlas node
@@ -6,12 +17,12 @@ import Rectangle from "../../util/combine/Rectangle";
  * @param w
  * @param h
  */
-export default function AtlasNode(w, h) {
+function AtlasNode(w, h) {
 	this.isLeaf = true;
 	this.isSet = false;
 	this.children = [];
 	if (w !== undefined && h !== undefined) {
-		this.localRectangle = new Rectangle(0, 0, w, h);
+		this.localRectangle = new _Rectangle2.default(0, 0, w, h);
 	} else {
 		this.localRectangle = null;
 	}
@@ -34,7 +45,7 @@ AtlasNode.prototype._getRectangles = function (list) {
 };
 
 AtlasNode.prototype.insert = function (w, h) {
-	return this._insert(new Rectangle(0, 0, w, h));
+	return this._insert(new _Rectangle2.default(0, 0, w, h));
 };
 
 AtlasNode.prototype._insert = function (rectangle) {
@@ -68,13 +79,14 @@ AtlasNode.prototype._insert = function (rectangle) {
 		var dh = this.localRectangle.h - rectangle.h;
 
 		if (dw > dh) {
-			this.children[0].localRectangle = new Rectangle(this.localRectangle.x, this.localRectangle.y, rectangle.w, this.localRectangle.h);
-			this.children[1].localRectangle = new Rectangle(this.localRectangle.x + rectangle.w, this.localRectangle.y, dw, this.localRectangle.h);
+			this.children[0].localRectangle = new _Rectangle2.default(this.localRectangle.x, this.localRectangle.y, rectangle.w, this.localRectangle.h);
+			this.children[1].localRectangle = new _Rectangle2.default(this.localRectangle.x + rectangle.w, this.localRectangle.y, dw, this.localRectangle.h);
 		} else {
-			this.children[0].localRectangle = new Rectangle(this.localRectangle.x, this.localRectangle.y, this.localRectangle.w, rectangle.h);
-			this.children[1].localRectangle = new Rectangle(this.localRectangle.x, this.localRectangle.y + rectangle.h, this.localRectangle.w, dh);
+			this.children[0].localRectangle = new _Rectangle2.default(this.localRectangle.x, this.localRectangle.y, this.localRectangle.w, rectangle.h);
+			this.children[1].localRectangle = new _Rectangle2.default(this.localRectangle.x, this.localRectangle.y + rectangle.h, this.localRectangle.w, dh);
 		}
 
 		return this.children[0]._insert(rectangle);
 	}
 };
+module.exports = exports.default;

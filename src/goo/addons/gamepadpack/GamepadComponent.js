@@ -1,12 +1,23 @@
-import Component from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = GamepadComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Gamepad/Gamepad-example.html Working example
  * @param gamepadIndex
  */
-export default function GamepadComponent(gamepadIndex) {
-	Component.apply(this, arguments);
+function GamepadComponent(gamepadIndex) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'GamepadComponent';
 
@@ -22,7 +33,7 @@ export default function GamepadComponent(gamepadIndex) {
 	this.gamepadIndex = gamepadIndex || 0;
 }
 
-GamepadComponent.prototype = Object.create(Component.prototype);
+GamepadComponent.prototype = Object.create(_Component2.default.prototype);
 GamepadComponent.prototype.constructor = GamepadComponent;
 
 GamepadComponent.prototype.setButtonDownFunction = function (buttonIndex, buttonFunction) {
@@ -44,3 +55,4 @@ GamepadComponent.prototype.setLeftStickFunction = function (stickFunction) {
 GamepadComponent.prototype.setRightStickFunction = function (stickFunction) {
 	this.rightStickFunction = stickFunction;
 };
+module.exports = exports.default;

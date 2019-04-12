@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Renderer from "../../../renderer/Renderer";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CompareDistanceAction /*id, settings*/;
 
-export default function CompareDistanceAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Renderer = require("../../../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-CompareDistanceAction.prototype = Object.create(Action.prototype);
+function CompareDistanceAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+CompareDistanceAction.prototype = Object.create(_Action2.default.prototype);
 CompareDistanceAction.prototype.constructor = CompareDistanceAction;
 
 CompareDistanceAction.external = {
@@ -70,7 +84,7 @@ var labels = {
 	greater: 'On camera distance > X'
 };
 
-CompareDistanceAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+CompareDistanceAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -80,7 +94,7 @@ CompareDistanceAction.prototype.compare = function (fsm) {
 	var delta;
 
 	if (this.camera) {
-		delta = translation.clone().sub(Renderer.mainCamera.translation);
+		delta = translation.clone().sub(_Renderer2.default.mainCamera.translation);
 	} else {
 		delta = translation.clone().subDirect(this.position[0], this.position[1], this.position[2]);
 	}
@@ -113,3 +127,4 @@ CompareDistanceAction.prototype.update = function (fsm) {
 		this.compare(fsm);
 	}
 };
+module.exports = exports.default;

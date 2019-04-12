@@ -1,7 +1,27 @@
-import Component from "../../entities/components/Component";
-import AudioContext from "../../sound/AudioContext";
-import Vector3 from "../../math/Vector3";
-import MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SoundComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var _AudioContext2 = _interopRequireDefault(_AudioContext);
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 //! AT: every method here is prefixed with a check for AudioContext. Is it really needed? can it just be refactored away?
 //Or, isn't just one (the first) warning enough - it might ruing everything if flooding the console
@@ -11,36 +31,36 @@ import MathUtils from "../../math/MathUtils";
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
  * @extends {Component}
  */
-export default function SoundComponent() {
-	Component.apply(this, arguments);
+function SoundComponent() {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'SoundComponent';
 
 	this._system = null;
 
 	/**
-	 * Current sounds in the entity. Add a sound using {@link SoundComponent#addSound}.
-	 * @type {Array<Sound>}
-	 */
+  * Current sounds in the entity. Add a sound using {@link SoundComponent#addSound}.
+  * @type {Array<Sound>}
+  */
 	this.sounds = [];
 
 	this._isPanned = true;
-	this._outDryNode = AudioContext.getContext().createGain();
-	this._outWetNode = AudioContext.getContext().createGain();
+	this._outDryNode = _AudioContext2.default.getContext().createGain();
+	this._outWetNode = _AudioContext2.default.getContext().createGain();
 	this.connectTo();
-	this._pannerNode = AudioContext.getContext().createPanner();
+	this._pannerNode = _AudioContext2.default.getContext().createPanner();
 	this._pannerNode.connect(this._outDryNode);
-	this._inNode = AudioContext.getContext().createGain();
+	this._inNode = _AudioContext2.default.getContext().createGain();
 	this._inNode.connect(this._pannerNode);
 
 	// The 2D sounds are always in camera space
 	// Do we need another outDryNode for 2D?
-	this._inNode2d = AudioContext.getContext().createGain();
+	this._inNode2d = _AudioContext2.default.getContext().createGain();
 	this._inNode2d.connect(this._outDryNode);
 
-	this._oldPosition = new Vector3();
-	this._position = new Vector3();
-	this._orientation = new Vector3();
+	this._oldPosition = new _Vector2.default();
+	this._position = new _Vector2.default();
+	this._orientation = new _Vector2.default();
 	this._attachedToCamera = false;
 
 	this._autoPlayDirty = false;
@@ -52,7 +72,7 @@ export default function SoundComponent() {
 
 SoundComponent.type = 'SoundComponent';
 
-SoundComponent.prototype = Object.create(Component.prototype);
+SoundComponent.prototype = Object.create(_Component2.default.prototype);
 SoundComponent.prototype.constructor = SoundComponent;
 
 /**
@@ -127,10 +147,10 @@ SoundComponent.prototype.connectTo = function (nodes) {
  */
 SoundComponent.prototype.updateConfig = function (config) {
 	if (config.volume !== undefined) {
-		this._outDryNode.gain.value = MathUtils.clamp(config.volume, 0, 1);
+		this._outDryNode.gain.value = _MathUtils2.default.clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this._outWetNode.gain.value = MathUtils.clamp(config.reverb, 0, 1);
+		this._outWetNode.gain.value = _MathUtils2.default.clamp(config.reverb, 0, 1);
 	}
 };
 
@@ -152,7 +172,7 @@ SoundComponent.prototype._autoPlaySounds = function () {
  * @param {number} tpf
  * @hidden
  */
-SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
+SoundComponent.prototype.process = function (settings, mvMat /*, tpf*/) {
 	this._pannerNode.rolloffFactor = settings.rolloffFactor;
 	this._pannerNode.maxDistance = settings.maxDistance;
 
@@ -185,3 +205,4 @@ SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
 	this._pannerNode.setPosition(this._position.x, this._position.y, this._position.z);
 	this._pannerNode.setOrientation(this._orientation.x, this._orientation.y, this._orientation.z);
 };
+module.exports = exports.default;

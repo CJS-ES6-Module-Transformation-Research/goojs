@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RandomTransitionAction /*id, settings*/;
 
-export default function RandomTransitionAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-RandomTransitionAction.prototype = Object.create(Action.prototype);
+function RandomTransitionAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+RandomTransitionAction.prototype = Object.create(_Action2.default.prototype);
 RandomTransitionAction.prototype.constructor = RandomTransitionAction;
 
 RandomTransitionAction.external = {
@@ -37,7 +48,7 @@ var labels = {
 	transition2: 'On random outcome B'
 };
 
-RandomTransitionAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+RandomTransitionAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -48,3 +59,4 @@ RandomTransitionAction.prototype.enter = function (fsm) {
 	var transition = Math.random() < this.skewness ? a : b;
 	fsm.send(transition);
 };
+module.exports = exports.default;

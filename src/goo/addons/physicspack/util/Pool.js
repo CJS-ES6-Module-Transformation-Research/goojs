@@ -1,3 +1,7 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Pool;
 /**
  * Abstract pool class for object pooling.
  * @param {Object} [settings]
@@ -19,32 +23,32 @@
  * var vector = vectorPool.get(1, 2, 3);
  * vectorPool.release(vector);
  */
-export default function Pool(settings) {
-	settings = settings || {};
+function Pool(settings) {
+  settings = settings || {};
 
-	/**
-	 * @private
-	 * @type {Array}
-	 */
-	this._objects = [];
+  /**
+   * @private
+   * @type {Array}
+   */
+  this._objects = [];
 
-	/**
-	 * @private
-	 * @type {Function}
-	 */
-	this._init = settings.init || function () {};
+  /**
+   * @private
+   * @type {Function}
+   */
+  this._init = settings.init || function () {};
 
-	/**
-	 * @private
-	 * @type {Function}
-	 */
-	this._create = settings.create || function () {};
+  /**
+   * @private
+   * @type {Function}
+   */
+  this._create = settings.create || function () {};
 
-	/**
-	 * @private
-	 * @type {Function}
-	 */
-	this._destroy = settings.destroy || function () {};
+  /**
+   * @private
+   * @type {Function}
+   */
+  this._destroy = settings.destroy || function () {};
 }
 
 /**
@@ -52,19 +56,19 @@ export default function Pool(settings) {
  * @param {number} size
  */
 Pool.prototype.resize = function (size) {
-	var objects = this._objects;
+  var objects = this._objects;
 
-	// Destroy excess objects
-	while (objects.length > size) {
-		this._destroy(objects.pop());
-	}
+  // Destroy excess objects
+  while (objects.length > size) {
+    this._destroy(objects.pop());
+  }
 
-	// Allocate new objects
-	while (objects.length < size) {
-		objects.push(this._create());
-	}
+  // Allocate new objects
+  while (objects.length < size) {
+    objects.push(this._create());
+  }
 
-	return this;
+  return this;
 };
 
 /**
@@ -72,10 +76,10 @@ Pool.prototype.resize = function (size) {
  * @returns {Object}
  */
 Pool.prototype.get = function () {
-	var objects = this._objects;
-	var object = objects.length ? objects.pop() : this._create();
-	this._init.apply(object, arguments);
-	return object;
+  var objects = this._objects;
+  var object = objects.length ? objects.pop() : this._create();
+  this._init.apply(object, arguments);
+  return object;
 };
 
 /**
@@ -83,7 +87,8 @@ Pool.prototype.get = function () {
  * @param {Object} object
  */
 Pool.prototype.release = function (object) {
-	this._destroy(object);
-	this._objects.push(object);
-	return this;
+  this._destroy(object);
+  this._objects.push(object);
+  return this;
 };
+module.exports = exports.default;

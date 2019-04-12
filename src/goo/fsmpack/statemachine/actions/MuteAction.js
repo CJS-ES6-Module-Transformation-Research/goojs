@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MuteAction /*id, settings*/;
 
-export default function MuteAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-MuteAction.prototype = Object.create(Action.prototype);
+function MuteAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+MuteAction.prototype = Object.create(_Action2.default.prototype);
 MuteAction.prototype.constructor = MuteAction;
 
 MuteAction.external = {
@@ -19,10 +30,13 @@ MuteAction.external = {
 
 MuteAction.prototype.enter = function (fsm) {
 	var world = fsm.getWorld();
-	if (!world) { return; }
+	if (!world) {
+		return;
+	}
 
 	var soundSystem = world.getSystem('SoundSystem');
 	if (soundSystem) {
 		soundSystem.mute();
 	}
 };
+module.exports = exports.default;

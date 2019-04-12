@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ScriptAction /*id, settings*/;
 
-export default function ScriptAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-ScriptAction.prototype = Object.create(Action.prototype);
+function ScriptAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+ScriptAction.prototype = Object.create(_Action2.default.prototype);
 ScriptAction.prototype.constructor = ScriptAction;
 
 ScriptAction.external = {
@@ -74,5 +85,5 @@ ScriptAction.prototype.exit = function () {
 	}
 };
 
-ScriptAction.prototype.onDestroy = function () {
-};
+ScriptAction.prototype.onDestroy = function () {};
+module.exports = exports.default;

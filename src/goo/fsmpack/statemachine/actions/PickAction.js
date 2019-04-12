@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PickAction /*id, settings*/;
 
-export default function PickAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-PickAction.prototype = Object.create(Action.prototype);
+function PickAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+PickAction.prototype = Object.create(_Action2.default.prototype);
 PickAction.prototype.constructor = PickAction;
 
 PickAction.external = {
@@ -26,7 +40,7 @@ var labels = {
 	pick: 'On pick entity'
 };
 
-PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -66,13 +80,14 @@ PickAction.prototype.enter = function (fsm) {
 
 	document.addEventListener('click', this.eventListener);
 	document.addEventListener('touchstart', this.eventListener);
-	SystemBus.addListener('goo.trigger.click', this.eventListener);
-	SystemBus.addListener('goo.trigger.touchstart', this.eventListener);
+	_SystemBus2.default.addListener('goo.trigger.click', this.eventListener);
+	_SystemBus2.default.addListener('goo.trigger.touchstart', this.eventListener);
 };
 
 PickAction.prototype.exit = function () {
 	document.removeEventListener('click', this.eventListener);
 	document.removeEventListener('touchstart', this.eventListener);
-	SystemBus.removeListener('goo.trigger.click', this.eventListener);
-	SystemBus.removeListener('goo.trigger.touchstart', this.eventListener);
+	_SystemBus2.default.removeListener('goo.trigger.click', this.eventListener);
+	_SystemBus2.default.removeListener('goo.trigger.touchstart', this.eventListener);
 };
+module.exports = exports.default;

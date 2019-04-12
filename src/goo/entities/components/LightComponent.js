@@ -1,5 +1,19 @@
-import Component from "../../entities/components/Component";
-import Light from "../../renderer/light/Light";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LightComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _Light = require("../../renderer/light/Light");
+
+var _Light2 = _interopRequireDefault(_Light);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Defines a light<br>
@@ -7,8 +21,8 @@ import Light from "../../renderer/light/Light";
  * @param {Light} light Light to contain in this component (directional, spot, point)
  * @extends Component
  */
-export default function LightComponent(light) {
-	Component.apply(this, arguments);
+function LightComponent(light) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'LightComponent';
 
@@ -18,9 +32,9 @@ export default function LightComponent(light) {
 	this.light = light;
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.hidden = false;
 
 	this._transformDirty = true;
@@ -33,7 +47,7 @@ export default function LightComponent(light) {
 
 LightComponent.type = 'LightComponent';
 
-LightComponent.prototype = Object.create(Component.prototype);
+LightComponent.prototype = Object.create(_Component2.default.prototype);
 LightComponent.prototype.constructor = LightComponent;
 
 LightComponent.prototype.attached = function () {
@@ -71,9 +85,10 @@ LightComponent.prototype.clone = function () {
 };
 
 LightComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Light) {
+	if (obj instanceof _Light2.default) {
 		var lightComponent = new LightComponent(obj);
 		entity.setComponent(lightComponent);
 		return true;
 	}
 };
+module.exports = exports.default;

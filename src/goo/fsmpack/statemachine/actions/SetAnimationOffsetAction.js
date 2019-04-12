@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetAnimationOffsetAction /*id, settings*/;
 
-export default function SetAnimationOffsetAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetAnimationOffsetAction.prototype = Object.create(Action.prototype);
+function SetAnimationOffsetAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetAnimationOffsetAction.prototype = Object.create(_Action2.default.prototype);
 SetAnimationOffsetAction.prototype.constructor = SetAnimationOffsetAction;
 
 SetAnimationOffsetAction.external = {
@@ -28,3 +39,4 @@ SetAnimationOffsetAction.prototype.enter = function (fsm) {
 		entity.animationComponent.shiftClipTime(this.offset);
 	}
 };
+module.exports = exports.default;

@@ -1,14 +1,28 @@
-import Action from "./Action";
-import BoundingPicker from "./../../../renderer/bounds/BoundingPicker";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = HoverEnterAction /*id, settings*/;
 
-export default function HoverEnterAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _BoundingPicker = require("./../../../renderer/bounds/BoundingPicker");
+
+var _BoundingPicker2 = _interopRequireDefault(_BoundingPicker);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function HoverEnterAction() {
+	_Action2.default.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverEnterAction.prototype = Object.create(Action.prototype);
+HoverEnterAction.prototype = Object.create(_Action2.default.prototype);
 HoverEnterAction.prototype.constructor = HoverEnterAction;
 
 HoverEnterAction.types = {
@@ -37,13 +51,13 @@ HoverEnterAction.external = {
 	}]
 };
 
-HoverEnterAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HoverEnterAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Entity Hover Enter';
 };
 
 HoverEnterAction.prototype.enter = function (fsm) {
 	var that = this;
-	var isHit = function (entity) {
+	var isHit = function isHit(entity) {
 		if (!entity) {
 			return false;
 		}
@@ -57,7 +71,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 		return hit;
 	};
 
-	var checkEnter = function (entity) {
+	var checkEnter = function checkEnter(entity) {
 		var hit = isHit(entity);
 
 		if ((that.first || !that.hit) && hit) {
@@ -87,7 +101,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 			var pickingStore = that.goo.pickSync(x, y);
 			pickedEntity = that.goo.world.entityManager.getEntityByIndex(pickingStore.id);
 		} else {
-			var pickList = BoundingPicker.pick(that.goo.world, camera, x, y);
+			var pickList = _BoundingPicker2.default.pick(that.goo.world, camera, x, y);
 			if (pickList.length > 0) {
 				pickedEntity = pickList[0].entity;
 			}
@@ -110,3 +124,4 @@ HoverEnterAction.prototype.exit = function () {
 	document.removeEventListener('mousemove', this.moveListener);
 	document.removeEventListener('touchmove', this.moveListener);
 };
+module.exports = exports.default;

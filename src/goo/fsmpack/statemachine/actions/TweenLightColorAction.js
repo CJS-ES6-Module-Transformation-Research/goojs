@@ -1,16 +1,33 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector3 from "../../../math/Vector3";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenLightColorAction /*id, settings*/;
 
-export default function TweenLightColorAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromCol = new Vector3();
-	this.toCol = new Vector3();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenLightColorAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.fromCol = new _Vector2.default();
+	this.toCol = new _Vector2.default();
 	this.completed = false;
 }
 
-TweenLightColorAction.prototype = Object.create(Action.prototype);
+TweenLightColorAction.prototype = Object.create(_Action2.default.prototype);
 TweenLightColorAction.prototype.constructor = TweenLightColorAction;
 
 TweenLightColorAction.external = {
@@ -54,7 +71,7 @@ TweenLightColorAction.external = {
 	}]
 };
 
-TweenLightColorAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenLightColorAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Light Complete' : undefined;
 };
 
@@ -83,7 +100,7 @@ TweenLightColorAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
 
 	var color = entity.lightComponent.light.color;
 	color.set(this.fromCol).lerp(this.toCol, fT);
@@ -93,3 +110,4 @@ TweenLightColorAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

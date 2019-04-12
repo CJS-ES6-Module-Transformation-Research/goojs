@@ -1,9 +1,35 @@
-import ComponentHandler from "../../loaders/handlers/ComponentHandler";
-import SoundComponent from "../../entities/components/SoundComponent";
-import AudioContext from "../../sound/AudioContext";
-import RSVP from "../../util/rsvp";
-import PromiseUtils from "../../util/PromiseUtils";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SoundComponentHandler;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _ComponentHandler2 = _interopRequireDefault(_ComponentHandler);
+
+var _SoundComponent = require("../../entities/components/SoundComponent");
+
+var _SoundComponent2 = _interopRequireDefault(_SoundComponent);
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var _AudioContext2 = _interopRequireDefault(_AudioContext);
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * For handling loading of sound components
@@ -13,14 +39,14 @@ import ObjectUtils from "../../util/ObjectUtils";
  * @extends ComponentHandler
  * @hidden
  */
-export default function SoundComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+function SoundComponentHandler() {
+	_ComponentHandler2.default.apply(this, arguments);
 	this._type = 'SoundComponent';
 }
 
-SoundComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+SoundComponentHandler.prototype = Object.create(_ComponentHandler2.default.prototype);
 SoundComponentHandler.prototype.constructor = SoundComponentHandler;
-ComponentHandler._registerClass('sound', SoundComponentHandler);
+_ComponentHandler2.default._registerClass('sound', SoundComponentHandler);
 
 /**
  * Removes the souncomponent and stops all connected sounds
@@ -42,7 +68,7 @@ SoundComponentHandler.prototype._remove = function (entity) {
  * @param {Object} config
  */
 SoundComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	_ObjectUtils2.default.defaults(config, {
 		volume: 1.0,
 		reverb: 0.0
 	});
@@ -54,7 +80,7 @@ SoundComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundComponentHandler.prototype._create = function () {
-	return new SoundComponent();
+	return new _SoundComponent2.default();
 };
 
 /**
@@ -65,13 +91,15 @@ SoundComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 SoundComponentHandler.prototype.update = function (entity, config, options) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils.resolve(); //! AT: we're not really using reject
+	if (!_AudioContext2.default.isSupported()) {
+		return _PromiseUtils2.default.resolve(); //! AT: we're not really using reject
 	}
 
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler2.default.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 		component.updateConfig(config);
 
 		// Remove old sounds
@@ -84,11 +112,11 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 
 		var promises = [];
 		// Load all sounds
-		ObjectUtils.forEach(config.sounds, function (soundCfg) {
+		_ObjectUtils2.default.forEach(config.sounds, function (soundCfg) {
 			promises.push(that._load(soundCfg.soundRef, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (sounds) {
+		return _rsvp2.default.all(promises).then(function (sounds) {
 			// Add new sounds
 			for (var i = 0; i < sounds.length; i++) {
 				if (component.sounds.indexOf(sounds[i]) === -1) {
@@ -99,3 +127,4 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 		});
 	});
 };
+module.exports = exports.default;

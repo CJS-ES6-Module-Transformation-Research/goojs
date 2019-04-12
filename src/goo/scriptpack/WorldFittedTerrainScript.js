@@ -1,8 +1,22 @@
-import HeightMapBoundingScript from "../scriptpack/HeightMapBoundingScript";
-import Vector3 from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = WorldFittedTerrainScript;
 
-var calcVec1 = new Vector3();
-var calcVec2 = new Vector3();
+var _HeightMapBoundingScript = require("../scriptpack/HeightMapBoundingScript");
+
+var _HeightMapBoundingScript2 = _interopRequireDefault(_HeightMapBoundingScript);
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var calcVec1 = new _Vector2.default();
+var calcVec2 = new _Vector2.default();
 
 var _defaults = {
 	minX: 0,
@@ -39,7 +53,7 @@ function registerHeightData(heightMatrix, dimensions, heightMapData) {
 	var scriptContainer = {
 		dimensions: dimensions,
 		sideQuadCount: heightMatrix.length - 1,
-		script: new HeightMapBoundingScript(heightMatrix)
+		script: new _HeightMapBoundingScript2.default(heightMatrix)
 	};
 	return scriptContainer;
 }
@@ -48,7 +62,7 @@ function registerHeightData(heightMatrix, dimensions, heightMapData) {
  * Creates and exposes a square heightmap terrain fitted within given world dimensions.
  * This does not do any visualizing of the heightMap. That needs to be done elsewhere.
  */
-export default function WorldFittedTerrainScript() {
+function WorldFittedTerrainScript() {
 	this.heightMapData = [];
 	this.yMargin = 1;
 }
@@ -150,8 +164,8 @@ WorldFittedTerrainScript.prototype.getTerrainNormalAt = function (pos) {
 		tri[i].y = this.returnToWorldDimensions(tri[i].y, dims.minZ, dims.maxZ, heightData.sideQuadCount);
 	}
 
-	calcVec1.setDirect((tri[1].x - tri[0].x), (tri[1].z - tri[0].z), (tri[1].y - tri[0].y));
-	calcVec2.setDirect((tri[2].x - tri[0].x), (tri[2].z - tri[0].z), (tri[2].y - tri[0].y));
+	calcVec1.setDirect(tri[1].x - tri[0].x, tri[1].z - tri[0].z, tri[1].y - tri[0].y);
+	calcVec2.setDirect(tri[2].x - tri[0].x, tri[2].z - tri[0].z, tri[2].y - tri[0].y);
 	calcVec1.cross(calcVec2);
 	if (calcVec1.y < 0) {
 		calcVec1.scale(-1);
@@ -160,3 +174,4 @@ WorldFittedTerrainScript.prototype.getTerrainNormalAt = function (pos) {
 	calcVec1.normalize();
 	return calcVec1;
 };
+module.exports = exports.default;

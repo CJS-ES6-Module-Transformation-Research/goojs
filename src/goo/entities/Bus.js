@@ -1,3 +1,7 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Bus;
 /**
  * A generic message bus. Offers ways to receive and subscribe to messages on a hierarchy of channels.
  * @example
@@ -13,7 +17,7 @@
  * // Remove the listener after you're done with it
  * SystemBus.removeListener('eventName', listener);
  */
-export default function Bus() {
+function Bus() {
 	this.trie = { name: '', listeners: [], children: new Map() };
 }
 
@@ -162,7 +166,9 @@ function nullifyElement(array, element) {
  */
 Bus.prototype.removeListener = function (channelName, callbackToRemove) {
 	var node = this._getNode(channelName);
-	if (node) { nullifyElement(node.listeners, callbackToRemove); }
+	if (node) {
+		nullifyElement(node.listeners, callbackToRemove);
+	}
 	return this;
 };
 
@@ -183,7 +189,9 @@ Bus.prototype.getLastMessageOn = function (channelName) {
  */
 Bus.prototype.removeAllOnChannel = function (channelName) {
 	var node = this._getNode(channelName);
-	if (node) { node.listeners = []; }
+	if (node) {
+		node.listeners = [];
+	}
 	return this;
 };
 
@@ -227,3 +235,4 @@ Bus.prototype.removeListenerFromAllChannels = function (callbackToRemove) {
 Bus.prototype.clear = function () {
 	this.trie = { name: '', listeners: [], children: new Map() };
 };
+module.exports = exports.default;

@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CompareCountersAction /*id, settings*/;
 
-export default function CompareCountersAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-CompareCountersAction.prototype = Object.create(Action.prototype);
+function CompareCountersAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+CompareCountersAction.prototype = Object.create(_Action2.default.prototype);
 CompareCountersAction.prototype.constructor = CompareCountersAction;
 
 CompareCountersAction.external = {
@@ -48,7 +59,7 @@ var operators = {
 	greater: '>'
 };
 
-CompareCountersAction.getTransitionLabel = function (transitionKey, actionConfig){
+CompareCountersAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	if (operators[transitionKey]) {
 		return 'On ' + (actionConfig.options.name1 || 'Counter1') + ' ' + operators[transitionKey] + ' ' + (actionConfig.options.name2 || 'counter2');
 	}
@@ -82,3 +93,4 @@ CompareCountersAction.prototype.update = function (fsm) {
 		this.compare(fsm);
 	}
 };
+module.exports = exports.default;

@@ -1,6 +1,23 @@
-import ParticleUtils from "../particles/ParticleUtils";
-import Renderer from "../renderer/Renderer";
-import ObjectUtil from "../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ParticleEmitter;
+
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var _ParticleUtils2 = _interopRequireDefault(_ParticleUtils);
+
+var _Renderer = require("../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+var _ObjectUtil = require("../util/ObjectUtil");
+
+var _ObjectUtil2 = _interopRequireDefault(_ObjectUtil);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A Particle Emitter spawns particles - controlling spawn rate, lifetime, initial velocity vector and position of each particle.
@@ -15,22 +32,22 @@ import ObjectUtil from "../util/ObjectUtil";
  * @param {function (particle)} [options.getParticleBillboardVectors=ParticleEmitter.CAMERA_BILLBOARD_FUNC] A function that sets the orientation of the particle's billboard
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
-export default function ParticleEmitter(options) {
-	ObjectUtil.copyOptions(this, options, {
+function ParticleEmitter(options) {
+	_ObjectUtil2.default.copyOptions(this, options, {
 		totalParticlesToSpawn: -1,
 		maxLifetime: 3.0,
 		minLifetime: 2.0,
 		timeline: undefined,
 		influences: [],
-		getEmissionPoint: function (particle, particleEntity) {
+		getEmissionPoint: function getEmissionPoint(particle, particleEntity) {
 			var vec3 = particle.position;
 			vec3.setDirect(0, 0, 0);
-			return ParticleUtils.applyEntityTransformPoint(vec3, particleEntity);
+			return _ParticleUtils2.default.applyEntityTransformPoint(vec3, particleEntity);
 		},
-		getEmissionVelocity: function (particle, particleEntity) {
+		getEmissionVelocity: function getEmissionVelocity(particle, particleEntity) {
 			var vec3 = particle.velocity;
 			vec3.setDirect(0, 1, 0);
-			return ParticleUtils.applyEntityTransformVector(vec3, particleEntity);
+			return _ParticleUtils2.default.applyEntityTransformVector(vec3, particleEntity);
 		},
 		getParticleBillboardVectors: ParticleEmitter.CAMERA_BILLBOARD_FUNC,
 		releaseRatePerSecond: 10,
@@ -47,7 +64,7 @@ export default function ParticleEmitter(options) {
  */
 // Was: function (particle, particleEntity)
 ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
-	var camera = Renderer.mainCamera;
+	var camera = _Renderer2.default.mainCamera;
 	if (camera) {
 		particle.bbX.set(camera._left);
 		particle.bbY.set(camera._up);
@@ -63,3 +80,4 @@ ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
 ParticleEmitter.prototype.nextParticleLifeSpan = function () {
 	return this.minLifetime + (this.maxLifetime - this.minLifetime) * Math.random();
 };
+module.exports = exports.default;

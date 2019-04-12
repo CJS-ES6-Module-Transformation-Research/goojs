@@ -1,16 +1,33 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector3 from "../../../math/Vector3";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenScaleAction /*id, settings*/;
 
-export default function TweenScaleAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromScale = new Vector3();
-	this.toScale = new Vector3();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenScaleAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.fromScale = new _Vector2.default();
+	this.toScale = new _Vector2.default();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(Action.prototype);
+TweenScaleAction.prototype = Object.create(_Action2.default.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -60,7 +77,7 @@ TweenScaleAction.external = {
 	}]
 };
 
-TweenScaleAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenScaleAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Scale Complete' : undefined;
 };
 
@@ -84,7 +101,7 @@ TweenScaleAction.prototype.update = function (fsm) {
 	var transformComponent = fsm.getOwnerEntity().transformComponent;
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
 
 	transformComponent.transform.scale.set(this.fromScale).lerp(this.toScale, fT);
 	transformComponent.setUpdated();
@@ -94,3 +111,4 @@ TweenScaleAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

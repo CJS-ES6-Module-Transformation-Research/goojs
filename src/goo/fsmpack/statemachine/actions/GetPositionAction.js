@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = GetPositionAction /*id, settings*/;
 
-export default function GetPositionAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-GetPositionAction.prototype = Object.create(Action.prototype);
+function GetPositionAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+GetPositionAction.prototype = Object.create(_Action2.default.prototype);
 GetPositionAction.prototype.constructor = GetPositionAction;
 
 GetPositionAction.prototype.configure = function (settings) {
@@ -41,7 +52,8 @@ GetPositionAction.external = {
 GetPositionAction.prototype.update = function (fsm) {
 	var translation = this.entity.transformComponent.transform.translation;
 	if (this.entity !== null) {
-		if (this.variableX) {  // !== undefined
+		if (this.variableX) {
+			// !== undefined
 			fsm.applyOnVariable(this.variableX, function () {
 				return translation.x;
 			});
@@ -58,3 +70,4 @@ GetPositionAction.prototype.update = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;

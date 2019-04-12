@@ -1,7 +1,27 @@
-import Component from "../../entities/components/Component";
-import Particle from "../../particles/Particle";
-import ParticleEmitter from "../../particles/ParticleEmitter";
-import MeshData from "../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ParticleComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _Particle = require("../../particles/Particle");
+
+var _Particle2 = _interopRequireDefault(_Particle);
+
+var _ParticleEmitter = require("../../particles/ParticleEmitter");
+
+var _ParticleEmitter2 = _interopRequireDefault(_ParticleEmitter);
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Creates and modifies {@link MeshData} to simulate particle effects.<br /><br />ParticleComponents may have one or
@@ -25,19 +45,19 @@ import MeshData from "../../renderer/MeshData";
  * @param {number} [settings.particleCount=100]
  * @extends Component
  */
-export default function ParticleComponent(settings) {
-	Component.apply(this, arguments);
+function ParticleComponent(settings) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'ParticleComponent';
 
-	Component.call(this);
+	_Component2.default.call(this);
 
 	settings = settings || {};
 
 	this.emitters = [];
 	if (settings.emitters) {
-		for ( var i = 0, max = settings.emitters.length; i < max; i++) {
-			this.emitters.push(new ParticleEmitter(settings.emitters[i]));
+		for (var i = 0, max = settings.emitters.length; i < max; i++) {
+			this.emitters.push(new _ParticleEmitter2.default(settings.emitters[i]));
 		}
 	}
 
@@ -58,18 +78,18 @@ export default function ParticleComponent(settings) {
 
 ParticleComponent.type = 'ParticleComponent';
 
-ParticleComponent.prototype = Object.create(Component.prototype);
+ParticleComponent.prototype = Object.create(_Component2.default.prototype);
 ParticleComponent.prototype.constructor = ParticleComponent;
 
 ParticleComponent.prototype.generateMeshData = function () {
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.COLOR, MeshData.TEXCOORD0]);
-	this.meshData = new MeshData(attributeMap, this.particleCount * 4, this.particleCount * 6);
+	var attributeMap = _MeshData2.default.defaultMap([_MeshData2.default.POSITION, _MeshData2.default.COLOR, _MeshData2.default.TEXCOORD0]);
+	this.meshData = new _MeshData2.default(attributeMap, this.particleCount * 4, this.particleCount * 6);
 	this.meshData.vertexData.setDataUsage('DynamicDraw');
 
 	// setup texture coords
-	var uvBuffer = this.meshData.getAttributeBuffer(MeshData.TEXCOORD0);
+	var uvBuffer = this.meshData.getAttributeBuffer(_MeshData2.default.TEXCOORD0);
 	var indexBuffer = this.meshData.getIndexBuffer();
-	for ( var i = 0, max = this.particleCount; i < max; i++) {
+	for (var i = 0, max = this.particleCount; i < max; i++) {
 		uvBuffer.set([1.0, 0.0], i * 8 + 0);
 		uvBuffer.set([1.0, 1.0], i * 8 + 2);
 		uvBuffer.set([0.0, 1.0], i * 8 + 4);
@@ -82,8 +102,9 @@ ParticleComponent.prototype.generateMeshData = function () {
 ParticleComponent.prototype.recreateParticles = function (particleCount) {
 	this.particleCount = particleCount;
 	this.particles = [];
-	for ( var i = 0; i < this.particleCount; i++) {
-		this.particles[i] = new Particle(this, i);
+	for (var i = 0; i < this.particleCount; i++) {
+		this.particles[i] = new _Particle2.default(this, i);
 	}
 	this.generateMeshData();
 };
+module.exports = exports.default;

@@ -1,16 +1,33 @@
-import Renderer from "../../renderer/Renderer";
-import Pass from "../../renderer/pass/Pass";
-import Vector4 from "../../math/Vector4";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RenderPass;
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+var _Pass = require("../../renderer/pass/Pass");
+
+var _Pass2 = _interopRequireDefault(_Pass);
+
+var _Vector = require("../../math/Vector4");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A pass that renders provided renderlist to the rendertarget or screen
  */
-export default function RenderPass(renderList, filter) {
+function RenderPass(renderList, filter) {
 	this.renderList = renderList;
 	this.filter = filter;
 
-	this.clearColor = new Vector4(0.0, 0.0, 0.0, 0.0);
-	this.oldClearColor = new Vector4();
+	this.clearColor = new _Vector2.default(0.0, 0.0, 0.0, 0.0);
+	this.oldClearColor = new _Vector2.default();
 	this.renderToScreen = false;
 
 	this.overrideMaterial = null;
@@ -21,12 +38,12 @@ export default function RenderPass(renderList, filter) {
 	this.viewportSize = undefined;
 }
 
-RenderPass.prototype = Object.create(Pass.prototype);
+RenderPass.prototype = Object.create(_Pass2.default.prototype);
 RenderPass.prototype.constructor = RenderPass;
 
 // RenderPasses may have a fourth additional parameter called delta
 RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta, maskActive, camera, lights, clearColor) {
-	camera = camera || Renderer.mainCamera;
+	camera = camera || _Renderer2.default.mainCamera;
 
 	if (!camera) {
 		return;
@@ -54,3 +71,4 @@ RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta
 		renderer.setClearColor(this.oldClearColor.x, this.oldClearColor.y, this.oldClearColor.z, this.oldClearColor.w);
 	}
 };
+module.exports = exports.default;

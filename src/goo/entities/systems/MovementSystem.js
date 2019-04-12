@@ -1,4 +1,15 @@
-import System from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MovementSystem;
+
+var _System = require('../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 //! AT: unused; should be removed
 /**
@@ -7,11 +18,11 @@ import System from "../../entities/systems/System";
  * to the transform of the entity which has it every frame.
  * @extends System
  */
-export default function MovementSystem() {
-	System.call(this, 'MovementSystem', ['MovementComponent']);
+function MovementSystem() {
+	_System2.default.call(this, 'MovementSystem', ['MovementComponent']);
 }
 
-MovementSystem.prototype = Object.create(System.prototype);
+MovementSystem.prototype = Object.create(_System2.default.prototype);
 MovementSystem.prototype.constructor = MovementSystem;
 
 MovementSystem.prototype.addVelocityToTransform = function (vel, transform, tpf) {
@@ -39,3 +50,4 @@ MovementSystem.prototype.process = function (entities) {
 		this.applyMovementToEntity(entities[i]);
 	}
 };
+module.exports = exports.default;

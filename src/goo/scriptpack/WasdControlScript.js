@@ -1,19 +1,33 @@
-import Vector3 from "../math/Vector3";
-import ScriptUtils from "../scripts/ScriptUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = WasdControlScript;
 
-export default function WasdControlScript() {
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var _ScriptUtils2 = _interopRequireDefault(_ScriptUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function WasdControlScript() {
 	var entity, transformComponent, transform;
 	var _parameters;
 
 	var moveState;
 	var bypass = false;
 
-	var fwdVector = new Vector3(0, 0, -1);
-	var leftVector = new Vector3(-1, 0, 0);
+	var fwdVector = new _Vector2.default(0, 0, -1);
+	var leftVector = new _Vector2.default(-1, 0, 0);
 
-	var moveVector = new Vector3();
-	var calcVector = new Vector3();
-	var translation = new Vector3();
+	var moveVector = new _Vector2.default();
+	var calcVector = new _Vector2.default();
+	var translation = new _Vector2.default();
 
 	// ---
 	function updateMovementVector() {
@@ -22,9 +36,11 @@ export default function WasdControlScript() {
 	}
 
 	function keyDown(event) {
-		if (event.altKey) {	return;	}
+		if (event.altKey) {
+			return;
+		}
 
-		switch (ScriptUtils.keyForCode(event.keyCode)) {
+		switch (_ScriptUtils2.default.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = true;
 				break;
@@ -50,9 +66,11 @@ export default function WasdControlScript() {
 	}
 
 	function keyUp(event) {
-		if (event.altKey) {	return;	}
+		if (event.altKey) {
+			return;
+		}
 
-		switch (ScriptUtils.keyForCode(event.keyCode)) {
+		switch (_ScriptUtils2.default.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = false;
 				break;
@@ -102,22 +120,18 @@ export default function WasdControlScript() {
 	}
 
 	function update(parameters, environment) {
-		if (!bypass && moveVector.equals(Vector3.ZERO)) {
+		if (!bypass && moveVector.equals(_Vector2.default.ZERO)) {
 			return;
 		}
 
-		if (!bypass && (parameters.whenUsed && environment.entity !== environment.activeCameraEntity)) {
+		if (!bypass && parameters.whenUsed && environment.entity !== environment.activeCameraEntity) {
 			return;
 		}
 
 		bypass = false;
 
 		// direction of movement in local coords
-		calcVector.setDirect(
-			fwdVector.x * moveVector.z + leftVector.x * moveVector.x,
-			fwdVector.y * moveVector.z + leftVector.y * moveVector.x,
-			fwdVector.z * moveVector.z + leftVector.z * moveVector.x
-		);
+		calcVector.setDirect(fwdVector.x * moveVector.z + leftVector.x * moveVector.x, fwdVector.y * moveVector.z + leftVector.y * moveVector.x, fwdVector.z * moveVector.z + leftVector.z * moveVector.x);
 		calcVector.normalize();
 
 		// move speed for this run...
@@ -210,3 +224,4 @@ WasdControlScript.externals = {
 		exponential: true
 	}]
 };
+module.exports = exports.default;

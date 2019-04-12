@@ -1,4 +1,15 @@
-import Component from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = CssTransformComponent;
+
+var _Component = require('../../entities/components/Component');
+
+var _Component2 = _interopRequireDefault(_Component);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Connects a domElement to an entity and applies the transformComponent of the entity to the domElement with CSS3 3D transforms.
@@ -6,33 +17,34 @@ import Component from "../../entities/components/Component";
  * @param {boolean} faceCamera
  * @extends Component
  */
-export default function CssTransformComponent(domElement, faceCamera) {
-	Component.apply(this, arguments);
+function CssTransformComponent(domElement, faceCamera) {
+  _Component2.default.apply(this, arguments);
 
-	this.type = 'CssTransformComponent';
+  this.type = 'CssTransformComponent';
 
-	/**
-	 * DOM element.
-	 */
-	this.domElement = domElement;
+  /**
+   * DOM element.
+   */
+  this.domElement = domElement;
 
-	/**
-	 * @type {number}
-	 * @default 1
-	 */
-	this.scale = 1;
+  /**
+   * @type {number}
+   * @default 1
+   */
+  this.scale = 1;
 
-	/**
-	 * @type {boolean}
-	 */
-	this.faceCamera = (typeof faceCamera === 'undefined') ? false : faceCamera;
+  /**
+   * @type {boolean}
+   */
+  this.faceCamera = typeof faceCamera === 'undefined' ? false : faceCamera;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 CssTransformComponent.type = 'CssTransformComponent';
 
-CssTransformComponent.prototype = Object.create(Component.prototype);
+CssTransformComponent.prototype = Object.create(_Component2.default.prototype);
 CssTransformComponent.prototype.constructor = CssTransformComponent;
+module.exports = exports.default;

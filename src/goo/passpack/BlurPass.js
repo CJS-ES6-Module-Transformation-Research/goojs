@@ -1,9 +1,35 @@
-import Material from "../renderer/Material";
-import FullscreenUtils from "../renderer/pass/FullscreenUtils";
-import RenderTarget from "../renderer/pass/RenderTarget";
-import ObjectUtils from "../util/ObjectUtils";
-import ShaderLib from "../renderer/shaders/ShaderLib";
-import Pass from "../renderer/pass/Pass";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BlurPass;
+
+var _Material = require("../renderer/Material");
+
+var _Material2 = _interopRequireDefault(_Material);
+
+var _FullscreenUtils = require("../renderer/pass/FullscreenUtils");
+
+var _FullscreenUtils2 = _interopRequireDefault(_FullscreenUtils);
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _ShaderLib2 = _interopRequireDefault(_ShaderLib);
+
+var _Pass = require("../renderer/pass/Pass");
+
+var _Pass2 = _interopRequireDefault(_Pass);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * <pre>
@@ -16,7 +42,7 @@ import Pass from "../renderer/pass/Pass";
  * }
  * </pre>
  */
-export default function BlurPass(settings) {
+function BlurPass(settings) {
 	settings = settings || {};
 
 	this.target = settings.target !== undefined ? settings.target : null;
@@ -38,29 +64,29 @@ export default function BlurPass(settings) {
 	});
 
 	this.renderable = {
-		meshData: FullscreenUtils.quad,
+		meshData: _FullscreenUtils2.default.quad,
 		materials: []
 	};
 
-	this.copyMaterial = new Material(ShaderLib.copyPure);
+	this.copyMaterial = new _Material2.default(_ShaderLib2.default.copyPure);
 	this.copyMaterial.uniforms.opacity = strength;
 	this.copyMaterial.blendState.blending = 'CustomBlending';
 
-	this.convolutionShader = ObjectUtils.deepClone(ShaderLib.convolution);
+	this.convolutionShader = _ObjectUtils2.default.deepClone(_ShaderLib2.default.convolution);
 	this.convolutionShader.defines = {
 		'KERNEL_SIZE_FLOAT': kernelSize.toFixed(1),
 		'KERNEL_SIZE_INT': kernelSize.toFixed(0)
 	};
 	this.convolutionShader.uniforms.uImageIncrement = this.blurX;
 	this.convolutionShader.uniforms.cKernel = this.convolutionShader.buildKernel(sigma);
-	this.convolutionMaterial = new Material(this.convolutionShader);
+	this.convolutionMaterial = new _Material2.default(this.convolutionShader);
 
 	this.enabled = true;
 	this.clear = false;
 	this.needsSwap = false;
 }
 
-BlurPass.prototype = Object.create(Pass.prototype);
+BlurPass.prototype = Object.create(_Pass2.default.prototype);
 BlurPass.prototype.constructor = BlurPass;
 
 BlurPass.prototype.destroy = function (renderer) {
@@ -91,8 +117,8 @@ BlurPass.prototype.updateSize = function (size, renderer) {
 	if (this.renderTargetY) {
 		renderer._deallocateRenderTarget(this.renderTargetY);
 	}
-	this.renderTargetX = new RenderTarget(sizeX, sizeY);
-	this.renderTargetY = new RenderTarget(sizeX, sizeY);
+	this.renderTargetX = new _RenderTarget2.default(sizeX, sizeY);
+	this.renderTargetY = new _RenderTarget2.default(sizeX, sizeY);
 };
 
 BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -101,19 +127,20 @@ BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionMaterial.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, _FullscreenUtils2.default.camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionMaterial.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetY, true);
+	renderer.render(this.renderable, _FullscreenUtils2.default.camera, [], this.renderTargetY, true);
 
 	this.renderable.materials[0] = this.copyMaterial;
 	this.copyMaterial.setTexture('DIFFUSE_MAP', this.renderTargetY);
 
 	if (this.target !== null) {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], this.target, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils2.default.camera, [], this.target, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], readBuffer, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils2.default.camera, [], readBuffer, this.clear);
 	}
 };
+module.exports = exports.default;

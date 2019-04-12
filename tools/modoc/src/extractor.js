@@ -1,11 +1,42 @@
-import * as esprima from "../lib/esprima";
-import estraverse from "estraverse";
-import * as util from "./util";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.extract = undefined;
+
+var _esprima = require("../lib/esprima");
+
+var esprima = _interopRequireWildcard(_esprima);
+
+var _estraverse = require("estraverse");
+
+var _estraverse2 = _interopRequireDefault(_estraverse);
+
+var _util = require("./util");
+
+var util = _interopRequireWildcard(_util);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 // jshint node:true
 'use strict';
 
-
-var getFirstJSDoc = function (comments) {
+var getFirstJSDoc = function getFirstJSDoc(comments) {
 	for (var i = 0; i < comments.length; i++) {
 		var comment = comments[i];
 		if (comment.type === 'Block' && comment.value[0] === '*') {
@@ -14,13 +45,13 @@ var getFirstJSDoc = function (comments) {
 	}
 };
 
-var extractTree = function (tree, fileName, options) {
+var extractTree = function extractTree(tree, fileName, options) {
 	var extractors = {
 		constructor: {
-			match: function (node, fileName) {
+			match: function match(node, fileName) {
 				return node.type === 'FunctionDeclaration' && node.id.name === fileName;
 			},
-			extract: function (node) {
+			extract: function extract(node) {
 				var params = node.params.map(function (param) {
 					return param.name;
 				});
@@ -39,16 +70,10 @@ var extractTree = function (tree, fileName, options) {
 			}
 		},
 		method: {
-			match: function (node, fileName) {
-				return node.type === 'AssignmentExpression' && node.operator === '=' &&
-					node.left.type === 'MemberExpression' &&
-					node.left.object.type === 'MemberExpression' &&
-					node.left.object.property.name === 'prototype' &&
-					node.left.object.object.name === fileName &&
-					node.right.type === 'FunctionExpression' &&
-					options.nameFilter(node.left.property.name);
+			match: function match(node, fileName) {
+				return node.type === 'AssignmentExpression' && node.operator === '=' && node.left.type === 'MemberExpression' && node.left.object.type === 'MemberExpression' && node.left.object.property.name === 'prototype' && node.left.object.object.name === fileName && node.right.type === 'FunctionExpression' && options.nameFilter(node.left.property.name);
 			},
-			extract: function (node) {
+			extract: function extract(node) {
 				var params = node.right.params.map(function (param) {
 					return param.name;
 				});
@@ -68,14 +93,10 @@ var extractTree = function (tree, fileName, options) {
 			}
 		},
 		staticMethod: {
-			match: function (node, fileName) {
-				return node.type === 'AssignmentExpression' && node.operator === '=' &&
-					node.left.type === 'MemberExpression' &&
-					node.left.object.name === fileName &&
-					node.right.type === 'FunctionExpression' &&
-					options.nameFilter(node.left.property.name);
+			match: function match(node, fileName) {
+				return node.type === 'AssignmentExpression' && node.operator === '=' && node.left.type === 'MemberExpression' && node.left.object.name === fileName && node.right.type === 'FunctionExpression' && options.nameFilter(node.left.property.name);
 			},
-			extract: function (node) {
+			extract: function extract(node) {
 				var params = node.right.params.map(function (param) {
 					return param.name;
 				});
@@ -95,16 +116,10 @@ var extractTree = function (tree, fileName, options) {
 			}
 		},
 		staticMember: {
-			match: function (node, parent, fileName) {
-				return node.type === 'AssignmentExpression' && node.operator === '=' &&
-					node.left.type === 'MemberExpression' &&
-					node.left.object.name === fileName &&
-					node.right.type !== 'FunctionExpression' &&
-					parent.leadingComments &&
-					getFirstJSDoc(parent.leadingComments) &&
-					options.nameFilter(node.left.property.name);
+			match: function match(node, parent, fileName) {
+				return node.type === 'AssignmentExpression' && node.operator === '=' && node.left.type === 'MemberExpression' && node.left.object.name === fileName && node.right.type !== 'FunctionExpression' && parent.leadingComments && getFirstJSDoc(parent.leadingComments) && options.nameFilter(node.left.property.name);
 			},
-			extract: function (node, parent) {
+			extract: function extract(node, parent) {
 				var comment;
 				var leadingComments = parent.leadingComments;
 
@@ -119,12 +134,8 @@ var extractTree = function (tree, fileName, options) {
 			}
 		},
 		member: {
-			match: function (node, parent, fileName) {
-				if (node.type === 'AssignmentExpression' && node.operator === '=' &&
-					node.left.type === 'MemberExpression' &&
-					node.left.object.type === 'ThisExpression' &&
-					options.nameFilter(node.left.property.name)
-				) {
+			match: function match(node, parent, fileName) {
+				if (node.type === 'AssignmentExpression' && node.operator === '=' && node.left.type === 'MemberExpression' && node.left.object.type === 'ThisExpression' && options.nameFilter(node.left.property.name)) {
 					var comments;
 					if (parent.leadingComments) {
 						comments = parent.leadingComments;
@@ -136,7 +147,7 @@ var extractTree = function (tree, fileName, options) {
 				}
 				return false;
 			},
-			extract: function (node, parent) {
+			extract: function extract(node, parent) {
 				var comment = getFirstJSDoc(parent.leadingComments || node.left.leadingComments);
 
 				return {
@@ -147,14 +158,16 @@ var extractTree = function (tree, fileName, options) {
 		}
 	};
 
+	var constructor,
+	    staticMethods = [],
+	    methods = [],
+	    members,
+	    staticMembers = [];
 
-
-	var constructor, staticMethods = [], methods = [], members, staticMembers = [];
-
-	var collectMembers = function (node) {
+	var collectMembers = function collectMembers(node) {
 		var members = [];
-		estraverse.traverse(node, {
-			enter: function (node, parent) {
+		_estraverse2.default.traverse(node, {
+			enter: function enter(node, parent) {
 				if (extractors.member.match(node, parent, fileName)) {
 					members.push(extractors.member.extract(node, parent));
 				}
@@ -163,8 +176,8 @@ var extractTree = function (tree, fileName, options) {
 		return members;
 	};
 
-	estraverse.traverse(tree, {
-		enter: function (node, parent) {
+	_estraverse2.default.traverse(tree, {
+		enter: function enter(node, parent) {
 			if (extractors.constructor.match(node, fileName)) {
 				constructor = extractors.constructor.extract(node);
 				members = collectMembers(node.body);
@@ -179,9 +192,7 @@ var extractTree = function (tree, fileName, options) {
 	});
 
 	var extraComments = tree.comments.filter(function (comment) {
-		return comment.value[0] === '*' &&
-			comment.type === 'Block' &&
-			comment.value.indexOf('@target-class') !== -1;
+		return comment.value[0] === '*' && comment.type === 'Block' && comment.value.indexOf('@target-class') !== -1;
 	}).map(function (comment) {
 		return comment.value;
 	});
@@ -196,7 +207,7 @@ var extractTree = function (tree, fileName, options) {
 	};
 };
 
-export var extract = function (source, file, options) {
+var extract = exports.extract = function extract(source, file, options) {
 	options = options || {};
 	options.nameFilter = function (name) {
 		return name[0] !== '_'; // skip 'private' methods

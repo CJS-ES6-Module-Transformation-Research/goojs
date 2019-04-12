@@ -1,4 +1,15 @@
-import System from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PortalSystem;
+
+var _System = require('../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Processes all entities with a portal component, a mesh renderer component and a mesh data component
@@ -7,8 +18,8 @@ import System from "../../entities/systems/System";
  * @param {Renderer} renderer
  * @param {RenderSystem} renderSystem
  */
-export default function PortalSystem(renderer, renderSystem) {
-	System.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
+function PortalSystem(renderer, renderSystem) {
+	_System2.default.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
 
 	this.renderer = renderer;
 	this.renderSystem = renderSystem;
@@ -16,7 +27,7 @@ export default function PortalSystem(renderer, renderSystem) {
 	this.renderList = [];
 }
 
-PortalSystem.prototype = Object.create(System.prototype);
+PortalSystem.prototype = Object.create(_System2.default.prototype);
 PortalSystem.prototype.constructor = PortalSystem;
 
 PortalSystem.prototype.process = function (entities) {
@@ -58,3 +69,4 @@ PortalSystem.prototype.render = function (renderer, camera, target, overrideMate
 
 	renderer.render(this.renderList, camera, this.renderSystem.lights, target, true, overrideMaterial);
 };
+module.exports = exports.default;

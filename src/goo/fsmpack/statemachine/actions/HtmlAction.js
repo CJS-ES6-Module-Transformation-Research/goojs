@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = HtmlAction /*id, settings*/;
 
-export default function HtmlAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-HtmlAction.prototype = Object.create(Action.prototype);
+function HtmlAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+HtmlAction.prototype = Object.create(_Action2.default.prototype);
 HtmlAction.prototype.constructor = HtmlAction;
 
 HtmlAction.external = {
@@ -20,7 +31,7 @@ HtmlAction.external = {
 	}]
 };
 
-HtmlAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HtmlAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On HTML Pick';
 };
 
@@ -41,3 +52,4 @@ HtmlAction.prototype.exit = function (fsm) {
 		this.domElement.removeEventListener('click', this.eventListener);
 	}
 };
+module.exports = exports.default;

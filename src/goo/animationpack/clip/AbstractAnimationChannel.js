@@ -1,4 +1,15 @@
-import MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AbstractAnimationChannel;
+
+var _MathUtils = require('../../math/MathUtils');
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Base class for animation channels. An animation channel describes a single element of an animation (such as the movement of a single
@@ -8,7 +19,7 @@ import MathUtils from "../../math/MathUtils";
  * @param {string} blendType the blendtype between transform keyframes of the channel. Defaults to AbstractAnimationChannel.BLENDTYPES.LINEAR
  * @private
  */
-export default function AbstractAnimationChannel(channelName, times, blendType) {
+function AbstractAnimationChannel(channelName, times, blendType) {
 	this._blendType = blendType || AbstractAnimationChannel.BLENDTYPES.LINEAR;
 	this._channelName = channelName;
 
@@ -48,7 +59,7 @@ AbstractAnimationChannel.prototype.getMaxTime = function () {
 AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) {
 	var timeCount = this._times.length;
 
-	if (!(timeCount)) {
+	if (!timeCount) {
 		return;
 	}
 	// figure out what frames we are between and by how much
@@ -79,10 +90,10 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
 
 		switch (this._blendType) {
 			case AbstractAnimationChannel.BLENDTYPES.CUBIC:
-				progressPercent = MathUtils.scurve3(progressPercent);
+				progressPercent = _MathUtils2.default.scurve3(progressPercent);
 				break;
 			case AbstractAnimationChannel.BLENDTYPES.QUINTIC:
-				progressPercent = MathUtils.scurve5(progressPercent);
+				progressPercent = _MathUtils2.default.scurve5(progressPercent);
 				break;
 			default:
 		}
@@ -92,3 +103,4 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
 		this._lastStartFrame = startFrame;
 	}
 };
+module.exports = exports.default;

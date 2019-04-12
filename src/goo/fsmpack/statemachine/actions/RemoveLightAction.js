@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RemoveLightAction /*id, settings*/;
 
-export default function RemoveLightAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-RemoveLightAction.prototype = Object.create(Action.prototype);
+function RemoveLightAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+RemoveLightAction.prototype = Object.create(_Action2.default.prototype);
 RemoveLightAction.prototype.constructor = RemoveLightAction;
 
 RemoveLightAction.external = {
@@ -22,3 +33,4 @@ RemoveLightAction.prototype.enter = function (fsm) {
 		entity.clearComponent('LightComponent');
 	}
 };
+module.exports = exports.default;

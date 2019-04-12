@@ -1,5 +1,19 @@
-import RSVP from "../../util/rsvp";
-import PromiseUtils from "../../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ConfigHandler;
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Base class for resource handlers, used to load all types of resources into the engine.
@@ -14,7 +28,7 @@ import PromiseUtils from "../../util/PromiseUtils";
  * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
  * @hidden
  */
-export default function ConfigHandler(world, getConfig, updateObject, loadObject) {
+function ConfigHandler(world, getConfig, updateObject, loadObject) {
 	this.world = world;
 	this.getConfig = getConfig;
 	this.updateObject = updateObject;
@@ -48,7 +62,7 @@ ConfigHandler.prototype._remove = function (ref) {
  * @param {Object} config
  * @private
  */
-ConfigHandler.prototype._prepare = function (/*config*/) {};
+ConfigHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Loads object for given ref
@@ -73,16 +87,14 @@ ConfigHandler.prototype.load = function (ref, options) {
 	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
 		return this._loading.get(ref);
 	} else if (this._objects.has(ref) && !options.reload) {
-		return PromiseUtils.resolve(this._objects.get(ref));
+		return _PromiseUtils2.default.resolve(this._objects.get(ref));
 	} else {
 		var promise = this.getConfig(ref, options).then(function (config) {
 			return this.update(ref, config, options);
-		}.bind(this))
-		.then(function (object) {
+		}.bind(this)).then(function (object) {
 			this._loading.delete(ref);
 			return object;
-		}.bind(this))
-		.then(null, function (err) {
+		}.bind(this)).then(null, function (err) {
 			this._loading.delete(ref);
 			throw err;
 		}.bind(this));
@@ -100,7 +112,7 @@ ConfigHandler.prototype.clear = function () {
 	this._objects.clear();
 	this._loading.clear();
 
-	return RSVP.all(promises);
+	return _rsvp2.default.all(promises);
 };
 
 /**
@@ -129,18 +141,18 @@ ConfigHandler.getTypeForRef = function (ref) {
 ConfigHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref, options);
-		return PromiseUtils.resolve();
+		return _PromiseUtils2.default.resolve();
 	}
 
 	if (!options) {
 		options = {};
 	}
 
-	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (!this._objects.has(ref) || options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine') {
 		this._objects.set(ref, this._create());
 	}
 	this._prepare(config);
-	return PromiseUtils.resolve(this._objects.get(ref));
+	return _PromiseUtils2.default.resolve(this._objects.get(ref));
 };
 
 ConfigHandler.handlerClasses = {};
@@ -163,3 +175,4 @@ ConfigHandler._registerClass = function (type, klass) {
 	klass._type = type;
 	return ConfigHandler.handlerClasses[type] = klass;
 };
+module.exports = exports.default;

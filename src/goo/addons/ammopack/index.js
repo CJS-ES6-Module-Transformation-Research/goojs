@@ -1,13 +1,32 @@
-import AmmoComponent_moduleDefault from "./AmmoComponent";
-import AmmoSystem_moduleDefault from "./AmmoSystem";
-import calculateTriangleMeshShape_moduleDefault from "./calculateTriangleMeshShape";
-export default {
-	AmmoComponent: AmmoComponent_moduleDefault,
-	AmmoSystem: AmmoSystem_moduleDefault,
-	calculateTriangleMeshShape: calculateTriangleMeshShape_moduleDefault
-};;
-if (typeof(window) !== 'undefined') {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _AmmoComponent = require("./AmmoComponent");
+
+var _AmmoComponent2 = _interopRequireDefault(_AmmoComponent);
+
+var _AmmoSystem = require("./AmmoSystem");
+
+var _AmmoSystem2 = _interopRequireDefault(_AmmoSystem);
+
+var _calculateTriangleMeshShape = require("./calculateTriangleMeshShape");
+
+var _calculateTriangleMeshShape2 = _interopRequireDefault(_calculateTriangleMeshShape);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+exports.default = {
+	AmmoComponent: _AmmoComponent2.default,
+	AmmoSystem: _AmmoSystem2.default,
+	calculateTriangleMeshShape: _calculateTriangleMeshShape2.default
+};
+;
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}
 }
+module.exports = exports.default;

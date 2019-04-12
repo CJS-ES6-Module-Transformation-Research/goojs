@@ -1,14 +1,31 @@
-import Capabilities from "../../renderer/Capabilities";
-import System from "../../entities/systems/System";
-import SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LightingSystem;
+
+var _Capabilities = require("../../renderer/Capabilities");
+
+var _Capabilities2 = _interopRequireDefault(_Capabilities);
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Processes all entities with a light component making sure that lights are placed according to its transforms<br>
  * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
  * @extends System
  */
-export default function LightingSystem() {
-	System.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
+function LightingSystem() {
+	_System2.default.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
 
 	this.overrideLights = null;
 
@@ -17,7 +34,7 @@ export default function LightingSystem() {
 	this._needsUpdate = true;
 }
 
-LightingSystem.prototype = Object.create(System.prototype);
+LightingSystem.prototype = Object.create(_System2.default.prototype);
 LightingSystem.prototype.constructor = LightingSystem;
 
 /**
@@ -26,7 +43,7 @@ LightingSystem.prototype.constructor = LightingSystem;
  */
 LightingSystem.prototype.setOverrideLights = function (overrideLights) {
 	this.overrideLights = overrideLights;
-	SystemBus.emit('goo.setLights', this.overrideLights);
+	_SystemBus2.default.emit('goo.setLights', this.overrideLights);
 	this._needsUpdate = true;
 };
 
@@ -61,12 +78,12 @@ LightingSystem.prototype.process = function (entities) {
 
 			if (!lightComponent.hidden) {
 				var light = lightComponent.light;
-				light.shadowCaster = light.shadowCaster && Capabilities.TextureFloat; // Needs float texture for shadows (for now)
+				light.shadowCaster = light.shadowCaster && _Capabilities2.default.TextureFloat; // Needs float texture for shadows (for now)
 				this.lights.push(light);
 			}
 		}
 		this._needsUpdate = false;
-		SystemBus.emit('goo.setLights', this.lights);
+		_SystemBus2.default.emit('goo.setLights', this.lights);
 	}
 };
 
@@ -75,3 +92,4 @@ LightingSystem.prototype.invalidateHandles = function (renderer) {
 		entity.lightComponent.light.invalidateHandles(renderer);
 	});
 };
+module.exports = exports.default;

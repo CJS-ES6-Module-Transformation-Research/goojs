@@ -1,7 +1,29 @@
-import ComponentHandler from "../../loaders/handlers/ComponentHandler";
-import HtmlComponent from "../../entities/components/HtmlComponent";
-import RSVP from "../../util/rsvp";
-import PromiseUtils from "../../util/PromiseUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = HtmlComponentHandler;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _ComponentHandler2 = _interopRequireDefault(_ComponentHandler);
+
+var _HtmlComponent = require("../../entities/components/HtmlComponent");
+
+var _HtmlComponent2 = _interopRequireDefault(_HtmlComponent);
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 'use strict';
 
@@ -13,13 +35,13 @@ import PromiseUtils from "../../util/PromiseUtils";
  * @extends ComponentHandler
  * @hidden
  */
-export default function HtmlComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+function HtmlComponentHandler() {
+	_ComponentHandler2.default.apply(this, arguments);
 	this._type = 'HtmlComponent';
 }
 
-HtmlComponentHandler.prototype = Object.create(ComponentHandler.prototype);
-ComponentHandler._registerClass('html', HtmlComponentHandler);
+HtmlComponentHandler.prototype = Object.create(_ComponentHandler2.default.prototype);
+_ComponentHandler2.default._registerClass('html', HtmlComponentHandler);
 HtmlComponentHandler.prototype.constructor = HtmlComponentHandler;
 
 /**
@@ -28,7 +50,7 @@ HtmlComponentHandler.prototype.constructor = HtmlComponentHandler;
  * @returns {Object}
  * @private
  */
-HtmlComponentHandler.prototype._prepare = function (/*config*/) {};
+HtmlComponentHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Create camera component object.
@@ -37,7 +59,7 @@ HtmlComponentHandler.prototype._prepare = function (/*config*/) {};
  * @private
  */
 HtmlComponentHandler.prototype._create = function () {
-	return new HtmlComponent();
+	return new _HtmlComponent2.default();
 };
 
 var regex = /\W/g;
@@ -55,8 +77,10 @@ function getSafeEntityId(id) {
  */
 HtmlComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler2.default.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var domElement = component.domElement;
 		if (!domElement) {
@@ -67,8 +91,7 @@ HtmlComponentHandler.prototype.update = function (entity, config, options) {
 		component.useTransformComponent = config.useTransformComponent !== false;
 		component.pixelPerfect = config.pixelPerfect !== undefined ? config.pixelPerfect : true;
 
-		return that._updateHtml(domElement, entity, config, options)
-		.then(function () {
+		return that._updateHtml(domElement, entity, config, options).then(function () {
 			that._updateAttributes(domElement, entity, config);
 			return component;
 		});
@@ -102,7 +125,7 @@ HtmlComponentHandler.prototype._createDomElement = function (entity) {
 };
 
 HtmlComponentHandler.prototype._addMouseListeners = function (domElement, entity) {
-	var mouseListener = function (domEvent) {
+	var mouseListener = function mouseListener(domEvent) {
 		var gooRunner = entity._world.gooRunner;
 		var evt = {
 			entity: entity,
@@ -121,7 +144,7 @@ HtmlComponentHandler.prototype._addMouseListeners = function (domElement, entity
 };
 
 HtmlComponentHandler.prototype._addTouchListeners = function (domElement, entity) {
-	var touchListener = function (domEvent) {
+	var touchListener = function touchListener(domEvent) {
 		var gooRunner = entity._world.gooRunner;
 		var domTarget = gooRunner.renderer.domElement;
 
@@ -176,7 +199,7 @@ HtmlComponentHandler.prototype._attachDomElement = function (domElement, entity)
  */
 HtmlComponentHandler.prototype._updateHtml = function (domElement, entity, config, options) {
 	if (config.innerHtml === domElement.prevInnerHtml) {
-		return PromiseUtils.resolve();
+		return _PromiseUtils2.default.resolve();
 	}
 
 	domElement.prevInnerHtml = config.innerHtml;
@@ -201,10 +224,11 @@ HtmlComponentHandler.prototype._loadImages = function (domElement, options) {
 
 	function loadImage(htmlImage) {
 		var imageRef = htmlImage.getAttribute('data-id');
-		if (!imageRef) { return PromiseUtils.resolve(); }
+		if (!imageRef) {
+			return _PromiseUtils2.default.resolve();
+		}
 
-		return that.loadObject(imageRef, options)
-		.then(function (image) {
+		return that.loadObject(imageRef, options).then(function (image) {
 			htmlImage.src = image.src;
 			return htmlImage;
 		}, function (e) {
@@ -215,7 +239,7 @@ HtmlComponentHandler.prototype._loadImages = function (domElement, options) {
 	}
 
 	var images = [].slice.apply(domElement.getElementsByTagName('IMG'));
-	return RSVP.all(images.map(loadImage));
+	return _rsvp2.default.all(images.map(loadImage));
 };
 
 /**
@@ -274,8 +298,9 @@ HtmlComponentHandler.prototype._updateAttributes = function (domElement, entity,
 
 HtmlComponentHandler.prototype._remove = function (entity) {
 	var component = entity.htmlComponent;
-	ComponentHandler.prototype._remove.call(this, entity);
+	_ComponentHandler2.default.prototype._remove.call(this, entity);
 	if (component.domElement) {
 		component.domElement.parentNode.removeChild(component.domElement);
 	}
 };
+module.exports = exports.default;

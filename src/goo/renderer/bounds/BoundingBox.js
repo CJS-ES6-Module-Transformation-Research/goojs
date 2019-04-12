@@ -1,7 +1,27 @@
-import Vector3 from "../../math/Vector3";
-import BoundingVolume from "../../renderer/bounds/BoundingVolume";
-import BoundingSphere from "../../renderer/bounds/BoundingSphere";
-import MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BoundingBox;
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _BoundingVolume = require("../../renderer/bounds/BoundingVolume");
+
+var _BoundingVolume2 = _interopRequireDefault(_BoundingVolume);
+
+var _BoundingSphere = require("../../renderer/bounds/BoundingSphere");
+
+var _BoundingSphere2 = _interopRequireDefault(_BoundingSphere);
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * <code>BoundingBox</code> defines an axis-aligned cube that defines a container for a group of vertices of a
@@ -10,8 +30,8 @@ import MathUtils from "../../math/MathUtils";
  *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
  *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
  */
-export default function BoundingBox(center, xExtent, yExtent, zExtent) {
-	BoundingVolume.call(this, center);
+function BoundingBox(center, xExtent, yExtent, zExtent) {
+	_BoundingVolume2.default.call(this, center);
 
 	// x/y/z Extent is actually width/height/depth * 0.5
 	this.xExtent = xExtent !== undefined ? xExtent : 1;
@@ -23,23 +43,23 @@ export default function BoundingBox(center, xExtent, yExtent, zExtent) {
 	// @endif
 }
 
-var tmpVec1 = new Vector3();
-var tmpVec2 = new Vector3();
-var tmpVec3 = new Vector3();
+var tmpVec1 = new _Vector2.default();
+var tmpVec2 = new _Vector2.default();
+var tmpVec3 = new _Vector2.default();
 
 var tmpCorners = [];
 for (var i = 0; i < 8; i++) {
-	tmpCorners.push(new Vector3());
+	tmpCorners.push(new _Vector2.default());
 }
 
-BoundingBox.prototype = Object.create(BoundingVolume.prototype);
+BoundingBox.prototype = Object.create(_BoundingVolume2.default.prototype);
 BoundingBox.prototype.constructor = BoundingBox;
 
 BoundingBox.prototype.reset = function () {
 	this.xExtent = 1;
 	this.yExtent = 1;
 	this.zExtent = 1;
-	BoundingVolume.prototype.reset.call(this);
+	_BoundingVolume2.default.prototype.reset.call(this);
 };
 
 BoundingBox.prototype.computeFromPoints = function (verts) {
@@ -86,9 +106,7 @@ BoundingBox.prototype.containsPoint = function (point) {
 	var y = point.y - center.y;
 	var z = point.z - center.z;
 
-	return x >= -this.xExtent && x <= this.xExtent &&
-		y >= -this.yExtent && y <= this.yExtent &&
-		z >= -this.zExtent && z <= this.zExtent;
+	return x >= -this.xExtent && x <= this.xExtent && y >= -this.yExtent && y <= this.yExtent && z >= -this.zExtent && z <= this.zExtent;
 };
 
 var tmpArray = [];
@@ -205,21 +223,16 @@ BoundingBox.prototype.whichSide = function (plane) {
 	var planeData = plane.normal;
 	var pointData = this.center;
 
-	var radius = Math.abs(this.xExtent * planeData.x) +
-		Math.abs(this.yExtent * planeData.y) +
-		Math.abs(this.zExtent * planeData.z);
+	var radius = Math.abs(this.xExtent * planeData.x) + Math.abs(this.yExtent * planeData.y) + Math.abs(this.zExtent * planeData.z);
 
-	var distance = planeData.x * pointData.x +
-		planeData.y * pointData.y +
-		planeData.z * pointData.z -
-		plane.constant;
+	var distance = planeData.x * pointData.x + planeData.y * pointData.y + planeData.z * pointData.z - plane.constant;
 
 	if (distance < -radius) {
-		return BoundingVolume.Inside;
+		return _BoundingVolume2.default.Inside;
 	} else if (distance > radius) {
-		return BoundingVolume.Outside;
+		return _BoundingVolume2.default.Outside;
 	} else {
-		return BoundingVolume.Intersects;
+		return _BoundingVolume2.default.Intersects;
 	}
 };
 
@@ -300,7 +313,7 @@ BoundingBox.prototype.testStaticAABBAABB = function (bb, contact) {
 	// [Minimum Translation Vector]
 	var mtvInfo = {
 		mtvDistance: 10000000000, // Set current minimum distance (max float value so next value is always less)
-		mtvAxis: new Vector3()
+		mtvAxis: new _Vector2.default()
 		// Axis along which to travel with the minimum distance
 	};
 
@@ -312,20 +325,17 @@ BoundingBox.prototype.testStaticAABBAABB = function (bb, contact) {
 	// (0, 0, 1) A1 (= B2) [Z Axis]
 
 	// [X Axis]
-	if (!this.testAxisStatic(Vector3.UNIT_X, a.center.x - a.xExtent, a.center.x + a.xExtent, b.center.x - b.xExtent, b.center.x + b.xExtent,
-		mtvInfo)) {
+	if (!this.testAxisStatic(_Vector2.default.UNIT_X, a.center.x - a.xExtent, a.center.x + a.xExtent, b.center.x - b.xExtent, b.center.x + b.xExtent, mtvInfo)) {
 		return false;
 	}
 
 	// [Y Axis]
-	if (!this.testAxisStatic(Vector3.UNIT_Y, a.center.y - a.yExtent, a.center.y + a.yExtent, b.center.y - b.yExtent, b.center.y + b.yExtent,
-		mtvInfo)) {
+	if (!this.testAxisStatic(_Vector2.default.UNIT_Y, a.center.y - a.yExtent, a.center.y + a.yExtent, b.center.y - b.yExtent, b.center.y + b.yExtent, mtvInfo)) {
 		return false;
 	}
 
 	// [Z Axis]
-	if (!this.testAxisStatic(Vector3.UNIT_Z, a.center.z - a.zExtent, a.center.z + a.zExtent, b.center.z - b.zExtent, b.center.z + b.zExtent,
-		mtvInfo)) {
+	if (!this.testAxisStatic(_Vector2.default.UNIT_Z, a.center.z - a.zExtent, a.center.z + a.zExtent, b.center.z - b.zExtent, b.center.z + b.zExtent, mtvInfo)) {
 		return false;
 	}
 
@@ -374,7 +384,7 @@ BoundingBox.prototype.testAxisStatic = function (axis, minA, maxA, minB, maxB, m
 
 	// The mtd vector for that axis
 	// var sep = axis * (overlap / axisLengthSquared);
-	var sep = new Vector3().copy(axis).scale(overlap / axisLengthSquared);
+	var sep = new _Vector2.default().copy(axis).scale(overlap / axisLengthSquared);
 
 	// The mtd vector length squared
 	var sepLengthSquared = sep.dot(sep);
@@ -397,25 +407,25 @@ BoundingBox.prototype.intersectsRay = function (ray) {
 
 	// Check for degenerate cases and pad using zero tolerance. Should give close enough result.
 	var x = this.xExtent;
-	if (x < MathUtils.ZERO_TOLERANCE && x >= 0) {
-		x = MathUtils.ZERO_TOLERANCE;
+	if (x < _MathUtils2.default.ZERO_TOLERANCE && x >= 0) {
+		x = _MathUtils2.default.ZERO_TOLERANCE;
 	}
 	var y = this.yExtent;
-	if (y < MathUtils.ZERO_TOLERANCE && y >= 0) {
-		y = MathUtils.ZERO_TOLERANCE;
+	if (y < _MathUtils2.default.ZERO_TOLERANCE && y >= 0) {
+		y = _MathUtils2.default.ZERO_TOLERANCE;
 	}
 	var z = this.zExtent;
-	if (z < MathUtils.ZERO_TOLERANCE && z >= 0) {
-		z = MathUtils.ZERO_TOLERANCE;
+	if (z < _MathUtils2.default.ZERO_TOLERANCE && z >= 0) {
+		z = _MathUtils2.default.ZERO_TOLERANCE;
 	}
 
 	var notEntirelyClipped = //
-		BoundingBox.clip(direction.x, -diff.x - x, t) && //
-			BoundingBox.clip(-direction.x, diff.x - x, t) && //
-			BoundingBox.clip(direction.y, -diff.y - y, t) && //
-			BoundingBox.clip(-direction.y, diff.y - y, t) && //
-			BoundingBox.clip(direction.z, -diff.z - z, t) && //
-			BoundingBox.clip(-direction.z, diff.z - z, t);
+	BoundingBox.clip(direction.x, -diff.x - x, t) && //
+	BoundingBox.clip(-direction.x, diff.x - x, t) && //
+	BoundingBox.clip(direction.y, -diff.y - y, t) && //
+	BoundingBox.clip(-direction.y, diff.y - y, t) && //
+	BoundingBox.clip(direction.z, -diff.z - z, t) && //
+	BoundingBox.clip(-direction.z, diff.z - z, t);
 
 	if (notEntirelyClipped && (t[0] !== 0.0 || t[1] !== Infinity)) {
 		return true;
@@ -432,31 +442,30 @@ BoundingBox.prototype.intersectsRayWhere = function (ray) {
 
 	// Check for degenerate cases and pad using zero tolerance. Should give close enough result.
 	var x = this.xExtent;
-	if (x < MathUtils.ZERO_TOLERANCE && x >= 0) {
-		x = MathUtils.ZERO_TOLERANCE;
+	if (x < _MathUtils2.default.ZERO_TOLERANCE && x >= 0) {
+		x = _MathUtils2.default.ZERO_TOLERANCE;
 	}
 	var y = this.yExtent;
-	if (y < MathUtils.ZERO_TOLERANCE && y >= 0) {
-		y = MathUtils.ZERO_TOLERANCE;
+	if (y < _MathUtils2.default.ZERO_TOLERANCE && y >= 0) {
+		y = _MathUtils2.default.ZERO_TOLERANCE;
 	}
 	var z = this.zExtent;
-	if (z < MathUtils.ZERO_TOLERANCE && z >= 0) {
-		z = MathUtils.ZERO_TOLERANCE;
+	if (z < _MathUtils2.default.ZERO_TOLERANCE && z >= 0) {
+		z = _MathUtils2.default.ZERO_TOLERANCE;
 	}
 
 	var notEntirelyClipped = //
-		BoundingBox.clip(direction.x, -diff.x - x, t) && //
-			BoundingBox.clip(-direction.x, diff.x - x, t) && //
-			BoundingBox.clip(direction.y, -diff.y - y, t) && //
-			BoundingBox.clip(-direction.y, diff.y - y, t) && //
-			BoundingBox.clip(direction.z, -diff.z - z, t) && //
-			BoundingBox.clip(-direction.z, diff.z - z, t);
+	BoundingBox.clip(direction.x, -diff.x - x, t) && //
+	BoundingBox.clip(-direction.x, diff.x - x, t) && //
+	BoundingBox.clip(direction.y, -diff.y - y, t) && //
+	BoundingBox.clip(-direction.y, diff.y - y, t) && //
+	BoundingBox.clip(direction.z, -diff.z - z, t) && //
+	BoundingBox.clip(-direction.z, diff.z - z, t);
 
 	if (notEntirelyClipped && (t[0] !== 0.0 || t[1] !== Infinity)) {
 		if (t[1] > t[0]) {
 			var distances = t;
-			var points = [new Vector3(ray.direction).scale(distances[0]).add(ray.origin),
-				new Vector3(ray.direction).scale(distances[1]).add(ray.origin)];
+			var points = [new _Vector2.default(ray.direction).scale(distances[0]).add(ray.origin), new _Vector2.default(ray.direction).scale(distances[1]).add(ray.origin)];
 			return {
 				distances: distances,
 				points: points
@@ -464,7 +473,7 @@ BoundingBox.prototype.intersectsRayWhere = function (ray) {
 		}
 
 		var distances = [t[0]];
-		var points = [new Vector3(ray.direction).scale(distances[0]).add(ray.origin)];
+		var points = [new _Vector2.default(ray.direction).scale(distances[0]).add(ray.origin)];
 		return {
 			distances: distances,
 			points: points
@@ -502,7 +511,7 @@ BoundingBox.clip = function (denom, numer, t) {
 BoundingBox.prototype.merge = function (bv) {
 	if (bv instanceof BoundingBox) {
 		return this.mergeBox(bv.center, bv.xExtent, bv.yExtent, bv.zExtent, this);
-	} else if (bv instanceof BoundingSphere) {
+	} else if (bv instanceof _BoundingSphere2.default) {
 		return this.mergeBox(bv.center, bv.radius, bv.radius, bv.radius, this);
 	} else {
 		return this;
@@ -558,7 +567,7 @@ BoundingBox.prototype.mergeBox = function (center, xExtent, yExtent, zExtent, st
  * @returns {BoundingBox} Returns self to allow chaining
  */
 BoundingBox.prototype.copy = function (source) {
-	BoundingVolume.prototype.copy.call(this, source);
+	_BoundingVolume2.default.prototype.copy.call(this, source);
 	this.xExtent = source.xExtent;
 	this.yExtent = source.yExtent;
 	this.zExtent = source.zExtent;
@@ -575,12 +584,10 @@ var warned = false;
 BoundingBox.prototype.clone = function () {
 	if (arguments.length > 0 && !warned) {
 		warned = true;
-		console.warn(
-			'BoundingBox::clone no longer takes an optional "store" parameter; ' +
-			'please use BoundingBox::copy instead'
-		);
+		console.warn('BoundingBox::clone no longer takes an optional "store" parameter; ' + 'please use BoundingBox::copy instead');
 	}
 	// center appears to be shared but it really isn't since the BoundingVolume constructor clones it
 	// when/if that ever changes this needs adapted accordingly
 	return new BoundingBox(this.center, this.xExtent, this.yExtent, this.zExtent);
 };
+module.exports = exports.default;

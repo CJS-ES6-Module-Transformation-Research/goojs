@@ -1,6 +1,23 @@
-import Vector2 from "../math/Vector2";
-import PromiseUtils from "../util/PromiseUtils";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Texture;
+
+var _Vector = require("../math/Vector2");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _PromiseUtils2 = _interopRequireDefault(_PromiseUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * <code>Texture</code> defines a texture object to be used to display an image on a piece of geometry. The image to be displayed is
@@ -62,12 +79,12 @@ import ObjectUtils from "../util/ObjectUtils";
  * @param {number} width Width of the texture
  * @param {number} height Height of the texture
  */
-export default function Texture(image, settings, width, height) {
+function Texture(image, settings, width, height) {
 	this.glTexture = null;
 
 	settings = settings || {};
 
-	ObjectUtils.copyOptions(this, settings, {
+	_ObjectUtils2.default.copyOptions(this, settings, {
 		wrapS: 'Repeat',
 		wrapT: 'Repeat',
 		magFilter: 'Bilinear',
@@ -81,16 +98,16 @@ export default function Texture(image, settings, width, height) {
 	});
 
 	/**
-	 * The anisotropic filtering level.
-	 * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/texture/AnisotropicFiltering/Anisotropic-vtest.html Working example
-	 * @type {number}
-	 */
+  * The anisotropic filtering level.
+  * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/texture/AnisotropicFiltering/Anisotropic-vtest.html Working example
+  * @type {number}
+  */
 	this.anisotropy = settings.anisotropy !== undefined ? settings.anisotropy : 1;
 
 	this.variant = '2D'; // CUBE
 
-	this.offset = settings.offset ?	Vector2.fromAny(settings.offset) : new Vector2(0, 0);
-	this.repeat = settings.repeat ? Vector2.fromAny(settings.repeat) : new Vector2(1, 1);
+	this.offset = settings.offset ? _Vector2.default.fromAny(settings.offset) : new _Vector2.default(0, 0);
+	this.repeat = settings.repeat ? _Vector2.default.fromAny(settings.repeat) : new _Vector2.default(1, 1);
 
 	this.lodBias = 0.0;
 
@@ -110,10 +127,10 @@ export default function Texture(image, settings, width, height) {
 	}
 
 	/**
-	 * If the Texture was set to load lazily in the TextureHandler, then this method can be used to load the image at a later point. This function returns a promise that resolves when the image was loaded.
-	 * @type {Function}
-	 */
-	this.loadImage = PromiseUtils.resolve.bind(null, this);
+  * If the Texture was set to load lazily in the TextureHandler, then this method can be used to load the image at a later point. This function returns a promise that resolves when the image was loaded.
+  * @type {Function}
+  */
+	this.loadImage = _PromiseUtils2.default.resolve.bind(null, this);
 
 	this.textureRecord = {};
 
@@ -219,7 +236,9 @@ Texture.prototype.destroy = function (context) {
 Texture.prototype.getSizeInMemory = function () {
 	var size;
 
-	if (!this.image) { return 0; }
+	if (!this.image) {
+		return 0;
+	}
 	var width = this.image.width || this.image.length;
 	var height = this.image.height || 1;
 
@@ -279,3 +298,4 @@ Texture.prototype.clone = function () {
 };
 
 Texture.CUBE_FACES = ['PositiveX', 'NegativeX', 'PositiveY', 'NegativeY', 'PositiveZ', 'NegativeZ'];
+module.exports = exports.default;

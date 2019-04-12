@@ -1,25 +1,36 @@
-import System from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StateMachineSystem;
+
+var _System = require('../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Processes all entities with a FSM component
  * @private
  */
-export default function StateMachineSystem(engine) {
-	System.call(this, 'StateMachineSystem', ['StateMachineComponent']);
+function StateMachineSystem(engine) {
+	_System2.default.call(this, 'StateMachineSystem', ['StateMachineComponent']);
 
 	this.engine = engine;
 	this.passive = false;
 	this.paused = false;
 
 	/**
-	 * Current time, in seconds.
-	 * @type {number}
-	 */
+  * Current time, in seconds.
+  * @type {number}
+  */
 	this.time = 0;
 
 	this.evalProxy = {
 		// Add things that are useful from user scripts
-		test: function () {
+		test: function test() {
 			console.log('test');
 		}
 	};
@@ -46,7 +57,7 @@ export default function StateMachineSystem(engine) {
 	};
 }
 
-StateMachineSystem.prototype = Object.create(System.prototype);
+StateMachineSystem.prototype = Object.create(_System2.default.prototype);
 
 StateMachineSystem.prototype.getInputState = function (key) {
 	return this._inputStates.has(key);
@@ -131,3 +142,4 @@ StateMachineSystem.prototype.stop = function () {
 		document.removeEventListener(key, this._listeners[key]);
 	}
 };
+module.exports = exports.default;

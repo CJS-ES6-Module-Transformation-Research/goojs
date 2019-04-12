@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TogglePostFxAction /*id, settings*/;
 
-export default function TogglePostFxAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-TogglePostFxAction.prototype = Object.create(Action.prototype);
+function TogglePostFxAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+TogglePostFxAction.prototype = Object.create(_Action2.default.prototype);
 TogglePostFxAction.prototype.constructor = TogglePostFxAction;
 
 TogglePostFxAction.external = {
@@ -28,3 +39,4 @@ TogglePostFxAction.prototype.enter = function (fsm) {
 		renderSystem.enableComposers(this.enabled);
 	}
 };
+module.exports = exports.default;

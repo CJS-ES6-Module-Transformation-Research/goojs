@@ -1,19 +1,42 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Quaternion from "../../../math/Quaternion";
-import Matrix3 from "../../../math/Matrix3";
-import MathUtils from "../../../math/MathUtils";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenRotationAction /*id, settings*/;
 
-export default function TweenRotationAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.quatFrom = new Quaternion();
-	this.quatTo = new Quaternion();
-	this.quatFinal = new Quaternion();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Quaternion2 = _interopRequireDefault(_Quaternion);
+
+var _Matrix = require("../../../math/Matrix3");
+
+var _Matrix2 = _interopRequireDefault(_Matrix);
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenRotationAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.quatFrom = new _Quaternion2.default();
+	this.quatTo = new _Quaternion2.default();
+	this.quatFinal = new _Quaternion2.default();
 	this.completed = false;
 }
 
-TweenRotationAction.prototype = Object.create(Action.prototype);
+TweenRotationAction.prototype = Object.create(_Action2.default.prototype);
 TweenRotationAction.prototype.constructor = TweenRotationAction;
 
 TweenRotationAction.external = {
@@ -63,7 +86,7 @@ TweenRotationAction.external = {
 	}]
 };
 
-TweenRotationAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenRotationAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Rotation Complete' : undefined;
 };
 
@@ -74,7 +97,7 @@ TweenRotationAction.prototype.enter = function (fsm) {
 	this.startTime = fsm.getTime();
 
 	this.quatFrom.fromRotationMatrix(transformComponent.transform.rotation);
-	this.quatTo.fromRotationMatrix(new Matrix3().fromAngles(this.to[0] * MathUtils.DEG_TO_RAD, this.to[1] * MathUtils.DEG_TO_RAD, this.to[2] * MathUtils.DEG_TO_RAD));
+	this.quatTo.fromRotationMatrix(new _Matrix2.default().fromAngles(this.to[0] * _MathUtils2.default.DEG_TO_RAD, this.to[1] * _MathUtils2.default.DEG_TO_RAD, this.to[2] * _MathUtils2.default.DEG_TO_RAD));
 	if (this.relative) {
 		this.quatTo.mul(this.quatFrom);
 	}
@@ -89,8 +112,8 @@ TweenRotationAction.prototype.update = function (fsm) {
 	var transform = entity.transformComponent.sync().transform;
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
-	Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
+	_Quaternion2.default.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
 
 	this.quatFinal.toRotationMatrix(transform.rotation);
 	entity.transformComponent.setUpdated();
@@ -100,3 +123,4 @@ TweenRotationAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

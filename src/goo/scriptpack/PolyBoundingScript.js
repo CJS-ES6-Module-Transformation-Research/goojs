@@ -1,3 +1,7 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PolyBoundingScript;
 /**
  * Checks for collisions against a set of `collidables` and repositions the host object accordingly.
  * This script uses the PolyK library which is not part of the engine; make sure you add it manually.<br>
@@ -7,7 +11,7 @@
  * @param {number} collidables[].bottom The bottom Y coordinate of the collidable
  * @param {number} collidables[].top The top Y coordinate of the collidable
  */
-export default function PolyBoundingScript(collidables) {
+function PolyBoundingScript(collidables) {
 	this.collidables = collidables || [];
 }
 
@@ -68,11 +72,7 @@ PolyBoundingScript.prototype.run = function (entity) {
 
 		if (collidable.bottom <= translation.y && collidable.top >= translation.y) {
 			if (window.PolyK.ContainsPoint(collidable.poly, translation.x, translation.z)) {
-				var pointOutside = window.PolyK.ClosestEdge(
-					collidable.poly,
-					translation.x,
-					translation.z
-				);
+				var pointOutside = window.PolyK.ClosestEdge(collidable.poly, translation.x, translation.z);
 
 				translation.x = pointOutside.point.x;
 				translation.z = pointOutside.point.y;
@@ -83,3 +83,4 @@ PolyBoundingScript.prototype.run = function (entity) {
 		}
 	}
 };
+module.exports = exports.default;

@@ -1,5 +1,19 @@
-import Component from "../../entities/components/Component";
-import ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CannonDistanceJointComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /* global CANNON */
 
@@ -11,13 +25,13 @@ import ObjectUtils from "../../util/ObjectUtils";
  * @param {number} [settings.distance=1]
  * @param {CannonRigidbodyComponent} settings.connectedBody
  */
-export default function CannonDistanceJointComponent(settings) {
-	Component.apply(this, arguments);
+function CannonDistanceJointComponent(settings) {
+	_Component2.default.apply(this, arguments);
 
 	settings = settings || {};
 	this.type = 'CannonDistanceJointComponent';
 
-	ObjectUtils.defaults(settings, {
+	_ObjectUtils2.default.defaults(settings, {
 		distance: 1,
 		connectedBody: null
 	});
@@ -28,7 +42,7 @@ export default function CannonDistanceJointComponent(settings) {
 	this.cannonConstraint = null;
 }
 
-CannonDistanceJointComponent.prototype = Object.create(Component.prototype);
+CannonDistanceJointComponent.prototype = Object.create(_Component2.default.prototype);
 CannonDistanceJointComponent.constructor = CannonDistanceJointComponent;
 
 CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
@@ -37,3 +51,4 @@ CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
 	this.cannonConstraint = new CANNON.DistanceConstraint(bodyA, bodyB, this.distance);
 	return this.cannonConstraint;
 };
+module.exports = exports.default;

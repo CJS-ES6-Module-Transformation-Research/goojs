@@ -1,7 +1,7 @@
 
-	goo.V.attachToGlobal();
+goo.V.attachToGlobal();
 
-	function pickAndRotateScriptDemo() {
+function pickAndRotateScriptDemo() {
 		var gooRunner = V.initGoo();
 
 		V.addLights();
@@ -17,15 +17,15 @@
 
 		// WASD control script to move around
 		scripts.scripts.push(Scripts.create('WASD', {
-			domElement: gooRunner.renderer.domElement,
-			walkSpeed: 25.0,
-			crawlSpeed: 10.0
+				domElement: gooRunner.renderer.domElement,
+				walkSpeed: 25.0,
+				crawlSpeed: 10.0
 		}));
 
 		var pickAndRotateScript = Scripts.create('PickAndRotateScript');
 		scripts.scripts.push(pickAndRotateScript);
 
 		cameraEntity.setComponent(scripts);
-	}
+}
 
-	pickAndRotateScriptDemo();
+pickAndRotateScriptDemo();

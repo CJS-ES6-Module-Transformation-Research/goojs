@@ -1,4 +1,15 @@
-import System from "../../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Box2DSystem;
+
+var _System = require('../../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /* global Box2D */
 
@@ -8,8 +19,8 @@ import System from "../../../entities/systems/System";
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
  */
-export default function Box2DSystem() {
-	System.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
+function Box2DSystem() {
+	_System2.default.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
 
 	this.SCALE = 0.5;
 	this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(0.0, -9.81));
@@ -25,7 +36,7 @@ function createPolygonShape(vertices) {
 	var buffer = Box2D.allocate(vertices.length * FLOAT_SIZE * 2, 'float', Box2D.ALLOC_STACK);
 	var offset = 0;
 	for (var i = 0; i < vertices.length; i++) {
-		Box2D.setValue(buffer + (offset), vertices[i].get_x(), 'float');
+		Box2D.setValue(buffer + offset, vertices[i].get_x(), 'float');
 		Box2D.setValue(buffer + (offset + FLOAT_SIZE), vertices[i].get_y(), 'float');
 		offset += FLOAT_SIZE * 2;
 	}
@@ -34,7 +45,7 @@ function createPolygonShape(vertices) {
 	return shape;
 }
 
-Box2DSystem.prototype = Object.create(System.prototype);
+Box2DSystem.prototype = Object.create(_System2.default.prototype);
 Box2DSystem.prototype.constructor = Box2DSystem;
 
 Box2DSystem.prototype.inserted = function (entity) {
@@ -144,3 +155,4 @@ Box2DSystem.prototype.process = function (entities, tpf) {
 		transformComponent.setUpdated();
 	}
 };
+module.exports = exports.default;

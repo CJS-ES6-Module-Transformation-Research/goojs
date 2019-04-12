@@ -1,6 +1,23 @@
-import BoundingBox from "../../renderer/bounds/BoundingBox";
-import Component from "../../entities/components/Component";
-import MeshData from "../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MeshDataComponent;
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Holds the mesh data, like vertices, normals, indices etc. Also defines the local bounding volume.
@@ -8,31 +25,31 @@ import MeshData from "../../renderer/MeshData";
  * @param {MeshData} meshData Target mesh data for this component.
  * @extends Component
  */
-export default function MeshDataComponent(meshData) {
-	Component.apply(this, arguments);
+function MeshDataComponent(meshData) {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'MeshDataComponent';
 
 	/**
-	 * @type {MeshData}
-	 */
+  * @type {MeshData}
+  */
 	this.meshData = meshData;
 
 	/** Bounding volume in local space.
-	 * @type {BoundingVolume}
-	 */
-	this.modelBound = new BoundingBox();
+  * @type {BoundingVolume}
+  */
+	this.modelBound = new _BoundingBox2.default();
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.modelBoundDirty = true;
 
 	/**
-	 * @type {SkeletonPose}
-	 * @default
-	 */
+  * @type {SkeletonPose}
+  * @default
+  */
 	this.currentPose = null; // SkeletonPose
 
 	// @ifdef DEBUG
@@ -42,7 +59,7 @@ export default function MeshDataComponent(meshData) {
 
 MeshDataComponent.type = 'MeshDataComponent';
 
-MeshDataComponent.prototype = Object.create(Component.prototype);
+MeshDataComponent.prototype = Object.create(_Component2.default.prototype);
 MeshDataComponent.prototype.constructor = MeshDataComponent;
 
 /**
@@ -99,9 +116,10 @@ MeshDataComponent.prototype.clone = function (options) {
 };
 
 MeshDataComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof MeshData) {
+	if (obj instanceof _MeshData2.default) {
 		var meshDataComponent = new MeshDataComponent(obj);
 		entity.setComponent(meshDataComponent);
 		return true;
 	}
 };
+module.exports = exports.default;

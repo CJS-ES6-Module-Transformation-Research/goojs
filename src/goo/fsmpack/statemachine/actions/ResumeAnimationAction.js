@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ResumeAnimationAction /*id, settings*/;
 
-export default function ResumeAnimationAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-ResumeAnimationAction.prototype = Object.create(Action.prototype);
+function ResumeAnimationAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+ResumeAnimationAction.prototype = Object.create(_Action2.default.prototype);
 ResumeAnimationAction.prototype.constructor = ResumeAnimationAction;
 
 ResumeAnimationAction.external = {
@@ -34,3 +45,4 @@ ResumeAnimationAction.prototype.enter = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;

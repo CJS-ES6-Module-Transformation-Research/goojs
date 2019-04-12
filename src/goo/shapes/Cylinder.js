@@ -1,6 +1,23 @@
-import MeshData from "../renderer/MeshData";
-import Vector3 from "../math/Vector3";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Cylinder;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A 3D object representing a cylinder.
@@ -10,7 +27,7 @@ import ObjectUtils from "../util/ObjectUtils";
  * @param {number} [radiusBottom=radiusTop] Radius of the cylinder at the bottom. Defaults to radiusTop.
  * @param {number} [height=1] Height
  */
-export default function Cylinder(radialSamples, radiusTop, radiusBottom, height) {
+function Cylinder(radialSamples, radiusTop, radiusBottom, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		radialSamples = props.radialSamples;
@@ -23,8 +40,8 @@ export default function Cylinder(radialSamples, radiusTop, radiusBottom, height)
 	this.radiusBottom = typeof radiusBottom === 'undefined' ? this.radiusTop : radiusBottom;
 	this.height = typeof height === 'undefined' ? 1 : height;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.radialSamples * 4 + 2 + 2, (this.radialSamples * 3) * 4);
+	var attributeMap = _MeshData2.default.defaultMap([_MeshData2.default.POSITION, _MeshData2.default.NORMAL, _MeshData2.default.TEXCOORD0]);
+	_MeshData2.default.call(this, attributeMap, this.radialSamples * 4 + 2 + 2, this.radialSamples * 3 * 4);
 
 	// could be done better with 2 triangle fans and a triangle strip
 	this.indexModes = ['Triangles'];
@@ -32,7 +49,7 @@ export default function Cylinder(radialSamples, radiusTop, radiusBottom, height)
 	this.rebuild();
 }
 
-Cylinder.prototype = Object.create(MeshData.prototype);
+Cylinder.prototype = Object.create(_MeshData2.default.prototype);
 Cylinder.prototype.constructor = Cylinder;
 
 /**
@@ -54,7 +71,7 @@ Cylinder.prototype.rebuild = function () {
 	var at = 1 / radialSamples;
 
 	var lastIndex = radialSamples * 4 + 2 + 2 - 1;
-	var normal = new Vector3();
+	var normal = new _Vector2.default();
 
 	var tan = 0;
 	if (height) {
@@ -69,82 +86,44 @@ Cylinder.prototype.rebuild = function () {
 		var xBottom = cos * radiusBottom;
 		var yBottom = sin * radiusBottom;
 
-		verts.push(
-			xTop, yTop, halfHeight, // disk top
-			xBottom, yBottom, -halfHeight, // disk bottom
-			xTop, yTop, halfHeight,  // side top
-			xBottom, yBottom, -halfHeight  // side bottom
+		verts.push(xTop, yTop, halfHeight, // disk top
+		xBottom, yBottom, -halfHeight, // disk bottom
+		xTop, yTop, halfHeight, // side top
+		xBottom, yBottom, -halfHeight // side bottom
 		);
 
 		normal.setDirect(cos, sin, tan);
 		normal.normalize();
 
-		norms.push(
-			0, 0, 1,
-			0, 0, -1,
-			normal.x, normal.y, normal.z,
-			normal.x, normal.y, normal.z
-			//cos, sin, 0,
-			//cos, sin, 0
+		norms.push(0, 0, 1, 0, 0, -1, normal.x, normal.y, normal.z, normal.x, normal.y, normal.z
+		//cos, sin, 0,
+		//cos, sin, 0
 		);
 
-		tex.push(
-			cos / 4 + 0.25, sin / 4 + 0.75,
-			cos / 4 + 0.25, sin / 4 + 0.25,
-			0.5, t,
-			1.0, t
-		);
+		tex.push(cos / 4 + 0.25, sin / 4 + 0.75, cos / 4 + 0.25, sin / 4 + 0.25, 0.5, t, 1.0, t);
 	}
 
-	verts.push(
-		radiusTop, 0.0, halfHeight,
-		radiusBottom, 0.0, -halfHeight
-	);
+	verts.push(radiusTop, 0.0, halfHeight, radiusBottom, 0.0, -halfHeight);
 
-	norms.push(
-		1.0, 0.0, 0.0,
-		1.0, 0.0, 0.0
-	);
+	norms.push(1.0, 0.0, 0.0, 1.0, 0.0, 0.0);
 
-	tex.push(
-		0.5, 1.0,
-		1.0, 1.0
-	);
+	tex.push(0.5, 1.0, 1.0, 1.0);
 
 	for (var i = 0; i < radialSamples - 1; i++) {
-		indices.push(
-			lastIndex, i * 4 + 0, i * 4 + 4,
-			i * 4 + 1, lastIndex - 1, i * 4 + 5,
-			i * 4 + 4 + 2, i * 4 + 2, i * 4 + 4 + 3,
-			i * 4 + 2, i * 4 + 3, i * 4 + 4 + 3
-		);
+		indices.push(lastIndex, i * 4 + 0, i * 4 + 4, i * 4 + 1, lastIndex - 1, i * 4 + 5, i * 4 + 4 + 2, i * 4 + 2, i * 4 + 4 + 3, i * 4 + 2, i * 4 + 3, i * 4 + 4 + 3);
 	}
 
-	indices.push(
-		lastIndex, i * 4 + 0, 0,
-		i * 4 + 1, lastIndex - 1, 0 + 1,
-		i * 4 + 4, i * 4 + 2, i * 4 + 5,
-		i * 4 + 2, i * 4 + 3, i * 4 + 5
-	);
+	indices.push(lastIndex, i * 4 + 0, 0, i * 4 + 1, lastIndex - 1, 0 + 1, i * 4 + 4, i * 4 + 2, i * 4 + 5, i * 4 + 2, i * 4 + 3, i * 4 + 5);
 
-	verts.push(
-		0, 0, -halfHeight,
-		0, 0, halfHeight
-	);
+	verts.push(0, 0, -halfHeight, 0, 0, halfHeight);
 
-	norms.push(
-		0, 0, -0.5,
-		0, 0, 0.5
-	);
+	norms.push(0, 0, -0.5, 0, 0, 0.5);
 
-	tex.push(
-		0.25, 0.25,
-		0.25, 0.75
-	);
+	tex.push(0.25, 0.25, 0.25, 0.75);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData2.default.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData2.default.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData2.default.TEXCOORD0).set(tex);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -155,7 +134,8 @@ Cylinder.prototype.rebuild = function () {
  * @returns {Cylinder}
  */
 Cylinder.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['radialSamples', 'radiusTop', 'radiusBottom', 'height']);
+	var options = _ObjectUtils2.default.shallowSelectiveClone(this, ['radialSamples', 'radiusTop', 'radiusBottom', 'height']);
 
 	return new Cylinder(options);
 };
+module.exports = exports.default;

@@ -1,3 +1,7 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Rectangle;
 /**
  * Rectangle
  * @hidden
@@ -6,9 +10,10 @@
  * @param {number} w Width
  * @param {number} h Height
  */
-export default function Rectangle(x, y, w, h) {
-	this.x = x;
-	this.y = y;
-	this.w = w;
-	this.h = h;
+function Rectangle(x, y, w, h) {
+  this.x = x;
+  this.y = y;
+  this.w = w;
+  this.h = h;
 }
+module.exports = exports.default;

@@ -1,5 +1,17 @@
-import child_process_moduleObject from "child_process";
-var exec = child_process_moduleObject.exec;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.compare = compare;
+
+var _child_process = require('child_process');
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var exec = _child_process2.default.exec;
 
 var regex = /\((\d+(?:\.\d+)?)\)/;
 
@@ -14,14 +26,14 @@ function extractNumber(string) {
 	return +match[1];
 }
 
-export function compare(actual, expected, callback) {
+function compare(actual, expected, callback) {
 	var cmd = 'compare -metric RMSE ' + actual + ' ' + expected + ' ' + actual + '-diff.png';
 
 	console.log(cmd);
 
 	exec(cmd, function (error, stdout, stderr) {
 
-		console.log(stderr)
+		console.log(stderr);
 
 		callback(extractNumber(stderr));
 	});

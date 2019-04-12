@@ -1,14 +1,18 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = Collider;
 /**
  * Base class for Colliders.
  */
-export default function Collider() {}
+function Collider() {}
 
 /**
  * @virtual
  * @returns {Collider}
  */
 Collider.prototype.clone = function () {
-	return new Collider();
+  return new Collider();
 };
 
 /**
@@ -17,4 +21,5 @@ Collider.prototype.clone = function () {
  * @param {Transform} transform
  * @param {Collider} targetCollider
  */
-Collider.prototype.transform = function (/*transform, targetCollider*/) {};
+Collider.prototype.transform = function () /*transform, targetCollider*/{};
+module.exports = exports.default;

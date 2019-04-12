@@ -1,13 +1,30 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Easing from "../../../util/Easing";
-import MathUtils from "../../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenOpacityAction /*id, settings*/;
 
-export default function TweenOpacityAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenOpacityAction() {
+	_Action2.default.apply(this, arguments);
 	this.completed = false;
 }
 
-TweenOpacityAction.prototype = Object.create(Action.prototype);
+TweenOpacityAction.prototype = Object.create(_Action2.default.prototype);
 TweenOpacityAction.prototype.constructor = TweenOpacityAction;
 
 TweenOpacityAction.external = {
@@ -52,7 +69,7 @@ TweenOpacityAction.external = {
 	}]
 };
 
-TweenOpacityAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenOpacityAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Opacity Complete' : undefined;
 };
 
@@ -92,12 +109,13 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
 
-	this.uniforms.opacity = MathUtils.lerp(fT, this.from, this.to);
+	this.uniforms.opacity = _MathUtils2.default.lerp(fT, this.from, this.to);
 
 	if (t >= 1) {
 		fsm.send(this.transitions.complete);
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

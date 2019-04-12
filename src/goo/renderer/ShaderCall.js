@@ -1,7 +1,11 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ShaderCall;
 /**
  * Makes sure shader calls are not done when already set
  */
-export default function ShaderCall(context, uniform, type) {
+function ShaderCall(context, uniform, type) {
 	this.context = context;
 	this.location = uniform;
 	this.location.value = undefined;
@@ -366,3 +370,4 @@ ShaderCall.prototype.uniformMatrix4fv = function (matrix, transpose) {
 
 	this.context.uniformMatrix4fv(this.location, transpose, matrix.data);
 };
+module.exports = exports.default;

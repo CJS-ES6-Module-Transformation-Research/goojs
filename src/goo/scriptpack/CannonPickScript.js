@@ -1,14 +1,31 @@
-import Vector3 from "../math/Vector3";
-import Renderer from "../renderer/Renderer";
-import Plane from "../math/Plane";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CannonPickScript;
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Renderer = require("../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+var _Plane = require("../math/Plane");
+
+var _Plane2 = _interopRequireDefault(_Plane);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /* global CANNON */
 
-export default function CannonPickScript() {
+function CannonPickScript() {
 	var pickButton;
 	var mouseState;
 	var cannonSystem;
-	var plane = new Plane();
+	var plane = new _Plane2.default();
 
 	function getTouchCenter(touches) {
 		var x1 = touches[0].clientX;
@@ -44,7 +61,7 @@ export default function CannonPickScript() {
 			down: false
 		};
 		var listeners = env.listeners = {
-			mousedown: function (event) {
+			mousedown: function mousedown(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
 					var button = event.button;
 					if (button === 0) {
@@ -61,7 +78,7 @@ export default function CannonPickScript() {
 					}
 				}
 			},
-			mouseup: function (event) {
+			mouseup: function mouseup(event) {
 				var button = event.button;
 				if (button === 0) {
 					if (event.altKey) {
@@ -75,7 +92,7 @@ export default function CannonPickScript() {
 					mouseState.dx = mouseState.dy = 0;
 				}
 			},
-			mousemove: function (event) {
+			mousemove: function mousemove(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
 					if (mouseState.down) {
 						mouseState.x = event.clientX;
@@ -84,31 +101,35 @@ export default function CannonPickScript() {
 					}
 				}
 			},
-			mouseleave: function (/*event*/) {
+			mouseleave: function mouseleave() /*event*/{
 				mouseState.down = false;
 				mouseState.ox = mouseState.x;
 				mouseState.oy = mouseState.y;
 			},
-			touchstart: function (event) {
+			touchstart: function touchstart(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
-					mouseState.down = (event.targetTouches.length === 2);
-					if (!mouseState.down) { return; }
+					mouseState.down = event.targetTouches.length === 2;
+					if (!mouseState.down) {
+						return;
+					}
 
 					var center = getTouchCenter(event.targetTouches);
 					mouseState.ox = mouseState.x = center[0];
 					mouseState.oy = mouseState.y = center[1];
 				}
 			},
-			touchmove: function (event) {
+			touchmove: function touchmove(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
-					if (!mouseState.down) { return; }
+					if (!mouseState.down) {
+						return;
+					}
 
 					var center = getTouchCenter(event.targetTouches);
 					mouseState.x = center[0];
 					mouseState.y = center[1];
 				}
 			},
-			touchend: function (/*event*/) {
+			touchend: function touchend() /*event*/{
 				mouseState.down = false;
 				mouseState.ox = mouseState.x;
 				mouseState.oy = mouseState.y;
@@ -127,7 +148,7 @@ export default function CannonPickScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Renderer.mainCamera;
+		var mainCam = _Renderer2.default.mainCamera;
 
 		if (mainCam && mouseState.down && !env.mouseConstraint) {
 			// Shoot cannon.js ray. Not included in Goo Engine yet, so let's use it directly
@@ -135,7 +156,8 @@ export default function CannonPickScript() {
 			var physicsEntities = env.world.by.system('CannonSystem').toArray();
 			for (var i = 0; i < physicsEntities.length; i++) {
 				var b = physicsEntities[i].cannonRigidbodyComponent.body;
-				if (b && b.shape instanceof CANNON.Box && b.motionstate === CANNON.Body.DYNAMIC) { // Cannon only supports convex with ray intersection
+				if (b && b.shape instanceof CANNON.Box && b.motionstate === CANNON.Body.DYNAMIC) {
+					// Cannon only supports convex with ray intersection
 					bodies.push(b);
 				}
 			}
@@ -152,9 +174,9 @@ export default function CannonPickScript() {
 			}
 		} else if (mainCam && mouseState.down && env.mouseConstraint && (mouseState.dx !== 0 || mouseState.dy !== 0)) {
 			// Get the current mouse point on the moving plane
-			var mainCam = Renderer.mainCamera;
+			var mainCam = _Renderer2.default.mainCamera;
 			var gooRay = mainCam.getPickRay(mouseState.x, mouseState.y, window.innerWidth, window.innerHeight);
-			var newPositionWorld = new Vector3();
+			var newPositionWorld = new _Vector2.default();
 			plane.rayIntersect(gooRay, newPositionWorld, true);
 			moveJointToPoint(params, env, newPositionWorld);
 		} else if (!mouseState.down) {
@@ -191,7 +213,7 @@ export default function CannonPickScript() {
 		cannonSystem.world.addConstraint(env.mouseConstraint);
 
 		// Set plane distance from world origin by projecting world translation to plane normal
-		var worldCenter = new Vector3(x, y, z);
+		var worldCenter = new _Vector2.default(x, y, z);
 		plane.constant = worldCenter.dot(normal);
 		plane.normal.set(normal);
 	}
@@ -244,3 +266,4 @@ CannonPickScript.externals = {
 		type: 'vec3'
 	}]
 };
+module.exports = exports.default;

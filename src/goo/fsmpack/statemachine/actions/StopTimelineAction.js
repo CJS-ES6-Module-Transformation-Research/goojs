@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StopTimelineAction /*id, settings*/;
 
-export default function StopTimelineAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-StopTimelineAction.prototype = Object.create(Action.prototype);
+function StopTimelineAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+StopTimelineAction.prototype = Object.create(_Action2.default.prototype);
 StopTimelineAction.prototype.constructor = StopTimelineAction;
 
 StopTimelineAction.external = {
@@ -20,7 +31,10 @@ StopTimelineAction.external = {
 StopTimelineAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('TimelineComponent')) { return; }
+	if (!entity.hasComponent('TimelineComponent')) {
+		return;
+	}
 
 	entity.timelineComponent.stop();
 };
+module.exports = exports.default;

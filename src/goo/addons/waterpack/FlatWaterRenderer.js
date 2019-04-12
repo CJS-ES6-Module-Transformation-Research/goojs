@@ -1,15 +1,59 @@
-import MeshData from "../../renderer/MeshData";
-import Shader from "../../renderer/Shader";
-import Camera from "../../renderer/Camera";
-import Plane from "../../math/Plane";
-import RenderTarget from "../../renderer/pass/RenderTarget";
-import Vector3 from "../../math/Vector3";
-import Vector4 from "../../math/Vector4";
-import Material from "../../renderer/Material";
-import Texture from "../../renderer/Texture";
-import TextureCreator from "../../renderer/TextureCreator";
-import ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
-import ShaderFragment from "../../renderer/shaders/ShaderFragment";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = FlatWaterRenderer;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+var _Shader = require("../../renderer/Shader");
+
+var _Shader2 = _interopRequireDefault(_Shader);
+
+var _Camera = require("../../renderer/Camera");
+
+var _Camera2 = _interopRequireDefault(_Camera);
+
+var _Plane = require("../../math/Plane");
+
+var _Plane2 = _interopRequireDefault(_Plane);
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
+var _RenderTarget2 = _interopRequireDefault(_RenderTarget);
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Vector3 = require("../../math/Vector4");
+
+var _Vector4 = _interopRequireDefault(_Vector3);
+
+var _Material = require("../../renderer/Material");
+
+var _Material2 = _interopRequireDefault(_Material);
+
+var _Texture = require("../../renderer/Texture");
+
+var _Texture2 = _interopRequireDefault(_Texture);
+
+var _TextureCreator = require("../../renderer/TextureCreator");
+
+var _TextureCreator2 = _interopRequireDefault(_TextureCreator);
+
+var _ShaderBuilder = require("../../renderer/shaders/ShaderBuilder");
+
+var _ShaderBuilder2 = _interopRequireDefault(_ShaderBuilder);
+
+var _ShaderFragment = require("../../renderer/shaders/ShaderFragment");
+
+var _ShaderFragment2 = _interopRequireDefault(_ShaderFragment);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
@@ -21,7 +65,7 @@ import ShaderFragment from "../../renderer/shaders/ShaderFragment";
  * @param {boolean} [settings.normalsTexture] Texture instance to use as normalmap
  * @param {boolean} [settings.updateWaterPlaneFromEntity=true] Use water entity y for water plane position
  */
-export default function FlatWaterRenderer(settings) {
+function FlatWaterRenderer(settings) {
 	settings = settings || {};
 
 	this.useRefraction = settings.useRefraction !== undefined ? settings.useRefraction : true;
@@ -30,12 +74,12 @@ export default function FlatWaterRenderer(settings) {
 	this.width = -1;
 	this.height = -1;
 
-	this.waterCamera = new Camera(45, 1, 0.1, 2000);
+	this.waterCamera = new _Camera2.default(45, 1, 0.1, 2000);
 	this.renderList = [];
 
-	this.waterPlane = new Plane();
+	this.waterPlane = new _Plane2.default();
 
-	var waterMaterial = new Material(waterShaderDef, 'WaterMaterial');
+	var waterMaterial = new _Material2.default(waterShaderDef, 'WaterMaterial');
 	waterMaterial.shader.setDefine('REFRACTION', this.useRefraction);
 	waterMaterial.cullState.enabled = false;
 
@@ -45,12 +89,12 @@ export default function FlatWaterRenderer(settings) {
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	} else if (settings.normalsUrl) {
 		var normalsTextureUrl = settings.normalsUrl || '../resources/water/waternormals3.png';
-		new TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
+		new _TextureCreator2.default().loadTexture2D(normalsTextureUrl).then(function (texture) {
 			waterMaterial.setTexture('NORMAL_MAP', texture);
 		});
 	} else {
 		var flatNormalData = new Uint8Array([127, 127, 255, 255]);
-		texture = new Texture(flatNormalData, null, 1, 1);
+		texture = new _Texture2.default(flatNormalData, null, 1, 1);
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	}
 	this.waterMaterial = waterMaterial;
@@ -59,19 +103,19 @@ export default function FlatWaterRenderer(settings) {
 	this.followCam = true;
 	this.updateWaterPlaneFromEntity = settings.updateWaterPlaneFromEntity !== undefined ? this.updateWaterPlaneFromEntity : true;
 
-	this.calcVect = new Vector3();
-	this.camReflectDir = new Vector3();
-	this.camReflectUp = new Vector3();
-	this.camReflectLeft = new Vector3();
-	this.camLocation = new Vector3();
-	this.camReflectPos = new Vector3();
+	this.calcVect = new _Vector2.default();
+	this.camReflectDir = new _Vector2.default();
+	this.camReflectUp = new _Vector2.default();
+	this.camReflectLeft = new _Vector2.default();
+	this.camLocation = new _Vector2.default();
+	this.camReflectPos = new _Vector2.default();
 
-	this.offset = new Vector3();
-	this.clipPlane = new Vector4();
+	this.offset = new _Vector2.default();
+	this.clipPlane = new _Vector4.default();
 
 	this.waterEntity = null;
 
-	this.depthMaterial = new Material(packDepthY, 'depth');
+	this.depthMaterial = new _Material2.default(packDepthY, 'depth');
 }
 
 FlatWaterRenderer.prototype.updateSize = function (renderer) {
@@ -86,7 +130,7 @@ FlatWaterRenderer.prototype.updateSize = function (renderer) {
 	if (this.reflectionTarget) {
 		renderer._deallocateRenderTarget(this.reflectionTarget);
 	}
-	this.reflectionTarget = new RenderTarget(width, height);
+	this.reflectionTarget = new _RenderTarget2.default(width, height);
 
 	if (this.useRefraction) {
 		if (this.refractionTarget) {
@@ -95,8 +139,8 @@ FlatWaterRenderer.prototype.updateSize = function (renderer) {
 		if (this.depthTarget) {
 			renderer._deallocateRenderTarget(this.depthTarget);
 		}
-		this.refractionTarget = new RenderTarget(width, height);
-		this.depthTarget = new RenderTarget(width, height);
+		this.refractionTarget = new _RenderTarget2.default(width, height);
+		this.depthTarget = new _RenderTarget2.default(width, height);
 	}
 };
 
@@ -243,246 +287,64 @@ var waterShaderDef = {
 	},
 	// timeMultiplier: 1.0,
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: _MeshData2.default.POSITION,
+		vertexNormal: _MeshData2.default.NORMAL
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		normalMatrix: Shader.NORMAL_MATRIX,
-		cameraPosition: Shader.CAMERA,
+		viewMatrix: _Shader2.default.VIEW_MATRIX,
+		projectionMatrix: _Shader2.default.PROJECTION_MATRIX,
+		worldMatrix: _Shader2.default.WORLD_MATRIX,
+		normalMatrix: _Shader2.default.NORMAL_MATRIX,
+		cameraPosition: _Shader2.default.CAMERA,
 
 		normalMap: 'NORMAL_MAP',
 		reflection: 'REFLECTION_MAP',
 		refraction: 'REFRACTION_MAP',
 		depthmap: 'DEPTH_MAP',
 
-		vertexTangent: [
-			1, 0, 0, 1
-		],
-		waterColor: [
-			0.0625, 0.0625, 0.0625
-		],
+		vertexTangent: [1, 0, 0, 1],
+		waterColor: [0.0625, 0.0625, 0.0625],
 		abovewater: true,
-		fogColor: [
-			1.0, 1.0, 1.0
-		],
-		sunDirection: [
-			0.66, 0.66, 0.33
-		],
-		sunColor: [
-			1.0, 1.0, 0.5
-		],
+		fogColor: [1.0, 1.0, 1.0],
+		sunDirection: [0.66, 0.66, 0.33],
+		sunColor: [1.0, 1.0, 0.5],
 		sunShininess: 100.0,
 		sunSpecPower: 4.0,
 		fogStart: 0.0,
 		fogScale: 2000.0,
 		timeMultiplier: 1.0,
-		time: Shader.TIME,
+		time: _Shader2.default.TIME,
 		distortionMultiplier: 0.025,
 		fresnelPow: 2.0,
 		normalMultiplier: 3.0,
 		fresnelMultiplier: 1.0,
 		waterScale: 5.0,
 		doFog: true,
-		resolution: Shader.RESOLUTION
+		resolution: _Shader2.default.RESOLUTION
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'attribute vec3 vertexNormal;',
-
-		'uniform vec4 vertexTangent;',
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-		'uniform mat3 normalMatrix;',
-		'uniform vec3 cameraPosition;',
-		'uniform float waterScale;',
-
-		'varying vec2 texCoord0;',
-		'varying vec3 eyeVec;',
-		'varying vec4 viewCoords;',
-		'varying vec3 worldPos;',
-
-		'void main(void) {',
-			'worldPos = (worldMatrix * vec4(vertexPosition, 1.0)).xyz;',
-
-			'texCoord0 = worldPos.xz * waterScale;',
-
-			'vec3 n = normalize(normalMatrix * vec3(vertexNormal.x, vertexNormal.y, -vertexNormal.z));',
-			'vec3 t = normalize(normalMatrix * vertexTangent.xyz);',
-			'vec3 b = cross(n, t) * vertexTangent.w;',
-			'mat3 rotMat = mat3(t, b, n);',
-
-			'vec3 eyeDir = worldPos - cameraPosition;',
-			'eyeVec = eyeDir * rotMat;',
-
-			'viewCoords = projectionMatrix * viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-			'gl_Position = viewCoords;',
-		'}'
-	].join('\n'),
-	fshader: [
-		'uniform sampler2D normalMap;',
-		'uniform sampler2D reflection;',
-		'#ifdef REFRACTION',
-		'uniform sampler2D refraction;',
-		'uniform sampler2D depthmap;',
-		'#endif',
-
-		'uniform vec3 waterColor;',
-		'uniform bool abovewater;',
-		'uniform vec3 fogColor;',
-		'uniform float fogStart;',
-		'uniform float fogScale;',
-		'uniform float time;',
-		'uniform float timeMultiplier;',
-		'uniform float distortionMultiplier;',
-		'uniform float fresnelPow;',
-		'uniform vec3 sunDirection;',
-		'uniform vec3 sunColor;',
-		'uniform float sunShininess;',
-		'uniform float sunSpecPower;',
-		'uniform float normalMultiplier;',
-		'uniform float fresnelMultiplier;',
-		'uniform bool doFog;',
-		'uniform vec2 resolution;',
-
-		'varying vec2 texCoord0;',
-		'varying vec3 eyeVec;',
-		'varying vec4 viewCoords;',
-		'varying vec3 worldPos;',
-
-		'vec4 combineTurbulence(in vec2 coords) {',
-			'float t = time * timeMultiplier;',
-			'vec4 coarse1 = texture2D(normalMap, coords * vec2(0.0012, 0.001) + vec2(0.019 * t, 0.021 * t));',
-			'vec4 coarse2 = texture2D(normalMap, coords * vec2(0.001, 0.0011) + vec2(-0.017 * t, 0.016 * t));',
-			'vec4 detail1 = texture2D(normalMap, coords * vec2(0.008) + vec2(0.06 * t, 0.03 * t));',
-			'vec4 detail2 = texture2D(normalMap, coords * vec2(0.006) + vec2(0.05 * t, -0.04 * t));',
-			'return (detail1 * 0.25 + detail2 * 0.25 + coarse1 * 0.75 + coarse2 * 1.0) / 2.25 - 0.48;',
-		'}',
-
-		'#ifdef REFRACTION',
-		ShaderFragment.methods.unpackDepth,
-		'#endif',
-
-		'void main(void) {',
-			'float fogDist = clamp((viewCoords.z-fogStart)/fogScale,0.0,1.0);',
-
-			'vec2 normCoords = texCoord0;',
-			'vec4 noise = combineTurbulence(normCoords);',
-			'vec3 normalVector = normalize(noise.xyz * vec3(normalMultiplier, normalMultiplier, 1.0));',
-
-			'vec3 localView = normalize(eyeVec);',
-			'float fresnel = dot(normalize(normalVector * vec3(fresnelMultiplier, fresnelMultiplier, 1.0)), localView);',
-			'if ( abovewater == false ) {',
-			'	fresnel = -fresnel;',
-			'}',
-			'fresnel *= 1.0 - fogDist;',
-			'float fresnelTerm = 1.0 - fresnel;',
-			'fresnelTerm = pow(fresnelTerm, fresnelPow);',
-			'fresnelTerm = clamp(fresnelTerm, 0.0, 1.0);',
-			'fresnelTerm = fresnelTerm * 0.95 + 0.05;',
-
-			'vec2 projCoord = viewCoords.xy / viewCoords.q;',
-			'projCoord = (projCoord + 1.0) * 0.5;',
-			'projCoord.y -= 1.0 / resolution.y;',
-
-			'#ifdef REFRACTION',
-				'float depth = unpackDepth(texture2D(depthmap, projCoord));',
-				'vec2 projCoordRefr = projCoord;',
-				'projCoordRefr += (normalVector.xy * distortionMultiplier) * smoothstep(0.0, 0.5, depth);',
-				'projCoordRefr = clamp(projCoordRefr, 0.001, 0.999);',
-				'depth = unpackDepth(texture2D(depthmap, projCoordRefr));',
-			'#endif',
-
-			'projCoord += (normalVector.xy * distortionMultiplier);',
-			'projCoord = clamp(projCoord, 0.001, 0.999);',
-
-			'if ( abovewater == true ) {',
-				'projCoord.x = 1.0 - projCoord.x;',
-			'}',
-
-			'vec4 waterColorX = vec4(waterColor, 1.0);',
-
-			'vec4 reflectionColor = texture2D(reflection, projCoord);',
-			'if ( abovewater == false ) {',
-				'reflectionColor *= vec4(0.8,0.9,1.0,1.0);',
-				'vec4 endColor = mix(reflectionColor,waterColorX,fresnelTerm);',
-				'gl_FragColor = mix(endColor,waterColorX,fogDist);',
-			'}',
-			'else {',
-				'vec3 sunSpecReflection = normalize(reflect(-sunDirection, normalVector));',
-				'float sunSpecDirection = max(0.0, dot(localView, sunSpecReflection));',
-				'vec3 specular = pow(sunSpecDirection, sunShininess) * sunSpecPower * sunColor;',
-
-				'vec4 endColor = waterColorX;',
-				'#ifdef REFRACTION',
-					'vec4 refractionColor = texture2D(refraction, projCoordRefr) * vec4(0.7);',
-					'endColor = mix(refractionColor, waterColorX, depth);',
-				'#endif',
-				'endColor = mix(endColor, reflectionColor, fresnelTerm);',
-
-				'if (doFog) {',
-					'gl_FragColor = (vec4(specular, 1.0) + mix(endColor,reflectionColor,fogDist)) * (1.0-fogDist) + vec4(fogColor, 1.0) * fogDist;',
-				'} else {',
-					'gl_FragColor = vec4(specular, 1.0) + mix(endColor,reflectionColor,fogDist);',
-				'}',
-			'}',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', 'attribute vec3 vertexNormal;', 'uniform vec4 vertexTangent;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform mat3 normalMatrix;', 'uniform vec3 cameraPosition;', 'uniform float waterScale;', 'varying vec2 texCoord0;', 'varying vec3 eyeVec;', 'varying vec4 viewCoords;', 'varying vec3 worldPos;', 'void main(void) {', 'worldPos = (worldMatrix * vec4(vertexPosition, 1.0)).xyz;', 'texCoord0 = worldPos.xz * waterScale;', 'vec3 n = normalize(normalMatrix * vec3(vertexNormal.x, vertexNormal.y, -vertexNormal.z));', 'vec3 t = normalize(normalMatrix * vertexTangent.xyz);', 'vec3 b = cross(n, t) * vertexTangent.w;', 'mat3 rotMat = mat3(t, b, n);', 'vec3 eyeDir = worldPos - cameraPosition;', 'eyeVec = eyeDir * rotMat;', 'viewCoords = projectionMatrix * viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);', 'gl_Position = viewCoords;', '}'].join('\n'),
+	fshader: ['uniform sampler2D normalMap;', 'uniform sampler2D reflection;', '#ifdef REFRACTION', 'uniform sampler2D refraction;', 'uniform sampler2D depthmap;', '#endif', 'uniform vec3 waterColor;', 'uniform bool abovewater;', 'uniform vec3 fogColor;', 'uniform float fogStart;', 'uniform float fogScale;', 'uniform float time;', 'uniform float timeMultiplier;', 'uniform float distortionMultiplier;', 'uniform float fresnelPow;', 'uniform vec3 sunDirection;', 'uniform vec3 sunColor;', 'uniform float sunShininess;', 'uniform float sunSpecPower;', 'uniform float normalMultiplier;', 'uniform float fresnelMultiplier;', 'uniform bool doFog;', 'uniform vec2 resolution;', 'varying vec2 texCoord0;', 'varying vec3 eyeVec;', 'varying vec4 viewCoords;', 'varying vec3 worldPos;', 'vec4 combineTurbulence(in vec2 coords) {', 'float t = time * timeMultiplier;', 'vec4 coarse1 = texture2D(normalMap, coords * vec2(0.0012, 0.001) + vec2(0.019 * t, 0.021 * t));', 'vec4 coarse2 = texture2D(normalMap, coords * vec2(0.001, 0.0011) + vec2(-0.017 * t, 0.016 * t));', 'vec4 detail1 = texture2D(normalMap, coords * vec2(0.008) + vec2(0.06 * t, 0.03 * t));', 'vec4 detail2 = texture2D(normalMap, coords * vec2(0.006) + vec2(0.05 * t, -0.04 * t));', 'return (detail1 * 0.25 + detail2 * 0.25 + coarse1 * 0.75 + coarse2 * 1.0) / 2.25 - 0.48;', '}', '#ifdef REFRACTION', _ShaderFragment2.default.methods.unpackDepth, '#endif', 'void main(void) {', 'float fogDist = clamp((viewCoords.z-fogStart)/fogScale,0.0,1.0);', 'vec2 normCoords = texCoord0;', 'vec4 noise = combineTurbulence(normCoords);', 'vec3 normalVector = normalize(noise.xyz * vec3(normalMultiplier, normalMultiplier, 1.0));', 'vec3 localView = normalize(eyeVec);', 'float fresnel = dot(normalize(normalVector * vec3(fresnelMultiplier, fresnelMultiplier, 1.0)), localView);', 'if ( abovewater == false ) {', '	fresnel = -fresnel;', '}', 'fresnel *= 1.0 - fogDist;', 'float fresnelTerm = 1.0 - fresnel;', 'fresnelTerm = pow(fresnelTerm, fresnelPow);', 'fresnelTerm = clamp(fresnelTerm, 0.0, 1.0);', 'fresnelTerm = fresnelTerm * 0.95 + 0.05;', 'vec2 projCoord = viewCoords.xy / viewCoords.q;', 'projCoord = (projCoord + 1.0) * 0.5;', 'projCoord.y -= 1.0 / resolution.y;', '#ifdef REFRACTION', 'float depth = unpackDepth(texture2D(depthmap, projCoord));', 'vec2 projCoordRefr = projCoord;', 'projCoordRefr += (normalVector.xy * distortionMultiplier) * smoothstep(0.0, 0.5, depth);', 'projCoordRefr = clamp(projCoordRefr, 0.001, 0.999);', 'depth = unpackDepth(texture2D(depthmap, projCoordRefr));', '#endif', 'projCoord += (normalVector.xy * distortionMultiplier);', 'projCoord = clamp(projCoord, 0.001, 0.999);', 'if ( abovewater == true ) {', 'projCoord.x = 1.0 - projCoord.x;', '}', 'vec4 waterColorX = vec4(waterColor, 1.0);', 'vec4 reflectionColor = texture2D(reflection, projCoord);', 'if ( abovewater == false ) {', 'reflectionColor *= vec4(0.8,0.9,1.0,1.0);', 'vec4 endColor = mix(reflectionColor,waterColorX,fresnelTerm);', 'gl_FragColor = mix(endColor,waterColorX,fogDist);', '}', 'else {', 'vec3 sunSpecReflection = normalize(reflect(-sunDirection, normalVector));', 'float sunSpecDirection = max(0.0, dot(localView, sunSpecReflection));', 'vec3 specular = pow(sunSpecDirection, sunShininess) * sunSpecPower * sunColor;', 'vec4 endColor = waterColorX;', '#ifdef REFRACTION', 'vec4 refractionColor = texture2D(refraction, projCoordRefr) * vec4(0.7);', 'endColor = mix(refractionColor, waterColorX, depth);', '#endif', 'endColor = mix(endColor, reflectionColor, fresnelTerm);', 'if (doFog) {', 'gl_FragColor = (vec4(specular, 1.0) + mix(endColor,reflectionColor,fogDist)) * (1.0-fogDist) + vec4(fogColor, 1.0) * fogDist;', '} else {', 'gl_FragColor = vec4(specular, 1.0) + mix(endColor,reflectionColor,fogDist);', '}', '}', '}'].join('\n')
 };
 
 var packDepthY = {
-	processors: [
-		ShaderBuilder.animation.processor
-	],
+	processors: [_ShaderBuilder2.default.animation.processor],
 	defines: {
 		WEIGHTS: true,
 		JOINTIDS: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexJointIDs: MeshData.JOINTIDS,
-		vertexWeights: MeshData.WEIGHTS
+		vertexPosition: _MeshData2.default.POSITION,
+		vertexJointIDs: _MeshData2.default.JOINTIDS,
+		vertexWeights: _MeshData2.default.WEIGHTS
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: _Shader2.default.VIEW_MATRIX,
+		projectionMatrix: _Shader2.default.PROJECTION_MATRIX,
+		worldMatrix: _Shader2.default.WORLD_MATRIX,
 		waterHeight: 0,
 		waterDensity: 0.05
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-
-		'varying vec4 worldPosition;',
-
-		ShaderBuilder.animation.prevertex,
-
-		'void main(void) {',
-			'mat4 wMatrix = worldMatrix;',
-			ShaderBuilder.animation.vertex,
-			'worldPosition = wMatrix * vec4(vertexPosition, 1.0);',
-			'gl_Position = projectionMatrix * viewMatrix * worldPosition;',
-		'}'
-	].join('\n'),
-	fshader: [
-		'uniform float waterHeight;',
-		'uniform float waterDensity;',
-
-		ShaderFragment.methods.packDepth,
-
-		'varying vec4 worldPosition;',
-
-		'void main(void)',
-		'{',
-			'float linearDepth = clamp(pow((waterHeight - worldPosition.y) * waterDensity, 0.25), 0.0, 0.999);',
-			'gl_FragColor = packDepth(linearDepth);',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'varying vec4 worldPosition;', _ShaderBuilder2.default.animation.prevertex, 'void main(void) {', 'mat4 wMatrix = worldMatrix;', _ShaderBuilder2.default.animation.vertex, 'worldPosition = wMatrix * vec4(vertexPosition, 1.0);', 'gl_Position = projectionMatrix * viewMatrix * worldPosition;', '}'].join('\n'),
+	fshader: ['uniform float waterHeight;', 'uniform float waterDensity;', _ShaderFragment2.default.methods.packDepth, 'varying vec4 worldPosition;', 'void main(void)', '{', 'float linearDepth = clamp(pow((waterHeight - worldPosition.y) * waterDensity, 0.25), 0.0, 0.999);', 'gl_FragColor = packDepth(linearDepth);', '}'].join('\n')
 };
+module.exports = exports.default;

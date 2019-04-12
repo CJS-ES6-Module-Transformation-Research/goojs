@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TransitionOnMessageAction /*id, settings*/;
 
-export default function TransitionOnMessageAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-TransitionOnMessageAction.prototype = Object.create(Action.prototype);
+function TransitionOnMessageAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+TransitionOnMessageAction.prototype = Object.create(_Action2.default.prototype);
 TransitionOnMessageAction.prototype.constructor = TransitionOnMessageAction;
 
 TransitionOnMessageAction.external = {
@@ -27,18 +41,19 @@ TransitionOnMessageAction.external = {
 	}]
 };
 
-TransitionOnMessageAction.getTransitionLabel = function (transitionKey, actionConfig){
+TransitionOnMessageAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	var label = actionConfig.options.channel ? '"' + actionConfig.options.channel + '"' : '';
 	return transitionKey === 'transition' ? 'On ' + label + ' event' : 'On Message';
 };
 
 TransitionOnMessageAction.prototype.enter = function (fsm) {
-	this.eventListener = function (/*data*/) {
+	this.eventListener = function () /*data*/{
 		fsm.send(this.transitions.transition);
 	}.bind(this);
-	SystemBus.addListener(this.channel, this.eventListener, false);
+	_SystemBus2.default.addListener(this.channel, this.eventListener, false);
 };
 
-TransitionOnMessageAction.prototype.exit = function (/*fsm*/) {
-	SystemBus.removeListener(this.channel, this.eventListener);
+TransitionOnMessageAction.prototype.exit = function () /*fsm*/{
+	_SystemBus2.default.removeListener(this.channel, this.eventListener);
 };
+module.exports = exports.default;

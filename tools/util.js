@@ -1,20 +1,28 @@
 // jshint node:true
 'use strict';
 
-export function isSafeIdentifier(identifier) {
-	return /^[\w_]+$/.test(identifier);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.isSafeIdentifier = isSafeIdentifier;
+exports.safenIdentifier = safenIdentifier;
+exports.extractModuleName = extractModuleName;
+exports.stripEnding = stripEnding;
+function isSafeIdentifier(identifier) {
+	return (/^[\w_]+$/.test(identifier)
+	);
 }
 
-export function safenIdentifier(identifier) {
+function safenIdentifier(identifier) {
 	return identifier.replace(/[^\w_]/g, '');
 }
 
-export function extractModuleName(completeName) {
+function extractModuleName(completeName) {
 	var index = completeName.lastIndexOf('/');
 	return index === -1 ? completeName : completeName.substr(index + 1);
 }
 
-export function stripEnding(ending, string) {
+function stripEnding(ending, string) {
 	if (string.slice(-ending.length) === ending) {
 		return string.slice(0, -ending.length);
 	}

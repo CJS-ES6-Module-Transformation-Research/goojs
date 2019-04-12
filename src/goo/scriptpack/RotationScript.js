@@ -1,4 +1,8 @@
-export default function RotationScript() {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RotationScript;
+function RotationScript() {
 	var mouseState, actualState, entity;
 
 	function setup(parameters, env) {
@@ -17,7 +21,7 @@ export default function RotationScript() {
 		document.addEventListener('mousemove', onMouseMove);
 	}
 
-	function update(parameters/*, env*/) {
+	function update(parameters /*, env*/) {
 		actualState.x += (mouseState.x - actualState.x) * parameters.fraction;
 		actualState.y += (mouseState.y - actualState.y) * parameters.fraction;
 
@@ -29,7 +33,7 @@ export default function RotationScript() {
 		mouseState.y = e.y;
 	}
 
-	function cleanup(/*parameters, env*/) {
+	function cleanup() /*parameters, env*/{
 		document.removeEventListener('mousemove', onMouseMove);
 	}
 	return {
@@ -53,3 +57,4 @@ RotationScript.externals = {
 		max: 1
 	}]
 };
+module.exports = exports.default;

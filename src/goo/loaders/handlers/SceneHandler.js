@@ -1,7 +1,27 @@
-import ConfigHandler from "../../loaders/handlers/ConfigHandler";
-import SystemBus from "../../entities/SystemBus";
-import ObjectUtils from "../../util/ObjectUtils";
-import RSVP from "../../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SceneHandler;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+var _rsvp = require("../../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading scene into engine
@@ -11,13 +31,13 @@ import RSVP from "../../util/rsvp";
  * @param {Function} updateObject
  * @private
  */
-export default function SceneHandler() {
-	ConfigHandler.apply(this, arguments);
+function SceneHandler() {
+	_ConfigHandler2.default.apply(this, arguments);
 }
 
-SceneHandler.prototype = Object.create(ConfigHandler.prototype);
+SceneHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 SceneHandler.prototype.constructor = SceneHandler;
-ConfigHandler._registerClass('scene', SceneHandler);
+_ConfigHandler2.default._registerClass('scene', SceneHandler);
 
 /**
  * Removes the scene, i e removes all entities in scene from engine world
@@ -61,8 +81,10 @@ SceneHandler.prototype._create = function () {
  */
 SceneHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
-		if (!scene) { return; }
+	return _ConfigHandler2.default.prototype._update.call(this, ref, config, options).then(function (scene) {
+		if (!scene) {
+			return;
+		}
 		scene.id = ref;
 		var promises = [];
 		promises.push(that._handleEntities(config, scene, options));
@@ -76,7 +98,7 @@ SceneHandler.prototype._update = function (ref, config, options) {
 			if (config.initialCameraRef && config.initialCameraRef !== scene.initialCameraRef) {
 				promises.push(that._load(config.initialCameraRef, options).then(function (cameraEntity) {
 					if (cameraEntity && cameraEntity.cameraComponent) {
-						SystemBus.emit('goo.setCurrentCamera', {
+						_SystemBus2.default.emit('goo.setCurrentCamera', {
 							camera: cameraEntity.cameraComponent.camera,
 							entity: cameraEntity
 						});
@@ -85,7 +107,7 @@ SceneHandler.prototype._update = function (ref, config, options) {
 				}));
 			}
 		}
-		return RSVP.all(promises).then(function () {
+		return _rsvp2.default.all(promises).then(function () {
 			return scene;
 		});
 	});
@@ -104,12 +126,8 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 		return !config.entities[id];
 	});
 
-	return RSVP.all([
-		this._loadEntities(Object.keys(config.entities)),
-		this._loadEntities(removedEntityIds)
-	])
-	.then(function (result) {
-		that._addEntities(scene, result[0])
+	return _rsvp2.default.all([this._loadEntities(Object.keys(config.entities)), this._loadEntities(removedEntityIds)]).then(function (result) {
+		that._addEntities(scene, result[0]);
 		that._removeEntities(scene, result[1]);
 	});
 };
@@ -117,7 +135,7 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 SceneHandler.prototype._loadEntities = function (ids, options) {
 	var that = this;
 
-	return RSVP.all(ids.map(function (id) {
+	return _rsvp2.default.all(ids.map(function (id) {
 		return that._load(id, options);
 	}));
 };
@@ -157,3 +175,4 @@ SceneHandler.prototype._handlePosteffects = function (config, scene, options) {
 SceneHandler.prototype._handleEnvironment = function (config, scene, options) {
 	return this._load(config.environmentRef, options);
 };
+module.exports = exports.default;

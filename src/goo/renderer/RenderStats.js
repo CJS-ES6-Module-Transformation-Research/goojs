@@ -1,4 +1,8 @@
-export default function RenderStats() {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RenderStats;
+function RenderStats() {
 	this.reset();
 }
 
@@ -9,7 +13,6 @@ RenderStats.prototype.reset = function () {
 };
 
 RenderStats.prototype.toString = function () {
-	return 'Calls: ' + this.calls +
-		'<br/>Vertices: ' + this.vertices +
-		'<br/>Indices: ' + this.indices;
+	return 'Calls: ' + this.calls + '<br/>Vertices: ' + this.vertices + '<br/>Indices: ' + this.indices;
 };
+module.exports = exports.default;

@@ -1,9 +1,20 @@
-import Vector3 from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ParticleUtils;
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Various helper utils for particle systems.
  */
-export default function ParticleUtils() {}
+function ParticleUtils() {}
 
 ParticleUtils.getRandomVelocityOffY = function (store, minOffsetAngle, maxOffsetAngle, scale, particleEntity) {
 	var randomAngle = minOffsetAngle + Math.random() * (maxOffsetAngle - minOffsetAngle);
@@ -29,13 +40,13 @@ ParticleUtils.randomPointInCube = function (store, xRadius, yRadius, zRadius, ce
 };
 
 ParticleUtils.createConstantForce = function (force) {
-	var applyForce = new Vector3(force);
+	var applyForce = new _Vector2.default(force);
 	return {
 		enabled: true,
 		/* Was: function (particleEntity, emitter) */
-		prepare: function () {},
+		prepare: function prepare() {},
 		/* Was: function (tpf, particle, particleIndex) */
-		apply: function (tpf, particle) {
+		apply: function apply(tpf, particle) {
 			particle.velocity.x += applyForce.x * tpf;
 			particle.velocity.y += applyForce.y * tpf;
 			particle.velocity.z += applyForce.z * tpf;
@@ -60,12 +71,27 @@ ParticleUtils.applyEntityTransformVector = function (vec3, entity) {
 };
 
 ParticleUtils.applyTimeline = function (particle, timeline) {
-	var age = particle.age, lifeSpan = particle.lifeSpan;
-	var prevCAge = 0, prevMAge = 0, prevSiAge = 0, prevSpAge = 0;
-	var nextCAge = lifeSpan, nextMAge = lifeSpan, nextSiAge = lifeSpan, nextSpAge = lifeSpan;
-	var trAge = 0, ratio;
-	var prevCEntry = null, prevMEntry = null, prevSiEntry = null, prevSpEntry = null, prevUVEntry = null;
-	var nextCEntry = null, nextMEntry = null, nextSiEntry = null, nextSpEntry = null;
+	var age = particle.age,
+	    lifeSpan = particle.lifeSpan;
+	var prevCAge = 0,
+	    prevMAge = 0,
+	    prevSiAge = 0,
+	    prevSpAge = 0;
+	var nextCAge = lifeSpan,
+	    nextMAge = lifeSpan,
+	    nextSiAge = lifeSpan,
+	    nextSpAge = lifeSpan;
+	var trAge = 0,
+	    ratio;
+	var prevCEntry = null,
+	    prevMEntry = null,
+	    prevSiEntry = null,
+	    prevSpEntry = null,
+	    prevUVEntry = null;
+	var nextCEntry = null,
+	    nextMEntry = null,
+	    nextSiEntry = null,
+	    nextSpEntry = null;
 
 	for (var i = 0, max = timeline.length; i < max; i++) {
 		var entry = timeline[i];
@@ -150,3 +176,4 @@ ParticleUtils.applyTimeline = function (particle, timeline) {
 	var end = nextSpEntry !== null ? nextSpEntry.spin : start;
 	particle.spin = (1 - ratio) * start + ratio * end;
 };
+module.exports = exports.default;

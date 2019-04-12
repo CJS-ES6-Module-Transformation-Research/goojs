@@ -1,22 +1,33 @@
-import Collider from "../../../addons/physicspack/colliders/Collider";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = SphereCollider;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
+var _Collider2 = _interopRequireDefault(_Collider);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * @param {Object} [settings]
  * @param {number} [settings.radius=0.5]
  * @extends Collider
  */
-export default function SphereCollider(settings) {
-	settings = settings || {};
+function SphereCollider(settings) {
+  settings = settings || {};
 
-	/**
-	 * @type {number}
-	 */
-	this.radius = settings.radius !== undefined ? settings.radius : 0.5;
+  /**
+   * @type {number}
+   */
+  this.radius = settings.radius !== undefined ? settings.radius : 0.5;
 
-	Collider.call(this);
+  _Collider2.default.call(this);
 }
 
-SphereCollider.prototype = Object.create(Collider.prototype);
+SphereCollider.prototype = Object.create(_Collider2.default.prototype);
 SphereCollider.prototype.constructor = SphereCollider;
 
 /**
@@ -25,19 +36,16 @@ SphereCollider.prototype.constructor = SphereCollider;
  * @param {Collider} targetCollider
  */
 SphereCollider.prototype.transform = function (transform, targetCollider) {
-	var scale = transform.scale;
-	targetCollider.radius = this.radius * Math.max(
-		Math.abs(scale.x),
-		Math.abs(scale.y),
-		Math.abs(scale.z)
-	);
+  var scale = transform.scale;
+  targetCollider.radius = this.radius * Math.max(Math.abs(scale.x), Math.abs(scale.y), Math.abs(scale.z));
 };
 
 /**
  * @returns {SphereCollider}
  */
 SphereCollider.prototype.clone = function () {
-	return new SphereCollider({
-		radius: this.radius
-	});
+  return new SphereCollider({
+    radius: this.radius
+  });
 };
+module.exports = exports.default;

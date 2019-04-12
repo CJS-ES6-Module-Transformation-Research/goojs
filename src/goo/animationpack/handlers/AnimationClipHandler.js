@@ -1,10 +1,39 @@
-import ConfigHandler from "../../loaders/handlers/ConfigHandler";
-import AnimationClip from "../../animationpack/clip/AnimationClip";
-import JointChannel from "../../animationpack/clip/JointChannel";
-import TransformChannel from "../../animationpack/clip/TransformChannel";
-import InterpolatedFloatChannel from "../../animationpack/clip/InterpolatedFloatChannel";
-import TriggerChannel from "../../animationpack/clip/TriggerChannel";
-import ArrayUtils from "../../util/ArrayUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = AnimationClipHandler;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ConfigHandler2 = _interopRequireDefault(_ConfigHandler);
+
+var _AnimationClip = require("../../animationpack/clip/AnimationClip");
+
+var _AnimationClip2 = _interopRequireDefault(_AnimationClip);
+
+var _JointChannel = require("../../animationpack/clip/JointChannel");
+
+var _JointChannel2 = _interopRequireDefault(_JointChannel);
+
+var _TransformChannel = require("../../animationpack/clip/TransformChannel");
+
+var _TransformChannel2 = _interopRequireDefault(_TransformChannel);
+
+var _InterpolatedFloatChannel = require("../../animationpack/clip/InterpolatedFloatChannel");
+
+var _InterpolatedFloatChannel2 = _interopRequireDefault(_InterpolatedFloatChannel);
+
+var _TriggerChannel = require("../../animationpack/clip/TriggerChannel");
+
+var _TriggerChannel2 = _interopRequireDefault(_TriggerChannel);
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handler for loading animation clips into engine
@@ -14,13 +43,13 @@ import ArrayUtils from "../../util/ArrayUtils";
  * @param {Function} updateObject
  * @private
  */
-export default function AnimationClipHandler() {
-	ConfigHandler.apply(this, arguments);
+function AnimationClipHandler() {
+	_ConfigHandler2.default.apply(this, arguments);
 }
 
-AnimationClipHandler.prototype = Object.create(ConfigHandler.prototype);
+AnimationClipHandler.prototype = Object.create(_ConfigHandler2.default.prototype);
 AnimationClipHandler.prototype.constructor = AnimationClipHandler;
-ConfigHandler._registerClass('clip', AnimationClipHandler);
+_ConfigHandler2.default._registerClass('clip', AnimationClipHandler);
 
 /**
  * Creates an empty animation clip
@@ -29,7 +58,7 @@ ConfigHandler._registerClass('clip', AnimationClipHandler);
  * @private
  */
 AnimationClipHandler.prototype._create = function () {
-	return new AnimationClip();
+	return new _AnimationClip2.default();
 };
 
 /**
@@ -41,8 +70,10 @@ AnimationClipHandler.prototype._create = function () {
  */
 AnimationClipHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (clip) {
-		if (!clip) { return clip; }
+	return _ConfigHandler2.default.prototype._update.call(this, ref, config, options).then(function (clip) {
+		if (!clip) {
+			return clip;
+		}
 		return that.loadObject(config.binaryRef, options).then(function (bindata) {
 			if (!bindata) {
 				throw new Error('Binary clip data was empty');
@@ -68,7 +99,7 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 		for (var i = 0; i < keys.length; i++) {
 			var channelConfig = clipConfig.channels[keys[i]];
 			// Time samples
-			var times = ArrayUtils.getTypedArray(bindata, channelConfig.times);
+			var times = _ArrayUtils2.default.getTypedArray(bindata, channelConfig.times);
 
 			var blendType = channelConfig.blendType;
 			var type = channelConfig.type;
@@ -79,45 +110,21 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 				case 'Transform':
 					// Transform samples
 					var rots, trans, scales;
-					rots = ArrayUtils.getTypedArray(bindata, channelConfig.rotationSamples);
-					trans = ArrayUtils.getTypedArray(bindata, channelConfig.translationSamples);
-					scales = ArrayUtils.getTypedArray(bindata, channelConfig.scaleSamples);
+					rots = _ArrayUtils2.default.getTypedArray(bindata, channelConfig.rotationSamples);
+					trans = _ArrayUtils2.default.getTypedArray(bindata, channelConfig.translationSamples);
+					scales = _ArrayUtils2.default.getTypedArray(bindata, channelConfig.scaleSamples);
 
 					if (type === 'Joint') {
-						channel = new JointChannel(
-							channelConfig.jointIndex,
-							channelConfig.name,
-							times,
-							rots,
-							trans,
-							scales,
-							blendType
-						);
+						channel = new _JointChannel2.default(channelConfig.jointIndex, channelConfig.name, times, rots, trans, scales, blendType);
 					} else {
-						channel = new TransformChannel(
-							channelConfig.name,
-							times,
-							rots,
-							trans,
-							scales,
-							blendType
-						);
+						channel = new _TransformChannel2.default(channelConfig.name, times, rots, trans, scales, blendType);
 					}
 					break;
 				case 'FloatLERP':
-					channel = new InterpolatedFloatChannel(
-						channelConfig.name,
-						times,
-						channelConfig.values,
-						blendType
-					);
+					channel = new _InterpolatedFloatChannel2.default(channelConfig.name, times, channelConfig.values, blendType);
 					break;
 				case 'Trigger':
-					channel = new TriggerChannel(
-						channelConfig.name,
-						times,
-						channelConfig.keys
-					);
+					channel = new _TriggerChannel2.default(channelConfig.name, times, channelConfig.keys);
 					channel.guarantee = !!channelConfig.guarantee;
 					break;
 				default:
@@ -129,3 +136,4 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 	}
 	return clip;
 };
+module.exports = exports.default;

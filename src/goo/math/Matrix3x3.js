@@ -1,17 +1,28 @@
-import Matrix3 from "./Matrix3";
-import ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 
-var Matrix3x3 = ObjectUtils.warnOnce(
-	'Matrix3x3 has been renamed to Matrix3.',
-	function () {
-		Matrix3.apply(this, arguments);
-	}
-);
+var _Matrix = require("./Matrix3");
 
-Matrix3x3.prototype = Object.create(Matrix3.prototype);
-Matrix3x3.prototype.constructor = Matrix3x3;
-for (var x in Matrix3) {
-	Matrix3x3[x] = Matrix3[x];
+var _Matrix2 = _interopRequireDefault(_Matrix);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ObjectUtils2 = _interopRequireDefault(_ObjectUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-export default Matrix3x3;
+var Matrix3x3 = _ObjectUtils2.default.warnOnce('Matrix3x3 has been renamed to Matrix3.', function () {
+	_Matrix2.default.apply(this, arguments);
+});
+
+Matrix3x3.prototype = Object.create(_Matrix2.default.prototype);
+Matrix3x3.prototype.constructor = Matrix3x3;
+for (var x in _Matrix2.default) {
+	Matrix3x3[x] = _Matrix2.default[x];
+}
+
+exports.default = Matrix3x3;
+module.exports = exports.default;

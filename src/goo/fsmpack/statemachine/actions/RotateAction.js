@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import MathUtils from "../../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RotateAction /*id, settings*/;
 
-export default function RotateAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-RotateAction.prototype = Object.create(Action.prototype);
+function RotateAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+RotateAction.prototype = Object.create(_Action2.default.prototype);
 RotateAction.prototype.constructor = RotateAction;
 
 RotateAction.external = {
@@ -35,7 +49,7 @@ RotateAction.external = {
 	transitions: []
 };
 
-var DEG_TO_RAD = MathUtils.DEG_TO_RAD;
+var DEG_TO_RAD = _MathUtils2.default.DEG_TO_RAD;
 
 RotateAction.prototype.applyRotation = function (fsm) {
 	var entity = fsm.getOwnerEntity();
@@ -60,17 +74,9 @@ RotateAction.prototype.applyRotation = function (fsm) {
 	} else {
 		if (this.everyFrame) {
 			var tpf = fsm.getTpf();
-			transform.setRotationXYZ(
-				rotationX * DEG_TO_RAD * tpf,
-				rotationY * DEG_TO_RAD * tpf,
-				rotationZ * DEG_TO_RAD * tpf
-			);
+			transform.setRotationXYZ(rotationX * DEG_TO_RAD * tpf, rotationY * DEG_TO_RAD * tpf, rotationZ * DEG_TO_RAD * tpf);
 		} else {
-			transform.setRotationXYZ(
-				rotationX * DEG_TO_RAD,
-				rotationY * DEG_TO_RAD,
-				rotationZ * DEG_TO_RAD
-			);
+			transform.setRotationXYZ(rotationX * DEG_TO_RAD, rotationY * DEG_TO_RAD, rotationZ * DEG_TO_RAD);
 		}
 	}
 
@@ -88,3 +94,4 @@ RotateAction.prototype.update = function (fsm) {
 		this.applyRotation(fsm);
 	}
 };
+module.exports = exports.default;

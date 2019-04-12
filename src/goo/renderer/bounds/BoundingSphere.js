@@ -1,7 +1,27 @@
-import Vector3 from "../../math/Vector3";
-import MathUtils from "../../math/MathUtils";
-import BoundingVolume from "../../renderer/bounds/BoundingVolume";
-import MeshData from "../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BoundingSphere;
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _BoundingVolume = require("../../renderer/bounds/BoundingVolume");
+
+var _BoundingVolume2 = _interopRequireDefault(_BoundingVolume);
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * <code>BoundingSphere</code> defines a sphere that defines a container for a group of vertices of a particular piece of geometry. This
@@ -10,8 +30,8 @@ import MeshData from "../../renderer/MeshData";
  *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
  *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
  */
-export default function BoundingSphere(center, radius) {
-	BoundingVolume.call(this, center);
+function BoundingSphere(center, radius) {
+	_BoundingVolume2.default.call(this, center);
 	this.radius = radius !== undefined ? radius : 1;
 
 	// @ifdef DEBUG
@@ -19,14 +39,14 @@ export default function BoundingSphere(center, radius) {
 	// @endif
 }
 
-var tmpVec = new Vector3();
+var tmpVec = new _Vector2.default();
 
-BoundingSphere.prototype = Object.create(BoundingVolume.prototype);
+BoundingSphere.prototype = Object.create(_BoundingVolume2.default.prototype);
 BoundingSphere.prototype.constructor = BoundingSphere;
 
 BoundingSphere.prototype.reset = function () {
 	this.radius = 1;
-	BoundingVolume.prototype.reset.call(this);
+	_BoundingVolume2.default.prototype.reset.call(this);
 };
 
 BoundingSphere.prototype.computeFromPoints = function (verts) {
@@ -54,7 +74,8 @@ BoundingSphere.prototype.computeFromPoints = function (verts) {
 		max.z = z > max.z ? z : max.z;
 	}
 	var newCenter = max.add(min).scale(1 / 2.0);
-	var size = 0, test;
+	var size = 0,
+	    test;
 	for (var i = 0; i < l; i += 3) {
 		vec.setDirect(verts[i], verts[i + 1], verts[i + 2]);
 		test = vec.sub(newCenter).lengthSquared();
@@ -68,13 +89,13 @@ BoundingSphere.prototype.computeFromPoints = function (verts) {
 };
 
 (function () {
-	var relativePoint = new Vector3();
+	var relativePoint = new _Vector2.default();
 
 	/**
-	 * Method to test whether a point is inside the bounding box or not
-	 * @param {Vector3} point
-	 * @returns {boolean}
-	 */
+  * Method to test whether a point is inside the bounding box or not
+  * @param {Vector3} point
+  * @returns {boolean}
+  */
 	BoundingSphere.prototype.containsPoint = function (point) {
 		return relativePoint.set(point).sub(this.center).lengthSquared() <= Math.pow(this.radius, 2);
 	};
@@ -87,13 +108,13 @@ BoundingSphere.prototype.computeFromPrimitives = function (data, section, indice
 
 	var vertList = [];
 	var store = [];
-	var vertsPerPrimitive = MeshData.getVertexCount(data.indexModes[section]);
+	var vertsPerPrimitive = _MeshData2.default.getVertexCount(data.indexModes[section]);
 
 	var count = 0;
 	for (var i = start; i < end; i++) {
 		store = data.getPrimitiveVertices(indices[i], section, store);
 		for (var j = 0; j < vertsPerPrimitive; j++) {
-			vertList[count++] = new Vector3().set(store[j]);
+			vertList[count++] = new _Vector2.default().set(store[j]);
 		}
 	}
 
@@ -141,11 +162,11 @@ BoundingSphere.prototype.whichSide = function (plane) {
 	var distance = planeData.x * pointData.x + planeData.y * pointData.y + planeData.z * pointData.z - plane.constant;
 
 	if (distance < -this.radius) {
-		return BoundingVolume.Inside;
+		return _BoundingVolume2.default.Inside;
 	} else if (distance > this.radius) {
-		return BoundingVolume.Outside;
+		return _BoundingVolume2.default.Outside;
 	} else {
-		return BoundingVolume.Intersects;
+		return _BoundingVolume2.default.Intersects;
 	}
 };
 
@@ -232,7 +253,7 @@ BoundingSphere.prototype.intersectsRay = function (ray) {
 };
 
 BoundingSphere.prototype.intersectsRayWhere = function (ray) {
-	var diff = new Vector3().copy(ray.origin).sub(this.center);
+	var diff = new _Vector2.default().copy(ray.origin).sub(this.center);
 	var a = diff.dot(diff) - this.radius * this.radius;
 	var a1, discr, root;
 	if (a <= 0.0) {
@@ -241,7 +262,7 @@ BoundingSphere.prototype.intersectsRayWhere = function (ray) {
 		discr = a1 * a1 - a;
 		root = Math.sqrt(discr);
 		var distances = [root - a1];
-		var points = [new Vector3().copy(ray.direction).scale(distances[0]).add(ray.origin)];
+		var points = [new _Vector2.default().copy(ray.direction).scale(distances[0]).add(ray.origin)];
 		return {
 			distances: distances,
 			points: points
@@ -260,8 +281,7 @@ BoundingSphere.prototype.intersectsRayWhere = function (ray) {
 	} else if (discr >= 0.00001) {
 		root = Math.sqrt(discr);
 		var distances = [-a1 - root, -a1 + root];
-		var points = [new Vector3().copy(ray.direction).scale(distances[0]).add(ray.origin),
-			new Vector3().copy(ray.direction).scale(distances[1]).add(ray.origin)];
+		var points = [new _Vector2.default().copy(ray.direction).scale(distances[0]).add(ray.origin), new _Vector2.default().copy(ray.direction).scale(distances[1]).add(ray.origin)];
 		return {
 			distances: distances,
 			points: points
@@ -269,7 +289,7 @@ BoundingSphere.prototype.intersectsRayWhere = function (ray) {
 	}
 
 	var distances = [-a1];
-	var points = [new Vector3().copy(ray.direction).scale(distances[0]).add(ray.origin)];
+	var points = [new _Vector2.default().copy(ray.direction).scale(distances[0]).add(ray.origin)];
 	return {
 		distances: distances,
 		points: points
@@ -305,10 +325,10 @@ BoundingSphere.prototype.mergeSphere = function (center, radius, store) {
 		}
 		// else the other contains us
 		else {
-			store.center.set(center);
-			store.radius = radius;
-			return store;
-		}
+				store.center.set(center);
+				store.radius = radius;
+				return store;
+			}
 	}
 
 	// distance between sphere centers
@@ -318,7 +338,7 @@ BoundingSphere.prototype.mergeSphere = function (center, radius, store) {
 	var rCenter = store.center;
 
 	// if our centers are at least a tiny amount apart from each other...
-	if (length > MathUtils.EPSILON) {
+	if (length > _MathUtils2.default.EPSILON) {
 		// place us between the two centers, weighted by radii
 		var coeff = (length + radiusDiff) / (2.0 * length);
 		rCenter.add(diff.scale(coeff));
@@ -336,7 +356,7 @@ BoundingSphere.prototype.mergeSphere = function (center, radius, store) {
  * @returns {BoundingSphere} Returns self to allow chaining
  */
 BoundingSphere.prototype.copy = function (source) {
-	BoundingVolume.prototype.copy.call(this, source);
+	_BoundingVolume2.default.prototype.copy.call(this, source);
 	this.radius = source.radius;
 	return this;
 };
@@ -351,12 +371,10 @@ var warned = false;
 BoundingSphere.prototype.clone = function () {
 	if (arguments.length > 0 && !warned) {
 		warned = true;
-		console.warn(
-			'BoundingSphere::clone no longer takes an optional "store" parameter; ' +
-			'please use BoundingSphere::copy instead'
-		);
+		console.warn('BoundingSphere::clone no longer takes an optional "store" parameter; ' + 'please use BoundingSphere::copy instead');
 	}
 	// center appears to be shared but it really isn't since the BoundingVolume constructor clones it
 	// when/if that ever changes this needs adapted accordingly
 	return new BoundingSphere(this.center, this.radius);
 };
+module.exports = exports.default;

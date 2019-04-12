@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetTimelineTimeAction /*id, settings*/;
 
-export default function SetTimelineTimeAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetTimelineTimeAction.prototype = Object.create(Action.prototype);
+function SetTimelineTimeAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetTimelineTimeAction.prototype = Object.create(_Action2.default.prototype);
 SetTimelineTimeAction.prototype.constructor = SetTimelineTimeAction;
 
 SetTimelineTimeAction.external = {
@@ -26,7 +37,10 @@ SetTimelineTimeAction.external = {
 SetTimelineTimeAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('TimelineComponent')) { return; }
+	if (!entity.hasComponent('TimelineComponent')) {
+		return;
+	}
 
 	entity.timelineComponent.setTime(this.time);
 };
+module.exports = exports.default;

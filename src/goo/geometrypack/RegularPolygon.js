@@ -1,9 +1,20 @@
-import PolyLine from "../geometrypack/PolyLine";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RegularPolygon;
+
+var _PolyLine = require("../geometrypack/PolyLine");
+
+var _PolyLine2 = _interopRequireDefault(_PolyLine);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Regular polygon mesh
  */
-export default function RegularPolygon(nSegments, radius) {
+function RegularPolygon(nSegments, radius) {
 	this.nSegments = nSegments || 5;
 	this.radius = radius || 1;
 
@@ -13,9 +24,10 @@ export default function RegularPolygon(nSegments, radius) {
 		verts.push(Math.cos(k) * this.radius, Math.sin(k) * this.radius, 0);
 	}
 
-	PolyLine.call(this, verts, true);
+	_PolyLine2.default.call(this, verts, true);
 
 	this.rebuild();
 }
 
-RegularPolygon.prototype = Object.create(PolyLine.prototype);
+RegularPolygon.prototype = Object.create(_PolyLine2.default.prototype);
+module.exports = exports.default;

@@ -1,5 +1,19 @@
-import ComponentHandler from "../loaders/handlers/ComponentHandler";
-import QuadComponent from "../quadpack/QuadComponent";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = QuadComponentHandler;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _ComponentHandler2 = _interopRequireDefault(_ComponentHandler);
+
+var _QuadComponent = require("../quadpack/QuadComponent");
+
+var _QuadComponent2 = _interopRequireDefault(_QuadComponent);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * For handling loading of quadcomponents
@@ -9,14 +23,14 @@ import QuadComponent from "../quadpack/QuadComponent";
  * @extends ComponentHandler
  * @hidden
  */
-export default function QuadComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+function QuadComponentHandler() {
+	_ComponentHandler2.default.apply(this, arguments);
 	this._type = 'QuadComponent';
 }
 
-QuadComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+QuadComponentHandler.prototype = Object.create(_ComponentHandler2.default.prototype);
 QuadComponentHandler.prototype.constructor = QuadComponentHandler;
-ComponentHandler._registerClass('quad', QuadComponentHandler);
+_ComponentHandler2.default._registerClass('quad', QuadComponentHandler);
 
 /**
  * Create a quadcomponent object.
@@ -24,7 +38,7 @@ ComponentHandler._registerClass('quad', QuadComponentHandler);
  * @private
  */
 QuadComponentHandler.prototype._create = function () {
-	return new QuadComponent();
+	return new _QuadComponent2.default();
 };
 
 /**
@@ -48,8 +62,10 @@ QuadComponentHandler.prototype._remove = function (entity) {
  */
 QuadComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler2.default.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		// Load material
 		return that._load(config.materialRef, options).then(function (material) {
@@ -72,3 +88,4 @@ QuadComponentHandler.prototype.update = function (entity, config, options) {
 		});
 	});
 };
+module.exports = exports.default;

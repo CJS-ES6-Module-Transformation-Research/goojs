@@ -1,12 +1,22 @@
-import Ray from "../../math/Ray";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = BoundingPicker;
+
+var _Ray = require('../../math/Ray');
+
+var _Ray2 = _interopRequireDefault(_Ray);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * BoundingPicker
  */
-export default function BoundingPicker() {
-}
+function BoundingPicker() {}
 
-var pickRay = new Ray();
+var pickRay = new _Ray2.default();
 
 BoundingPicker.pick = function (world, camera, x, y) {
 	var entities = world.entityManager.getEntities();
@@ -43,3 +53,4 @@ BoundingPicker.pickFromList = function (world, entities, camera, x, y) {
 
 	return pickList;
 };
+module.exports = exports.default;

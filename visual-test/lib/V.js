@@ -2,13 +2,13 @@
 
 (function () {
 	/**
-	 * @class
-	 * A collection of useful methods for visual tests.
-	 */
+  * @class
+  * A collection of useful methods for visual tests.
+  */
 	var V = goo.V = {};
 
 	V.attachToGlobal = function () {
-		for(var key in goo){
+		for (var key in goo) {
 			window[key] = goo[key];
 		}
 	};
@@ -18,17 +18,17 @@
 	V.minimal = !!purl().param().minimal;
 
 	/**
-	 * Converts a Vector3-like to a Vector3.
-	 * @param {number[]|Object|Vector3} obj The Vector3-like object to convert.
-	 * @param {Vector3} def The default value of the conversion.
-	 * @returns {Vector3} The converted Vector3 or default value.
-	 */
+  * Converts a Vector3-like to a Vector3.
+  * @param {number[]|Object|Vector3} obj The Vector3-like object to convert.
+  * @param {Vector3} def The default value of the conversion.
+  * @returns {Vector3} The converted Vector3 or default value.
+  */
 	V.toVector3 = function (obj, def) {
 		if (Array.isArray(obj)) {
 			return goo.Vector3.fromArray(obj);
 		} else if (obj instanceof goo.Vector3) {
 			return obj;
-		} else if (obj && (typeof obj.x === 'number') && (typeof obj.y === 'number') && (typeof obj.z === 'number')) {
+		} else if (obj && typeof obj.x === 'number' && typeof obj.y === 'number' && typeof obj.z === 'number') {
 			return new goo.Vector3(obj.x, obj.y, obj.z);
 		} else {
 			return def;
@@ -36,12 +36,12 @@
 	};
 
 	/**
-	 * Adds an orbit camera in demo mode.
-	 * @param {number[]|Object|Vector3} [spherical=Vector3(20,0,0)] A Vector3-like spherical coordinate for the orbit camera.
-	 * @param {number[]|Object|Vector3} [lookAt=Vector3(0,0,0)] A Vector3-like look-at position for the orbit camera.
-	 * @param {string} [dragButton='Any'] The button to use for dragging the camera.
-	 * @returns {Entity} The orbit camera entity.
-	 */
+  * Adds an orbit camera in demo mode.
+  * @param {number[]|Object|Vector3} [spherical=Vector3(20,0,0)] A Vector3-like spherical coordinate for the orbit camera.
+  * @param {number[]|Object|Vector3} [lookAt=Vector3(0,0,0)] A Vector3-like look-at position for the orbit camera.
+  * @param {string} [dragButton='Any'] The button to use for dragging the camera.
+  * @returns {Entity} The orbit camera entity.
+  */
 	V.addOrbitCamera = function (spherical, lookAt, dragButton) {
 		spherical = V.toVector3(spherical, new goo.Vector3(20, 0, 0));
 		lookAt = V.toVector3(lookAt, new goo.Vector3(0, 0, 0));
@@ -74,16 +74,12 @@
 	};
 
 	/**
-	 * Creates a random bright color.
-	 * @returns {number[]} Random bright color [red, green, blue]
-	 */
+  * Creates a random bright color.
+  * @returns {number[]} Random bright color [red, green, blue]
+  */
 	V.getRandomColor = function () {
 		var angle = V.rng.nextFloat() * Math.PI * 2;
-		var color = [
-			angle,
-			angle + Math.PI * 2 / 3,
-			angle + Math.PI * 4 / 3
-		].map(function (v) {
+		var color = [angle, angle + Math.PI * 2 / 3, angle + Math.PI * 4 / 3].map(function (v) {
 			return Math.sin(v) / 2 + 0.5;
 		});
 		color.push(1);
@@ -92,13 +88,13 @@
 	};
 
 	/**
-	 * Returns a material from the supplied colors or a random brightly colored material.
-	 * @param {number} [red] Red value.
-	 * @param {number} [green] Green value.
-	 * @param {number} [blue] Blue value.
-	 * @param {number} [alpha=1] Alpha value.
-	 * @returns {renderer.Material} The generated material.
-	 */
+  * Returns a material from the supplied colors or a random brightly colored material.
+  * @param {number} [red] Red value.
+  * @param {number} [green] Green value.
+  * @param {number} [blue] Blue value.
+  * @param {number} [alpha=1] Alpha value.
+  * @returns {renderer.Material} The generated material.
+  */
 	V.getColoredMaterial = function (red, green, blue, alpha) {
 		var material = new goo.Material(goo.ShaderLib.uber);
 		if (arguments.length === 0) {
@@ -112,13 +108,13 @@
 	};
 
 	/**
-	 * Adds a grid of shapes.
-	 * @param {number} [nShapes=15] The number of shapes.
-	 * @param {MeshData} [meshData=Sphere(32,32)] The MeshData shape to duplicate in a grid.
-	 * @param {number[]} [rotation=[0,0,0]] The rotation of the shapes.
-	 * @returns {EntitySelection} An EntitySelection of all the created entity's in the grid.
-	 */
-		//! AT: more clear with code duplication
+  * Adds a grid of shapes.
+  * @param {number} [nShapes=15] The number of shapes.
+  * @param {MeshData} [meshData=Sphere(32,32)] The MeshData shape to duplicate in a grid.
+  * @param {number[]} [rotation=[0,0,0]] The rotation of the shapes.
+  * @returns {EntitySelection} An EntitySelection of all the created entity's in the grid.
+  */
+	//! AT: more clear with code duplication
 	V.addShapes = function (nShapes, meshData, rotation) {
 		nShapes = nShapes || 15;
 		meshData = meshData || new goo.Sphere(32, 32);
@@ -130,13 +126,7 @@
 
 		for (var i = 0; i < nShapes; i++) {
 			for (var j = 0; j < nShapes; j++) {
-				entities.push(
-					V.world.createEntity(
-						meshData,
-						material,
-						[i - nShapes / 2, j - nShapes / 2, 0]
-					).setRotation(rotation).addToWorld()
-				);
+				entities.push(V.world.createEntity(meshData, material, [i - nShapes / 2, j - nShapes / 2, 0]).setRotation(rotation).addToWorld());
 			}
 		}
 
@@ -144,28 +134,28 @@
 	};
 
 	/**
-	 * Adds a grid of spheres.
-	 * @param {number} [nSpheres=15] The number of shapes to add.
-	 */
+  * Adds a grid of spheres.
+  * @param {number} [nSpheres=15] The number of shapes to add.
+  */
 	V.addSpheres = function (nSpheres) {
 		return V.addShapes(nSpheres, new goo.Sphere(32, 32));
 	};
 
 	/**
-	 * Adds a grid of boxes to the scene.
-	 * @param {number} [nBoxes=15] The number of boxes to add.
-	 */
+  * Adds a grid of boxes to the scene.
+  * @param {number} [nBoxes=15] The number of boxes to add.
+  */
 	V.addBoxes = function (nBoxes) {
 		return V.addShapes(nBoxes, new goo.Box(0.9, 0.9, 0.9), [Math.PI / 2, Math.PI / 4, Math.PI / 8]);
 	};
 
 	/**
-	 * Adds a grid of colored shapes.
-	 * @param {number} [nShapes=15] The number of shapes to add.
-	 * @param {MeshData} [meshData=Sphere(32,32)] The MeshData shape to duplicate in a grid.
-	 * @param {number[]} [rotation=[0,0,0]] The rotation of the shapes.
-	 * @returns {EntitySelection} An EntitySelection of all the created entity's in the grid.
-	 */
+  * Adds a grid of colored shapes.
+  * @param {number} [nShapes=15] The number of shapes to add.
+  * @param {MeshData} [meshData=Sphere(32,32)] The MeshData shape to duplicate in a grid.
+  * @param {number[]} [rotation=[0,0,0]] The rotation of the shapes.
+  * @returns {EntitySelection} An EntitySelection of all the created entity's in the grid.
+  */
 	V.addColoredShapes = function (nShapes, meshData, rotation) {
 		nShapes = nShapes || 15;
 		meshData = meshData || new goo.Sphere(32, 32);
@@ -178,13 +168,7 @@
 				var material = new goo.Material(goo.ShaderLib.simpleColored, 'ShapeMaterial' + i + '_' + j);
 				material.uniforms.color = [i / nShapes, j / nShapes, 0.3];
 
-				entities.push(
-					V.world.createEntity(
-						meshData,
-						material,
-						[i - nShapes / 2, j - nShapes / 2, 0]
-					).setRotation(rotation).addToWorld()
-				);
+				entities.push(V.world.createEntity(meshData, material, [i - nShapes / 2, j - nShapes / 2, 0]).setRotation(rotation).addToWorld());
 			}
 		}
 
@@ -192,37 +176,37 @@
 	};
 
 	/**
-	 * Adds a grid of colored spheres.
-	 * @param [nSpheres=15] The number of shapes to add.
-	 */
+  * Adds a grid of colored spheres.
+  * @param [nSpheres=15] The number of shapes to add.
+  */
 	V.addColoredSpheres = function (nSpheres) {
 		return V.addColoredShapes(nSpheres, new goo.Sphere(32, 32));
 	};
 
 	/**
-	 * Adds a grid of colored boxes to the scene.
-	 * @param [nBoxes=15] The number of boxes to add.
-	 */
+  * Adds a grid of colored boxes to the scene.
+  * @param [nBoxes=15] The number of boxes to add.
+  */
 	V.addColoredBoxes = function (nBoxes) {
 		return V.addColoredShapes(nBoxes, new goo.Box(0.9, 0.9, 0.9), [Math.PI / 2, Math.PI / 4, Math.PI / 8]);
 	};
 
 	/**
-	 * Adds a standard lighting to the scene of 3 point lights.
-	 */
+  * Adds a standard lighting to the scene of 3 point lights.
+  */
 	V.addLights = function () {
 		var world = V.world;
-		var dir1 = world.createEntity(new goo.DirectionalLight(), [ 100, 100, 100]).addToWorld();
+		var dir1 = world.createEntity(new goo.DirectionalLight(), [100, 100, 100]).addToWorld();
 		dir1.lookAt(goo.Vector3.ZERO, goo.Vector3.UNIT_Y);
 		var dir2 = world.createEntity(new goo.DirectionalLight(), [-100, 100, -100]).addToWorld();
 		dir2.lookAt(goo.Vector3.ZERO, goo.Vector3.UNIT_Y);
 	};
 
 	/**
-	 * Creates a new entity that renders the normals of the given entity.
-	 * @param {Entity} entity The entity to show normals of.
-	 * @returns {Entity} The entity with normals in, a line for each normal.
-	 */
+  * Creates a new entity that renders the normals of the given entity.
+  * @param {Entity} entity The entity to show normals of.
+  * @returns {Entity} The entity with normals in, a line for each normal.
+  */
 	V.showNormals = function (entity) {
 		var normalsMeshData = entity.meshDataComponent.meshData.getNormalsMeshData();
 		var normalsMaterial = new goo.Material(goo.ShaderLib.simpleColored, '');
@@ -234,10 +218,10 @@
 	};
 
 	/**
-	 * Initializes
-	 * @param _options
-	 * @returns {GooRunner}
-	 */
+  * Initializes
+  * @param _options
+  * @returns {GooRunner}
+  */
 	V.initGoo = function (_options) {
 		var options = {
 			showStats: true,
@@ -300,18 +284,20 @@
 	}
 
 	/**
-	 * Do a delayed callback
-	 * @param  {number} nFrames Number of frames to delay endcallback with
-	 * @param  {function} updateCallback Callback to call every frame
-	 * @param  {function} endCallback Callback to call after nFrames frames
-	 */
+  * Do a delayed callback
+  * @param  {number} nFrames Number of frames to delay endcallback with
+  * @param  {function} updateCallback Callback to call every frame
+  * @param  {function} endCallback Callback to call after nFrames frames
+  */
 	V.delay = delay;
 
 	/**
-	 * Required in 'deterministic' mode.
-	 */
+  * Required in 'deterministic' mode.
+  */
 	V.process = function (renderLoops) {
-		if (!V.deterministic) { return; }
+		if (!V.deterministic) {
+			return;
+		}
 
 		// waste some frames
 		delay(8, function () {}, function () {
@@ -327,9 +313,9 @@
 	};
 
 	/**
-	 * Adds a debug quad for the picking buffer.
-	 * @returns {Entity}
-	 */
+  * Adds a debug quad for the picking buffer.
+  * @returns {Entity}
+  */
 	V.addDebugQuad = function () {
 		var world = V.world;
 		var entity = world.createEntity('Quad');
@@ -346,28 +332,22 @@
 			uniforms: {
 				diffuseMap: 'DIFFUSE_MAP'
 			},
-			vshader: [ //
-				'attribute vec3 vertexPosition;', //
+			vshader: [//
+			'attribute vec3 vertexPosition;', //
 
-				'const vec2 madd = vec2(0.5,0.5);',
-				'varying vec2 textureCoord;',
-
-				'void main(void) {', //
-				'	textureCoord = vertexPosition.xy * madd + madd;', // scale vertex attribute to [0-1] range
-				'	gl_Position = vec4(vertexPosition.xy * vec2(0.3, 0.3) - vec2(0.5, 0.5), 0.0, 1.0);',
-				'}' //
+			'const vec2 madd = vec2(0.5,0.5);', 'varying vec2 textureCoord;', 'void main(void) {', //
+			'	textureCoord = vertexPosition.xy * madd + madd;', // scale vertex attribute to [0-1] range
+			'	gl_Position = vec4(vertexPosition.xy * vec2(0.3, 0.3) - vec2(0.5, 0.5), 0.0, 1.0);', '}' //
 			].join('\n'),
-			fshader: [ //
-				'precision mediump float;', //
+			fshader: [//
+			'precision mediump float;', //
 
-				'uniform sampler2D diffuseMap;', //
+			'uniform sampler2D diffuseMap;', //
 
-				'varying vec2 textureCoord;',
-
-				'void main(void)', //
-				'{', //
-				'	gl_FragColor = texture2D(diffuseMap,textureCoord);', //
-				'}' //
+			'varying vec2 textureCoord;', 'void main(void)', //
+			'{', //
+			'	gl_FragColor = texture2D(diffuseMap,textureCoord);', //
+			'}' //
 			].join('\n')
 		};
 
@@ -377,7 +357,7 @@
 		meshRendererComponent.materials.push(material);
 		entity.setComponent(meshRendererComponent);
 
-		V.callbacks.push(function (/*tpf*/) {
+		V.callbacks.push(function () /*tpf*/{
 			if (V.goo.renderer.hardwarePicking && V.goo.renderer.hardwarePicking.pickingTarget) {
 				material.setTexture(goo.Shader.DIFFUSE_MAP, V.goo.renderer.hardwarePicking.pickingTarget);
 			}
@@ -386,18 +366,16 @@
 	};
 
 	/**
-	 * Creates the panel that holds a project's description.
-	 * @param {string} text Text to describe the visual-test.
-	 */
+  * Creates the panel that holds a project's description.
+  * @param {string} text Text to describe the visual-test.
+  */
 	function createPanel(text) {
 		text = text.replace(/\n/g, '<br>');
 
 		//! AT: ugly combination of js and inline style setting
 		var div = document.createElement('div');
 		div.id = 'vt-panel';
-		div.innerHTML =
-			'<div style="font-size: x-small;font-family: sans-serif; margin: 4px;">This visual test:</div>' +
-			'<div style="font-size: small; font-family: sans-serif; margin: 4px; padding: 4px; border: 1px solid #AAA; background-color: white; max-width: 400px;">' + text + '</span>';
+		div.innerHTML = '<div style="font-size: x-small;font-family: sans-serif; margin: 4px;">This visual test:</div>' + '<div style="font-size: small; font-family: sans-serif; margin: 4px; padding: 4px; border: 1px solid #AAA; background-color: white; max-width: 400px;">' + text + '</span>';
 		div.style.position = 'absolute';
 		div.style.zIndex = '2001';
 		div.style.backgroundColor = '#DDDDDD';
@@ -418,9 +396,9 @@
 	}
 
 	/**
-	 * Adds a description panel to the visual test. Also outputs the description to the web console.
-	 * @param {string} text Text to describe the visual-test.
-	 */
+  * Adds a description panel to the visual test. Also outputs the description to the web console.
+  * @param {string} text Text to describe the visual-test.
+  */
 	V.describe = function (text) {
 		if (!V.deterministic && !V.minimal) {
 			createPanel(text);
@@ -430,12 +408,14 @@
 	};
 
 	/**
-	 * Adds a button to the description panel.
-	 * @param {string} text Text of the button.
-	 * @param {function} onClick Function to be called when the button is clicked.
-	 */
+  * Adds a button to the description panel.
+  * @param {string} text Text of the button.
+  * @param {function} onClick Function to be called when the button is clicked.
+  */
 	V.button = function (text, onClick) {
-		if (V.deterministic || V.minimal) { return; }
+		if (V.deterministic || V.minimal) {
+			return;
+		}
 
 		var panel = document.getElementById('vt-panel');
 		if (!panel) {

@@ -1,3 +1,16 @@
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+exports.default = Capabilities;
 /**
  * Enabled and stores webgl extensions and capabilities
 
@@ -43,7 +56,7 @@
  * @property {number} version Version string
  * @property {number} shadingLanguageVersion Shadinglanguage version string
  */
-export default function Capabilities() {}
+function Capabilities() {}
 
 /**
  * Initialize capabilities from rendering context.
@@ -51,20 +64,14 @@ export default function Capabilities() {}
  */
 Capabilities.init = function (context) {
 	// Extensions
-	Capabilities.CompressedTextureS3TC = context.getExtension('WEBGL_compressed_texture_s3tc')
-									|| context.getExtension('MOZ_WEBGL_compressed_texture_s3tc')
-									|| context.getExtension('WEBKIT_WEBGL_compressed_texture_s3tc');
+	Capabilities.CompressedTextureS3TC = context.getExtension('WEBGL_compressed_texture_s3tc') || context.getExtension('MOZ_WEBGL_compressed_texture_s3tc') || context.getExtension('WEBKIT_WEBGL_compressed_texture_s3tc');
 	Capabilities.TextureFloat = context.getExtension('OES_texture_float');
 	Capabilities.TextureFloatLinear = context.getExtension('OES_texture_float_linear');
 	Capabilities.TextureHalfFloat = context.getExtension('OES_texture_half_float');
 	Capabilities.TextureHalfFloatLinear = context.getExtension('OES_texture_half_float_linear');
 	Capabilities.StandardDerivatives = context.getExtension('OES_standard_derivatives');
-	Capabilities.TextureFilterAnisotropic = context.getExtension('EXT_texture_filter_anisotropic')
-									|| context.getExtension('MOZ_EXT_texture_filter_anisotropic')
-									|| context.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
-	Capabilities.DepthTexture = context.getExtension('WEBGL_depth_texture')
-									|| context.getExtension('WEBKIT_WEBGL_depth_texture')
-									|| context.getExtension('MOZ_WEBGL_depth_texture');
+	Capabilities.TextureFilterAnisotropic = context.getExtension('EXT_texture_filter_anisotropic') || context.getExtension('MOZ_EXT_texture_filter_anisotropic') || context.getExtension('WEBKIT_EXT_texture_filter_anisotropic');
+	Capabilities.DepthTexture = context.getExtension('WEBGL_depth_texture') || context.getExtension('WEBKIT_WEBGL_depth_texture') || context.getExtension('MOZ_WEBGL_depth_texture');
 	Capabilities.ElementIndexUInt = context.getExtension('OES_element_index_uint');
 
 	// verify these
@@ -129,12 +136,12 @@ Capabilities.init = function (context) {
  */
 Capabilities.getCapabilitiesString = function () {
 	var caps = [];
-	var isArrayBufferView = function (value) {
+	var isArrayBufferView = function isArrayBufferView(value) {
 		return value && value.buffer instanceof ArrayBuffer && value.byteLength !== undefined;
 	};
 	for (var name in Capabilities) {
 		var cap = Capabilities[name];
-		if (cap instanceof Function || (typeof cap === 'object' && !(cap instanceof Array || isArrayBufferView(cap)))) {
+		if (cap instanceof Function || (typeof cap === 'undefined' ? 'undefined' : _typeof(cap)) === 'object' && !(cap instanceof Array || isArrayBufferView(cap))) {
 			continue;
 		}
 		var str = '';
@@ -154,3 +161,4 @@ Capabilities.getCapabilitiesString = function () {
 	}
 	return caps.join('\n');
 };
+module.exports = exports.default;

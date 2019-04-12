@@ -1,4 +1,15 @@
-import MeshData from "../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SimpleBox;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MeshData2 = _interopRequireDefault(_MeshData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
@@ -7,7 +18,7 @@ import MeshData from "../renderer/MeshData";
  * @param {number} [height=1] Total height of box.
  * @param {number} [length=1] Total length of box.
  */
-export default function SimpleBox(width, height, length) {
+function SimpleBox(width, height, length) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		width = props.width;
@@ -19,13 +30,13 @@ export default function SimpleBox(width, height, length) {
 	this.yExtent = height !== undefined ? height * 0.5 : 0.5;
 	this.zExtent = length !== undefined ? length * 0.5 : 0.5;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	MeshData.call(this, attributeMap, 8, 36);
+	var attributeMap = _MeshData2.default.defaultMap([_MeshData2.default.POSITION]);
+	_MeshData2.default.call(this, attributeMap, 8, 36);
 
 	this.rebuild();
 }
 
-SimpleBox.prototype = Object.create(MeshData.prototype);
+SimpleBox.prototype = Object.create(_MeshData2.default.prototype);
 SimpleBox.prototype.constructor = SimpleBox;
 
 /**
@@ -37,32 +48,21 @@ SimpleBox.prototype.rebuild = function () {
 	var yExtent = this.yExtent;
 	var zExtent = this.zExtent;
 
-	this.getAttributeBuffer(MeshData.POSITION).set([
-		-xExtent, -yExtent, -zExtent,
-		xExtent, -yExtent, -zExtent,
-		xExtent,  yExtent, -zExtent,
-		-xExtent,  yExtent, -zExtent,
-
-		-xExtent, -yExtent,  zExtent,
-		xExtent, -yExtent,  zExtent,
-		xExtent,  yExtent,  zExtent,
-		-xExtent,  yExtent,  zExtent
-	]);
+	this.getAttributeBuffer(_MeshData2.default.POSITION).set([-xExtent, -yExtent, -zExtent, xExtent, -yExtent, -zExtent, xExtent, yExtent, -zExtent, -xExtent, yExtent, -zExtent, -xExtent, -yExtent, zExtent, xExtent, -yExtent, zExtent, xExtent, yExtent, zExtent, -xExtent, yExtent, zExtent]);
 
 	this.getIndexBuffer().set([
-		//front
-		2, 1, 0, 0, 3, 2,
-		//back
-		5, 6, 7, 7, 4, 5,
-		//left
-		7, 3, 0, 0, 4, 7,
-		//right
-		1, 2, 6, 6, 5, 1,
-		//top
-		6, 2, 3, 3, 7, 6,
-		//bottom
-		0, 1, 5, 5, 4, 0
-	]);
+	//front
+	2, 1, 0, 0, 3, 2,
+	//back
+	5, 6, 7, 7, 4, 5,
+	//left
+	7, 3, 0, 0, 4, 7,
+	//right
+	1, 2, 6, 6, 5, 1,
+	//top
+	6, 2, 3, 3, 7, 6,
+	//bottom
+	0, 1, 5, 5, 4, 0]);
 
 	return this;
 };
@@ -80,3 +80,4 @@ SimpleBox.prototype.clone = function () {
 
 	return new SimpleBox(options);
 };
+module.exports = exports.default;

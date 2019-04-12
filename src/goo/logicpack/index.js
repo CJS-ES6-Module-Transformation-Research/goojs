@@ -1,71 +1,177 @@
-import logicLogicInterface_moduleDefault from "./logic/LogicInterface";
-import logicLogicLayer_moduleDefault from "./logic/LogicLayer";
-import logicLogicNode_moduleDefault from "./logic/LogicNode";
-import logicLogicNodeAdd_moduleDefault from "./logic/LogicNodeAdd";
-import logicLogicNodeApplyMatrix_moduleDefault from "./logic/LogicNodeApplyMatrix";
-import logicLogicNodeConstVec3_moduleDefault from "./logic/LogicNodeConstVec3";
-import logicLogicNodeDebug_moduleDefault from "./logic/LogicNodeDebug";
-import logicLogicNodeEntityProxy_moduleDefault from "./logic/LogicNodeEntityProxy";
-import logicLogicNodeFloat_moduleDefault from "./logic/LogicNodeFloat";
-import logicLogicNodeInput_moduleDefault from "./logic/LogicNodeInput";
-import logicLogicNodeInt_moduleDefault from "./logic/LogicNodeInt";
-import logicLogicNodeLightComponent_moduleDefault from "./logic/LogicNodeLightComponent";
-import logicLogicNodeMax_moduleDefault from "./logic/LogicNodeMax";
-import logicLogicNodeMeshRendererComponent_moduleDefault from "./logic/LogicNodeMeshRendererComponent";
-import logicLogicNodeMouse_moduleDefault from "./logic/LogicNodeMouse";
-import logicLogicNodeMultiply_moduleDefault from "./logic/LogicNodeMultiply";
-import logicLogicNodeMultiplyFloat_moduleDefault from "./logic/LogicNodeMultiplyFloat";
-import logicLogicNodeOutput_moduleDefault from "./logic/LogicNodeOutput";
-import logicLogicNodeRandom_moduleDefault from "./logic/LogicNodeRandom";
-import logicLogicNodeRotationMatrix_moduleDefault from "./logic/LogicNodeRotationMatrix";
-import logicLogicNodes_moduleDefault from "./logic/LogicNodes";
-import logicLogicNodeSine_moduleDefault from "./logic/LogicNodeSine";
-import logicLogicNodeSub_moduleDefault from "./logic/LogicNodeSub";
-import logicLogicNodeTime_moduleDefault from "./logic/LogicNodeTime";
-import logicLogicNodeTransformComponent_moduleDefault from "./logic/LogicNodeTransformComponent";
-import logicLogicNodeVec3_moduleDefault from "./logic/LogicNodeVec3";
-import logicLogicNodeVec3Add_moduleDefault from "./logic/LogicNodeVec3Add";
-import logicLogicNodeWASD_moduleDefault from "./logic/LogicNodeWASD";
-import logicLogicNodeWASD2_moduleDefault from "./logic/LogicNodeWASD2";
-import LogicComponent_moduleDefault from "./LogicComponent";
-import LogicComponentHandler_moduleDefault from "./LogicComponentHandler";
-import LogicSystem_moduleDefault from "./LogicSystem";
-export default {
-	LogicInterface: logicLogicInterface_moduleDefault,
-	LogicLayer: logicLogicLayer_moduleDefault,
-	LogicNode: logicLogicNode_moduleDefault,
-	LogicNodeAdd: logicLogicNodeAdd_moduleDefault,
-	LogicNodeApplyMatrix: logicLogicNodeApplyMatrix_moduleDefault,
-	LogicNodeConstVec3: logicLogicNodeConstVec3_moduleDefault,
-	LogicNodeDebug: logicLogicNodeDebug_moduleDefault,
-	LogicNodeEntityProxy: logicLogicNodeEntityProxy_moduleDefault,
-	LogicNodeFloat: logicLogicNodeFloat_moduleDefault,
-	LogicNodeInput: logicLogicNodeInput_moduleDefault,
-	LogicNodeInt: logicLogicNodeInt_moduleDefault,
-	LogicNodeLightComponent: logicLogicNodeLightComponent_moduleDefault,
-	LogicNodeMax: logicLogicNodeMax_moduleDefault,
-	LogicNodeMeshRendererComponent: logicLogicNodeMeshRendererComponent_moduleDefault,
-	LogicNodeMouse: logicLogicNodeMouse_moduleDefault,
-	LogicNodeMultiply: logicLogicNodeMultiply_moduleDefault,
-	LogicNodeMultiplyFloat: logicLogicNodeMultiplyFloat_moduleDefault,
-	LogicNodeOutput: logicLogicNodeOutput_moduleDefault,
-	LogicNodeRandom: logicLogicNodeRandom_moduleDefault,
-	LogicNodeRotationMatrix: logicLogicNodeRotationMatrix_moduleDefault,
-	LogicNodes: logicLogicNodes_moduleDefault,
-	LogicNodeSine: logicLogicNodeSine_moduleDefault,
-	LogicNodeSub: logicLogicNodeSub_moduleDefault,
-	LogicNodeTime: logicLogicNodeTime_moduleDefault,
-	LogicNodeTransformComponent: logicLogicNodeTransformComponent_moduleDefault,
-	LogicNodeVec3: logicLogicNodeVec3_moduleDefault,
-	LogicNodeVec3Add: logicLogicNodeVec3Add_moduleDefault,
-	LogicNodeWASD: logicLogicNodeWASD_moduleDefault,
-	LogicNodeWASD2: logicLogicNodeWASD2_moduleDefault,
-	LogicComponent: LogicComponent_moduleDefault,
-	LogicComponentHandler: LogicComponentHandler_moduleDefault,
-	LogicSystem: LogicSystem_moduleDefault
-};;
-if (typeof(window) !== 'undefined') {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _LogicInterface = require("./logic/LogicInterface");
+
+var _LogicInterface2 = _interopRequireDefault(_LogicInterface);
+
+var _LogicLayer = require("./logic/LogicLayer");
+
+var _LogicLayer2 = _interopRequireDefault(_LogicLayer);
+
+var _LogicNode = require("./logic/LogicNode");
+
+var _LogicNode2 = _interopRequireDefault(_LogicNode);
+
+var _LogicNodeAdd = require("./logic/LogicNodeAdd");
+
+var _LogicNodeAdd2 = _interopRequireDefault(_LogicNodeAdd);
+
+var _LogicNodeApplyMatrix = require("./logic/LogicNodeApplyMatrix");
+
+var _LogicNodeApplyMatrix2 = _interopRequireDefault(_LogicNodeApplyMatrix);
+
+var _LogicNodeConstVec = require("./logic/LogicNodeConstVec3");
+
+var _LogicNodeConstVec2 = _interopRequireDefault(_LogicNodeConstVec);
+
+var _LogicNodeDebug = require("./logic/LogicNodeDebug");
+
+var _LogicNodeDebug2 = _interopRequireDefault(_LogicNodeDebug);
+
+var _LogicNodeEntityProxy = require("./logic/LogicNodeEntityProxy");
+
+var _LogicNodeEntityProxy2 = _interopRequireDefault(_LogicNodeEntityProxy);
+
+var _LogicNodeFloat = require("./logic/LogicNodeFloat");
+
+var _LogicNodeFloat2 = _interopRequireDefault(_LogicNodeFloat);
+
+var _LogicNodeInput = require("./logic/LogicNodeInput");
+
+var _LogicNodeInput2 = _interopRequireDefault(_LogicNodeInput);
+
+var _LogicNodeInt = require("./logic/LogicNodeInt");
+
+var _LogicNodeInt2 = _interopRequireDefault(_LogicNodeInt);
+
+var _LogicNodeLightComponent = require("./logic/LogicNodeLightComponent");
+
+var _LogicNodeLightComponent2 = _interopRequireDefault(_LogicNodeLightComponent);
+
+var _LogicNodeMax = require("./logic/LogicNodeMax");
+
+var _LogicNodeMax2 = _interopRequireDefault(_LogicNodeMax);
+
+var _LogicNodeMeshRendererComponent = require("./logic/LogicNodeMeshRendererComponent");
+
+var _LogicNodeMeshRendererComponent2 = _interopRequireDefault(_LogicNodeMeshRendererComponent);
+
+var _LogicNodeMouse = require("./logic/LogicNodeMouse");
+
+var _LogicNodeMouse2 = _interopRequireDefault(_LogicNodeMouse);
+
+var _LogicNodeMultiply = require("./logic/LogicNodeMultiply");
+
+var _LogicNodeMultiply2 = _interopRequireDefault(_LogicNodeMultiply);
+
+var _LogicNodeMultiplyFloat = require("./logic/LogicNodeMultiplyFloat");
+
+var _LogicNodeMultiplyFloat2 = _interopRequireDefault(_LogicNodeMultiplyFloat);
+
+var _LogicNodeOutput = require("./logic/LogicNodeOutput");
+
+var _LogicNodeOutput2 = _interopRequireDefault(_LogicNodeOutput);
+
+var _LogicNodeRandom = require("./logic/LogicNodeRandom");
+
+var _LogicNodeRandom2 = _interopRequireDefault(_LogicNodeRandom);
+
+var _LogicNodeRotationMatrix = require("./logic/LogicNodeRotationMatrix");
+
+var _LogicNodeRotationMatrix2 = _interopRequireDefault(_LogicNodeRotationMatrix);
+
+var _LogicNodes = require("./logic/LogicNodes");
+
+var _LogicNodes2 = _interopRequireDefault(_LogicNodes);
+
+var _LogicNodeSine = require("./logic/LogicNodeSine");
+
+var _LogicNodeSine2 = _interopRequireDefault(_LogicNodeSine);
+
+var _LogicNodeSub = require("./logic/LogicNodeSub");
+
+var _LogicNodeSub2 = _interopRequireDefault(_LogicNodeSub);
+
+var _LogicNodeTime = require("./logic/LogicNodeTime");
+
+var _LogicNodeTime2 = _interopRequireDefault(_LogicNodeTime);
+
+var _LogicNodeTransformComponent = require("./logic/LogicNodeTransformComponent");
+
+var _LogicNodeTransformComponent2 = _interopRequireDefault(_LogicNodeTransformComponent);
+
+var _LogicNodeVec = require("./logic/LogicNodeVec3");
+
+var _LogicNodeVec2 = _interopRequireDefault(_LogicNodeVec);
+
+var _LogicNodeVec3Add = require("./logic/LogicNodeVec3Add");
+
+var _LogicNodeVec3Add2 = _interopRequireDefault(_LogicNodeVec3Add);
+
+var _LogicNodeWASD = require("./logic/LogicNodeWASD");
+
+var _LogicNodeWASD2 = _interopRequireDefault(_LogicNodeWASD);
+
+var _LogicNodeWASD3 = require("./logic/LogicNodeWASD2");
+
+var _LogicNodeWASD4 = _interopRequireDefault(_LogicNodeWASD3);
+
+var _LogicComponent = require("./LogicComponent");
+
+var _LogicComponent2 = _interopRequireDefault(_LogicComponent);
+
+var _LogicComponentHandler = require("./LogicComponentHandler");
+
+var _LogicComponentHandler2 = _interopRequireDefault(_LogicComponentHandler);
+
+var _LogicSystem = require("./LogicSystem");
+
+var _LogicSystem2 = _interopRequireDefault(_LogicSystem);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+exports.default = {
+	LogicInterface: _LogicInterface2.default,
+	LogicLayer: _LogicLayer2.default,
+	LogicNode: _LogicNode2.default,
+	LogicNodeAdd: _LogicNodeAdd2.default,
+	LogicNodeApplyMatrix: _LogicNodeApplyMatrix2.default,
+	LogicNodeConstVec3: _LogicNodeConstVec2.default,
+	LogicNodeDebug: _LogicNodeDebug2.default,
+	LogicNodeEntityProxy: _LogicNodeEntityProxy2.default,
+	LogicNodeFloat: _LogicNodeFloat2.default,
+	LogicNodeInput: _LogicNodeInput2.default,
+	LogicNodeInt: _LogicNodeInt2.default,
+	LogicNodeLightComponent: _LogicNodeLightComponent2.default,
+	LogicNodeMax: _LogicNodeMax2.default,
+	LogicNodeMeshRendererComponent: _LogicNodeMeshRendererComponent2.default,
+	LogicNodeMouse: _LogicNodeMouse2.default,
+	LogicNodeMultiply: _LogicNodeMultiply2.default,
+	LogicNodeMultiplyFloat: _LogicNodeMultiplyFloat2.default,
+	LogicNodeOutput: _LogicNodeOutput2.default,
+	LogicNodeRandom: _LogicNodeRandom2.default,
+	LogicNodeRotationMatrix: _LogicNodeRotationMatrix2.default,
+	LogicNodes: _LogicNodes2.default,
+	LogicNodeSine: _LogicNodeSine2.default,
+	LogicNodeSub: _LogicNodeSub2.default,
+	LogicNodeTime: _LogicNodeTime2.default,
+	LogicNodeTransformComponent: _LogicNodeTransformComponent2.default,
+	LogicNodeVec3: _LogicNodeVec2.default,
+	LogicNodeVec3Add: _LogicNodeVec3Add2.default,
+	LogicNodeWASD: _LogicNodeWASD2.default,
+	LogicNodeWASD2: _LogicNodeWASD4.default,
+	LogicComponent: _LogicComponent2.default,
+	LogicComponentHandler: _LogicComponentHandler2.default,
+	LogicSystem: _LogicSystem2.default
+};
+;
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}
 }
+module.exports = exports.default;

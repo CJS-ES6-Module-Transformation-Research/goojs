@@ -1,5 +1,19 @@
-import AbstractAnimationChannel from "../../animationpack/clip/AbstractAnimationChannel";
-import TriggerData from "../../animationpack/clip/TriggerData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TriggerChannel;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _AbstractAnimationChannel2 = _interopRequireDefault(_AbstractAnimationChannel);
+
+var _TriggerData = require("../../animationpack/clip/TriggerData");
+
+var _TriggerData2 = _interopRequireDefault(_TriggerData);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * An animation source channel consisting of keyword samples indicating when a specific trigger condition is met. Each channel can only be in one keyword "state" at a given moment in time.
@@ -8,20 +22,20 @@ import TriggerData from "../../animationpack/clip/TriggerData";
  * @param {Array<string>} keys our key samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export default function TriggerChannel(channelName, times, keys, blendType) {
-	AbstractAnimationChannel.call(this, channelName, times, blendType);
+function TriggerChannel(channelName, times, keys, blendType) {
+	_AbstractAnimationChannel2.default.call(this, channelName, times, blendType);
 	this._keys = keys ? keys.slice(0) : null;
 	this.guarantee = false;
 }
 
-TriggerChannel.prototype = Object.create(AbstractAnimationChannel.prototype);
+TriggerChannel.prototype = Object.create(_AbstractAnimationChannel2.default.prototype);
 
 /**
  * Creates a data item for this type of channel
  * @returns {TriggerData}
  */
 TriggerChannel.prototype.createStateDataObject = function () {
-	return new TriggerData();
+	return new _TriggerData2.default();
 };
 
 /**
@@ -45,9 +59,10 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
 			}
 			oldIndex = -1;
 		}
-		for ( var i = oldIndex + 1; i <= newIndex; i++) {
+		for (var i = oldIndex + 1; i <= newIndex; i++) {
 			triggers.push(this._keys[i]);
 		}
 		triggerData.arm(newIndex, triggers);
 	}
 };
+module.exports = exports.default;

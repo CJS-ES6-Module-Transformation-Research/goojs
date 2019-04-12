@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = InBoxAction /*id, settings*/;
 
-export default function InBoxAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-InBoxAction.prototype = Object.create(Action.prototype);
+function InBoxAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+InBoxAction.prototype = Object.create(_Action2.default.prototype);
 InBoxAction.prototype.constructor = InBoxAction;
 
 InBoxAction.external = {
@@ -46,7 +57,7 @@ var labels = {
 	outside: 'On Outside Box'
 };
 
-InBoxAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+InBoxAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -54,7 +65,7 @@ InBoxAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
 function checkInside(pos, pt1, pt2) {
 	var inside = false;
 
-	var inOnAxis = function (pos, pt1, pt2) {
+	var inOnAxis = function inOnAxis(pos, pt1, pt2) {
 		if (pt1 > pt2) {
 			if (pos < pt1 && pos > pt2) {
 				return true;
@@ -106,3 +117,4 @@ InBoxAction.prototype.update = function (fsm) {
 		this.checkInside(fsm);
 	}
 };
+module.exports = exports.default;

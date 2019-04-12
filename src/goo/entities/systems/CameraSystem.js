@@ -1,17 +1,34 @@
-import System from "../../entities/systems/System";
-import SystemBus from "../../entities/SystemBus";
-import Renderer from "../../renderer/Renderer";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = CameraSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Updates cameras/cameracomponents with their transform component transforms
  * @extends System
  */
-export default function CameraSystem() {
-	System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
+function CameraSystem() {
+	_System2.default.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
 	this.mainCamera = null; //! AT: what's up with this? is it unused?
 }
 
-CameraSystem.prototype = Object.create(System.prototype);
+CameraSystem.prototype = Object.create(_System2.default.prototype);
 CameraSystem.prototype.constructor = CameraSystem;
 
 /**
@@ -21,7 +38,7 @@ CameraSystem.prototype.constructor = CameraSystem;
 CameraSystem.prototype.findMainCamera = function () {
 	if (this._activeEntities.length) {
 		var firstEntity = this._activeEntities[0];
-		SystemBus.emit('goo.setCurrentCamera', {
+		_SystemBus2.default.emit('goo.setCurrentCamera', {
 			camera: firstEntity.cameraComponent.camera,
 			entity: firstEntity
 		});
@@ -29,8 +46,8 @@ CameraSystem.prototype.findMainCamera = function () {
 };
 
 CameraSystem.prototype.inserted = function (entity) {
-	if (!Renderer.mainCamera) {
-		SystemBus.emit('goo.setCurrentCamera', {
+	if (!_Renderer2.default.mainCamera) {
+		_SystemBus2.default.emit('goo.setCurrentCamera', {
 			camera: entity.cameraComponent.camera,
 			entity: entity
 		});
@@ -55,3 +72,4 @@ CameraSystem.prototype.onPreRender = function () {
 		}
 	}
 };
+module.exports = exports.default;

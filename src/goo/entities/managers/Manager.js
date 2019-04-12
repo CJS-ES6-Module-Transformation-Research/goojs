@@ -1,7 +1,11 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Manager;
 /**
  * Base class for managers.
  */
-export default function Manager() {
+function Manager() {
 	this.installedAPI = {};
 }
 
@@ -16,3 +20,4 @@ Manager.prototype.applyAPI = function (worldBy) {
 		}
 	}
 };
+module.exports = exports.default;

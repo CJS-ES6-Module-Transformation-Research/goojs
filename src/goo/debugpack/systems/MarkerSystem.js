@@ -1,17 +1,40 @@
-import System from "../../entities/systems/System";
-import Material from "../../renderer/Material";
-import ShaderLib from "../../renderer/shaders/ShaderLib";
-import Renderer from "../../renderer/Renderer";
-import Transform from "../../math/Transform";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = MarkerSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _Material = require("../../renderer/Material");
+
+var _Material2 = _interopRequireDefault(_Material);
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _ShaderLib2 = _interopRequireDefault(_ShaderLib);
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+var _Transform = require("../../math/Transform");
+
+var _Transform2 = _interopRequireDefault(_Transform);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Processes all entities with a marker component
  * @extends System
  */
-export default function MarkerSystem(goo) {
-	System.call(this, 'MarkerSystem', ['MarkerComponent']);
+function MarkerSystem(goo) {
+	_System2.default.call(this, 'MarkerSystem', ['MarkerComponent']);
 
-	this.material = new Material(ShaderLib.simpleColored);
+	this.material = new _Material2.default(_ShaderLib2.default.simpleColored);
 	this.material.depthState.enabled = false;
 	this.material.shader.uniforms.color = [0.0, 1.0, 0.0];
 
@@ -25,7 +48,7 @@ export default function MarkerSystem(goo) {
 		for (var i = 0; i < this.entities.length; i++) {
 			var entity = this.entities[i];
 			if (entity.hasComponent('MarkerComponent')) {
-				var transform = new Transform();
+				var transform = new _Transform2.default();
 				transform.copy(entity.transformComponent.sync().worldTransform);
 				transform.setRotationXYZ(0, 0, 0);
 				transform.scale.setDirect(1, 1, 1);
@@ -37,14 +60,15 @@ export default function MarkerSystem(goo) {
 					transform: transform
 				};
 
-				this.goo.renderer.render(renderableMarker, Renderer.mainCamera, [], null, false);
+				this.goo.renderer.render(renderableMarker, _Renderer2.default.mainCamera, [], null, false);
 			}
 		}
 	}.bind(this));
 }
 
-MarkerSystem.prototype = Object.create(System.prototype);
+MarkerSystem.prototype = Object.create(_System2.default.prototype);
 
 MarkerSystem.prototype.process = function (entities) {
 	this.entities = entities;
 };
+module.exports = exports.default;

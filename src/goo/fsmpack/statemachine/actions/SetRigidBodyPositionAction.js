@@ -1,11 +1,25 @@
-import Action from "./Action";
-import Vector3 from "./../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetRigidBodyPositionAction /*id, settings*/;
 
-export default function SetRigidBodyPositionAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("./../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetRigidBodyPositionAction.prototype = Object.create(Action.prototype);
+function SetRigidBodyPositionAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetRigidBodyPositionAction.prototype = Object.create(_Action2.default.prototype);
 SetRigidBodyPositionAction.prototype.constructor = SetRigidBodyPositionAction;
 
 SetRigidBodyPositionAction.external = {
@@ -24,10 +38,13 @@ SetRigidBodyPositionAction.external = {
 	transitions: []
 };
 
-var tmpVector = new Vector3();
+var tmpVector = new _Vector2.default();
 SetRigidBodyPositionAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.rigidBodyComponent) { return; }
+	if (!entity || !entity.rigidBodyComponent) {
+		return;
+	}
 	tmpVector.setArray(this.position);
 	entity.rigidBodyComponent.setPosition(tmpVector);
 };
+module.exports = exports.default;

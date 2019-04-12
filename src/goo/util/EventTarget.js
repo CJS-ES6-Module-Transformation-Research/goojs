@@ -1,3 +1,7 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = EventTarget;
 /**
  * EventTarget is implemented by objects that can receive events and may have listeners for them.
  * @example
@@ -6,7 +10,7 @@
  * }
  * MyObject.prototype = Object.create(EventTarget.prototype);
  */
-export default function EventTarget() {
+function EventTarget() {
 	this._listenerMap = new Map();
 	this._listenersCopy = [];
 }
@@ -87,3 +91,4 @@ EventTarget.prototype.off = function (type, listener) {
 EventTarget.prototype.has = function (type) {
 	return this._listenerMap.has(type);
 };
+module.exports = exports.default;

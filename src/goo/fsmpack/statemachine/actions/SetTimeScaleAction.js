@@ -1,11 +1,22 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetTimeScaleAction /*id, settings*/;
 
-export default function SetTimeScaleAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function SetTimeScaleAction() {
+	_Action2.default.apply(this, arguments);
 	this.everyFrame = false;
 }
 
-SetTimeScaleAction.prototype = Object.create(Action.prototype);
+SetTimeScaleAction.prototype = Object.create(_Action2.default.prototype);
 SetTimeScaleAction.prototype.constructor = SetTimeScaleAction;
 
 SetTimeScaleAction.external = {
@@ -29,3 +40,4 @@ SetTimeScaleAction.prototype.enter = function (fsm) {
 		entity.animationComponent.setTimeScale(this.scale);
 	}
 };
+module.exports = exports.default;

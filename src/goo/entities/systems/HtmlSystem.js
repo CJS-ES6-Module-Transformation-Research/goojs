@@ -1,25 +1,42 @@
-import System from "../../entities/systems/System";
-import Renderer from "../../renderer/Renderer";
-import Vector3 from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = HtmlSystem;
+
+var _System = require("../../entities/systems/System");
+
+var _System2 = _interopRequireDefault(_System);
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Renderer2 = _interopRequireDefault(_Renderer);
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
  */
-export default function HtmlSystem(renderer) {
-	System.call(this, 'HtmlSystem', ['TransformComponent', 'HtmlComponent']);
+function HtmlSystem(renderer) {
+	_System2.default.call(this, 'HtmlSystem', ['TransformComponent', 'HtmlComponent']);
 	this.renderer = renderer;
 
 	this.styleCache = new Map();
 }
 
-HtmlSystem.prototype = Object.create(System.prototype);
+HtmlSystem.prototype = Object.create(_System2.default.prototype);
 HtmlSystem.prototype.constructor = HtmlSystem;
 
 // Browsers implement z-index as signed 32bit int.
 // Overflowing pushes the element to the back.
 var MAX_Z_INDEX = 2147483647;
-var tmpVector = new Vector3();
+var tmpVector = new _Vector2.default();
 
 HtmlSystem.prototype.setStyle = function (element, property, style, doPrefix) {
 	var elementCache = this.styleCache.get(element);
@@ -47,7 +64,7 @@ HtmlSystem.prototype.process = function (entities) {
 		return;
 	}
 
-	var camera = Renderer.mainCamera;
+	var camera = _Renderer2.default.mainCamera;
 	var renderer = this.renderer;
 
 	var screenWidth = renderer.viewportWidth;
@@ -73,8 +90,7 @@ HtmlSystem.prototype.process = function (entities) {
 		}
 
 		// Behind camera
-		tmpVector.set(camera.translation)
-			.sub(entity.transformComponent.sync().worldTransform.translation);
+		tmpVector.set(camera.translation).sub(entity.transformComponent.sync().worldTransform.translation);
 		if (camera._direction.dot(tmpVector) > 0) {
 			this.setStyle(component.domElement, 'display', 'none');
 			continue;
@@ -98,10 +114,7 @@ HtmlSystem.prototype.process = function (entities) {
 			fy = Math.floor(fy);
 		}
 
-		this.setStyle(component.domElement, 'transform',
-			'translate(-50%, -50%) ' +
-			'translate(' + (fx + offsetLeft) + 'px, ' + (fy + offsetTop) + 'px)',
-		true);
+		this.setStyle(component.domElement, 'transform', 'translate(-50%, -50%) ' + 'translate(' + (fx + offsetLeft) + 'px, ' + (fy + offsetTop) + 'px)', true);
 
 		this.setStyle(component.domElement, 'zIndex', MAX_Z_INDEX - Math.round(tmpVector.z * MAX_Z_INDEX));
 	}
@@ -120,3 +133,4 @@ HtmlSystem.prototype.deleted = function (entity) {
 
 	component.domElement = null;
 };
+module.exports = exports.default;

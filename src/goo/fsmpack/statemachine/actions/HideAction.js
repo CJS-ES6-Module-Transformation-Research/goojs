@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = HideAction /*id, settings*/;
 
-export default function HideAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-HideAction.prototype = Object.create(Action.prototype);
+function HideAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+HideAction.prototype = Object.create(_Action2.default.prototype);
 HideAction.prototype.constructor = HideAction;
 
 HideAction.external = {
@@ -20,3 +31,4 @@ HideAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	entity.hide();
 };
+module.exports = exports.default;

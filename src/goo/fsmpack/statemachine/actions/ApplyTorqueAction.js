@@ -1,12 +1,29 @@
-import Action from "./Action";
-import Vector3 from "../../../math/Vector3";
-import SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ApplyTorqueAction /*id, settings*/;
 
-export default function ApplyTorqueAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-ApplyTorqueAction.prototype = Object.create(Action.prototype);
+function ApplyTorqueAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+ApplyTorqueAction.prototype = Object.create(_Action2.default.prototype);
 ApplyTorqueAction.prototype.constructor = ApplyTorqueAction;
 
 ApplyTorqueAction.external = {
@@ -33,11 +50,13 @@ ApplyTorqueAction.external = {
 	transitions: []
 };
 
-var torqueVector = new Vector3();
+var torqueVector = new _Vector2.default();
 ApplyTorqueAction.prototype.enter = function (fsm) {
-	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
+	_SystemBus2.default.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
-		if (!entity || !entity.rigidBodyComponent) { return; }
+		if (!entity || !entity.rigidBodyComponent) {
+			return;
+		}
 
 		torqueVector.setArray(this.torque);
 		if (this.space === 'World') {
@@ -49,5 +68,6 @@ ApplyTorqueAction.prototype.enter = function (fsm) {
 };
 
 ApplyTorqueAction.prototype.exit = function () {
-	SystemBus.removeListener('goo.physics.substep', this.substepListener);
+	_SystemBus2.default.removeListener('goo.physics.substep', this.substepListener);
 };
+module.exports = exports.default;

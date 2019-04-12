@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector3 from "../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LookAtAction /*id, settings*/;
 
-export default function LookAtAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-LookAtAction.prototype = Object.create(Action.prototype);
+function LookAtAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+LookAtAction.prototype = Object.create(_Action2.default.prototype);
 LookAtAction.prototype.constructor = LookAtAction;
 
 LookAtAction.external = {
@@ -33,7 +47,7 @@ LookAtAction.prototype.doLookAt = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	var transformComponent = entity.transformComponent;
 
-	transformComponent.transform.lookAt(new Vector3(this.lookAt), Vector3.UNIT_Y);
+	transformComponent.transform.lookAt(new _Vector2.default(this.lookAt), _Vector2.default.UNIT_Y);
 	transformComponent.setUpdated();
 };
 
@@ -48,3 +62,4 @@ LookAtAction.prototype.update = function (fsm) {
 		this.doLookAt(fsm);
 	}
 };
+module.exports = exports.default;

@@ -1,6 +1,23 @@
-import MathUtils from "../../math/MathUtils";
-import AnimationClipInstance from "../../animationpack/clip/AnimationClipInstance";
-import Source from "../../animationpack/blendtree/Source";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ClipSource;
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _AnimationClipInstance = require("../../animationpack/clip/AnimationClipInstance");
+
+var _AnimationClipInstance2 = _interopRequireDefault(_AnimationClipInstance);
+
+var _Source = require("../../animationpack/blendtree/Source");
+
+var _Source2 = _interopRequireDefault(_Source);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A blend tree leaf node that samples and returns values from the channels of an AnimationClip.
@@ -9,10 +26,10 @@ import Source from "../../animationpack/blendtree/Source";
  * @param {Array<string>} [channelNames]
  * @extends Source
  */
-export default function ClipSource(clip, filter, channelNames) {
-	Source.call(this);
+function ClipSource(clip, filter, channelNames) {
+	_Source2.default.call(this);
 	this._clip = clip;
-	this._clipInstance = new AnimationClipInstance();
+	this._clipInstance = new _AnimationClipInstance2.default();
 
 	this._filterChannels = {};
 	this._filter = null;
@@ -24,7 +41,7 @@ export default function ClipSource(clip, filter, channelNames) {
 	this.currentLoop = 0;
 }
 
-ClipSource.prototype = Object.create(Source.prototype);
+ClipSource.prototype = Object.create(_Source2.default.prototype);
 ClipSource.prototype.constructor = ClipSource;
 
 /**
@@ -34,7 +51,7 @@ ClipSource.prototype.constructor = ClipSource;
  */
 ClipSource.prototype.setFilter = function (filter, channelNames) {
 	if (filter && channelNames) {
-		this._filter = (['Exclude', 'Include'].indexOf(filter) > -1) ? filter : null;
+		this._filter = ['Exclude', 'Include'].indexOf(filter) > -1 ? filter : null;
 		for (var i = 0; i < channelNames.length; i++) {
 			this._filterChannels[channelNames[i]] = true;
 		}
@@ -97,7 +114,7 @@ ClipSource.prototype.setTime = function (globalTime) {
 			}
 
 			if (clockTime > maxTime || clockTime < minTime) {
-				clockTime = MathUtils.clamp(clockTime, minTime, maxTime);
+				clockTime = _MathUtils2.default.clamp(clockTime, minTime, maxTime);
 				// deactivate this instance of the clip
 				instance._active = false;
 			}
@@ -124,7 +141,7 @@ ClipSource.prototype.resetClips = function (globalTime) {
  */
 ClipSource.prototype.shiftClipTime = function (shiftTime) {
 	this._clipInstance._startTime += shiftTime;
-	this._clipInstance._active = true;  // ?
+	this._clipInstance._active = true; // ?
 };
 
 /**
@@ -139,7 +156,7 @@ ClipSource.prototype.setTimeScale = function (timeScale) {
  * @private
  */
 ClipSource.prototype.isActive = function () {
-	return this._clipInstance._active && (this._clip._maxTime !== -1);
+	return this._clipInstance._active && this._clip._maxTime !== -1;
 };
 
 /**
@@ -153,10 +170,10 @@ ClipSource.prototype.getSourceData = function () {
 	var cso = this._clipInstance._clipStateObjects;
 	var rVal = {};
 
-	var filter = (this._filter === 'Include');
+	var filter = this._filter === 'Include';
 
 	for (var key in cso) {
-		if ((this._filterChannels[key] !== undefined) === filter) {
+		if (this._filterChannels[key] !== undefined === filter) {
 			rVal[key] = cso[key];
 		}
 	}
@@ -182,3 +199,4 @@ ClipSource.prototype.clone = function () {
 
 	return cloned;
 };
+module.exports = exports.default;

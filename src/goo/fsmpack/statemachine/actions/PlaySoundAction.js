@@ -1,11 +1,25 @@
-import Action from "./Action";
-import PromiseUtil from "./../../../util/PromiseUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PlaySoundAction /*id, settings*/;
 
-export default function PlaySoundAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _PromiseUtil = require("./../../../util/PromiseUtil");
+
+var _PromiseUtil2 = _interopRequireDefault(_PromiseUtil);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-PlaySoundAction.prototype = Object.create(Action.prototype);
+function PlaySoundAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+PlaySoundAction.prototype = Object.create(_Action2.default.prototype);
 PlaySoundAction.prototype.constructor = PlaySoundAction;
 
 PlaySoundAction.external = {
@@ -30,27 +44,32 @@ var labels = {
 	complete: 'On Sound End'
 };
 
-PlaySoundAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+PlaySoundAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
 PlaySoundAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('SoundComponent')) { return; }
+	if (!entity.hasComponent('SoundComponent')) {
+		return;
+	}
 
 	var sound = entity.soundComponent.getSoundById(this.sound);
-	if (!sound) { return; }
+	if (!sound) {
+		return;
+	}
 
 	var endPromise;
 	try {
 		endPromise = sound.play();
 	} catch (e) {
 		console.warn('Could not play sound: ' + e);
-		endPromise = PromiseUtil.resolve();
+		endPromise = _PromiseUtil2.default.resolve();
 	}
 
 	endPromise.then(function () {
 		fsm.send(this.transitions.complete);
 	}.bind(this));
 };
+module.exports = exports.default;

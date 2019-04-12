@@ -1,13 +1,30 @@
-import LogicLayer from "./logic/LogicLayer";
-import LogicNodes from "./logic/LogicNodes";
-import Component from "../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LogicComponent;
+
+var _LogicLayer = require("./logic/LogicLayer");
+
+var _LogicLayer2 = _interopRequireDefault(_LogicLayer);
+
+var _LogicNodes = require("./logic/LogicNodes");
+
+var _LogicNodes2 = _interopRequireDefault(_LogicNodes);
+
+var _Component = require("../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * A component that embeds a LogicLayer and processes it every frame.
  * @private
  */
-export default function LogicComponent(entity) {
-	Component.call(this);
+function LogicComponent(entity) {
+	_Component2.default.call(this);
 
 	this.type = 'LogicComponent';
 	this.parent = null;
@@ -20,7 +37,7 @@ export default function LogicComponent(entity) {
 	this._entity = entity;
 }
 
-LogicComponent.prototype = Object.create(Component.prototype);
+LogicComponent.prototype = Object.create(_Component2.default.prototype);
 
 LogicComponent.prototype.configure = function (conf) {
 	// cleanup.
@@ -30,13 +47,13 @@ LogicComponent.prototype.configure = function (conf) {
 		}
 	}
 
-	this.logicLayer = new LogicLayer(this._entity);
+	this.logicLayer = new _LogicLayer2.default(this._entity);
 
 	this.nodes = {};
 
 	for (var k in conf.logicNodes) {
 		var ln = conf.logicNodes[k];
-		var Fn = LogicNodes.getClass(ln.type);
+		var Fn = _LogicNodes2.default.getClass(ln.type);
 		var obj = new Fn();
 
 		obj.configure(ln);
@@ -51,3 +68,4 @@ LogicComponent.prototype.process = function (tpf) {
 		this.logicLayer.process(tpf);
 	}
 };
+module.exports = exports.default;

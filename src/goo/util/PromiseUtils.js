@@ -1,9 +1,20 @@
-import RSVP from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = PromiseUtils;
+
+var _rsvp = require("../util/rsvp");
+
+var _rsvp2 = _interopRequireDefault(_rsvp);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Provides promise-related utility methods
  */
-export default function PromiseUtils() {}
+function PromiseUtils() {}
 
 //! AT: converting from PromiseUtils.createPromise to new RSVP.Promise is going to be trivial
 /**
@@ -12,7 +23,7 @@ export default function PromiseUtils() {}
  * @returns {RSVP.Promise}
  */
 PromiseUtils.createPromise = function (fun) {
-	var promise = new RSVP.Promise();
+	var promise = new _rsvp2.default.Promise();
 
 	fun(function (value) {
 		promise.resolve(value);
@@ -29,7 +40,7 @@ PromiseUtils.createPromise = function (fun) {
  * @param value
  */
 PromiseUtils.resolve = function (value) {
-	var promise = new RSVP.Promise();
+	var promise = new _rsvp2.default.Promise();
 	promise.resolve(value);
 	return promise;
 };
@@ -40,11 +51,10 @@ PromiseUtils.resolve = function (value) {
  * @param reason
  */
 PromiseUtils.reject = function (reason) {
-	var promise = new RSVP.Promise();
+	var promise = new _rsvp2.default.Promise();
 	promise.reject(reason);
 	return promise;
 };
-
 
 var createDummyPromiseWarn = false;
 /**
@@ -60,7 +70,7 @@ PromiseUtils.createDummyPromise = function (arg, error) {
 		console.warn('PromiseUtils.createDummyPromise is deprecated; please consider using PromiseUtils.resolve/reject instead');
 	}
 
-	var promise = new RSVP.Promise();
+	var promise = new _rsvp2.default.Promise();
 	if (error) {
 		promise.reject(error);
 	} else {
@@ -68,7 +78,6 @@ PromiseUtils.createDummyPromise = function (arg, error) {
 	}
 	return promise;
 };
-
 
 /**
  * Returns a promise that resolves when all given promises are resolved or rejected.
@@ -81,9 +90,9 @@ PromiseUtils.createDummyPromise = function (arg, error) {
  */
 PromiseUtils.optimisticAll = function (promises) {
 	var resolved = 0,
-		len = promises.length,
-		results = [],
-		promise = new RSVP.Promise();
+	    len = promises.length,
+	    results = [],
+	    promise = new _rsvp2.default.Promise();
 
 	if (len > 0) {
 		for (var i = 0; i < len; i++) {
@@ -94,8 +103,7 @@ PromiseUtils.optimisticAll = function (promises) {
 					if (resolved === len) {
 						promise.resolve(results);
 					}
-				},
-				function (error) {
+				}, function (error) {
 					results[i] = error;
 					resolved++;
 					if (resolved === len) {
@@ -104,8 +112,7 @@ PromiseUtils.optimisticAll = function (promises) {
 				});
 			})(i);
 		}
-	}
-	else {
+	} else {
 		promise.resolve(results);
 	}
 	return promise;
@@ -118,7 +125,7 @@ PromiseUtils.optimisticAll = function (promises) {
  * @returns {Promise}
  */
 PromiseUtils.delay = function (value, time) {
-	var promise = new RSVP.Promise();
+	var promise = new _rsvp2.default.Promise();
 	setTimeout(function () {
 		promise.resolve(value);
 	}, time);
@@ -135,9 +142,9 @@ PromiseUtils.delay = function (value, time) {
  */
 PromiseUtils.defer = function (delay, arg) {
 	var p1, p2, promise;
-	promise = new RSVP.Promise();
+	promise = new _rsvp2.default.Promise();
 	if (arg.apply) {
-		p1 = new RSVP.Promise();
+		p1 = new _rsvp2.default.Promise();
 		p2 = p1.then(function () {
 			return arg();
 		});
@@ -152,3 +159,4 @@ PromiseUtils.defer = function (delay, arg) {
 	}
 	return promise;
 };
+module.exports = exports.default;

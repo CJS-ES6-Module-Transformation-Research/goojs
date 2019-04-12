@@ -1,13 +1,30 @@
-import Component from "../../entities/components/Component";
-import ArrayUtils from "../../util/ArrayUtils";
-import SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = StateMachineComponent;
+
+var _Component = require("../../entities/components/Component");
+
+var _Component2 = _interopRequireDefault(_Component);
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var _ArrayUtils2 = _interopRequireDefault(_ArrayUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * StateMachineComponent
  * @private
  */
-export default function StateMachineComponent() {
-	Component.apply(this, arguments);
+function StateMachineComponent() {
+	_Component2.default.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -22,7 +39,7 @@ export default function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component.prototype);
+StateMachineComponent.prototype = Object.create(_Component2.default.prototype);
 
 StateMachineComponent.vars = {};
 
@@ -75,7 +92,7 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);
+	_ArrayUtils2.default.remove(this._machines, machine);
 	delete this._machinesById[machine.id];
 };
 
@@ -149,7 +166,7 @@ StateMachineComponent.prototype.update = function () {
  */
 StateMachineComponent.prototype.pause = function () {
 	this.active = false;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.pause');
+	_SystemBus2.default.emit('goo.entity.' + this.entity.name + '.fsm.pause');
 };
 
 /**
@@ -157,5 +174,6 @@ StateMachineComponent.prototype.pause = function () {
  */
 StateMachineComponent.prototype.play = function () {
 	this.active = true;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.play');
+	_SystemBus2.default.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
+module.exports = exports.default;

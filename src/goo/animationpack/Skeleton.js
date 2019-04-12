@@ -1,4 +1,15 @@
-import Joint from "./Joint";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Skeleton;
+
+var _Joint = require("./Joint");
+
+var _Joint2 = _interopRequireDefault(_Joint);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Describes a collection of Joints. This class represents the hierarchy of a Skeleton and its original aspect (via the {@link Joint} class). This
@@ -6,7 +17,7 @@ import Joint from "./Joint";
  * @param {string} name
  * @param {Array<Joint>} joints
  */
-export default function Skeleton(name, joints) {
+function Skeleton(name, joints) {
 	this.id = '';
 	this._name = name;
 	this._joints = joints;
@@ -20,7 +31,7 @@ Skeleton.prototype.clone = function () {
 	for (var j = 0, maxJ = jointArray.length; j < maxJ; j++) {
 		var jointObj = jointArray[j];
 		var jName = jointObj._name;
-		var joint = new Joint(jName);
+		var joint = new _Joint2.default(jName);
 
 		joint._index = jointObj._index;
 		joint._parentIndex = jointObj._parentIndex;
@@ -30,3 +41,4 @@ Skeleton.prototype.clone = function () {
 	}
 	return new Skeleton(name, joints);
 };
+module.exports = exports.default;

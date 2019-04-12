@@ -1,14 +1,49 @@
-import AbstractColliderComponent from "../../../addons/physicspack/components/AbstractColliderComponent";
-import BoxCollider from "../../../addons/physicspack/colliders/BoxCollider";
-import SphereCollider from "../../../addons/physicspack/colliders/SphereCollider";
-import MeshCollider from "../../../addons/physicspack/colliders/MeshCollider";
-import PlaneCollider from "../../../addons/physicspack/colliders/PlaneCollider";
-import CylinderCollider from "../../../addons/physicspack/colliders/CylinderCollider";
-import Collider from "../../../addons/physicspack/colliders/Collider";
-import Vector3 from "../../../math/Vector3";
-import Quaternion from "../../../math/Quaternion";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ColliderComponent;
 
-var tmpQuat = new Quaternion();
+var _AbstractColliderComponent = require("../../../addons/physicspack/components/AbstractColliderComponent");
+
+var _AbstractColliderComponent2 = _interopRequireDefault(_AbstractColliderComponent);
+
+var _BoxCollider = require("../../../addons/physicspack/colliders/BoxCollider");
+
+var _BoxCollider2 = _interopRequireDefault(_BoxCollider);
+
+var _SphereCollider = require("../../../addons/physicspack/colliders/SphereCollider");
+
+var _SphereCollider2 = _interopRequireDefault(_SphereCollider);
+
+var _MeshCollider = require("../../../addons/physicspack/colliders/MeshCollider");
+
+var _MeshCollider2 = _interopRequireDefault(_MeshCollider);
+
+var _PlaneCollider = require("../../../addons/physicspack/colliders/PlaneCollider");
+
+var _PlaneCollider2 = _interopRequireDefault(_PlaneCollider);
+
+var _CylinderCollider = require("../../../addons/physicspack/colliders/CylinderCollider");
+
+var _CylinderCollider2 = _interopRequireDefault(_CylinderCollider);
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
+var _Collider2 = _interopRequireDefault(_Collider);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Quaternion2 = _interopRequireDefault(_Quaternion);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var tmpQuat = new _Quaternion2.default();
 
 /* global CANNON */
 
@@ -19,25 +54,25 @@ var tmpQuat = new Quaternion();
  * @param {boolean} [settings.isTrigger=false]
  * @extends AbstractColliderComponent
  */
-export default function ColliderComponent(settings) {
-	AbstractColliderComponent.apply(this, arguments);
+function ColliderComponent(settings) {
+	_AbstractColliderComponent2.default.apply(this, arguments);
 	this.type = 'ColliderComponent';
 	settings = settings || {};
 
 	/**
-	 * The Cannon.js Body instance, if the ColliderComponent was initialized without a RigidBodyComponent.
-	 * @type {CANNON.Body}
-	 */
+  * The Cannon.js Body instance, if the ColliderComponent was initialized without a RigidBodyComponent.
+  * @type {CANNON.Body}
+  */
 	this.cannonBody = null;
 
 	/**
-	 * The Cannon.js Shape instance
-	 * @type {CANNON.Body}
-	 */
+  * The Cannon.js Shape instance
+  * @type {CANNON.Body}
+  */
 	this.cannonShape = null;
 }
 
-ColliderComponent.prototype = Object.create(AbstractColliderComponent.prototype);
+ColliderComponent.prototype = Object.create(_AbstractColliderComponent2.default.prototype);
 ColliderComponent.prototype.constructor = ColliderComponent;
 
 ColliderComponent.type = 'ColliderComponent';
@@ -79,12 +114,12 @@ ColliderComponent.prototype.initialize = function () {
 	this.system._shapeIdToColliderEntityMap.set(cannonShape.id, entity);
 
 	var collider = this.worldCollider;
-	if (collider instanceof SphereCollider) {
+	if (collider instanceof _SphereCollider2.default) {
 		cannonShape.radius = collider.radius;
-	} else if (collider instanceof BoxCollider) {
+	} else if (collider instanceof _BoxCollider2.default) {
 		cannonShape.halfExtents.copy(collider.halfExtents);
 		cannonShape.updateConvexPolyhedronRepresentation();
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof _MeshCollider2.default) {
 		var scale = new CANNON.Vec3();
 		scale.copy(collider.scale);
 		cannonShape.setScale(scale);
@@ -118,35 +153,27 @@ ColliderComponent.numCylinderSegments = 10;
  */
 ColliderComponent.getCannonShape = function (collider) {
 	var shape;
-	if (collider instanceof BoxCollider) {
+	if (collider instanceof _BoxCollider2.default) {
 		var halfExtents = new CANNON.Vec3();
 		halfExtents.copy(collider.halfExtents);
 		shape = new CANNON.Box(halfExtents);
-	} else if (collider instanceof SphereCollider) {
+	} else if (collider instanceof _SphereCollider2.default) {
 		shape = new CANNON.Sphere(collider.radius);
-	} else if (collider instanceof PlaneCollider) {
+	} else if (collider instanceof _PlaneCollider2.default) {
 		shape = new CANNON.Plane();
-	} else if (collider instanceof CylinderCollider) {
-		shape = new CANNON.Cylinder(
-			collider.radius,
-			collider.radius,
-			collider.height,
-			ColliderComponent.numCylinderSegments
-		);
+	} else if (collider instanceof _CylinderCollider2.default) {
+		shape = new CANNON.Cylinder(collider.radius, collider.radius, collider.height, ColliderComponent.numCylinderSegments);
 		var quat = new CANNON.Quaternion();
-		quat.setFromAxisAngle(new Vector3(0, 0, 1), -Math.PI / 2);
-		shape.transformAllPoints(new Vector3(), quat);
+		quat.setFromAxisAngle(new _Vector2.default(0, 0, 1), -Math.PI / 2);
+		shape.transformAllPoints(new _Vector2.default(), quat);
 		shape.computeEdges();
 		shape.updateBoundingSphereRadius();
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof _MeshCollider2.default) {
 		// Assume triangles
 		if (collider.meshData.indexModes[0] !== 'Triangles') {
 			throw new Error('MeshCollider data must be a triangle mesh!');
 		}
-		shape = new CANNON.Trimesh(
-			collider.meshData.getAttributeBuffer('POSITION'),
-			collider.meshData.getIndexBuffer()
-		);
+		shape = new CANNON.Trimesh(collider.meshData.getAttributeBuffer('POSITION'), collider.meshData.getIndexBuffer());
 	} else {
 		console.warn('Unhandled collider: ', collider);
 	}
@@ -160,10 +187,11 @@ ColliderComponent.getCannonShape = function (collider) {
  * @returns {boolean}
  */
 ColliderComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Collider) {
+	if (obj instanceof _Collider2.default) {
 		entity.setComponent(new ColliderComponent({
 			collider: obj
 		}));
 		return true;
 	}
 };
+module.exports = exports.default;

@@ -7,8 +7,11 @@
  * but also reports unused variables.
  */
 
-export default {
-	reporter: function (results, data, opts) {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = {
+	reporter: function reporter(results, data, opts) {
 		var len = results.length;
 		var str = '';
 		var prevfile;
@@ -23,8 +26,7 @@ export default {
 
 			prevfile = file;
 
-			str += file  + ': line ' + error.line + ', col ' +
-				error.character + ', ' + error.reason;
+			str += file + ': line ' + error.line + ', col ' + error.character + ', ' + error.reason;
 
 			str += ' (' + error.code + ')';
 
@@ -52,8 +54,12 @@ export default {
 		});
 
 		if (str.length > 0) {
-			process.stdout.write(str + '\n' + len + ' error' + ((len === 1) ? '' : 's') + '\n');
-			process.on('exit', function () { process.exit(1); });
+			process.stdout.write(str + '\n' + len + ' error' + (len === 1 ? '' : 's') + '\n');
+			process.on('exit', function () {
+				process.exit(1);
+			});
 		}
 	}
-};;
+};
+;
+module.exports = exports.default;

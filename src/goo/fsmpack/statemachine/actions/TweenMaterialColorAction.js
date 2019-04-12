@@ -1,17 +1,34 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector3 from "../../../math/Vector3";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TweenMaterialColorAction /*id, settings*/;
 
-export default function TweenMaterialColorAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromColor = new Vector3();
-	this.toColor = new Vector3();
-	this.calc = new Vector3();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function TweenMaterialColorAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.fromColor = new _Vector2.default();
+	this.toColor = new _Vector2.default();
+	this.calc = new _Vector2.default();
 	this.completed = false;
 }
 
-TweenMaterialColorAction.prototype = Object.create(Action.prototype);
+TweenMaterialColorAction.prototype = Object.create(_Action2.default.prototype);
 TweenMaterialColorAction.prototype.constructor = TweenMaterialColorAction;
 
 TweenMaterialColorAction.external = {
@@ -76,12 +93,12 @@ var MAPPING = {
 	Ambient: 'materialAmbient'
 };
 
-TweenMaterialColorAction.getTransitionLabel = function (transitionKey, actionConfig){
+TweenMaterialColorAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	return transitionKey === 'complete' ? 'On Tween ' + (actionConfig.options.type || 'Color') + ' Complete' : undefined;
 };
 
 TweenMaterialColorAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	var meshRendererComponent = entity.meshRendererComponent;
 	if (!meshRendererComponent) {
 		return;
@@ -102,14 +119,14 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 	if (this.completed) {
 		return;
 	}
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	var meshRendererComponent = entity.meshRendererComponent;
 	if (!meshRendererComponent) {
 		return;
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = _Easing2.default[this.easing1][this.easing2](t);
 
 	this.calc.set(this.fromColor).lerp(this.toColor, fT);
 	this.materialColor[0] = this.calc.x;
@@ -121,3 +138,4 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
+module.exports = exports.default;

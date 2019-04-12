@@ -1,15 +1,26 @@
-import System from "../../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ParticleSystemSystem;
+
+var _System = require('../../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * System that runs all the ParticleSystemComponents.
  * @extends System
  */
-export default function ParticleSystemSystem() {
-	System.call(this, 'ParticleSystemSystem', ['ParticleSystemComponent', 'TransformComponent']);
+function ParticleSystemSystem() {
+	_System2.default.call(this, 'ParticleSystemSystem', ['ParticleSystemComponent', 'TransformComponent']);
 	this.priority = 1;
 }
 
-ParticleSystemSystem.prototype = Object.create(System.prototype);
+ParticleSystemSystem.prototype = Object.create(_System2.default.prototype);
 ParticleSystemSystem.prototype.constructor = ParticleSystemSystem;
 
 /**
@@ -26,20 +37,20 @@ ParticleSystemSystem.prototype.process = function (entities, tpf) {
  * @private
  * @param  {Entity} entity
  */
-ParticleSystemSystem.prototype.inserted = function (/*entity*/) {};
+ParticleSystemSystem.prototype.inserted = function () /*entity*/{};
 
 /**
  * @private
  * @param  {Entity} entity
  */
-ParticleSystemSystem.prototype.deleted = function (/*entity*/) {};
+ParticleSystemSystem.prototype.deleted = function () /*entity*/{};
 
 /**
  * @private
  * @param  {Entity} entity
  * @param  {Component} component
  */
-ParticleSystemSystem.prototype.removedComponent = function (/*entity, component*/) {};
+ParticleSystemSystem.prototype.removedComponent = function () /*entity, component*/{};
 
 /**
  * Pause all ParticleSystemComponents.
@@ -81,3 +92,4 @@ ParticleSystemSystem.prototype.stop = function () {
 		entities[i].particleSystemComponent.stop();
 	}
 };
+module.exports = exports.default;

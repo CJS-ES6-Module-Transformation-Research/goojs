@@ -1,5 +1,19 @@
-import Collider from "../../../addons/physicspack/colliders/Collider";
-import Vector3 from "../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = MeshCollider;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
+var _Collider2 = _interopRequireDefault(_Collider);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Physics mesh collider.
@@ -8,23 +22,23 @@ import Vector3 from "../../../math/Vector3";
  * @param {Vector3} [settings.scale]
  * @extends Collider
  */
-export default function MeshCollider(settings) {
-	settings = settings || {};
+function MeshCollider(settings) {
+  settings = settings || {};
 
-	/**
-	 * @type {MeshData}
-	 */
-	this.meshData = settings.meshData;
+  /**
+   * @type {MeshData}
+   */
+  this.meshData = settings.meshData;
 
-	/**
-	 * @type {Vector3}
-	 */
-	this.scale = settings.scale !== undefined ? new Vector3(settings.scale) : new Vector3(1, 1, 1);
+  /**
+   * @type {Vector3}
+   */
+  this.scale = settings.scale !== undefined ? new _Vector2.default(settings.scale) : new _Vector2.default(1, 1, 1);
 
-	Collider.call(this);
+  _Collider2.default.call(this);
 }
 
-MeshCollider.prototype = Object.create(Collider.prototype);
+MeshCollider.prototype = Object.create(_Collider2.default.prototype);
 MeshCollider.prototype.constructor = MeshCollider;
 
 /**
@@ -33,15 +47,16 @@ MeshCollider.prototype.constructor = MeshCollider;
  * @param {Collider} targetCollider
  */
 MeshCollider.prototype.transform = function (transform, targetCollider) {
-	targetCollider.scale.set(this.scale).mul(transform.scale);
+  targetCollider.scale.set(this.scale).mul(transform.scale);
 };
 
 /**
  * @returns {MeshCollider}
  */
 MeshCollider.prototype.clone = function () {
-	return new MeshCollider({
-		meshData: this.meshData,
-		scale: this.scale
-	});
+  return new MeshCollider({
+    meshData: this.meshData,
+    scale: this.scale
+  });
 };
+module.exports = exports.default;

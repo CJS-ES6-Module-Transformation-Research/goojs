@@ -1,18 +1,38 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import Vector3 from "../../../math/Vector3";
-import MathUtils from "../../../math/MathUtils";
-import Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = ShakeAction /*id, settings*/;
 
-export default function ShakeAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.oldVal = new Vector3();
-	this.target = new Vector3();
-	this.vel = new Vector3();
+var _Action2 = _interopRequireDefault(_Action);
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _Easing = require("../../../util/Easing");
+
+var _Easing2 = _interopRequireDefault(_Easing);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function ShakeAction() {
+	_Action2.default.apply(this, arguments);
+
+	this.oldVal = new _Vector2.default();
+	this.target = new _Vector2.default();
+	this.vel = new _Vector2.default();
 	this.completed = false;
 }
 
-ShakeAction.prototype = Object.create(Action.prototype);
+ShakeAction.prototype = Object.create(_Action2.default.prototype);
 ShakeAction.prototype.constructor = ShakeAction;
 
 ShakeAction.external = {
@@ -67,14 +87,14 @@ ShakeAction.prototype.configure = function (settings) {
 	this.endLevel = settings.endLevel;
 	this.time = settings.time;
 	this.speed = { Fast: 1, Medium: 2, Slow: 4 }[settings.speed];
-	this.easing = Easing.Quadratic.InOut;
+	this.easing = _Easing2.default.Quadratic.InOut;
 	this.eventToEmit = settings.transitions.complete;
 };
 
 ShakeAction.prototype.enter = function (fsm) {
-	this.oldVal.set(Vector3.ZERO);
-	this.target.set(Vector3.ZERO);
-	this.vel.set(Vector3.ZERO);
+	this.oldVal.set(_Vector2.default.ZERO);
+	this.target.set(_Vector2.default.ZERO);
+	this.vel.set(_Vector2.default.ZERO);
 	this.iter = 0;
 	this.startTime = fsm.getTime();
 	this.completed = false;
@@ -91,24 +111,16 @@ ShakeAction.prototype.update = function (fsm) {
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = this.easing(t);
 
-	var level = MathUtils.lerp(fT, this.startLevel, this.endLevel);
+	var level = _MathUtils2.default.lerp(fT, this.startLevel, this.endLevel);
 
 	this.iter++;
 	if (this.iter > this.speed) {
 		this.iter = 0;
 
-		this.target.setDirect(
-			-this.oldVal.x + (Math.random() - 0.5) * level * 2,
-			-this.oldVal.y + (Math.random() - 0.5) * level * 2,
-			-this.oldVal.z + (Math.random() - 0.5) * level * 2
-		);
+		this.target.setDirect(-this.oldVal.x + (Math.random() - 0.5) * level * 2, -this.oldVal.y + (Math.random() - 0.5) * level * 2, -this.oldVal.z + (Math.random() - 0.5) * level * 2);
 	}
 
-	this.vel.setDirect(
-		this.vel.x * 0.98 + (this.target.x) * 0.1,
-		this.vel.y * 0.98 + (this.target.y) * 0.1,
-		this.vel.z * 0.98 + (this.target.z) * 0.1
-	);
+	this.vel.setDirect(this.vel.x * 0.98 + this.target.x * 0.1, this.vel.y * 0.98 + this.target.y * 0.1, this.vel.z * 0.98 + this.target.z * 0.1);
 
 	translation.add(this.vel).sub(this.oldVal);
 	this.oldVal.copy(this.vel);
@@ -121,3 +133,4 @@ ShakeAction.prototype.update = function (fsm) {
 		fsm.send(this.eventToEmit);
 	}
 };
+module.exports = exports.default;

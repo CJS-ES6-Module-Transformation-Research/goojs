@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import ProximityComponent from "../../../fsmpack/proximity/ProximityComponent";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = TagAction /*id, settings*/;
 
-export default function TagAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _ProximityComponent = require("../../../fsmpack/proximity/ProximityComponent");
+
+var _ProximityComponent2 = _interopRequireDefault(_ProximityComponent);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-TagAction.prototype = Object.create(Action.prototype);
+function TagAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+TagAction.prototype = Object.create(_Action2.default.prototype);
 TagAction.prototype.constructor = TagAction;
 
 TagAction.external = {
@@ -30,10 +44,10 @@ TagAction.prototype.enter = function (fsm) {
 	if (entity.proximityComponent) {
 		if (entity.proximityComponent.tag !== this.tag) {
 			entity.clearComponent('ProximityComponent');
-			entity.setComponent(new ProximityComponent(this.tag));
+			entity.setComponent(new _ProximityComponent2.default(this.tag));
 		}
 	} else {
-		entity.setComponent(new ProximityComponent(this.tag));
+		entity.setComponent(new _ProximityComponent2.default(this.tag));
 	}
 };
 
@@ -43,3 +57,4 @@ TagAction.prototype.cleanup = function (fsm) {
 		entity.clearComponent('ProximityComponent');
 	}
 };
+module.exports = exports.default;

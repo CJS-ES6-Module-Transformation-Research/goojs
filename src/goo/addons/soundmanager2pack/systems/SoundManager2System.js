@@ -1,4 +1,15 @@
-import System from "../../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SoundManager2System;
+
+var _System = require('../../../entities/systems/System');
+
+var _System2 = _interopRequireDefault(_System);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Handles integration with Sound Manager 2
@@ -7,8 +18,8 @@ import System from "../../../entities/systems/System";
  * @extends System
  * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
  */
-export default function SoundManager2System(settings) {
-	System.call(this, 'SoundManager2System', ['SoundManager2Component', 'TransformComponent']);
+function SoundManager2System(settings) {
+	_System2.default.call(this, 'SoundManager2System', ['SoundManager2Component', 'TransformComponent']);
 
 	settings = settings || {};
 
@@ -18,17 +29,17 @@ export default function SoundManager2System(settings) {
 	} else {
 		window.soundManager.bind(this).setup({
 			url: 'swf',
-			onready: function () {
+			onready: function onready() {
 				this.isReady = true;
 			},
-			ontimeout: function () {
+			ontimeout: function ontimeout() {
 				console.warn('Failed to load soundmanager');
 			}
 		});
 	}
 }
 
-SoundManager2System.prototype = Object.create(System.prototype);
+SoundManager2System.prototype = Object.create(_System2.default.prototype);
 
 SoundManager2System.prototype.inserted = function (entity) {
 	var soundManagerComponent = entity.soundManager2Component;
@@ -40,18 +51,19 @@ SoundManager2System.prototype.inserted = function (entity) {
 	}
 };
 
-SoundManager2System.prototype.deleted = function (/*entity*/) {
+SoundManager2System.prototype.deleted = function () /*entity*/{
 	//var soundManagerComponent = entity.soundManager2Component;
 
 	// if (soundManagerComponent) {
-		// this.world.remove(cannonComponent.body);
+	// this.world.remove(cannonComponent.body);
 	// }
 };
 
-SoundManager2System.prototype.process = function (/*entities , tpf */) {
+SoundManager2System.prototype.process = function () /*entities , tpf */{
 	/*for (var i = 0; i < entities.length; i++) {
-		var entity = entities[i];
-		var soundManagerComponent = entity.soundManager2Component;
-
-	}*/
+ 	var entity = entities[i];
+ 	var soundManagerComponent = entity.soundManager2Component;
+ 
+ }*/
 };
+module.exports = exports.default;

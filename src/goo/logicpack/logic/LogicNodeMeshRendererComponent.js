@@ -1,20 +1,43 @@
-import LogicLayer from "./LogicLayer";
-import LogicNode from "./LogicNode";
-import LogicNodes from "./LogicNodes";
-import LogicInterface from "./LogicInterface";
-import Vector3 from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = LogicNodeMeshRendererComponent;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicLayer2 = _interopRequireDefault(_LogicLayer);
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNode2 = _interopRequireDefault(_LogicNode);
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicNodes2 = _interopRequireDefault(_LogicNodes);
+
+var _LogicInterface = require("./LogicInterface");
+
+var _LogicInterface2 = _interopRequireDefault(_LogicInterface);
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * Logic node that connects to the MeshRendererComponent of an entity.
  * @private
  */
-export default function LogicNodeMeshRendererComponent() {
-	LogicNode.call(this);
+function LogicNodeMeshRendererComponent() {
+	_LogicNode2.default.call(this);
 	this.logicInterface = LogicNodeMeshRendererComponent.logicInterface;
 	this.type = 'MeshRendererComponent';
 }
 
-LogicNodeMeshRendererComponent.prototype = Object.create(LogicNode.prototype);
+LogicNodeMeshRendererComponent.prototype = Object.create(_LogicNode2.default.prototype);
 LogicNodeMeshRendererComponent.editorName = 'MeshRendererComponent';
 
 LogicNodeMeshRendererComponent.prototype.onConfigure = function (config) {
@@ -22,7 +45,7 @@ LogicNodeMeshRendererComponent.prototype.onConfigure = function (config) {
 };
 
 LogicNodeMeshRendererComponent.prototype.onInputChanged = function (instDesc, portID, value) {
-	var entity = LogicLayer.resolveEntityRef(instDesc, this.entityRef);
+	var entity = _LogicLayer2.default.resolveEntityRef(instDesc, this.entityRef);
 	var comp = entity.meshRendererComponent;
 
 	if (portID === LogicNodeMeshRendererComponent.inportAmbient && comp.materials.length > 0) {
@@ -33,7 +56,7 @@ LogicNodeMeshRendererComponent.prototype.onInputChanged = function (instDesc, po
 };
 
 LogicNodeMeshRendererComponent.prototype.onEvent = function (instDesc, event) {
-	var entity = LogicLayer.resolveEntityRef(instDesc, this.entityRef);
+	var entity = _LogicLayer2.default.resolveEntityRef(instDesc, this.entityRef);
 	var comp = entity.meshRendererComponent;
 
 	if (event === LogicNodeMeshRendererComponent.inportShadows) {
@@ -43,13 +66,14 @@ LogicNodeMeshRendererComponent.prototype.onEvent = function (instDesc, event) {
 	}
 };
 
-LogicNodeMeshRendererComponent.logicInterface = new LogicInterface('Material');
+LogicNodeMeshRendererComponent.logicInterface = new _LogicInterface2.default('Material');
 LogicNodeMeshRendererComponent.inportShadows = LogicNodeMeshRendererComponent.logicInterface.addInputEvent('toggle-shadows');
 LogicNodeMeshRendererComponent.inportHidden = LogicNodeMeshRendererComponent.logicInterface.addInputEvent('toggle-hidden');
-LogicNodeMeshRendererComponent.inportAmbient = LogicNodeMeshRendererComponent.logicInterface.addInputProperty('ambient', 'Vector3', new Vector3(0.5, 0.0, 0.0));
+LogicNodeMeshRendererComponent.inportAmbient = LogicNodeMeshRendererComponent.logicInterface.addInputProperty('ambient', 'Vector3', new _Vector2.default(0.5, 0.0, 0.0));
 LogicNodeMeshRendererComponent.logicInterface.addConfigEntry({
 	name: 'entityRef',
 	type: 'entityRef',
 	label: 'Entity'
 });
-LogicNodes.registerType('MeshRendererComponent', LogicNodeMeshRendererComponent);
+_LogicNodes2.default.registerType('MeshRendererComponent', LogicNodeMeshRendererComponent);
+module.exports = exports.default;

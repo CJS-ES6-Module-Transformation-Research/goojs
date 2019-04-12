@@ -1,10 +1,21 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = RemoveAction /*id, settings*/;
 
-export default function RemoveAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-RemoveAction.prototype = Object.create(Action.prototype);
+function RemoveAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+RemoveAction.prototype = Object.create(_Action2.default.prototype);
 RemoveAction.prototype.constructor = RemoveAction;
 
 RemoveAction.external = {
@@ -26,3 +37,4 @@ RemoveAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	entity.removeFromWorld(this.recursive);
 };
+module.exports = exports.default;

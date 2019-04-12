@@ -1,13 +1,51 @@
-import Vector2 from "../math/Vector2";
-import Vector3 from "../math/Vector3";
-import Vector4 from "../math/Vector4";
-import Matrix4 from "../math/Matrix4";
-import Plane from "../math/Plane";
-import MathUtils from "../math/MathUtils";
-import Ray from "../math/Ray";
-import BoundingBox from "../renderer/bounds/BoundingBox";
-import BoundingSphere from "../renderer/bounds/BoundingSphere";
-import BoundingVolume from "../renderer/bounds/BoundingVolume";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = Camera;
+
+var _Vector = require("../math/Vector2");
+
+var _Vector2 = _interopRequireDefault(_Vector);
+
+var _Vector3 = require("../math/Vector3");
+
+var _Vector4 = _interopRequireDefault(_Vector3);
+
+var _Vector5 = require("../math/Vector4");
+
+var _Vector6 = _interopRequireDefault(_Vector5);
+
+var _Matrix = require("../math/Matrix4");
+
+var _Matrix2 = _interopRequireDefault(_Matrix);
+
+var _Plane = require("../math/Plane");
+
+var _Plane2 = _interopRequireDefault(_Plane);
+
+var _MathUtils = require("../math/MathUtils");
+
+var _MathUtils2 = _interopRequireDefault(_MathUtils);
+
+var _Ray = require("../math/Ray");
+
+var _Ray2 = _interopRequireDefault(_Ray);
+
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _BoundingBox2 = _interopRequireDefault(_BoundingBox);
+
+var _BoundingSphere = require("../renderer/bounds/BoundingSphere");
+
+var _BoundingSphere2 = _interopRequireDefault(_BoundingSphere);
+
+var _BoundingVolume = require("../renderer/bounds/BoundingVolume");
+
+var _BoundingVolume2 = _interopRequireDefault(_BoundingVolume);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 /**
  * This class represents a view into a 3D scene and how that view should map to a 2D rendering surface.
@@ -17,17 +55,17 @@ import BoundingVolume from "../renderer/bounds/BoundingVolume";
  * @param {number} [far=1000] Far plane clip distance.
  */
 
-export default function Camera(fov, aspect, near, far) {
+function Camera(fov, aspect, near, far) {
 	fov = typeof fov !== 'undefined' ? fov : 45;
 	aspect = typeof aspect !== 'undefined' ? aspect : 1;
 	near = typeof near !== 'undefined' ? near : 1;
 	far = typeof far !== 'undefined' ? far : 1000;
 
 	// These need an onFrameChange() after being modified
-	this.translation = new Vector3(0, 0, 0);
-	this._left = new Vector3(-1, 0, 0);
-	this._up = new Vector3(0, 1, 0);
-	this._direction = new Vector3(0, 0, -1);
+	this.translation = new _Vector4.default(0, 0, 0);
+	this._left = new _Vector4.default(-1, 0, 0);
+	this._up = new _Vector4.default(0, 1, 0);
+	this._direction = new _Vector4.default(0, 0, -1);
 
 	// These need an onFrustumChange() after being modified
 	this.size = 0.5; // hack
@@ -39,10 +77,10 @@ export default function Camera(fov, aspect, near, far) {
 	this._frustumBottom = this.bottom = -0.5;
 
 	// Used to speed up world-plane normal calculation in onFrameChange. Only calculated when frustum values are changed
-	this._coeffLeft = new Vector2();
-	this._coeffRight = new Vector2();
-	this._coeffBottom = new Vector2();
-	this._coeffTop = new Vector2();
+	this._coeffLeft = new _Vector2.default();
+	this._coeffRight = new _Vector2.default();
+	this._coeffBottom = new _Vector2.default();
+	this._coeffTop = new _Vector2.default();
 
 	// These need an onViewPortChange() after being modified
 	this._viewPortLeft = 0.0;
@@ -52,7 +90,7 @@ export default function Camera(fov, aspect, near, far) {
 
 	this._worldPlane = [];
 	for (var i = 0; i < Camera.FRUSTUM_PLANES; i++) {
-		this._worldPlane[i] = new Plane();
+		this._worldPlane[i] = new _Plane2.default();
 	}
 
 	this.projectionMode = Camera.Perspective;
@@ -66,29 +104,29 @@ export default function Camera(fov, aspect, near, far) {
 	this._updateInverseMVPMatrix = true;
 
 	// NB: These matrices are column-major.
-	this.modelView = new Matrix4();
-	this.modelViewInverse = new Matrix4();
-	this.projection = new Matrix4();
-	this.modelViewProjection = new Matrix4();
-	this.modelViewProjectionInverse = new Matrix4();
+	this.modelView = new _Matrix2.default();
+	this.modelViewInverse = new _Matrix2.default();
+	this.projection = new _Matrix2.default();
+	this.modelViewProjection = new _Matrix2.default();
+	this.modelViewProjectionInverse = new _Matrix2.default();
 
 	//! AT: unused?
 	this._planeState = 0;
-	this._clipPlane = new Vector4();
-	this._qCalc = new Vector4();
+	this._clipPlane = new _Vector6.default();
+	this._qCalc = new _Vector6.default();
 
 	this._corners = [];
 	for (var i = 0; i < 8; i++) {
-		this._corners.push(new Vector3());
+		this._corners.push(new _Vector4.default());
 	}
-	this._extents = new Vector3();
+	this._extents = new _Vector4.default();
 
 	// Temp decl
-	this.vNearPlaneCenter = new Vector3();
-	this.vFarPlaneCenter = new Vector3();
+	this.vNearPlaneCenter = new _Vector4.default();
+	this.vFarPlaneCenter = new _Vector4.default();
 
-	this.calcLeft = new Vector3();
-	this.calcUp = new Vector3();
+	this.calcLeft = new _Vector4.default();
+	this.calcUp = new _Vector4.default();
 
 	this.changedProperties = true;
 
@@ -100,7 +138,7 @@ export default function Camera(fov, aspect, near, far) {
 	// @endif
 }
 
-var newDirection = new Vector3(); // tmp
+var newDirection = new _Vector4.default(); // tmp
 
 // Planes of the frustum
 Camera.LEFT_PLANE = 0;
@@ -179,7 +217,7 @@ Camera.prototype.setFrustumPerspective = function (fov, aspect, near, far) {
 	}
 
 	if (this.fov !== undefined) {
-		var h = Math.tan(this.fov * MathUtils.DEG_TO_RAD * 0.5) * this.near;
+		var h = Math.tan(this.fov * _MathUtils2.default.DEG_TO_RAD * 0.5) * this.near;
 		var w = h * this.aspect;
 		this._frustumLeft = -w;
 		this._frustumRight = w;
@@ -189,8 +227,8 @@ Camera.prototype.setFrustumPerspective = function (fov, aspect, near, far) {
 		this._frustumFar = this.far;
 
 		// handle invalid frustum-far
-		if (this._frustumFar - this._frustumNear < MathUtils.EPSILON) {
-			this._frustumFar = this._frustumNear + MathUtils.EPSILON;
+		if (this._frustumFar - this._frustumNear < _MathUtils2.default.EPSILON) {
+			this._frustumFar = this._frustumNear + _MathUtils2.default.EPSILON;
 		}
 
 		this.onFrustumChange();
@@ -239,8 +277,8 @@ Camera.prototype.setFrustum = function (near, far, left, right, top, bottom, asp
 	this._frustumBottom = this.bottom;
 
 	// handle invalid frustum-far
-	if (this._frustumFar - this._frustumNear < MathUtils.EPSILON) {
-		this._frustumFar = this._frustumNear + MathUtils.EPSILON;
+	if (this._frustumFar - this._frustumNear < _MathUtils2.default.EPSILON) {
+		this._frustumFar = this._frustumNear + _MathUtils2.default.EPSILON;
 	}
 
 	this.onFrustumChange();
@@ -318,11 +356,11 @@ Camera.prototype.lookAt = function (pos, worldUpVector) {
 	this._direction.set(newDirection);
 
 	this._up.set(worldUpVector).normalize();
-	if (this._up.equals(Vector3.ZERO)) {
-		this._up.set(Vector3.UNIT_Y);
+	if (this._up.equals(_Vector4.default.ZERO)) {
+		this._up.set(_Vector4.default.UNIT_Y);
 	}
 	this._left.set(this._up).cross(this._direction).normalize();
-	if (this._left.equals(Vector3.ZERO)) {
+	if (this._left.equals(_Vector4.default.ZERO)) {
 		if (this._direction.x !== 0.0) {
 			this._left.setDirect(this._direction.y, -this._direction.x, 0);
 		} else {
@@ -359,11 +397,11 @@ Camera.prototype.contains = function (bound) {
 
 	for (var planeCounter = Camera.FRUSTUM_PLANES - 1; planeCounter >= 0; planeCounter--) {
 		switch (bound.whichSide(this._worldPlane[planeCounter])) {
-			case BoundingVolume.Inside:
+			case _BoundingVolume2.default.Inside:
 				return Camera.Outside;
-			case BoundingVolume.Outside:
+			case _BoundingVolume2.default.Outside:
 				break;
-			case BoundingVolume.Intersects:
+			case _BoundingVolume2.default.Intersects:
 				rVal = Camera.Intersects;
 				break;
 		}
@@ -514,7 +552,6 @@ Camera.prototype.updateProjectionMatrix = function () {
 		d[13] = -(top + bottom) / (top - bottom);
 		d[14] = -(far + near) / (far - near);
 		d[15] = 1.0;
-
 	} else if (this.projectionMode === Camera.Perspective) {
 
 		d[0] = 2.0 * near / (right - left);
@@ -533,7 +570,6 @@ Camera.prototype.updateProjectionMatrix = function () {
 		d[13] = 0.0;
 		d[14] = -(2.0 * far * near) / (far - near);
 		d[15] = 0.0;
-
 	}
 };
 
@@ -574,7 +610,7 @@ Camera.prototype.updateModelViewMatrix = function () {
  */
 Camera.prototype.getPickRay = function (screenX, screenY, screenWidth, screenHeight, store) {
 	if (!store) {
-		store = new Ray();
+		store = new _Ray2.default();
 	}
 	this.getWorldCoordinates(screenX, screenY, screenWidth, screenHeight, 0, store.origin);
 	this.getWorldCoordinates(screenX, screenY, screenWidth, screenHeight, 0.3, store.direction).sub(store.origin).normalize();
@@ -596,11 +632,11 @@ Camera.prototype.getPickRay = function (screenX, screenY, screenWidth, screenHei
  */
 Camera.prototype.getWorldPosition = function (screenX, screenY, screenWidth, screenHeight, zDepth, store) {
 	if (this.projectionMode === Camera.Parallel) {
-		zDepth = ((zDepth - this.near) / (this.far - this.near));
+		zDepth = (zDepth - this.near) / (this.far - this.near);
 	} else {
 		// http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html
-		zDepth = MathUtils.clamp(zDepth, this.near, this.far);
-		zDepth = (this.far / (this.far - this.near)) + ((this.far * this.near / (this.near - this.far)) / zDepth);
+		zDepth = _MathUtils2.default.clamp(zDepth, this.near, this.far);
+		zDepth = this.far / (this.far - this.near) + this.far * this.near / (this.near - this.far) / zDepth;
 	}
 	return this.getWorldCoordinates(screenX, screenY, screenWidth, screenHeight, zDepth, store);
 };
@@ -619,22 +655,22 @@ Camera.prototype.getWorldPosition = function (screenX, screenY, screenWidth, scr
  */
 Camera.prototype.getWorldCoordinates = function (screenX, screenY, screenWidth, screenHeight, zDepth, store) {
 	if (!store) {
-		store = new Vector3();
+		store = new _Vector4.default();
 	}
 	this.checkInverseModelViewProjection();
-	var position = new Vector4();
+	var position = new _Vector6.default();
 
 	var x = (screenX / screenWidth - this._viewPortLeft) / (this._viewPortRight - this._viewPortLeft) * 2 - 1;
 	var y = ((screenHeight - screenY) / screenHeight - this._viewPortBottom) / (this._viewPortTop - this._viewPortBottom) * 2 - 1;
 
 	/*
-	var aspect = this.aspect / (screenWidth / screenHeight);
-	if (aspect > 1) {
-		y *= aspect;
-	} else if (aspect < 1) {
-		x /= aspect;
-	}
-	*/
+ var aspect = this.aspect / (screenWidth / screenHeight);
+ if (aspect > 1) {
+ 	y *= aspect;
+ } else if (aspect < 1) {
+ 	x /= aspect;
+ }
+ */
 
 	position.setDirect(x, y, zDepth * 2 - 1, 1);
 	position.applyPost(this.modelViewProjectionInverse);
@@ -662,13 +698,13 @@ Camera.prototype.getScreenCoordinates = function (worldPosition, screenWidth, sc
 	store = this.getNormalizedDeviceCoordinates(worldPosition, store);
 
 	/*
-	var aspect = this.aspect / (screenWidth / screenHeight);
-	if (aspect > 1) {
-		store.y /= aspect;
-	} else if (aspect < 1) {
-		store.x *= aspect;
-	}
-	*/
+ var aspect = this.aspect / (screenWidth / screenHeight);
+ if (aspect > 1) {
+ 	store.y /= aspect;
+ } else if (aspect < 1) {
+ 	store.x *= aspect;
+ }
+ */
 
 	store.x = (store.x + 1) * (this._viewPortRight - this._viewPortLeft) / 2 * screenWidth;
 	store.y = (1 - store.y) * (this._viewPortTop - this._viewPortBottom) / 2 * screenHeight;
@@ -705,10 +741,10 @@ Camera.prototype.getFrustumCoordinates = function (worldPosition, store) {
  */
 Camera.prototype.getNormalizedDeviceCoordinates = function (worldPosition, store) {
 	if (!store) {
-		store = new Vector3();
+		store = new _Vector4.default();
 	}
 	this.checkModelViewProjection();
-	var position = new Vector4();
+	var position = new _Vector6.default();
 	position.setDirect(worldPosition.x, worldPosition.y, worldPosition.z, 1);
 	position.applyPost(this.modelViewProjection);
 	if (position.w !== 0.0) {
@@ -832,9 +868,9 @@ Camera.prototype.pack = function (sceneBounds) {
 		corners[i].set(center);
 	}
 
-	if (sceneBounds instanceof BoundingBox) {
+	if (sceneBounds instanceof _BoundingBox2.default) {
 		extents.setDirect(sceneBounds.xExtent, sceneBounds.yExtent, sceneBounds.zExtent);
-	} else if (sceneBounds instanceof BoundingSphere) {
+	} else if (sceneBounds instanceof _BoundingSphere2.default) {
 		extents.setDirect(sceneBounds.radius, sceneBounds.radius, sceneBounds.radius);
 	}
 
@@ -850,7 +886,7 @@ Camera.prototype.pack = function (sceneBounds) {
 	var mvMatrix = this.getViewMatrix();
 	var optimalCameraNear = Number.MAX_VALUE;
 	var optimalCameraFar = -Number.MAX_VALUE;
-	var position = new Vector4();
+	var position = new _Vector6.default();
 	for (var i = 0; i < corners.length; i++) {
 		position.setDirect(corners[i].x, corners[i].y, corners[i].z, 1);
 		position.applyPre(mvMatrix);
@@ -936,12 +972,7 @@ Camera.prototype.setToObliqueMatrix = function (clipPlane) {
 	this._updatePMatrix = true;
 	var projection = this.getProjectionMatrix();
 
-	this._qCalc.setDirect(
-		(MathUtils.sign(transformedClipPlane.x) + projection[8]) / projection[0],
-		(MathUtils.sign(transformedClipPlane.y) + projection[9]) / projection[5],
-		-1,
-		(1.0 + projection[10]) / projection[14]
-	);
+	this._qCalc.setDirect((_MathUtils2.default.sign(transformedClipPlane.x) + projection[8]) / projection[0], (_MathUtils2.default.sign(transformedClipPlane.y) + projection[9]) / projection[5], -1, (1.0 + projection[10]) / projection[14]);
 
 	transformedClipPlane.scale(2.0 / transformedClipPlane.dot(this._qCalc));
 
@@ -959,3 +990,4 @@ Camera.prototype.clone = function () {
 	clone.copy(this);
 	return clone;
 };
+module.exports = exports.default;

@@ -1,11 +1,25 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
-import SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = EmitAction /*id, settings*/;
 
-export default function EmitAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Action2 = _interopRequireDefault(_Action);
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _SystemBus2 = _interopRequireDefault(_SystemBus);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-EmitAction.prototype = Object.create(Action.prototype);
+function EmitAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+EmitAction.prototype = Object.create(_Action2.default.prototype);
 EmitAction.prototype.constructor = EmitAction;
 
 EmitAction.external = {
@@ -23,6 +37,7 @@ EmitAction.external = {
 	transitions: []
 };
 
-EmitAction.prototype.enter = function (/*fsm*/) {
-	SystemBus.emit(this.channel, this.data); // data is unused?
+EmitAction.prototype.enter = function () /*fsm*/{
+	_SystemBus2.default.emit(this.channel, this.data); // data is unused?
 };
+module.exports = exports.default;

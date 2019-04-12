@@ -1,10 +1,21 @@
-import Action from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = SetHtmlTextAction /*id, settings*/;
 
-export default function SetHtmlTextAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
 }
 
-SetHtmlTextAction.prototype = Object.create(Action.prototype);
+function SetHtmlTextAction() {
+	_Action2.default.apply(this, arguments);
+}
+
+SetHtmlTextAction.prototype = Object.create(_Action2.default.prototype);
 SetHtmlTextAction.prototype.constructor = SetHtmlTextAction;
 
 SetHtmlTextAction.external = {
@@ -40,10 +51,10 @@ SetHtmlTextAction.external = {
 };
 
 SetHtmlTextAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	if (entity && entity.htmlComponent && this.selector.length > 0) {
 		var elements = entity.htmlComponent.domElement.querySelectorAll(this.selector);
-		for (var i=0; i<elements.length; i++) {
+		for (var i = 0; i < elements.length; i++) {
 			var element = elements[i];
 			if (this.html) {
 				element.innerHTML = this.content;
@@ -53,3 +64,4 @@ SetHtmlTextAction.prototype.enter = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;

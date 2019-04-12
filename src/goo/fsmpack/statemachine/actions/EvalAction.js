@@ -1,12 +1,23 @@
-import Action from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.default = EvalAction /*id, settings*/;
 
-export default function EvalAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var _Action2 = _interopRequireDefault(_Action);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+function EvalAction() {
+	_Action2.default.apply(this, arguments);
 
 	this.expressionFunction = null;
 }
 
-EvalAction.prototype = Object.create(Action.prototype);
+EvalAction.prototype = Object.create(_Action2.default.prototype);
 EvalAction.prototype.constructor = EvalAction;
 
 EvalAction.external = {
@@ -36,3 +47,4 @@ EvalAction.prototype.update = function (fsm) {
 		}
 	}
 };
+module.exports = exports.default;
