@@ -1,5 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+import MeshData from "../renderer/MeshData";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii)
@@ -12,7 +12,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
  * @param {Enum} [textureMode=Box.TextureModes.Uniform] Texture wrapping mode.
  */
-function Box(width, height, length, tileX, tileY, textureMode) {
+export default function Box(width, height, length, tileX, tileY, textureMode) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		width = props.width;
@@ -201,5 +201,3 @@ Box.TextureModes = {
 	Uniform: 'Uniform',
 	Unfolded: 'Unfolded'
 };
-
-module.exports = Box;

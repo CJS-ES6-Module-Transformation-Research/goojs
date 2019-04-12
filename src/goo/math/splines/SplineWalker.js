@@ -1,4 +1,4 @@
-var Spline = require('./Spline');
+import Spline from "./Spline";
 
 /**
  * Provides a way to interpolate on a spline with constant speed
@@ -7,7 +7,7 @@ var Spline = require('./Spline');
  * Small values of this parameter lead to more substeps and better precision (at the cost of more computations).
  * @example-link http://code.gooengine.com/latest/visual-test/./SplineWalker/SplineWalker-vtest.html Comparison or normal interpolation vs using the SplineWalker
  */
-function SplineWalker(spline, substepSize) {
+export default function SplineWalker(spline, substepSize) {
 	this.substepSize = substepSize || 0.01;
 	this._spline = spline;
 	this._segment = 0;
@@ -71,5 +71,3 @@ SplineWalker.prototype.advance = function (distance, store) {
 SplineWalker.prototype.canWalk = function () {
 	return this._segment < this._spline.segments;
 };
-
-module.exports = SplineWalker;

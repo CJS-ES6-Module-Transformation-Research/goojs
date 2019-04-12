@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var ProximityComponent = require('../../../fsmpack/proximity/ProximityComponent');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import ProximityComponent from "../../../fsmpack/proximity/ProximityComponent";
 
-function TagAction(/*id, settings*/) {
+export default function TagAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -43,5 +43,3 @@ TagAction.prototype.cleanup = function (fsm) {
 		entity.clearComponent('ProximityComponent');
 	}
 };
-
-module.exports = TagAction;

@@ -1,5 +1,5 @@
-var Component = require('../../entities/components/Component');
-var Light = require('../../renderer/light/Light');
+import Component from "../../entities/components/Component";
+import Light from "../../renderer/light/Light";
 
 /**
  * Defines a light<br>
@@ -7,7 +7,7 @@ var Light = require('../../renderer/light/Light');
  * @param {Light} light Light to contain in this component (directional, spot, point)
  * @extends Component
  */
-function LightComponent(light) {
+export default function LightComponent(light) {
 	Component.apply(this, arguments);
 
 	this.type = 'LightComponent';
@@ -77,5 +77,3 @@ LightComponent.applyOnEntity = function (obj, entity) {
 		return true;
 	}
 };
-
-module.exports = LightComponent;

@@ -1,16 +1,13 @@
+import fs from "fs";
+import glob from "glob";
+import _ from "underscore";
+import * as extractor from "./extractor";
+import * as jsdocProcessor from "./jsdoc-processor";
+import * as util from "./util";
 // jshint node:true
 'use strict';
 
-var fs = require('fs');
-var glob = require('glob');
-var _ = require('underscore');
-
-var extractor = require('./extractor');
-var jsdocProcessor = require('./jsdoc-processor');
-var util = require('./util');
-
-
-function getFiles(sourcePath, ignore) {
+export function getFiles(sourcePath, ignore) {
 	if (/\.js$/.test(sourcePath)) {
 		return [sourcePath];
 	}
@@ -22,7 +19,7 @@ function getFiles(sourcePath, ignore) {
 	});
 }
 
-function filterPrivates(class_) {
+export function filterPrivates(class_) {
 	var isPrivateOrHidden = function (entry) {
 		return !entry.comment || !(entry.comment.private || entry.comment.hidden);
 	};
@@ -38,7 +35,7 @@ function filterPrivates(class_) {
 	class_.hasMethods = class_.methods.length > 0;
 }
 
-function compileDoc(files) {
+export function compileDoc(files) {
 	var classes = {};
 	var extraComments = [];
 
@@ -128,7 +125,3 @@ function compileDoc(files) {
 
 	return classes;
 }
-
-exports.getFiles = getFiles;
-exports.filterPrivates = filterPrivates;
-exports.compileDoc = compileDoc;

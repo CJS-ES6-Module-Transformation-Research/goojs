@@ -1,4 +1,4 @@
-var System = require('../../../entities/systems/System');
+import System from "../../../entities/systems/System";
 
 /* global Box2D */
 
@@ -8,7 +8,7 @@ var System = require('../../../entities/systems/System');
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
  */
-function Box2DSystem() {
+export default function Box2DSystem() {
 	System.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
 
 	this.SCALE = 0.5;
@@ -144,5 +144,3 @@ Box2DSystem.prototype.process = function (entities, tpf) {
 		transformComponent.setUpdated();
 	}
 };
-
-module.exports = Box2DSystem;

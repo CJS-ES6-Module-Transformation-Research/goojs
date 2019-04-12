@@ -1,5 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+import MeshData from "../renderer/MeshData";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * A rectangular, two dimensional shape. The local height of the Quad defines it's size about the y-axis,
@@ -10,7 +10,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
  * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
  */
-function Quad(width, height, tileX, tileY) {
+export default function Quad(width, height, tileX, tileY) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		width = props.width;
@@ -80,5 +80,3 @@ Quad.prototype.clone = function () {
 
 	return new Quad(options);
 };
-
-module.exports = Quad;

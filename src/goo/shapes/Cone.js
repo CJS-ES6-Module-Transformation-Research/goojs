@@ -1,5 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+import MeshData from "../renderer/MeshData";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * Cone mesh data
@@ -9,7 +9,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {number} [radius=1] Radius of the cone
  * @param {number} [height=2] The height of the cone
  */
-function Cone(radialSamples, radius, height) {
+export default function Cone(radialSamples, radius, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		radialSamples = props.radialSamples;
@@ -106,5 +106,3 @@ Cone.prototype.clone = function () {
 
 	return new Cone(options);
 };
-
-module.exports = Cone;

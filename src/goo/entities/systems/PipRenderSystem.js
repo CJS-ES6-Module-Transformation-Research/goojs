@@ -1,13 +1,13 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Quad = require('../../shapes/Quad');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
+import MeshData from "../../renderer/MeshData";
+import Shader from "../../renderer/Shader";
+import Quad from "../../shapes/Quad";
+import RenderTarget from "../../renderer/pass/RenderTarget";
+import Material from "../../renderer/Material";
+import ShaderLib from "../../renderer/shaders/ShaderLib";
+import FullscreenPass from "../../renderer/pass/FullscreenPass";
+import FullscreenUtils from "../../renderer/pass/FullscreenUtils";
 
 /**
  * Renders transform gizmos<br>
@@ -15,7 +15,7 @@ var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-function PipRenderSystem(renderSystem) {
+export default function PipRenderSystem(renderSystem) {
 	System.call(this, 'PipRenderSystem', null);
 
 	this.renderSystem = renderSystem;
@@ -178,5 +178,3 @@ var renderPipQuad = {
 		'}'
 	].join('\n')
 };
-
-module.exports = PipRenderSystem;

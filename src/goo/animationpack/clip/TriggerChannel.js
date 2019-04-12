@@ -1,5 +1,5 @@
-var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
-var TriggerData = require('../../animationpack/clip/TriggerData');
+import AbstractAnimationChannel from "../../animationpack/clip/AbstractAnimationChannel";
+import TriggerData from "../../animationpack/clip/TriggerData";
 
 /**
  * An animation source channel consisting of keyword samples indicating when a specific trigger condition is met. Each channel can only be in one keyword "state" at a given moment in time.
@@ -8,7 +8,7 @@ var TriggerData = require('../../animationpack/clip/TriggerData');
  * @param {Array<string>} keys our key samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-function TriggerChannel(channelName, times, keys, blendType) {
+export default function TriggerChannel(channelName, times, keys, blendType) {
 	AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._keys = keys ? keys.slice(0) : null;
 	this.guarantee = false;
@@ -51,5 +51,3 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
 		triggerData.arm(newIndex, triggers);
 	}
 };
-
-module.exports = TriggerChannel;

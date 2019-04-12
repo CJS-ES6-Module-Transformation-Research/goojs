@@ -1,9 +1,9 @@
-var SystemBus = require('../entities/SystemBus');
+import SystemBus from "../entities/SystemBus";
 
 /**
  * Attaches mouse events to an entity.
  */
-function ButtonScript() {
+export default function ButtonScript() {
 	function setup(params, env) {
 		env.button = ['Any', 'Left', 'Middle', 'Right'].indexOf(params.button) - 1;
 		if (env.button < -1) {
@@ -202,5 +202,3 @@ ButtonScript.externals = {
 		'default': true
 	}]
 };
-
-module.exports = ButtonScript;

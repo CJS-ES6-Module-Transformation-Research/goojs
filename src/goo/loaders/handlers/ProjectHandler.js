@@ -1,4 +1,4 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
 
 /**
  * Handler for loading project into engine (actually loading mainScene)
@@ -8,7 +8,7 @@ var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
  * @param {Function} getConfig
  * @param {Function} updateObject
  */
-function ProjectHandler() {
+export default function ProjectHandler() {
 	ConfigHandler.apply(this, arguments);
 	/**
 	this._skybox = null;
@@ -73,5 +73,3 @@ ProjectHandler.prototype._update = function (ref, config, options) {
 		}
 	});
 };
-
-module.exports = ProjectHandler;

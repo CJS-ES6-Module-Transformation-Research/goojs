@@ -1,13 +1,13 @@
-var AbstractRigidBodyComponent = require('../../../addons/physicspack/components/AbstractRigidBodyComponent');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var BoxCollider = require('../../../addons/physicspack/colliders/BoxCollider');
-var SphereCollider = require('../../../addons/physicspack/colliders/SphereCollider');
-var MeshCollider = require('../../../addons/physicspack/colliders/MeshCollider');
-var BallJoint = require('../../../addons/physicspack/joints/BallJoint');
-var HingeJoint = require('../../../addons/physicspack/joints/HingeJoint');
-var ColliderComponent = require('../../../addons/physicspack/components/ColliderComponent');
-var MathUtils = require('../../../math/MathUtils');
+import AbstractRigidBodyComponent from "../../../addons/physicspack/components/AbstractRigidBodyComponent";
+import Vector3 from "../../../math/Vector3";
+import Quaternion from "../../../math/Quaternion";
+import BoxCollider from "../../../addons/physicspack/colliders/BoxCollider";
+import SphereCollider from "../../../addons/physicspack/colliders/SphereCollider";
+import MeshCollider from "../../../addons/physicspack/colliders/MeshCollider";
+import BallJoint from "../../../addons/physicspack/joints/BallJoint";
+import HingeJoint from "../../../addons/physicspack/joints/HingeJoint";
+import ColliderComponent from "../../../addons/physicspack/components/ColliderComponent";
+import MathUtils from "../../../math/MathUtils";
 
 /* global CANNON */
 var tmpQuat = new Quaternion();
@@ -25,7 +25,7 @@ var tmpCannonVec2;
  * @param {number} [settings.angularDamping=0.05]
  * @extends AbstractRigidBodyComponent
  */
-function RigidBodyComponent(settings) {
+export default function RigidBodyComponent(settings) {
 	settings = settings || {};
 	AbstractRigidBodyComponent.apply(this, arguments);
 
@@ -805,5 +805,3 @@ RigidBodyComponent.prototype.clone = function () {
 };
 
 RigidBodyComponent.prototype.api = {};
-
-module.exports = RigidBodyComponent;

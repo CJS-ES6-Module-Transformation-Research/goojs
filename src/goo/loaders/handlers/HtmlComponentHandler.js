@@ -1,7 +1,7 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var HtmlComponent = require('../../entities/components/HtmlComponent');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import HtmlComponent from "../../entities/components/HtmlComponent";
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
 
 'use strict';
 
@@ -13,7 +13,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @extends ComponentHandler
  * @hidden
  */
-function HtmlComponentHandler() {
+export default function HtmlComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'HtmlComponent';
 }
@@ -279,5 +279,3 @@ HtmlComponentHandler.prototype._remove = function (entity) {
 		component.domElement.parentNode.removeChild(component.domElement);
 	}
 };
-
-module.exports = HtmlComponentHandler;

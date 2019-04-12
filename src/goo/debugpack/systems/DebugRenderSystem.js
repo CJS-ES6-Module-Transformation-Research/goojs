@@ -1,13 +1,13 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var DebugDrawHelper = require('../../debugpack/DebugDrawHelper');
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
+import DebugDrawHelper from "../../debugpack/DebugDrawHelper";
 
 /**
  * Renders entities/renderables using a configurable partitioner for culling
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-function DebugRenderSystem() {
+export default function DebugRenderSystem() {
 	System.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
 	this._renderablesTree = {};
@@ -177,5 +177,3 @@ DebugRenderSystem.prototype.cleanup = function () {
 	SystemBus.removeListener('goo.setCurrentCamera', this.cameraListener);
 	SystemBus.removeListener('goo.setLights', this.lightsListener);
 };
-
-module.exports = DebugRenderSystem;

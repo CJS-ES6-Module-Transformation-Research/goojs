@@ -43,7 +43,7 @@
  * @property {number} version Version string
  * @property {number} shadingLanguageVersion Shadinglanguage version string
  */
-function Capabilities() {}
+export default function Capabilities() {}
 
 /**
  * Initialize capabilities from rendering context.
@@ -154,5 +154,3 @@ Capabilities.getCapabilitiesString = function () {
 	}
 	return caps.join('\n');
 };
-
-module.exports = Capabilities;

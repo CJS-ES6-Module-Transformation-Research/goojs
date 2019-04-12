@@ -1,14 +1,14 @@
-var MeshData = require('../renderer/MeshData');
-var Surface = require('../geometrypack/Surface');
-var Matrix3 = require('../math/Matrix3');
-var Vector3 = require('../math/Vector3');
+import MeshData from "../renderer/MeshData";
+import Surface from "../geometrypack/Surface";
+import Matrix3 from "../math/Matrix3";
+import Vector3 from "../math/Vector3";
 
 /**
  * A polygonal line
  * @param {Array<number>} [verts] The vertices data array
  * @param {boolean} [closed=false] True if its ends should be connected
  */
-function PolyLine(verts, closed) {
+export default function PolyLine(verts, closed) {
 	this.verts = verts;
 	this.closed = !!closed;
 
@@ -325,5 +325,3 @@ PolyLine.fromCubicSpline = function (verts, nSegments, closed) {
 		return ret;
 	}
 };
-
-module.exports = PolyLine;

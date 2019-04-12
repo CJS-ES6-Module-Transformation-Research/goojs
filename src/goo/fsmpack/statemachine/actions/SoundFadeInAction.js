@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var PromiseUtil = require('../../../util/PromiseUtil');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import PromiseUtil from "../../../util/PromiseUtil";
 
-function SoundFadeInAction(/*id, settings*/) {
+export default function SoundFadeInAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -70,5 +70,3 @@ SoundFadeInAction.prototype.enter = function (fsm) {
 		fsm.send(this.transitions.complete);
 	}.bind(this));
 };
-
-module.exports = SoundFadeInAction;

@@ -1,15 +1,15 @@
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-var StringUtils = require('../util/StringUtils');
-var RSVP = require('../util/rsvp');
+import TextureHandler from "../loaders/handlers/TextureHandler";
+import PromiseUtils from "../util/PromiseUtils";
+import ObjectUtils from "../util/ObjectUtils";
+import StringUtils from "../util/StringUtils";
+import RSVP from "../util/rsvp";
 
 /**
  * Ajax helper class
  * @param {string} rootPath
  * @param {Object} options
  */
-function Ajax(rootPath, options) {
+export default function Ajax(rootPath, options) {
 	if (rootPath) {
 		this._rootPath = rootPath;
 		if (rootPath.slice(-1) !== '/') {
@@ -352,5 +352,3 @@ Ajax.types.asset = addKeys(
 	Object.keys(Ajax.types.image)
 		.concat(Object.keys(Ajax.types.binary))
 );
-
-module.exports = Ajax;

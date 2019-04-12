@@ -1,5 +1,5 @@
-var Vector2 = require('../../math/Vector2');
-var ObjectUtil = require('../../util/ObjectUtil');
+import Vector2 from "../../math/Vector2";
+import ObjectUtil from "../../util/ObjectUtil";
 
 /**
  * Creates a new RenderTarget object
@@ -9,7 +9,7 @@ var ObjectUtil = require('../../util/ObjectUtil');
  * @param {number} height Height of rendertarget
  * @param {Object} options Options
  */
-function RenderTarget(width, height, options) {
+export default function RenderTarget(width, height, options) {
 	this.glTexture = null;
 	this._glRenderBuffer = null;
 	this._glFrameBuffer = null;
@@ -102,5 +102,3 @@ RenderTarget.prototype.destroy = function (context) {
 		this._glFrameBuffer = null;
 	}
 };
-
-module.exports = RenderTarget;

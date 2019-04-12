@@ -1,9 +1,9 @@
-var Vector = require('./Vector');
-var Vector3 = require('./Vector3');
-var Vector4 = require('./Vector4');
-var Matrix3 = require('./Matrix3');
-var MathUtils = require('./MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import Vector from "./Vector";
+import Vector3 from "./Vector3";
+import Vector4 from "./Vector4";
+import Matrix3 from "./Matrix3";
+import MathUtils from "./MathUtils";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * Quaternions provide a convenient mathematical notation for
@@ -16,7 +16,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {number} z
  * @param {number} w
  */
-function Quaternion(x, y, z, w) {
+export default function Quaternion(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
 	this._y = 0;
@@ -808,6 +808,3 @@ Quaternion.prototype.scalarDiv = ObjectUtils.warnOnce(
 		return Quaternion.scalarDiv(this, rhs, this);
 	}
 );
-
-// SHIM END
-module.exports = Quaternion;

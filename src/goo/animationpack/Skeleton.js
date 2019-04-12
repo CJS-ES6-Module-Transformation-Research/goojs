@@ -1,4 +1,4 @@
-var Joint = require('./Joint');
+import Joint from "./Joint";
 
 /**
  * Describes a collection of Joints. This class represents the hierarchy of a Skeleton and its original aspect (via the {@link Joint} class). This
@@ -6,7 +6,7 @@ var Joint = require('./Joint');
  * @param {string} name
  * @param {Array<Joint>} joints
  */
-function Skeleton(name, joints) {
+export default function Skeleton(name, joints) {
 	this.id = '';
 	this._name = name;
 	this._joints = joints;
@@ -30,5 +30,3 @@ Skeleton.prototype.clone = function () {
 	}
 	return new Skeleton(name, joints);
 };
-
-module.exports = Skeleton;

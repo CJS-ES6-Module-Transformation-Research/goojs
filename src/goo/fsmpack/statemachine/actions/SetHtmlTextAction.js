@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function SetHtmlTextAction(/*id, settings*/) {
+export default function SetHtmlTextAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -53,5 +53,3 @@ SetHtmlTextAction.prototype.enter = function (fsm) {
 		}
 	}
 };
-
-module.exports = SetHtmlTextAction;

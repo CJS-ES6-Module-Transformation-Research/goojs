@@ -1,7 +1,7 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-var Vector4 = require('./Vector4');
+import ObjectUtils from "../util/ObjectUtils";
+import MathUtils from "./MathUtils";
+import Vector from "./Vector";
+import Vector4 from "./Vector4";
 
 /**
  * Vector with 3 components.
@@ -18,7 +18,7 @@ var Vector4 = require('./Vector4');
  * // Methods return the self object and allows for chaining:
  * a.add(b).sub(c); // a = a + b - c
  */
-function Vector3(x, y, z) {
+export default function Vector3(x, y, z) {
 	// @ifdef DEBUG
 	this._x = 0;
 	this._y = 0;
@@ -1027,6 +1027,3 @@ Vector.addReturnChecks(Vector3.prototype, [
 	'length', 'lengthSquared',
 	'distance', 'distanceSquared'
 ]);
-// @endif
-
-module.exports = Vector3;

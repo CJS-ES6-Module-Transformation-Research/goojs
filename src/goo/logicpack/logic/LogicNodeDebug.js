@@ -1,12 +1,12 @@
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
+import LogicNode from "./LogicNode";
+import LogicNodes from "./LogicNodes";
+import LogicInterface from "./LogicInterface";
 
 /**
  * Logic node that writes output to the console.
  * @private
  */
-function LogicNodeDebug() {
+export default function LogicNodeDebug() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeDebug.logicInterface;
 	this.type = 'LogicNodeDebug';
@@ -29,5 +29,3 @@ LogicNodeDebug.inportEvent = LogicNodeDebug.logicInterface.addInputEvent('Event'
 LogicNodeDebug.inportFloat = LogicNodeDebug.logicInterface.addInputProperty('FloatValue', 'float', 0);
 
 LogicNodes.registerType('LogicNodeDebug', LogicNodeDebug);
-
-module.exports = LogicNodeDebug;

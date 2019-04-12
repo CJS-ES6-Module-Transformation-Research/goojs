@@ -1,15 +1,15 @@
-var Material = require('../renderer/Material');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ParticleLib = require('../particles/ParticleLib');
-var ParticleSystemUtils = require('../util/ParticleSystemUtils');
-var Renderer = require('../renderer/Renderer');
-var Vector3 = require('../math/Vector3');
+import Material from "../renderer/Material";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import ParticleLib from "../particles/ParticleLib";
+import ParticleSystemUtils from "../util/ParticleSystemUtils";
+import Renderer from "../renderer/Renderer";
+import Vector3 from "../math/Vector3";
 
 /**
  * Snow
  * @param {GooRunner} gooRunner
  */
-function Snow(gooRunner) {
+export default function Snow(gooRunner) {
 	this.velocity = 10;
 	this.height = 25;
 
@@ -92,5 +92,3 @@ Snow.prototype.remove = function () {
 	//SystemBus.removeListener('goo.setCurrentCamera', this.onCameraChange);
 	this.particleCloudEntity.removeFromWorld();
 };
-
-module.exports = Snow;

@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function SetAnimationAction(/*id, settings*/) {
+export default function SetAnimationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this._transitioned = false;
 	this._loopAtStart = null;
@@ -97,5 +97,3 @@ SetAnimationAction.prototype.exit = function () {
 	this._loopAtStart = null;
 	this._previousLoop = 0;
 };
-
-module.exports = SetAnimationAction;

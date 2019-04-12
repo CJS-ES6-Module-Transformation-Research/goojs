@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function KeyUpAction(/*id, settings*/) {
+export default function KeyUpAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -49,5 +49,3 @@ KeyUpAction.prototype.enter = function (fsm) {
 KeyUpAction.prototype.exit = function () {
 	document.removeEventListener('keyup', this.eventListener);
 };
-
-module.exports = KeyUpAction;

@@ -1,11 +1,11 @@
-var MeshData = require('../../../renderer/MeshData');
+import MeshData from "../../../renderer/MeshData";
 
 /**
  * A wireframe mesh indicating the position and orientation of a CylinderCollider.
  * @param {number} [numSegments=32]
  * @extends MeshData
  */
-function PhysicsCylinderDebugShape(numSegments) {
+export default function PhysicsCylinderDebugShape(numSegments) {
 	numSegments = numSegments || 32;
 	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
 	this.numSegments = numSegments;
@@ -13,6 +13,7 @@ function PhysicsCylinderDebugShape(numSegments) {
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
+
 PhysicsCylinderDebugShape.prototype = Object.create(MeshData.prototype);
 PhysicsCylinderDebugShape.prototype.constructor = PhysicsCylinderDebugShape;
 
@@ -66,5 +67,3 @@ PhysicsCylinderDebugShape.prototype.rebuild = function () {
 
 	return this;
 };
-
-module.exports = PhysicsCylinderDebugShape;

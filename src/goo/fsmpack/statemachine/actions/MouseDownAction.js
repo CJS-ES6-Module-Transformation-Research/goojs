@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function MouseDownAction(/*id, settings*/) {
+export default function MouseDownAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -69,5 +69,3 @@ MouseDownAction.prototype.exit = function () {
 	document.removeEventListener('mousedown', this.mouseEventListener);
 	document.removeEventListener('touchstart', this.touchEventListener);
 };
-
-module.exports = MouseDownAction;

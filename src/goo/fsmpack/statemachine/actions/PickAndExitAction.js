@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function PickAndExitAction(/*id, settings*/) {
+export default function PickAndExitAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.eventListener = function (event) {
@@ -99,5 +99,3 @@ PickAndExitAction.prototype.exit = function () {
 		this.domElement.removeEventListener('touchend', this.eventListener);
 	}
 };
-
-module.exports = PickAndExitAction;

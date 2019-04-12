@@ -1,15 +1,15 @@
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var Material = require('../../renderer/Material');
-var MathUtils = require('../../math/MathUtils');
-var Vector3 = require('../../math/Vector3');
-var Transform = require('../../math/Transform');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Quad = require('../../shapes/Quad');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
+import MeshDataComponent from "../../entities/components/MeshDataComponent";
+import Material from "../../renderer/Material";
+import MathUtils from "../../math/MathUtils";
+import Vector3 from "../../math/Vector3";
+import Transform from "../../math/Transform";
+import MeshData from "../../renderer/MeshData";
+import Shader from "../../renderer/Shader";
+import MeshBuilder from "../../util/MeshBuilder";
+import Quad from "../../shapes/Quad";
+import ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
 
-function Vegetation() {
+export default function Vegetation() {
 	this.calcVec = new Vector3();
 	this.initDone = false;
 }
@@ -412,5 +412,3 @@ var vegetationShader = {
 		].join('\n');
 	}
 };
-
-module.exports = Vegetation;

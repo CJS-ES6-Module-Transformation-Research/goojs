@@ -1,16 +1,16 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var ScriptComponent = require('../entities/components/ScriptComponent');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var SystemBus = require('../entities/SystemBus');
-var Scripts = require('../scripts/Scripts');
-var ScriptUtils = require('../scripts/ScriptUtils');
+import ComponentHandler from "../loaders/handlers/ComponentHandler";
+import ScriptComponent from "../entities/components/ScriptComponent";
+import RSVP from "../util/rsvp";
+import ObjectUtils from "../util/ObjectUtils";
+import PromiseUtils from "../util/PromiseUtils";
+import SystemBus from "../entities/SystemBus";
+import Scripts from "../scripts/Scripts";
+import ScriptUtils from "../scripts/ScriptUtils";
 
 /**
  * @hidden
  */
-function ScriptComponentHandler() {
+export default function ScriptComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'ScriptComponent';
 }
@@ -312,5 +312,3 @@ ScriptComponentHandler.prototype._setParameter = function (parameters, config, e
 		return setParam(ObjectUtils.clone(config));
 	}
 };
-
-module.exports = ScriptComponentHandler;

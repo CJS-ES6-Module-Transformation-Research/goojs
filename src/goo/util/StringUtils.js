@@ -1,7 +1,7 @@
 /**
  * Provides string manipulation methods
  */
-function StringUtils() {}
+export default function StringUtils() {}
 
 StringUtils.endsWith = function (str, suffix) {
 	return str.indexOf(suffix, str.length - suffix.length) !== -1;
@@ -231,5 +231,3 @@ StringUtils.parseURL = function (uri) {
 		'fragment': split[7]
 	};
 };
-
-module.exports = StringUtils;

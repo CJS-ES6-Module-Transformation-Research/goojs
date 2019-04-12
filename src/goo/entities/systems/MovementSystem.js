@@ -1,4 +1,4 @@
-var System = require('../../entities/systems/System');
+import System from "../../entities/systems/System";
 
 //! AT: unused; should be removed
 /**
@@ -7,7 +7,7 @@ var System = require('../../entities/systems/System');
  * to the transform of the entity which has it every frame.
  * @extends System
  */
-function MovementSystem() {
+export default function MovementSystem() {
 	System.call(this, 'MovementSystem', ['MovementComponent']);
 }
 
@@ -39,5 +39,3 @@ MovementSystem.prototype.process = function (entities) {
 		this.applyMovementToEntity(entities[i]);
 	}
 };
-
-module.exports = MovementSystem;

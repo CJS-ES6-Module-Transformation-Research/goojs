@@ -1,10 +1,8 @@
+import * as esprima from "../lib/esprima";
+import estraverse from "estraverse";
+import * as util from "./util";
 // jshint node:true
 'use strict';
-
-var esprima = require('../lib/esprima');
-var estraverse = require('estraverse');
-
-var util = require('./util');
 
 
 var getFirstJSDoc = function (comments) {
@@ -198,7 +196,7 @@ var extractTree = function (tree, fileName, options) {
 	};
 };
 
-var extract = function (source, file, options) {
+export var extract = function (source, file, options) {
 	options = options || {};
 	options.nameFilter = function (name) {
 		return name[0] !== '_'; // skip 'private' methods
@@ -211,5 +209,3 @@ var extract = function (source, file, options) {
 
 	return extractTree(tree, fileName, options);
 };
-
-exports.extract = extract;

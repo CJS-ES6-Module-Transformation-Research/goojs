@@ -19,7 +19,7 @@
  * var vector = vectorPool.get(1, 2, 3);
  * vectorPool.release(vector);
  */
-function Pool(settings) {
+export default function Pool(settings) {
 	settings = settings || {};
 
 	/**
@@ -87,5 +87,3 @@ Pool.prototype.release = function (object) {
 	this._objects.push(object);
 	return this;
 };
-
-module.exports = Pool;

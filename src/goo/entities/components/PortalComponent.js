@@ -1,5 +1,5 @@
-var Component = require('../../entities/components/Component');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
+import Component from "../../entities/components/Component";
+import RenderTarget from "../../renderer/pass/RenderTarget";
 
 /**
  * Renders to the texture of the host object<br>
@@ -12,7 +12,7 @@ var RenderTarget = require('../../renderer/pass/RenderTarget');
  * @param {Material} [overrideMaterial=null] Optional override material to use when rendering to the host object
  * @extends Component
  */
-function PortalComponent(camera, height, options, overrideMaterial) {
+export default function PortalComponent(camera, height, options, overrideMaterial) {
 	Component.apply(this, arguments);
 
 	height = height || 200;
@@ -59,5 +59,3 @@ PortalComponent.prototype.constructor = PortalComponent;
 PortalComponent.prototype.requestUpdate = function () {
 	this.doUpdate = true;
 };
-
-module.exports = PortalComponent;

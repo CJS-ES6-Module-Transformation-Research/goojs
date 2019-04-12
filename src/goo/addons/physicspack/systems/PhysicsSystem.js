@@ -1,9 +1,9 @@
-var AbstractPhysicsSystem = require('../../../addons/physicspack/systems/AbstractPhysicsSystem');
-var RaycastResult = require('../../../addons/physicspack/RaycastResult');
-var RigidBodyComponent = require('../../../addons/physicspack/components/RigidBodyComponent');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var Transform = require('../../../math/Transform');
+import AbstractPhysicsSystem from "../../../addons/physicspack/systems/AbstractPhysicsSystem";
+import RaycastResult from "../../../addons/physicspack/RaycastResult";
+import RigidBodyComponent from "../../../addons/physicspack/components/RigidBodyComponent";
+import Vector3 from "../../../math/Vector3";
+import Quaternion from "../../../math/Quaternion";
+import Transform from "../../../math/Transform";
 
 /* global CANNON */
 
@@ -20,7 +20,7 @@ var tmpTransform = new Transform();
  * @param {Object} [settings]
  * @param {Vector3} [settings.gravity]
  */
-function PhysicsSystem(settings) {
+export default function PhysicsSystem(settings) {
 	settings = settings || {};
 
 	/**
@@ -479,5 +479,3 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 		transformComponent.setUpdated();
 	}
 };
-
-module.exports = PhysicsSystem;

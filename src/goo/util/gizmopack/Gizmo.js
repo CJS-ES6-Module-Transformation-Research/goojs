@@ -1,17 +1,17 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Material = require('../../renderer/Material');
-var Renderer = require('../../renderer/Renderer');
-var Transform = require('../../math/Transform');
-var Plane = require('../../math/Plane');
-var Vector3 = require('../../math/Vector3');
-var Camera = require('../../renderer/Camera');
-var MathUtils = require('../../math/MathUtils');
+import MeshData from "../../renderer/MeshData";
+import Shader from "../../renderer/Shader";
+import Material from "../../renderer/Material";
+import Renderer from "../../renderer/Renderer";
+import Transform from "../../math/Transform";
+import Plane from "../../math/Plane";
+import Vector3 from "../../math/Vector3";
+import Camera from "../../renderer/Camera";
+import MathUtils from "../../math/MathUtils";
 
 /**
  * @hidden
  */
-function Gizmo(name) {
+export default function Gizmo(name) {
 	this.name = name;
 
 	this._plane = new Plane();
@@ -290,5 +290,3 @@ var SHADER_DEF = {
 		'}'
 	].join('\n')
 };
-
-module.exports = Gizmo;

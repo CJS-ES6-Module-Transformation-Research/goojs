@@ -1,12 +1,12 @@
-var MeshData = require('../renderer/MeshData');
-var MathUtils = require('../math/MathUtils');
+import MeshData from "../renderer/MeshData";
+import MathUtils from "../math/MathUtils";
 
 /**
  * A grid-like surface shape
  * @param {Array<number>} verts The vertices data array
  * @param {number} [verticesPerLine=2] The number of vertices
  */
-function Surface(verts, vertsPerLine, verticallyClosed) {
+export default function Surface(verts, vertsPerLine, verticallyClosed) {
 	this.verts = verts;
 	this.vertsPerLine = vertsPerLine || 2;
 	this.verticallyClosed = !!verticallyClosed;
@@ -206,5 +206,3 @@ Surface.createTessellatedFlat = function (xSize, zSize, xCount, zCount) {
 
 	return new Surface(verts, xCount);
 };
-
-module.exports = Surface;

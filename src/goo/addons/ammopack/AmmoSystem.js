@@ -1,5 +1,4 @@
-var System = require('../../entities/systems/System');
-
+import System from "../../entities/systems/System";
 
 /*global Ammo */
 
@@ -19,7 +18,7 @@ var System = require('../../entities/systems/System');
  * var ammoSystem = new AmmoSystem({stepFrequency: 60});
  * goo.world.setSystem(ammoSystem);
  */
-function AmmoSystem(settings) {
+export default function AmmoSystem(settings) {
 	System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
 	this.settings = settings || {};
 	this.fixedTime = 1 / (this.settings.stepFrequency || 60);
@@ -63,5 +62,3 @@ AmmoSystem.prototype.process = function (entities, tpf) {
 		}
 	}
 };
-
-module.exports = AmmoSystem;

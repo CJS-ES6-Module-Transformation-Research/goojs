@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function RemoveLightAction(/*id, settings*/) {
+export default function RemoveLightAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -22,5 +22,3 @@ RemoveLightAction.prototype.enter = function (fsm) {
 		entity.clearComponent('LightComponent');
 	}
 };
-
-module.exports = RemoveLightAction;

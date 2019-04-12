@@ -1,12 +1,12 @@
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
+import LogicNode from "./LogicNode";
+import LogicNodes from "./LogicNodes";
+import LogicInterface from "./LogicInterface";
 
 /**
  * Logic node that lets you access the logic layer of a different entity.
  * @private
  */
-function LogicNodeEntityProxy() {
+export default function LogicNodeEntityProxy() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeEntityProxy.logicInterface;
 	this.type = 'LogicNodeEntityProxy';
@@ -28,5 +28,3 @@ LogicNodeEntityProxy.logicInterface.addConfigEntry({
 });
 
 LogicNodes.registerType('LogicNodeEntityProxy', LogicNodeEntityProxy);
-
-module.exports = LogicNodeEntityProxy;

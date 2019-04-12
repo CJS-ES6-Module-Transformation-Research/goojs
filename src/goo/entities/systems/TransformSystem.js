@@ -1,4 +1,4 @@
-var System = require('../../entities/systems/System');
+import System from "../../entities/systems/System";
 
 // has to stay here because it's used by traverseFunc below
 // it's pretty crappy how it's sprinkled over the code
@@ -9,7 +9,7 @@ var numUpdates;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
  * @extends System
  */
-function TransformSystem() {
+export default function TransformSystem() {
 	System.call(this, 'TransformSystem', ['TransformComponent']);
 	this.numUpdates = 0;
 }
@@ -53,5 +53,3 @@ function traverseFunc(entity) {
 		}
 	}
 }
-
-module.exports = TransformSystem;

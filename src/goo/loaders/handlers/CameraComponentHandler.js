@@ -1,7 +1,7 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var CameraComponent = require('../../entities/components/CameraComponent');
-var Camera = require('../../renderer/Camera');
-var ObjectUtils = require('../../util/ObjectUtils');
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import CameraComponent from "../../entities/components/CameraComponent";
+import Camera from "../../renderer/Camera";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /**
  * For handling loading of camera components
@@ -11,7 +11,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @extends ComponentHandler
  * @hidden
  */
-function CameraComponentHandler() {
+export default function CameraComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'CameraComponent';
 }
@@ -81,5 +81,3 @@ CameraComponentHandler.prototype.update = function (entity, config, options) {
 		return component;
 	});
 };
-
-module.exports = CameraComponentHandler;

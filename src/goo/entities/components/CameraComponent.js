@@ -1,14 +1,14 @@
-var Component = require('../../entities/components/Component');
-var Vector3 = require('../../math/Vector3');
-var Camera = require('../../renderer/Camera');
-var SystemBus = require('../../entities/SystemBus');
+import Component from "../../entities/components/Component";
+import Vector3 from "../../math/Vector3";
+import Camera from "../../renderer/Camera";
+import SystemBus from "../../entities/SystemBus";
 
 /**
  * Holds a camera.
  * @param {Camera} camera Camera to contain in this component.
  * @extends Component
  */
-function CameraComponent(camera) {
+export default function CameraComponent(camera) {
 	Component.apply(this, arguments);
 
 	this.type = 'CameraComponent';
@@ -145,5 +145,3 @@ CameraComponent.applyOnEntity = function (obj, entity) {
 		return true;
 	}
 };
-
-module.exports = CameraComponent;

@@ -1,5 +1,5 @@
-var TransformChannel = require('../../animationpack/clip/TransformChannel');
-var JointData = require('../../animationpack/clip/JointData');
+import TransformChannel from "../../animationpack/clip/TransformChannel";
+import JointData from "../../animationpack/clip/JointData";
 
 /**
  * Transform animation channel, specifically geared towards describing the motion of skeleton joints.
@@ -10,7 +10,7 @@ var JointData = require('../../animationpack/clip/JointData');
  * @param {Array<number>} translations the translations to set on this channel at each time offset.
  * @param {Array<number>} scales the scales to set on this channel at each time offset.
  */
-function JointChannel(jointIndex, jointName, times, rotations, translations, scales, blendType) {
+export default function JointChannel(jointIndex, jointName, times, rotations, translations, scales, blendType) {
 	TransformChannel.call(this, jointName, times, rotations, translations, scales, blendType);
 
 	this._jointName = jointName; // Joint has a name even though index is used for id, this can be used for debugging purposes.
@@ -57,5 +57,3 @@ JointChannel.prototype.getData = function (index, store) {
 	rVal._jointIndex = this._jointIndex;
 	return rVal;
 };
-
-module.exports = JointChannel;

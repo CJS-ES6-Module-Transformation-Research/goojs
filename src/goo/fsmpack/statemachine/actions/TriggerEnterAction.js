@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import SystemBus from "../../../entities/SystemBus";
 
-function TriggerEnterAction(/*id, settings*/) {
+export default function TriggerEnterAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this.entity = null;
 }
@@ -43,5 +43,3 @@ TriggerEnterAction.prototype.exit = function (/*fsm*/) {
 	SystemBus.removeListener('goo.physics.triggerEnter', this.listener);
 	this.entity = null;
 };
-
-module.exports = TriggerEnterAction;

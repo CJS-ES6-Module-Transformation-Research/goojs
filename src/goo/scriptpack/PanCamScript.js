@@ -1,9 +1,9 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var SystemBus = require('../entities/SystemBus');
-var Camera = require('../renderer/Camera');
+import Vector3 from "../math/Vector3";
+import Renderer from "../renderer/Renderer";
+import SystemBus from "../entities/SystemBus";
+import Camera from "../renderer/Camera";
 
-function PanCamScript() {
+export default function PanCamScript() {
 	var fwdVector, leftVector, calcVector, calcVector2;
 	var lookAtPoint;
 	var mouseState;
@@ -277,5 +277,3 @@ PanCamScript.externals = {
 		description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
 	}*/]
 };
-
-module.exports = PanCamScript;

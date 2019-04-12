@@ -1,11 +1,11 @@
-var Vector3 = require('../math/Vector3');
+import Vector3 from "../math/Vector3";
 
 /**
  * The RenderQueue handles sorting of entities. Entities are ordered by their renderQueue value into buckets.
  * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
  * back to front.
  */
-function RenderQueue() {
+export default function RenderQueue() {
 	this.opaqueSorter = function (a, b) {
 		var shader1 = a.meshRendererComponent.materials[0].shader;
 		var shader2 = b.meshRendererComponent.materials[0].shader;
@@ -121,5 +121,3 @@ RenderQueue.TRANSPARENT = 2000;
  * @default
  */
 RenderQueue.OVERLAY = 3000;
-
-module.exports = RenderQueue;

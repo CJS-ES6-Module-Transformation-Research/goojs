@@ -1,7 +1,7 @@
-var Vector3 = require('../math/Vector3');
-var ScriptUtils = require('../scripts/ScriptUtils');
+import Vector3 from "../math/Vector3";
+import ScriptUtils from "../scripts/ScriptUtils";
 
-function WasdControlScript() {
+export default function WasdControlScript() {
 	var entity, transformComponent, transform;
 	var _parameters;
 
@@ -210,5 +210,3 @@ WasdControlScript.externals = {
 		exponential: true
 	}]
 };
-
-module.exports = WasdControlScript;

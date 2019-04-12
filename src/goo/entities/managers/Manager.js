@@ -1,7 +1,7 @@
 /**
  * Base class for managers.
  */
-function Manager() {
+export default function Manager() {
 	this.installedAPI = {};
 }
 
@@ -16,5 +16,3 @@ Manager.prototype.applyAPI = function (worldBy) {
 		}
 	}
 };
-
-module.exports = Manager;

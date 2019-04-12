@@ -1,9 +1,9 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Pass = require('../renderer/pass/Pass');
+import Material from "../renderer/Material";
+import FullscreenUtils from "../renderer/pass/FullscreenUtils";
+import RenderTarget from "../renderer/pass/RenderTarget";
+import ObjectUtils from "../util/ObjectUtils";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import Pass from "../renderer/pass/Pass";
 
 /**
  * <pre>
@@ -16,7 +16,7 @@ var Pass = require('../renderer/pass/Pass');
  * }
  * </pre>
  */
-function BlurPass(settings) {
+export default function BlurPass(settings) {
 	settings = settings || {};
 
 	this.target = settings.target !== undefined ? settings.target : null;
@@ -117,5 +117,3 @@ BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 		renderer.render(this.renderable, FullscreenUtils.camera, [], readBuffer, this.clear);
 	}
 };
-
-module.exports = BlurPass;

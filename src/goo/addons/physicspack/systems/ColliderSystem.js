@@ -1,14 +1,15 @@
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
+import System from "../../../entities/systems/System";
+import SystemBus from "../../../entities/SystemBus";
 
 /**
  * Processes all entities with collider components, making sure they are up to date.
  * @extends System
  */
-function ColliderSystem() {
+export default function ColliderSystem() {
 	System.call(this, 'ColliderSystem', ['ColliderComponent', 'TransformComponent']);
 	this.priority = 1; // Should be processed after TransformSystem
 }
+
 ColliderSystem.prototype = Object.create(System.prototype);
 ColliderSystem.prototype.constructor = ColliderSystem;
 
@@ -50,5 +51,3 @@ ColliderSystem.prototype.removedComponent = function (entity, component) {
 		component: component
 	});
 };
-
-module.exports = ColliderSystem;

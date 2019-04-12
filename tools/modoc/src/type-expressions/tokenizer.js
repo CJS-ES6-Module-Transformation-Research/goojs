@@ -1,7 +1,7 @@
 // jshint node:true
 'use strict';
 
-var makeToken = function (type, data) {
+export var makeToken = function (type, data) {
 	var token = { type: type };
 	if (data) { token.data = data; }
 	return token;
@@ -43,7 +43,7 @@ var choppers = [
 	{ test: isSymbol, chop: chopSymbol }
 ];
 
-var tokenize = function (string) {
+export var tokenize = function (string) {
 	var tokens = [];
 	var pointer = 0;
 
@@ -68,6 +68,3 @@ var tokenize = function (string) {
 
 	return tokens;
 };
-
-exports._makeToken = makeToken;
-exports.tokenize = tokenize;

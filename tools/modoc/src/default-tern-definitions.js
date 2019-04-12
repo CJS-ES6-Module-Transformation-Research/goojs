@@ -1,4 +1,4 @@
-module.exports = {
+export default {
 	"Context": {
 		"!type": "fn()",
 		"!url": "http://goocreate.com/learn/the-ctx-object/",
@@ -47,4 +47,4 @@ module.exports = {
 		"!url": "http://goocreate.com/learn/parameters/",
 		"!doc": "To define custom parameters in a Create script, the parameter array and the args object are used."
 	}
-};
+};;

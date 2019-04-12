@@ -1,7 +1,7 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var Dom3dComponent = require('../../entities/components/Dom3dComponent');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import Dom3dComponent from "../../entities/components/Dom3dComponent";
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * For handling loading of Dom3d components
@@ -11,7 +11,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @extends ComponentHandler
  * @hidden
  */
-function Dom3dComponentHandler() {
+export default function Dom3dComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'Dom3dComponent';
 }
@@ -144,5 +144,3 @@ Dom3dComponentHandler.prototype._remove = function (entity) {
 	}
 	component.destroy(this.world.gooRunner.renderer.context);
 };
-
-module.exports = Dom3dComponentHandler;

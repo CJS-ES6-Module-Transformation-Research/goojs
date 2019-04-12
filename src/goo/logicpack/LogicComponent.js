@@ -1,12 +1,12 @@
-var LogicLayer = require('./logic/LogicLayer');
-var LogicNodes = require('./logic/LogicNodes');
-var Component = require('../entities/components/Component');
+import LogicLayer from "./logic/LogicLayer";
+import LogicNodes from "./logic/LogicNodes";
+import Component from "../entities/components/Component";
 
 /**
  * A component that embeds a LogicLayer and processes it every frame.
  * @private
  */
-function LogicComponent(entity) {
+export default function LogicComponent(entity) {
 	Component.call(this);
 
 	this.type = 'LogicComponent';
@@ -51,5 +51,3 @@ LogicComponent.prototype.process = function (tpf) {
 		this.logicLayer.process(tpf);
 	}
 };
-
-module.exports = LogicComponent;

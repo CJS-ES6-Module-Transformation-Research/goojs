@@ -1,14 +1,14 @@
-var ParticleUtils = require('../particles/ParticleUtils');
-var Vector3 = require('../math/Vector3');
-var Vector4 = require('../math/Vector4');
-var MeshData = require('../renderer/MeshData');
+import ParticleUtils from "../particles/ParticleUtils";
+import Vector3 from "../math/Vector3";
+import Vector4 from "../math/Vector4";
+import MeshData from "../renderer/MeshData";
 
 var calcVec = new Vector3();
 
 /**
  * Data object tracking a single particle in a particle component
  */
-function Particle(particleComponent, index) {
+export default function Particle(particleComponent, index) {
 	this.alive = false;
 	this.position = new Vector3();
 	this.velocity = new Vector3();
@@ -180,5 +180,3 @@ Particle.prototype.kill = function () {
 	vertexBuffer.set(pointA, this.index * 12 + 6);
 	vertexBuffer.set(pointA, this.index * 12 + 9);
 };
-
-module.exports = Particle;

@@ -1,9 +1,9 @@
-var Camera = require('../renderer/Camera');
+import Camera from "../renderer/Camera";
 
 /**
  * Culls entities based on camera frustum and boundings
  */
-function SimplePartitioner() {
+export default function SimplePartitioner() {
 }
 
 SimplePartitioner.prototype.added = function () {
@@ -40,5 +40,3 @@ SimplePartitioner.prototype.process = function (camera, entities, renderList) {
 	}
 	renderList.length = index;
 };
-
-module.exports = SimplePartitioner;

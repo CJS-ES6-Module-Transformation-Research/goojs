@@ -1,4 +1,4 @@
-var MathUtils = require('../../math/MathUtils');
+import MathUtils from "../../math/MathUtils";
 
 /**
  * Base class for animation channels. An animation channel describes a single element of an animation (such as the movement of a single
@@ -8,7 +8,7 @@ var MathUtils = require('../../math/MathUtils');
  * @param {string} blendType the blendtype between transform keyframes of the channel. Defaults to AbstractAnimationChannel.BLENDTYPES.LINEAR
  * @private
  */
-function AbstractAnimationChannel(channelName, times, blendType) {
+export default function AbstractAnimationChannel(channelName, times, blendType) {
 	this._blendType = blendType || AbstractAnimationChannel.BLENDTYPES.LINEAR;
 	this._channelName = channelName;
 
@@ -92,5 +92,3 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
 		this._lastStartFrame = startFrame;
 	}
 };
-
-module.exports = AbstractAnimationChannel;

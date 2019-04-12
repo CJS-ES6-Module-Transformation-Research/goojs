@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function SetPositionAction(/*id, settings*/) {
+export default function SetPositionAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -62,5 +62,3 @@ SetPositionAction.prototype.update = function (fsm) {
 		this.entity.transformComponent.setUpdated();
 	}
 };
-
-module.exports = SetPositionAction;

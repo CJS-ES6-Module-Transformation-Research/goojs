@@ -5,7 +5,7 @@
  * @param {string} [options.type]
  * @param {number} [options.timeOffset=0]
  */
-function Curve(options) {
+export default function Curve(options) {
 	options = options || {};
 
 	/**
@@ -81,5 +81,3 @@ Curve.prototype = {
 		return new this.constructor(this);
 	}
 };
-
-module.exports = Curve;

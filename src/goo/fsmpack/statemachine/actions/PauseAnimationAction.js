@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function PauseAnimationAction(/*id, settings*/) {
+export default function PauseAnimationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -34,5 +34,3 @@ PauseAnimationAction.prototype.enter = function (fsm) {
 		}
 	}
 };
-
-module.exports = PauseAnimationAction;

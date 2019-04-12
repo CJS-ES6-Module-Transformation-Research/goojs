@@ -1,5 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+import MeshData from "../renderer/MeshData";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * A disk shape
@@ -9,7 +9,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {number} [radius=1] Radius of the disk
  * @param {number} [pointiness=0] The center of the disk can be offset in both directions from its outer edge by setting a positive or negative pointiness.
  */
-function Disk(nSegments, radius, pointiness) {
+export default function Disk(nSegments, radius, pointiness) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		nSegments = props.nSegments;
@@ -84,5 +84,3 @@ Disk.prototype.clone = function () {
 
 	return new Disk(options);
 };
-
-module.exports = Disk;

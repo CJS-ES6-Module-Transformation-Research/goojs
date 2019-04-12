@@ -1,11 +1,11 @@
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
+import Vector3 from "../math/Vector3";
+import MathUtils from "../math/MathUtils";
 
 /**
  * Axis aligned camera control script
  * @returns {{setup: setup, update: update, cleanup: cleanup}}
  */
-function AxisAlignedCamControlScript() {
+export default function AxisAlignedCamControlScript() {
 	function setup(params, env) {
 		// Look axis
 		env.axis = Vector3.UNIT_Z.clone();
@@ -92,5 +92,3 @@ AxisAlignedCamControlScript.externals = {
 		options: ['XY', 'ZY']
 	}]
 };
-
-module.exports = AxisAlignedCamControlScript;

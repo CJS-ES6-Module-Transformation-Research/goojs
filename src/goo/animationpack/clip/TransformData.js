@@ -1,11 +1,11 @@
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
+import Quaternion from "../../math/Quaternion";
+import Vector3 from "../../math/Vector3";
 
 /**
  * Describes a relative transform as a Quaternion-Vector-Vector tuple. We use QVV to make it simpler to do LERP blending.
  * @param {TransformData} [source] source to copy.
  */
-function TransformData(source) {
+export default function TransformData(source) {
 	this._rotation = new Quaternion().copy(source ? source._rotation : Quaternion.IDENTITY);
 	this._scale = new Vector3().copy(source ? source._scale : Vector3.ONE);
 	this._translation = new Vector3().copy(source ? source._translation : Vector3.ZERO);
@@ -50,5 +50,3 @@ TransformData.prototype.blend = function (blendTo, blendWeight, store) {
 	Quaternion.slerp(this._rotation, blendTo._rotation, blendWeight, tData._rotation);
 	return tData;
 };
-
-module.exports = TransformData;

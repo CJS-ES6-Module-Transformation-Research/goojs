@@ -1,9 +1,9 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var RenderQueue = require('../../renderer/RenderQueue');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import Material from "../../renderer/Material";
+import ShaderLib from "../../renderer/shaders/ShaderLib";
+import RenderQueue from "../../renderer/RenderQueue";
+import RSVP from "../../util/rsvp";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /**
  * Handler for loading materials into engine
@@ -13,7 +13,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @param {Function} updateObject
  * @private
  */
-function MaterialHandler() {
+export default function MaterialHandler() {
 	ConfigHandler.apply(this, arguments);
 }
 
@@ -181,5 +181,3 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 		});
 	});
 };
-
-module.exports = MaterialHandler;

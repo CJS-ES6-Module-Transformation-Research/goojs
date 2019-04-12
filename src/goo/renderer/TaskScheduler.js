@@ -1,4 +1,4 @@
-var PromiseUtils = require('../util/PromiseUtils');
+import PromiseUtils from "../util/PromiseUtils";
 
 var performance = typeof(window) !== 'undefined' ? window.performance : {};
 
@@ -13,7 +13,7 @@ performance.now = (
 	}
 );
 
-function TaskScheduler() {}
+export default function TaskScheduler() {}
 
 TaskScheduler.maxTimePerFrame = 50;
 
@@ -41,5 +41,3 @@ TaskScheduler.each = function (queue) {
 		process();
 	});
 };
-
-module.exports = TaskScheduler;

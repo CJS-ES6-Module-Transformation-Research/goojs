@@ -1,6 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var Capabilities = require('../renderer/Capabilities');
-var Vector3 = require('../math/Vector3');
+import MeshData from "../renderer/MeshData";
+import Capabilities from "../renderer/Capabilities";
+import Vector3 from "../math/Vector3";
 
 /**
  * Combines the MeshData of passed-in entities into one new MeshData. This can be useful to reduce draw calls.
@@ -25,7 +25,7 @@ var Vector3 = require('../math/Vector3');
  * goo.world.createEntity( meshData, new Material(ShaderLib.simpleLit)).addToWorld();
 
  */
-function MeshBuilder() {
+export default function MeshBuilder() {
 	this.meshDatas = [];
 
 	this.vertexData = {};
@@ -221,5 +221,3 @@ MeshBuilder.prototype.reset = function () {
 	this.indexLengths = [];
 	this.indexModes = [];
 };
-
-module.exports = MeshBuilder;

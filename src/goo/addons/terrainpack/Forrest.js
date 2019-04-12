@@ -1,18 +1,18 @@
-var Material = require('../../renderer/Material');
-var Vector3 = require('../../math/Vector3');
-var Transform = require('../../math/Transform');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var MeshBuilder = require('../../util/MeshBuilder');
-var DynamicLoader = require('../../loaders/DynamicLoader');
-var EntityUtils = require('../../entities/EntityUtils');
-var EntityCombiner = require('../../util/combine/EntityCombiner');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var MathUtils = require('../../math/MathUtils');
-var RSVP = require('../../util/rsvp');
+import Material from "../../renderer/Material";
+import Vector3 from "../../math/Vector3";
+import Transform from "../../math/Transform";
+import MeshData from "../../renderer/MeshData";
+import Shader from "../../renderer/Shader";
+import MeshBuilder from "../../util/MeshBuilder";
+import DynamicLoader from "../../loaders/DynamicLoader";
+import EntityUtils from "../../entities/EntityUtils";
+import EntityCombiner from "../../util/combine/EntityCombiner";
+import MeshDataComponent from "../../entities/components/MeshDataComponent";
+import ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
+import MathUtils from "../../math/MathUtils";
+import RSVP from "../../util/rsvp";
 
-function Forrest() {
+export default function Forrest() {
 	this.calcVec = new Vector3();
 	this.initDone = false;
 }
@@ -459,5 +459,3 @@ var vegetationShader = {
 	].join('\n');
 	}
 };
-
-module.exports = Forrest;

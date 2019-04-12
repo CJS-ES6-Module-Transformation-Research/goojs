@@ -1,10 +1,10 @@
-var TransformData = require('../../animationpack/clip/TransformData');
+import TransformData from "../../animationpack/clip/TransformData";
 
 /**
  * Describes transform of a joint.
  * @param {JointData} [source] source to copy
  */
-function JointData(source) {
+export default function JointData(source) {
 	TransformData.call(this, source);
 	this._jointIndex = source ? source._jointIndex : 0;
 }
@@ -42,5 +42,3 @@ JointData.prototype.blend = function (blendTo, blendWeight, store) {
 JointData.prototype.clone = function () {
 	return new JointData(this);
 };
-
-module.exports = JointData;

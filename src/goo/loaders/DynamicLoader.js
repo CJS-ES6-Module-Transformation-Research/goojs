@@ -1,31 +1,29 @@
-var ConfigHandler = require('./handlers/ConfigHandler');
-var Ajax = require('../util/Ajax');
-var RSVP = require('../util/rsvp');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var ArrayUtils = require('../util/ArrayUtils');
-var ShapeCreatorMemoized = require('../util/ShapeCreatorMemoized');
-
-// Todo: should these really be included here?
-require('./handlers/ComponentHandler');
-require('./handlers/CameraComponentHandler');
-require('./handlers/EntityHandler');
-require('./handlers/JsonHandler');
-require('./handlers/LightComponentHandler');
-require('./handlers/MaterialHandler');
-require('./handlers/MeshDataComponentHandler');
-require('./handlers/MeshDataHandler');
-require('./handlers/MeshRendererComponentHandler');
-require('./handlers/SceneHandler');
-require('./handlers/ShaderHandler');
-require('./handlers/TextureHandler');
-require('./handlers/TransformComponentHandler');
-require('./handlers/ProjectHandler');
-require('./handlers/SoundComponentHandler');
-require('./handlers/SoundHandler');
-require('./handlers/EnvironmentHandler');
-require('./handlers/SkyboxHandler');
-require('./handlers/HtmlComponentHandler');
+import ConfigHandler from "./handlers/ConfigHandler";
+import Ajax from "../util/Ajax";
+import RSVP from "../util/rsvp";
+import StringUtils from "../util/StringUtils";
+import PromiseUtils from "../util/PromiseUtils";
+import ArrayUtils from "../util/ArrayUtils";
+import ShapeCreatorMemoized from "../util/ShapeCreatorMemoized";
+import "./handlers/ComponentHandler";
+import "./handlers/CameraComponentHandler";
+import "./handlers/EntityHandler";
+import "./handlers/JsonHandler";
+import "./handlers/LightComponentHandler";
+import "./handlers/MaterialHandler";
+import "./handlers/MeshDataComponentHandler";
+import "./handlers/MeshDataHandler";
+import "./handlers/MeshRendererComponentHandler";
+import "./handlers/SceneHandler";
+import "./handlers/ShaderHandler";
+import "./handlers/TextureHandler";
+import "./handlers/TransformComponentHandler";
+import "./handlers/ProjectHandler";
+import "./handlers/SoundComponentHandler";
+import "./handlers/SoundHandler";
+import "./handlers/EnvironmentHandler";
+import "./handlers/SkyboxHandler";
+import "./handlers/HtmlComponentHandler";
 
 /**
  * Class to load objects into the engine, or to update objects based on the data model.
@@ -35,7 +33,7 @@ require('./handlers/HtmlComponentHandler');
  * @param {Ajax} [options.ajax=new Ajax(options.rootPath)]
  * Can be used to overwrite how the loader fetches refs. Good for testing.
  */
-function DynamicLoader(options) {
+export default function DynamicLoader(options) {
 	if (options.world) {
 		this._world = options.world;
 	} else {
@@ -393,5 +391,3 @@ DynamicLoader._isRefTypeInGroup = function (ref, group) {
 	var type = DynamicLoader.getTypeForRef(ref);
 	return type && Ajax.types[group] && Ajax.types[group][type];
 };
-
-module.exports = DynamicLoader;

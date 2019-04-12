@@ -1,11 +1,11 @@
-var Entity = require('./Entity');
-var EntityManager = require('./managers/EntityManager');
-var TransformComponent = require('./components/TransformComponent');
-var Manager = require('./managers/Manager');
-var System = require('./systems/System');
-var Component = require('./components/Component');
-var EntitySelection = require('./EntitySelection');
-var ObjectUtils = require('../util/ObjectUtils');
+import Entity from "./Entity";
+import EntityManager from "./managers/EntityManager";
+import TransformComponent from "./components/TransformComponent";
+import Manager from "./managers/Manager";
+import System from "./systems/System";
+import Component from "./components/Component";
+import EntitySelection from "./EntitySelection";
+import ObjectUtils from "../util/ObjectUtils";
 
 var lastInstantiatedWorld;
 
@@ -18,7 +18,7 @@ var lastInstantiatedWorld;
  * @param {GooRunner} [options.gooRunner]
  * @param {boolean} [options.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
  */
-function World(options) {
+export default function World(options) {
 	if (options && options._registerBaseComponents) {
 		console.warn('World constructor changed! Please use it like this instead: new World({ gooRunner: gooRunner })');
 		var tmp = options;
@@ -628,5 +628,3 @@ World.prototype.clear = function () {
 		lastInstantiatedWorld = undefined;
 	}
 };
-
-module.exports = World;

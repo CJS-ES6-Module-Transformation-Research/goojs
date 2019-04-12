@@ -1,8 +1,6 @@
-/* global opentype */
-
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var TextComponent = require('../../geometrypack/text/TextComponent');
-var PromiseUtils = require('../../util/PromiseUtils');
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import TextComponent from "../../geometrypack/text/TextComponent";
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * For handling loading of text components
@@ -12,7 +10,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @extends ComponentHandler
  * @hidden
  */
-function TextComponentHandler() {
+export default function TextComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'TextComponent';
 }
@@ -85,5 +83,3 @@ TextComponentHandler.prototype.update = function (entity, config, options) {
 		});
 	});
 };
-
-module.exports = TextComponentHandler;

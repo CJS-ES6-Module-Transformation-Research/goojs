@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import Vector3 from "../../../math/Vector3";
 
-function MoveAction(/*id, settings*/) {
+export default function MoveAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -94,5 +94,3 @@ MoveAction.prototype.applyMove = function (fsm) {
 
 	entity.transformComponent.setUpdated();
 };
-
-module.exports = MoveAction;

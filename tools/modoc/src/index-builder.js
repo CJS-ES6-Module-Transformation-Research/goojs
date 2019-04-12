@@ -1,12 +1,7 @@
+import _ from "underscore";
+import * as util from "./util";
 // jshint node:true
 'use strict';
-
-/**
- Builds the index used to generate the nav bar
- */
-
-var _ = require('underscore');
-var util = require('./util');
 
 var HTML_SUFFIX = '-doc.html';
 
@@ -25,7 +20,7 @@ function getDifferentiatorIndex(strings) {
 	}
 }
 
-function getIndex(classes) {
+export function getIndex(classes) {
 	var files = _.pluck(classes, 'file').filter(Boolean);
 	var differentiator = getDifferentiatorIndex(files);
 
@@ -72,6 +67,3 @@ function getIndex(classes) {
 
 	return ret;
 }
-
-
-exports.getIndex = getIndex;

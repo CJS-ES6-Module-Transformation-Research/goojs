@@ -1,13 +1,13 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var ObjectUtils = require('../util/ObjectUtils');
+import MathUtils from "./MathUtils";
+import Matrix from "./Matrix";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * Matrix with 2x2 components.
  * @extends Matrix
  * @param {number...} arguments Initial values for the matrix components.
  */
-function Matrix2() {
+export default function Matrix2() {
 	Matrix.call(this, 2, 2);
 
 	if (arguments.length === 0) {
@@ -507,6 +507,3 @@ Matrix2.prototype.div = ObjectUtils.warnOnce(
 		return Matrix2.div(this, rhs, this);
 	}
 );
-// SHIM END
-
-module.exports = Matrix2;

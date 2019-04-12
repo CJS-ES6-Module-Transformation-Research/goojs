@@ -1,4 +1,4 @@
-var Light = require('../../renderer/light/Light');
+import Light from "../../renderer/light/Light";
 
 /**
  * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
@@ -6,7 +6,7 @@ var Light = require('../../renderer/light/Light');
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-function PointLight(color) {
+export default function PointLight(color) {
 	Light.call(this, color);
 
 	/**
@@ -45,5 +45,3 @@ PointLight.prototype.clone = function () {
 	clone.copy(this);
 	return clone;
 };
-
-module.exports = PointLight;

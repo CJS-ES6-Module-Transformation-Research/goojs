@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function NextFrameAction(/*id, settings*/) {
+export default function NextFrameAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -32,5 +32,3 @@ NextFrameAction.getTransitionLabel = function (transitionKey /*, actionConfig*/)
 NextFrameAction.prototype.update = function (fsm) {
 	fsm.send(this.transitions.transition);
 };
-
-module.exports = NextFrameAction;

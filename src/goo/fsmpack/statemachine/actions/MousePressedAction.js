@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function MousePressedAction(/*id, settings*/) {
+export default function MousePressedAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -49,5 +49,3 @@ MousePressedAction.prototype.update = function (fsm) {
 		fsm.send(this.transitions.mousedown);
 	}
 };
-
-module.exports = MousePressedAction;

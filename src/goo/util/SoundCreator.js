@@ -1,13 +1,13 @@
-var SoundHandler = require('../loaders/handlers/SoundHandler');
-var AudioContext = require('../sound/AudioContext');
-var Ajax = require('../util/Ajax');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
+import SoundHandler from "../loaders/handlers/SoundHandler";
+import AudioContext from "../sound/AudioContext";
+import Ajax from "../util/Ajax";
+import StringUtils from "../util/StringUtils";
+import PromiseUtils from "../util/PromiseUtils";
 
 /**
  * Provides a simple way to load sounds
  */
-function SoundCreator() {
+export default function SoundCreator() {
 	var ajax = this.ajax = new Ajax();
 
 	this.soundHandler = new SoundHandler(
@@ -53,5 +53,3 @@ SoundCreator.prototype.loadSound = function (url, settings) {
 
 	return this.soundHandler.update(id, settings, {});
 };
-
-module.exports = SoundCreator;

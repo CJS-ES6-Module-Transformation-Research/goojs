@@ -1,12 +1,12 @@
-var Scripts = require('../scripts/Scripts');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var ObjectUtils = require('../util/ObjectUtils');
+import Scripts from "../scripts/Scripts";
+import BoundingBox from "../renderer/bounds/BoundingBox";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * Utilities for entity creation etc
  * Only used to define the class. Should never be instantiated.
  */
-function EntityUtils() {}
+export default function EntityUtils() {}
 
 /**
  * Returns a clone of the given SkeletonPose. Also stores the cloned poses into settings, in order not to
@@ -202,5 +202,3 @@ EntityUtils.getTotalBoundingBox = function (entity) {
 
 	return mergedWorldBound;
 };
-
-module.exports = EntityUtils;

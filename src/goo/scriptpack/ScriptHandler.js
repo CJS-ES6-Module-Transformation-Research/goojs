@@ -1,18 +1,18 @@
-var ConfigHandler = require('../loaders/handlers/ConfigHandler');
-var RSVP = require('../util/rsvp');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-var ArrayUtils = require('../util/ArrayUtils');
-var SystemBus = require('../entities/SystemBus');
-var ScriptUtils = require('../scripts/ScriptUtils');
-var Scripts = require('../scripts/Scripts');
+import ConfigHandler from "../loaders/handlers/ConfigHandler";
+import RSVP from "../util/rsvp";
+import PromiseUtils from "../util/PromiseUtils";
+import ObjectUtils from "../util/ObjectUtils";
+import ArrayUtils from "../util/ArrayUtils";
+import SystemBus from "../entities/SystemBus";
+import ScriptUtils from "../scripts/ScriptUtils";
+import Scripts from "../scripts/Scripts";
 
 var DEPENDENCY_LOAD_TIMEOUT = 6000;
 
 /**
 * 	* @private
 */
-function ScriptHandler() {
+export default function ScriptHandler() {
 	ConfigHandler.apply(this, arguments);
 	this._scriptElementsByURL = new Map();
 	this._bodyCache = {};
@@ -581,31 +581,31 @@ function loadExternalScript(script, scriptElem, url) {
  * @param parameter
  * @returns {{message: string}|undefined} May return an error
  */
- ScriptHandler.validateParameter = function validateParameter(parameter) {
-	for (var i = 0; i < ScriptUtils.PROPERTY_TYPES.length; ++i) {
-		var entry = ScriptUtils.PROPERTY_TYPES[i];
-		var propValue = parameter[entry.prop];
-		var isPropDefined = typeof propValue !== 'undefined';
+ScriptHandler.validateParameter = function validateParameter(parameter) {
+   for (var i = 0; i < ScriptUtils.PROPERTY_TYPES.length; ++i) {
+       var entry = ScriptUtils.PROPERTY_TYPES[i];
+       var propValue = parameter[entry.prop];
+       var isPropDefined = typeof propValue !== 'undefined';
 
-		var msgStart = 'Property "' + entry.prop + '" must be ';
+       var msgStart = 'Property "' + entry.prop + '" must be ';
 
-		if (entry.mustBeDefined || isPropDefined) {
-			var validator = ScriptUtils.TYPE_VALIDATORS[entry.type];
-			var allowedValues = entry.getAllowedValues ? entry.getAllowedValues(parameter) : null;
+       if (entry.mustBeDefined || isPropDefined) {
+           var validator = ScriptUtils.TYPE_VALIDATORS[entry.type];
+           var allowedValues = entry.getAllowedValues ? entry.getAllowedValues(parameter) : null;
 
-			if (isPropDefined && entry.minLength && propValue.length < entry.minLength) {
-				return { message: msgStart + 'longer than ' + (entry.minLength - 1) };
-			}
+           if (isPropDefined && entry.minLength && propValue.length < entry.minLength) {
+               return { message: msgStart + 'longer than ' + (entry.minLength - 1) };
+           }
 
-			if (allowedValues && allowedValues.indexOf(propValue) === -1) {
-				return { message: msgStart + 'one of: ' + allowedValues.join(', ') };
-			}
+           if (allowedValues && allowedValues.indexOf(propValue) === -1) {
+               return { message: msgStart + 'one of: ' + allowedValues.join(', ') };
+           }
 
-			if (!validator(propValue)) {
-				return { message: msgStart + 'of type ' + entry.type };
-			}
-		}
-	}
+           if (!validator(propValue)) {
+               return { message: msgStart + 'of type ' + entry.type };
+           }
+       }
+   }
 };
 
 /**
@@ -704,5 +704,3 @@ function setError(script, error) {
 }
 
 ScriptHandler.DOM_ID_PREFIX = '_script_';
-
-module.exports = ScriptHandler;

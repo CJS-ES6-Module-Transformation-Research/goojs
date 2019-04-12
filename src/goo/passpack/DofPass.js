@@ -1,20 +1,20 @@
-var Material = require('../renderer/Material');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var MeshData = require('../renderer/MeshData');
-var Shader = require('../renderer/Shader');
-var ShaderFragment = require('../renderer/shaders/ShaderFragment');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var Skybox = require('../util/Skybox');
-var Pass = require('../renderer/pass/Pass');
-var MathUtils = require('../math/MathUtils');
+import Material from "../renderer/Material";
+import RenderTarget from "../renderer/pass/RenderTarget";
+import MeshData from "../renderer/MeshData";
+import Shader from "../renderer/Shader";
+import ShaderFragment from "../renderer/shaders/ShaderFragment";
+import RenderPass from "../renderer/pass/RenderPass";
+import FullscreenPass from "../renderer/pass/FullscreenPass";
+import Skybox from "../util/Skybox";
+import Pass from "../renderer/pass/Pass";
+import MathUtils from "../math/MathUtils";
 
 /**
  * Deph of field pass
  * @param renderList
  * @param outShader
  */
-function DofPass(renderList, outShader) {
+export default function DofPass(renderList, outShader) {
 	this.depthPass = new RenderPass(renderList, function (item) {
 		return !(item instanceof Skybox);
 	});
@@ -163,5 +163,3 @@ var unpackDepth = {
 		'gl_FragColor.a = 1.0;' +
 	'}'
 };
-
-module.exports = DofPass;

@@ -1,12 +1,12 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Renderer = require('../../renderer/Renderer');
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
+import Renderer from "../../renderer/Renderer";
 
 /**
  * Updates cameras/cameracomponents with their transform component transforms
  * @extends System
  */
-function CameraSystem() {
+export default function CameraSystem() {
 	System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
 	this.mainCamera = null; //! AT: what's up with this? is it unused?
 }
@@ -55,5 +55,3 @@ CameraSystem.prototype.onPreRender = function () {
 		}
 	}
 };
-
-module.exports = CameraSystem;

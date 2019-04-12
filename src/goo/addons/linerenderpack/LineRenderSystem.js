@@ -1,13 +1,13 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var LineRenderer = require('../../addons/linerenderpack/LineRenderer');
-var Vector3 = require('../../math/Vector3');
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
+import LineRenderer from "../../addons/linerenderpack/LineRenderer";
+import Vector3 from "../../math/Vector3";
 
 /**
  * Updates all of it's LineRenderers and exposes methods for drawing primitive line shapes.
  * @param {World} world the world this system exists in.
  */
-function LineRenderSystem(world) {
+export default function LineRenderSystem(world) {
 	System.call(this, 'LineRenderSystem', []);
 
 	this._lineRenderers = [];
@@ -164,5 +164,3 @@ LineRenderSystem.prototype.clear = function () {
 
 	this.world.gooRunner.renderer.clearShaderCache();
 };
-
-module.exports = LineRenderSystem;

@@ -1,16 +1,16 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Vector3 = require('../../math/Vector3');
-var Ray = require('../../math/Ray');
-var MathUtils = require('../../math/MathUtils');
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
+import Material from "../../renderer/Material";
+import ShaderLib from "../../renderer/shaders/ShaderLib";
+import Vector3 from "../../math/Vector3";
+import Ray from "../../math/Ray";
+import MathUtils from "../../math/MathUtils";
 
 /**
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
  */
-function Dom3dSystem(renderer) {
+export default function Dom3dSystem(renderer) {
 	System.call(this, 'Dom3dSystem', ['TransformComponent', 'Dom3dComponent']);
 
 	this.renderer = renderer;
@@ -277,5 +277,3 @@ Dom3dSystem.prototype.cleanup = function () {
 		this.rootDom.parentNode.removeChild(this.rootDom);
 	}
 };
-
-module.exports = Dom3dSystem;

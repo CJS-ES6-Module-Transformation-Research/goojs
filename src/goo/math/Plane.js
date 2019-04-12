@@ -1,4 +1,4 @@
-var Vector3 = require('./Vector3');
+import Vector3 from "./Vector3";
 
 /**
  * A representation of a mathematical plane using a normal vector and a plane constant (d) whose absolute value represents the distance
@@ -7,7 +7,7 @@ var Vector3 = require('./Vector3');
  * @param {Vector3} normal Normal of the plane.
  * @param {number} constant The plane offset along the normal.
  */
-function Plane(normal, constant) {
+export default function Plane(normal, constant) {
 	this.normal = normal ? normal.clone() : Vector3.UNIT_Y.clone();
 	this.constant = isNaN(constant) ? 0 : constant;
 
@@ -113,5 +113,3 @@ Plane.prototype.copy = function (source) {
 Plane.prototype.clone = function () {
 	return new Plane(this.normal.clone(), this.constant);
 };
-
-module.exports = Plane;

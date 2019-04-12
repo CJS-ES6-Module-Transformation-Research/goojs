@@ -1,9 +1,9 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var Easing = require('../../../util/Easing');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import Vector3 from "../../../math/Vector3";
+import Quaternion from "../../../math/Quaternion";
+import Easing from "../../../util/Easing";
 
-function TweenLookAtAction(/*id, settings*/) {
+export default function TweenLookAtAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.quatFrom = new Quaternion();
@@ -95,5 +95,3 @@ TweenLookAtAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
-
-module.exports = TweenLookAtAction;

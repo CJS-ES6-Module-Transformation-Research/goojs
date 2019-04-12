@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function PauseSoundAction(/*id, settings*/) {
+export default function PauseSoundAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -31,5 +31,3 @@ PauseSoundAction.prototype.enter = function (fsm) {
 		}
 	}
 };
-
-module.exports = PauseSoundAction;

@@ -1,5 +1,5 @@
-var MarkerComponent = require('./components/MarkerComponent');
-var MarkerSystem = require('./systems/MarkerSystem');
+import MarkerComponent from "./components/MarkerComponent";
+import MarkerSystem from "./systems/MarkerSystem";
 
 //! AT: unused; should be removed
 /**
@@ -7,7 +7,7 @@ var MarkerSystem = require('./systems/MarkerSystem');
  * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
  * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
  */
-function Debugger(exportPicked) {
+export default function Debugger(exportPicked) {
 	this.goo = null;
 	this.exportPicked = exportPicked || false;
 	this.picked = null;
@@ -271,5 +271,3 @@ function displayInfo(entity) {
 	var elem = document.getElementById('debugtex');
 	elem.value = entityStr;
 }
-
-module.exports = Debugger;

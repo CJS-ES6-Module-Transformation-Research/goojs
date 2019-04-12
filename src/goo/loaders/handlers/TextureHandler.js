@@ -1,14 +1,14 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Texture = require('../../renderer/Texture');
-var DdsLoader = require('../../loaders/dds/DdsLoader');
-var CrunchLoader = require('../../loaders/crunch/CrunchLoader');
-var TgaLoader = require('../../loaders/tga/TgaLoader');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var CanvasUtils = require('../../util/CanvasUtils');
-var StringUtils = require('../../util/StringUtils');
-var SystemBus = require('../../entities/SystemBus');
-var MathUtils = require('../../math/MathUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import Texture from "../../renderer/Texture";
+import DdsLoader from "../../loaders/dds/DdsLoader";
+import CrunchLoader from "../../loaders/crunch/CrunchLoader";
+import TgaLoader from "../../loaders/tga/TgaLoader";
+import PromiseUtils from "../../util/PromiseUtils";
+import ObjectUtils from "../../util/ObjectUtils";
+import CanvasUtils from "../../util/CanvasUtils";
+import StringUtils from "../../util/StringUtils";
+import SystemBus from "../../entities/SystemBus";
+import MathUtils from "../../math/MathUtils";
 
 /**
  * Handler for loading materials into engine
@@ -18,7 +18,7 @@ var MathUtils = require('../../math/MathUtils');
  * @param {Function} updateObject
  * @private
  */
-function TextureHandler() {
+export default function TextureHandler() {
 	ConfigHandler.apply(this, arguments);
 	SystemBus.addListener('playStateChanged', function (playState) {
 		this._objects.forEach(function (texture) {
@@ -269,5 +269,3 @@ TextureHandler.prototype._update = function (ref, config, options) {
 		}
 	});
 };
-
-module.exports = TextureHandler;

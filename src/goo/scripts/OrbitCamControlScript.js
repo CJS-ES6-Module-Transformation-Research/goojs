@@ -1,8 +1,8 @@
-var Vector3 = require('../math/Vector3');
-var Vector2 = require('../math/Vector2');
-var MathUtils = require('../math/MathUtils');
-var Camera = require('../renderer/Camera');
-var SystemBus = require('../entities/SystemBus');
+import Vector3 from "../math/Vector3";
+import Vector2 from "../math/Vector2";
+import MathUtils from "../math/MathUtils";
+import Camera from "../renderer/Camera";
+import SystemBus from "../entities/SystemBus";
 
 var ZOOM_DISTANCE_FACTOR = 0.035;
 var EPSILON = 1e-6;
@@ -412,7 +412,7 @@ function argsUpdated(args, ctx) {
 	ctx.dirty = true;
 }
 
-function OrbitCamControlScript() {
+export default function OrbitCamControlScript() {
 	return {
 		setup: setup,
 		update: update,
@@ -518,5 +518,3 @@ OrbitCamControlScript.externals = {
 		min: 0.001
 	}]
 };
-
-module.exports = OrbitCamControlScript;

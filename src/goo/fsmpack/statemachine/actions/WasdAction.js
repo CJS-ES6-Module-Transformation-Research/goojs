@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function WasdAction(/*id, settings*/) {
+export default function WasdAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -68,5 +68,3 @@ WasdAction.prototype.enter = function (fsm) {
 WasdAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
-
-module.exports = WasdAction;

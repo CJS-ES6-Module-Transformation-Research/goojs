@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function KeyPressedAction(/*id, settings*/) {
+export default function KeyPressedAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -48,5 +48,3 @@ KeyPressedAction.prototype.update = function (fsm) {
 		fsm.send(this.transitions.keydown);
 	}
 };
-
-module.exports = KeyPressedAction;

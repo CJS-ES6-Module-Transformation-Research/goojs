@@ -1,5 +1,5 @@
-var Matrix2 = require('./Matrix2');
-var ObjectUtils = require('../util/ObjectUtils');
+import Matrix2 from "./Matrix2";
+import ObjectUtils from "../util/ObjectUtils";
 
 var Matrix2x2 = ObjectUtils.warnOnce(
 	'Matrix2x2 has been renamed to Matrix2.',
@@ -14,4 +14,4 @@ for (var x in Matrix2) {
 	Matrix2x2[x] = Matrix2[x];
 }
 
-module.exports = Matrix2x2;
+export default Matrix2x2;

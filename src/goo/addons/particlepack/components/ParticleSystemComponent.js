@@ -1,17 +1,17 @@
-var Matrix3 = require('../../../math/Matrix3');
-var Vector3 = require('../../../math/Vector3');
-var Vector4 = require('../../../math/Vector4');
-var MeshData = require('../../../renderer/MeshData');
-var Material = require('../../../renderer/Material');
-var MeshRendererComponent = require('../../../entities/components/MeshRendererComponent');
-var Component = require('../../../entities/components/Component');
-var Shader = require('../../../renderer/Shader');
-var ShaderBuilder = require('../../../renderer/shaders/ShaderBuilder');
-var ParticleData = require('../../../addons/particlepack/ParticleData');
-var Renderer = require('../../../renderer/Renderer');
-var Quad = require('../../../shapes/Quad');
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var ObjectUtils = require('../../../util/ObjectUtils');
+import Matrix3 from "../../../math/Matrix3";
+import Vector3 from "../../../math/Vector3";
+import Vector4 from "../../../math/Vector4";
+import MeshData from "../../../renderer/MeshData";
+import Material from "../../../renderer/Material";
+import MeshRendererComponent from "../../../entities/components/MeshRendererComponent";
+import Component from "../../../entities/components/Component";
+import Shader from "../../../renderer/Shader";
+import ShaderBuilder from "../../../renderer/shaders/ShaderBuilder";
+import ParticleData from "../../../addons/particlepack/ParticleData";
+import Renderer from "../../../renderer/Renderer";
+import Quad from "../../../shapes/Quad";
+import ConstantCurve from "../../../addons/particlepack/curves/ConstantCurve";
+import ObjectUtils from "../../../util/ObjectUtils";
 
 // Polyfill, needed for CocoonJS
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt
@@ -93,7 +93,7 @@ var defines = {
  * });
  * var entity = world.createEntity([0, 0, 0], particleComponent).addToWorld();
  */
-function ParticleSystemComponent(options) {
+export default function ParticleSystemComponent(options) {
 	options = options || {};
 	Component.apply(this, arguments);
 	this.type = 'ParticleSystemComponent';
@@ -418,6 +418,7 @@ function ParticleSystemComponent(options) {
 	this.texture = options.texture ? options.texture : null;
 	this.boundsRadius = options.boundsRadius !== undefined ? options.boundsRadius : Number.MAX_VALUE;
 }
+
 ParticleSystemComponent.prototype = Object.create(Component.prototype);
 ParticleSystemComponent.prototype.constructor = ParticleSystemComponent;
 
@@ -1709,5 +1710,3 @@ ParticleSystemComponent.applyOnEntity = function (obj, entity) {
 ParticleSystemComponent.prototype.clone = function () {
 	return new ParticleSystemComponent(this);
 };
-
-module.exports = ParticleSystemComponent;

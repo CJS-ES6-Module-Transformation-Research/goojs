@@ -1,12 +1,12 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
-var PromiseUtil = require('../util/PromiseUtil');
-var RSVP = require('../util/rsvp');
+import AudioContext from "../sound/AudioContext";
+import MathUtils from "../math/MathUtils";
+import PromiseUtil from "../util/PromiseUtil";
+import RSVP from "../util/rsvp";
 
 /**
  * A representation of a sound in the engine
  */
-function Sound() {
+export default function Sound() {
 	/** @type {string}
 	 */
 	this.id = null;
@@ -291,5 +291,3 @@ Sound.prototype.setAudioStream = function (stream) {
 	this._streamSource = AudioContext.getContext().createMediaStreamSource(stream);
 	this._streamSource.connect(this._outNode);
 };
-
-module.exports = Sound;

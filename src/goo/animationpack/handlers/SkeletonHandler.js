@@ -1,9 +1,9 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Joint = require('../../animationpack/Joint');
-var Skeleton = require('../../animationpack/Skeleton');
-var SkeletonPose = require('../../animationpack/SkeletonPose');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import Joint from "../../animationpack/Joint";
+import Skeleton from "../../animationpack/Skeleton";
+import SkeletonPose from "../../animationpack/SkeletonPose";
+import PromiseUtils from "../../util/PromiseUtils";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /**
  * Handler for loading skeletons into engine
@@ -13,7 +13,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @param {Function} updateObject
  * @private
  */
-function SkeletonHandler() {
+export default function SkeletonHandler() {
 	ConfigHandler.apply(this, arguments);
 }
 
@@ -59,5 +59,3 @@ SkeletonHandler.prototype._update = function (ref, config, options) {
 		return PromiseUtils.resolve(pose);
 	});
 };
-
-module.exports = SkeletonHandler;

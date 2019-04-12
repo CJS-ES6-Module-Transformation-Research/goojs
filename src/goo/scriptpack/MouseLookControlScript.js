@@ -1,10 +1,10 @@
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var GameUtils = require('../util/GameUtils');
+import Vector3 from "../math/Vector3";
+import MathUtils from "../math/MathUtils";
+import GameUtils from "../util/GameUtils";
 
 var allButtons = ['Any', 'Left', 'Middle', 'Right', 'None'];
 
-function MouseLookControlScript() {
+export default function MouseLookControlScript() {
 	var buttonPressed = false;
 	var hasPointerLock = false;
 	var hasPointerLockSupport = false;
@@ -226,5 +226,3 @@ MouseLookControlScript.externals = {
 		}
 	]
 };
-
-module.exports = MouseLookControlScript;

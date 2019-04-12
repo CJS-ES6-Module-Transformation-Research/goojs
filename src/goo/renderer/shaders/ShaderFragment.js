@@ -3,7 +3,7 @@
 /**
  * Collection of useful shader fragments
  */
-function ShaderFragment() {
+export default function ShaderFragment() {
 }
 
 ShaderFragment.noisecommon = [
@@ -267,5 +267,3 @@ ShaderFragment.blendmodes = [
 	'#define LevelsControlOutputRange(color, minOutput, maxOutput)					mix(vec3(minOutput), vec3(maxOutput), color)',
 	'#define LevelsControl(color, minInput, gamma, maxInput, minOutput, maxOutput)	LevelsControlOutputRange(LevelsControlInput(color, minInput, gamma, maxInput), minOutput, maxOutput)'
 ].join('\n');
-
-module.exports = ShaderFragment;

@@ -1,6 +1,3 @@
-/**
- * Provides easing functionality
- */
 var Easing = {
 	Linear: {
 		None: function (k) {
@@ -230,4 +227,4 @@ var Easing = {
 	}
 };
 
-module.exports = Easing;
+export default Easing;

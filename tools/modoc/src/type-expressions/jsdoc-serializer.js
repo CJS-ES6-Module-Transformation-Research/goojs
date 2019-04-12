@@ -59,9 +59,6 @@ var serializers = {
 	}
 };
 
-var serialize = function (node) {
+export var serialize = function (node) {
 	return serializers[node.nodeType](node);
 };
-
-
-exports.serialize = serialize;

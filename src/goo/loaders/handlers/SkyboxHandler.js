@@ -1,13 +1,13 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var EnvironmentHandler = require('../../loaders/handlers/EnvironmentHandler');
-var Texture = require('../../renderer/Texture');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var Skybox = require('../../util/Skybox');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var SystemBus = require('../../entities/SystemBus');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import EnvironmentHandler from "../../loaders/handlers/EnvironmentHandler";
+import Texture from "../../renderer/Texture";
+import ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
+import Skybox from "../../util/Skybox";
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
+import SystemBus from "../../entities/SystemBus";
 
-function SkyboxHandler() {
+export default function SkyboxHandler() {
 	ConfigHandler.apply(this, arguments);
 
 	this._activeSkyboxRef = null;
@@ -218,5 +218,3 @@ SkyboxHandler.prototype._show = function (skyshape) {
 	ShaderBuilder.SKYBOX = skyshape === this._skybox ? this._skyboxTexture : null;
 	ShaderBuilder.SKYSPHERE = skyshape === this._skysphere ? this._skysphereTexture : null;
 };
-
-module.exports = SkyboxHandler;

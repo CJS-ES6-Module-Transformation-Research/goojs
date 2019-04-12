@@ -1,6 +1,6 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var StringUtils = require('../../util/StringUtils');
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
+import StringUtils from "../../util/StringUtils";
 
 /**
  * Processes all entities with a proximity component
@@ -9,7 +9,7 @@ var StringUtils = require('../../util/StringUtils');
  * @private
  * @extends System
  */
-function ProximitySystem() {
+export default function ProximitySystem() {
 	System.call(this, 'ProximitySystem', ['ProximityComponent']);
 
 	this.collections = {
@@ -76,5 +76,3 @@ ProximitySystem.prototype.process = function (/*entities*/) {
 	this._collides(this.collections.green, this.collections.yellow);
 	*/
 };
-
-module.exports = ProximitySystem;

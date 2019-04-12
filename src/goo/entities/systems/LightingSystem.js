@@ -1,13 +1,13 @@
-var Capabilities = require('../../renderer/Capabilities');
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
+import Capabilities from "../../renderer/Capabilities";
+import System from "../../entities/systems/System";
+import SystemBus from "../../entities/SystemBus";
 
 /**
  * Processes all entities with a light component making sure that lights are placed according to its transforms<br>
  * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
  * @extends System
  */
-function LightingSystem() {
+export default function LightingSystem() {
 	System.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
 
 	this.overrideLights = null;
@@ -75,5 +75,3 @@ LightingSystem.prototype.invalidateHandles = function (renderer) {
 		entity.lightComponent.light.invalidateHandles(renderer);
 	});
 };
-
-module.exports = LightingSystem;

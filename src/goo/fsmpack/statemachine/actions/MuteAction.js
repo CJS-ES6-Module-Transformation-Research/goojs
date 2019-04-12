@@ -1,8 +1,9 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function MuteAction(/*id, settings*/) {
+export default function MuteAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
+
 MuteAction.prototype = Object.create(Action.prototype);
 MuteAction.prototype.constructor = MuteAction;
 
@@ -25,5 +26,3 @@ MuteAction.prototype.enter = function (fsm) {
 		soundSystem.mute();
 	}
 };
-
-module.exports = MuteAction;

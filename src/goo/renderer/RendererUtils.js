@@ -1,11 +1,11 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('../math/MathUtils');
-var Capabilities = require('../renderer/Capabilities');
+import ObjectUtils from "../util/ObjectUtils";
+import MathUtils from "../math/MathUtils";
+import Capabilities from "../renderer/Capabilities";
 
 /**
  * Renderer-related utilities
  */
-function RendererUtils() {}
+export default function RendererUtils() {}
 
 /**
  * Get size in bytes of a specific type.
@@ -576,5 +576,3 @@ RendererUtils.getGLBlendParam = function (context, param) {
 
 	return glBlendParam;
 };
-
-module.exports = RendererUtils;

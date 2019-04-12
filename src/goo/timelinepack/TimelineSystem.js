@@ -1,10 +1,10 @@
-var System = require('../entities/systems/System');
+import System from "../entities/systems/System";
 
 /**
  * Manages entities with a TimelineComponent
  * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
  */
-function TimelineSystem() {
+export default function TimelineSystem() {
 	System.call(this, 'TimelineSystem', ['TimelineComponent']);
 }
 
@@ -61,5 +61,3 @@ TimelineSystem.prototype.stop = function () {
 		component.stop();
 	}
 };
-
-module.exports = TimelineSystem;

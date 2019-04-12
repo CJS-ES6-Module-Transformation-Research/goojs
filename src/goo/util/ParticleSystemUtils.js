@@ -1,13 +1,13 @@
-var ParticleComponent = require('../entities/components/ParticleComponent');
-var MeshRendererComponent = require('../entities/components/MeshRendererComponent');
-var MeshDataComponent = require('../entities/components/MeshDataComponent');
-var Texture = require('../renderer/Texture');
-var ParticleEmitter = require('../particles/ParticleEmitter');
+import ParticleComponent from "../entities/components/ParticleComponent";
+import MeshRendererComponent from "../entities/components/MeshRendererComponent";
+import MeshDataComponent from "../entities/components/MeshDataComponent";
+import Texture from "../renderer/Texture";
+import ParticleEmitter from "../particles/ParticleEmitter";
 
 /**
  * Provides utility methods for particle systems
  */
-function ParticleSystemUtils() {}
+export default function ParticleSystemUtils() {}
 
 /**
  * Creates an Entity based on an object holding particle emitter parameters and a material
@@ -247,5 +247,3 @@ ParticleSystemUtils.createSnowflakeTexture = function (size, options) {
 	var texture = new Texture(imageData, null, size, size);
 	return texture;
 };
-
-module.exports = ParticleSystemUtils;

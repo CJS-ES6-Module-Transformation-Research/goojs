@@ -1,6 +1,6 @@
-var Component = require('../entities/components/Component');
-var StringUtils = require('../util/StringUtils');
-var EventTarget = require('../util/EventTarget');
+import Component from "../entities/components/Component";
+import StringUtils from "../util/StringUtils";
+import EventTarget from "../util/EventTarget";
 
 /**
  * An Entity is a generic container of data.
@@ -12,7 +12,7 @@ var EventTarget = require('../util/EventTarget');
  * @param {string} [name] Entity name.
  * @param {number} [id] Entity id.
  */
-function Entity(world, name, id) {
+export default function Entity(world, name, id) {
 	EventTarget.apply(this);
 
 	this._world = world;
@@ -66,6 +66,7 @@ function Entity(world, name, id) {
 
 	Entity.entityCount++;
 }
+
 Entity.prototype = Object.create(EventTarget.prototype);
 Entity.prototype.constructor = Entity;
 
@@ -327,5 +328,3 @@ Entity.prototype.toString = function () {
 };
 
 Entity.entityCount = 0;
-
-module.exports = Entity;

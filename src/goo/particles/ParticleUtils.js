@@ -1,9 +1,9 @@
-var Vector3 = require('../math/Vector3');
+import Vector3 from "../math/Vector3";
 
 /**
  * Various helper utils for particle systems.
  */
-function ParticleUtils() {}
+export default function ParticleUtils() {}
 
 ParticleUtils.getRandomVelocityOffY = function (store, minOffsetAngle, maxOffsetAngle, scale, particleEntity) {
 	var randomAngle = minOffsetAngle + Math.random() * (maxOffsetAngle - minOffsetAngle);
@@ -150,5 +150,3 @@ ParticleUtils.applyTimeline = function (particle, timeline) {
 	var end = nextSpEntry !== null ? nextSpEntry.spin : start;
 	particle.spin = (1 - ratio) * start + ratio * end;
 };
-
-module.exports = ParticleUtils;

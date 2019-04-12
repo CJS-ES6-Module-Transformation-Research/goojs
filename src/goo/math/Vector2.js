@@ -1,8 +1,8 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-var Vector3 = require('./Vector3');
-var Vector4 = require('./Vector4');
+import ObjectUtils from "../util/ObjectUtils";
+import MathUtils from "./MathUtils";
+import Vector from "./Vector";
+import Vector3 from "./Vector3";
+import Vector4 from "./Vector4";
 
 /**
  * Vector with 2 components
@@ -13,7 +13,7 @@ var Vector4 = require('./Vector4');
  * var v1 = new Vector2(); // v1 == (0, 0)
  * var v2 = new Vector2(1, 2); // v2 == (1, 2)
  */
-function Vector2(x, y) {
+export default function Vector2(x, y) {
 	// @ifdef DEBUG
 	this._x = 0;
 	this._y = 0;
@@ -764,11 +764,3 @@ Vector2.prototype.subVector = ObjectUtils.warnOnce('Vector2.prototype.subVector 
 
 	return this;
 });
-
-//!schteppe: not shimming Vector2.prototype.seta, it's been warned about forever
-//!schteppe: not shimming Vector2.prototype.setd, it's been warned about forever
-//!schteppe: not shimming Vector2.prototype.setv, it's been warned about forever
-
-// SHIM END
-
-module.exports = Vector2;

@@ -1,4 +1,4 @@
-var BufferUtils = require('../renderer/BufferUtils');
+import BufferUtils from "../renderer/BufferUtils";
 
 /**
  * The purpose of this class is to hold additional information regarding a typedarray buffer, like vbo 'usage' flags
@@ -7,7 +7,7 @@ var BufferUtils = require('../renderer/BufferUtils');
  * @property {ArrayBuffer} data Data to wrap
  * @property {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
  */
-function BufferData(data, target) {
+export default function BufferData(data, target) {
 	this.data = data;
 	this.target = target;
 
@@ -86,5 +86,3 @@ BufferData.prototype.clone = function () {
 	clone._dataNeedsRefresh = false; //?
 	return clone;
 };
-
-module.exports = BufferData;

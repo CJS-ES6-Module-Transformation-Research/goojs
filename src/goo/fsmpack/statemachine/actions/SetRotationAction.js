@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function SetRotationAction(/*id, settings*/) {
+export default function SetRotationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -74,5 +74,3 @@ SetRotationAction.prototype.update = function (fsm) {
 		this.setRotation(fsm);
 	}
 };
-
-module.exports = SetRotationAction;

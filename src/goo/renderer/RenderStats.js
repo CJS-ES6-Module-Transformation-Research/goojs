@@ -1,4 +1,4 @@
-function RenderStats() {
+export default function RenderStats() {
 	this.reset();
 }
 
@@ -13,5 +13,3 @@ RenderStats.prototype.toString = function () {
 		'<br/>Vertices: ' + this.vertices +
 		'<br/>Indices: ' + this.indices;
 };
-
-module.exports = RenderStats;

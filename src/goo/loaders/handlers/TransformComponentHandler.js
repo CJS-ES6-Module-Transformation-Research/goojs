@@ -1,8 +1,8 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var TransformComponent = require('../../entities/components/TransformComponent');
-var MathUtils = require('../../math/MathUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var RSVP = require('../../util/rsvp');
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import TransformComponent from "../../entities/components/TransformComponent";
+import MathUtils from "../../math/MathUtils";
+import ObjectUtils from "../../util/ObjectUtils";
+import RSVP from "../../util/rsvp";
 
 /**
  * For handling loading of transform component
@@ -12,7 +12,7 @@ var RSVP = require('../../util/rsvp');
  * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
  * @hidden
  */
-function TransformComponentHandler() {
+export default function TransformComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'TransformComponent';
 }
@@ -144,5 +144,3 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		});
 	});
 };
-
-module.exports = TransformComponentHandler;

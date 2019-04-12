@@ -1,4 +1,4 @@
-var MeshData = require('../renderer/MeshData');
+import MeshData from "../renderer/MeshData";
 
 /**
  * A rectangular, two dimensional shape. The local height of the
@@ -10,7 +10,7 @@ var MeshData = require('../renderer/MeshData');
  * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
  * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
  */
-function DoubleQuad(width, height, tileX, tileY) {
+export default function DoubleQuad(width, height, tileX, tileY) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
 		width = props.width;
@@ -86,5 +86,3 @@ DoubleQuad.prototype.rebuild = function () {
 
 	return this;
 };
-
-module.exports = DoubleQuad;

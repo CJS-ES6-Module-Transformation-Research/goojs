@@ -6,7 +6,7 @@
  * }
  * MyObject.prototype = Object.create(EventTarget.prototype);
  */
-function EventTarget() {
+export default function EventTarget() {
 	this._listenerMap = new Map();
 	this._listenersCopy = [];
 }
@@ -87,5 +87,3 @@ EventTarget.prototype.off = function (type, listener) {
 EventTarget.prototype.has = function (type) {
 	return this._listenerMap.has(type);
 };
-
-module.exports = EventTarget;

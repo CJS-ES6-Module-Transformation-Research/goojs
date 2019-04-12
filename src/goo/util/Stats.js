@@ -4,7 +4,7 @@
  * this.stats = new Stats();
  * document.body.appendChild(this.stats.domElement);
  */
-function Stats() {
+export default function Stats() {
 	var startTime = Date.now(), prevTime = startTime, prevTimeMs = startTime;
 	var ms = 0, msMin = Infinity, msMax = 0;
 	var fps = 0, fpsMin = Infinity, fpsMax = 0;
@@ -143,5 +143,3 @@ function Stats() {
 		startTime = this.end(info);
 	};
 }
-
-module.exports = Stats;

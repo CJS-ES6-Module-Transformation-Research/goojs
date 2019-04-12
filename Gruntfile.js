@@ -1,9 +1,10 @@
-var path = require('path');
-var webpack = require('webpack');
-var fs = require('fs');
-var toc = require('./tools/table-of-contents');
+import path from "path";
+import webpack from "webpack";
+import fs from "fs";
+import * as toc from "./tools/table-of-contents";
+import child_process_moduleObject from "child_process";
 
-module.exports = function (grunt) {
+export default function (grunt) {
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 
@@ -225,7 +226,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('refs', function () {
 		var done = this.async();
-		require('child_process').exec('node test/e2etesting/generate-reference-screenshots', function (error, stdout, stderr) {
+		child_process_moduleObject.exec('node test/e2etesting/generate-reference-screenshots', function (error, stdout, stderr) {
 			console.log('stdout: ' + stdout);
 			console.log('stderr: ' + stderr);
 			if (error !== null) {
@@ -239,4 +240,4 @@ module.exports = function (grunt) {
 	grunt.registerTask('minify-no-mangle', ['minify']); // TODO
 	grunt.registerTask('minify-dev', ['webpack', 'wrap', 'copy']);
 	grunt.registerTask('default', ['minify']);
-};
+};;

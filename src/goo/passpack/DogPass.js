@@ -1,10 +1,10 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
+import Material from "../renderer/Material";
+import FullscreenUtils from "../renderer/pass/FullscreenUtils";
+import RenderTarget from "../renderer/pass/RenderTarget";
+import ObjectUtils from "../util/ObjectUtils";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import ShaderLibExtra from "../passpack/ShaderLibExtra";
+import Pass from "../renderer/pass/Pass";
 
 /**
 * Difference of Gaussian Filter pass.
@@ -16,7 +16,7 @@ var Pass = require('../renderer/pass/Pass');
 * http://en.wikipedia.org/wiki/Difference_of_Gaussians
 * http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
 */
-function DogPass(settings) {
+export default function DogPass(settings) {
 	settings = settings || {};
 
 	this.target = settings.target !== undefined ? settings.target : null;
@@ -182,5 +182,3 @@ DogPass.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateRenderTarget(this.gaussian1);
 	renderer.invalidateRenderTarget(this.gaussian2);
 };
-
-module.exports = DogPass;

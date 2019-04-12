@@ -1,12 +1,13 @@
-var Collider = require('../../../addons/physicspack/colliders/Collider');
+import Collider from "../../../addons/physicspack/colliders/Collider";
 
 /**
  * Plane collider, that faces in the Z direction.
  * @extends Collider
  */
-function PlaneCollider() {
+export default function PlaneCollider() {
 	Collider.call(this);
 }
+
 PlaneCollider.prototype = Object.create(Collider.prototype);
 PlaneCollider.prototype.constructor = PlaneCollider;
 
@@ -23,5 +24,3 @@ PlaneCollider.prototype.transform = function (/*transform, targetCollider*/) {};
 PlaneCollider.prototype.clone = function () {
 	return new PlaneCollider();
 };
-
-module.exports = PlaneCollider;

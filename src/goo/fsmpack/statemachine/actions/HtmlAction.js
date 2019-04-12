@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function HtmlAction(/*id, settings*/) {
+export default function HtmlAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -41,5 +41,3 @@ HtmlAction.prototype.exit = function (fsm) {
 		this.domElement.removeEventListener('click', this.eventListener);
 	}
 };
-
-module.exports = HtmlAction;

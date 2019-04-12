@@ -1,10 +1,10 @@
-var MathUtils = require('../math/MathUtils');
+import MathUtils from "../math/MathUtils";
 
 /**
  * A base class for procedural noise functions.
  * Only used to define the class. Should never be instantiated.
  */
-function Noise() {}
+export default function Noise() {}
 
 Noise.shifter = [
 	0x25, 0x5B, 0x0C, 0x80, 0xD8, 0x60, 0x33, 0x99, 0x27, 0xE7, 0xDF, 0xB4, 0xA0, 0x9D, 0x87, 0xB3,
@@ -149,5 +149,3 @@ Noise.fractal4d = function (x, y, z, w, scale, octaves, persistance, lacunarity,
 
 	return result / normalizer;
 };
-
-module.exports = Noise;

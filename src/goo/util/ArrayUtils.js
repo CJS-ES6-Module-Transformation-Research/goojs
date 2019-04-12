@@ -1,7 +1,7 @@
 /**
  * Utilities for arrays and typed arrays
  */
-function ArrayUtils() {}
+export default function ArrayUtils() {}
 
 /**
  * Create a typed array view on an ArrayBuffer, using the supplied pointer. Notice that this
@@ -113,5 +113,3 @@ ArrayUtils.fromValues = function (collection) {
 //		}
 	return array;
 };
-
-module.exports = ArrayUtils;

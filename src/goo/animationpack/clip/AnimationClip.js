@@ -3,7 +3,7 @@
  * @param {string} name Name of joint
  * @param {Array<AbstractAnimationChannel>} [channels=[]] an array of channels to shallow copy locally.
  */
-function AnimationClip(name, channels) {
+export default function AnimationClip(name, channels) {
 	this._name = name;
 	this._channels = channels || [];
 	this._maxTime = -1;
@@ -82,5 +82,3 @@ AnimationClip.prototype.toString = function () {
 	return this._name + ': '
 		+ this._channels.map(function (channel) { return channel._channelName; });
 };
-
-module.exports = AnimationClip;

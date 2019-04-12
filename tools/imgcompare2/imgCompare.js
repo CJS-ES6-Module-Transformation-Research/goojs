@@ -1,4 +1,5 @@
-var exec = require('child_process').exec;
+import child_process_moduleObject from "child_process";
+var exec = child_process_moduleObject.exec;
 
 var regex = /\((\d+(?:\.\d+)?)\)/;
 
@@ -13,7 +14,7 @@ function extractNumber(string) {
 	return +match[1];
 }
 
-function compare(actual, expected, callback) {
+export function compare(actual, expected, callback) {
 	var cmd = 'compare -metric RMSE ' + actual + ' ' + expected + ' ' + actual + '-diff.png';
 
 	console.log(cmd);
@@ -25,5 +26,3 @@ function compare(actual, expected, callback) {
 		callback(extractNumber(stderr));
 	});
 }
-
-exports.compare = compare;

@@ -1,4 +1,4 @@
-function AbstractTimelineChannel(id) {
+export default function AbstractTimelineChannel(id) {
 	this.id = id;
 	this.enabled = true;
 
@@ -46,5 +46,3 @@ AbstractTimelineChannel.prototype.sort = function () {
 
 	return this;
 };
-
-module.exports = AbstractTimelineChannel;

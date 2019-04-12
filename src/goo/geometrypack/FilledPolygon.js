@@ -1,5 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var MathUtils = require('../math/MathUtils');
+import MeshData from "../renderer/MeshData";
+import MathUtils from "../math/MathUtils";
 
 /**
  * A polygon shape
@@ -7,7 +7,7 @@ var MathUtils = require('../math/MathUtils');
  * @param {Array} verts Array of vertices
  * @param {Array} indices Array of indices
  */
-function FilledPolygon(verts, indices) {
+export default function FilledPolygon(verts, indices) {
 	this.verts = verts;
 	this.indices = indices ? indices : getTriangulation(verts);
 
@@ -158,5 +158,3 @@ function getBounds(verts) {
 		maxY: maxY
 	};
 }
-
-module.exports = FilledPolygon;

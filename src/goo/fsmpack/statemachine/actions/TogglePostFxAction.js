@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function TogglePostFxAction(/*id, settings*/) {
+export default function TogglePostFxAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -28,5 +28,3 @@ TogglePostFxAction.prototype.enter = function (fsm) {
 		renderSystem.enableComposers(this.enabled);
 	}
 };
-
-module.exports = TogglePostFxAction;

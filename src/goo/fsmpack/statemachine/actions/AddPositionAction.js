@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function AddPositionAction(/*id, settings*/) {
+export default function AddPositionAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -77,5 +77,3 @@ AddPositionAction.prototype.update = function (fsm) {
 		this.addPosition(fsm);
 	}
 };
-
-module.exports = AddPositionAction;

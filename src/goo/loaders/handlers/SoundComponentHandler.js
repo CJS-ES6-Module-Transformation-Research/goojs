@@ -1,9 +1,9 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var SoundComponent = require('../../entities/components/SoundComponent');
-var AudioContext = require('../../sound/AudioContext');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import SoundComponent from "../../entities/components/SoundComponent";
+import AudioContext from "../../sound/AudioContext";
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /**
  * For handling loading of sound components
@@ -13,7 +13,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @extends ComponentHandler
  * @hidden
  */
-function SoundComponentHandler() {
+export default function SoundComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'SoundComponent';
 }
@@ -99,5 +99,3 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 		});
 	});
 };
-
-module.exports = SoundComponentHandler;

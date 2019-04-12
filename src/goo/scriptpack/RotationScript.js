@@ -1,4 +1,4 @@
-function RotationScript() {
+export default function RotationScript() {
 	var mouseState, actualState, entity;
 
 	function setup(parameters, env) {
@@ -53,5 +53,3 @@ RotationScript.externals = {
 		max: 1
 	}]
 };
-
-module.exports = RotationScript;

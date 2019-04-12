@@ -1,10 +1,9 @@
-var Box = require('../../shapes/Box');
-var Transform = require('../../math/Transform');
-var Joint = require('../../animationpack/Joint');
-var MeshBuilder = require('../../util/MeshBuilder');
-var MeshData = require('../../renderer/MeshData');
-
-function SkeletonDebug() {}
+import Box from "../../shapes/Box";
+import Transform from "../../math/Transform";
+import Joint from "../../animationpack/Joint";
+import MeshBuilder from "../../util/MeshBuilder";
+import MeshData from "../../renderer/MeshData";
+export default function SkeletonDebug() {}
 var calcTrans = new Transform();
 
 SkeletonDebug.prototype.getMesh = function (pose) {
@@ -90,5 +89,3 @@ SkeletonDebug.prototype._buildPaletteMap = function (meshData, joints) {
 	meshData.paletteMap = paletteMap;
 	meshData.weightsPerVertex = 4;
 };
-
-module.exports = SkeletonDebug;

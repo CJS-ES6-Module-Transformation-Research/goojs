@@ -1,9 +1,9 @@
-var RSVP = require('../util/rsvp');
+import RSVP from "../util/rsvp";
 
 /**
  * Provides promise-related utility methods
  */
-function PromiseUtils() {}
+export default function PromiseUtils() {}
 
 //! AT: converting from PromiseUtils.createPromise to new RSVP.Promise is going to be trivial
 /**
@@ -152,5 +152,3 @@ PromiseUtils.defer = function (delay, arg) {
 	}
 	return promise;
 };
-
-module.exports = PromiseUtils;

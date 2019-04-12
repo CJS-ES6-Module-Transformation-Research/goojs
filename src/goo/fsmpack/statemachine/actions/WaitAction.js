@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
 /**
  * @private
  * @extends Action
  */
-function WaitAction(/*id, settings*/) {
+export default function WaitAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	/**
@@ -67,5 +67,3 @@ WaitAction.prototype.update = function (fsm) {
 		fsm.send(this.transitions.timeUp);
 	}
 };
-
-module.exports = WaitAction;

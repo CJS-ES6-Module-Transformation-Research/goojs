@@ -1,11 +1,11 @@
-var MeshData = require('../../../renderer/MeshData');
+import MeshData from "../../../renderer/MeshData";
 
 /**
  * A wireframe mesh indicating the position and orientation of a SphereCollider.
  * @param {number} [numSegments=32]
  * @extends MeshData
  */
-function PhysicsSphereDebugShape(numSegments) {
+export default function PhysicsSphereDebugShape(numSegments) {
 	numSegments = numSegments || 32;
 	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
 	this.numSegments = numSegments;
@@ -13,6 +13,7 @@ function PhysicsSphereDebugShape(numSegments) {
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
+
 PhysicsSphereDebugShape.prototype = Object.create(MeshData.prototype);
 PhysicsSphereDebugShape.prototype.constructor = PhysicsSphereDebugShape;
 
@@ -54,5 +55,3 @@ PhysicsSphereDebugShape.prototype.rebuild = function () {
 
 	return this;
 };
-
-module.exports = PhysicsSphereDebugShape;

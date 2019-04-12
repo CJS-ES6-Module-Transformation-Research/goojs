@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var LightComponent = require('../../../entities/components/LightComponent');
-var PointLight = require('../../../renderer/light/PointLight');
-var DirectionalLight = require('../../../renderer/light/DirectionalLight');
-var SpotLight = require('../../../renderer/light/SpotLight');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import LightComponent from "../../../entities/components/LightComponent";
+import PointLight from "../../../renderer/light/PointLight";
+import DirectionalLight from "../../../renderer/light/DirectionalLight";
+import SpotLight from "../../../renderer/light/SpotLight";
 
-function AddLightAction(/*id, settings*/) {
+export default function AddLightAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -95,5 +95,3 @@ AddLightAction.prototype.cleanup = function (fsm) {
 		entity.clearComponent('LightComponent');
 	}
 };
-
-module.exports = AddLightAction;

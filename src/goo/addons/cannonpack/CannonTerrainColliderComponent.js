@@ -1,4 +1,4 @@
-var Component = require('../../entities/components/Component');
+import Component from "../../entities/components/Component";
 
 /* global CANNON */
 
@@ -8,7 +8,7 @@ var Component = require('../../entities/components/Component');
  * @param {Object} [settings.data]
  * @param {Object} [settings.shapeOptions]
  */
-function CannonTerrainColliderComponent(settings) {
+export default function CannonTerrainColliderComponent(settings) {
 	Component.apply(this, arguments);
 
 	this.type = 'CannonTerrainColliderComponent';
@@ -24,5 +24,3 @@ function CannonTerrainColliderComponent(settings) {
 
 CannonTerrainColliderComponent.prototype = Object.create(Component.prototype);
 CannonTerrainColliderComponent.constructor = CannonTerrainColliderComponent;
-
-module.exports = CannonTerrainColliderComponent;

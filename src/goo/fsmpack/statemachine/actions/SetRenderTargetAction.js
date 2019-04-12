@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var PortalComponent = require('../../../entities/components/PortalComponent');
-var PortalSystem = require('../../../entities/systems/PortalSystem');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import PortalComponent from "../../../entities/components/PortalComponent";
+import PortalSystem from "../../../entities/systems/PortalSystem";
+import Material from "../../../renderer/Material";
+import ShaderLib from "../../../renderer/shaders/ShaderLib";
 
-function SetRenderTargetAction(/*id, settings*/) {
+export default function SetRenderTargetAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -68,5 +68,3 @@ SetRenderTargetAction.prototype.cleanup = function (fsm) {
 
 	// would remove the entire system, but the engine does not support that
 };
-
-module.exports = SetRenderTargetAction;

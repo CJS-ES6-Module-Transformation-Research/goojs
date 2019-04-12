@@ -1,8 +1,8 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var RSVP = require('../../util/rsvp');
-var StringUtils = require('../../util/StringUtils');
-var PromiseUtils = require('../../util/PromiseUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import ComponentHandler from "../../loaders/handlers/ComponentHandler";
+import RSVP from "../../util/rsvp";
+import StringUtils from "../../util/StringUtils";
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * Handler for loading entities into engine
@@ -12,7 +12,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @param {Function} updateObject
  * @private
  */
-function EntityHandler() {
+export default function EntityHandler() {
 	ConfigHandler.apply(this, arguments);
 	this._componentHandlers = {};
 }
@@ -180,5 +180,3 @@ EntityHandler.prototype._getHandler = function (type) {
 	}
 	return this._componentHandlers[type];
 };
-
-module.exports = EntityHandler;

@@ -1,15 +1,15 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-var Vector3 = require('../../math/Vector3');
-var Matrix3 = require('../../math/Matrix3');
+import LogicLayer from "./LogicLayer";
+import LogicNode from "./LogicNode";
+import LogicNodes from "./LogicNodes";
+import LogicInterface from "./LogicInterface";
+import Vector3 from "../../math/Vector3";
+import Matrix3 from "../../math/Matrix3";
 
 /**
  * Logic node that constructs a rotation matrix.
  * @private
  */
-function LogicNodeRotationMatrix() {
+export default function LogicNodeRotationMatrix() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeRotationMatrix.logicInterface;
 	this.type = 'LogicNodeRotationMatrix';
@@ -31,5 +31,3 @@ LogicNodeRotationMatrix.inportX = LogicNodeRotationMatrix.logicInterface.addInpu
 LogicNodeRotationMatrix.outportProduct = LogicNodeRotationMatrix.logicInterface.addOutputProperty('mat', 'Matrix3', new Matrix3());
 
 LogicNodes.registerType('LogicNodeRotationMatrix', LogicNodeRotationMatrix);
-
-module.exports = LogicNodeRotationMatrix;

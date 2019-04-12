@@ -1,5 +1,5 @@
-var Component = require('../../entities/components/Component');
-var ObjectUtil = require('../../util/ObjectUtil');
+import Component from "../../entities/components/Component";
+import ObjectUtil from "../../util/ObjectUtil";
 
 /**
  * P2 physics component.
@@ -29,7 +29,7 @@ var ObjectUtil = require('../../util/ObjectUtil');
  * });
  * entity.setComponent(p2comp);
  */
-function P2Component(options) {
+export default function P2Component(options) {
 	Component.apply(this, arguments);
 
 	this.type = 'P2Component';
@@ -51,5 +51,3 @@ function P2Component(options) {
 
 P2Component.prototype = Object.create(Component.prototype);
 P2Component.prototype.constructor = P2Component;
-
-module.exports = P2Component;

@@ -1,7 +1,7 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var SystemBus = require('../../entities/SystemBus');
-var ObjectUtils = require('../../util/ObjectUtils');
-var RSVP = require('../../util/rsvp');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import SystemBus from "../../entities/SystemBus";
+import ObjectUtils from "../../util/ObjectUtils";
+import RSVP from "../../util/rsvp";
 
 /**
  * Handler for loading scene into engine
@@ -11,7 +11,7 @@ var RSVP = require('../../util/rsvp');
  * @param {Function} updateObject
  * @private
  */
-function SceneHandler() {
+export default function SceneHandler() {
 	ConfigHandler.apply(this, arguments);
 }
 
@@ -157,5 +157,3 @@ SceneHandler.prototype._handlePosteffects = function (config, scene, options) {
 SceneHandler.prototype._handleEnvironment = function (config, scene, options) {
 	return this._load(config.environmentRef, options);
 };
-
-module.exports = SceneHandler;

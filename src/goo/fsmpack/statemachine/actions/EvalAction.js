@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function EvalAction(/*id, settings*/) {
+export default function EvalAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.expressionFunction = null;
@@ -36,5 +36,3 @@ EvalAction.prototype.update = function (fsm) {
 		}
 	}
 };
-
-module.exports = EvalAction;

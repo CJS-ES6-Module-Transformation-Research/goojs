@@ -7,7 +7,7 @@
  * but also reports unused variables.
  */
 
-module.exports = {
+export default {
 	reporter: function (results, data, opts) {
 		var len = results.length;
 		var str = '';
@@ -56,4 +56,4 @@ module.exports = {
 			process.on('exit', function () { process.exit(1); });
 		}
 	}
-};
+};;

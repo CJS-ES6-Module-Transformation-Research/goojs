@@ -1,10 +1,10 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
+import Material from "../renderer/Material";
+import FullscreenUtils from "../renderer/pass/FullscreenUtils";
+import RenderTarget from "../renderer/pass/RenderTarget";
+import ObjectUtils from "../util/ObjectUtils";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import ShaderLibExtra from "../passpack/ShaderLibExtra";
+import Pass from "../renderer/pass/Pass";
 
 /**
  * @example-link http://code.gooengine.com/latest/visual-test/goo/passpack/BloomPass/BloomPass-vtest.html Working example
@@ -17,7 +17,7 @@ var Pass = require('../renderer/pass/Pass');
  * }
  * </pre>
  */
-function BloomPass(settings) {
+export default function BloomPass(settings) {
 	settings = settings || {};
 
 	this.target = settings.target !== undefined ? settings.target : null;
@@ -134,5 +134,3 @@ BloomPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 
 BloomPass.blurX = [0.001953125, 0.0];
 BloomPass.blurY = [0.0, 0.001953125];
-
-module.exports = BloomPass;

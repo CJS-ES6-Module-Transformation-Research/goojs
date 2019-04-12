@@ -1,8 +1,8 @@
-var Action = require('./Action');
-var Vector3 = require('../../../math/Vector3');
-var SystemBus = require('../../../entities/SystemBus');
+import Action from "./Action";
+import Vector3 from "../../../math/Vector3";
+import SystemBus from "../../../entities/SystemBus";
 
-function ApplyTorqueAction(/*id, settings*/) {
+export default function ApplyTorqueAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -51,5 +51,3 @@ ApplyTorqueAction.prototype.enter = function (fsm) {
 ApplyTorqueAction.prototype.exit = function () {
 	SystemBus.removeListener('goo.physics.substep', this.substepListener);
 };
-
-module.exports = ApplyTorqueAction;

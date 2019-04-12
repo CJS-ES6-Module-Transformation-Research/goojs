@@ -1,7 +1,7 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var Vector3 = require('./Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
+import MathUtils from "./MathUtils";
+import Matrix from "./Matrix";
+import Vector3 from "./Vector3";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * Matrix with 3x3 components. Used to store 3D rotations. It also contains common 3D Rotation operations.
@@ -21,7 +21,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * // Passing in an existing Matrix3
  * var m4 = new Matrix3(m1); // m4 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
  */
-function Matrix3() {
+export default function Matrix3() {
 	Matrix.call(this, 3, 3);
 
 	if (arguments.length === 0) {
@@ -1070,6 +1070,3 @@ Matrix.addPostChecks(Matrix3.prototype, [
 	'fromAngles', 'rotateX', 'rotateY', 'rotateZ', 'fromAngleNormalAxis', 'lookAt',
 	'copyQuaternion', 'copy'
 ]);
-// @endif
-
-module.exports = Matrix3;

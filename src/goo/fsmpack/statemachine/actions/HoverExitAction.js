@@ -1,7 +1,7 @@
-var Action = require('./Action');
-var BoundingPicker = require('./../../../renderer/bounds/BoundingPicker');
+import Action from "./Action";
+import BoundingPicker from "./../../../renderer/bounds/BoundingPicker";
 
-function HoverExitAction(/*id, settings*/) {
+export default function HoverExitAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.first = true;
@@ -109,5 +109,3 @@ HoverExitAction.prototype.exit = function () {
 	document.removeEventListener('mousemove', this.moveListener);
 	document.removeEventListener('touchmove', this.moveListener);
 };
-
-module.exports = HoverExitAction;

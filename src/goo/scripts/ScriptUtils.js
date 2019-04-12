@@ -1,6 +1,5 @@
-var ObjectUtils = require('../util/ObjectUtils');
-
-function ScriptUtils() {}
+import ObjectUtils from "../util/ObjectUtils";
+export default function ScriptUtils() {}
 
 ScriptUtils.DEFAULTS_BY_TYPE = {
 	'array': [],
@@ -358,5 +357,3 @@ ScriptUtils._keyInverse = (function (assoc) {
 ScriptUtils.keyForCode = function (code) {
 	return ScriptUtils._keyInverse[code];
 };
-
-module.exports = ScriptUtils;

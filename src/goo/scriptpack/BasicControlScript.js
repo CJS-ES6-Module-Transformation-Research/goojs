@@ -1,5 +1,5 @@
-var Vector3 = require('../math/Vector3');
-var Matrix3 = require('../math/Matrix3');
+import Vector3 from "../math/Vector3";
+import Matrix3 from "../math/Matrix3";
 
 /**
  * Make an entity controllable via mouse and keyboard. WASD keys move the entity towards the back, left,
@@ -8,7 +8,7 @@ var Matrix3 = require('../math/Matrix3');
  *
  * @param {Element} domElement Element to add mouse/key listeners to
  */
-function BasicControlScript(properties) {
+export default function BasicControlScript(properties) {
 	properties = properties || {};
 	this.domElement = properties.domElement === undefined ? null : properties.domElement.domElement || properties.domElement;
 
@@ -307,5 +307,3 @@ BasicControlScript.prototype.run = function (entity, tpf, env) {
 		transformComponent.setUpdated();
 	}
 };
-
-module.exports = BasicControlScript;

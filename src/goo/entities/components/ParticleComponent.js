@@ -1,7 +1,7 @@
-var Component = require('../../entities/components/Component');
-var Particle = require('../../particles/Particle');
-var ParticleEmitter = require('../../particles/ParticleEmitter');
-var MeshData = require('../../renderer/MeshData');
+import Component from "../../entities/components/Component";
+import Particle from "../../particles/Particle";
+import ParticleEmitter from "../../particles/ParticleEmitter";
+import MeshData from "../../renderer/MeshData";
 
 /**
  * Creates and modifies {@link MeshData} to simulate particle effects.<br /><br />ParticleComponents may have one or
@@ -25,7 +25,7 @@ var MeshData = require('../../renderer/MeshData');
  * @param {number} [settings.particleCount=100]
  * @extends Component
  */
-function ParticleComponent(settings) {
+export default function ParticleComponent(settings) {
 	Component.apply(this, arguments);
 
 	this.type = 'ParticleComponent';
@@ -87,5 +87,3 @@ ParticleComponent.prototype.recreateParticles = function (particleCount) {
 	}
 	this.generateMeshData();
 };
-
-module.exports = ParticleComponent;

@@ -1,10 +1,10 @@
-var Component = require('../../../entities/components/Component');
+import Component from "../../../entities/components/Component";
 
 /**
  * @extends Component
  * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
  */
-function SoundManager2Component(settings) {
+export default function SoundManager2Component(settings) {
 	this.type = 'SoundManager2Component';
 
 	this.settings = settings || {};
@@ -23,5 +23,3 @@ SoundManager2Component.prototype.addSound = function (soundName, settings) {
 SoundManager2Component.prototype.playSound = function (soundName) {
 	this.sounds[soundName].soundObject.play();
 };
-
-module.exports = SoundManager2Component;

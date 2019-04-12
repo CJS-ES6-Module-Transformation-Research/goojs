@@ -1,11 +1,11 @@
-var Component = require('../../entities/components/Component');
+import Component from "../../entities/components/Component";
 
 /**
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Gamepad/Gamepad-example.html Working example
  * @param gamepadIndex
  */
-function GamepadComponent(gamepadIndex) {
+export default function GamepadComponent(gamepadIndex) {
 	Component.apply(this, arguments);
 
 	this.type = 'GamepadComponent';
@@ -44,5 +44,3 @@ GamepadComponent.prototype.setLeftStickFunction = function (stickFunction) {
 GamepadComponent.prototype.setRightStickFunction = function (stickFunction) {
 	this.rightStickFunction = stickFunction;
 };
-
-module.exports = GamepadComponent;

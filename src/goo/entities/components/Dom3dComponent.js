@@ -1,7 +1,7 @@
-var Component = require('../../entities/components/Component');
-var Quad = require('../../shapes/Quad');
-var MeshRendererComponent = require('../../entities/components/MeshRendererComponent');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
+import Component from "../../entities/components/Component";
+import Quad from "../../shapes/Quad";
+import MeshRendererComponent from "../../entities/components/MeshRendererComponent";
+import MeshDataComponent from "../../entities/components/MeshDataComponent";
 
 /**
  * Connects a domElement to an entity and applies the transforms of the entity to the domElement with CSS3 3D transforms.
@@ -10,7 +10,7 @@ var MeshDataComponent = require('../../entities/components/MeshDataComponent');
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
  */
-function Dom3dComponent(domElement, settings) {
+export default function Dom3dComponent(domElement, settings) {
 	Component.apply(this, arguments);
 
 	this.type = 'Dom3dComponent';
@@ -100,5 +100,3 @@ Dom3dComponent.prototype.setSize = function (width, height) {
 Dom3dComponent.prototype.destroy = function (context) {
 	this.meshData.destroy(context);
 };
-
-module.exports = Dom3dComponent;

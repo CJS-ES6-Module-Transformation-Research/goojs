@@ -1,8 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
-var Transform = require('../../math/Transform');
-var ObjectUtils = require('../../util/ObjectUtils');
+import Component from "../../entities/components/Component";
+import Quaternion from "../../math/Quaternion";
+import Vector3 from "../../math/Vector3";
+import Transform from "../../math/Transform";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /* global CANNON */
 
@@ -24,7 +24,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * });
  * entity.setComponent(boxColliderComponent);
  */
-function CannonRigidbodyComponent(settings) {
+export default function CannonRigidbodyComponent(settings) {
 	Component.apply(this, arguments);
 
 	settings = settings || {};
@@ -164,5 +164,3 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 		body.addShape(collider.cannonShape);
 	}
 };
-
-module.exports = CannonRigidbodyComponent;

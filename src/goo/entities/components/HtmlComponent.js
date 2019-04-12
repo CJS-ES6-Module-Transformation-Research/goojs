@@ -1,4 +1,4 @@
-var Component = require('../../entities/components/Component');
+import Component from "../../entities/components/Component";
 
 /**
  * Adds a 2D DOM element to the entity, that can move with its transform.
@@ -10,7 +10,7 @@ var Component = require('../../entities/components/Component');
  * @param {boolean} [options.pixelPerfect=true]
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
  */
-function HtmlComponent(domElement, options) {
+export default function HtmlComponent(domElement, options) {
 	options = options || {};
 	Component.apply(this, arguments);
 
@@ -47,5 +47,3 @@ HtmlComponent.type = 'HtmlComponent';
 
 HtmlComponent.prototype = Object.create(Component.prototype);
 HtmlComponent.prototype.constructor = HtmlComponent;
-
-module.exports = HtmlComponent;

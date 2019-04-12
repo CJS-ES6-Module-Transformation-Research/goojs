@@ -1,12 +1,12 @@
-var Shader = require('../renderer/Shader');
-var ObjectUtils = require('../util/ObjectUtils');
+import Shader from "../renderer/Shader";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * A Material defines the look of an object
  * @param {string} [name='Default Material'] Material name
  * @param {{ vshader, fshader }} [shaderDefinition] Optional shader to associate with the material
  */
-function Material(name, shaderDefinition) {
+export default function Material(name, shaderDefinition) {
 	this.id = null;
 
 	/** Material name
@@ -353,5 +353,3 @@ Material.prototype.empty = function () {
 	this.shader = undefined;
 	this.uniforms = {};
 };
-
-module.exports = Material;

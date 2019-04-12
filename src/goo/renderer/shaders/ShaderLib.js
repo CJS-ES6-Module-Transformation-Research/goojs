@@ -1,16 +1,14 @@
-/*eslint indent: "off" */
-
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
+import MeshData from "../../renderer/MeshData";
+import Shader from "../../renderer/Shader";
+import ShaderFragment from "../../renderer/shaders/ShaderFragment";
+import ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
 
 /**
  * Collection of useful shaders<br>
  * Details of each can be printed like this for example: console.log(ShaderLib.texturedLit).<br>
  * There are more special purpose shaders in {@link ShaderLibExtra}
  */
-function ShaderLib() {}
+export default function ShaderLib() {}
 
 /**
  * The uber shader is the default Goo shader supporting the most common realistic render features.
@@ -1153,5 +1151,3 @@ ShaderLib.pickingShader = {
 	'}'
 	].join('\n')
 };
-
-module.exports = ShaderLib;

@@ -1,7 +1,7 @@
-var AbstractTimelineChannel = require('../timelinepack/AbstractTimelineChannel');
-var MathUtils = require('../math/MathUtils');
+import AbstractTimelineChannel from "../timelinepack/AbstractTimelineChannel";
+import MathUtils from "../math/MathUtils";
 
-function ValueChannel(id, options) {
+export default function ValueChannel(id, options) {
 	AbstractTimelineChannel.call(this, id);
 
 	this.value = 0;
@@ -117,5 +117,3 @@ ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rota
 	func.rotation = rotation;
 	return func;
 };
-
-module.exports = ValueChannel;

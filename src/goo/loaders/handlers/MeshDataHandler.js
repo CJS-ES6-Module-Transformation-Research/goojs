@@ -1,9 +1,9 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var MeshData = require('../../renderer/MeshData');
-var BufferUtils = require('../../renderer/BufferUtils');
-var Capabilities = require('../../renderer/Capabilities');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ArrayUtils = require('../../util/ArrayUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import MeshData from "../../renderer/MeshData";
+import BufferUtils from "../../renderer/BufferUtils";
+import Capabilities from "../../renderer/Capabilities";
+import PromiseUtils from "../../util/PromiseUtils";
+import ArrayUtils from "../../util/ArrayUtils";
 
 var WEIGHTS_PER_VERT = 4;
 
@@ -14,7 +14,7 @@ var WEIGHTS_PER_VERT = 4;
  * @param {Function} updateObject
  * @private
  */
-function MeshDataHandler() {
+export default function MeshDataHandler() {
 	ConfigHandler.apply(this, arguments);
 }
 
@@ -181,5 +181,3 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 
 	return meshData;
 };
-
-module.exports = MeshDataHandler;

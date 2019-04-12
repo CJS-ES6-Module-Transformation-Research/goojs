@@ -1,4 +1,4 @@
-var Rectangle = require('../../util/combine/Rectangle');
+import Rectangle from "../../util/combine/Rectangle";
 
 /**
  * Atlas node
@@ -6,7 +6,7 @@ var Rectangle = require('../../util/combine/Rectangle');
  * @param w
  * @param h
  */
-function AtlasNode(w, h) {
+export default function AtlasNode(w, h) {
 	this.isLeaf = true;
 	this.isSet = false;
 	this.children = [];
@@ -78,5 +78,3 @@ AtlasNode.prototype._insert = function (rectangle) {
 		return this.children[0]._insert(rectangle);
 	}
 };
-
-module.exports = AtlasNode;

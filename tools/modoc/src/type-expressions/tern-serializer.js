@@ -74,7 +74,7 @@ var serialize = function (node, definitions) {
 	return serializers[node.nodeType](node, definitions);
 };
 
-var _serialize = function (node, options) {
+export var _serialize = function (node, options) {
 	if (options && typeof options._forceCounter === 'number') {
 		definitionsCounter = options._forceCounter;
 	}
@@ -86,6 +86,3 @@ var _serialize = function (node, options) {
 		serialized: serialized
 	};
 };
-
-
-exports.serialize = _serialize;

@@ -1,9 +1,9 @@
-var Capabilities = require('../renderer/Capabilities');
+import Capabilities from "../renderer/Capabilities";
 
 /**
  * Utility for creating index buffers of appropriate type
  */
-function BufferUtils() {}
+export default function BufferUtils() {}
 
 /**
  * Creates an index buffer of a type appropriate to store the supplied number of vertices
@@ -49,5 +49,3 @@ storeBrowserType();
 BufferUtils.cloneTypedArray = function (source) {
 	return new source.constructor(source);
 };
-
-module.exports = BufferUtils;

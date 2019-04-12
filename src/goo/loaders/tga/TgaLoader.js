@@ -1,7 +1,7 @@
 /**
  * @private
  */
-function TgaLoader() {
+export default function TgaLoader() {
 	this.header = null;
 	this.offset = 0;
 	this.use_rle = false;
@@ -516,5 +516,3 @@ TgaLoader.prototype.isSupported = function () {
 TgaLoader.prototype.toString = function () {
 	return "TgaLoader";
 };
-
-module.exports = TgaLoader;

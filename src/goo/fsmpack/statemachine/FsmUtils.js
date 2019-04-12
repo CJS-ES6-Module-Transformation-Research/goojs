@@ -1,4 +1,4 @@
-function FsmUtils() {}
+export default function FsmUtils() {}
 
 FsmUtils.setParameters = function (settings, externalParameters) {
 	for (var i = 0; i < externalParameters.length; i++) {
@@ -188,5 +188,3 @@ FsmUtils.getValue = function (par, fsm) {
 		return fsm.getVariable(par);
 	}
 };
-
-module.exports = FsmUtils;

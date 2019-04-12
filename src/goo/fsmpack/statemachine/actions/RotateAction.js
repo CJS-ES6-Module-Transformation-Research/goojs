@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var MathUtils = require('../../../math/MathUtils');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import MathUtils from "../../../math/MathUtils";
 
-function RotateAction(/*id, settings*/) {
+export default function RotateAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -88,5 +88,3 @@ RotateAction.prototype.update = function (fsm) {
 		this.applyRotation(fsm);
 	}
 };
-
-module.exports = RotateAction;

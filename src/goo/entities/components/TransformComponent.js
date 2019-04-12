@@ -1,7 +1,7 @@
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Component = require('../../entities/components/Component');
-var EntitySelection = require('../../entities/EntitySelection');
+import Transform from "../../math/Transform";
+import Vector3 from "../../math/Vector3";
+import Component from "../../entities/components/Component";
+import EntitySelection from "../../entities/EntitySelection";
 
 /**
  * Holds the transform of an entity. It also allows for a scene graph to be created,
@@ -9,7 +9,7 @@ var EntitySelection = require('../../entities/EntitySelection');
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
  * @extends Component
  */
-function TransformComponent() {
+export default function TransformComponent() {
 	Component.apply(this, arguments);
 
 	this.type = 'TransformComponent';
@@ -781,5 +781,3 @@ TransformComponent.applyOnEntity = function (obj, entity) {
 		return true;
 	}
 };
-
-module.exports = TransformComponent;

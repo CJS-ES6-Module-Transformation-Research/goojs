@@ -2,7 +2,7 @@
  * Get logo svg in different formats
  * Only used to define the class. Should never be instantiated.
  */
-function Logo() {}
+export default function Logo() {}
 
 /** @type {string} */
 Logo.blue = '#2A3276';
@@ -112,5 +112,3 @@ Logo.getLogo = function (properties) {
 	var str = serializer.serializeToString(svg);
 	return str;
 };
-
-module.exports = Logo;

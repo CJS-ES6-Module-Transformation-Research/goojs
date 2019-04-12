@@ -1,12 +1,12 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var SteadyState = require('../../animationpack/state/SteadyState');
-var ClipSource = require('../../animationpack/blendtree/ClipSource');
-var ManagedTransformSource = require('../../animationpack/blendtree/ManagedTransformSource');
-var BinaryLerpSource = require('../../animationpack/blendtree/BinaryLerpSource');
-var FrozenClipSource = require('../../animationpack/blendtree/FrozenClipSource');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import SteadyState from "../../animationpack/state/SteadyState";
+import ClipSource from "../../animationpack/blendtree/ClipSource";
+import ManagedTransformSource from "../../animationpack/blendtree/ManagedTransformSource";
+import BinaryLerpSource from "../../animationpack/blendtree/BinaryLerpSource";
+import FrozenClipSource from "../../animationpack/blendtree/FrozenClipSource";
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /**
  * Handler for loading animation states into engine
@@ -16,9 +16,10 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @extends ConfigHandler
  * @private
  */
-function AnimationStateHandler() {
+export default function AnimationStateHandler() {
 	ConfigHandler.apply(this, arguments);
 }
+
 AnimationStateHandler.prototype = Object.create(ConfigHandler.prototype);
 AnimationStateHandler.prototype.constructor = AnimationStateHandler;
 ConfigHandler._registerClass('animstate', AnimationStateHandler);
@@ -135,5 +136,3 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 			return PromiseUtils.resolve();
 	}
 };
-
-module.exports = AnimationStateHandler;

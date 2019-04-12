@@ -1,5 +1,5 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var QuadComponent = require('../quadpack/QuadComponent');
+import ComponentHandler from "../loaders/handlers/ComponentHandler";
+import QuadComponent from "../quadpack/QuadComponent";
 
 /**
  * For handling loading of quadcomponents
@@ -9,7 +9,7 @@ var QuadComponent = require('../quadpack/QuadComponent');
  * @extends ComponentHandler
  * @hidden
  */
-function QuadComponentHandler() {
+export default function QuadComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'QuadComponent';
 }
@@ -72,5 +72,3 @@ QuadComponentHandler.prototype.update = function (entity, config, options) {
 		});
 	});
 };
-
-module.exports = QuadComponentHandler;

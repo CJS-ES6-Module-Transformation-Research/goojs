@@ -1,5 +1,5 @@
-var MeshData = require('../../renderer/MeshData');
-var MathUtils = require('../../math/MathUtils');
+import MeshData from "../../renderer/MeshData";
+import MathUtils from "../../math/MathUtils";
 
 /**
  * A grid-like surface shape
@@ -8,7 +8,7 @@ var MathUtils = require('../../math/MathUtils');
  * @param {number} yHeight y axis size in units
  * @param {number} zWidth z axis size in units
  */
-function TerrainSurface(heightMatrix, xWidth, yHeight, zWidth) {
+export default function TerrainSurface(heightMatrix, xWidth, yHeight, zWidth) {
     var verts = [];
     for (var i = 0; i < heightMatrix.length; i++) {
         for (var j = 0; j < heightMatrix[i].length; j++) {
@@ -118,5 +118,3 @@ TerrainSurface.prototype.rebuild = function () {
 
 	return this;
 };
-
-module.exports = TerrainSurface;

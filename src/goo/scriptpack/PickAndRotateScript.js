@@ -1,4 +1,4 @@
-function PickAndRotateScript() {
+export default function PickAndRotateScript() {
 	var gooRunner;
 	var validPick;
 	var args, ctx;
@@ -161,5 +161,3 @@ PickAndRotateScript.externals = {
 		max: 4
 	}]
 };
-
-module.exports = PickAndRotateScript;

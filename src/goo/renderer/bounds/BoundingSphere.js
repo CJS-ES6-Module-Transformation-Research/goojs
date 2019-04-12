@@ -1,7 +1,7 @@
-var Vector3 = require('../../math/Vector3');
-var MathUtils = require('../../math/MathUtils');
-var BoundingVolume = require('../../renderer/bounds/BoundingVolume');
-var MeshData = require('../../renderer/MeshData');
+import Vector3 from "../../math/Vector3";
+import MathUtils from "../../math/MathUtils";
+import BoundingVolume from "../../renderer/bounds/BoundingVolume";
+import MeshData from "../../renderer/MeshData";
 
 /**
  * <code>BoundingSphere</code> defines a sphere that defines a container for a group of vertices of a particular piece of geometry. This
@@ -10,7 +10,7 @@ var MeshData = require('../../renderer/MeshData');
  *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
  *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
  */
-function BoundingSphere(center, radius) {
+export default function BoundingSphere(center, radius) {
 	BoundingVolume.call(this, center);
 	this.radius = radius !== undefined ? radius : 1;
 
@@ -360,5 +360,3 @@ BoundingSphere.prototype.clone = function () {
 	// when/if that ever changes this needs adapted accordingly
 	return new BoundingSphere(this.center, this.radius);
 };
-
-module.exports = BoundingSphere;

@@ -1,5 +1,5 @@
-var DdsUtils = require('../../loaders/dds/DdsUtils');
-var Capabilities = require('../../renderer/Capabilities');
+import DdsUtils from "../../loaders/dds/DdsUtils";
+import Capabilities from "../../renderer/Capabilities";
 
 function DdsPixelFormat() {
 	this.dwSize = 0;
@@ -178,7 +178,7 @@ DdsImageInfo.prototype.calcMipmapSizes = function (compressed) {
  * Loads dds format images into a format usable by Goo.
  * @private
  */
-function DdsLoader() {
+export default function DdsLoader() {
 }
 
 DdsLoader.updateDepth = function (image, info) {
@@ -506,5 +506,3 @@ DdsLoader.prototype.isSupported = function () {
 DdsLoader.prototype.toString = function () {
 	return 'DdsLoader';
 };
-
-module.exports = DdsLoader;

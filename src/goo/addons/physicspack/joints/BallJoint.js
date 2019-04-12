@@ -1,5 +1,5 @@
-var PhysicsJoint = require('../../../addons/physicspack/joints/PhysicsJoint');
-var Vector3 = require('../../../math/Vector3');
+import PhysicsJoint from "../../../addons/physicspack/joints/PhysicsJoint";
+import Vector3 from "../../../math/Vector3";
 
 /**
  * A physics ball joint. A ball joint (or "constraint") will try to keep a point in each of two connected bodies the same.
@@ -9,7 +9,7 @@ var Vector3 = require('../../../math/Vector3');
  * @param {boolean} [settings.collideConnected=false]
  * @extends PhysicsJoint
  */
-function BallJoint(settings) {
+export default function BallJoint(settings) {
 	settings = settings || {};
 	PhysicsJoint.call(this, settings);
 
@@ -34,5 +34,3 @@ function BallJoint(settings) {
 
 BallJoint.prototype = Object.create(PhysicsJoint.prototype);
 BallJoint.prototype.constructor = BallJoint;
-
-module.exports = BallJoint;

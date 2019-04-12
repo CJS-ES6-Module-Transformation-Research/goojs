@@ -4,7 +4,7 @@
  * @param {Entity} [settings.connectedEntity]
  * @param {boolean} [settings.collideConnected=false]
  */
-function PhysicsJoint(settings) {
+export default function PhysicsJoint(settings) {
 	settings = settings || {};
 
 	/**
@@ -19,5 +19,3 @@ function PhysicsJoint(settings) {
 	 */
 	this.collideConnected = settings.collideConnected !== undefined ? settings.collideConnected : false;
 }
-
-module.exports = PhysicsJoint;

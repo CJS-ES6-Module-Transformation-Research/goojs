@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function PauseTimelineAction(/*id, settings*/) {
+export default function PauseTimelineAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -24,5 +24,3 @@ PauseTimelineAction.prototype.enter = function (fsm) {
 
 	entity.timelineComponent.pause();
 };
-
-module.exports = PauseTimelineAction;

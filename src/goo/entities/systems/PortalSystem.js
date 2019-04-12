@@ -1,4 +1,4 @@
-var System = require('../../entities/systems/System');
+import System from "../../entities/systems/System";
 
 /**
  * Processes all entities with a portal component, a mesh renderer component and a mesh data component
@@ -7,7 +7,7 @@ var System = require('../../entities/systems/System');
  * @param {Renderer} renderer
  * @param {RenderSystem} renderSystem
  */
-function PortalSystem(renderer, renderSystem) {
+export default function PortalSystem(renderer, renderSystem) {
 	System.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
 
 	this.renderer = renderer;
@@ -58,5 +58,3 @@ PortalSystem.prototype.render = function (renderer, camera, target, overrideMate
 
 	renderer.render(this.renderList, camera, this.renderSystem.lights, target, true, overrideMaterial);
 };
-
-module.exports = PortalSystem;

@@ -1,6 +1,6 @@
-var MeshData = require('../../renderer/MeshData');
+import MeshData from "../../renderer/MeshData";
 
-function MeshRendererDebug() {
+export default function MeshRendererDebug() {
 	this._meshes = [buildBox(1, 1, 1), null];
 }
 
@@ -47,5 +47,3 @@ function buildBox(dx, dy, dz) {
 
 	return meshData;
 }
-
-module.exports = MeshRendererDebug;

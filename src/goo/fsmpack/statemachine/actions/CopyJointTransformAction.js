@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function CopyJointTransformAction() {
+export default function CopyJointTransformAction() {
 	Action.apply(this, arguments);
 	this.everyFrame = true;
 }
@@ -59,5 +59,3 @@ function updateWorldTransform(transformComponent) {
 		updateWorldTransform(transformComponent.children[i]);
 	}
 }
-
-module.exports = CopyJointTransformAction;

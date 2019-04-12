@@ -1,11 +1,11 @@
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
 /**
  * @param {string} id
  * @param {Object} settings
  * @private
  */
-function Action(id, settings) {
+export default function Action(id, settings) {
 	this.id = id;
 	this.configure(settings || {});
 }
@@ -35,5 +35,3 @@ Action.prototype.ready = function (/*fsm*/) {
 /* this is called when the machine stops and makes sure that any changes not undone by exit methods get undone */
 Action.prototype.cleanup = function (/*fsm*/) {
 };
-
-module.exports = Action;

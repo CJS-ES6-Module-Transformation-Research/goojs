@@ -1,12 +1,12 @@
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import PromiseUtils from "../util/PromiseUtils";
+import ObjectUtils from "../util/ObjectUtils";
 
 // TODO: make promise based instead of sending callbacks
 
 /**
  * Provides useful canvas-related methods
  */
-function CanvasUtils() {}
+export default function CanvasUtils() {}
 
 // REVIEW: add documentation about what happens if the image is corrupt
 /**
@@ -180,5 +180,3 @@ CanvasUtils.svgDataToImage = function (data) {
 		};
 	});
 };
-
-module.exports = CanvasUtils;

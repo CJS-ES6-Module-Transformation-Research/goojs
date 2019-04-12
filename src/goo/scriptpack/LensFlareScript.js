@@ -1,14 +1,14 @@
-var Vector3 = require('../math/Vector3');
-var ParticleSystemUtils = require('../util/ParticleSystemUtils');
-var Material = require('../renderer/Material');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Quad = require('../shapes/Quad');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
+import Vector3 from "../math/Vector3";
+import ParticleSystemUtils from "../util/ParticleSystemUtils";
+import Material from "../renderer/Material";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import Quad from "../shapes/Quad";
+import BoundingSphere from "../renderer/bounds/BoundingSphere";
 
 /**
  * This script makes an entity shine with some lensflare effect.
  */
-function LensFlareScript() {
+export default function LensFlareScript() {
 	var lightEntity;
 	var flares = [];
 	var world;
@@ -323,5 +323,3 @@ FlareQuad.prototype.updatePosition = function (flareGeometry) {
 
 	this.quad.transformComponent.setUpdated();
 };
-
-module.exports = LensFlareScript;

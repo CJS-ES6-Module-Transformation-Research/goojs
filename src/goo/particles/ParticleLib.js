@@ -2,7 +2,7 @@
  * Library of particles
  * @example-link http://code.gooengine.com/latest/visual-test/goo/misc/ParticleLib/ParticleLib-vtest.html Working example
  */
-function ParticleLib() {}
+export default function ParticleLib() {}
 
 /**
  * Returns a set of parameters for a smoke particle emitter
@@ -133,5 +133,3 @@ ParticleLib.getSnow = function (options) {
 		}]
 	};
 };
-
-module.exports = ParticleLib;

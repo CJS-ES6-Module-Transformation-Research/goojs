@@ -1,13 +1,13 @@
-var Material = require('../../renderer/Material');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Pass = require('../../renderer/pass/Pass');
+import Material from "../../renderer/Material";
+import FullscreenUtils from "../../renderer/pass/FullscreenUtils";
+import ShaderLib from "../../renderer/shaders/ShaderLib";
+import Pass from "../../renderer/pass/Pass";
 
 /**
  * Fullscreen pass
  * @param shader
  */
-function FullscreenPass(shader) {
+export default function FullscreenPass(shader) {
 	this.material = new Material(shader || ShaderLib.simple);
 	this.useReadBuffer = true;
 
@@ -47,5 +47,3 @@ FullscreenPass.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateMaterial(this.renderable.materials[0]);
 	renderer.invalidateMeshData(this.renderable.meshData);
 };
-
-module.exports = FullscreenPass;

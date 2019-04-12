@@ -1,11 +1,11 @@
-var AbstractState = require('../../animationpack/state/AbstractState');
+import AbstractState from "../../animationpack/state/AbstractState";
 
 /**
  * A "steady" state is an animation state that is concrete and stand-alone (vs. a state that handles transitioning between two states, for example.)
  * @extends AbstractState
  * @param {string} name Name of state
  */
-function SteadyState(name) {
+export default function SteadyState(name) {
 	AbstractState.call(this);
 
 	this.id = null;
@@ -78,5 +78,3 @@ SteadyState.prototype.clone = function () {
 
 	return cloned;
 };
-
-module.exports = SteadyState;

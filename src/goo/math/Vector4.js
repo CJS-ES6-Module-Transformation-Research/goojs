@@ -1,6 +1,6 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
+import ObjectUtils from "../util/ObjectUtils";
+import MathUtils from "./MathUtils";
+import Vector from "./Vector";
 
 /**
  * Vector with 4 components
@@ -13,7 +13,7 @@ var Vector = require('./Vector');
  * var v1 = new Vector4(); // v1 == (0, 0, 0, 0)
  * var v2 = new Vector4(1, 2, 3, 4); // v2 == (1, 2, 3, 4)
  */
-function Vector4(x, y, z, w) {
+export default function Vector4(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
 	this._y = 0;
@@ -907,7 +907,3 @@ Vector4.prototype.subVector = ObjectUtils.warnOnce('Vector4.prototype.subVector 
 
 	return this;
 });
-
-// SHIM END
-
-module.exports = Vector4;

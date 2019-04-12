@@ -2,7 +2,7 @@
  * Holds the renderer's state
  * @hidden
  */
-function RendererRecord() {
+export default function RendererRecord() {
 	this.currentBuffer = {
 		'ArrayBuffer': {
 			buffer: null,
@@ -47,5 +47,3 @@ RendererRecord.prototype.invalidateBuffer = function (target) {
 	this.currentBuffer[target].buffer = null;
 	this.currentBuffer[target].valid = false;
 };
-
-module.exports = RendererRecord;

@@ -1,6 +1,6 @@
-var Vector2 = require('../math/Vector2');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import Vector2 from "../math/Vector2";
+import PromiseUtils from "../util/PromiseUtils";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * <code>Texture</code> defines a texture object to be used to display an image on a piece of geometry. The image to be displayed is
@@ -62,7 +62,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {number} width Width of the texture
  * @param {number} height Height of the texture
  */
-function Texture(image, settings, width, height) {
+export default function Texture(image, settings, width, height) {
 	this.glTexture = null;
 
 	settings = settings || {};
@@ -279,5 +279,3 @@ Texture.prototype.clone = function () {
 };
 
 Texture.CUBE_FACES = ['PositiveX', 'NegativeX', 'PositiveY', 'NegativeY', 'PositiveZ', 'NegativeZ'];
-
-module.exports = Texture;

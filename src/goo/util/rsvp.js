@@ -284,10 +284,10 @@ function configure(name, value) {
 	config[name] = value;
 }
 
-module.exports = {
+export default {
 	Promise: Promise,
 	Event: Event,
 	EventTarget: EventTarget,
 	all: all,
 	configure: configure
-};
+};;

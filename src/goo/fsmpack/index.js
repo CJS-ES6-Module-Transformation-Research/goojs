@@ -1,87 +1,169 @@
-module.exports = {
-	MachineHandler: require('./MachineHandler'),
-	ProximityComponent: require('./proximity/ProximityComponent'),
-	ProximitySystem: require('./proximity/ProximitySystem'),
-	Action: require('./statemachine/actions/Action'),
-	Actions: require('./statemachine/actions/Actions'),
-	AddLightAction: require('./statemachine/actions/AddLightAction'),
-	AddPositionAction: require('./statemachine/actions/AddPositionAction'),
-	AddVariableAction: require('./statemachine/actions/AddVariableAction'),
-	ApplyImpulseAction: require('./statemachine/actions/ApplyImpulseAction'),
-	ArrowsAction: require('./statemachine/actions/ArrowsAction'),
-	CollidesAction: require('./statemachine/actions/CollidesAction'),
-	CompareCounterAction: require('./statemachine/actions/CompareCounterAction'),
-	CompareCountersAction: require('./statemachine/actions/CompareCountersAction'),
-	CompareDistanceAction: require('./statemachine/actions/CompareDistanceAction'),
-	CopyJointTransformAction: require('./statemachine/actions/CopyJointTransformAction'),
-	DollyZoomAction: require('./statemachine/actions/DollyZoomAction'),
-	EmitAction: require('./statemachine/actions/EmitAction'),
-	EvalAction: require('./statemachine/actions/EvalAction'),
-	FireAction: require('./statemachine/actions/FireAction'),
-	GetPositionAction: require('./statemachine/actions/GetPositionAction'),
-	HideAction: require('./statemachine/actions/HideAction'),
-	HtmlAction: require('./statemachine/actions/HtmlAction'),
-	InBoxAction: require('./statemachine/actions/InBoxAction'),
-	IncrementCounterAction: require('./statemachine/actions/IncrementCounterAction'),
-	InFrustumAction: require('./statemachine/actions/InFrustumAction'),
-	KeyDownAction: require('./statemachine/actions/KeyDownAction'),
-	KeyPressedAction: require('./statemachine/actions/KeyPressedAction'),
-	KeyUpAction: require('./statemachine/actions/KeyUpAction'),
-	LogMessageAction: require('./statemachine/actions/LogMessageAction'),
-	LookAtAction: require('./statemachine/actions/LookAtAction'),
-	MouseDownAction: require('./statemachine/actions/MouseDownAction'),
-	MouseMoveAction: require('./statemachine/actions/MouseMoveAction'),
-	MouseUpAction: require('./statemachine/actions/MouseUpAction'),
-	MoveAction: require('./statemachine/actions/MoveAction'),
-	MultiplyVariableAction: require('./statemachine/actions/MultiplyVariableAction'),
-	NumberCompareAction: require('./statemachine/actions/NumberCompareAction'),
-	PauseAnimationAction: require('./statemachine/actions/PauseAnimationAction'),
-	PickAction: require('./statemachine/actions/PickAction'),
-	PickAndExitAction: require('./statemachine/actions/PickAndExitAction'),
-	RandomTransitionAction: require('./statemachine/actions/RandomTransitionAction'),
-	RemoveAction: require('./statemachine/actions/RemoveAction'),
-	RemoveLightAction: require('./statemachine/actions/RemoveLightAction'),
-	RemoveParticlesAction: require('./statemachine/actions/RemoveParticlesAction'),
-	ResumeAnimationAction: require('./statemachine/actions/ResumeAnimationAction'),
-	RotateAction: require('./statemachine/actions/RotateAction'),
-	ScaleAction: require('./statemachine/actions/ScaleAction'),
-	SetAnimationAction: require('./statemachine/actions/SetAnimationAction'),
-	SetClearColorAction: require('./statemachine/actions/SetClearColorAction'),
-	SetCounterAction: require('./statemachine/actions/SetCounterAction'),
-	SetLightRangeAction: require('./statemachine/actions/SetLightRangeAction'),
-	SetPositionAction: require('./statemachine/actions/SetPositionAction'),
-	SetRenderTargetAction: require('./statemachine/actions/SetRenderTargetAction'),
-	SetRotationAction: require('./statemachine/actions/SetRotationAction'),
-	SetVariableAction: require('./statemachine/actions/SetVariableAction'),
-	ShakeAction: require('./statemachine/actions/ShakeAction'),
-	ShowAction: require('./statemachine/actions/ShowAction'),
-	SmokeAction: require('./statemachine/actions/SmokeAction'),
-	SoundFadeInAction: require('./statemachine/actions/SoundFadeInAction'),
-	SoundFadeOutAction: require('./statemachine/actions/SoundFadeOutAction'),
-	SwitchCameraAction: require('./statemachine/actions/SwitchCameraAction'),
-	TagAction: require('./statemachine/actions/TagAction'),
-	TransitionAction: require('./statemachine/actions/TransitionAction'),
-	TransitionOnMessageAction: require('./statemachine/actions/TransitionOnMessageAction'),
-	TriggerEnterAction: require('./statemachine/actions/TriggerEnterAction'),
-	TriggerLeaveAction: require('./statemachine/actions/TriggerLeaveAction'),
-	TweenLightColorAction: require('./statemachine/actions/TweenLightColorAction'),
-	TweenLookAtAction: require('./statemachine/actions/TweenLookAtAction'),
-	TweenMoveAction: require('./statemachine/actions/TweenMoveAction'),
-	TweenOpacityAction: require('./statemachine/actions/TweenOpacityAction'),
-	TweenRotationAction: require('./statemachine/actions/TweenRotationAction'),
-	TweenScaleAction: require('./statemachine/actions/TweenScaleAction'),
-	TweenTextureOffsetAction: require('./statemachine/actions/TweenTextureOffsetAction'),
-	WaitAction: require('./statemachine/actions/WaitAction'),
-	WasdAction: require('./statemachine/actions/WasdAction'),
-	FSMUtil: require('./statemachine/FSMUtil'),
-	FsmUtils: require('./statemachine/FsmUtils'),
-	Machine: require('./statemachine/Machine'),
-	State: require('./statemachine/State'),
-	StateMachineComponent: require('./statemachine/StateMachineComponent'),
-	StateMachineSystem: require('./statemachine/StateMachineSystem'),
-	StateMachineComponentHandler: require('./StateMachineComponentHandler'),
-	StateMachineHandlers: require('./StateMachineHandlers')
-};
+import MachineHandler_moduleDefault from "./MachineHandler";
+import proximityProximityComponent_moduleDefault from "./proximity/ProximityComponent";
+import proximityProximitySystem_moduleDefault from "./proximity/ProximitySystem";
+import statemachineactionsAction_moduleDefault from "./statemachine/actions/Action";
+import statemachineactionsActions_moduleDefault from "./statemachine/actions/Actions";
+import statemachineactionsAddLightAction_moduleDefault from "./statemachine/actions/AddLightAction";
+import statemachineactionsAddPositionAction_moduleDefault from "./statemachine/actions/AddPositionAction";
+import statemachineactionsAddVariableAction_moduleDefault from "./statemachine/actions/AddVariableAction";
+import statemachineactionsApplyImpulseAction_moduleDefault from "./statemachine/actions/ApplyImpulseAction";
+import statemachineactionsArrowsAction_moduleDefault from "./statemachine/actions/ArrowsAction";
+import statemachineactionsCollidesAction_moduleDefault from "./statemachine/actions/CollidesAction";
+import statemachineactionsCompareCounterAction_moduleDefault from "./statemachine/actions/CompareCounterAction";
+import statemachineactionsCompareCountersAction_moduleDefault from "./statemachine/actions/CompareCountersAction";
+import statemachineactionsCompareDistanceAction_moduleDefault from "./statemachine/actions/CompareDistanceAction";
+import statemachineactionsCopyJointTransformAction_moduleDefault from "./statemachine/actions/CopyJointTransformAction";
+import statemachineactionsDollyZoomAction_moduleDefault from "./statemachine/actions/DollyZoomAction";
+import statemachineactionsEmitAction_moduleDefault from "./statemachine/actions/EmitAction";
+import statemachineactionsEvalAction_moduleDefault from "./statemachine/actions/EvalAction";
+import statemachineactionsFireAction_moduleDefault from "./statemachine/actions/FireAction";
+import statemachineactionsGetPositionAction_moduleDefault from "./statemachine/actions/GetPositionAction";
+import statemachineactionsHideAction_moduleDefault from "./statemachine/actions/HideAction";
+import statemachineactionsHtmlAction_moduleDefault from "./statemachine/actions/HtmlAction";
+import statemachineactionsInBoxAction_moduleDefault from "./statemachine/actions/InBoxAction";
+import statemachineactionsIncrementCounterAction_moduleDefault from "./statemachine/actions/IncrementCounterAction";
+import statemachineactionsInFrustumAction_moduleDefault from "./statemachine/actions/InFrustumAction";
+import statemachineactionsKeyDownAction_moduleDefault from "./statemachine/actions/KeyDownAction";
+import statemachineactionsKeyPressedAction_moduleDefault from "./statemachine/actions/KeyPressedAction";
+import statemachineactionsKeyUpAction_moduleDefault from "./statemachine/actions/KeyUpAction";
+import statemachineactionsLogMessageAction_moduleDefault from "./statemachine/actions/LogMessageAction";
+import statemachineactionsLookAtAction_moduleDefault from "./statemachine/actions/LookAtAction";
+import statemachineactionsMouseDownAction_moduleDefault from "./statemachine/actions/MouseDownAction";
+import statemachineactionsMouseMoveAction_moduleDefault from "./statemachine/actions/MouseMoveAction";
+import statemachineactionsMouseUpAction_moduleDefault from "./statemachine/actions/MouseUpAction";
+import statemachineactionsMoveAction_moduleDefault from "./statemachine/actions/MoveAction";
+import statemachineactionsMultiplyVariableAction_moduleDefault from "./statemachine/actions/MultiplyVariableAction";
+import statemachineactionsNumberCompareAction_moduleDefault from "./statemachine/actions/NumberCompareAction";
+import statemachineactionsPauseAnimationAction_moduleDefault from "./statemachine/actions/PauseAnimationAction";
+import statemachineactionsPickAction_moduleDefault from "./statemachine/actions/PickAction";
+import statemachineactionsPickAndExitAction_moduleDefault from "./statemachine/actions/PickAndExitAction";
+import statemachineactionsRandomTransitionAction_moduleDefault from "./statemachine/actions/RandomTransitionAction";
+import statemachineactionsRemoveAction_moduleDefault from "./statemachine/actions/RemoveAction";
+import statemachineactionsRemoveLightAction_moduleDefault from "./statemachine/actions/RemoveLightAction";
+import statemachineactionsRemoveParticlesAction_moduleDefault from "./statemachine/actions/RemoveParticlesAction";
+import statemachineactionsResumeAnimationAction_moduleDefault from "./statemachine/actions/ResumeAnimationAction";
+import statemachineactionsRotateAction_moduleDefault from "./statemachine/actions/RotateAction";
+import statemachineactionsScaleAction_moduleDefault from "./statemachine/actions/ScaleAction";
+import statemachineactionsSetAnimationAction_moduleDefault from "./statemachine/actions/SetAnimationAction";
+import statemachineactionsSetClearColorAction_moduleDefault from "./statemachine/actions/SetClearColorAction";
+import statemachineactionsSetCounterAction_moduleDefault from "./statemachine/actions/SetCounterAction";
+import statemachineactionsSetLightRangeAction_moduleDefault from "./statemachine/actions/SetLightRangeAction";
+import statemachineactionsSetPositionAction_moduleDefault from "./statemachine/actions/SetPositionAction";
+import statemachineactionsSetRenderTargetAction_moduleDefault from "./statemachine/actions/SetRenderTargetAction";
+import statemachineactionsSetRotationAction_moduleDefault from "./statemachine/actions/SetRotationAction";
+import statemachineactionsSetVariableAction_moduleDefault from "./statemachine/actions/SetVariableAction";
+import statemachineactionsShakeAction_moduleDefault from "./statemachine/actions/ShakeAction";
+import statemachineactionsShowAction_moduleDefault from "./statemachine/actions/ShowAction";
+import statemachineactionsSmokeAction_moduleDefault from "./statemachine/actions/SmokeAction";
+import statemachineactionsSoundFadeInAction_moduleDefault from "./statemachine/actions/SoundFadeInAction";
+import statemachineactionsSoundFadeOutAction_moduleDefault from "./statemachine/actions/SoundFadeOutAction";
+import statemachineactionsSwitchCameraAction_moduleDefault from "./statemachine/actions/SwitchCameraAction";
+import statemachineactionsTagAction_moduleDefault from "./statemachine/actions/TagAction";
+import statemachineactionsTransitionAction_moduleDefault from "./statemachine/actions/TransitionAction";
+import statemachineactionsTransitionOnMessageAction_moduleDefault from "./statemachine/actions/TransitionOnMessageAction";
+import statemachineactionsTriggerEnterAction_moduleDefault from "./statemachine/actions/TriggerEnterAction";
+import statemachineactionsTriggerLeaveAction_moduleDefault from "./statemachine/actions/TriggerLeaveAction";
+import statemachineactionsTweenLightColorAction_moduleDefault from "./statemachine/actions/TweenLightColorAction";
+import statemachineactionsTweenLookAtAction_moduleDefault from "./statemachine/actions/TweenLookAtAction";
+import statemachineactionsTweenMoveAction_moduleDefault from "./statemachine/actions/TweenMoveAction";
+import statemachineactionsTweenOpacityAction_moduleDefault from "./statemachine/actions/TweenOpacityAction";
+import statemachineactionsTweenRotationAction_moduleDefault from "./statemachine/actions/TweenRotationAction";
+import statemachineactionsTweenScaleAction_moduleDefault from "./statemachine/actions/TweenScaleAction";
+import statemachineactionsTweenTextureOffsetAction_moduleDefault from "./statemachine/actions/TweenTextureOffsetAction";
+import statemachineactionsWaitAction_moduleDefault from "./statemachine/actions/WaitAction";
+import statemachineactionsWasdAction_moduleDefault from "./statemachine/actions/WasdAction";
+import statemachineFSMUtil_moduleDefault from "./statemachine/FSMUtil";
+import statemachineFsmUtils_moduleDefault from "./statemachine/FsmUtils";
+import statemachineMachine_moduleDefault from "./statemachine/Machine";
+import statemachineState_moduleDefault from "./statemachine/State";
+import statemachineStateMachineComponent_moduleDefault from "./statemachine/StateMachineComponent";
+import statemachineStateMachineSystem_moduleDefault from "./statemachine/StateMachineSystem";
+import StateMachineComponentHandler_moduleDefault from "./StateMachineComponentHandler";
+import * as StateMachineHandlers_moduleDefault from "./StateMachineHandlers";
+export default {
+	MachineHandler: MachineHandler_moduleDefault,
+	ProximityComponent: proximityProximityComponent_moduleDefault,
+	ProximitySystem: proximityProximitySystem_moduleDefault,
+	Action: statemachineactionsAction_moduleDefault,
+	Actions: statemachineactionsActions_moduleDefault,
+	AddLightAction: statemachineactionsAddLightAction_moduleDefault,
+	AddPositionAction: statemachineactionsAddPositionAction_moduleDefault,
+	AddVariableAction: statemachineactionsAddVariableAction_moduleDefault,
+	ApplyImpulseAction: statemachineactionsApplyImpulseAction_moduleDefault,
+	ArrowsAction: statemachineactionsArrowsAction_moduleDefault,
+	CollidesAction: statemachineactionsCollidesAction_moduleDefault,
+	CompareCounterAction: statemachineactionsCompareCounterAction_moduleDefault,
+	CompareCountersAction: statemachineactionsCompareCountersAction_moduleDefault,
+	CompareDistanceAction: statemachineactionsCompareDistanceAction_moduleDefault,
+	CopyJointTransformAction: statemachineactionsCopyJointTransformAction_moduleDefault,
+	DollyZoomAction: statemachineactionsDollyZoomAction_moduleDefault,
+	EmitAction: statemachineactionsEmitAction_moduleDefault,
+	EvalAction: statemachineactionsEvalAction_moduleDefault,
+	FireAction: statemachineactionsFireAction_moduleDefault,
+	GetPositionAction: statemachineactionsGetPositionAction_moduleDefault,
+	HideAction: statemachineactionsHideAction_moduleDefault,
+	HtmlAction: statemachineactionsHtmlAction_moduleDefault,
+	InBoxAction: statemachineactionsInBoxAction_moduleDefault,
+	IncrementCounterAction: statemachineactionsIncrementCounterAction_moduleDefault,
+	InFrustumAction: statemachineactionsInFrustumAction_moduleDefault,
+	KeyDownAction: statemachineactionsKeyDownAction_moduleDefault,
+	KeyPressedAction: statemachineactionsKeyPressedAction_moduleDefault,
+	KeyUpAction: statemachineactionsKeyUpAction_moduleDefault,
+	LogMessageAction: statemachineactionsLogMessageAction_moduleDefault,
+	LookAtAction: statemachineactionsLookAtAction_moduleDefault,
+	MouseDownAction: statemachineactionsMouseDownAction_moduleDefault,
+	MouseMoveAction: statemachineactionsMouseMoveAction_moduleDefault,
+	MouseUpAction: statemachineactionsMouseUpAction_moduleDefault,
+	MoveAction: statemachineactionsMoveAction_moduleDefault,
+	MultiplyVariableAction: statemachineactionsMultiplyVariableAction_moduleDefault,
+	NumberCompareAction: statemachineactionsNumberCompareAction_moduleDefault,
+	PauseAnimationAction: statemachineactionsPauseAnimationAction_moduleDefault,
+	PickAction: statemachineactionsPickAction_moduleDefault,
+	PickAndExitAction: statemachineactionsPickAndExitAction_moduleDefault,
+	RandomTransitionAction: statemachineactionsRandomTransitionAction_moduleDefault,
+	RemoveAction: statemachineactionsRemoveAction_moduleDefault,
+	RemoveLightAction: statemachineactionsRemoveLightAction_moduleDefault,
+	RemoveParticlesAction: statemachineactionsRemoveParticlesAction_moduleDefault,
+	ResumeAnimationAction: statemachineactionsResumeAnimationAction_moduleDefault,
+	RotateAction: statemachineactionsRotateAction_moduleDefault,
+	ScaleAction: statemachineactionsScaleAction_moduleDefault,
+	SetAnimationAction: statemachineactionsSetAnimationAction_moduleDefault,
+	SetClearColorAction: statemachineactionsSetClearColorAction_moduleDefault,
+	SetCounterAction: statemachineactionsSetCounterAction_moduleDefault,
+	SetLightRangeAction: statemachineactionsSetLightRangeAction_moduleDefault,
+	SetPositionAction: statemachineactionsSetPositionAction_moduleDefault,
+	SetRenderTargetAction: statemachineactionsSetRenderTargetAction_moduleDefault,
+	SetRotationAction: statemachineactionsSetRotationAction_moduleDefault,
+	SetVariableAction: statemachineactionsSetVariableAction_moduleDefault,
+	ShakeAction: statemachineactionsShakeAction_moduleDefault,
+	ShowAction: statemachineactionsShowAction_moduleDefault,
+	SmokeAction: statemachineactionsSmokeAction_moduleDefault,
+	SoundFadeInAction: statemachineactionsSoundFadeInAction_moduleDefault,
+	SoundFadeOutAction: statemachineactionsSoundFadeOutAction_moduleDefault,
+	SwitchCameraAction: statemachineactionsSwitchCameraAction_moduleDefault,
+	TagAction: statemachineactionsTagAction_moduleDefault,
+	TransitionAction: statemachineactionsTransitionAction_moduleDefault,
+	TransitionOnMessageAction: statemachineactionsTransitionOnMessageAction_moduleDefault,
+	TriggerEnterAction: statemachineactionsTriggerEnterAction_moduleDefault,
+	TriggerLeaveAction: statemachineactionsTriggerLeaveAction_moduleDefault,
+	TweenLightColorAction: statemachineactionsTweenLightColorAction_moduleDefault,
+	TweenLookAtAction: statemachineactionsTweenLookAtAction_moduleDefault,
+	TweenMoveAction: statemachineactionsTweenMoveAction_moduleDefault,
+	TweenOpacityAction: statemachineactionsTweenOpacityAction_moduleDefault,
+	TweenRotationAction: statemachineactionsTweenRotationAction_moduleDefault,
+	TweenScaleAction: statemachineactionsTweenScaleAction_moduleDefault,
+	TweenTextureOffsetAction: statemachineactionsTweenTextureOffsetAction_moduleDefault,
+	WaitAction: statemachineactionsWaitAction_moduleDefault,
+	WasdAction: statemachineactionsWasdAction_moduleDefault,
+	FSMUtil: statemachineFSMUtil_moduleDefault,
+	FsmUtils: statemachineFsmUtils_moduleDefault,
+	Machine: statemachineMachine_moduleDefault,
+	State: statemachineState_moduleDefault,
+	StateMachineComponent: statemachineStateMachineComponent_moduleDefault,
+	StateMachineSystem: statemachineStateMachineSystem_moduleDefault,
+	StateMachineComponentHandler: StateMachineComponentHandler_moduleDefault,
+	StateMachineHandlers: StateMachineHandlers_moduleDefault
+};;
 if (typeof(window) !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];

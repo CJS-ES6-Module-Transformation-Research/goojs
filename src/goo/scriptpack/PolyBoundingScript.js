@@ -7,7 +7,7 @@
  * @param {number} collidables[].bottom The bottom Y coordinate of the collidable
  * @param {number} collidables[].top The top Y coordinate of the collidable
  */
-function PolyBoundingScript(collidables) {
+export default function PolyBoundingScript(collidables) {
 	this.collidables = collidables || [];
 }
 
@@ -83,5 +83,3 @@ PolyBoundingScript.prototype.run = function (entity) {
 		}
 	}
 };
-
-module.exports = PolyBoundingScript;

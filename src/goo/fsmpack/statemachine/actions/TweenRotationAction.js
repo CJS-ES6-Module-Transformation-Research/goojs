@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Quaternion = require('../../../math/Quaternion');
-var Matrix3 = require('../../../math/Matrix3');
-var MathUtils = require('../../../math/MathUtils');
-var Easing = require('../../../util/Easing');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import Quaternion from "../../../math/Quaternion";
+import Matrix3 from "../../../math/Matrix3";
+import MathUtils from "../../../math/MathUtils";
+import Easing from "../../../util/Easing";
 
-function TweenRotationAction(/*id, settings*/) {
+export default function TweenRotationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.quatFrom = new Quaternion();
@@ -100,5 +100,3 @@ TweenRotationAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
-
-module.exports = TweenRotationAction;

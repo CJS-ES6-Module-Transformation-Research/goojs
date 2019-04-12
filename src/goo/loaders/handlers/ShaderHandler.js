@@ -1,8 +1,8 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Material = require('../../renderer/Material');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import Material from "../../renderer/Material";
+import ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * Handler for loading shaders into engine
@@ -12,7 +12,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @param {Function} updateObject
  * @private
  */
-function ShaderHandler() {
+export default function ShaderHandler() {
 	ConfigHandler.apply(this, arguments);
 }
 
@@ -96,5 +96,3 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 		return shader;
 	}.bind(this));
 };
-
-module.exports = ShaderHandler;

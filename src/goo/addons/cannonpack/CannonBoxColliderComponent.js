@@ -1,5 +1,5 @@
-var Component = require('../../entities/components/Component');
-var Vector3 = require('../../math/Vector3');
+import Component from "../../entities/components/Component";
+import Vector3 from "../../math/Vector3";
 
 /* global CANNON */
 
@@ -10,7 +10,7 @@ var Vector3 = require('../../math/Vector3');
  * @param {Vector3} [settings.halfExtents] The half-extents of the box collider.
  * @extends Component
  */
-function CannonBoxColliderComponent(settings) {
+export default function CannonBoxColliderComponent(settings) {
 	Component.apply(this, arguments);
 
 	this.type = 'CannonBoxColliderComponent';
@@ -26,5 +26,3 @@ function CannonBoxColliderComponent(settings) {
 
 CannonBoxColliderComponent.prototype = Object.create(Component.prototype);
 CannonBoxColliderComponent.constructor = CannonBoxColliderComponent;
-
-module.exports = CannonBoxColliderComponent;

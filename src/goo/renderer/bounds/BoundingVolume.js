@@ -1,9 +1,9 @@
-var Vector3 = require('../../math/Vector3');
+import Vector3 from "../../math/Vector3";
 
 /**
  * <code>BoundingVolume</code> Base class for boundings
  */
-function BoundingVolume(center) {
+export default function BoundingVolume(center) {
 	//! AT: this is one of the few classes that's cloning its input
 	// I don't dare change the behaviour since there's no telling what will break
 	this.center = new Vector3();
@@ -46,5 +46,3 @@ BoundingVolume.prototype.copy = function (source) {
 BoundingVolume.Outside = 0;
 BoundingVolume.Inside = 1;
 BoundingVolume.Intersects = 2;
-
-module.exports = BoundingVolume;

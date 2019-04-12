@@ -1,7 +1,7 @@
-var System = require('../../entities/systems/System');
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
-var ObjectUtils = require('../../util/ObjectUtils');
+import System from "../../entities/systems/System";
+import Quaternion from "../../math/Quaternion";
+import Vector3 from "../../math/Vector3";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /* global CANNON, performance */
 
@@ -20,7 +20,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * });
  * goo.world.setSystem(cannonSystem);
  */
-function CannonSystem(settings) {
+export default function CannonSystem(settings) {
 	System.call(this, 'CannonSystem', ['CannonRigidbodyComponent', 'TransformComponent']);
 
 	settings = settings || {};
@@ -41,6 +41,7 @@ function CannonSystem(settings) {
 	this.stepFrequency = settings.stepFrequency;
 	this.maxSubSteps = settings.maxSubSteps || 0;
 }
+
 var tmpQuat = new Quaternion();
 
 CannonSystem.prototype = Object.create(System.prototype);
@@ -178,5 +179,3 @@ CannonSystem.prototype.setBroadphaseAlgorithm = function (algorithm) {
 		throw new Error('Broadphase not supported: ' + algorithm);
 	}
 };
-
-module.exports = CannonSystem;

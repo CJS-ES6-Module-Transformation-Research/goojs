@@ -1,4 +1,4 @@
-function ObjectUtils() {}
+export default function ObjectUtils() {}
 
 /**
  * Gets whether the specified array contains the specified value.
@@ -338,5 +338,3 @@ ObjectUtils.getExtension = function (value) {
 
 	return '';
 };
-
-module.exports = ObjectUtils;

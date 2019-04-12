@@ -1,5 +1,5 @@
-var Vector3 = require('../../math/Vector3');
-var Light = require('../../renderer/light/Light');
+import Vector3 from "../../math/Vector3";
+import Light from "../../renderer/light/Light";
 
 /**
  * A directional light
@@ -7,7 +7,7 @@ var Light = require('../../renderer/light/Light');
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-function DirectionalLight(color) {
+export default function DirectionalLight(color) {
 	Light.call(this, color);
 
 	/**
@@ -49,5 +49,3 @@ DirectionalLight.prototype.clone = function () {
 	clone.copy(this);
 	return clone;
 };
-
-module.exports = DirectionalLight;

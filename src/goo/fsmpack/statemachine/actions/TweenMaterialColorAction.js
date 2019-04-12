@@ -1,8 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import Vector3 from "../../../math/Vector3";
+import Easing from "../../../util/Easing";
 
-function TweenMaterialColorAction(/*id, settings*/) {
+export default function TweenMaterialColorAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.fromColor = new Vector3();
@@ -121,5 +121,3 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 		this.completed = true;
 	}
 };
-
-module.exports = TweenMaterialColorAction;

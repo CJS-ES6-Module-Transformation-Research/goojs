@@ -1,7 +1,7 @@
 /**
  * Rc4 random generator with seeding
  */
-function Rc4Random(seed) {
+export default function Rc4Random(seed) {
 	var keySchedule = [];
 	var keySchedule_i = 0;
 	var keySchedule_j = 0;
@@ -43,5 +43,3 @@ function Rc4Random(seed) {
 		return number / 18446744073709551616;
 	};
 }
-
-module.exports = Rc4Random;

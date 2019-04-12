@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function RandomTransitionAction(/*id, settings*/) {
+export default function RandomTransitionAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -48,5 +48,3 @@ RandomTransitionAction.prototype.enter = function (fsm) {
 	var transition = Math.random() < this.skewness ? a : b;
 	fsm.send(transition);
 };
-
-module.exports = RandomTransitionAction;

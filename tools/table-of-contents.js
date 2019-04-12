@@ -1,13 +1,8 @@
+import glob from "glob";
+import path from "path";
+import fs from "fs";
 // jshint node:true
 'use strict';
-
-/**
- * Generates the table of contents for the visual tests.
- */
-
-var glob = require('glob');
-var path = require('path');
-var fs = require('fs');
 
 var makeTree = function (files) {
 	var tree = {};
@@ -52,17 +47,17 @@ var printTree = function (tree) {
 	return ret;
 };
 
-exports.getFiles = function (path, callback) {
+export var getFiles = function (path, callback) {
 	return glob(path + '/**/!(index).html', function (err, files) {
 		return callback(err, files);
 	});
-};
+};;
 
-exports.getFilesSync = function (path) {
+export var getFilesSync = function (path) {
 	return glob.sync(path + '/**/!(index).html');
-};
+};;
 
-exports.run = function (rootPath, title) {
+export var run = function (rootPath, title) {
 	var files = exports.getFilesSync(rootPath);
 	files = files.filter(function (fileName) {
 		return fileName.indexOf('carousel') === -1;
@@ -97,4 +92,4 @@ exports.run = function (rootPath, title) {
 	].join('\n');
 
 	fs.writeFileSync(path.resolve(rootPath + '/index.html'), content);
-};
+};;

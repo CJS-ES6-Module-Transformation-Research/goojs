@@ -1,11 +1,11 @@
-var System = require('../../entities/systems/System');
-var GamepadData = require('../../addons/gamepadpack/GamepadData');
+import System from "../../entities/systems/System";
+import GamepadData from "../../addons/gamepadpack/GamepadData";
 
 /**
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Gamepad/Gamepad-example.html Working example
  */
-function GamepadSystem() {
+export default function GamepadSystem() {
 	System.call(this, 'GamepadSystem', ['GamepadComponent']);
 
 	this.gamepads = [];
@@ -145,5 +145,3 @@ GamepadSystem.prototype.process = function (entities) {
 
 	this.resetGamepadData();
 };
-
-module.exports = GamepadSystem;

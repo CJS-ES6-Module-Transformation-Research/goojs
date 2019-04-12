@@ -1,5 +1,5 @@
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import RSVP from "../../util/rsvp";
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * Base class for resource handlers, used to load all types of resources into the engine.
@@ -14,7 +14,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
  * @hidden
  */
-function ConfigHandler(world, getConfig, updateObject, loadObject) {
+export default function ConfigHandler(world, getConfig, updateObject, loadObject) {
 	this.world = world;
 	this.getConfig = getConfig;
 	this.updateObject = updateObject;
@@ -163,5 +163,3 @@ ConfigHandler._registerClass = function (type, klass) {
 	klass._type = type;
 	return ConfigHandler.handlerClasses[type] = klass;
 };
-
-module.exports = ConfigHandler;

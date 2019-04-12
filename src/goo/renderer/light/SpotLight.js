@@ -1,5 +1,5 @@
-var Vector3 = require('../../math/Vector3');
-var Light = require('../../renderer/light/Light');
+import Vector3 from "../../math/Vector3";
+import Light from "../../renderer/light/Light";
 
 /**
  * The SpotLight can be viewed as two cones with their apexes located at the light's location.
@@ -11,7 +11,7 @@ var Light = require('../../renderer/light/Light');
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-function SpotLight(color) {
+export default function SpotLight(color) {
 	Light.call(this, color);
 
 	/**
@@ -79,5 +79,3 @@ SpotLight.prototype.clone = function () {
 	clone.copy(this);
 	return clone;
 };
-
-module.exports = SpotLight;

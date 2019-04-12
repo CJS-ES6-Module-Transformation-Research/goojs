@@ -1,7 +1,7 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
+import AudioContext from "../sound/AudioContext";
+import MathUtils from "../math/MathUtils";
 
-function OscillatorSound() {
+export default function OscillatorSound() {
 	// Settings
 	this.id = null;
 	this._volume = 1.0;
@@ -75,5 +75,3 @@ OscillatorSound.TYPES = [
 	'triangle',
 	'custom'
 ];
-
-module.exports = OscillatorSound;

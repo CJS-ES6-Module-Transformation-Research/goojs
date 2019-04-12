@@ -1,5 +1,5 @@
-var Vector3 = require('../../math/Vector3');
-var Component = require('../../entities/components/Component');
+import Vector3 from "../../math/Vector3";
+import Component from "../../entities/components/Component";
 
 /**
  * Holds the movement parameters of an entity.
@@ -7,7 +7,7 @@ var Component = require('../../entities/components/Component');
  * rotation.
  * @extends Component
  */
-function MovementComponent() {
+export default function MovementComponent() {
 	Component.apply(this, arguments);
 
 	this.type = 'MovementComponent';
@@ -75,5 +75,3 @@ MovementComponent.prototype.setRotationVelocity = function (vec3) {
 MovementComponent.prototype.getRotationVelocity = function () {
 	return this.rotationVelocity;
 };
-
-module.exports = MovementComponent;

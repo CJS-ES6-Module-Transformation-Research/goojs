@@ -1,7 +1,7 @@
 /**
  * Base pass class
  */
-function Pass() {}
+export default function Pass() {}
 
 Pass.prototype.destroy = function (/* renderer */) {};
 
@@ -10,5 +10,3 @@ Pass.prototype.render = function (/* renderer, writeBuffer, readBuffer, delta, m
 Pass.prototype.updateSize = function (/* size, renderer */) {};
 
 Pass.prototype.invalidateHandles = function (/* renderer */) {};
-
-module.exports = Pass;

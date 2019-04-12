@@ -1,4 +1,4 @@
-var PromiseUtils = require('../../util/PromiseUtils');
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * Base class for component handlers. All different types of components that an entity
@@ -13,7 +13,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @returns {ComponentHandler}
  * @hidden
  */
-function ComponentHandler(world, getConfig, updateObject, loadObject) {
+export default function ComponentHandler(world, getConfig, updateObject, loadObject) {
 	//! schteppe: this._type seem to be assumed to be set by the subclass. Why not pass it as a parameter to this constructor?
 	this.world = world;
 	this.getConfig = getConfig;
@@ -105,5 +105,3 @@ ComponentHandler.getHandler = function (type) {
 ComponentHandler._registerClass = function (type, klass) {
 	ComponentHandler.handlerClasses[type] = klass;
 };
-
-module.exports = ComponentHandler;

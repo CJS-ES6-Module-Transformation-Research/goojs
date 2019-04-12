@@ -1,9 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Renderer = require('../../../renderer/Renderer');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import Renderer from "../../../renderer/Renderer";
 
-function CompareDistanceAction(/*id, settings*/) {
+export default function CompareDistanceAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
+
 CompareDistanceAction.prototype = Object.create(Action.prototype);
 CompareDistanceAction.prototype.constructor = CompareDistanceAction;
 
@@ -112,5 +113,3 @@ CompareDistanceAction.prototype.update = function (fsm) {
 		this.compare(fsm);
 	}
 };
-
-module.exports = CompareDistanceAction;

@@ -1,10 +1,9 @@
-var ScriptUtils = require('../scripts/ScriptUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import ScriptUtils from "../scripts/ScriptUtils";
+import ObjectUtils from "../util/ObjectUtils";
 
 // the collection of scripts
 var _scripts = {};
 
-// the static class which just holds the following methods
 var Scripts = {};
 
 Scripts.register = function (factoryFunction) {
@@ -75,4 +74,4 @@ Scripts.allScripts = function () {
 	return scripts;
 };
 
-module.exports = Scripts;
+export default Scripts;

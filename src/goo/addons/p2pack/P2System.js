@@ -1,4 +1,4 @@
-var System = require('../../entities/systems/System');
+import System from "../../entities/systems/System";
 
 /* global p2 */
 
@@ -19,7 +19,7 @@ var System = require('../../entities/systems/System');
  * });
  * goo.world.setSystem(p2System);
  */
-function P2System(settings) {
+export default function P2System(settings) {
 	System.call(this, 'P2System', ['P2Component', 'TransformComponent']);
 
 	settings = settings || {};
@@ -104,5 +104,3 @@ P2System.prototype.process = function (entities /*, tpf */) {
 		updateTransform(entity.transformComponent, p2Component);
 	}
 };
-
-module.exports = P2System;

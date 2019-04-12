@@ -1,6 +1,6 @@
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var Component = require('../../entities/components/Component');
-var MeshData = require('../../renderer/MeshData');
+import BoundingBox from "../../renderer/bounds/BoundingBox";
+import Component from "../../entities/components/Component";
+import MeshData from "../../renderer/MeshData";
 
 /**
  * Holds the mesh data, like vertices, normals, indices etc. Also defines the local bounding volume.
@@ -8,7 +8,7 @@ var MeshData = require('../../renderer/MeshData');
  * @param {MeshData} meshData Target mesh data for this component.
  * @extends Component
  */
-function MeshDataComponent(meshData) {
+export default function MeshDataComponent(meshData) {
 	Component.apply(this, arguments);
 
 	this.type = 'MeshDataComponent';
@@ -105,5 +105,3 @@ MeshDataComponent.applyOnEntity = function (obj, entity) {
 		return true;
 	}
 };
-
-module.exports = MeshDataComponent;

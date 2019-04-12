@@ -1,5 +1,5 @@
-var Collider = require('../../../addons/physicspack/colliders/Collider');
-var Vector3 = require('../../../math/Vector3');
+import Collider from "../../../addons/physicspack/colliders/Collider";
+import Vector3 from "../../../math/Vector3";
 
 /**
  * Physics mesh collider.
@@ -8,7 +8,7 @@ var Vector3 = require('../../../math/Vector3');
  * @param {Vector3} [settings.scale]
  * @extends Collider
  */
-function MeshCollider(settings) {
+export default function MeshCollider(settings) {
 	settings = settings || {};
 
 	/**
@@ -23,6 +23,7 @@ function MeshCollider(settings) {
 
 	Collider.call(this);
 }
+
 MeshCollider.prototype = Object.create(Collider.prototype);
 MeshCollider.prototype.constructor = MeshCollider;
 
@@ -44,5 +45,3 @@ MeshCollider.prototype.clone = function () {
 		scale: this.scale
 	});
 };
-
-module.exports = MeshCollider;

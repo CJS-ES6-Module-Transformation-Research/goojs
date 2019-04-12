@@ -1,7 +1,6 @@
+import * as util from "./util";
 // jshint node:true
 'use strict';
-
-var util = require('./util');
 
 var SUPPORTED_TAGS = [
 	'description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type',
@@ -14,7 +13,7 @@ var stripStars = function (string) {
 	return stripped.replace(/^[ \t]*\* ?/gm, '');
 };
 
-var partition = function (doc) {
+export var partition = function (doc) {
 	var tags = { description: [] };
 
 	var currentTag = 'description';
@@ -86,7 +85,7 @@ var indexOfMatchingParen = function (string, offset, openParen, closeParen) {
 	return -1;
 };
 
-var extractType = function (string, offset) {
+export var extractType = function (string, offset) {
 	var i = string.indexOf('{', offset);
 	if (i === -1) { return { type: '', end: offset }; }
 
@@ -124,7 +123,7 @@ var firstNonSpace = function (string, offset) {
 	return i;
 };
 
-var extractName = function (string, offset) {
+export var extractName = function (string, offset) {
 	var i = firstNonSpace(string, offset);
 
 	var name, default_, optional = false, end;
@@ -158,7 +157,7 @@ var extractName = function (string, offset) {
 	};
 };
 
-var extractDescription = function (string, offset) {
+export var extractDescription = function (string, offset) {
 	var i = firstNonSpace(string, offset);
 
 	return {
@@ -178,7 +177,7 @@ var extractUntilSpace = function (string, offset) {
 	};
 };
 
-var extractTagParam = function (param) {
+export var extractTagParam = function (param) {
 	var typeData = extractType(param, 0);
 	var type = typeData.type;
 	var offset = typeData.end;
@@ -203,7 +202,7 @@ var extractTagParam = function (param) {
 
 var extractTagProperty = extractTagParam; // same for now
 
-var extractTagReturn = function (returns) {
+export var extractTagReturn = function (returns) {
 	var typeData = extractType(returns, 0);
 	var type = typeData.type;
 	var offset = typeData.end;
@@ -217,7 +216,7 @@ var extractTagReturn = function (returns) {
 	};
 };
 
-var extractTagType = function (type) {
+export var extractTagType = function (type) {
 	var typeData = extractType(type, 0);
 
 	return {
@@ -239,7 +238,7 @@ var extractTagDeprecated = function (deprecated) {
 	};
 };
 
-var extractTagExtends = function (extends_) {
+export var extractTagExtends = function (extends_) {
 	// no processing required
 	return {
 		base: extends_
@@ -261,7 +260,7 @@ var extractTagExampleLink = function (exampleLink) {
 	};
 };
 
-var extractTagTargetClass = function (targetClass) {
+export var extractTagTargetClass = function (targetClass) {
 	// @target-class <class> <name> method|member|static-member|static-method
 	var match = targetClass.match(/^\s*(\w+)\s+(\w+)\s+(method|member|static-method|static-member|constructor)/);
 	if (!match) { throw new Error('malformed @target-class; got ' + targetClass); }
@@ -311,7 +310,7 @@ var tagExtractors = (function () {
 	});
 })();
 
-var extract = function (doc) {
+export var extract = function (doc) {
 	var stripped = stripStars(doc);
 
 	var tags = partition(stripped);
@@ -326,14 +325,3 @@ var extract = function (doc) {
 
 	return tags;
 };
-
-exports._partition = partition;
-exports._extractType = extractType;
-exports._extractName = extractName;
-exports._extractDescription = extractDescription;
-exports._extractTagParam = extractTagParam;
-exports._extractTagReturn = extractTagReturn;
-exports._extractTagType = extractTagType;
-exports._extractTagExtends = extractTagExtends;
-exports._extractTagTargetClass = extractTagTargetClass;
-exports.extract = extract;

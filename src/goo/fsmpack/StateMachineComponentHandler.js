@@ -1,7 +1,7 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var StateMachineComponent = require('../fsmpack/statemachine/StateMachineComponent');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
+import ComponentHandler from "../loaders/handlers/ComponentHandler";
+import StateMachineComponent from "../fsmpack/statemachine/StateMachineComponent";
+import RSVP from "../util/rsvp";
+import ObjectUtils from "../util/ObjectUtils";
 
 /**
  * For handling loading of state machine components
@@ -11,7 +11,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @extends ComponentHandler
  * @hidden
  */
-function StateMachineComponentHandler() {
+export default function StateMachineComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'StateMachineComponent';
 }
@@ -82,5 +82,3 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 		});
 	});
 };
-
-module.exports = StateMachineComponentHandler;

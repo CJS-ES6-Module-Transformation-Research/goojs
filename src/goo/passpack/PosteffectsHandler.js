@@ -1,12 +1,12 @@
-var ConfigHandler = require('../loaders/handlers/ConfigHandler');
-var ArrayUtils = require('../util/ArrayUtils');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var Composer = require('../renderer/pass/Composer');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var PassLib = require('../passpack/PassLib');
+import ConfigHandler from "../loaders/handlers/ConfigHandler";
+import ArrayUtils from "../util/ArrayUtils";
+import RSVP from "../util/rsvp";
+import ObjectUtils from "../util/ObjectUtils";
+import Composer from "../renderer/pass/Composer";
+import RenderPass from "../renderer/pass/RenderPass";
+import FullscreenPass from "../renderer/pass/FullscreenPass";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import PassLib from "../passpack/PassLib";
 
 /**
  * Handler for loading posteffects into engine
@@ -16,7 +16,7 @@ var PassLib = require('../passpack/PassLib');
  * @param {Function} updateObject
  * @private
  */
-function PosteffectsHandler() {
+export default function PosteffectsHandler() {
 	ConfigHandler.apply(this, arguments);
 	this._composer = new Composer();
 	var renderSystem = this.world.getSystem('RenderSystem');
@@ -173,5 +173,3 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 		return effect;
 	});
 };
-
-module.exports = PosteffectsHandler;

@@ -3982,7 +3982,7 @@ parseStatement: true, parseSourceElement: true */
     }
 
     // Sync with *.json manifests.
-    exports.version = '2.0.0-dev';
+    export var version = '2.0.0-dev';;
 
     exports.tokenize = tokenize;
 
@@ -3990,7 +3990,7 @@ parseStatement: true, parseSourceElement: true */
 
     // Deep copy.
    /* istanbul ignore next */
-    exports.Syntax = (function () {
+    export var Syntax = function () {
         var name, types = {};
 
         if (typeof Object.create === 'function') {
@@ -4008,7 +4008,7 @@ parseStatement: true, parseSourceElement: true */
         }
 
         return types;
-    }());
+    }();;
 
 }));
 /* vim: set sw=4 ts=4 et tw=80 : */

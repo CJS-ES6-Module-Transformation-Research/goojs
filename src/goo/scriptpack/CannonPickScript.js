@@ -1,10 +1,10 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var Plane = require('../math/Plane');
+import Vector3 from "../math/Vector3";
+import Renderer from "../renderer/Renderer";
+import Plane from "../math/Plane";
 
 /* global CANNON */
 
-function CannonPickScript() {
+export default function CannonPickScript() {
 	var pickButton;
 	var mouseState;
 	var cannonSystem;
@@ -244,5 +244,3 @@ CannonPickScript.externals = {
 		type: 'vec3'
 	}]
 };
-
-module.exports = CannonPickScript;

@@ -1,4 +1,4 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
+import Curve from "../../../addons/particlepack/curves/Curve";
 
 /**
  * A collection of Curve instances. Used to connect different types curves, joining them at their given time offsets.
@@ -7,7 +7,7 @@ var Curve = require('../../../addons/particlepack/curves/Curve');
  * @param {object} [options]
  * @param {Array<Curve>} [options.segments]
  */
-function PolyCurve(options) {
+export default function PolyCurve(options) {
 	options = options || {};
 
 	Curve.call(this, options);
@@ -142,5 +142,3 @@ PolyCurve.prototype = {
 		return value;
 	}
 };
-
-module.exports = PolyCurve;

@@ -1,12 +1,10 @@
+import _ from "underscore";
+import * as jsdocParser from "./jsdoc-parser";
+import * as typeParser from "./type-expressions/type-parser";
+import * as jsdocSerializer from "./type-expressions/jsdoc-serializer";
+import * as util from "./util";
 // jshint node:true
 'use strict';
-
-var _ = require('underscore');
-
-var jsdocParser = require('./jsdoc-parser');
-var typeParser = require('./type-expressions/type-parser');
-var jsdocSerializer = require('./type-expressions/jsdoc-serializer');
-var util = require('./util');
 
 // regex compilation for `[]()` links, `@link` and types (big mess)
 var typesRegex;
@@ -59,7 +57,7 @@ var translateType = function (closureType) {
 
 var processType = _.compose(linkTypes, escapeType, translateType);
 
-var link = function (comment) {
+export var link = function (comment) {
 	if (!comment) { return; }
 	comment.description = linkUrls(expandIcons(comment.description));
 
@@ -119,7 +117,7 @@ var booleanTags = [
 	'@private'
 ].map(tagAndIdentifier);
 
-var compileComment = function (rawComment) {
+export var compileComment = function (rawComment) {
 	// parse the raw comment
 	var parsed = jsdocParser.extract(rawComment);
 
@@ -164,7 +162,7 @@ var inject = function (data) {
 	data.comment = compileComment(data.rawComment);
 };
 
-var all = function (jsData, files) {
+export var all = function (jsData, files) {
 	if (!typesRegex) {
 		var types = files.map(util.getFileName);
 		compileTypesRegex(types);
@@ -184,8 +182,3 @@ var all = function (jsData, files) {
 	jsData.staticMembers.forEach(function (staticMember) { link(staticMember.comment); });
 	jsData.members.forEach(function (member) { link(member.comment); });
 };
-
-
-exports.all = all;
-exports.compileComment = compileComment;
-exports.link = link;

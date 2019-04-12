@@ -1,11 +1,11 @@
-var Component = require('../entities/components/Component');
-var DoubleQuad = require('../quadpack/DoubleQuad');
-var MeshDataComponent = require('../entities/components/MeshDataComponent');
-var MeshRendererComponent = require('../entities/components/MeshRendererComponent');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Material = require('../renderer/Material');
-var ObjectUtils = require('../util/ObjectUtils');
-var Texture = require('../renderer/Texture');
+import Component from "../entities/components/Component";
+import DoubleQuad from "../quadpack/DoubleQuad";
+import MeshDataComponent from "../entities/components/MeshDataComponent";
+import MeshRendererComponent from "../entities/components/MeshRendererComponent";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import Material from "../renderer/Material";
+import ObjectUtils from "../util/ObjectUtils";
+import Texture from "../renderer/Texture";
 
 /**
  * Quad component that holds a unit [Quad]{@link Quad} mesh and a [Material]{@link Material}. It makes it easy to create a textured quad in 3D space, for example a logotype. When the component is added to the world, all other needed components are automatically added to the entity. Make sure your add a [QuadSystem]{@link QuadSystem} to the world before you start using this component.
@@ -20,7 +20,7 @@ var Texture = require('../renderer/Texture');
  * @extends {Component}
  * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/QuadComponent/QuadComponent-vtest.html Working example
  */
-function QuadComponent(image, settings) {
+export default function QuadComponent(image, settings) {
 	Component.apply(this, arguments);
 
 	settings = settings || {};
@@ -104,6 +104,7 @@ function QuadComponent(image, settings) {
 
 	this.rebuildMeshData();
 }
+
 QuadComponent.prototype = Object.create(Component.prototype);
 QuadComponent.prototype.constructor = QuadComponent;
 
@@ -176,6 +177,4 @@ QuadComponent.prototype.rebuildMeshData = function () {
 		meshData.setVertexDataUpdated();
 	}
 };
-
-module.exports = QuadComponent;
 

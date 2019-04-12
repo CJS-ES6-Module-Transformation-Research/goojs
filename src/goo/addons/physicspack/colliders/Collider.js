@@ -1,7 +1,7 @@
 /**
  * Base class for Colliders.
  */
-function Collider() {}
+export default function Collider() {}
 
 /**
  * @virtual
@@ -18,5 +18,3 @@ Collider.prototype.clone = function () {
  * @param {Collider} targetCollider
  */
 Collider.prototype.transform = function (/*transform, targetCollider*/) {};
-
-module.exports = Collider;

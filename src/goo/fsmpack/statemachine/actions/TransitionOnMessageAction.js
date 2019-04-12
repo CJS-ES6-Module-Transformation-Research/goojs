@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import Action from "../../../fsmpack/statemachine/actions/Action";
+import SystemBus from "../../../entities/SystemBus";
 
-function TransitionOnMessageAction(/*id, settings*/) {
+export default function TransitionOnMessageAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -42,5 +42,3 @@ TransitionOnMessageAction.prototype.enter = function (fsm) {
 TransitionOnMessageAction.prototype.exit = function (/*fsm*/) {
 	SystemBus.removeListener(this.channel, this.eventListener);
 };
-
-module.exports = TransitionOnMessageAction;

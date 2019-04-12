@@ -1,6 +1,6 @@
-var Component = require('../../entities/components/Component');
-var SystemBus = require('../../entities/SystemBus');
-var ObjectUtils = require('../../util/ObjectUtils');
+import Component from "../../entities/components/Component";
+import SystemBus from "../../entities/SystemBus";
+import ObjectUtils from "../../util/ObjectUtils";
 
 function getGooClasses(){
 	return (typeof window !== 'undefined' && window.goo) || {};
@@ -16,7 +16,7 @@ function getGooClasses(){
  * The script object can also define the function <code>setup({@link Entity} entity)</code>, called upon script creation.
  * @extends Component
  */
-function ScriptComponent(scripts) {
+export default function ScriptComponent(scripts) {
 	Component.apply(this, arguments);
 
 	this.type = 'ScriptComponent';
@@ -251,5 +251,3 @@ ScriptComponent.applyOnEntity = function (obj, entity) {
 		return true;
 	}
 };
-
-module.exports = ScriptComponent;

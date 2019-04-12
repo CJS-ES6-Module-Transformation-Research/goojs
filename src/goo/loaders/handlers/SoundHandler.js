@@ -1,8 +1,8 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AudioContext = require('../../sound/AudioContext');
-var Sound = require('../../sound/Sound');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import AudioContext from "../../sound/AudioContext";
+import Sound from "../../sound/Sound";
+import PromiseUtils from "../../util/PromiseUtils";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /**
  * Handler for loading sounds into engine
@@ -12,7 +12,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @param {Function} updateObject
  * @private
  */
-function SoundHandler() {
+export default function SoundHandler() {
 	ConfigHandler.apply(this, arguments);
 	this._audioCache = {};
 
@@ -126,5 +126,3 @@ SoundHandler.prototype._update = function (ref, config, options) {
 		return sound;
 	});
 };
-
-module.exports = SoundHandler;

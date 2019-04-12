@@ -1,10 +1,10 @@
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var BloomPass = require('../passpack/BloomPass');
-var BlurPass = require('../passpack/BlurPass');
-var DogPass = require('../passpack/DogPass');
-var MotionBlurPass = require('../passpack/MotionBlurPass');
-var ObjectUtils = require('../util/ObjectUtils');
+import ShaderLibExtra from "../passpack/ShaderLibExtra";
+import FullscreenPass from "../renderer/pass/FullscreenPass";
+import BloomPass from "../passpack/BloomPass";
+import BlurPass from "../passpack/BlurPass";
+import DogPass from "../passpack/DogPass";
+import MotionBlurPass from "../passpack/MotionBlurPass";
+import ObjectUtils from "../util/ObjectUtils";
 
 function Bloom(id) {
 	BloomPass.call(this);
@@ -993,7 +993,7 @@ Levels.options = [
 	}
 ];
 
-module.exports = {
+export default {
 	Bloom: Bloom,
 	Blur: Blur,
 	Vignette: Vignette,
@@ -1013,4 +1013,4 @@ module.exports = {
 	Radial: Radial,
 	Overlay: Overlay,
 	Levels: Levels
-};
+};;

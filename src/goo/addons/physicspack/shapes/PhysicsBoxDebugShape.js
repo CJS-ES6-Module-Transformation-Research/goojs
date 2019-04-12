@@ -1,15 +1,16 @@
-var MeshData = require('../../../renderer/MeshData');
+import MeshData from "../../../renderer/MeshData";
 
 /**
  * A wireframe mesh indicating the position and orientation of a BoxCollider.
  * @extends MeshData
  */
-function PhysicsBoxDebugShape() {
+export default function PhysicsBoxDebugShape() {
 	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
 	MeshData.call(this, attributeMap, 3 * 8, 2 * 4 * 3);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
+
 PhysicsBoxDebugShape.prototype = Object.create(MeshData.prototype);
 PhysicsBoxDebugShape.prototype.constructor = PhysicsBoxDebugShape;
 
@@ -61,5 +62,3 @@ PhysicsBoxDebugShape.prototype.rebuild = function () {
 
 	return this;
 };
-
-module.exports = PhysicsBoxDebugShape;

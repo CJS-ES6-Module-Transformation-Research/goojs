@@ -1,8 +1,9 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function ToggleMuteAction(/*id, settings*/) {
+export default function ToggleMuteAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
+
 ToggleMuteAction.prototype = Object.create(Action.prototype);
 ToggleMuteAction.prototype.constructor = ToggleMuteAction;
 
@@ -29,5 +30,3 @@ ToggleMuteAction.prototype.enter = function (fsm) {
 		}
 	}
 };
-
-module.exports = ToggleMuteAction;

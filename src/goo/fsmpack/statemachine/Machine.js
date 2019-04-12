@@ -1,4 +1,4 @@
-function Machine(id, name) {
+export default function Machine(id, name) {
 	this.id = id;
 	this.name = name;
 	this._states = {};
@@ -141,5 +141,3 @@ Machine.prototype.removeState = function (id) {
 Machine.prototype.setInitialState = function (initialState) {
 	this.initialState = initialState;
 };
-
-module.exports = Machine;

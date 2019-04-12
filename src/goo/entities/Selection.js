@@ -1,7 +1,7 @@
 /**
  * Generic selection class
  */
-function Selection() {
+export default function Selection() {
 	this.stack = [];
 
 	//! AT: may rather use toArray
@@ -354,5 +354,3 @@ function toArray() {
 		return [];
 	}
 }
-
-module.exports = Selection;

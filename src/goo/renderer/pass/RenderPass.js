@@ -1,11 +1,11 @@
-var Renderer = require('../../renderer/Renderer');
-var Pass = require('../../renderer/pass/Pass');
-var Vector4 = require('../../math/Vector4');
+import Renderer from "../../renderer/Renderer";
+import Pass from "../../renderer/pass/Pass";
+import Vector4 from "../../math/Vector4";
 
 /**
  * A pass that renders provided renderlist to the rendertarget or screen
  */
-function RenderPass(renderList, filter) {
+export default function RenderPass(renderList, filter) {
 	this.renderList = renderList;
 	this.filter = filter;
 
@@ -54,5 +54,3 @@ RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta
 		renderer.setClearColor(this.oldClearColor.x, this.oldClearColor.y, this.oldClearColor.z, this.oldClearColor.w);
 	}
 };
-
-module.exports = RenderPass;

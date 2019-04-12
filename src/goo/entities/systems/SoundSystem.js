@@ -1,15 +1,15 @@
-var System = require('../../entities/systems/System');
-var AudioContext = require('../../sound/AudioContext');
-var MathUtils = require('../../math/MathUtils');
-var SystemBus = require('../../entities/SystemBus');
-var Matrix4 = require('../../math/Matrix4');
+import System from "../../entities/systems/System";
+import AudioContext from "../../sound/AudioContext";
+import MathUtils from "../../math/MathUtils";
+import SystemBus from "../../entities/SystemBus";
+import Matrix4 from "../../math/Matrix4";
 
 /**
  * System responsible for sound.
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
  * @extends System
  */
-function SoundSystem() {
+export default function SoundSystem() {
 	this._isSupported = AudioContext.isSupported();
 	if (!this._isSupported) {
 		console.warn('Cannot create SoundSystem, WebAudio not supported');
@@ -293,5 +293,3 @@ SoundSystem.prototype.process = function (entities, tpf) {
 		}
 	}
 };
-
-module.exports = SoundSystem;

@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import Action from "./Action";
 
-function StopTimelineAction(/*id, settings*/) {
+export default function StopTimelineAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -24,5 +24,3 @@ StopTimelineAction.prototype.enter = function (fsm) {
 
 	entity.timelineComponent.stop();
 };
-
-module.exports = StopTimelineAction;

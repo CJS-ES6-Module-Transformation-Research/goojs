@@ -1,4 +1,4 @@
-var Vector3 = require('../../math/Vector3');
+import Vector3 from "../../math/Vector3";
 
 /**
  * Container for particle data in the ParticleSystemComponent.
@@ -6,7 +6,7 @@ var Vector3 = require('../../math/Vector3');
  * @constructor
  * @param {ParticleSystemComponent} particleComponent
  */
-function ParticleData(particleComponent) {
+export default function ParticleData(particleComponent) {
 
 	/**
 	 * The owner component
@@ -121,5 +121,3 @@ ParticleData.prototype.getWorldPosition = function (store) {
 
 	return store;
 };
-
-module.exports = ParticleData;

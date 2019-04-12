@@ -1,5 +1,5 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var PromiseUtils = require('../../util/PromiseUtils');
+import ConfigHandler from "../../loaders/handlers/ConfigHandler";
+import PromiseUtils from "../../util/PromiseUtils";
 
 /**
  * Handler for loading json objects.
@@ -11,7 +11,7 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @extends ConfigHandler
  * @private
  */
-function JsonHandler() {
+export default function JsonHandler() {
 	ConfigHandler.apply(this, arguments);
 }
 
@@ -41,5 +41,3 @@ JsonHandler.prototype._update = function (ref, config) {
 
 	return PromiseUtils.resolve(data)
 };
-
-module.exports = JsonHandler;

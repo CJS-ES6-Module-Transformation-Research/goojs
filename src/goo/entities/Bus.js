@@ -13,7 +13,7 @@
  * // Remove the listener after you're done with it
  * SystemBus.removeListener('eventName', listener);
  */
-function Bus() {
+export default function Bus() {
 	this.trie = { name: '', listeners: [], children: new Map() };
 }
 
@@ -227,5 +227,3 @@ Bus.prototype.removeListenerFromAllChannels = function (callbackToRemove) {
 Bus.prototype.clear = function () {
 	this.trie = { name: '', listeners: [], children: new Map() };
 };
-
-module.exports = Bus;

@@ -1,7 +1,7 @@
-var Action = require('./Action');
-var FsmUtils = require('../FsmUtils');
+import Action from "./Action";
+import FsmUtils from "../FsmUtils";
 
-function CopyVariableAction(/*id, settings*/) {
+export default function CopyVariableAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -63,5 +63,3 @@ CopyVariableAction.prototype.copy = function (fsm) {
 		}
 	}
 };
-
-module.exports = CopyVariableAction;

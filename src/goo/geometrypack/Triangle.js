@@ -1,11 +1,11 @@
-var MeshData = require('../renderer/MeshData');
-var MathUtils = require('../math/MathUtils');
+import MeshData from "../renderer/MeshData";
+import MathUtils from "../math/MathUtils";
 
 /**
  * Only creates an attributeMap with MeshData.POSITION and MeshData.NORMAL.
  * @param {Array<number>} verts array with 9 elements. These 9 elements must be 3 x, y, z positions.
  */
-function Triangle(verts) {
+export default function Triangle(verts) {
 	this.verts = verts;
 
 	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL]);
@@ -38,5 +38,3 @@ Triangle.prototype.rebuild = function () {
 
 	return this;
 };
-
-module.exports = Triangle;

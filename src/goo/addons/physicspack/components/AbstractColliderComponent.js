@@ -1,5 +1,5 @@
-var Component = require('../../../entities/components/Component');
-var Collider = require('../../../addons/physicspack/colliders/Collider');
+import Component from "../../../entities/components/Component";
+import Collider from "../../../addons/physicspack/colliders/Collider";
 
 /**
  * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
@@ -8,7 +8,7 @@ var Collider = require('../../../addons/physicspack/colliders/Collider');
  * @param {boolean} [settings.isTrigger=false]
  * @extends Component
  */
-function AbstractColliderComponent(settings) {
+export default function AbstractColliderComponent(settings) {
 	Component.apply(this);
 
 	settings = settings || {};
@@ -48,6 +48,7 @@ function AbstractColliderComponent(settings) {
 	 */
 	this.material = settings.material !== undefined ? settings.material : null;
 }
+
 AbstractColliderComponent.prototype = Object.create(Component.prototype);
 AbstractColliderComponent.prototype.constructor = AbstractColliderComponent;
 
@@ -108,5 +109,3 @@ AbstractColliderComponent.applyOnEntity = function (obj, entity) {
 };
 
 AbstractColliderComponent.prototype.api = {};
-
-module.exports = AbstractColliderComponent;

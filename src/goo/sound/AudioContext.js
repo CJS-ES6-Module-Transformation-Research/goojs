@@ -20,7 +20,7 @@ var context;
  *     // ...operate on context...
  * }
  */
-module.exports = {
+export default {
 	getContext: function () {
 		// try to get a context if it's supposedly supported or not cached
 		if (!context && supported) {
@@ -37,4 +37,4 @@ module.exports = {
 	isSupported: function () {
 		return supported;
 	}
-};
+};;

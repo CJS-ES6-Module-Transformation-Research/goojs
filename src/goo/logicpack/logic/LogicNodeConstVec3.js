@@ -1,14 +1,14 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-var Vector3 = require('../../math/Vector3');
+import LogicLayer from "./LogicLayer";
+import LogicNode from "./LogicNode";
+import LogicNodes from "./LogicNodes";
+import LogicInterface from "./LogicInterface";
+import Vector3 from "../../math/Vector3";
 
 /**
  * Logic node to provide a const Vec3
  * @private
  */
-function LogicNodeConstVec3() {
+export default function LogicNodeConstVec3() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeConstVec3.logicInterface;
 	this.type = 'LogicNodeConstVec3';
@@ -50,5 +50,3 @@ LogicNodeConstVec3.logicInterface.addConfigEntry({
 	type: 'float',
 	label: 'Z'
 });
-
-module.exports = LogicNodeConstVec3;

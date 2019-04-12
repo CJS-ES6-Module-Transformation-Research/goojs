@@ -3,7 +3,7 @@
  * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that
  *        implements logic.
  */
-function LogicInterface(name) {
+export default function LogicInterface(name) {
 	this.ports = [];
 	this.configOpts = [];
 
@@ -139,5 +139,3 @@ LogicInterface.assignPortDataName = function (port, dataname) {
  * Globally unique port id counter
  */
 LogicInterface._portID = 0;
-
-module.exports = LogicInterface;

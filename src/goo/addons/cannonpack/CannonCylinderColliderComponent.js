@@ -1,4 +1,4 @@
-var Component = require('../../entities/components/Component');
+import Component from "../../entities/components/Component";
 
 /* global CANNON */
 
@@ -11,7 +11,7 @@ var Component = require('../../entities/components/Component');
  * @param {number} [settings.height=0.5]
  * @param {number} [settings.numSegments=10]
  */
-function CannonCylinderColliderComponent(settings) {
+export default function CannonCylinderColliderComponent(settings) {
 	Component.apply(this, arguments);
 
 	settings = settings || {};
@@ -29,7 +29,6 @@ function CannonCylinderColliderComponent(settings) {
 		numSegments
 	);
 }
+
 CannonCylinderColliderComponent.prototype = Object.create(Component.prototype);
 CannonCylinderColliderComponent.constructor = CannonCylinderColliderComponent;
-
-module.exports = CannonCylinderColliderComponent;

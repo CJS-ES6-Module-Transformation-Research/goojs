@@ -1,20 +1,20 @@
-var Capabilities = require('../renderer/Capabilities');
-var RendererRecord = require('../renderer/RendererRecord');
-var RendererUtils = require('../renderer/RendererUtils');
-var TextureCreator = require('../renderer/TextureCreator');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var Vector4 = require('../math/Vector4');
-var Texture = require('../renderer/Texture');
-require('../loaders/dds/DdsLoader'); // todo: unused?
-var Material = require('../renderer/Material');
-var RenderQueue = require('../renderer/RenderQueue');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShadowHandler = require('../renderer/shadow/ShadowHandler');
-var RenderStats = require('../renderer/RenderStats');
-var SystemBus = require('../entities/SystemBus');
-var TaskScheduler = require('../renderer/TaskScheduler');
-var RenderInfo = require('../renderer/RenderInfo');
-var MathUtils = require('../math/MathUtils');
+import Capabilities from "../renderer/Capabilities";
+import RendererRecord from "../renderer/RendererRecord";
+import RendererUtils from "../renderer/RendererUtils";
+import TextureCreator from "../renderer/TextureCreator";
+import RenderTarget from "../renderer/pass/RenderTarget";
+import Vector4 from "../math/Vector4";
+import Texture from "../renderer/Texture";
+import Material from "../renderer/Material";
+import RenderQueue from "../renderer/RenderQueue";
+import ShaderLib from "../renderer/shaders/ShaderLib";
+import ShadowHandler from "../renderer/shadow/ShadowHandler";
+import RenderStats from "../renderer/RenderStats";
+import SystemBus from "../entities/SystemBus";
+import TaskScheduler from "../renderer/TaskScheduler";
+import RenderInfo from "../renderer/RenderInfo";
+import MathUtils from "../math/MathUtils";
+import "../loaders/dds/DdsLoader";
 
 var STUB_METHOD = function () {};
 
@@ -32,7 +32,7 @@ var STUB_METHOD = function () {};
  * @param {canvas} [parameters.canvas] If not supplied, Renderer will create a new canvas.
  * @param {function (string)} [parameters.onError] Called with message when error occurs.
  */
-function Renderer(parameters) {
+export default function Renderer(parameters) {
 	parameters = parameters || {};
 
 	var _canvas = parameters.canvas;
@@ -2199,5 +2199,3 @@ Renderer.prototype._deallocateRenderTarget = function (renderTarget) {
 Renderer.prototype._deallocateShader = function (shader) {
 	shader.destroy();
 };
-
-module.exports = Renderer;

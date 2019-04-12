@@ -1,11 +1,11 @@
-var Manager = require('../../entities/managers/Manager');
-var EntitySelection = require('../../entities/EntitySelection');
+import Manager from "../../entities/managers/Manager";
+import EntitySelection from "../../entities/EntitySelection";
 
 /**
  * Main handler of all entities in the world.
  * @extends Manager
  */
-function EntityManager() {
+export default function EntityManager() {
 	Manager.call(this);
 
 	this.type = 'EntityManager';
@@ -156,5 +156,3 @@ EntityManager.prototype.clear = function () {
 	this._entitiesByIndex.clear();
 	this._entityCount = 0;
 };
-
-module.exports = EntityManager;

@@ -1,14 +1,14 @@
-var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
-var RigidBodyComponent = require('../../../addons/physicspack/components/RigidBodyComponent');
-var ObjectUtils = require('../../../util/ObjectUtils');
-var Vector3 = require('../../../math/Vector3');
+import ComponentHandler from "../../../loaders/handlers/ComponentHandler";
+import RigidBodyComponent from "../../../addons/physicspack/components/RigidBodyComponent";
+import ObjectUtils from "../../../util/ObjectUtils";
+import Vector3 from "../../../math/Vector3";
 
 /**
  * For handling loading of rigid body components
  * @extends ComponentHandler
  * @hidden
  */
-function RigidBodyComponentHandler() {
+export default function RigidBodyComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'RigidBodyComponent';
 }
@@ -87,5 +87,3 @@ RigidBodyComponentHandler.prototype.update = function (entity, config, options) 
 		return component;
 	});
 };
-
-module.exports = RigidBodyComponentHandler;

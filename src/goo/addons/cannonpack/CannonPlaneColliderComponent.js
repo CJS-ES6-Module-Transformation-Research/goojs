@@ -1,4 +1,4 @@
-var Component = require('../../entities/components/Component');
+import Component from "../../entities/components/Component";
 
 /* global CANNON */
 
@@ -7,7 +7,7 @@ var Component = require('../../entities/components/Component');
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
  * @param {Object} [settings]
  */
-function CannonPlaneColliderComponent(settings) {
+export default function CannonPlaneColliderComponent(settings) {
 	Component.apply(this, arguments);
 
 	this.type = 'CannonPlaneColliderComponent';
@@ -20,5 +20,3 @@ function CannonPlaneColliderComponent(settings) {
 
 CannonPlaneColliderComponent.prototype = Object.create(Component.prototype);
 CannonPlaneColliderComponent.constructor = CannonPlaneColliderComponent;
-
-module.exports = CannonPlaneColliderComponent;

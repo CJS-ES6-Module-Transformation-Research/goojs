@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import Action from "../../../fsmpack/statemachine/actions/Action";
 
-function SetAnimationOffsetAction(/*id, settings*/) {
+export default function SetAnimationOffsetAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -28,5 +28,3 @@ SetAnimationOffsetAction.prototype.enter = function (fsm) {
 		entity.animationComponent.shiftClipTime(this.offset);
 	}
 };
-
-module.exports = SetAnimationOffsetAction;

@@ -13,7 +13,7 @@
  * @property {string} type System type
  * @property {Array<String>} interests Array of component types this system is interested in
  */
-function System(type, interests) {
+export default function System(type, interests) {
 
 	/**
 	 * @type {World}
@@ -182,5 +182,3 @@ System.prototype.onPreRender = function () {};
  * Called after the scene is being rendered
  */
 System.prototype.onPostRender = function () {};
-
-module.exports = System;

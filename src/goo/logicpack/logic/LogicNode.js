@@ -2,7 +2,7 @@
  * Base class/module for all logic boxes
  * @private
  */
-function LogicNode() {
+export default function LogicNode() {
 	// Generated the same way as entities are, except different naming.
 	Object.defineProperty(this, 'id', {
 		value: LogicNode._instanceCount++,
@@ -84,5 +84,3 @@ LogicNode.prototype.onSystemStopped = function () {};
 LogicNode.prototype.onInputChanged = function () {};
 
 LogicNode._instanceCount = 0;
-
-module.exports = LogicNode;

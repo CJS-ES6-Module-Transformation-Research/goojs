@@ -1,7 +1,7 @@
-var ArrayUtils = require('../../util/ArrayUtils');
-var SystemBus = require('../../entities/SystemBus');
+import ArrayUtils from "../../util/ArrayUtils";
+import SystemBus from "../../entities/SystemBus";
 
-function State(uuid) {
+export default function State(uuid) {
 	this.uuid = uuid;
 	this._fsm = null;
 	this.parent = null;
@@ -301,5 +301,3 @@ State.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
 	ArrayUtils.remove(this._machines, machine);
 };
-
-module.exports = State;

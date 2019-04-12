@@ -1,5 +1,5 @@
-var Component = require('../../entities/components/Component');
-var ObjectUtils = require('../../util/ObjectUtils');
+import Component from "../../entities/components/Component";
+import ObjectUtils from "../../util/ObjectUtils";
 
 /* global CANNON */
 
@@ -11,7 +11,7 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @param {number} [settings.distance=1]
  * @param {CannonRigidbodyComponent} settings.connectedBody
  */
-function CannonDistanceJointComponent(settings) {
+export default function CannonDistanceJointComponent(settings) {
 	Component.apply(this, arguments);
 
 	settings = settings || {};
@@ -27,6 +27,7 @@ function CannonDistanceJointComponent(settings) {
 
 	this.cannonConstraint = null;
 }
+
 CannonDistanceJointComponent.prototype = Object.create(Component.prototype);
 CannonDistanceJointComponent.constructor = CannonDistanceJointComponent;
 
@@ -36,5 +37,3 @@ CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
 	this.cannonConstraint = new CANNON.DistanceConstraint(bodyA, bodyB, this.distance);
 	return this.cannonConstraint;
 };
-
-module.exports = CannonDistanceJointComponent;

@@ -1,10 +1,10 @@
-var Texture = require('../renderer/Texture');
-var MathUtils = require('../math/MathUtils');
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var Ajax = require('../util/Ajax');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var RSVP = require('../util/rsvp');
+import Texture from "../renderer/Texture";
+import MathUtils from "../math/MathUtils";
+import TextureHandler from "../loaders/handlers/TextureHandler";
+import Ajax from "../util/Ajax";
+import StringUtils from "../util/StringUtils";
+import PromiseUtils from "../util/PromiseUtils";
+import RSVP from "../util/rsvp";
 
 //! AT: shouldn't this stay in util?
 
@@ -12,7 +12,7 @@ var RSVP = require('../util/rsvp');
  * Takes away the pain of creating textures of various sorts.
  * @param {Settings} settings Texturing settings
  */
-function TextureCreator() {
+export default function TextureCreator() {
 	var ajax = this.ajax = new Ajax();
 	this.textureHandler = new TextureHandler(
 		{},
@@ -214,5 +214,3 @@ var colorInfo = new Uint8Array([255, 255, 255, 255]);
 TextureCreator.DEFAULT_TEXTURE_2D = new Texture(colorInfo, null, 1, 1);
 TextureCreator.DEFAULT_TEXTURE_CUBE = new Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
 TextureCreator.DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
-
-module.exports = TextureCreator;

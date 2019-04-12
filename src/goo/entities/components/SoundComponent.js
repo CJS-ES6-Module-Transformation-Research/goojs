@@ -1,7 +1,7 @@
-var Component = require('../../entities/components/Component');
-var AudioContext = require('../../sound/AudioContext');
-var Vector3 = require('../../math/Vector3');
-var MathUtils = require('../../math/MathUtils');
+import Component from "../../entities/components/Component";
+import AudioContext from "../../sound/AudioContext";
+import Vector3 from "../../math/Vector3";
+import MathUtils from "../../math/MathUtils";
 
 //! AT: every method here is prefixed with a check for AudioContext. Is it really needed? can it just be refactored away?
 //Or, isn't just one (the first) warning enough - it might ruing everything if flooding the console
@@ -11,7 +11,7 @@ var MathUtils = require('../../math/MathUtils');
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
  * @extends {Component}
  */
-function SoundComponent() {
+export default function SoundComponent() {
 	Component.apply(this, arguments);
 
 	this.type = 'SoundComponent';
@@ -185,5 +185,3 @@ SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
 	this._pannerNode.setPosition(this._position.x, this._position.y, this._position.z);
 	this._pannerNode.setOrientation(this._orientation.x, this._orientation.y, this._orientation.z);
 };
-
-module.exports = SoundComponent;

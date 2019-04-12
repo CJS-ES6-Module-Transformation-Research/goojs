@@ -1,6 +1,6 @@
-var ParticleUtils = require('../particles/ParticleUtils');
-var Renderer = require('../renderer/Renderer');
-var ObjectUtil = require('../util/ObjectUtil');
+import ParticleUtils from "../particles/ParticleUtils";
+import Renderer from "../renderer/Renderer";
+import ObjectUtil from "../util/ObjectUtil";
 
 /**
  * A Particle Emitter spawns particles - controlling spawn rate, lifetime, initial velocity vector and position of each particle.
@@ -15,7 +15,7 @@ var ObjectUtil = require('../util/ObjectUtil');
  * @param {function (particle)} [options.getParticleBillboardVectors=ParticleEmitter.CAMERA_BILLBOARD_FUNC] A function that sets the orientation of the particle's billboard
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
-function ParticleEmitter(options) {
+export default function ParticleEmitter(options) {
 	ObjectUtil.copyOptions(this, options, {
 		totalParticlesToSpawn: -1,
 		maxLifetime: 3.0,
@@ -63,5 +63,3 @@ ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
 ParticleEmitter.prototype.nextParticleLifeSpan = function () {
 	return this.minLifetime + (this.maxLifetime - this.minLifetime) * Math.random();
 };
-
-module.exports = ParticleEmitter;

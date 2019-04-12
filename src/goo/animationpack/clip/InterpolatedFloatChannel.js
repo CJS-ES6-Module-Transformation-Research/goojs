@@ -1,5 +1,5 @@
-var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
-var MathUtils = require('../../math/MathUtils');
+import AbstractAnimationChannel from "../../animationpack/clip/AbstractAnimationChannel";
+import MathUtils from "../../math/MathUtils";
 
 /**
  * An animation source channel consisting of float value samples. These samples are interpolated between key frames. Potential uses for
@@ -9,7 +9,7 @@ var MathUtils = require('../../math/MathUtils');
  * @param {Array<number>} values our value samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-function InterpolatedFloatChannel(channelName, times, values, blendType) {
+export default function InterpolatedFloatChannel(channelName, times, values, blendType) {
 	AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._values = values ? values.slice(0) : null;
 }
@@ -45,5 +45,3 @@ InterpolatedFloatChannel.prototype.getData = function (index, store) {
 	rVal[0] = this._values[index];
 	return rVal;
 };
-
-module.exports = InterpolatedFloatChannel;
