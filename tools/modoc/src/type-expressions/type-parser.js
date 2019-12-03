@@ -1,7 +1,6 @@
+import { tokenizer } from "./tokenizer";
 // jshint node:true
 'use strict';
-
-var tokenizer = require('./tokenizer');
 
 var makeTokenList = function (tokens) {
 	var pointer = 0;
@@ -265,4 +264,5 @@ var _parse = function (stringOrTokens) {
 	return parsed;
 };
 
-exports.parse = _parse;
+let exported__parse = _parse;
+export { exported__parse as _parse };

@@ -1,16 +1,8 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var Dom3dComponent = require('../../entities/components/Dom3dComponent');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * For handling loading of Dom3d components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { Dom3dComponent } from "../../entities/components/Dom3dComponent";
+import * as RSVP from "../../util/rsvp";
+import * as PromiseUtils from "../../util/PromiseUtils";
+var exported_Dom3dComponentHandler = Dom3dComponentHandler;
 function Dom3dComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'Dom3dComponent';
@@ -145,4 +137,12 @@ Dom3dComponentHandler.prototype._remove = function (entity) {
 	component.destroy(this.world.gooRunner.renderer.context);
 };
 
-module.exports = Dom3dComponentHandler;
+/**
+ * For handling loading of Dom3d components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_Dom3dComponentHandler as Dom3dComponentHandler };

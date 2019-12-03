@@ -1,6 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var Plane = require('../math/Plane');
+import { Vector3 } from "../math/Vector3";
+import { Renderer } from "../renderer/Renderer";
+import { Plane } from "../math/Plane";
 
 /* global CANNON */
 
@@ -245,4 +245,32 @@ CannonPickScript.externals = {
 	}]
 };
 
-module.exports = CannonPickScript;
+var functionObject_externals = {
+    key: "CannonPickScript",
+    name: "Cannon.js Body Pick",
+    description: "Enables the user to physically pick a Cannon.js physics body and drag it around.",
+
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        "default": true
+    }, {
+        key: "pickButton",
+        name: "Pan button",
+        description: "Pick with this button",
+        type: "string",
+        control: "select",
+        "default": "Any",
+        options: ["Any", "Left", "Middle", "Right"]
+    }, {
+        key: "useForceNormal",
+        name: "Use force normal",
+        type: "boolean",
+        "default": false
+    }, {
+        key: "forceNormal",
+        name: "Force normal",
+        "default": [0, 0, 1],
+        type: "vec3"
+    }]
+};

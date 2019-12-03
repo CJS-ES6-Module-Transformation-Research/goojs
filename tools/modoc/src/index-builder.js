@@ -1,12 +1,8 @@
+import _ from "underscore";
+import { util } from "./util";
+var exported_getIndex = getIndex;
 // jshint node:true
 'use strict';
-
-/**
- Builds the index used to generate the nav bar
- */
-
-var _ = require('underscore');
-var util = require('./util');
 
 var HTML_SUFFIX = '-doc.html';
 
@@ -74,4 +70,4 @@ function getIndex(classes) {
 }
 
 
-exports.getIndex = getIndex;
+export { exported_getIndex as indexBuilder };

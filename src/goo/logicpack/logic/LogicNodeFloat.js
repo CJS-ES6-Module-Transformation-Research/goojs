@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that provides a float value.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeFloat = LogicNodeFloat;
 function LogicNodeFloat() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeFloat.logicInterface;
@@ -37,4 +33,8 @@ LogicNodeFloat.logicInterface.addConfigEntry({
 	label: 'Value'
 });
 
-module.exports = LogicNodeFloat;
+/**
+ * Logic node that provides a float value.
+ * @private
+ */
+export { exported_LogicNodeFloat as LogicNodeFloat };

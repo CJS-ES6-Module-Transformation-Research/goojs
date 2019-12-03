@@ -1,11 +1,7 @@
-var System = require('../../entities/systems/System');
-var Renderer = require('../../renderer/Renderer');
-var Vector3 = require('../../math/Vector3');
-
-/**
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
- */
+import { System } from "../../entities/systems/System";
+import { Renderer } from "../../renderer/Renderer";
+import { Vector3 } from "../../math/Vector3";
+var exported_HtmlSystem = HtmlSystem;
 function HtmlSystem(renderer) {
 	System.call(this, 'HtmlSystem', ['TransformComponent', 'HtmlComponent']);
 	this.renderer = renderer;
@@ -121,4 +117,8 @@ HtmlSystem.prototype.deleted = function (entity) {
 	component.domElement = null;
 };
 
-module.exports = HtmlSystem;
+/**
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
+ */
+export { exported_HtmlSystem as HtmlSystem };

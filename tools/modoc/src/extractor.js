@@ -1,10 +1,9 @@
+import estraverse from "estraverse";
+import { util } from "./util";
 // jshint node:true
 'use strict';
 
 var esprima = require('../lib/esprima');
-var estraverse = require('estraverse');
-
-var util = require('./util');
 
 
 var getFirstJSDoc = function (comments) {
@@ -212,4 +211,5 @@ var extract = function (source, file, options) {
 	return extractTree(tree, fileName, options);
 };
 
-exports.extract = extract;
+let exported_extract = extract;
+export { exported_extract as extract };

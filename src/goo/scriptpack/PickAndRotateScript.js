@@ -162,4 +162,38 @@ PickAndRotateScript.externals = {
 	}]
 };
 
-module.exports = PickAndRotateScript;
+var functionObject_externals = {
+    key: "PickAndRotateScript",
+    name: "Pick and Rotate",
+    description: "Enables pick-drag-rotating entities",
+
+    parameters: [{
+        key: "disable",
+        description: "Prevent rotation. For preventing this script programmatically.",
+        type: "boolean",
+        "default": false
+    }, {
+        key: "dragButton",
+        description: "Button to enable dragging",
+        "default": "Any",
+        options: ["Any", "Left", "Middle", "Right"],
+        type: "string",
+        control: "select"
+    }, {
+        key: "xMultiplier",
+        description: "Horizontal rotation multiplier",
+        "default": 1,
+        type: "float",
+        control: "slider",
+        min: -4,
+        max: 4
+    }, {
+        key: "yMultiplier",
+        description: "Vertical rotation multiplier",
+        "default": 1,
+        type: "float",
+        control: "slider",
+        min: -4,
+        max: 4
+    }]
+};

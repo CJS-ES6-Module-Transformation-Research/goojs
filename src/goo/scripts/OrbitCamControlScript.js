@@ -1,8 +1,9 @@
-var Vector3 = require('../math/Vector3');
-var Vector2 = require('../math/Vector2');
-var MathUtils = require('../math/MathUtils');
-var Camera = require('../renderer/Camera');
-var SystemBus = require('../entities/SystemBus');
+import { Vector3 } from "../math/Vector3";
+import { Vector2 } from "../math/Vector2";
+import * as MathUtils from "../math/MathUtils";
+import { Camera } from "../renderer/Camera";
+import * as SystemBus from "../entities/SystemBus";
+var exported_OrbitCamControlScript = OrbitCamControlScript;
 
 var ZOOM_DISTANCE_FACTOR = 0.035;
 var EPSILON = 1e-6;
@@ -519,4 +520,4 @@ OrbitCamControlScript.externals = {
 	}]
 };
 
-module.exports = OrbitCamControlScript;
+export { exported_OrbitCamControlScript as OrbitCamControlScript };

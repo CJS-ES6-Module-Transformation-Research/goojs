@@ -1,49 +1,26 @@
-var World = require('./World');
-var Renderer = require('../renderer/Renderer');
-var TransformSystem = require('./systems/TransformSystem');
-var RenderSystem = require('./systems/RenderSystem');
-var BoundingUpdateSystem = require('./systems/BoundingUpdateSystem');
-var ScriptSystem = require('./systems/ScriptSystem');
-var LightingSystem = require('./systems/LightingSystem');
-var CameraSystem = require('./systems/CameraSystem');
-var ParticlesSystem = require('./systems/ParticlesSystem');
-var Stats = require('../util/Stats');
-var AudioContext = require('../sound/AudioContext');
-var SoundSystem = require('./systems/SoundSystem');
-var TransformComponent = require('./components/TransformComponent');
-var MeshDataComponent = require('./components/MeshDataComponent');
-var MeshRendererComponent = require('./components/MeshRendererComponent');
-var CameraComponent = require('./components/CameraComponent');
-var LightComponent = require('./components/LightComponent');
-var ScriptComponent = require('./components/ScriptComponent');
-var GameUtils = require('../util/GameUtils');
-var Logo = require('../util/Logo');
-var SystemBus = require('./SystemBus');
-var Material = require('../renderer/Material');
-
-/**
- * The main class that updates the world and calls the renderers.
- * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
- *
- * @param {Object} [parameters] GooRunner settings passed in a JSON object
- * @param {boolean} [parameters.alpha=false] Specifies if the canvas should have an alpha channel or not.
- * @param {boolean} [parameters.premultipliedAlpha=true] Enables or disables premultiplication of color by alpha
- * @param {boolean} [parameters.antialias=true] Specifies if antialiasing should be turned on or no
- * @param {boolean} [parameters.stencil=false] Enables the stencil buffer
- * @param {boolean} [parameters.preserveDrawingBuffer=false] By default the drawing buffer will be cleared after it is presented to the HTML compositor. Enable this option to not clear the drawing buffer
- * @param {HTMLCanvasElement}  [parameters.canvas] If not supplied, Renderer will create a new canvas
- * @param {boolean} [parameters.showStats=false] If enabled a small stats widget showing stats will be displayed
- * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc)
- * @param {boolean} [parameters.manuallyStartGameLoop=false] By default the 'game loop' will start automatically. Enable this option to manually start the game loop at any time
- * @param {(boolean | string | { position, color })} [parameters.logo='topright'] Specifies whether the Goo logo is visible or not and where should and be placed and what color should it have.
- * If the parameter is not specified then the logo is placed in the top right corner.
- * If no logo is desired then this parameter should have the 'false' value.
- * If the supplied parameter is one of the following: 'topleft', 'topright', 'bottomleft', 'bottomright' then the logo will be positioned in the according corner
- * If the parameter is of type object then the logo will be positioned according to the 'position' key and will be colored according to the 'color' key
- * @param {boolean} [parameters.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
- * @param {boolean} [parameters.debugKeys=false] If enabled the hotkeys Shift+[1..6] will be enabled
- * @param {boolean} [parameters.useTryCatch=true]
- */
+import { World } from "./World";
+import { Renderer } from "../renderer/Renderer";
+import { TransformSystem } from "./systems/TransformSystem";
+import { RenderSystem } from "./systems/RenderSystem";
+import { BoundingUpdateSystem } from "./systems/BoundingUpdateSystem";
+import { ScriptSystem } from "./systems/ScriptSystem";
+import { LightingSystem } from "./systems/LightingSystem";
+import { CameraSystem } from "./systems/CameraSystem";
+import { ParticlesSystem } from "./systems/ParticlesSystem";
+import { Stats } from "../util/Stats";
+import * as AudioContext from "../sound/AudioContext";
+import { SoundSystem } from "./systems/SoundSystem";
+import { TransformComponent } from "./components/TransformComponent";
+import { MeshDataComponent } from "./components/MeshDataComponent";
+import { MeshRendererComponent } from "./components/MeshRendererComponent";
+import { CameraComponent } from "./components/CameraComponent";
+import { LightComponent } from "./components/LightComponent";
+import { ScriptComponent } from "./components/ScriptComponent";
+import * as GameUtils from "../util/GameUtils";
+import * as Logo from "../util/Logo";
+import * as SystemBus from "./SystemBus";
+import { Material } from "../renderer/Material";
+var exported_GooRunner = GooRunner;
 function GooRunner(parameters) {
 	parameters = parameters || {};
 
@@ -850,4 +827,27 @@ GooRunner.prototype.removeStats = function () {
 	}
 };
 
-module.exports = GooRunner;
+/**
+ * The main class that updates the world and calls the renderers.
+ * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
+ *
+ * @param {Object} [parameters] GooRunner settings passed in a JSON object
+ * @param {boolean} [parameters.alpha=false] Specifies if the canvas should have an alpha channel or not.
+ * @param {boolean} [parameters.premultipliedAlpha=true] Enables or disables premultiplication of color by alpha
+ * @param {boolean} [parameters.antialias=true] Specifies if antialiasing should be turned on or no
+ * @param {boolean} [parameters.stencil=false] Enables the stencil buffer
+ * @param {boolean} [parameters.preserveDrawingBuffer=false] By default the drawing buffer will be cleared after it is presented to the HTML compositor. Enable this option to not clear the drawing buffer
+ * @param {HTMLCanvasElement}  [parameters.canvas] If not supplied, Renderer will create a new canvas
+ * @param {boolean} [parameters.showStats=false] If enabled a small stats widget showing stats will be displayed
+ * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc)
+ * @param {boolean} [parameters.manuallyStartGameLoop=false] By default the 'game loop' will start automatically. Enable this option to manually start the game loop at any time
+ * @param {(boolean | string | { position, color })} [parameters.logo='topright'] Specifies whether the Goo logo is visible or not and where should and be placed and what color should it have.
+ * If the parameter is not specified then the logo is placed in the top right corner.
+ * If no logo is desired then this parameter should have the 'false' value.
+ * If the supplied parameter is one of the following: 'topleft', 'topright', 'bottomleft', 'bottomright' then the logo will be positioned in the according corner
+ * If the parameter is of type object then the logo will be positioned according to the 'position' key and will be colored according to the 'color' key
+ * @param {boolean} [parameters.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
+ * @param {boolean} [parameters.debugKeys=false] If enabled the hotkeys Shift+[1..6] will be enabled
+ * @param {boolean} [parameters.useTryCatch=true]
+ */
+export { exported_GooRunner as GooRunner };

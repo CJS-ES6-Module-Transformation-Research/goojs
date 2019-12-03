@@ -1,7 +1,6 @@
+import { util } from "./util";
 // jshint node:true
 'use strict';
-
-var util = require('./util');
 
 var SUPPORTED_TAGS = [
 	'description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type',
@@ -58,6 +57,8 @@ var partition = function (doc) {
 	return tags;
 };
 
+let exported_partition = partition;
+
 var warnOnRogueTags = function (tags) {
 	for (var i = 0; i < tags.length; i++) {
 		var tag = tags[i];
@@ -97,6 +98,8 @@ var extractType = function (string, offset) {
 		type: string.substring(i + 1, end)
 	};
 };
+
+let exported_extractType = extractType;
 
 var isSpace = function (char) {
 	return char === ' ' || char === '\t';
@@ -158,6 +161,8 @@ var extractName = function (string, offset) {
 	};
 };
 
+let exported_extractName = extractName;
+
 var extractDescription = function (string, offset) {
 	var i = firstNonSpace(string, offset);
 
@@ -166,6 +171,8 @@ var extractDescription = function (string, offset) {
 		end: string.length
 	};
 };
+
+let exported_extractDescription = extractDescription;
 
 var extractUntilSpace = function (string, offset) {
 	var i = firstNonSpace(string, offset);
@@ -201,6 +208,8 @@ var extractTagParam = function (param) {
 	};
 };
 
+let exported_extractTagParam = extractTagParam;
+
 var extractTagProperty = extractTagParam; // same for now
 
 var extractTagReturn = function (returns) {
@@ -217,6 +226,8 @@ var extractTagReturn = function (returns) {
 	};
 };
 
+let exported_extractTagReturn = extractTagReturn;
+
 var extractTagType = function (type) {
 	var typeData = extractType(type, 0);
 
@@ -224,6 +235,8 @@ var extractTagType = function (type) {
 		type: typeData.type
 	};
 };
+
+let exported_extractTagType = extractTagType;
 
 var extractTagDefault = function (default_) {
 	// no processing required
@@ -245,6 +258,8 @@ var extractTagExtends = function (extends_) {
 		base: extends_
 	};
 };
+
+let exported_extractTagExtends = extractTagExtends;
 
 var extractTagExampleLink = function (exampleLink) {
 	var linkData = extractUntilSpace(exampleLink, 0);
@@ -271,6 +286,8 @@ var extractTagTargetClass = function (targetClass) {
 		itemType: match[3]
 	};
 };
+
+let exported_extractTagTargetClass = extractTagTargetClass;
 
 var extractTagGroup = function (group) {
 	// no processing required
@@ -327,13 +344,14 @@ var extract = function (doc) {
 	return tags;
 };
 
-exports._partition = partition;
-exports._extractType = extractType;
-exports._extractName = extractName;
-exports._extractDescription = extractDescription;
-exports._extractTagParam = extractTagParam;
-exports._extractTagReturn = extractTagReturn;
-exports._extractTagType = extractTagType;
-exports._extractTagExtends = extractTagExtends;
-exports._extractTagTargetClass = extractTagTargetClass;
-exports.extract = extract;
+let exported_extract = extract;
+export { exported_partition as partition };
+export { exported_extractType as extractType };
+export { exported_extractName as extractName };
+export { exported_extractDescription as extractDescription };
+export { exported_extractTagParam as extractTagParam };
+export { exported_extractTagReturn as extractTagReturn };
+export { exported_extractTagType as extractTagType };
+export { exported_extractTagExtends as extractTagExtends };
+export { exported_extractTagTargetClass as extractTagTargetClass };
+export { exported_extract as extract };

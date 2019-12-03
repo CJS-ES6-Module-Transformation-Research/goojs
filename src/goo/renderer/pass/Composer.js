@@ -1,13 +1,8 @@
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Post processing handler
- * @param {RenderTarget} renderTarget Data to wrap
- * @property {RenderTarget} renderTarget Data to wrap
- */
+import { RenderTarget } from "../../renderer/pass/RenderTarget";
+import { FullscreenPass } from "../../renderer/pass/FullscreenPass";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import * as SystemBus from "../../entities/SystemBus";
+var exported_Composer = Composer;
 function Composer(renderTarget) {
 	this._passedWriteBuffer = !!renderTarget;
 	this.writeBuffer = renderTarget;
@@ -143,4 +138,9 @@ Composer.prototype.render = function (renderer, delta, camera, lights) {
 	}
 };
 
-module.exports = Composer;
+/**
+ * Post processing handler
+ * @param {RenderTarget} renderTarget Data to wrap
+ * @property {RenderTarget} renderTarget Data to wrap
+ */
+export { exported_Composer as Composer };

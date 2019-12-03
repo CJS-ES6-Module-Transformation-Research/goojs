@@ -54,4 +54,18 @@ RotationScript.externals = {
 	}]
 };
 
-module.exports = RotationScript;
+var functionObject_externals = {
+    key: "RotationScript",
+    name: "Mouse Rotation",
+    description: "",
+
+    parameters: [{
+        key: "fraction",
+        name: "Speed",
+        "default": 0.01,
+        type: "float",
+        control: "slider",
+        min: 0.01,
+        max: 1
+    }]
+};

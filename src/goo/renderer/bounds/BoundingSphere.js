@@ -1,15 +1,8 @@
-var Vector3 = require('../../math/Vector3');
-var MathUtils = require('../../math/MathUtils');
-var BoundingVolume = require('../../renderer/bounds/BoundingVolume');
-var MeshData = require('../../renderer/MeshData');
-
-/**
- * <code>BoundingSphere</code> defines a sphere that defines a container for a group of vertices of a particular piece of geometry. This
- *        sphere defines a radius and a center. <br>
- *        <br>
- *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
- *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
- */
+import { Vector3 } from "../../math/Vector3";
+import * as MathUtils from "../../math/MathUtils";
+import { BoundingVolume } from "../../renderer/bounds/BoundingVolume";
+import { MeshData } from "../../renderer/MeshData";
+var exported_BoundingSphere = BoundingSphere;
 function BoundingSphere(center, radius) {
 	BoundingVolume.call(this, center);
 	this.radius = radius !== undefined ? radius : 1;
@@ -361,4 +354,11 @@ BoundingSphere.prototype.clone = function () {
 	return new BoundingSphere(this.center, this.radius);
 };
 
-module.exports = BoundingSphere;
+/**
+ * <code>BoundingSphere</code> defines a sphere that defines a container for a group of vertices of a particular piece of geometry. This
+ *        sphere defines a radius and a center. <br>
+ *        <br>
+ *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
+ *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
+ */
+export { exported_BoundingSphere as BoundingSphere };

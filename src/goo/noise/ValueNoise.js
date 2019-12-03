@@ -1,9 +1,5 @@
-var Noise = require('./Noise');
-
-/**
- * Value noise is simpler and computationally lighter than Perlin noise yet produce visually similar results when used in fractals.
- *  Only used to define the class. Should never be instantiated.
- */
+import * as Noise from "./Noise";
+var exported_ValueNoise = ValueNoise;
 function ValueNoise() {
 	Noise.call(this);
 }
@@ -154,4 +150,8 @@ ValueNoise.evaluate4d = function (px, py, pz, pw, scale) {
 	return result;
 };
 
-module.exports = ValueNoise;
+/**
+ * Value noise is simpler and computationally lighter than Perlin noise yet produce visually similar results when used in fractals.
+ *  Only used to define the class. Should never be instantiated.
+ */
+export { exported_ValueNoise as ValueNoise };

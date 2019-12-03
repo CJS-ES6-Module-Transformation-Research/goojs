@@ -1,12 +1,6 @@
-var Component = require('../../entities/components/Component');
-var Light = require('../../renderer/light/Light');
-
-/**
- * Defines a light<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @param {Light} light Light to contain in this component (directional, spot, point)
- * @extends Component
- */
+import { Component } from "../../entities/components/Component";
+import { Light } from "../../renderer/light/Light";
+var exported_LightComponent = LightComponent;
 function LightComponent(light) {
 	Component.apply(this, arguments);
 
@@ -78,4 +72,10 @@ LightComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = LightComponent;
+/**
+ * Defines a light<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @param {Light} light Light to contain in this component (directional, spot, point)
+ * @extends Component
+ */
+export { exported_LightComponent as LightComponent };

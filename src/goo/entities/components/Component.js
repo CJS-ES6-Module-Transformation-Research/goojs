@@ -1,8 +1,5 @@
-var EntitySelection = require('../EntitySelection');
-
-/**
- * Base class/module for all components. Should not be used directly.
- */
+import { EntitySelection } from "../EntitySelection";
+var exported_Component = Component;
 function Component() {
 	/**
 	 * If the component should be processed for containing entities.
@@ -95,4 +92,7 @@ Component.applyEntitySelectionAPI = function (entitySelectionAPI, componentType)
 	}
 };
 
-module.exports = Component;
+/**
+ * Base class/module for all components. Should not be used directly.
+ */
+export { exported_Component as Component };
