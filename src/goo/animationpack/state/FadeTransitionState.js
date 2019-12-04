@@ -1,9 +1,5 @@
-var AbstractTransitionState = require('../../animationpack/state/AbstractTransitionState');
-
-/**
- * A transition that blends over a given time from one animation state to another, beginning the target clip from local time 0 at the start of the transition. This is best used with two clips that have similar motions.
- * @extends AbstractTransitionState
- */
+import { AbstractTransitionState } from "../../animationpack/state/AbstractTransitionState";
+var exported_FadeTransitionState = FadeTransitionState;
 function FadeTransitionState() {
 	AbstractTransitionState.call(this);
 }
@@ -65,4 +61,8 @@ FadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
 	}
 };
 
-module.exports = FadeTransitionState;
+/**
+ * A transition that blends over a given time from one animation state to another, beginning the target clip from local time 0 at the start of the transition. This is best used with two clips that have similar motions.
+ * @extends AbstractTransitionState
+ */
+export { exported_FadeTransitionState as FadeTransitionState };

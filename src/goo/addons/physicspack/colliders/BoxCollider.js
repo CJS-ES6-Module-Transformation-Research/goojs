@@ -1,12 +1,6 @@
-var Vector3 = require('../../../math/Vector3');
-var Collider = require('../../../addons/physicspack/colliders/Collider');
-
-/**
- * Physics box collider.
- * @param {Object} [settings]
- * @param {Vector3} [settings.halfExtents] The half-extents of the box collider.
- * @extends Collider
- */
+import { Vector3 } from "../../../math/Vector3";
+import { Collider } from "../../../addons/physicspack/colliders/Collider";
+var exported_BoxCollider = BoxCollider;
 function BoxCollider(settings) {
 	settings = settings || {};
 
@@ -39,4 +33,10 @@ BoxCollider.prototype.clone = function () {
 	});
 };
 
-module.exports = BoxCollider;
+/**
+ * Physics box collider.
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.halfExtents] The half-extents of the box collider.
+ * @extends Collider
+ */
+export { exported_BoxCollider as BoxCollider };

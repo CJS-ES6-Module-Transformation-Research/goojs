@@ -1,7 +1,10 @@
+import { DoubleQuad } from "./DoubleQuad";
+import { QuadComponent } from "./QuadComponent";
+import { QuadComponentHandler } from "./QuadComponentHandler";
 module.exports = {
-	DoubleQuad: require('./DoubleQuad'),
-	QuadComponent: require('./QuadComponent'),
-	QuadComponentHandler: require('./QuadComponentHandler')
+	DoubleQuad: DoubleQuad,
+	QuadComponent: QuadComponent,
+	QuadComponentHandler: QuadComponentHandler
 };
 if (typeof(window) !== 'undefined') {
 	for (var key in module.exports) {

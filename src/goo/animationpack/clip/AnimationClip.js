@@ -1,8 +1,4 @@
-/**
- * AnimationClip manages a set of animation channels as a single clip entity.
- * @param {string} name Name of joint
- * @param {Array<AbstractAnimationChannel>} [channels=[]] an array of channels to shallow copy locally.
- */
+var exported_AnimationClip = AnimationClip;
 function AnimationClip(name, channels) {
 	this._name = name;
 	this._channels = channels || [];
@@ -83,4 +79,9 @@ AnimationClip.prototype.toString = function () {
 		+ this._channels.map(function (channel) { return channel._channelName; });
 };
 
-module.exports = AnimationClip;
+/**
+ * AnimationClip manages a set of animation channels as a single clip entity.
+ * @param {string} name Name of joint
+ * @param {Array<AbstractAnimationChannel>} [channels=[]] an array of channels to shallow copy locally.
+ */
+export { exported_AnimationClip as AnimationClip };

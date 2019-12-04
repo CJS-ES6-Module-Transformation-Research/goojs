@@ -1,8 +1,8 @@
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var MeshBuilder = require('../util/MeshBuilder');
-var MeshData = require('../renderer/MeshData');
-var Transform = require('../math/Transform');
+import { BoundingBox } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere } from "../renderer/bounds/BoundingSphere";
+import { MeshBuilder } from "../util/MeshBuilder";
+import { MeshData } from "../renderer/MeshData";
+import { Transform } from "../math/Transform";
 
 /**
  * Provides methods for building bounding volume debug meshes
@@ -53,6 +53,12 @@ BoundingVolumeMeshBuilder.buildBox = function (boundingBox) {
 	var boxMeshData = buildBox(boundingBox.xExtent, boundingBox.yExtent, boundingBox.zExtent);
 	// translate vertices to center
 	return boxMeshData;
+};
+
+var functionObject_buildBox = function(boundingBox) {
+    var boxMeshData = buildBox(boundingBox.xExtent, boundingBox.yExtent, boundingBox.zExtent);
+    // translate vertices to center
+    return boxMeshData;
 };
 
 function buildCircle(radius, nSegments) {
@@ -111,6 +117,12 @@ BoundingVolumeMeshBuilder.buildSphere = function (boundingSphere) {
 	return sphereMeshData;
 };
 
+var functionObject_buildSphere = function(boundingSphere) {
+    var sphereMeshData = buildSphere(boundingSphere.radius);
+    // translate vertices to center
+    return sphereMeshData;
+};
+
 BoundingVolumeMeshBuilder.build = function (boundingVolume) {
 	if (boundingVolume instanceof BoundingBox) {
 		return BoundingVolumeMeshBuilder.buildBox(boundingVolume);
@@ -119,4 +131,12 @@ BoundingVolumeMeshBuilder.build = function (boundingVolume) {
 	}
 };
 
-module.exports = BoundingVolumeMeshBuilder;
+var functionObject_build = function(boundingVolume) {
+    if (boundingVolume instanceof BoundingBox) {
+        return functionObject_buildBox(boundingVolume);
+    } else if (boundingVolume instanceof BoundingSphere) {
+        return functionObject_buildSphere(boundingVolume);
+    }
+};
+
+export { functionObject_build as build };

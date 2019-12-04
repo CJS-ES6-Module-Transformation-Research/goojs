@@ -1,7 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
+var exported_SetVariableAction = SetVariableAction;
 
-function SetVariableAction(/*id, settings*/) {
+function SetVariableAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -39,4 +40,4 @@ SetVariableAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetVariableAction;
+export { exported_SetVariableAction as SetVariableAction };

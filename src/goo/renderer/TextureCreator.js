@@ -1,17 +1,11 @@
-var Texture = require('../renderer/Texture');
-var MathUtils = require('../math/MathUtils');
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var Ajax = require('../util/Ajax');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var RSVP = require('../util/rsvp');
-
-//! AT: shouldn't this stay in util?
-
-/**
- * Takes away the pain of creating textures of various sorts.
- * @param {Settings} settings Texturing settings
- */
+import { Texture } from "../renderer/Texture";
+import * as MathUtils from "../math/MathUtils";
+import { TextureHandler } from "../loaders/handlers/TextureHandler";
+import { Ajax } from "../util/Ajax";
+import * as StringUtils from "../util/StringUtils";
+import * as PromiseUtils from "../util/PromiseUtils";
+import * as RSVP from "../util/rsvp";
+var exported_TextureCreator = TextureCreator;
 function TextureCreator() {
 	var ajax = this.ajax = new Ajax();
 	this.textureHandler = new TextureHandler(
@@ -215,4 +209,10 @@ TextureCreator.DEFAULT_TEXTURE_2D = new Texture(colorInfo, null, 1, 1);
 TextureCreator.DEFAULT_TEXTURE_CUBE = new Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
 TextureCreator.DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
 
-module.exports = TextureCreator;
+//! AT: shouldn't this stay in util?
+
+/**
+ * Takes away the pain of creating textures of various sorts.
+ * @param {Settings} settings Texturing settings
+ */
+export { exported_TextureCreator as TextureCreator };

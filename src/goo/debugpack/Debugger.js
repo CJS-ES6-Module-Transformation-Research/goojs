@@ -1,12 +1,6 @@
-var MarkerComponent = require('./components/MarkerComponent');
-var MarkerSystem = require('./systems/MarkerSystem');
-
-//! AT: unused; should be removed
-/**
- * The debugger utility class adds a way to "select" entities and run a filtered serializer on them. It can also create a REPL and export the selected entity to global scope to aid in debugging with the browser's web console.
- * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
- * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
- */
+import { MarkerComponent } from "./components/MarkerComponent";
+import { MarkerSystem } from "./systems/MarkerSystem";
+var exported_Debugger = Debugger;
 function Debugger(exportPicked) {
 	this.goo = null;
 	this.exportPicked = exportPicked || false;
@@ -272,4 +266,10 @@ function displayInfo(entity) {
 	elem.value = entityStr;
 }
 
-module.exports = Debugger;
+//! AT: unused; should be removed
+/**
+ * The debugger utility class adds a way to "select" entities and run a filtered serializer on them. It can also create a REPL and export the selected entity to global scope to aid in debugging with the browser's web console.
+ * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
+ * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
+ */
+export { exported_Debugger as Debugger };

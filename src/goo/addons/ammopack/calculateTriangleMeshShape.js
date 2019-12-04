@@ -1,6 +1,10 @@
 /* global Ammo */
 
-module.exports = function (entity, scale) {
+/* global Ammo */
+
+export { exported_function };;
+
+var exported_function = function (entity, scale) {
 	scale = scale || [1, 1, 1];
 	var floatByteSize = 4;
 	var use32bitIndices = true;

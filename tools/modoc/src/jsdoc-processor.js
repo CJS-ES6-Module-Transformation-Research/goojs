@@ -1,12 +1,10 @@
+import _ from "underscore";
+import { jsdocParser } from "./jsdoc-parser";
+import { typeParser } from "./type-expressions/type-parser";
+import { jsdocSerializer } from "./type-expressions/jsdoc-serializer";
+import { util } from "./util";
 // jshint node:true
 'use strict';
-
-var _ = require('underscore');
-
-var jsdocParser = require('./jsdoc-parser');
-var typeParser = require('./type-expressions/type-parser');
-var jsdocSerializer = require('./type-expressions/jsdoc-serializer');
-var util = require('./util');
 
 // regex compilation for `[]()` links, `@link` and types (big mess)
 var typesRegex;
@@ -83,6 +81,8 @@ var link = function (comment) {
 	}
 };
 
+let exported_link = link;
+
 var hasParamData = function (params) {
 	return params.some(function (param) {
 		return !!param.description || !!param.type;
@@ -158,6 +158,8 @@ var compileComment = function (rawComment) {
 	return comment;
 };
 
+let exported_compileComment = compileComment;
+
 var inject = function (data) {
 	if (!data.rawComment) { return; }
 
@@ -186,6 +188,7 @@ var all = function (jsData, files) {
 };
 
 
-exports.all = all;
-exports.compileComment = compileComment;
-exports.link = link;
+let exported_all = all;
+export { exported_link as link };
+export { exported_compileComment as compileComment };
+export { exported_all as all };

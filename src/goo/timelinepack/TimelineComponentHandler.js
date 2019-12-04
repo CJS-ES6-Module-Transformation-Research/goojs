@@ -1,15 +1,12 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var TimelineComponent = require('../timelinepack/TimelineComponent');
-var ValueChannel = require('../timelinepack/ValueChannel');
-var EventChannel = require('../timelinepack/EventChannel');
-var ArrayUtils = require('../util/ArrayUtils');
-var SystemBus = require('../entities/SystemBus');
-var ObjectUtils = require('../util/ObjectUtils');
-var Easing = require('../util/Easing');
-
-/**
- * @hidden
- */
+import { ComponentHandler } from "../loaders/handlers/ComponentHandler";
+import { TimelineComponent } from "../timelinepack/TimelineComponent";
+import { ValueChannel } from "../timelinepack/ValueChannel";
+import { EventChannel } from "../timelinepack/EventChannel";
+import * as ArrayUtils from "../util/ArrayUtils";
+import * as SystemBus from "../entities/SystemBus";
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as Easing from "../util/Easing";
+var exported_TimelineComponentHandler = TimelineComponentHandler;
 function TimelineComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'TimelineComponent';
@@ -207,4 +204,7 @@ TimelineComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = TimelineComponentHandler;
+/**
+ * @hidden
+ */
+export { exported_TimelineComponentHandler as TimelineComponentHandler };

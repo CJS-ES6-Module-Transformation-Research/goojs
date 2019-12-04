@@ -1,20 +1,12 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var ShapeCreatorMemoized = require('../../util/ShapeCreatorMemoized');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
-var StringUtils = require('../../util/StringUtils');
-var Vector3 = require('../../math/Vector3');
-
-/**
- * For handling loading of meshdatacomponents
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { MeshDataComponent } from "../../entities/components/MeshDataComponent";
+import { BoundingBox } from "../../renderer/bounds/BoundingBox";
+import * as ShapeCreatorMemoized from "../../util/ShapeCreatorMemoized";
+import * as RSVP from "../../util/rsvp";
+import * as ObjectUtils from "../../util/ObjectUtils";
+import * as StringUtils from "../../util/StringUtils";
+import { Vector3 } from "../../math/Vector3";
+var exported_MeshDataComponentHandler = MeshDataComponentHandler;
 function MeshDataComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'MeshDataComponent';
@@ -114,4 +106,12 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = MeshDataComponentHandler;
+/**
+ * For handling loading of meshdatacomponents
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_MeshDataComponentHandler as MeshDataComponentHandler };

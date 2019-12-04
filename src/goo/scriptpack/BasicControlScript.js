@@ -1,13 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var Matrix3 = require('../math/Matrix3');
-
-/**
- * Make an entity controllable via mouse and keyboard. WASD keys move the entity towards the back, left,
- * front and right respectively. Shift causes speed to drop to a tenth. R and F move it up or down. Q and E roll it
- * towards the left or right. The arrow keys cause the entity to rotate, as does dragging with the mouse.
- *
- * @param {Element} domElement Element to add mouse/key listeners to
- */
+import { Vector3 } from "../math/Vector3";
+import { Matrix3 } from "../math/Matrix3";
+var exported_BasicControlScript = BasicControlScript;
 function BasicControlScript(properties) {
 	properties = properties || {};
 	this.domElement = properties.domElement === undefined ? null : properties.domElement.domElement || properties.domElement;
@@ -308,4 +301,11 @@ BasicControlScript.prototype.run = function (entity, tpf, env) {
 	}
 };
 
-module.exports = BasicControlScript;
+/**
+ * Make an entity controllable via mouse and keyboard. WASD keys move the entity towards the back, left,
+ * front and right respectively. Shift causes speed to drop to a tenth. R and F move it up or down. Q and E roll it
+ * towards the left or right. The arrow keys cause the entity to rotate, as does dragging with the mouse.
+ *
+ * @param {Element} domElement Element to add mouse/key listeners to
+ */
+export { exported_BasicControlScript as BasicControlScript };

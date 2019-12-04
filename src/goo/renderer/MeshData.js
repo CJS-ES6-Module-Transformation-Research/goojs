@@ -1,39 +1,11 @@
-var BufferData = require('../renderer/BufferData');
-var RendererUtils = require('../renderer/RendererUtils');
-var BufferUtils = require('../renderer/BufferUtils');
-var Vector2 = require('../math/Vector2');
-var Vector3 = require('../math/Vector3');
-var Vector4 = require('../math/Vector4');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Stores all buffers for geometric data and similar attributes
- * @param {Object} attributeMap Describes which buffers to use and their format/sizes
- * @param {number} vertexCount Number of vertices in buffer
- * @param {number} indexCount Number of indices in buffer
- * @example
- * // Constructing a quad entity
- * var attributes = [MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0];
- * var attributeMap = MeshData.defaultMap(attributes);
- * var vertexCount = 4;
- * var indexCount = 6;
- * var meshData = new MeshData(attributeMap, vertexCount, indexCount);
- * meshData.getAttributeBuffer(MeshData.POSITION).set([
- *     -1, -1, 0, // 0
- *     -1, 1, 0,  // 1
- *      1, 1, 0,  // 2
- *      1, -1, 0  // 3
- * ]);
- * meshData.getAttributeBuffer(MeshData.NORMAL).set([
- *     0,0,1,  0,0,1,  0,0,1,  0,0,1
- * ]);
- * meshData.getAttributeBuffer(MeshData.TEXCOORD0).set([
- *     0,0,  0,1,  1,1,  1,0
- * ]);
- * meshData.getIndexBuffer().set([0,3,1, 1,3,2]);
- *
- * var quadEntity = world.createEntity(meshData, new Material(ShaderLib.textured)).addToWorld();
- */
+import { BufferData } from "../renderer/BufferData";
+import * as RendererUtils from "../renderer/RendererUtils";
+import * as BufferUtils from "../renderer/BufferUtils";
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { Vector4 } from "../math/Vector4";
+import * as ObjectUtils from "../util/ObjectUtils";
+var exported_MeshData = MeshData;
 function MeshData(attributeMap, vertexCount, indexCount) {
 	this.attributeMap = attributeMap;
 
@@ -1004,4 +976,32 @@ MeshData.defaultMap = function (types) {
 	}
 };
 
-module.exports = MeshData;
+/**
+ * Stores all buffers for geometric data and similar attributes
+ * @param {Object} attributeMap Describes which buffers to use and their format/sizes
+ * @param {number} vertexCount Number of vertices in buffer
+ * @param {number} indexCount Number of indices in buffer
+ * @example
+ * // Constructing a quad entity
+ * var attributes = [MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0];
+ * var attributeMap = MeshData.defaultMap(attributes);
+ * var vertexCount = 4;
+ * var indexCount = 6;
+ * var meshData = new MeshData(attributeMap, vertexCount, indexCount);
+ * meshData.getAttributeBuffer(MeshData.POSITION).set([
+ *     -1, -1, 0, // 0
+ *     -1, 1, 0,  // 1
+ *      1, 1, 0,  // 2
+ *      1, -1, 0  // 3
+ * ]);
+ * meshData.getAttributeBuffer(MeshData.NORMAL).set([
+ *     0,0,1,  0,0,1,  0,0,1,  0,0,1
+ * ]);
+ * meshData.getAttributeBuffer(MeshData.TEXCOORD0).set([
+ *     0,0,  0,1,  1,1,  1,0
+ * ]);
+ * meshData.getIndexBuffer().set([0,3,1, 1,3,2]);
+ *
+ * var quadEntity = world.createEntity(meshData, new Material(ShaderLib.textured)).addToWorld();
+ */
+export { exported_MeshData as MeshData };

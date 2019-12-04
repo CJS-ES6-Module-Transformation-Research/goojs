@@ -1,37 +1,24 @@
-var Capabilities = require('../renderer/Capabilities');
-var RendererRecord = require('../renderer/RendererRecord');
-var RendererUtils = require('../renderer/RendererUtils');
-var TextureCreator = require('../renderer/TextureCreator');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var Vector4 = require('../math/Vector4');
-var Texture = require('../renderer/Texture');
-require('../loaders/dds/DdsLoader'); // todo: unused?
-var Material = require('../renderer/Material');
-var RenderQueue = require('../renderer/RenderQueue');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShadowHandler = require('../renderer/shadow/ShadowHandler');
-var RenderStats = require('../renderer/RenderStats');
-var SystemBus = require('../entities/SystemBus');
-var TaskScheduler = require('../renderer/TaskScheduler');
-var RenderInfo = require('../renderer/RenderInfo');
-var MathUtils = require('../math/MathUtils');
+import * as Capabilities from "../renderer/Capabilities";
+import { RendererRecord } from "../renderer/RendererRecord";
+import * as RendererUtils from "../renderer/RendererUtils";
+import { TextureCreator } from "../renderer/TextureCreator";
+import { RenderTarget } from "../renderer/pass/RenderTarget";
+import { Vector4 } from "../math/Vector4";
+import { Texture } from "../renderer/Texture";
+import { Material } from "../renderer/Material";
+import { RenderQueue } from "../renderer/RenderQueue";
+import * as ShaderLib from "../renderer/shaders/ShaderLib";
+import { ShadowHandler } from "../renderer/shadow/ShadowHandler";
+import { RenderStats } from "../renderer/RenderStats";
+import * as SystemBus from "../entities/SystemBus";
+import * as TaskScheduler from "../renderer/TaskScheduler";
+import { RenderInfo } from "../renderer/RenderInfo";
+import * as MathUtils from "../math/MathUtils";
+import "../loaders/dds/DdsLoader";
+var exported_Renderer = Renderer;
 
 var STUB_METHOD = function () {};
 
-/**
- * The renderer handles displaying of graphics data to a render context.
- * It accepts an object containing the settings for the renderer.
- *
- * @param {Object} parameters Renderer settings.
- * @param {boolean} [parameters.alpha=false] Enables the possibility to render non-opaque pixels.
- * @param {boolean} [parameters.premultipliedAlpha=true] Whether the colors are premultiplied with the alpha channel.
- * @param {boolean} [parameters.antialias=true] Enables antialiasing.
- * @param {boolean} [parameters.stencil=false] Enables the stencil buffer.
- * @param {boolean} [parameters.preserveDrawingBuffer=false]
- * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc).
- * @param {canvas} [parameters.canvas] If not supplied, Renderer will create a new canvas.
- * @param {function (string)} [parameters.onError] Called with message when error occurs.
- */
 function Renderer(parameters) {
 	parameters = parameters || {};
 
@@ -2200,4 +2187,18 @@ Renderer.prototype._deallocateShader = function (shader) {
 	shader.destroy();
 };
 
-module.exports = Renderer;
+/**
+ * The renderer handles displaying of graphics data to a render context.
+ * It accepts an object containing the settings for the renderer.
+ *
+ * @param {Object} parameters Renderer settings.
+ * @param {boolean} [parameters.alpha=false] Enables the possibility to render non-opaque pixels.
+ * @param {boolean} [parameters.premultipliedAlpha=true] Whether the colors are premultiplied with the alpha channel.
+ * @param {boolean} [parameters.antialias=true] Enables antialiasing.
+ * @param {boolean} [parameters.stencil=false] Enables the stencil buffer.
+ * @param {boolean} [parameters.preserveDrawingBuffer=false]
+ * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc).
+ * @param {canvas} [parameters.canvas] If not supplied, Renderer will create a new canvas.
+ * @param {function (string)} [parameters.onError] Called with message when error occurs.
+ */
+export { exported_Renderer as Renderer };

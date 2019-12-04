@@ -1,9 +1,6 @@
-var Vector3 = require('./Vector3');
-var MathUtils = require('./MathUtils');
-
-/**
- * Constructs a new ray with an origin at (0, 0, 0) and a direction of (0, 0, 1).
- */
+import { Vector3 } from "./Vector3";
+import * as MathUtils from "./MathUtils";
+var exported_Ray = Ray;
 function Ray(origin, direction) {
 	this.origin = origin ? origin.clone() : new Vector3();
 	this.direction = direction ? direction.clone() : Vector3.UNIT_Z.clone();
@@ -183,4 +180,7 @@ Ray.prototype.clone = function () {
 	return new Ray(this.origin.clone(), this.direction.clone());
 };
 
-module.exports = Ray;
+/**
+ * Constructs a new ray with an origin at (0, 0, 0) and a direction of (0, 0, 1).
+ */
+export { exported_Ray as Ray };

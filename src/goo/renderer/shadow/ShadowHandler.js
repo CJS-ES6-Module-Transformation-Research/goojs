@@ -1,17 +1,14 @@
-var Capabilities = require('../../renderer/Capabilities');
-var Vector3 = require('../../math/Vector3');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var Camera = require('../../renderer/Camera');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Vector4 = require('../../math/Vector4');
-var PointLight = require('../../renderer/light/PointLight');
-var SpotLight = require('../../renderer/light/SpotLight');
-
-/**
- * Handles shadow techniques
- */
+import * as Capabilities from "../../renderer/Capabilities";
+import { Vector3 } from "../../math/Vector3";
+import { FullscreenPass } from "../../renderer/pass/FullscreenPass";
+import { Camera } from "../../renderer/Camera";
+import { Material } from "../../renderer/Material";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import { RenderTarget } from "../../renderer/pass/RenderTarget";
+import { Vector4 } from "../../math/Vector4";
+import { PointLight } from "../../renderer/light/PointLight";
+import { SpotLight } from "../../renderer/light/SpotLight";
+var exported_ShadowHandler = ShadowHandler;
 function ShadowHandler() {
 	this.depthMaterial = new Material(ShaderLib.lightDepth, 'depthMaterial');
 	this.depthMaterial.cullState.cullFace = 'Back';
@@ -220,4 +217,7 @@ ShadowHandler.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateShader(this.blurfilter);
 };
 
-module.exports = ShadowHandler;
+/**
+ * Handles shadow techniques
+ */
+export { exported_ShadowHandler as ShadowHandler };

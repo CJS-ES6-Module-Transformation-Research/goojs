@@ -1,10 +1,5 @@
-var AbstractState = require('../../animationpack/state/AbstractState');
-
-/**
- * A "steady" state is an animation state that is concrete and stand-alone (vs. a state that handles transitioning between two states, for example.)
- * @extends AbstractState
- * @param {string} name Name of state
- */
+import { AbstractState } from "../../animationpack/state/AbstractState";
+var exported_SteadyState = SteadyState;
 function SteadyState(name) {
 	AbstractState.call(this);
 
@@ -79,4 +74,9 @@ SteadyState.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = SteadyState;
+/**
+ * A "steady" state is an animation state that is concrete and stand-alone (vs. a state that handles transitioning between two states, for example.)
+ * @extends AbstractState
+ * @param {string} name Name of state
+ */
+export { exported_SteadyState as SteadyState };

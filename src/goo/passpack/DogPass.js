@@ -1,21 +1,11 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
-
-/**
-* Difference of Gaussian Filter pass.
-* Usable for edge detection.
-*
-* A lower sigma will create thinner edgelines, tune to get the sweetspot.
-* Maximum sigma is 2.5.
-*
-* http://en.wikipedia.org/wiki/Difference_of_Gaussians
-* http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
-*/
+import { Material } from "../renderer/Material";
+import * as FullscreenUtils from "../renderer/pass/FullscreenUtils";
+import { RenderTarget } from "../renderer/pass/RenderTarget";
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as ShaderLib from "../renderer/shaders/ShaderLib";
+import * as ShaderLibExtra from "../passpack/ShaderLibExtra";
+import { Pass } from "../renderer/pass/Pass";
+var exported_DogPass = DogPass;
 function DogPass(settings) {
 	settings = settings || {};
 
@@ -183,4 +173,14 @@ DogPass.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateRenderTarget(this.gaussian2);
 };
 
-module.exports = DogPass;
+/**
+* Difference of Gaussian Filter pass.
+* Usable for edge detection.
+*
+* A lower sigma will create thinner edgelines, tune to get the sweetspot.
+* Maximum sigma is 2.5.
+*
+* http://en.wikipedia.org/wiki/Difference_of_Gaussians
+* http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
+*/
+export { exported_DogPass as DogPass };

@@ -1,19 +1,11 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var LightComponent = require('../../entities/components/LightComponent');
-var PointLight = require('../../renderer/light/PointLight');
-var SpotLight = require('../../renderer/light/SpotLight');
-var DirectionalLight = require('../../renderer/light/DirectionalLight');
-var Vector3 = require('../../math/Vector3');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * For handling loading of light components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { LightComponent } from "../../entities/components/LightComponent";
+import { PointLight } from "../../renderer/light/PointLight";
+import { SpotLight } from "../../renderer/light/SpotLight";
+import { DirectionalLight } from "../../renderer/light/DirectionalLight";
+import { Vector3 } from "../../math/Vector3";
+import * as ObjectUtils from "../../util/ObjectUtils";
+var exported_LightComponentHandler = LightComponentHandler;
 function LightComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'LightComponent';
@@ -136,4 +128,12 @@ LightComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = LightComponentHandler;
+/**
+ * For handling loading of light components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_LightComponentHandler as LightComponentHandler };

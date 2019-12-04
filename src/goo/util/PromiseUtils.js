@@ -1,4 +1,4 @@
-var RSVP = require('../util/rsvp');
+import * as RSVP from "../util/rsvp";
 
 /**
  * Provides promise-related utility methods
@@ -23,6 +23,18 @@ PromiseUtils.createPromise = function (fun) {
 	return promise;
 };
 
+var functionObject_createPromise = function(fun) {
+    var promise = new RSVP.Promise();
+
+    fun(function(value) {
+        promise.resolve(value);
+    }, function(reason) {
+        promise.reject(reason);
+    });
+
+    return promise;
+};
+
 //! AT: in line with the native Promise.resolve
 /**
  * Creates a promise that resolves with the given argument.
@@ -34,6 +46,12 @@ PromiseUtils.resolve = function (value) {
 	return promise;
 };
 
+var functionObject_resolve = function(value) {
+    var promise = new RSVP.Promise();
+    promise.resolve(value);
+    return promise;
+};
+
 //! AT: in line with the native Promise.reject
 /**
  * Creates a promise that resolves with the given argument.
@@ -43,6 +61,13 @@ PromiseUtils.reject = function (reason) {
 	var promise = new RSVP.Promise();
 	promise.reject(reason);
 	return promise;
+};
+
+
+var functionObject_reject = function(reason) {
+    var promise = new RSVP.Promise();
+    promise.reject(reason);
+    return promise;
 };
 
 
@@ -67,6 +92,24 @@ PromiseUtils.createDummyPromise = function (arg, error) {
 		promise.resolve(arg);
 	}
 	return promise;
+};
+
+
+var functionObject_createDummyPromise = function(arg, error) {
+    if (!createDummyPromiseWarn) {
+        createDummyPromiseWarn = true;
+        console.warn(
+            "PromiseUtils.createDummyPromise is deprecated; please consider using PromiseUtils.resolve/reject instead"
+        );
+    }
+
+    var promise = new RSVP.Promise();
+    if (error) {
+        promise.reject(error);
+    } else {
+        promise.resolve(arg);
+    }
+    return promise;
 };
 
 
@@ -111,6 +154,33 @@ PromiseUtils.optimisticAll = function (promises) {
 	return promise;
 };
 
+var functionObject_optimisticAll = function(promises) {
+    var resolved = 0, len = promises.length, results = [], promise = new RSVP.Promise();
+
+    if (len > 0) {
+        for (var i = 0; i < len; i++) {
+            (function(i) {
+                promises[i].then(function(result) {
+                    results[i] = result;
+                    resolved++;
+                    if (resolved === len) {
+                        promise.resolve(results);
+                    }
+                }, function(error) {
+                    results[i] = error;
+                    resolved++;
+                    if (resolved === len) {
+                        promise.resolve(results);
+                    }
+                });
+            })(i);
+        }
+    } else {
+        promise.resolve(results);
+    }
+    return promise;
+};
+
 /**
  * Creates a promise that is resolved within a given amount of time
  * @param value
@@ -123,6 +193,14 @@ PromiseUtils.delay = function (value, time) {
 		promise.resolve(value);
 	}, time);
 	return promise;
+};
+
+var functionObject_delay = function(value, time) {
+    var promise = new RSVP.Promise();
+    setTimeout(function() {
+        promise.resolve(value);
+    }, time);
+    return promise;
 };
 
 // the doc doesn't align with half of what this function actually does
@@ -153,4 +231,24 @@ PromiseUtils.defer = function (delay, arg) {
 	return promise;
 };
 
-module.exports = PromiseUtils;
+var functionObject_defer = function(delay, arg) {
+    var p1, p2, promise;
+    promise = new RSVP.Promise();
+    if (arg.apply) {
+        p1 = new RSVP.Promise();
+        p2 = p1.then(function() {
+            return arg();
+        });
+        setTimeout(function() {
+            p1.resolve();
+        }, delay);
+        return p2;
+    } else {
+        setTimeout(function() {
+            promise.resolve(arg);
+        }, delay);
+    }
+    return promise;
+};
+
+export { functionObject_createPromise as createPromise, functionObject_resolve as resolve, functionObject_reject as reject, functionObject_optimisticAll as optimisticAll };

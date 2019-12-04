@@ -41,6 +41,24 @@ ArrayUtils.getTypedArray = function (arrayBuffer, pointer) {
 	}
 };
 
+var functionObject_getTypedArray = function(arrayBuffer, pointer) {
+    var start = pointer[0];
+    var length = pointer[1];
+    var format = pointer[2];
+
+    if (format === "float32") {
+        return new Float32Array(arrayBuffer, start, length);
+    } else if (format === "uint8") {
+        return new Uint8Array(arrayBuffer, start, length);
+    } else if (format === "uint16") {
+        return new Uint16Array(arrayBuffer, start, length);
+    } else if (format === "uint32") {
+        return new Uint32Array(arrayBuffer, start, length);
+    } else {
+        throw new Error("Binary format " + format + " is not supported");
+    }
+};
+
 ArrayUtils.remove = function (array, value, equals) {
 	var idx = -1;
 	if (typeof equals === 'function') {
@@ -59,6 +77,23 @@ ArrayUtils.remove = function (array, value, equals) {
 	}
 };
 
+var functionObject_remove = function(array, value, equals) {
+    var idx = -1;
+    if (typeof equals === "function") {
+        for (var i = 0; i < array.length; i++) {
+            if (equals(array[i], value)) {
+                idx = i;
+                break;
+            }
+        }
+    } else {
+        idx = array.indexOf(value);
+    }
+    if (idx > -1) {
+        array.splice(idx, 1);
+    }
+};
+
 /**
  * Returns the first element in the supplied array for which the supplied predicate is true
  * @param array
@@ -72,6 +107,15 @@ ArrayUtils.find = function (array, predicate) {
 		}
 	}
 	return null;
+};
+
+var functionObject_find = function(array, predicate) {
+    for (var i = 0; i < array.length; i++) {
+        if (predicate(array[i])) {
+            return array[i];
+        }
+    }
+    return null;
 };
 
 /**
@@ -94,6 +138,21 @@ ArrayUtils.fromKeys = function (collection) {
 	return array;
 };
 
+var functionObject_fromKeys = function(collection) {
+    var array = [];
+
+    collection.forEach(function(value, key) {
+        array.push(key);
+    });
+    //        var iterator = collection.keys();
+    //        var entry = iterator.next();
+    //        while (!entry.done) {
+    //            array.push(entry.value);
+    //            entry = iterator.next();
+    //        }
+    return array;
+};
+
 /**
  * Returns an array of values for the given Set or Map
  * @param {(Set|Map)} collection
@@ -114,4 +173,19 @@ ArrayUtils.fromValues = function (collection) {
 	return array;
 };
 
-module.exports = ArrayUtils;
+var functionObject_fromValues = function(collection) {
+    var array = [];
+
+    collection.forEach(function(value) {
+        array.push(value);
+    });
+    //        var iterator = collection.values();
+    //        var entry = iterator.next();
+    //        while (!entry.done) {
+    //            array.push(entry.value);
+    //            entry = iterator.next();
+    //        }
+    return array;
+};
+
+export { functionObject_getTypedArray as getTypedArray, functionObject_remove as remove, functionObject_find as find, functionObject_fromValues as fromValues };

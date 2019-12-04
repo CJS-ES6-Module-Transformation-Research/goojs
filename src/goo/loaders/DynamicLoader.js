@@ -1,40 +1,30 @@
-var ConfigHandler = require('./handlers/ConfigHandler');
-var Ajax = require('../util/Ajax');
-var RSVP = require('../util/rsvp');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var ArrayUtils = require('../util/ArrayUtils');
-var ShapeCreatorMemoized = require('../util/ShapeCreatorMemoized');
-
-// Todo: should these really be included here?
-require('./handlers/ComponentHandler');
-require('./handlers/CameraComponentHandler');
-require('./handlers/EntityHandler');
-require('./handlers/JsonHandler');
-require('./handlers/LightComponentHandler');
-require('./handlers/MaterialHandler');
-require('./handlers/MeshDataComponentHandler');
-require('./handlers/MeshDataHandler');
-require('./handlers/MeshRendererComponentHandler');
-require('./handlers/SceneHandler');
-require('./handlers/ShaderHandler');
-require('./handlers/TextureHandler');
-require('./handlers/TransformComponentHandler');
-require('./handlers/ProjectHandler');
-require('./handlers/SoundComponentHandler');
-require('./handlers/SoundHandler');
-require('./handlers/EnvironmentHandler');
-require('./handlers/SkyboxHandler');
-require('./handlers/HtmlComponentHandler');
-
-/**
- * Class to load objects into the engine, or to update objects based on the data model.
- * @param {Object} options
- * @param {World} options.world The target World object.
- * @param {string} options.rootPath The root path from where to get resources.
- * @param {Ajax} [options.ajax=new Ajax(options.rootPath)]
- * Can be used to overwrite how the loader fetches refs. Good for testing.
- */
+import { ConfigHandler } from "./handlers/ConfigHandler";
+import { Ajax } from "../util/Ajax";
+import * as RSVP from "../util/rsvp";
+import * as StringUtils from "../util/StringUtils";
+import * as PromiseUtils from "../util/PromiseUtils";
+import * as ArrayUtils from "../util/ArrayUtils";
+import * as ShapeCreatorMemoized from "../util/ShapeCreatorMemoized";
+import "./handlers/ComponentHandler";
+import "./handlers/CameraComponentHandler";
+import "./handlers/EntityHandler";
+import "./handlers/JsonHandler";
+import "./handlers/LightComponentHandler";
+import "./handlers/MaterialHandler";
+import "./handlers/MeshDataComponentHandler";
+import "./handlers/MeshDataHandler";
+import "./handlers/MeshRendererComponentHandler";
+import "./handlers/SceneHandler";
+import "./handlers/ShaderHandler";
+import "./handlers/TextureHandler";
+import "./handlers/TransformComponentHandler";
+import "./handlers/ProjectHandler";
+import "./handlers/SoundComponentHandler";
+import "./handlers/SoundHandler";
+import "./handlers/EnvironmentHandler";
+import "./handlers/SkyboxHandler";
+import "./handlers/HtmlComponentHandler";
+var exported_DynamicLoader = DynamicLoader;
 function DynamicLoader(options) {
 	if (options.world) {
 		this._world = options.world;
@@ -394,4 +384,12 @@ DynamicLoader._isRefTypeInGroup = function (ref, group) {
 	return type && Ajax.types[group] && Ajax.types[group][type];
 };
 
-module.exports = DynamicLoader;
+/**
+ * Class to load objects into the engine, or to update objects based on the data model.
+ * @param {Object} options
+ * @param {World} options.world The target World object.
+ * @param {string} options.rootPath The root path from where to get resources.
+ * @param {Ajax} [options.ajax=new Ajax(options.rootPath)]
+ * Can be used to overwrite how the loader fetches refs. Good for testing.
+ */
+export { exported_DynamicLoader as DynamicLoader };

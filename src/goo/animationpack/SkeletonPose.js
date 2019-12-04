@@ -1,11 +1,7 @@
-var Transform = require('../math/Transform');
-var Joint = require('../animationpack/Joint');
-var Matrix4 = require('../math/Matrix4');
-
-/**
- * Joins a {@link Skeleton} with an array of {@link Joint} poses. This allows the skeleton to exist and be reused between multiple instances of poses.
- * @param {Skeleton} skeleton
- */
+import { Transform } from "../math/Transform";
+import { Joint } from "../animationpack/Joint";
+import { Matrix4 } from "../math/Matrix4";
+var exported_SkeletonPose = SkeletonPose;
 function SkeletonPose(skeleton) {
 	this._skeleton = skeleton;
 
@@ -105,4 +101,8 @@ SkeletonPose.prototype.clone = function () {
 	return new SkeletonPose(this._skeleton);
 };
 
-module.exports = SkeletonPose;
+/**
+ * Joins a {@link Skeleton} with an array of {@link Joint} poses. This allows the skeleton to exist and be reused between multiple instances of poses.
+ * @param {Skeleton} skeleton
+ */
+export { exported_SkeletonPose as SkeletonPose };

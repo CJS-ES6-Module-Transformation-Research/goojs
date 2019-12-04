@@ -1,6 +1,6 @@
-var Quad = require('../../shapes/Quad');
-var Camera = require('../../renderer/Camera');
-var Vector3 = require('../../math/Vector3');
+import { Quad } from "../../shapes/Quad";
+import { Camera } from "../../renderer/Camera";
+import { Vector3 } from "../../math/Vector3";
 
 /**
  * Utility class with a default setup parallel camera and fullscreen quad for fullscreen pass usage
@@ -16,6 +16,9 @@ camera._direction.copy(Vector3.UNIT_Z);
 camera.onFrameChange();
 FullscreenUtils.camera = camera;
 
+var functionObject_camera = camera;
+
 FullscreenUtils.quad = new Quad(2, 2);
 
-module.exports = FullscreenUtils;
+var functionObject_quad = new Quad(2, 2);
+export { functionObject_camera as camera, functionObject_quad as quad };
