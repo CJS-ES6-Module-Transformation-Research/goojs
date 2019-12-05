@@ -1,10 +1,5 @@
-var Collider = require('../../../addons/physicspack/colliders/Collider');
-
-/**
- * @param {Object} [settings]
- * @param {number} [settings.radius=0.5]
- * @extends Collider
- */
+import { Collider } from "../../../addons/physicspack/colliders/Collider";
+var exported_SphereCollider = SphereCollider;
 function SphereCollider(settings) {
 	settings = settings || {};
 
@@ -41,4 +36,9 @@ SphereCollider.prototype.clone = function () {
 	});
 };
 
-module.exports = SphereCollider;
+/**
+ * @param {Object} [settings]
+ * @param {number} [settings.radius=0.5]
+ * @extends Collider
+ */
+export { exported_SphereCollider as SphereCollider };

@@ -1,3 +1,2 @@
-var FsmUtils = require('./FsmUtils');
-
-module.exports = FsmUtils;
+import * as FsmUtils from "./FsmUtils";
+export { FsmUtils };

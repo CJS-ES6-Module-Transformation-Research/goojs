@@ -1,3 +1,4 @@
+var exported_Machine = Machine;
 function Machine(id, name) {
 	this.id = id;
 	this.name = name;
@@ -142,4 +143,4 @@ Machine.prototype.setInitialState = function (initialState) {
 	this.initialState = initialState;
 };
 
-module.exports = Machine;
+export { exported_Machine as Machine };

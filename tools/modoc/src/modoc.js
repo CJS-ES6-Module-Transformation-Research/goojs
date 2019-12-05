@@ -1,31 +1,18 @@
+import fs from "fs";
+import childProcess from "child_process";
+import handlebars from "handlebars";
+import marked from "marked";
+import * as indexBuilder from "./index-builder";
+import * as util from "./util";
+import * as trunk from "./trunk";
 // jshint node:true
 'use strict';
-
-/**
- Main file
- + parses comment line args
- + gets the source files to be processed
- + gets data for the index (nav bar)
- + gets the processed documentation
- + generates every -doc file
- + generates an index file (in this case Entity.js)
- + generates the changelog in a pretty format
- */
-
-var fs = require('fs');
-var childProcess = require('child_process');
-var handlebars = require('handlebars');
-var marked = require('marked');
-
-var indexBuilder = require('./index-builder');
-var util = require('./util');
-var trunk = require('./trunk');
 
 // handlebars.registerHelper("debug", function(optionalValue) {
 //   console.log("Current Context");
 //   console.log("====================");
 //   console.log(this);
- 
+
 //   if (optionalValue) {
 //     console.log("Value");
 //     console.log("====================");

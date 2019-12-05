@@ -1,7 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 } from "../../../math/Vector3";
+var exported_LookAtAction = LookAtAction;
 
-function LookAtAction(/*id, settings*/) {
+function LookAtAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -49,4 +50,4 @@ LookAtAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = LookAtAction;
+export { exported_LookAtAction as LookAtAction };

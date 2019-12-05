@@ -1,13 +1,5 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
-
-/**
- * @class
- * @constructor
- * @extends Curve
- * @param {object} [options]
- * @param {number} [options.k]
- * @param {number} [options.m]
- */
+import { Curve } from "../../../addons/particlepack/curves/Curve";
+var exported_LinearCurve = LinearCurve;
 function LinearCurve(options) {
 	options = options || {};
 
@@ -59,4 +51,12 @@ LinearCurve.prototype.getIntegralValueAt = function (t/*, lerpValue*/) {
 	return 0.5 * k * x * x + m * x;
 };
 
-module.exports = LinearCurve;
+/**
+ * @class
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {number} [options.k]
+ * @param {number} [options.m]
+ */
+export { exported_LinearCurve as LinearCurve };

@@ -1,7 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import * as SystemBus from "../../../entities/SystemBus";
+var exported_TriggerLeaveAction = TriggerLeaveAction;
 
-function TriggerLeaveAction(/*id, settings*/) {
+function TriggerLeaveAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this.entity = null;
 }
@@ -44,4 +45,4 @@ TriggerLeaveAction.prototype.exit = function (/*fsm*/) {
 	this.entity = null;
 };
 
-module.exports = TriggerLeaveAction;
+export { exported_TriggerLeaveAction as TriggerLeaveAction };

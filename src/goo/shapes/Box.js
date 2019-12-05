@@ -1,17 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii)
- * from that center (a box).
- * @extends MeshData
- * @param {number} [width=1] Total width of box.
- * @param {number} [height=1] Total height of box.
- * @param {number} [length=1] Total length of box.
- * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
- * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
- * @param {Enum} [textureMode=Box.TextureModes.Uniform] Texture wrapping mode.
- */
+import { MeshData } from "../renderer/MeshData";
+import * as ObjectUtils from "../util/ObjectUtils";
+var exported_Box = Box;
 function Box(width, height, length, tileX, tileY, textureMode) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -202,4 +191,15 @@ Box.TextureModes = {
 	Unfolded: 'Unfolded'
 };
 
-module.exports = Box;
+/**
+ * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii)
+ * from that center (a box).
+ * @extends MeshData
+ * @param {number} [width=1] Total width of box.
+ * @param {number} [height=1] Total height of box.
+ * @param {number} [length=1] Total length of box.
+ * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
+ * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
+ * @param {Enum} [textureMode=Box.TextureModes.Uniform] Texture wrapping mode.
+ */
+export { exported_Box as Box };

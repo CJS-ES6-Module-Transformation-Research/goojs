@@ -1,9 +1,5 @@
-var World = require('../../entities/World');
-
-/**
- * Maintains state information about an instance of a specific animation clip, such as time scaling applied, active flag, start time of the
- *        instance, etc.
- */
+import { World } from "../../entities/World";
+var exported_AnimationClipInstance = AnimationClipInstance;
 function AnimationClipInstance() {
 	this._active = true;
 	this._loopCount = 0;
@@ -62,4 +58,8 @@ AnimationClipInstance.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = AnimationClipInstance;
+/**
+ * Maintains state information about an instance of a specific animation clip, such as time scaling applied, active flag, start time of the
+ *        instance, etc.
+ */
+export { exported_AnimationClipInstance as AnimationClipInstance };

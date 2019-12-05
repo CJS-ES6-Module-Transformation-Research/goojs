@@ -1,9 +1,5 @@
-var MeshData = require('../../../renderer/MeshData');
-
-/**
- * A wireframe mesh indicating the position and orientation of a BoxCollider.
- * @extends MeshData
- */
+import { MeshData } from "../../../renderer/MeshData";
+var exported_PhysicsBoxDebugShape = PhysicsBoxDebugShape;
 function PhysicsBoxDebugShape() {
 	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
 	MeshData.call(this, attributeMap, 3 * 8, 2 * 4 * 3);
@@ -62,4 +58,8 @@ PhysicsBoxDebugShape.prototype.rebuild = function () {
 	return this;
 };
 
-module.exports = PhysicsBoxDebugShape;
+/**
+ * A wireframe mesh indicating the position and orientation of a BoxCollider.
+ * @extends MeshData
+ */
+export { exported_PhysicsBoxDebugShape as PhysicsBoxDebugShape };

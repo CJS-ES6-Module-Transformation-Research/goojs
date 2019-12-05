@@ -1,16 +1,5 @@
-var Component = require('../../entities/components/Component');
-
-/* global CANNON */
-
-/**
- * Sphere collider for the {@link CannonSystem}.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
- * @param {Object} [settings]
- * @param {number} [settings.radiusTop=0.5]
- * @param {number} [settings.radiusBottom=0.5]
- * @param {number} [settings.height=0.5]
- * @param {number} [settings.numSegments=10]
- */
+import { Component } from "../../entities/components/Component";
+var exported_CannonCylinderColliderComponent = CannonCylinderColliderComponent;
 function CannonCylinderColliderComponent(settings) {
 	Component.apply(this, arguments);
 
@@ -32,4 +21,15 @@ function CannonCylinderColliderComponent(settings) {
 CannonCylinderColliderComponent.prototype = Object.create(Component.prototype);
 CannonCylinderColliderComponent.constructor = CannonCylinderColliderComponent;
 
-module.exports = CannonCylinderColliderComponent;
+/* global CANNON */
+
+/**
+ * Sphere collider for the {@link CannonSystem}.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @param {Object} [settings]
+ * @param {number} [settings.radiusTop=0.5]
+ * @param {number} [settings.radiusBottom=0.5]
+ * @param {number} [settings.height=0.5]
+ * @param {number} [settings.numSegments=10]
+ */
+export { exported_CannonCylinderColliderComponent as CannonCylinderColliderComponent };

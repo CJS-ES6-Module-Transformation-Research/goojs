@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node connecting to the LightComponent of an entity.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeLightComponent = LogicNodeLightComponent;
 function LogicNodeLightComponent() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeLightComponent.logicInterface;
@@ -37,4 +33,8 @@ LogicNodeLightComponent.prototype.onInputChanged = function (instDesc, propID, v
 LogicNodeLightComponent.logicInterface.addConfigEntry({ name: 'entityRef', type: 'entityRef', label: 'Entity'});
 LogicNodes.registerType('LightComponent', LogicNodeLightComponent);
 
-module.exports = LogicNodeLightComponent;
+/**
+ * Logic node connecting to the LightComponent of an entity.
+ * @private
+ */
+export { exported_LogicNodeLightComponent as LogicNodeLightComponent };

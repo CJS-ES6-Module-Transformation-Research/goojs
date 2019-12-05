@@ -1,12 +1,13 @@
-var Terrain = require('../../addons/terrainpack/Terrain');
-var Vegetation = require('../../addons/terrainpack/Vegetation');
-var Forrest = require('../../addons/terrainpack/Forrest');
-var Vector3 = require('../../math/Vector3');
-var Ajax = require('../../util/Ajax');
-var MathUtils = require('../../math/MathUtils');
-var Texture = require('../../renderer/Texture');
-var TextureCreator = require('../../renderer/TextureCreator');
-var RSVP = require('../../util/rsvp');
+import { Terrain } from "../../addons/terrainpack/Terrain";
+import { Vegetation } from "../../addons/terrainpack/Vegetation";
+import { Forrest } from "../../addons/terrainpack/Forrest";
+import { Vector3 } from "../../math/Vector3";
+import { Ajax } from "../../util/Ajax";
+import * as MathUtils from "../../math/MathUtils";
+import { Texture } from "../../renderer/Texture";
+import { TextureCreator } from "../../renderer/TextureCreator";
+import * as RSVP from "../../util/rsvp";
+var exported_TerrainHandler = TerrainHandler;
 
 function TerrainHandler(goo, terrainSize, clipmapLevels, resourceFolder) {
 	this.goo = goo;
@@ -483,4 +484,4 @@ TerrainHandler.prototype.update = function (cameraEntity) {
 	}
 };
 
-module.exports = TerrainHandler;
+export { exported_TerrainHandler as TerrainHandler };

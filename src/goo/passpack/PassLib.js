@@ -1,10 +1,10 @@
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var BloomPass = require('../passpack/BloomPass');
-var BlurPass = require('../passpack/BlurPass');
-var DogPass = require('../passpack/DogPass');
-var MotionBlurPass = require('../passpack/MotionBlurPass');
-var ObjectUtils = require('../util/ObjectUtils');
+import * as ShaderLibExtra from "../passpack/ShaderLibExtra";
+import { FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { BloomPass } from "../passpack/BloomPass";
+import { BlurPass } from "../passpack/BlurPass";
+import { DogPass } from "../passpack/DogPass";
+import { MotionBlurPass } from "../passpack/MotionBlurPass";
+import * as ObjectUtils from "../util/ObjectUtils";
 
 function Bloom(id) {
 	BloomPass.call(this);
@@ -993,7 +993,7 @@ Levels.options = [
 	}
 ];
 
-module.exports = {
+let anonymus = {
 	Bloom: Bloom,
 	Blur: Blur,
 	Vignette: Vignette,
@@ -1014,3 +1014,24 @@ module.exports = {
 	Overlay: Overlay,
 	Levels: Levels
 };
+
+var exported_Bloom = Bloom;
+var exported_Blur = Blur;
+var exported_Vignette = Vignette;
+var exported_Sepia = Sepia;
+var exported_Grain = Grain;
+var exported_Noise = Noise;
+var exported_RgbShift = RgbShift;
+var exported_Bleach = Bleach;
+var exported_HSB = HSB;
+var exported_Colorify = Colorify;
+var exported_Hatch = Hatch;
+var exported_Dot = Dot;
+var exported_Contrast = Contrast;
+var exported_DiffOfGaussians = DiffOfGaussians;
+var exported_MotionBlur = MotionBlur;
+var exported_Antialias = Antialias;
+var exported_Radial = Radial;
+var exported_Overlay = Overlay;
+var exported_Levels = Levels;
+export { exported_Bloom as Bloom, exported_Blur as Blur, exported_Vignette as Vignette, exported_Sepia as Sepia, exported_Grain as Grain, exported_Noise as Noise, exported_RgbShift as RgbShift, exported_Bleach as Bleach, exported_HSB as HSB, exported_Colorify as Colorify, exported_Hatch as Hatch, exported_Dot as Dot, exported_Contrast as Contrast, exported_DiffOfGaussians as DiffOfGaussians, exported_MotionBlur as MotionBlur, exported_Antialias as Antialias, exported_Radial as Radial, exported_Overlay as Overlay, exported_Levels as Levels };

@@ -1,9 +1,10 @@
-var MeshData = require('../../renderer/MeshData');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Box = require('../../shapes/Box');
-var Cylinder = require('../../shapes/Cylinder');
+import { MeshData } from "../../renderer/MeshData";
+import { MeshBuilder } from "../../util/MeshBuilder";
+import { Transform } from "../../math/Transform";
+import { Vector3 } from "../../math/Vector3";
+import { Box } from "../../shapes/Box";
+import { Cylinder } from "../../shapes/Cylinder";
+var exported_CameraDebug = CameraDebug;
 
 function CameraDebug() {
 	this._camera = CameraDebug.buildCamera();
@@ -157,4 +158,4 @@ CameraDebug.buildCamera = function () {
 	return meshDatas[0];
 };
 
-module.exports = CameraDebug;
+export { exported_CameraDebug as CameraDebug };

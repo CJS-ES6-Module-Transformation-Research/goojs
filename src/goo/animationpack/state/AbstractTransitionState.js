@@ -1,12 +1,7 @@
-var AbstractState = require('../../animationpack/state/AbstractState');
-var BinaryLerpSource = require('../../animationpack/blendtree/BinaryLerpSource');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * An abstract transition state that blends between two other states.
- * @extends AbstractState
- * @private
- */
+import { AbstractState } from "../../animationpack/state/AbstractState";
+import { BinaryLerpSource } from "../../animationpack/blendtree/BinaryLerpSource";
+import * as MathUtils from "../../math/MathUtils";
+var exported_AbstractTransitionState = AbstractTransitionState;
 
 function AbstractTransitionState() {
 	AbstractState.call(this);
@@ -139,4 +134,10 @@ AbstractTransitionState.prototype.setTimeScale = function (timeScale) {
 	}
 };
 
-module.exports = AbstractTransitionState;
+/**
+ * An abstract transition state that blends between two other states.
+ * @extends AbstractState
+ * @private
+ */
+
+export { exported_AbstractTransitionState as AbstractTransitionState };

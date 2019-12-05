@@ -1,9 +1,6 @@
-var Entity = require('../entities/Entity');
-var Transform = require('../math/Transform');
-
-/**
- * Holds configuration data for renderable objects.
- */
+import { Entity } from "../entities/Entity";
+import { Transform } from "../math/Transform";
+var exported_RenderInfo = RenderInfo;
 
 function RenderInfo() {
 	this.reset();
@@ -60,4 +57,8 @@ RenderInfo.prototype.fill = function (renderable) {
 	this.renderable = renderable;
 };
 
-module.exports = RenderInfo;
+/**
+ * Holds configuration data for renderable objects.
+ */
+
+export { exported_RenderInfo as RenderInfo };

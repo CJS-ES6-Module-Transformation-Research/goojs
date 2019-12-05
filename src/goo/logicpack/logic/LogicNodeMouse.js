@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that reads mouse input.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeMouse = LogicNodeMouse;
 function LogicNodeMouse() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeMouse.logicInterface;
@@ -58,4 +54,8 @@ LogicNodeMouse.outEventRmb = LogicNodeMouse.logicInterface.addOutputEvent('rmb')
 
 LogicNodes.registerType('LogicNodeMouse', LogicNodeMouse);
 
-module.exports = LogicNodeMouse;
+/**
+ * Logic node that reads mouse input.
+ * @private
+ */
+export { exported_LogicNodeMouse as LogicNodeMouse };

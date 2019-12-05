@@ -1,47 +1,49 @@
+var functionObject_getAllTypes;
+var functionObject_getClass;
+var functionObject_getInterfaceByName;
+var functionObject_name;
+var functionObject_registerType;
+var functionObject_types;
 /**
  * Base class/module for all logic boxes
  * @private
  */
 function LogicNodes() {}
 
-LogicNodes.types = {};
+functionObject_types = {};
 
-/**
- * Register a new logic node. All logic nodes must call this to register themselves.
- * @private
- */
-LogicNodes.registerType = function (name, fn) {
-	LogicNodes.types[name] = {
-		fn: fn,
-		name: name,
-		editorName: fn.editorName
-	};
+functionObject_registerType = function(name, fn) {
+    functionObject_name = {
+        fn: fn,
+        name: name,
+        editorName: fn.editorName
+    };
 };
 
-LogicNodes.getInterfaceByName = function (name) {
-	if (LogicNodes.types[name] !== undefined) {
-		return LogicNodes.types[name].fn.logicInterface;
-	}
-	return null;
+functionObject_getInterfaceByName = function(name) {
+    if (functionObject_types[name] !== undefined) {
+        return functionObject_types[name].fn.logicInterface;
+    }
+    return null;
 };
 
-LogicNodes.getClass = function (name) {
-	if (LogicNodes.types[name] === undefined) {
-		return function () {
-			console.error('LogicNode type [' + name + '] does not exist.');
-			return null;
-		};
-	}
+functionObject_getClass = function(name) {
+    if (functionObject_types[name] === undefined) {
+        return function() {
+            console.error("LogicNode type [" + name + "] does not exist.");
+            return null;
+        };
+    }
 
-	return LogicNodes.types[name].fn;
+    return functionObject_types[name].fn;
 };
 
-LogicNodes.getAllTypes = function () {
-	var out = [];
-	for (var n in LogicNodes.types) {
-		out.push(LogicNodes.types[n]);
-	}
-	return out;
+functionObject_getAllTypes = function() {
+    var out = [];
+    for (var n in functionObject_types) {
+        out.push(functionObject_types[n]);
+    }
+    return out;
 };
 
-module.exports = LogicNodes;
+export { functionObject_registerType as registerType, functionObject_getClass as getClass };

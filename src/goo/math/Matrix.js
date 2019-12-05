@@ -1,11 +1,6 @@
-var MathUtils = require('./MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Matrix with RxC components.
- * @param {number} rows Number of rows.
- * @param {number} cols Number of columns.
- */
+import * as MathUtils from "./MathUtils";
+import * as ObjectUtils from "../util/ObjectUtils";
+var exported_Matrix = Matrix;
 function Matrix(rows, cols) {
 	this.rows = rows || 0;
 	this.cols = cols || 0;
@@ -614,6 +609,10 @@ Matrix.prototype.toString = ObjectUtils.warnOnce(
 		return string;
 	}
 );
-// SHIM END
 
-module.exports = Matrix;
+/**
+ * Matrix with RxC components.
+ * @param {number} rows Number of rows.
+ * @param {number} cols Number of columns.
+ */
+export { exported_Matrix as Matrix };

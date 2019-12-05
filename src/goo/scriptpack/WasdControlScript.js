@@ -1,5 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var ScriptUtils = require('../scripts/ScriptUtils');
+import { Vector3 } from "../math/Vector3";
+import * as ScriptUtils from "../scripts/ScriptUtils";
+var functionObject_externals;
 
 function WasdControlScript() {
 	var entity, transformComponent, transform;
@@ -157,58 +158,59 @@ function WasdControlScript() {
 	};
 }
 
-WasdControlScript.externals = {
-	key: 'WASD',
-	name: 'WASD Control',
-	description: 'Enables moving via the WASD keys',
-	parameters: [{
-		key: 'whenUsed',
-		type: 'boolean',
-		name: 'When Camera Used',
-		description: 'Script only runs when the camera to which it is added is being used.',
-		'default': true
-	}, {
-		key: 'crawlKey',
-		type: 'string',
-		control: 'key',
-		'default': 'Shift'
-	}, {
-		key: 'forwardKey',
-		type: 'string',
-		control: 'key',
-		'default': 'W'
-	}, {
-		key: 'backKey',
-		type: 'string',
-		control: 'key',
-		'default': 'S'
-	}, {
-		key: 'strafeLeftKey',
-		type: 'string',
-		control: 'key',
-		'default': 'A'
-	}, {
-		key: 'strafeRightKey',
-		type: 'string',
-		control: 'key',
-		'default': 'D'
-	}, {
-		key: 'walkSpeed',
-		type: 'int',
-		control: 'slider',
-		'default': 10,
-		min: 1,
-		max: 100,
-		exponential: true
-	}, {
-		key: 'crawlSpeed',
-		control: 'slider',
-		type: 'int',
-		'default': 1,
-		min: 0.1,
-		max: 10,
-		exponential: true
-	}]
+functionObject_externals = {
+    key: "WASD",
+    name: "WASD Control",
+    description: "Enables moving via the WASD keys",
+
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        name: "When Camera Used",
+        description: "Script only runs when the camera to which it is added is being used.",
+        "default": true
+    }, {
+        key: "crawlKey",
+        type: "string",
+        control: "key",
+        "default": "Shift"
+    }, {
+        key: "forwardKey",
+        type: "string",
+        control: "key",
+        "default": "W"
+    }, {
+        key: "backKey",
+        type: "string",
+        control: "key",
+        "default": "S"
+    }, {
+        key: "strafeLeftKey",
+        type: "string",
+        control: "key",
+        "default": "A"
+    }, {
+        key: "strafeRightKey",
+        type: "string",
+        control: "key",
+        "default": "D"
+    }, {
+        key: "walkSpeed",
+        type: "int",
+        control: "slider",
+        "default": 10,
+        min: 1,
+        max: 100,
+        exponential: true
+    }, {
+        key: "crawlSpeed",
+        control: "slider",
+        type: "int",
+        "default": 1,
+        min: 0.1,
+        max: 10,
+        exponential: true
+    }]
 };
 
-module.exports = WasdControlScript;
+export { functionObject_externals as externals };

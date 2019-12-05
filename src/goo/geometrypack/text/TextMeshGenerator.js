@@ -1,10 +1,8 @@
-/* global poly2tri */
-
-var Vector2 = require('../../math/Vector2');
-var Transform = require('../../math/Transform');
-var MeshBuilder = require('../../util/MeshBuilder');
-var FilledPolygon = require('../../geometrypack/FilledPolygon');
-var PolyLine = require('../../geometrypack/PolyLine');
+import { Vector2 } from "../../math/Vector2";
+import { Transform } from "../../math/Transform";
+import { MeshBuilder } from "../../util/MeshBuilder";
+import { FilledPolygon } from "../../geometrypack/FilledPolygon";
+import { PolyLine } from "../../geometrypack/PolyLine";
 
 /**
  * Serializes an svg path command
@@ -442,6 +440,9 @@ function meshesForText(text, font, options) {
 	return meshBuilder.build();
 }
 
-module.exports = {
+let anonymus = {
 	meshesForText: meshesForText
 };
+
+var exported_meshesForText = meshesForText;
+export { exported_meshesForText as meshesForText };

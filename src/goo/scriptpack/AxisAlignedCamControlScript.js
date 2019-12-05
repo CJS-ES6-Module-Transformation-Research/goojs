@@ -1,5 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
+import { Vector3 } from "../math/Vector3";
+import * as MathUtils from "../math/MathUtils";
+var functionObject_externals;
 
 /**
  * Axis aligned camera control script
@@ -65,32 +66,31 @@ function AxisAlignedCamControlScript() {
 	};
 }
 
-AxisAlignedCamControlScript.externals = {
-	key: 'AxisAlignedCamControlScript',
-	name: 'Axis-aligned Camera Control',
-	description: 'Aligns a camera along an axis, and enables switching between them.',
-	parameters: [{
-		key: 'whenUsed',
-		name: 'When Camera Used',
-		description: 'Script only runs when the camera to which it is added is being used.',
-		'default': true,
-		type: 'boolean'
-	}, {
-		key: 'distance',
-		name: 'Distance',
-		type: 'float',
-		description: 'Camera distance from lookat point',
-		control: 'slider',
-		'default': 1,
-		min: 1,
-		max: 1e3
-	}, {
-		key: 'view',
-		type: 'string',
-		'default': 'XY',
-		control: 'select',
-		options: ['XY', 'ZY']
-	}]
-};
+functionObject_externals = {
+    key: "AxisAlignedCamControlScript",
+    name: "Axis-aligned Camera Control",
+    description: "Aligns a camera along an axis, and enables switching between them.",
 
-module.exports = AxisAlignedCamControlScript;
+    parameters: [{
+        key: "whenUsed",
+        name: "When Camera Used",
+        description: "Script only runs when the camera to which it is added is being used.",
+        "default": true,
+        type: "boolean"
+    }, {
+        key: "distance",
+        name: "Distance",
+        type: "float",
+        description: "Camera distance from lookat point",
+        control: "slider",
+        "default": 1,
+        min: 1,
+        max: 1000
+    }, {
+        key: "view",
+        type: "string",
+        "default": "XY",
+        control: "select",
+        options: ["XY", "ZY"]
+    }]
+};

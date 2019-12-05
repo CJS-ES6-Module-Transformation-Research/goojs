@@ -1,21 +1,14 @@
-var Vector2 = require('../math/Vector2');
-var Vector3 = require('../math/Vector3');
-var Vector4 = require('../math/Vector4');
-var Matrix4 = require('../math/Matrix4');
-var Plane = require('../math/Plane');
-var MathUtils = require('../math/MathUtils');
-var Ray = require('../math/Ray');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var BoundingVolume = require('../renderer/bounds/BoundingVolume');
-
-/**
- * This class represents a view into a 3D scene and how that view should map to a 2D rendering surface.
- * @param {number} [fov=45] The full vertical angle of view, in degrees.
- * @param {number} [aspect=1] Aspect ratio of the 3D canvas used.
- * @param {number} [near=1] Near plane clip distance.
- * @param {number} [far=1000] Far plane clip distance.
- */
+import { Vector2 } from "../math/Vector2";
+import { Vector3 } from "../math/Vector3";
+import { Vector4 } from "../math/Vector4";
+import { Matrix4 } from "../math/Matrix4";
+import { Plane } from "../math/Plane";
+import * as MathUtils from "../math/MathUtils";
+import { Ray } from "../math/Ray";
+import { BoundingBox } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere } from "../renderer/bounds/BoundingSphere";
+import { BoundingVolume } from "../renderer/bounds/BoundingVolume";
+var exported_Camera = Camera;
 
 function Camera(fov, aspect, near, far) {
 	fov = typeof fov !== 'undefined' ? fov : 45;
@@ -960,4 +953,12 @@ Camera.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = Camera;
+/**
+ * This class represents a view into a 3D scene and how that view should map to a 2D rendering surface.
+ * @param {number} [fov=45] The full vertical angle of view, in degrees.
+ * @param {number} [aspect=1] Aspect ratio of the 3D canvas used.
+ * @param {number} [near=1] Near plane clip distance.
+ * @param {number} [far=1000] Far plane clip distance.
+ */
+
+export { exported_Camera as Camera };

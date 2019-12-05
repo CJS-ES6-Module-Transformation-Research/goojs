@@ -1,14 +1,8 @@
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Component = require('../../entities/components/Component');
-var EntitySelection = require('../../entities/EntitySelection');
-
-/**
- * Holds the transform of an entity. It also allows for a scene graph to be created,
- * in which transforms are inherited down the tree.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
- * @extends Component
- */
+import { Transform } from "../../math/Transform";
+import { Vector3 } from "../../math/Vector3";
+import { Component } from "../../entities/components/Component";
+import { EntitySelection } from "../../entities/EntitySelection";
+var exported_TransformComponent = TransformComponent;
 function TransformComponent() {
 	Component.apply(this, arguments);
 
@@ -782,4 +776,10 @@ TransformComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = TransformComponent;
+/**
+ * Holds the transform of an entity. It also allows for a scene graph to be created,
+ * in which transforms are inherited down the tree.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
+ * @extends Component
+ */
+export { exported_TransformComponent as TransformComponent };

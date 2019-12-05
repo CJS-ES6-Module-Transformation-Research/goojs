@@ -1,13 +1,5 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
-
-/**
- * A curve with a constant value.
- * @class
- * @constructor
- * @extends Curve
- * @param {object} [options]
- * @param {number} [options.value=1]
- */
+import { Curve } from "../../../addons/particlepack/curves/Curve";
+var exported_ConstantCurve = ConstantCurve;
 function ConstantCurve(options) {
 	options = options || {};
 
@@ -38,4 +30,12 @@ ConstantCurve.prototype.getIntegralValueAt = function (t /*, lerpFactor*/) {
 	return this.value * t;
 };
 
-module.exports = ConstantCurve;
+/**
+ * A curve with a constant value.
+ * @class
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {number} [options.value=1]
+ */
+export { exported_ConstantCurve as ConstantCurve };

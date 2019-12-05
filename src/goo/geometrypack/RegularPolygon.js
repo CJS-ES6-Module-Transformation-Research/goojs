@@ -1,8 +1,5 @@
-var PolyLine = require('../geometrypack/PolyLine');
-
-/**
- * Regular polygon mesh
- */
+import { PolyLine } from "../geometrypack/PolyLine";
+var exported_RegularPolygon = RegularPolygon;
 function RegularPolygon(nSegments, radius) {
 	this.nSegments = nSegments || 5;
 	this.radius = radius || 1;
@@ -20,4 +17,7 @@ function RegularPolygon(nSegments, radius) {
 
 RegularPolygon.prototype = Object.create(PolyLine.prototype);
 
-module.exports = RegularPolygon;
+/**
+ * Regular polygon mesh
+ */
+export { exported_RegularPolygon as RegularPolygon };

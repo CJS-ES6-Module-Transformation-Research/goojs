@@ -1,9 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var MathUtils = require('../../../math/MathUtils');
-var Easing = require('../../../util/Easing');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 } from "../../../math/Vector3";
+import * as MathUtils from "../../../math/MathUtils";
+import * as Easing from "../../../util/Easing";
+var exported_ShakeAction = ShakeAction;
 
-function ShakeAction(/*id, settings*/) {
+function ShakeAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.oldVal = new Vector3();
@@ -122,4 +123,4 @@ ShakeAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = ShakeAction;
+export { exported_ShakeAction as ShakeAction };

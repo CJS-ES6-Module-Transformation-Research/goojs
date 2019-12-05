@@ -1,16 +1,8 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var StateMachineComponent = require('../fsmpack/statemachine/StateMachineComponent');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * For handling loading of state machine components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../loaders/handlers/ComponentHandler";
+import { StateMachineComponent } from "../fsmpack/statemachine/StateMachineComponent";
+import * as RSVP from "../util/rsvp";
+import * as ObjectUtils from "../util/ObjectUtils";
+var exported_StateMachineComponentHandler = StateMachineComponentHandler;
 function StateMachineComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'StateMachineComponent';
@@ -83,4 +75,12 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 	});
 };
 
-module.exports = StateMachineComponentHandler;
+/**
+ * For handling loading of state machine components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_StateMachineComponentHandler as StateMachineComponentHandler };

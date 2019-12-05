@@ -1,17 +1,12 @@
-var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
-var ColliderComponent = require('../../../addons/physicspack/components/ColliderComponent');
-var ObjectUtils = require('../../../util/ObjectUtils');
-var SphereCollider = require('../../../addons/physicspack/colliders/SphereCollider');
-var BoxCollider = require('../../../addons/physicspack/colliders/BoxCollider');
-var PlaneCollider = require('../../../addons/physicspack/colliders/PlaneCollider');
-var CylinderCollider = require('../../../addons/physicspack/colliders/CylinderCollider');
-var PhysicsMaterial = require('../../../addons/physicspack/PhysicsMaterial');
-
-/**
- * For handling loading of collider components
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../../loaders/handlers/ComponentHandler";
+import { ColliderComponent } from "../../../addons/physicspack/components/ColliderComponent";
+import * as ObjectUtils from "../../../util/ObjectUtils";
+import { SphereCollider } from "../../../addons/physicspack/colliders/SphereCollider";
+import { BoxCollider } from "../../../addons/physicspack/colliders/BoxCollider";
+import { PlaneCollider } from "../../../addons/physicspack/colliders/PlaneCollider";
+import { CylinderCollider } from "../../../addons/physicspack/colliders/CylinderCollider";
+import { PhysicsMaterial } from "../../../addons/physicspack/PhysicsMaterial";
+var exported_ColliderComponentHandler = ColliderComponentHandler;
 function ColliderComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'ColliderComponent';
@@ -97,4 +92,9 @@ ColliderComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = ColliderComponentHandler;
+/**
+ * For handling loading of collider components
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_ColliderComponentHandler as ColliderComponentHandler };

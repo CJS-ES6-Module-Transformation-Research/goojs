@@ -1,15 +1,15 @@
-var SkeletonPose = require('../animationpack/SkeletonPose');
-var DirectionalLight = require('../renderer/light/DirectionalLight');
-var SpotLight = require('../renderer/light/SpotLight');
-var LightDebug = require('./shapes/LightDebug');
-var CameraDebug = require('./shapes/CameraDebug');
-var MeshRendererDebug = require('./shapes/MeshRendererDebug');
-var SkeletonDebug = require('./shapes/SkeletonDebug');
-var Material = require('../renderer/Material');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Transform = require('../math/Transform');
-var Camera = require('../renderer/Camera');
-var Renderer = require('../renderer/Renderer');
+import { SkeletonPose } from "../animationpack/SkeletonPose";
+import { DirectionalLight } from "../renderer/light/DirectionalLight";
+import { SpotLight } from "../renderer/light/SpotLight";
+import { LightDebug } from "./shapes/LightDebug";
+import { CameraDebug } from "./shapes/CameraDebug";
+import { MeshRendererDebug } from "./shapes/MeshRendererDebug";
+import { SkeletonDebug } from "./shapes/SkeletonDebug";
+import { Material } from "../renderer/Material";
+import * as ShaderLib from "../renderer/shaders/ShaderLib";
+import { Transform } from "../math/Transform";
+import { Camera } from "../renderer/Camera";
+import { Renderer } from "../renderer/Renderer";
 
 var DebugDrawHelper = {};
 
@@ -165,4 +165,58 @@ DebugDrawHelper.CameraComponent.updateTransform = function (/*transform, compone
 	// transform.update();
 };
 
-module.exports = DebugDrawHelper;
+var objectLiteral_getRenderablesFor = function(component, options) {
+    var meshes, material;
+
+    if (component.type === "LightComponent") {
+        meshes = lightDebug.getMesh(component.light, options);
+        material = new Material(ShaderLib.simpleColored, "DebugDrawLightMaterial");
+    } else if (component.type === "CameraComponent") {
+        meshes = cameraDebug.getMesh(component.camera, options);
+        material = new Material(ShaderLib.simpleLit, "DebugDrawCameraMaterial");
+
+        material.uniforms.materialAmbient = [0.4, 0.4, 0.4, 1];
+        material.uniforms.materialDiffuse = [0.6, 0.6, 0.6, 1];
+        material.uniforms.materialSpecular = [0, 0, 0, 1];
+    } else if (component.type === "MeshRendererComponent") {
+        meshes = meshRendererDebug.getMesh();
+        material = new Material(ShaderLib.simpleColored, "DebugMeshRendererComponentMaterial");
+    } else if (component instanceof SkeletonPose) {
+        meshes = skeletonDebug.getMesh(component, options);
+        var materials = [
+            new Material(ShaderLib.uber, "SkeletonDebugMaterial"),
+            new Material(ShaderLib.uber, "SkeletonDebugMaterial")
+        ];
+        var renderables = [];
+        var len = materials.length;
+        while (len--) {
+            var material = materials[len];
+            material.depthState = {
+                enabled: false,
+                write: false
+            };
+            material.renderQueue = 3000;
+            material.uniforms.materialDiffuse = [0, 0, 0, 1];
+            material.uniforms.materialDiffuse[len] = 0.8;
+            material.uniforms.materialAmbient = [0, 0, 0, 1];
+            material.uniforms.materialAmbient[len] = 0.5;
+            renderables[len] = {
+                meshData: meshes[len],
+                transform: new Transform(),
+                materials: [material],
+                currentPose: component
+            };
+        }
+        return renderables;
+    }
+
+    return meshes.map(function(mesh) {
+        return {
+            meshData: mesh,
+            transform: new Transform(),
+            materials: [material]
+        };
+    });
+};
+
+export { objectLiteral_getRenderablesFor as getRenderablesFor };

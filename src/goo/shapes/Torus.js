@@ -1,16 +1,8 @@
-var MeshData = require('../renderer/MeshData');
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A donut-shaped model.
- * @extends MeshData
- * @param {number} [circleSamples=8] Number of segments.
- * @param {number} [radialSamples=8] Number of slices.
- * @param {number} [tubeRadius=1] Radius of tube.
- * @param {number} [centerRadius=2] Radius from center.
- */
+import { MeshData } from "../renderer/MeshData";
+import { Vector3 } from "../math/Vector3";
+import * as MathUtils from "../math/MathUtils";
+import * as ObjectUtils from "../util/ObjectUtils";
+var exported_Torus = Torus;
 function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -172,4 +164,12 @@ Torus.prototype.clone = function () {
 	return new Torus(options);
 };
 
-module.exports = Torus;
+/**
+ * A donut-shaped model.
+ * @extends MeshData
+ * @param {number} [circleSamples=8] Number of segments.
+ * @param {number} [radialSamples=8] Number of slices.
+ * @param {number} [tubeRadius=1] Radius of tube.
+ * @param {number} [centerRadius=2] Radius from center.
+ */
+export { exported_Torus as Torus };

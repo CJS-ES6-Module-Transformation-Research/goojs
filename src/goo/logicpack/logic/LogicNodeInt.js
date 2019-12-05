@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that provides an integer.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeInt = LogicNodeInt;
 function LogicNodeInt() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeInt.logicInterface;
@@ -61,4 +57,8 @@ LogicNodeInt.logicInterface.addConfigEntry({
 	label: 'Value'
 });
 
-module.exports = LogicNodeInt;
+/**
+ * Logic node that provides an integer.
+ * @private
+ */
+export { exported_LogicNodeInt as LogicNodeInt };
