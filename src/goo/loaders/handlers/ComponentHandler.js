@@ -1,18 +1,5 @@
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Base class for component handlers. All different types of components that an entity
- * can have need to have a registered component handler. To handle a new type of component,
- * create a class that inherits from this class, and override {_prepare}, {_create}, {update} and {remove}
- * as needed ({update} must be overridden). In your class, call <code>@_register('yourComponentType')</code> to _register
- * the handler with the loader.
- *
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
- * @returns {ComponentHandler}
- * @hidden
- */
+import * as PromiseUtils from "../../util/PromiseUtils";
+var exported_ComponentHandler = ComponentHandler;
 function ComponentHandler(world, getConfig, updateObject, loadObject) {
 	//! schteppe: this._type seem to be assumed to be set by the subclass. Why not pass it as a parameter to this constructor?
 	this.world = world;
@@ -106,4 +93,17 @@ ComponentHandler._registerClass = function (type, klass) {
 	ComponentHandler.handlerClasses[type] = klass;
 };
 
-module.exports = ComponentHandler;
+/**
+ * Base class for component handlers. All different types of components that an entity
+ * can have need to have a registered component handler. To handle a new type of component,
+ * create a class that inherits from this class, and override {_prepare}, {_create}, {update} and {remove}
+ * as needed ({update} must be overridden). In your class, call <code>@_register('yourComponentType')</code> to _register
+ * the handler with the loader.
+ *
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
+ * @returns {ComponentHandler}
+ * @hidden
+ */
+export { exported_ComponentHandler as ComponentHandler };

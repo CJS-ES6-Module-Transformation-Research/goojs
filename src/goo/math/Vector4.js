@@ -1,18 +1,7 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-
-/**
- * Vector with 4 components
- * @extends Vector
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @param {number} w
- * @example
- * var v1 = new Vector4(); // v1 == (0, 0, 0, 0)
- * var v2 = new Vector4(1, 2, 3, 4); // v2 == (1, 2, 3, 4)
- */
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as MathUtils from "./MathUtils";
+import { Vector } from "./Vector";
+var exported_Vector4 = Vector4;
 function Vector4(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -908,6 +897,15 @@ Vector4.prototype.subVector = ObjectUtils.warnOnce('Vector4.prototype.subVector 
 	return this;
 });
 
-// SHIM END
-
-module.exports = Vector4;
+/**
+ * Vector with 4 components
+ * @extends Vector
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {number} w
+ * @example
+ * var v1 = new Vector4(); // v1 == (0, 0, 0, 0)
+ * var v2 = new Vector4(1, 2, 3, 4); // v2 == (1, 2, 3, 4)
+ */
+export { exported_Vector4 as Vector4 };

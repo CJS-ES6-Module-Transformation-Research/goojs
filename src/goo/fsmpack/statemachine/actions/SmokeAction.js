@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
-var ParticleLib = require('../../../particles/ParticleLib');
-var ParticleSystemUtils = require('../../../util/ParticleSystemUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Material } from "../../../renderer/Material";
+import * as ShaderLib from "../../../renderer/shaders/ShaderLib";
+import * as ParticleLib from "../../../particles/ParticleLib";
+import * as ParticleSystemUtils from "../../../util/ParticleSystemUtils";
+var exported_SmokeAction = SmokeAction;
 
-function SmokeAction(/*id, settings*/) {
+function SmokeAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this.smokeEntity = null;
 }
@@ -75,4 +76,4 @@ SmokeAction.prototype.cleanup = function (/*fsm*/) {
 	}
 };
 
-module.exports = SmokeAction;
+export { exported_SmokeAction as SmokeAction };

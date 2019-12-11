@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that computes the max of two inputs.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeMax = LogicNodeMax;
 function LogicNodeMax() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeMax.logicInterface;
@@ -31,4 +27,8 @@ LogicNodeMax.inportY = LogicNodeMax.logicInterface.addInputProperty('y', 'float'
 
 LogicNodes.registerType('LogicNodeMax', LogicNodeMax);
 
-module.exports = LogicNodeMax;
+/**
+ * Logic node that computes the max of two inputs.
+ * @private
+ */
+export { exported_LogicNodeMax as LogicNodeMax };

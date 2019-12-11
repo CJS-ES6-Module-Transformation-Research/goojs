@@ -1,13 +1,5 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-
-/**
- * Handler for loading project into engine (actually loading mainScene)
- * @private
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- */
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+var exported_ProjectHandler = ProjectHandler;
 function ProjectHandler() {
 	ConfigHandler.apply(this, arguments);
 	/**
@@ -74,4 +66,12 @@ ProjectHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = ProjectHandler;
+/**
+ * Handler for loading project into engine (actually loading mainScene)
+ * @private
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ */
+export { exported_ProjectHandler as ProjectHandler };

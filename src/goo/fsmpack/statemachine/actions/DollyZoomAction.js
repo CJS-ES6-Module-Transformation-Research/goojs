@@ -1,9 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var MathUtils = require('../../../math/MathUtils');
-var Easing = require('../../../util/Easing');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 } from "../../../math/Vector3";
+import * as MathUtils from "../../../math/MathUtils";
+import * as Easing from "../../../util/Easing";
+var exported_DollyZoomAction = DollyZoomAction;
 
-function DollyZoomAction(/*id, settings*/) {
+function DollyZoomAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.from = new Vector3();
@@ -121,4 +122,4 @@ DollyZoomAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = DollyZoomAction;
+export { exported_DollyZoomAction as DollyZoomAction };

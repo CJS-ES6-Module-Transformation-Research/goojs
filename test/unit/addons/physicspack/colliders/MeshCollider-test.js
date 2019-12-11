@@ -1,11 +1,9 @@
+import { MeshCollider } from "../../../../../src/goo/addons/physicspack/colliders/MeshCollider";
+import { Vector3 } from "../../../../../src/goo/math/Vector3";
+import { Sphere } from "../../../../../src/goo/shapes/Sphere";
+import { Transform } from "../../../../../src/goo/math/Transform";
 describe('MeshCollider', function () {
-
-	var MeshCollider = require('../../../../../src/goo/addons/physicspack/colliders/MeshCollider');
-	var Vector3 = require('../../../../../src/goo/math/Vector3');
-	var Sphere = require('../../../../../src/goo/shapes/Sphere');
-	var Transform = require('../../../../../src/goo/math/Transform');
-
-	it('can clone', function () {
+    it('can clone', function () {
 		var collider = new MeshCollider({
 			meshData: new Sphere(10, 10, 1),
 			scale: new Vector3(2, 3, 4)
@@ -14,7 +12,7 @@ describe('MeshCollider', function () {
 		expect(collider).toEqual(clone);
 	});
 
-	it('can transform', function () {
+    it('can transform', function () {
 		var collider = new MeshCollider({
 			meshData: new Sphere(10, 10, 1),
 			scale: new Vector3(2, 3, 4)

@@ -1,5 +1,3 @@
-// jshint node:true
-
 var filterList = [
 	'example',
 	'carousel',
@@ -48,4 +46,5 @@ var filterList = [
 	'GridRenderSystem' // until we can render updated screenshot
 ];
 
-exports.filterList = filterList;
+let exported_filterList = filterList;
+export { exported_filterList as filterList };

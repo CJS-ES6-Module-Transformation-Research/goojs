@@ -1,9 +1,8 @@
-var World = require('../../../../src/goo/entities/World');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var AnimationClip = require('../../../../src/goo/animationpack/clip/AnimationClip');
+import { World } from "../../../../src/goo/entities/World";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+import { AnimationClip } from "../../../../src/goo/animationpack/clip/AnimationClip";
+import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
 var Configs = require('../../../../test/unit/loaders/Configs');
-
-require('../../../../src/goo/animationpack/handlers/AnimationHandlers');
 
 describe('AnimationClipHandler', function () {
 	var loader;

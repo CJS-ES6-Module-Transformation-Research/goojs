@@ -1,15 +1,8 @@
-var Vector3 = require('../../math/Vector3');
-var BoundingVolume = require('../../renderer/bounds/BoundingVolume');
-var BoundingSphere = require('../../renderer/bounds/BoundingSphere');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * <code>BoundingBox</code> defines an axis-aligned cube that defines a container for a group of vertices of a
- * particular piece of geometry. This box defines a center and extents from that center along the x, y and z axis. <br>
- *        <br>
- *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
- *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
- */
+import { Vector3 } from "../../math/Vector3";
+import { BoundingVolume } from "../../renderer/bounds/BoundingVolume";
+import { BoundingSphere } from "../../renderer/bounds/BoundingSphere";
+import * as MathUtils from "../../math/MathUtils";
+var exported_BoundingBox = BoundingBox;
 function BoundingBox(center, xExtent, yExtent, zExtent) {
 	BoundingVolume.call(this, center);
 
@@ -585,4 +578,11 @@ BoundingBox.prototype.clone = function () {
 	return new BoundingBox(this.center, this.xExtent, this.yExtent, this.zExtent);
 };
 
-module.exports = BoundingBox;
+/**
+ * <code>BoundingBox</code> defines an axis-aligned cube that defines a container for a group of vertices of a
+ * particular piece of geometry. This box defines a center and extents from that center along the x, y and z axis. <br>
+ *        <br>
+ *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
+ *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
+ */
+export { exported_BoundingBox as BoundingBox };

@@ -1,11 +1,5 @@
-var Component = require('../../entities/components/Component');
-
-/**
- * Connects a domElement to an entity and applies the transformComponent of the entity to the domElement with CSS3 3D transforms.
- * @param {domElement} domElement
- * @param {boolean} faceCamera
- * @extends Component
- */
+import { Component } from "../../entities/components/Component";
+var exported_CssTransformComponent = CssTransformComponent;
 function CssTransformComponent(domElement, faceCamera) {
 	Component.apply(this, arguments);
 
@@ -37,4 +31,10 @@ CssTransformComponent.type = 'CssTransformComponent';
 CssTransformComponent.prototype = Object.create(Component.prototype);
 CssTransformComponent.prototype.constructor = CssTransformComponent;
 
-module.exports = CssTransformComponent;
+/**
+ * Connects a domElement to an entity and applies the transformComponent of the entity to the domElement with CSS3 3D transforms.
+ * @param {domElement} domElement
+ * @param {boolean} faceCamera
+ * @extends Component
+ */
+export { exported_CssTransformComponent as CssTransformComponent };

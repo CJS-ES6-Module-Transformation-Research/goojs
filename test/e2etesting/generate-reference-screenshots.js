@@ -1,9 +1,10 @@
-var path = require('path');
-var program = require('commander');
+import { filterList } from "./filterList";
+import path from "path";
+import program from "commander";
+import { ScreenShooter } from "./ScreenShooter";
+import child_process_moduleObject from "child_process";
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var ScreenShooter = require('./ScreenShooter');
-var exec = require('child_process').exec;
-var filterList = require('./filterList').filterList;
+var exec = child_process_moduleObject.exec;
 
 program
 	.version('0.0.0')

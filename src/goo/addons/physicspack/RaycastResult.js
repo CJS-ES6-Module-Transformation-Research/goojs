@@ -1,13 +1,5 @@
-var Vector3 = require('../../math/Vector3');
-
-/**
- * Structure used to get information back from a raycast.
- * @param {Object} [settings]
- * @param {Vector3} [settings.normal]
- * @param {Vector3} [settings.point]
- * @param {Entity} [settings.entity]
- * @param {number} [settings.distance]
- */
+import { Vector3 } from "../../math/Vector3";
+var exported_RaycastResult = RaycastResult;
 function RaycastResult(settings) {
 	settings = settings || {};
 
@@ -42,4 +34,12 @@ RaycastResult.prototype.reset = function () {
 	this.distance = -1;
 };
 
-module.exports = RaycastResult;
+/**
+ * Structure used to get information back from a raycast.
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.normal]
+ * @param {Vector3} [settings.point]
+ * @param {Entity} [settings.entity]
+ * @param {number} [settings.distance]
+ */
+export { exported_RaycastResult as RaycastResult };

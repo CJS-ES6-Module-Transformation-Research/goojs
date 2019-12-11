@@ -1,6 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+var exported_SetCounterAction = SetCounterAction;
 
-function SetCounterAction(/*id, settings*/) {
+function SetCounterAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -35,4 +36,4 @@ SetCounterAction.prototype.cleanup = function (fsm) {
 	fsm.getFsm().removeVariable(this.name);
 };
 
-module.exports = SetCounterAction;
+export { exported_SetCounterAction as SetCounterAction };

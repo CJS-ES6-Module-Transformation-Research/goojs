@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { _ } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+let anonymus = {
 	posteffects: function () {
 		var config = this.gooObject('posteffects', 'Dummy');
 		_.extend(config, {
@@ -17,4 +17,21 @@ module.exports = {
 		});
 		return config;
 	}
+};
+
+var exported_posteffects = function() {
+    var config = this.gooObject("posteffects", "Dummy");
+    _.extend(config, {
+        posteffects: {
+            myBloomEffect: {
+                name: "Bloom",
+                type: "Bloom",
+                sortValue: 1,
+                id: "myBloomEffect",
+                enabled: true,
+                options: {}
+            }
+        }
+    });
+    return config;
 };

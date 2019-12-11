@@ -1,19 +1,12 @@
-/*
-	p1: jasmine-reporters does not work with jasmine 2.0
-	p2: all our tests are written for jasmine 2.0
-	p3: going back to jasmine 1.x is not an option
-	p4: waiting until jasmine-reporters is fixes is not an option
-	p1, p2, p3, p4 => this file. It should have been specs/test.spec.js
- */
-
-var fs = require('fs');
-var path = require('path');
-var exec = require('child_process').exec;
-var async = require('async');
-var ScreenShooter = require('./ScreenShooter');
+import { filterList } from "./filterList";
+import fs from "fs";
+import path from "path";
+import child_process_moduleObject from "child_process";
+import async from "async";
+import { ScreenShooter } from "./ScreenShooter";
+var exec = child_process_moduleObject.exec;
 var imgCompare = require(__dirname + '/../../tools/imgcompare2/imgCompare');
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var filterList = require('./filterList').filterList;
 
 function filterArray(array, filters) {
 	return array.filter(function (entry) {

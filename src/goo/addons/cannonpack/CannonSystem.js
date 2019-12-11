@@ -1,25 +1,8 @@
-var System = require('../../entities/systems/System');
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/* global CANNON, performance */
-
-/**
- * Cannon.js physics system. Depends on the global CANNON object, so load cannon.js using a script tag before using this system. See also {@link CannonRigidbodyComponent}.
- * @extends System
- * @param {Object} [settings]
- * @param {number} [settings.stepFrequency=60]
- * @param {Vector3} [settings.gravity] The gravity to use in the scene. Default is (0, -10, 0)
- * @param {string} [settings.broadphase='naive'] One of: 'naive' (NaiveBroadphase), 'sap' (SAPBroadphase)
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
- * @example
- * var cannonSystem = new CannonSystem({
- *     stepFrequency: 60,
- *     gravity: new Vector3(0, -10, 0)
- * });
- * goo.world.setSystem(cannonSystem);
- */
+import { System } from "../../entities/systems/System";
+import { Quaternion } from "../../math/Quaternion";
+import { Vector3 } from "../../math/Vector3";
+import * as ObjectUtils from "../../util/ObjectUtils";
+var exported_CannonSystem = CannonSystem;
 function CannonSystem(settings) {
 	System.call(this, 'CannonSystem', ['CannonRigidbodyComponent', 'TransformComponent']);
 
@@ -179,4 +162,21 @@ CannonSystem.prototype.setBroadphaseAlgorithm = function (algorithm) {
 	}
 };
 
-module.exports = CannonSystem;
+/* global CANNON, performance */
+
+/**
+ * Cannon.js physics system. Depends on the global CANNON object, so load cannon.js using a script tag before using this system. See also {@link CannonRigidbodyComponent}.
+ * @extends System
+ * @param {Object} [settings]
+ * @param {number} [settings.stepFrequency=60]
+ * @param {Vector3} [settings.gravity] The gravity to use in the scene. Default is (0, -10, 0)
+ * @param {string} [settings.broadphase='naive'] One of: 'naive' (NaiveBroadphase), 'sap' (SAPBroadphase)
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @example
+ * var cannonSystem = new CannonSystem({
+ *     stepFrequency: 60,
+ *     gravity: new Vector3(0, -10, 0)
+ * });
+ * goo.world.setSystem(cannonSystem);
+ */
+export { exported_CannonSystem as CannonSystem };

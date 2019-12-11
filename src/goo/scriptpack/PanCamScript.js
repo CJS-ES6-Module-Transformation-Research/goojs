@@ -1,7 +1,8 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var SystemBus = require('../entities/SystemBus');
-var Camera = require('../renderer/Camera');
+import { Vector3 } from "../math/Vector3";
+import { Renderer } from "../renderer/Renderer";
+import * as SystemBus from "../entities/SystemBus";
+import { Camera } from "../renderer/Camera";
+var functionObject_externals;
 
 function PanCamScript() {
 	var fwdVector, leftVector, calcVector, calcVector2;
@@ -240,42 +241,43 @@ function PanCamScript() {
 	};
 }
 
-PanCamScript.externals = {
-	key: 'PanCamControlScript',
-	name: 'PanCamera Control',
-	description: 'Enables camera to pan around a point in 3D space using the mouse',
-	parameters: [{
-		key: 'whenUsed',
-		type: 'boolean',
-		name: 'When Camera Used',
-		description: 'Script only runs when the camera to which it is added is being used.',
-		'default': true
-	}, {
-		key: 'panButton',
-		name: 'Pan button',
-		description: 'Only pan with this button',
-		type: 'string',
-		control: 'select',
-		'default': 'Any',
-		options: ['Any', 'Left', 'Middle', 'Right']
-	}, {
-		key: 'touchMode',
-		description: 'Number of fingers needed to trigger panning.',
-		type: 'string',
-		control: 'select',
-		'default': 'Double',
-		options: ['Any', 'Single', 'Double']
-	}, {
-		key: 'panSpeed',
-		type: 'float',
-		'default': 1,
-		scale: 0.01
-	}/*, {
-		key: 'screenMove',
-		type: 'boolean',
-		'default': false,
-		description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
-	}*/]
+functionObject_externals = {
+    key: "PanCamControlScript",
+    name: "PanCamera Control",
+    description: "Enables camera to pan around a point in 3D space using the mouse",
+
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        name: "When Camera Used",
+        description: "Script only runs when the camera to which it is added is being used.",
+        "default": true
+    }, {
+        key: "panButton",
+        name: "Pan button",
+        description: "Only pan with this button",
+        type: "string",
+        control: "select",
+        "default": "Any",
+        options: ["Any", "Left", "Middle", "Right"]
+    }, {
+        key: "touchMode",
+        description: "Number of fingers needed to trigger panning.",
+        type: "string",
+        control: "select",
+        "default": "Double",
+        options: ["Any", "Single", "Double"]
+    }, {
+        key: "panSpeed",
+        type: "float",
+        "default": 1,
+        scale: 0.01
+    }/*, {
+            key: 'screenMove',
+            type: 'boolean',
+            'default': false,
+            description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
+        }*/]
 };
 
-module.exports = PanCamScript;
+export { functionObject_externals as externals };

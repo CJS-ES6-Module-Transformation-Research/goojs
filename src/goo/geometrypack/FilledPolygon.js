@@ -1,12 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var MathUtils = require('../math/MathUtils');
-
-/**
- * A polygon shape
- * @example-link http://code.gooengine.com/latest/visual-test/goo/geometrypack/FilledPolygon/FilledPolygon-vtest.html Working example
- * @param {Array} verts Array of vertices
- * @param {Array} indices Array of indices
- */
+import { MeshData } from "../renderer/MeshData";
+import * as MathUtils from "../math/MathUtils";
+var exported_FilledPolygon = FilledPolygon;
 function FilledPolygon(verts, indices) {
 	this.verts = verts;
 	this.indices = indices ? indices : getTriangulation(verts);
@@ -159,4 +153,10 @@ function getBounds(verts) {
 	};
 }
 
-module.exports = FilledPolygon;
+/**
+ * A polygon shape
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/geometrypack/FilledPolygon/FilledPolygon-vtest.html Working example
+ * @param {Array} verts Array of vertices
+ * @param {Array} indices Array of indices
+ */
+export { exported_FilledPolygon as FilledPolygon };

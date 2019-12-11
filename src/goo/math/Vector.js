@@ -1,9 +1,6 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-
-/**
- * Abstract vector class
- */
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as MathUtils from "./MathUtils";
+var exported_Vector = Vector;
 function Vector(size) {
 
 	/**
@@ -515,6 +512,8 @@ Vector.prototype.toString = ObjectUtils.warnOnce('Vector.prototype.toString is d
 
 	return string;
 });
-// SHIM END
 
-module.exports = Vector;
+/**
+ * Abstract vector class
+ */
+export { exported_Vector as Vector };

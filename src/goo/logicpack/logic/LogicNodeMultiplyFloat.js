@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that multiplies two floats.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeMultiplyFloat = LogicNodeMultiplyFloat;
 function LogicNodeMultiplyFloat() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeMultiplyFloat.logicInterface;
@@ -40,4 +36,8 @@ LogicNodeMultiplyFloat.logicInterface.addConfigEntry({
 
 LogicNodes.registerType('LogicNodeMultiplyFloat', LogicNodeMultiplyFloat);
 
-module.exports = LogicNodeMultiplyFloat;
+/**
+ * Logic node that multiplies two floats.
+ * @private
+ */
+export { exported_LogicNodeMultiplyFloat as LogicNodeMultiplyFloat };

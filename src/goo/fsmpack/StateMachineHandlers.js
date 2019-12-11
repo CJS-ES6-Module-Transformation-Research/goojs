@@ -1,2 +1,2 @@
-require('./StateMachineComponentHandler');
-require('./MachineHandler');
+import "./StateMachineComponentHandler";
+import "./MachineHandler";

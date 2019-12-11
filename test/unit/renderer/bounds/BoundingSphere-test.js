@@ -1,6 +1,6 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var BoundingSphere = require('../../../../src/goo/renderer/bounds/BoundingSphere');
-var BoundingBox = require('../../../../src/goo/renderer/bounds/BoundingBox');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { BoundingSphere } from "../../../../src/goo/renderer/bounds/BoundingSphere";
+import { BoundingBox } from "../../../../src/goo/renderer/bounds/BoundingBox";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('BoundingSphere', function () {

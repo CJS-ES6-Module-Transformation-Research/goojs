@@ -1,6 +1,6 @@
-var Vector4Curve = require('../../../../../src/goo/addons/particlepack/curves/Vector4Curve');
-var ConstantCurve = require('../../../../../src/goo/addons/particlepack/curves/ConstantCurve');
-var Vector4 = require('../../../../../src/goo/math/Vector4');
+import { Vector4Curve } from "../../../../../src/goo/addons/particlepack/curves/Vector4Curve";
+import { ConstantCurve } from "../../../../../src/goo/addons/particlepack/curves/ConstantCurve";
+import { Vector4 } from "../../../../../src/goo/math/Vector4";
 
 describe('Vector4Curve', function () {
 	it('.getVec4ValueAt', function () {

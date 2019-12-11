@@ -1,7 +1,4 @@
-/**
- * Transient class that maintains the current triggers and armed status for a {@link TriggerChannel}.
- * @private
- */
+var exported_TriggerData = TriggerData;
 function TriggerData() {
 	this._currentTriggers = [];
 	this._currentIndex = -1;
@@ -29,4 +26,8 @@ TriggerData.prototype.arm = function (index, triggers) {
 	this._currentIndex = index;
 };
 
-module.exports = TriggerData;
+/**
+ * Transient class that maintains the current triggers and armed status for a {@link TriggerChannel}.
+ * @private
+ */
+export { exported_TriggerData as TriggerData };

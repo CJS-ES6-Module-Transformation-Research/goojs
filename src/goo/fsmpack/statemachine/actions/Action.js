@@ -1,10 +1,5 @@
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
-
-/**
- * @param {string} id
- * @param {Object} settings
- * @private
- */
+import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
+var exported_Action = Action;
 function Action(id, settings) {
 	this.id = id;
 	this.configure(settings || {});
@@ -36,4 +31,9 @@ Action.prototype.ready = function (/*fsm*/) {
 Action.prototype.cleanup = function (/*fsm*/) {
 };
 
-module.exports = Action;
+/**
+ * @param {string} id
+ * @param {Object} settings
+ * @private
+ */
+export { exported_Action as Action };

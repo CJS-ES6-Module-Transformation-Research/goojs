@@ -1,6 +1,7 @@
-var Action = require('./Action');
+import { Action } from "./Action";
+var exported_StopParticleSystemAction = StopParticleSystemAction;
 
-function StopParticleSystemAction(/*id, settings*/) {
+function StopParticleSystemAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 StopParticleSystemAction.prototype = Object.create(Action.prototype);
@@ -22,4 +23,4 @@ StopParticleSystemAction.prototype.enter = function (fsm) {
 	entity.particleSystemComponent.stop();
 };
 
-module.exports = StopParticleSystemAction;
+export { exported_StopParticleSystemAction as StopParticleSystemAction };

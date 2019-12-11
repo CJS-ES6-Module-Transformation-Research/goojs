@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node to add values.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeAdd = LogicNodeAdd;
 function LogicNodeAdd() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeAdd.logicInterface;
@@ -30,4 +26,8 @@ LogicNodeAdd.inportY = LogicNodeAdd.logicInterface.addInputProperty('y', 'float'
 
 LogicNodes.registerType('LogicNodeAdd', LogicNodeAdd);
 
-module.exports = LogicNodeAdd;
+/**
+ * Logic node to add values.
+ * @private
+ */
+export { exported_LogicNodeAdd as LogicNodeAdd };

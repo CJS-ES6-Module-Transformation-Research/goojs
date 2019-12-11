@@ -1,6 +1,6 @@
-var Ray = require('../../../src/goo/math/Ray');
-var Plane = require('../../../src/goo/math/Plane');
-var Vector3 = require('../../../src/goo/math/Vector3');
+import { Ray } from "../../../src/goo/math/Ray";
+import { Plane } from "../../../src/goo/math/Plane";
+import { Vector3 } from "../../../src/goo/math/Vector3";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('Ray', function () {

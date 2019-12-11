@@ -1,36 +1,16 @@
-var EntityUtils = require('../../entities/EntityUtils');
-var Component = require('../../entities/components/Component');
-var Quaternion = require('../../math/Quaternion');
-var calculateTriangleMeshShape = require('../../addons/ammopack/calculateTriangleMeshShape');
-var Box = require('../../shapes/Box');
-var Quad = require('../../shapes/Quad');
-var Sphere = require('../../shapes/Sphere');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../../renderer/bounds/BoundingSphere');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/* global Ammo */
-
-/**
- * Adds Ammo physics to a Goo entity.
- * Ammo is a powerful physics engine converted from the C language project Bullet.
- * Use Ammo.js if you need to support any 3D shape (trimesh).
- * Also see {@link AmmoSystem}.
- * @deprecated Deprecated as of v0.11.x and scheduled for removal in v0.13.0; consider using the Cannon system/component instead.
- * @extends Component
- * @param {Object} [settings] The settings object can contain the following properties:
- * @param {number} [settings.mass=0] (0 means immovable)
- * @param {boolean} [settings.useBounds=false] use the model bounds or use the real (must-be-convex) vertices
- * @param {boolean} [settings.useWorldBounds=false] use the model world bounds or use the real (must-be-convex) vertices (this setting is experimental)
- * @param {boolean} [settings.useWorldTransform=false] use the model world transform instead of local (this setting is experimental)
- * @param {boolean} [settings.showBounds=false] show the model world bounding box (this setting is experimental)
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Ammo/Ammo-vtest.html Working example
- * @example
- * var entity = world.createEntity(new Box(20, 10, 1));
- * entity.setComponent(new AmmoComponent({ mass: 5 }));
- */
+import * as EntityUtils from "../../entities/EntityUtils";
+import { Component } from "../../entities/components/Component";
+import { Quaternion } from "../../math/Quaternion";
+import { calculateTriangleMeshShape } from "../../addons/ammopack/calculateTriangleMeshShape";
+import { Box } from "../../shapes/Box";
+import { Quad } from "../../shapes/Quad";
+import { Sphere } from "../../shapes/Sphere";
+import { Material } from "../../renderer/Material";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import { BoundingBox } from "../../renderer/bounds/BoundingBox";
+import { BoundingSphere } from "../../renderer/bounds/BoundingSphere";
+import * as ObjectUtils from "../../util/ObjectUtils";
+var exported_AmmoComponent = AmmoComponent;
 function AmmoComponent(settings) {
 	Component.apply(this, arguments);
 
@@ -222,4 +202,24 @@ AmmoComponent.prototype.copyPhysicalTransformToVisual = function (entity) {
 	}
 };
 
-module.exports = AmmoComponent;
+/* global Ammo */
+
+/**
+ * Adds Ammo physics to a Goo entity.
+ * Ammo is a powerful physics engine converted from the C language project Bullet.
+ * Use Ammo.js if you need to support any 3D shape (trimesh).
+ * Also see {@link AmmoSystem}.
+ * @deprecated Deprecated as of v0.11.x and scheduled for removal in v0.13.0; consider using the Cannon system/component instead.
+ * @extends Component
+ * @param {Object} [settings] The settings object can contain the following properties:
+ * @param {number} [settings.mass=0] (0 means immovable)
+ * @param {boolean} [settings.useBounds=false] use the model bounds or use the real (must-be-convex) vertices
+ * @param {boolean} [settings.useWorldBounds=false] use the model world bounds or use the real (must-be-convex) vertices (this setting is experimental)
+ * @param {boolean} [settings.useWorldTransform=false] use the model world transform instead of local (this setting is experimental)
+ * @param {boolean} [settings.showBounds=false] show the model world bounding box (this setting is experimental)
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Ammo/Ammo-vtest.html Working example
+ * @example
+ * var entity = world.createEntity(new Box(20, 10, 1));
+ * entity.setComponent(new AmmoComponent({ mass: 5 }));
+ */
+export { exported_AmmoComponent as AmmoComponent };

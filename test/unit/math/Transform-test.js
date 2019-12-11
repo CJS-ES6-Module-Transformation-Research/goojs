@@ -1,5 +1,5 @@
-var Vector3 = require('../../../src/goo/math/Vector3');
-var Transform = require('../../../src/goo/math/Transform');
+import { Vector3 } from "../../../src/goo/math/Vector3";
+import { Transform } from "../../../src/goo/math/Transform";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 /**

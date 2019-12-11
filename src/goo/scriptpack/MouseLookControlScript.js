@@ -1,6 +1,7 @@
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var GameUtils = require('../util/GameUtils');
+import { Vector3 } from "../math/Vector3";
+import * as MathUtils from "../math/MathUtils";
+import * as GameUtils from "../util/GameUtils";
+var functionObject_externals;
 
 var allButtons = ['Any', 'Left', 'Middle', 'Right', 'None'];
 
@@ -156,75 +157,70 @@ function MouseLookControlScript() {
 	};
 }
 
-MouseLookControlScript.externals = {
-	key: 'MouseLookScript',
-	name: 'Mouse Look Control',
-	description: 'Click and drag to change rotation of entity, usually a camera',
-	parameters: [
-		{
-			key: 'whenUsed',
-			type: 'boolean',
-			name: 'When Camera Used',
-			description: 'Script only runs when the camera to which it is added is being used.',
-			'default': true
-		},
-		{
-			key: 'button',
-			name: 'Mouse button',
-			type: 'string',
-			control: 'select',
-			'default': 'Left',
-			options: allButtons
-		},
-		{
-			key: 'speed',
-			name: 'Turn Speed',
-			type: 'float',
-			control: 'slider',
-			'default': 1.0,
-			min: -10,
-			max: 10,
-			scale: 0.1
-		},
-		{
-			key: 'maxAscent',
-			name: 'Max Ascent',
-			type: 'float',
-			control: 'slider',
-			'default': 89.95,
-			min: -89.95,
-			max: 89.95
-		},
-		{
-			key: 'minAscent',
-			name: 'Min Ascent',
-			type: 'float',
-			control: 'slider',
-			'default': -89.95,
-			min: -89.95,
-			max: 89.95
-		}, {
-			key: 'clampAzimuth',
-			'default': false,
-			type: 'boolean'
-		}, {
-			key: 'minAzimuth',
-			description: 'Maximum arc the camera can reach clockwise of the target point',
-			'default': -90,
-			type: 'int',
-			control: 'slider',
-			min: -180,
-			max: 0
-		}, {
-			key: 'maxAzimuth',
-			description: 'Maximum arc the camera can reach counter-clockwise of the target point',
-			'default': 90,
-			type: 'int',
-			control: 'slider',
-			min: 0,
-			max: 180
-		}
-	]
+functionObject_externals = {
+    key: "MouseLookScript",
+    name: "Mouse Look Control",
+    description: "Click and drag to change rotation of entity, usually a camera",
+
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        name: "When Camera Used",
+        description: "Script only runs when the camera to which it is added is being used.",
+        "default": true
+    }, {
+        key: "button",
+        name: "Mouse button",
+        type: "string",
+        control: "select",
+        "default": "Left",
+        options: allButtons
+    }, {
+        key: "speed",
+        name: "Turn Speed",
+        type: "float",
+        control: "slider",
+        "default": 1.0,
+        min: -10,
+        max: 10,
+        scale: 0.1
+    }, {
+        key: "maxAscent",
+        name: "Max Ascent",
+        type: "float",
+        control: "slider",
+        "default": 89.95,
+        min: -89.95,
+        max: 89.95
+    }, {
+        key: "minAscent",
+        name: "Min Ascent",
+        type: "float",
+        control: "slider",
+        "default": -89.95,
+        min: -89.95,
+        max: 89.95
+    }, {
+        key: "clampAzimuth",
+        "default": false,
+        type: "boolean"
+    }, {
+        key: "minAzimuth",
+        description: "Maximum arc the camera can reach clockwise of the target point",
+        "default": -90,
+        type: "int",
+        control: "slider",
+        min: -180,
+        max: 0
+    }, {
+        key: "maxAzimuth",
+        description: "Maximum arc the camera can reach counter-clockwise of the target point",
+        "default": 90,
+        type: "int",
+        control: "slider",
+        min: 0,
+        max: 180
+    }]
 };
 
-module.exports = MouseLookControlScript;
+export { functionObject_externals as externals };

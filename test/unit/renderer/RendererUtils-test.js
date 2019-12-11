@@ -1,4 +1,4 @@
-var RendererUtils = require('../../../src/goo/renderer/RendererUtils');
+import * as RendererUtils from "../../../src/goo/renderer/RendererUtils";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('RendererUtils', function () {

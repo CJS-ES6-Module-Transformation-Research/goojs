@@ -1,3 +1,4 @@
+var exported_RenderStats = RenderStats;
 function RenderStats() {
 	this.reset();
 }
@@ -14,4 +15,4 @@ RenderStats.prototype.toString = function () {
 		'<br/>Indices: ' + this.indices;
 };
 
-module.exports = RenderStats;
+export { exported_RenderStats as RenderStats };

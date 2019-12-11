@@ -1,14 +1,6 @@
-var PhysicsJoint = require('../../../addons/physicspack/joints/PhysicsJoint');
-var Vector3 = require('../../../math/Vector3');
-
-/**
- * A physics ball joint. A ball joint (or "constraint") will try to keep a point in each of two connected bodies the same.
- * @param {Object} [settings]
- * @param {Vector3} [settings.localPivot]
- * @param {Entity} [settings.connectedEntity]
- * @param {boolean} [settings.collideConnected=false]
- * @extends PhysicsJoint
- */
+import { PhysicsJoint } from "../../../addons/physicspack/joints/PhysicsJoint";
+import { Vector3 } from "../../../math/Vector3";
+var exported_BallJoint = BallJoint;
 function BallJoint(settings) {
 	settings = settings || {};
 	PhysicsJoint.call(this, settings);
@@ -35,4 +27,12 @@ function BallJoint(settings) {
 BallJoint.prototype = Object.create(PhysicsJoint.prototype);
 BallJoint.prototype.constructor = BallJoint;
 
-module.exports = BallJoint;
+/**
+ * A physics ball joint. A ball joint (or "constraint") will try to keep a point in each of two connected bodies the same.
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.localPivot]
+ * @param {Entity} [settings.connectedEntity]
+ * @param {boolean} [settings.collideConnected=false]
+ * @extends PhysicsJoint
+ */
+export { exported_BallJoint as BallJoint };
