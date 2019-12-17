@@ -1,4 +1,4 @@
-var LinearCurve = require('../../../../../src/goo/addons/particlepack/curves/LinearCurve');
+import { LinearCurve } from "../../../../../src/goo/addons/particlepack/curves/LinearCurve";
 
 describe('LinearCurve', function () {
 	it('.getValueAt', function () {

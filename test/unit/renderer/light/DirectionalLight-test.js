@@ -1,5 +1,5 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var DirectionalLight = require('../../../../src/goo/renderer/light/DirectionalLight');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { DirectionalLight } from "../../../../src/goo/renderer/light/DirectionalLight";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('DirectionalLight', function () {

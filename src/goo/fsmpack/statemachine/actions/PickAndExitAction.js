@@ -1,6 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+var exported_PickAndExitAction = PickAndExitAction;
 
-function PickAndExitAction(/*id, settings*/) {
+function PickAndExitAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	this.eventListener = function (event) {
@@ -100,4 +101,4 @@ PickAndExitAction.prototype.exit = function () {
 	}
 };
 
-module.exports = PickAndExitAction;
+export { exported_PickAndExitAction as PickAndExitAction };

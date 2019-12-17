@@ -1,15 +1,6 @@
-var PhysicsJoint = require('../../../addons/physicspack/joints/PhysicsJoint');
-var Vector3 = require('../../../math/Vector3');
-
-/**
- * Physics hinge joint. To be added to a {@link RigidBodyComponent}.
- * @param {Object} [settings]
- * @param {Vector3} [settings.localPivot]
- * @param {Vector3} [settings.localAxis]
- * @param {Entity} [settings.connectedEntity]
- * @param {boolean} [settings.collideConnected=false]
- * @extends PhysicsJoint
- */
+import { PhysicsJoint } from "../../../addons/physicspack/joints/PhysicsJoint";
+import { Vector3 } from "../../../math/Vector3";
+var exported_HingeJoint = HingeJoint;
 function HingeJoint(settings) {
 	settings = settings || {};
 	PhysicsJoint.call(this, settings);
@@ -41,4 +32,13 @@ function HingeJoint(settings) {
 HingeJoint.prototype = Object.create(PhysicsJoint.prototype);
 HingeJoint.prototype.constructor = HingeJoint;
 
-module.exports = HingeJoint;
+/**
+ * Physics hinge joint. To be added to a {@link RigidBodyComponent}.
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.localPivot]
+ * @param {Vector3} [settings.localAxis]
+ * @param {Entity} [settings.connectedEntity]
+ * @param {boolean} [settings.collideConnected=false]
+ * @extends PhysicsJoint
+ */
+export { exported_HingeJoint as HingeJoint };

@@ -1,10 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-
-/**
- * @private
- * @extends Action
- */
-function WaitAction(/*id, settings*/) {
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+var exported_WaitAction = WaitAction;
+function WaitAction/*id, settings*/() {
 	Action.apply(this, arguments);
 
 	/**
@@ -68,4 +64,8 @@ WaitAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = WaitAction;
+/**
+ * @private
+ * @extends Action
+ */
+export { exported_WaitAction as WaitAction };

@@ -1,7 +1,7 @@
-var MeshData = require('../../../src/goo/renderer/MeshData');
-var Quad = require('../../../src/goo/shapes/Quad');
-var Box = require('../../../src/goo/shapes/Box');
-var Transform = require('../../../src/goo/math/Transform');
+import { MeshData } from "../../../src/goo/renderer/MeshData";
+import { Quad } from "../../../src/goo/shapes/Quad";
+import { Box } from "../../../src/goo/shapes/Box";
+import { Transform } from "../../../src/goo/math/Transform";
 
 describe('MeshData', function () {
 	it('getNormalsMeshData: number of vertices and indices', function () {

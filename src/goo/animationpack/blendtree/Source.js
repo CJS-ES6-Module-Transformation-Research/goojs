@@ -1,6 +1,4 @@
-/**
- * Class to use for animation sources. Base class - not supposed to be used directly.
- */
+var exported_Source = Source;
 function Source() {}
 
 /**
@@ -45,4 +43,7 @@ Source.prototype.isActive = function () {
  */
 Source.prototype.clone = function () {};
 
-module.exports = Source;
+/**
+ * Class to use for animation sources. Base class - not supposed to be used directly.
+ */
+export { exported_Source as Source };

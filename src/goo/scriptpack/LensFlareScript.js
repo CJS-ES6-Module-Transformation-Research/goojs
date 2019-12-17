@@ -1,9 +1,10 @@
-var Vector3 = require('../math/Vector3');
-var ParticleSystemUtils = require('../util/ParticleSystemUtils');
-var Material = require('../renderer/Material');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Quad = require('../shapes/Quad');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
+import { Vector3 } from "../math/Vector3";
+import * as ParticleSystemUtils from "../util/ParticleSystemUtils";
+import { Material } from "../renderer/Material";
+import * as ShaderLib from "../renderer/shaders/ShaderLib";
+import { Quad } from "../shapes/Quad";
+import { BoundingSphere } from "../renderer/bounds/BoundingSphere";
+var functionObject_externals;
 
 /**
  * This script makes an entity shine with some lensflare effect.
@@ -156,76 +157,74 @@ function LensFlareScript() {
 	};
 }
 
-LensFlareScript.externals = {
-	key: 'LensFlareScript',
-	name: 'Lens Flare Script',
-	description: 'Makes an entity shine with some lensflare effect.',
-	parameters: [{
-		key: 'scale',
-		name: 'Scale',
-		type: 'float',
-		description: 'Scale of flare quads',
-		control: 'slider',
-		'default': 1,
-		min: 0.01,
-		max: 2
-	}, {
-		key: 'intensity',
-		name: 'Intensity',
-		type: 'float',
-		description: 'Intensity of Effect',
-		control: 'slider',
-		'default': 1,
-		min: 0.01,
-		// REVIEW: why 2 for so many of these params? can they be normalized
-		//! AT: [0, 1] might be the normal domain but the upper allowed bound is 2 because it allows for superbright/superfancy lens flares
-		max: 2
-	}, {
-		key: 'edgeRelevance',
-		name: 'Edge Relevance',
-		type: 'float',
-		description: 'How much the effect cares about being centered or not',
-		control: 'slider',
-		'default': 0,
-		min: 0,
-		max: 2
-	}, {
-		key: 'edgeDampen',
-		name: 'Edge Dampening',
-		type: 'float',
-		description: 'Intensity adjustment by distance from center',
-		control: 'slider',
-		'default': 0.2,
-		min: 0,
-		max: 1
-	}, {
-		key: 'edgeScaling',
-		name: 'Edge Scaling',
-		type: 'float',
-		description: 'Scale adjustment by distance from center',
-		control: 'slider',
-		'default': 0,
-		min: -2,
-		max: 2
-	}, {
-		key: 'color',
-		name: 'Color',
-		type: 'vec3',
-		description: 'Effect Color',
-		control: 'color',
-		'default': [
-			0.8,
-			0.75,
-			0.7
-		]
-	}, {
-		key: 'highRes',
-		name: 'High Resolution',
-		type: 'boolean',
-		description: 'Intensity of Effect',
-		control: 'checkbox',
-		'default': false
-	}]
+functionObject_externals = {
+    key: "LensFlareScript",
+    name: "Lens Flare Script",
+    description: "Makes an entity shine with some lensflare effect.",
+
+    parameters: [{
+        key: "scale",
+        name: "Scale",
+        type: "float",
+        description: "Scale of flare quads",
+        control: "slider",
+        "default": 1,
+        min: 0.01,
+        max: 2
+    }, {
+        key: "intensity",
+        name: "Intensity",
+        type: "float",
+        description: "Intensity of Effect",
+        control: "slider",
+        "default": 1,
+        min: 0.01,
+
+        // REVIEW: why 2 for so many of these params? can they be normalized
+        //! AT: [0, 1] might be the normal domain but the upper allowed bound is 2 because it allows for superbright/superfancy lens flares
+        max: 2
+    }, {
+        key: "edgeRelevance",
+        name: "Edge Relevance",
+        type: "float",
+        description: "How much the effect cares about being centered or not",
+        control: "slider",
+        "default": 0,
+        min: 0,
+        max: 2
+    }, {
+        key: "edgeDampen",
+        name: "Edge Dampening",
+        type: "float",
+        description: "Intensity adjustment by distance from center",
+        control: "slider",
+        "default": 0.2,
+        min: 0,
+        max: 1
+    }, {
+        key: "edgeScaling",
+        name: "Edge Scaling",
+        type: "float",
+        description: "Scale adjustment by distance from center",
+        control: "slider",
+        "default": 0,
+        min: -2,
+        max: 2
+    }, {
+        key: "color",
+        name: "Color",
+        type: "vec3",
+        description: "Effect Color",
+        control: "color",
+        "default": [0.8, 0.75, 0.7]
+    }, {
+        key: "highRes",
+        name: "High Resolution",
+        type: "boolean",
+        description: "Intensity of Effect",
+        control: "checkbox",
+        "default": false
+    }]
 };
 
 function FlareGeometry(edgeRelevance) {
@@ -323,5 +322,3 @@ FlareQuad.prototype.updatePosition = function (flareGeometry) {
 
 	this.quad.transformComponent.setUpdated();
 };
-
-module.exports = LensFlareScript;

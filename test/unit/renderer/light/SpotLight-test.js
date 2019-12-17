@@ -1,5 +1,5 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var SpotLight = require('../../../../src/goo/renderer/light/SpotLight');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { SpotLight } from "../../../../src/goo/renderer/light/SpotLight";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('SpotLight', function () {

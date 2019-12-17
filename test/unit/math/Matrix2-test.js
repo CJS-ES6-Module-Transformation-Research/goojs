@@ -1,4 +1,4 @@
-var Matrix2 = require('../../../src/goo/math/Matrix2');
+import { Matrix2 } from "../../../src/goo/math/Matrix2";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('Matrix2', function () {

@@ -1,8 +1,8 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { World } from "../../../../src/goo/entities/World";
+import { TransformComponent } from "../../../../src/goo/entities/components/TransformComponent";
+import { ParticleSystemComponent } from "../../../../src/goo/addons/particlepack/components/ParticleSystemComponent";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
-var World = require('../../../../src/goo/entities/World');
-var TransformComponent = require('../../../../src/goo/entities/components/TransformComponent');
-var ParticleSystemComponent = require('../../../../src/goo/addons/particlepack/components/ParticleSystemComponent');
 
 describe('ParticleData', function () {
 	var world;

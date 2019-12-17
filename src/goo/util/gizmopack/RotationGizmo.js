@@ -1,17 +1,13 @@
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var Sphere = require('../../shapes/Sphere');
-var Torus = require('../../shapes/Torus');
-var Vector3 = require('../../math/Vector3');
-var Matrix3 = require('../../math/Matrix3');
-var Transform = require('../../math/Transform');
-var Renderer = require('../../renderer/Renderer');
-var Ray = require('../../math/Ray');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * @extends Gizmo
- * @hidden
- */
+import { Gizmo } from "../../util/gizmopack/Gizmo";
+import { Sphere } from "../../shapes/Sphere";
+import { Torus } from "../../shapes/Torus";
+import { Vector3 } from "../../math/Vector3";
+import { Matrix3 } from "../../math/Matrix3";
+import { Transform } from "../../math/Transform";
+import { Renderer } from "../../renderer/Renderer";
+import { Ray } from "../../math/Ray";
+import * as MathUtils from "../../math/MathUtils";
+var exported_RotationGizmo = RotationGizmo;
 function RotationGizmo() {
 	Gizmo.call(this, 'RotationGizmo');
 
@@ -219,4 +215,8 @@ function buildTorus(torusMesh, dim) {
 	};
 }
 
-module.exports = RotationGizmo;
+/**
+ * @extends Gizmo
+ * @hidden
+ */
+export { exported_RotationGizmo as RotationGizmo };

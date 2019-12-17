@@ -1,19 +1,6 @@
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Base class for resource handlers, used to load all types of resources into the engine.
- * All the resource types in the bundle (noted by their extension) need to have a registered config
- * handler.
- * To handle a new type of component, create a class that inherits from this class, and override {update}.
- * In your class, call <code>@_register('yourResourceExtension')</code> to _register
- * the handler with the loader.
- *
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
- * @hidden
- */
+import * as RSVP from "../../util/rsvp";
+import * as PromiseUtils from "../../util/PromiseUtils";
+var exported_ConfigHandler = ConfigHandler;
 function ConfigHandler(world, getConfig, updateObject, loadObject) {
 	this.world = world;
 	this.getConfig = getConfig;
@@ -164,4 +151,17 @@ ConfigHandler._registerClass = function (type, klass) {
 	return ConfigHandler.handlerClasses[type] = klass;
 };
 
-module.exports = ConfigHandler;
+/**
+ * Base class for resource handlers, used to load all types of resources into the engine.
+ * All the resource types in the bundle (noted by their extension) need to have a registered config
+ * handler.
+ * To handle a new type of component, create a class that inherits from this class, and override {update}.
+ * In your class, call <code>@_register('yourResourceExtension')</code> to _register
+ * the handler with the loader.
+ *
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
+ * @hidden
+ */
+export { exported_ConfigHandler as ConfigHandler };

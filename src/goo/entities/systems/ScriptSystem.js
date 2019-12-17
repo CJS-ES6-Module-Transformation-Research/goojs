@@ -1,10 +1,6 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Processes all entities with script components, running the scripts where applicable
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import * as SystemBus from "../../entities/SystemBus";
+var exported_ScriptSystem = ScriptSystem;
 function ScriptSystem(world) {
 	System.call(this, 'ScriptSystem', ['ScriptComponent']);
 
@@ -121,4 +117,8 @@ ScriptSystem.prototype.clear = function () {
 	System.prototype.clear.call(this);
 };
 
-module.exports = ScriptSystem;
+/**
+ * Processes all entities with script components, running the scripts where applicable
+ * @extends System
+ */
+export { exported_ScriptSystem as ScriptSystem };

@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that calculates sin & cos.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeSine = LogicNodeSine;
 function LogicNodeSine() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeSine.logicInterface;
@@ -29,4 +25,8 @@ LogicNodeSine.inportPhase = LogicNodeSine.logicInterface.addInputProperty('Phase
 
 LogicNodes.registerType('LogicNodeSine', LogicNodeSine);
 
-module.exports = LogicNodeSine;
+/**
+ * Logic node that calculates sin & cos.
+ * @private
+ */
+export { exported_LogicNodeSine as LogicNodeSine };

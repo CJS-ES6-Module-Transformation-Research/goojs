@@ -1,30 +1,11 @@
-var ShaderCall = require('../renderer/ShaderCall');
-var Matrix3 = require('../math/Matrix3');
-var Matrix4 = require('../math/Matrix4');
-var World = require('../entities/World');
-var RenderQueue = require('../renderer/RenderQueue');
-var ObjectUtils = require('../util/ObjectUtils');
-var SystemBus = require('../entities/SystemBus');
-
-/* global WebGLRenderingContext */
-
-/**
- * Defines vertex and fragment shader and uniforms to shader callbacks
- * @param {string} name Shader name (mostly for debug/tool use)
- * @param {ShaderDefinition} shaderDefinition Shader data
- *
- * <code>
- * {
- *    vshader: [required] vertex shader source
- *    fshader: [required] fragment shader source
- *    defines : shader definitions (becomes #define)
- *    attributes : attribute bindings
- *       attribute bindings need to map to an attribute in the meshdata being rendered
- *    uniforms : uniform bindings
- *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
- * }
- * </code>
- */
+import { ShaderCall } from "../renderer/ShaderCall";
+import { Matrix3 } from "../math/Matrix3";
+import { Matrix4 } from "../math/Matrix4";
+import { World } from "../entities/World";
+import { RenderQueue } from "../renderer/RenderQueue";
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as SystemBus from "../entities/SystemBus";
+var exported_Shader = Shader;
 function Shader(name, shaderDefinition) {
 	if (!shaderDefinition.vshader || !shaderDefinition.fshader) {
 		throw new Error('Missing shader sources for shader: ' + name);
@@ -811,4 +792,23 @@ Shader.DEFAULT_SHININESS = 64.0;
 Shader.prototype.defaultCallbacks = {};
 setupDefaultCallbacks(Shader.prototype.defaultCallbacks);
 
-module.exports = Shader;
+/* global WebGLRenderingContext */
+
+/**
+ * Defines vertex and fragment shader and uniforms to shader callbacks
+ * @param {string} name Shader name (mostly for debug/tool use)
+ * @param {ShaderDefinition} shaderDefinition Shader data
+ *
+ * <code>
+ * {
+ *    vshader: [required] vertex shader source
+ *    fshader: [required] fragment shader source
+ *    defines : shader definitions (becomes #define)
+ *    attributes : attribute bindings
+ *       attribute bindings need to map to an attribute in the meshdata being rendered
+ *    uniforms : uniform bindings
+ *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
+ * }
+ * </code>
+ */
+export { exported_Shader as Shader };

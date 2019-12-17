@@ -1,4 +1,4 @@
-var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
+import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('ObjectUtils', function () {

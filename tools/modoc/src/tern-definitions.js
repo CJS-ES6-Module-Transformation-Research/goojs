@@ -1,21 +1,12 @@
+import fs from "fs";
+import _ from "underscore";
+import * as util from "./util";
+import * as trunk from "./trunk";
+import * as typeParser from "./type-expressions/type-parser";
+import * as ternSerializer from "./type-expressions/tern-serializer";
+import * as defaultTernDefinitions from "./default-tern-definitions";
 // jshint node:true
 'use strict';
-
-/*
- tern definition generator - shared a lot of code with modoc
- will have to refactor the common parts out
- */
-
-var fs = require('fs');
-var _ = require('underscore');
-
-var util = require('./util');
-var trunk = require('./trunk');
-
-var typeParser = require('./type-expressions/type-parser');
-var ternSerializer = require('./type-expressions/tern-serializer');
-
-var defaultTernDefinitions = require('./default-tern-definitions');
 
 
 function processArguments() {

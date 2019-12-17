@@ -1,8 +1,9 @@
-var Action = require('./Action');
-var Vector3 = require('../../../math/Vector3');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action } from "./Action";
+import { Vector3 } from "../../../math/Vector3";
+import * as SystemBus from "../../../entities/SystemBus";
+var exported_ApplyForceAction = ApplyForceAction;
 
-function ApplyForceAction(/*id, settings*/) {
+function ApplyForceAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -60,4 +61,4 @@ ApplyForceAction.prototype.exit = function () {
 	SystemBus.removeListener('goo.physics.substep', this.substepListener);
 };
 
-module.exports = ApplyForceAction;
+export { exported_ApplyForceAction as ApplyForceAction };

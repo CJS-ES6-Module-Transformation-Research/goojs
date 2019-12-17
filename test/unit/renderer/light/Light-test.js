@@ -1,5 +1,5 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var Light = require('../../../../src/goo/renderer/light/Light');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { Light } from "../../../../src/goo/renderer/light/Light";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('Light', function () {

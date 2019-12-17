@@ -1,16 +1,11 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var MeshData = require('../../renderer/MeshData');
-var Material = require('../../renderer/Material');
-var Shader = require('../../renderer/Shader');
-var Transform = require('../../math/Transform');
-var Grid = require('../../shapes/Grid');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import * as SystemBus from "../../entities/SystemBus";
+import { MeshData } from "../../renderer/MeshData";
+import { Material } from "../../renderer/Material";
+import { Shader } from "../../renderer/Shader";
+import { Transform } from "../../math/Transform";
+import { Grid } from "../../shapes/Grid";
+var exported_GridRenderSystem = GridRenderSystem;
 function GridRenderSystem() {
 	System.call(this, 'GridRenderSystem', []);
 
@@ -218,4 +213,9 @@ var gridShaderDef = {
 	].join('\n')
 };
 
-module.exports = GridRenderSystem;
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_GridRenderSystem as GridRenderSystem };

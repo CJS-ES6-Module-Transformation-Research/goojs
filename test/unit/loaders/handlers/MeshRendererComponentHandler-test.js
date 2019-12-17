@@ -1,7 +1,7 @@
-var MeshRendererComponent = require('../../../../src/goo/entities/components/MeshRendererComponent');
-var Material = require('../../../../src/goo/renderer/Material');
-var World = require('../../../../src/goo/entities/World');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
+import { MeshRendererComponent } from "../../../../src/goo/entities/components/MeshRendererComponent";
+import { Material } from "../../../../src/goo/renderer/Material";
+import { World } from "../../../../src/goo/entities/World";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('MeshRendererComponentHandler', function () {

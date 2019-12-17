@@ -1,9 +1,8 @@
-var World = require('../../../../src/goo/entities/World');
-var SkeletonPose = require('../../../../src/goo/animationpack/SkeletonPose');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
+import { World } from "../../../../src/goo/entities/World";
+import { SkeletonPose } from "../../../../src/goo/animationpack/SkeletonPose";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
 var Configs = require('../../../../test/unit/loaders/Configs');
-
-require('../../../../src/goo/animationpack/handlers/AnimationHandlers');
 
 describe('SkeletonHandler', function () {
 	var loader;

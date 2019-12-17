@@ -1,12 +1,5 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
-
-/**
- * A collection of Curve instances. Used to connect different types curves, joining them at their given time offsets.
- * @constructor
- * @extends Curve
- * @param {object} [options]
- * @param {Array<Curve>} [options.segments]
- */
+import { Curve } from "../../../addons/particlepack/curves/Curve";
+var exported_PolyCurve = PolyCurve;
 function PolyCurve(options) {
 	options = options || {};
 
@@ -143,4 +136,11 @@ PolyCurve.prototype = {
 	}
 };
 
-module.exports = PolyCurve;
+/**
+ * A collection of Curve instances. Used to connect different types curves, joining them at their given time offsets.
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {Array<Curve>} [options.segments]
+ */
+export { exported_PolyCurve as PolyCurve };

@@ -1,15 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-
-/**
- * A rectangular, two dimensional shape. The local height of the
- * DoubleQuad defines it's size about the y-axis, while the width defines
- * the x-axis. The z-axis will always be 0.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/DoubleQuad/DoubleQuad-vtest.html Working example
- * @param {number} [width=1] Total width of quad.
- * @param {number} [height=1] Total height of quad.
- * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
- * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
- */
+import { MeshData } from "../renderer/MeshData";
+var exported_DoubleQuad = DoubleQuad;
 function DoubleQuad(width, height, tileX, tileY) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -87,4 +77,14 @@ DoubleQuad.prototype.rebuild = function () {
 	return this;
 };
 
-module.exports = DoubleQuad;
+/**
+ * A rectangular, two dimensional shape. The local height of the
+ * DoubleQuad defines it's size about the y-axis, while the width defines
+ * the x-axis. The z-axis will always be 0.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/DoubleQuad/DoubleQuad-vtest.html Working example
+ * @param {number} [width=1] Total width of quad.
+ * @param {number} [height=1] Total height of quad.
+ * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
+ * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
+ */
+export { exported_DoubleQuad as DoubleQuad };

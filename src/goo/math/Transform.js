@@ -1,13 +1,8 @@
-var Vector3 = require('./Vector3');
-var Matrix3 = require('./Matrix3');
-var Matrix4 = require('./Matrix4');
-var MathUtils = require('./MathUtils');
-
-/**
- * Transform models a transformation in 3d space as: Y = M*X+T, with M being a Matrix3 and T is a Vector3. Generally M will be a rotation
- *        only matrix in which case it is represented by the matrix and scale fields as R*S, where S is a positive scale vector. For non-uniform
- *        scales and reflections, use setMatrix, which will consider M as being a general 3x3 matrix and disregard anything set in scale.
- */
+import { Vector3 } from "./Vector3";
+import { Matrix3 } from "./Matrix3";
+import { Matrix4 } from "./Matrix4";
+import * as MathUtils from "./MathUtils";
+var exported_Transform = Transform;
 function Transform() {
 	/** Read only, will be updated automatically by {@link Transform.update}
 	 * @type {Matrix4}
@@ -320,4 +315,9 @@ Transform.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = Transform;
+/**
+ * Transform models a transformation in 3d space as: Y = M*X+T, with M being a Matrix3 and T is a Vector3. Generally M will be a rotation
+ *        only matrix in which case it is represented by the matrix and scale fields as R*S, where S is a positive scale vector. For non-uniform
+ *        scales and reflections, use setMatrix, which will consider M as being a general 3x3 matrix and disregard anything set in scale.
+ */
+export { exported_Transform as Transform };

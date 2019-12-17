@@ -1,6 +1,7 @@
-var Action = require('./Action');
+import { Action } from "./Action";
+var exported_MuteAction = MuteAction;
 
-function MuteAction(/*id, settings*/) {
+function MuteAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 MuteAction.prototype = Object.create(Action.prototype);
@@ -26,4 +27,4 @@ MuteAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = MuteAction;
+export { exported_MuteAction as MuteAction };

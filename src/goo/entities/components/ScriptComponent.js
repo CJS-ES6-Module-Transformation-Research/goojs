@@ -1,21 +1,12 @@
-var Component = require('../../entities/components/Component');
-var SystemBus = require('../../entities/SystemBus');
-var ObjectUtils = require('../../util/ObjectUtils');
+import { Component } from "../../entities/components/Component";
+import * as SystemBus from "../../entities/SystemBus";
+import * as ObjectUtils from "../../util/ObjectUtils";
+var exported_ScriptComponent = ScriptComponent;
 
 function getGooClasses(){
 	return (typeof window !== 'undefined' && window.goo) || {};
 }
 
-/**
- * Contains scripts to be executed each frame when set on an active entity.
- * @param {(Object|Array<Object>)} [scripts] A script-object or an array of script-objects to attach to the
- * entity.
- * The script-object needs to define the function <code>run({@link Entity} entity, number tpf)</code>,
- * which runs on every frame update.
- *
- * The script object can also define the function <code>setup({@link Entity} entity)</code>, called upon script creation.
- * @extends Component
- */
 function ScriptComponent(scripts) {
 	Component.apply(this, arguments);
 
@@ -252,4 +243,14 @@ ScriptComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = ScriptComponent;
+/**
+ * Contains scripts to be executed each frame when set on an active entity.
+ * @param {(Object|Array<Object>)} [scripts] A script-object or an array of script-objects to attach to the
+ * entity.
+ * The script-object needs to define the function <code>run({@link Entity} entity, number tpf)</code>,
+ * which runs on every frame update.
+ *
+ * The script object can also define the function <code>setup({@link Entity} entity)</code>, called upon script creation.
+ * @extends Component
+ */
+export { exported_ScriptComponent as ScriptComponent };

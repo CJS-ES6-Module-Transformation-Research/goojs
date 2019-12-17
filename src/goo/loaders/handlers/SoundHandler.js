@@ -1,17 +1,9 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AudioContext = require('../../sound/AudioContext');
-var Sound = require('../../sound/Sound');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Handler for loading sounds into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import * as AudioContext from "../../sound/AudioContext";
+import { Sound } from "../../sound/Sound";
+import * as PromiseUtils from "../../util/PromiseUtils";
+import * as ObjectUtils from "../../util/ObjectUtils";
+var exported_SoundHandler = SoundHandler;
 function SoundHandler() {
 	ConfigHandler.apply(this, arguments);
 	this._audioCache = {};
@@ -127,4 +119,12 @@ SoundHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = SoundHandler;
+/**
+ * Handler for loading sounds into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_SoundHandler as SoundHandler };

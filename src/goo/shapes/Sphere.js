@@ -1,16 +1,8 @@
-var MeshData = require('../renderer/MeshData');
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A 3D object with all points equi-distance from a center point.
- * @extends MeshData
- * @param {number} [zSamples=8] Number of segments.
- * @param {number} [radialSamples=8] Number of slices.
- * @param {number} [radius=0.5] Radius.
- * @param {Enum} [textureMode=Sphere.TextureModes.Polar] Texture wrapping mode.
- */
+import { MeshData } from "../renderer/MeshData";
+import { Vector3 } from "../math/Vector3";
+import * as MathUtils from "../math/MathUtils";
+import * as ObjectUtils from "../util/ObjectUtils";
+var exported_Sphere = Sphere;
 function Sphere(zSamples, radialSamples, radius, textureMode) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -413,4 +405,12 @@ Sphere.TextureModes = {
 	Chromeball: 'Chromeball'
 };
 
-module.exports = Sphere;
+/**
+ * A 3D object with all points equi-distance from a center point.
+ * @extends MeshData
+ * @param {number} [zSamples=8] Number of segments.
+ * @param {number} [radialSamples=8] Number of slices.
+ * @param {number} [radius=0.5] Radius.
+ * @param {Enum} [textureMode=Sphere.TextureModes.Polar] Texture wrapping mode.
+ */
+export { exported_Sphere as Sphere };

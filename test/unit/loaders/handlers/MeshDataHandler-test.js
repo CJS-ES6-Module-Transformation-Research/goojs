@@ -1,6 +1,6 @@
-var MeshData = require('../../../../src/goo/renderer/MeshData');
-var GooRunner = require('../../../../src/goo/entities/GooRunner');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
+import { MeshData } from "../../../../src/goo/renderer/MeshData";
+import { GooRunner } from "../../../../src/goo/entities/GooRunner";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('MeshDataHandler', function () {

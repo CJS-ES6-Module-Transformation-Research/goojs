@@ -1,4 +1,6 @@
-var PromiseUtils = require('../util/PromiseUtils');
+import * as PromiseUtils from "../util/PromiseUtils";
+var functionObject_each;
+var functionObject_maxTimePerFrame;
 
 var performance = typeof(window) !== 'undefined' ? window.performance : {};
 
@@ -15,31 +17,30 @@ performance.now = (
 
 function TaskScheduler() {}
 
-TaskScheduler.maxTimePerFrame = 50;
+functionObject_maxTimePerFrame = 50;
 
-// Engine loop must be disabled while running this
-TaskScheduler.each = function (queue) {
-	return PromiseUtils.createPromise(function (resolve) {
-		var i = 0;
+functionObject_each = function(queue) {
+    return PromiseUtils.createPromise(function(resolve) {
+        var i = 0;
 
-		function process() {
-			var startTime = performance.now();
-			while (i < queue.length && performance.now() - startTime < TaskScheduler.maxTimePerFrame) {
-				queue[i]();
-				i++;
-			}
+        function process() {
+            var startTime = performance.now();
+            while (i < queue.length && performance.now() - startTime < TaskScheduler.maxTimePerFrame) {
+                queue[i]();
+                i++;
+            }
 
-			if (i < queue.length) {
-				// REVIEW: 4ms is 'lagom'? Should this number be hard-coded?
-				//! AT: 4 ms is the minimum amount as specified by the HTML standard
-				setTimeout(process, 4);
-			} else {
-				resolve();
-			}
-		}
+            if (i < queue.length) {
+                // REVIEW: 4ms is 'lagom'? Should this number be hard-coded?
+                //! AT: 4 ms is the minimum amount as specified by the HTML standard
+                setTimeout(process, 4);
+            } else {
+                resolve();
+            }
+        }
 
-		process();
-	});
+        process();
+    });
 };
 
-module.exports = TaskScheduler;
+export { functionObject_each as each };
