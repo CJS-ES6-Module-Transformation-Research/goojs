@@ -1,19 +1,25 @@
-import { FadeTransitionState } from "../../animationpack/state/FadeTransitionState";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SyncFadeTransitionState = undefined;
+
+var _FadeTransitionState = require("../../animationpack/state/FadeTransitionState");
+
 var exported_SyncFadeTransitionState = SyncFadeTransitionState;
 function SyncFadeTransitionState() {
-	FadeTransitionState.call(this);
+	_FadeTransitionState.FadeTransitionState.call(this);
 }
 
-SyncFadeTransitionState.prototype = Object.create(FadeTransitionState.prototype);
+SyncFadeTransitionState.prototype = Object.create(_FadeTransitionState.FadeTransitionState.prototype);
 SyncFadeTransitionState.prototype.constructor = SyncFadeTransitionState;
 
 SyncFadeTransitionState.prototype.resetClips = function (globalTime) {
-	FadeTransitionState.prototype.resetClips.call(this, globalTime);
+	_FadeTransitionState.FadeTransitionState.prototype.resetClips.call(this, globalTime);
 	this._targetState.resetClips(this._sourceState._globalStartTime);
 };
 
 SyncFadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	FadeTransitionState.prototype.shiftClipTime.call(this, shiftTime);
+	_FadeTransitionState.FadeTransitionState.prototype.shiftClipTime.call(this, shiftTime);
 	this._targetState.shiftClipTime(this._sourceState._globalStartTime + shiftTime);
 	this._sourceState.shiftClipTime(shiftTime);
 };
@@ -24,4 +30,4 @@ SyncFadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
  * @param fadeTime the amount of time we should take to do the transition.
  * @param blendType {StateBlendType} the way we should interpolate the weighting during the transition.
  */
-export { exported_SyncFadeTransitionState as SyncFadeTransitionState };
+exports.SyncFadeTransitionState = exported_SyncFadeTransitionState;

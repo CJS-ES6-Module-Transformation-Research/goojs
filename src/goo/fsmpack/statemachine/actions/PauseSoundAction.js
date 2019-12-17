@@ -1,11 +1,17 @@
-import { Action } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PauseSoundAction = undefined;
+
+var _Action = require('./Action');
+
 var exported_PauseSoundAction = PauseSoundAction;
 
-function PauseSoundAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function PauseSoundAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-PauseSoundAction.prototype = Object.create(Action.prototype);
+PauseSoundAction.prototype = Object.create(_Action.Action.prototype);
 PauseSoundAction.prototype.constructor = PauseSoundAction;
 
 PauseSoundAction.external = {
@@ -33,4 +39,4 @@ PauseSoundAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { exported_PauseSoundAction as PauseSoundAction };
+exports.PauseSoundAction = exported_PauseSoundAction;

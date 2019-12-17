@@ -1,13 +1,35 @@
-import { Action } from "./Action";
-import { Vector3 } from "../../../math/Vector3";
-import * as SystemBus from "../../../entities/SystemBus";
-var exported_ApplyForceAction = ApplyForceAction;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ApplyForceAction = undefined;
 
-function ApplyForceAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-ApplyForceAction.prototype = Object.create(Action.prototype);
+var exported_ApplyForceAction = ApplyForceAction;
+
+function ApplyForceAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+}
+
+ApplyForceAction.prototype = Object.create(_Action.Action.prototype);
 ApplyForceAction.prototype.constructor = ApplyForceAction;
 
 ApplyForceAction.external = {
@@ -40,12 +62,14 @@ ApplyForceAction.external = {
 	transitions: []
 };
 
-var forceVector = new Vector3();
-var applyPoint = new Vector3();
+var forceVector = new _Vector.Vector3();
+var applyPoint = new _Vector.Vector3();
 ApplyForceAction.prototype.enter = function (fsm) {
 	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
-		if (!entity || !entity.rigidBodyComponent) { return; }
+		if (!entity || !entity.rigidBodyComponent) {
+			return;
+		}
 
 		forceVector.setArray(this.force);
 		applyPoint.setArray(this.point);
@@ -61,4 +85,4 @@ ApplyForceAction.prototype.exit = function () {
 	SystemBus.removeListener('goo.physics.substep', this.substepListener);
 };
 
-export { exported_ApplyForceAction as ApplyForceAction };
+exports.ApplyForceAction = exported_ApplyForceAction;

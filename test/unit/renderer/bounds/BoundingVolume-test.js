@@ -1,5 +1,7 @@
-import { Vector3 } from "../../../../src/goo/math/Vector3";
-import { BoundingVolume } from "../../../../src/goo/renderer/bounds/BoundingVolume";
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _BoundingVolume = require("../../../../src/goo/renderer/bounds/BoundingVolume");
+
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('BoundingVolume', function () {
@@ -9,8 +11,8 @@ describe('BoundingVolume', function () {
 
 	describe('copy', function () {
 		it('can copy everything from another bounding box', function () {
-			var original = new BoundingVolume(new Vector3(1, 2, 3), 123, 234, 345);
-			var copy = new BoundingVolume();
+			var original = new _BoundingVolume.BoundingVolume(new _Vector.Vector3(1, 2, 3), 123, 234, 345);
+			var copy = new _BoundingVolume.BoundingVolume();
 			copy.copy(original);
 
 			expect(copy).toBeCloned(original);

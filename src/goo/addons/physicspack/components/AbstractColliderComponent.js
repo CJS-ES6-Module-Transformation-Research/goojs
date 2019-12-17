@@ -1,47 +1,54 @@
-import { Component } from "../../../entities/components/Component";
-import { Collider } from "../../../addons/physicspack/colliders/Collider";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AbstractColliderComponent = undefined;
+
+var _Component = require("../../../entities/components/Component");
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 var exported_AbstractColliderComponent = AbstractColliderComponent;
 function AbstractColliderComponent(settings) {
-	Component.apply(this);
+  _Component.Component.apply(this);
 
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * @private
-	 * @type {Entity}
-	 */
-	this.entity = null;
+  /**
+   * @private
+   * @type {Entity}
+   */
+  this.entity = null;
 
-	/**
-	 * @type {Collider}
-	 */
-	this.collider = settings.collider || null;
+  /**
+   * @type {Collider}
+   */
+  this.collider = settings.collider || null;
 
-	/**
-	 * The world-scaled version of the collider. Use .updateWorldCollider() to update it.
-	 * @type {Collider}
-	 */
-	this.worldCollider = this.collider ? this.collider.clone() : null;
+  /**
+   * The world-scaled version of the collider. Use .updateWorldCollider() to update it.
+   * @type {Collider}
+   */
+  this.worldCollider = this.collider ? this.collider.clone() : null;
 
-	/**
-	 * If the collider is a Trigger, it does not interact with other objects, but it does emit contact events.
-	 * @type {boolean}
-	 */
-	this.isTrigger = settings.isTrigger !== undefined ? settings.isTrigger : false;
+  /**
+   * If the collider is a Trigger, it does not interact with other objects, but it does emit contact events.
+   * @type {boolean}
+   */
+  this.isTrigger = settings.isTrigger !== undefined ? settings.isTrigger : false;
 
-	/**
-	 * The entity with a rigid body component that instantiated the collider, or null if it wasn't instantiated.
-	 * @type {Entity}
-	 */
-	this.bodyEntity = null;
+  /**
+   * The entity with a rigid body component that instantiated the collider, or null if it wasn't instantiated.
+   * @type {Entity}
+   */
+  this.bodyEntity = null;
 
-	/**
-	 * The collider material.
-	 * @type {PhysicsMaterial}
-	 */
-	this.material = settings.material !== undefined ? settings.material : null;
+  /**
+   * The collider material.
+   * @type {PhysicsMaterial}
+   */
+  this.material = settings.material !== undefined ? settings.material : null;
 }
-AbstractColliderComponent.prototype = Object.create(Component.prototype);
+AbstractColliderComponent.prototype = Object.create(_Component.Component.prototype);
 AbstractColliderComponent.prototype.constructor = AbstractColliderComponent;
 
 /**
@@ -49,21 +56,21 @@ AbstractColliderComponent.prototype.constructor = AbstractColliderComponent;
  * @returns {Entity}
  */
 AbstractColliderComponent.prototype.getBodyEntity = function () {
-	var bodyEntity;
-	this.entity.traverseUp(function (parent) {
-		if (parent.rigidBodyComponent) {
-			bodyEntity = parent;
-			return false;
-		}
-	});
-	return bodyEntity;
+  var bodyEntity;
+  this.entity.traverseUp(function (parent) {
+    if (parent.rigidBodyComponent) {
+      bodyEntity = parent;
+      return false;
+    }
+  });
+  return bodyEntity;
 };
 
 /**
  * Updates the .worldCollider
  */
 AbstractColliderComponent.prototype.updateWorldCollider = function () {
-	this.collider.transform(this.entity.transformComponent.sync().worldTransform, this.worldCollider);
+  this.collider.transform(this.entity.transformComponent.sync().worldTransform, this.worldCollider);
 };
 
 /**
@@ -72,8 +79,8 @@ AbstractColliderComponent.prototype.updateWorldCollider = function () {
  * @param entity
  */
 AbstractColliderComponent.prototype.attached = function (entity) {
-	this.entity = entity;
-	this.system = entity._world.getSystem('PhysicsSystem');
+  this.entity = entity;
+  this.system = entity._world.getSystem('PhysicsSystem');
 };
 
 /**
@@ -81,8 +88,8 @@ AbstractColliderComponent.prototype.attached = function (entity) {
  * @private
  * @param entity
  */
-AbstractColliderComponent.prototype.detached = function (/*entity*/) {
-	this.entity = null;
+AbstractColliderComponent.prototype.detached = function () /*entity*/{
+  this.entity = null;
 };
 
 /**
@@ -92,12 +99,12 @@ AbstractColliderComponent.prototype.detached = function (/*entity*/) {
  * @returns {boolean}
  */
 AbstractColliderComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Collider) {
-		entity.setComponent(new AbstractColliderComponent({
-			collider: obj
-		}));
-		return true;
-	}
+  if (obj instanceof _Collider.Collider) {
+    entity.setComponent(new AbstractColliderComponent({
+      collider: obj
+    }));
+    return true;
+  }
 };
 
 AbstractColliderComponent.prototype.api = {};
@@ -109,4 +116,4 @@ AbstractColliderComponent.prototype.api = {};
  * @param {boolean} [settings.isTrigger=false]
  * @extends Component
  */
-export { exported_AbstractColliderComponent as AbstractColliderComponent };
+exports.AbstractColliderComponent = exported_AbstractColliderComponent;

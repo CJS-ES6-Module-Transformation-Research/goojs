@@ -1,19 +1,22 @@
-import { GooRunner } from "../../../../src/goo/entities/GooRunner";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { Texture } from "../../../../src/goo/renderer/Texture";
+var _GooRunner = require("../../../../src/goo/entities/GooRunner");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Texture = require("../../../../src/goo/renderer/Texture");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('TextureHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new GooRunner({
+		gooRunner = new _GooRunner.GooRunner({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new DynamicLoader({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: gooRunner.world,
-			rootPath: typeof(window) !== 'undefined' && window.__karma__ ? './' : 'loaders/res/'
+			rootPath: typeof window !== 'undefined' && window.__karma__ ? './' : 'loaders/res/'
 		});
 	});
 
@@ -25,7 +28,7 @@ describe('TextureHandler', function () {
 		var config = Configs.texture();
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (texture) {
-			expect(texture).toEqual(jasmine.any(Texture));
+			expect(texture).toEqual(jasmine.any(_Texture.Texture));
 			expect(texture.image).toEqual(jasmine.any(Image));
 			done();
 		});
@@ -35,7 +38,7 @@ describe('TextureHandler', function () {
 		var config = Configs.textureSVG();
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (texture) {
-			expect(texture).toEqual(jasmine.any(Texture));
+			expect(texture).toEqual(jasmine.any(_Texture.Texture));
 			done();
 		});
 	});

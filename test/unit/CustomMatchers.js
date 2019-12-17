@@ -1,24 +1,51 @@
-import { Matrix } from "../../src/goo/math/Matrix";
-import * as MathUtils from "../../src/goo/math/MathUtils";
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-function CustomMatchers(){}
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
 
-var serializeArrayBuffer = function (array) {
+var _Matrix = require("../../src/goo/math/Matrix");
+
+var _MathUtils = require("../../src/goo/math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function CustomMatchers() {}
+
+var serializeArrayBuffer = function serializeArrayBuffer(array) {
 	return '[' + Array.prototype.join.call(array, ', ') + ']';
 };
 
-var serializeVector = function (vector) {
+var serializeVector = function serializeVector(vector) {
 	var ret = '(' + vector.x + ' ' + vector.y;
 
-	if (vector.z !== undefined) { ret += ' ' + vector.z; }
-	if (vector.w !== undefined) { ret += ' ' + vector.w; }
+	if (vector.z !== undefined) {
+		ret += ' ' + vector.z;
+	}
+	if (vector.w !== undefined) {
+		ret += ' ' + vector.w;
+	}
 
 	return ret + ')';
 };
 
 // in this case NaN is equal to NaN
 // you need matchers that check if a result is explicitly NaN
-var arrayEq = function (array1, array2) {
+var arrayEq = function arrayEq(array1, array2) {
 	//if (array1.length !== array2.length) {
 	//	return false;
 	//}
@@ -39,7 +66,7 @@ var arrayEq = function (array1, array2) {
 
 CustomMatchers.toBeCloseToVector = function (util, customEqualityTesters) {
 	return {
-		compare: function (actual, expected) {
+		compare: function compare(actual, expected) {
 			var result = {};
 			result.pass = arrayEq(actual, expected);
 
@@ -52,11 +79,10 @@ CustomMatchers.toBeCloseToVector = function (util, customEqualityTesters) {
 				//	result.message = 'Expected a vector of size ' + expected.data.length +
 				//		' but got a vector of size ' + actual.data.length;
 				//} else {
-					//var expectedSerialized = serializeArrayBuffer(expected.data);
-					//var actualSerialized = serializeArrayBuffer(actual.data);
+				//var expectedSerialized = serializeArrayBuffer(expected.data);
+				//var actualSerialized = serializeArrayBuffer(actual.data);
 
-				result.message = 'Expected vectors to be close; expected ' +
-					serializeVector(expected) + ' but got ' + serializeVector(actual);
+				result.message = 'Expected vectors to be close; expected ' + serializeVector(expected) + ' but got ' + serializeVector(actual);
 				//}
 			}
 
@@ -67,24 +93,22 @@ CustomMatchers.toBeCloseToVector = function (util, customEqualityTesters) {
 
 CustomMatchers.toBeCloseToMatrix = function (util, customEqualityTesters) {
 	return {
-		compare: function (actual, expected) {
+		compare: function compare(actual, expected) {
 			var result = {};
-			result.pass = actual instanceof Matrix && arrayEq(actual.data, expected.data);
+			result.pass = actual instanceof _Matrix.Matrix && arrayEq(actual.data, expected.data);
 
 			if (result.pass) {
 				result.message = 'Expected matrices to be different';
 			} else {
-				if (!(actual instanceof Matrix)) {
+				if (!(actual instanceof _Matrix.Matrix)) {
 					result.message = 'Expected an instance of Matrix';
 				} else if (actual.rows !== expected.rows || actual.cols !== expected.cols) {
-					result.message = 'Expected a matrix of size (' + expected.rows + ', ' + expected.cols + ') '+
-						'but got a matrix of size (' + actual.rows + ', ' + actual.cols + ')';
+					result.message = 'Expected a matrix of size (' + expected.rows + ', ' + expected.cols + ') ' + 'but got a matrix of size (' + actual.rows + ', ' + actual.cols + ')';
 				} else {
 					var expectedSerialized = serializeArrayBuffer(expected.data);
 					var actualSerialized = serializeArrayBuffer(actual.data);
 
-					result.message = 'Expected matrices to be close; expected ' + expectedSerialized +
-						' but got ' + actualSerialized;
+					result.message = 'Expected matrices to be close; expected ' + expectedSerialized + ' but got ' + actualSerialized;
 				}
 			}
 
@@ -95,7 +119,7 @@ CustomMatchers.toBeCloseToMatrix = function (util, customEqualityTesters) {
 
 CustomMatchers.toBeCloseToArray = function (util, customEqualityTesters) {
 	return {
-		compare: function (actual, expected) {
+		compare: function compare(actual, expected) {
 			var result = {};
 			result.pass = actual instanceof Array && arrayEq(actual, expected);
 
@@ -105,14 +129,12 @@ CustomMatchers.toBeCloseToArray = function (util, customEqualityTesters) {
 				if (!(actual instanceof Array)) {
 					result.message = 'Expected an instance of Array';
 				} else if (actual.length !== expected.length) {
-					result.message = 'Expected an array of size ' + expected.length +
-						' but got an array of size ' + actual.length;
+					result.message = 'Expected an array of size ' + expected.length + ' but got an array of size ' + actual.length;
 				} else {
 					var expectedSerialized = expected.join(', ');
 					var actualSerialized = actual.join(', ');
 
-					result.message = 'Expected arrays to be close; expected ' + expectedSerialized +
-						' but got ' + actualSerialized;
+					result.message = 'Expected arrays to be close; expected ' + expectedSerialized + ' but got ' + actualSerialized;
 				}
 			}
 
@@ -134,10 +156,14 @@ CustomMatchers.toBeCloned = function (util, customEqualityTesters) {
 
 			for (var i = 0; i < obj1.length; i++) {
 				var partialResult = deepEquality(obj1[i], obj2[i], path + '.' + i, excluded);
-				if (partialResult) { return partialResult; }
+				if (partialResult) {
+					return partialResult;
+				}
 			}
-		} else if (typeof obj1 === 'object') {
-			if (obj1 === null && obj2 === null) { return; }
+		} else if ((typeof obj1 === "undefined" ? "undefined" : _typeof(obj1)) === 'object') {
+			if (obj1 === null && obj2 === null) {
+				return;
+			}
 
 			if (obj1 === obj2) {
 				return {
@@ -156,9 +182,13 @@ CustomMatchers.toBeCloned = function (util, customEqualityTesters) {
 			var keys = Object.keys(obj1);
 			for (var i = 0; i < keys.length; i++) {
 				var key = keys[i];
-				if (excluded.has(key)) { continue; }
+				if (excluded.has(key)) {
+					continue;
+				}
 				var partialResult = deepEquality(obj1[key], obj2[key], path + '.' + key, excluded);
-				if (partialResult) { return partialResult; }
+				if (partialResult) {
+					return partialResult;
+				}
 			}
 		} else if (obj1 !== obj2) {
 			return {
@@ -169,14 +199,11 @@ CustomMatchers.toBeCloned = function (util, customEqualityTesters) {
 	}
 
 	return {
-		compare: function (actual, expected) {
+		compare: function compare(actual, expected) {
 			var excluded, value;
 
 			// optional parameters for custom matchers; not sure if best way but so far looks like the only way
-			if (typeof expected === 'object' &&
-				expected.hasOwnProperty('value') &&
-				expected.hasOwnProperty('excluded')
-				) {
+			if ((typeof expected === "undefined" ? "undefined" : _typeof(expected)) === 'object' && expected.hasOwnProperty('value') && expected.hasOwnProperty('excluded')) {
 				excluded = new Set();
 				expected.excluded.forEach(function (element) {
 					excluded.add(element);
@@ -194,8 +221,7 @@ CustomMatchers.toBeCloned = function (util, customEqualityTesters) {
 			if (result.pass) {
 				result.message = 'Expected objects to not be clones';
 			} else {
-				result.message = 'Expected objects to be clones; ' +
-					equalityResult.type + ' on ' + equalityResult.path;
+				result.message = 'Expected objects to be clones; ' + equalityResult.type + ' on ' + equalityResult.path;
 			}
 
 			return result;

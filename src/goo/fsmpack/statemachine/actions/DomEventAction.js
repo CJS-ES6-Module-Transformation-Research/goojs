@@ -1,13 +1,19 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DomEventAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
 var exported_DomEventAction = DomEventAction;
 
-function DomEventAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function DomEventAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
 	this.domElements = null;
 }
 
-DomEventAction.prototype = Object.create(Action.prototype);
+DomEventAction.prototype = Object.create(_Action.Action.prototype);
 DomEventAction.prototype.constructor = DomEventAction;
 
 DomEventAction.external = {
@@ -22,7 +28,7 @@ DomEventAction.external = {
 		type: 'string',
 		description: 'DOM event to listen to, for example "click", "mousedown", "keydown", etc.',
 		'default': 'click'
-	},{
+	}, {
 		name: 'Query Selector',
 		key: 'querySelector',
 		type: 'string',
@@ -61,4 +67,4 @@ DomEventAction.prototype.exit = function () {
 	this.domElements = null;
 };
 
-export { exported_DomEventAction as DomEventAction };
+exports.DomEventAction = exported_DomEventAction;

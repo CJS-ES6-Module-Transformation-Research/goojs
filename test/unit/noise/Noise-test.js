@@ -1,5 +1,20 @@
-import * as Noise from "../../../src/goo/noise/Noise";
-import { ValueNoise } from "../../../src/goo/noise/ValueNoise";
+var _Noise = require("../../../src/goo/noise/Noise");
+
+var Noise = _interopRequireWildcard(_Noise);
+
+var _ValueNoise = require("../../../src/goo/noise/ValueNoise");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 describe('Noise.fractal2d', function () {
 	it('Contains correctly generated values', function () {
@@ -8,8 +23,8 @@ describe('Noise.fractal2d', function () {
 
 		for (var y = 0; y < N; y++) {
 			for (var x = 0; x < N; x++) {
-				var offset = (y * N + x);
-				var value = Math.floor(Noise.fractal2d(x, y, 256.0, 16, 0.75, 2.0, ValueNoise) * 255.0);
+				var offset = y * N + x;
+				var value = Math.floor(Noise.fractal2d(x, y, 256.0, 16, 0.75, 2.0, _ValueNoise.ValueNoise) * 255.0);
 
 				expect(value).toEqual(noiseValues[offset]);
 			}

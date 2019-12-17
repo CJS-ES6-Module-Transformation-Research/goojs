@@ -1,19 +1,27 @@
-import { World } from "../../../../src/goo/entities/World";
-import { MeshDataComponent } from "../../../../src/goo/entities/components/MeshDataComponent";
-import { MeshData } from "../../../../src/goo/renderer/MeshData";
-import { SkeletonPose } from "../../../../src/goo/animationpack/SkeletonPose";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
-import "../../../../src/goo/loaders/handlers/MeshDataComponentHandler";
-import "../../../../src/goo/loaders/handlers/MeshDataHandler";
+var _World = require("../../../../src/goo/entities/World");
+
+var _MeshDataComponent = require("../../../../src/goo/entities/components/MeshDataComponent");
+
+var _MeshData = require("../../../../src/goo/renderer/MeshData");
+
+var _SkeletonPose = require("../../../../src/goo/animationpack/SkeletonPose");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
+
+require("../../../../src/goo/loaders/handlers/MeshDataComponentHandler");
+
+require("../../../../src/goo/loaders/handlers/MeshDataHandler");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('MeshDataComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './'
 		});
@@ -23,9 +31,9 @@ describe('MeshDataComponentHandler', function () {
 		var config = Configs.entity(['meshData']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshDataComponent).toEqual(jasmine.any(MeshDataComponent));
-			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(MeshData));
-			expect(entity.meshDataComponent.currentPose).toEqual(jasmine.any(SkeletonPose));
+			expect(entity.meshDataComponent).toEqual(jasmine.any(_MeshDataComponent.MeshDataComponent));
+			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(_MeshData.MeshData));
+			expect(entity.meshDataComponent.currentPose).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
 			done();
 		});
 	});
@@ -35,8 +43,8 @@ describe('MeshDataComponentHandler', function () {
 		config.components.meshData = Configs.component.meshData('Sphere');
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshDataComponent).toEqual(jasmine.any(MeshDataComponent));
-			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(MeshData));
+			expect(entity.meshDataComponent).toEqual(jasmine.any(_MeshDataComponent.MeshDataComponent));
+			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(_MeshData.MeshData));
 			done();
 		});
 	});

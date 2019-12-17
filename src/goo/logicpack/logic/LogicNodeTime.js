@@ -1,10 +1,33 @@
-import { LogicLayer } from "./LogicLayer";
-import { LogicNode } from "./LogicNode";
-import { LogicInterface } from "./LogicInterface";
-import * as LogicNodes from "./LogicNodes";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeTime = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicInterface = require("./LogicInterface");
+
+var _LogicNodes = require("./LogicNodes");
+
+var LogicNodes = _interopRequireWildcard(_LogicNodes);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_LogicNodeTime = LogicNodeTime;
 function LogicNodeTime() {
-	LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.wantsProcessCall = true;
 	this.logicInterface = LogicNodeTime.logicInterface;
 	this.type = 'LogicNodeTime';
@@ -13,10 +36,10 @@ function LogicNodeTime() {
 }
 
 // Logic interface set-up
-LogicNodeTime.prototype = Object.create(LogicNode.prototype);
+LogicNodeTime.prototype = Object.create(_LogicNode.LogicNode.prototype);
 
 LogicNodeTime.editorName = 'Time';
-LogicNodeTime.logicInterface = new LogicInterface();
+LogicNodeTime.logicInterface = new _LogicInterface.LogicInterface();
 
 // ports
 LogicNodeTime.outPropTime = LogicNodeTime.logicInterface.addOutputProperty('Time', 'float');
@@ -37,10 +60,10 @@ LogicNodeTime.prototype.processLogic = function (tpf) {
 	if (this._running) {
 		var old = this._time;
 		this._time += tpf;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, this._time);
+		_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, this._time);
 
 		if (old < 1 && this._time >= 1) {
-			LogicLayer.fireEvent(this.logicInstance, LogicNodeTime.outEventReached1);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, LogicNodeTime.outEventReached1);
 		}
 	}
 };
@@ -53,7 +76,7 @@ LogicNodeTime.prototype.onEvent = function (instDesc, event) {
 		this._running = false;
 	} else if (event === LogicNodeTime.inEventReset) {
 		this._time = 0;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, 0);
+		_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, 0);
 	}
 };
 
@@ -64,4 +87,4 @@ LogicNodes.registerType('LogicNodeTime', LogicNodeTime);
  * can be read through the 'Time' port
  * @private
  */
-export { exported_LogicNodeTime as LogicNodeTime };
+exports.LogicNodeTime = exported_LogicNodeTime;

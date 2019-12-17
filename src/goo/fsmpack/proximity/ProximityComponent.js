@@ -1,7 +1,13 @@
-import { Component } from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ProximityComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 var exported_ProximityComponent = ProximityComponent;
 function ProximityComponent(tag) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'ProximityComponent';
 
@@ -11,25 +17,33 @@ function ProximityComponent(tag) {
 	});
 }
 
-ProximityComponent.prototype = Object.create(Component.prototype);
+ProximityComponent.prototype = Object.create(_Component.Component.prototype);
 ProximityComponent.prototype.constructor = ProximityComponent;
 
 ProximityComponent.prototype.attached = function (entity) {
 	var world = entity._world;
-	if (!world) { return; }
+	if (!world) {
+		return;
+	}
 
 	var proximitySystem = world.getSystem('ProximitySystem');
-	if (!proximitySystem) { return; }
+	if (!proximitySystem) {
+		return;
+	}
 
 	proximitySystem.add(entity, this.tag);
 };
 
 ProximityComponent.prototype.detached = function (entity) {
 	var world = entity._world;
-	if (!world) { return; }
+	if (!world) {
+		return;
+	}
 
 	var proximitySystem = world.getSystem('ProximitySystem');
-	if (!proximitySystem) { return; }
+	if (!proximitySystem) {
+		return;
+	}
 
 	proximitySystem.remove(entity, this.tag);
 };
@@ -37,4 +51,4 @@ ProximityComponent.prototype.detached = function (entity) {
 /**
  * @private
  */
-export { exported_ProximityComponent as ProximityComponent };
+exports.ProximityComponent = exported_ProximityComponent;

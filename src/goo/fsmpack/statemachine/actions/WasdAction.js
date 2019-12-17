@@ -1,11 +1,17 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.WasdAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
 var exported_WasdAction = WasdAction;
 
-function WasdAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function WasdAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-WasdAction.prototype = Object.create(Action.prototype);
+WasdAction.prototype = Object.create(_Action.Action.prototype);
 WasdAction.prototype.constructor = WasdAction;
 
 WasdAction.prototype.configure = function (settings) {
@@ -19,7 +25,7 @@ var keys = {
 	68: 'd'
 };
 
-WasdAction.external = (function () {
+WasdAction.external = function () {
 	var transitions = [];
 	for (var keycode in keys) {
 		var keyname = keys[keycode];
@@ -39,7 +45,7 @@ WasdAction.external = (function () {
 		parameters: [],
 		transitions: transitions
 	};
-})();
+}();
 
 var labels = {
 	w: 'On Key W Pressed',
@@ -48,7 +54,7 @@ var labels = {
 	d: 'On Key D Pressed'
 };
 
-WasdAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+WasdAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -70,4 +76,4 @@ WasdAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
 
-export { exported_WasdAction as WasdAction };
+exports.WasdAction = exported_WasdAction;

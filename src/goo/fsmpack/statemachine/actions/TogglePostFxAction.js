@@ -1,11 +1,17 @@
-import { Action } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TogglePostFxAction = undefined;
+
+var _Action = require('./Action');
+
 var exported_TogglePostFxAction = TogglePostFxAction;
 
-function TogglePostFxAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TogglePostFxAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-TogglePostFxAction.prototype = Object.create(Action.prototype);
+TogglePostFxAction.prototype = Object.create(_Action.Action.prototype);
 TogglePostFxAction.prototype.constructor = TogglePostFxAction;
 
 TogglePostFxAction.external = {
@@ -30,4 +36,4 @@ TogglePostFxAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { exported_TogglePostFxAction as TogglePostFxAction };
+exports.TogglePostFxAction = exported_TogglePostFxAction;

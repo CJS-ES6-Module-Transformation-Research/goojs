@@ -1,22 +1,59 @@
-import { EntitySelection } from "../../../entities/EntitySelection";
-import { System } from "../../../entities/systems/System";
-import * as SystemBus from "../../../entities/SystemBus";
-import { PhysicsPlaneDebugShape } from "../../../addons/physicspack/shapes/PhysicsPlaneDebugShape";
-import { PhysicsCylinderDebugShape } from "../../../addons/physicspack/shapes/PhysicsCylinderDebugShape";
-import { PhysicsSphereDebugShape } from "../../../addons/physicspack/shapes/PhysicsSphereDebugShape";
-import { PhysicsBoxDebugShape } from "../../../addons/physicspack/shapes/PhysicsBoxDebugShape";
-import { SphereCollider } from "../../../addons/physicspack/colliders/SphereCollider";
-import { BoxCollider } from "../../../addons/physicspack/colliders/BoxCollider";
-import { CylinderCollider } from "../../../addons/physicspack/colliders/CylinderCollider";
-import { PlaneCollider } from "../../../addons/physicspack/colliders/PlaneCollider";
-import { MeshCollider } from "../../../addons/physicspack/colliders/MeshCollider";
-import { Transform } from "../../../math/Transform";
-import { Material } from "../../../renderer/Material";
-import * as ShaderLib from "../../../renderer/shaders/ShaderLib";
-import { Pool } from "../../../addons/physicspack/util/Pool";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PhysicsDebugRenderSystem = undefined;
+
+var _EntitySelection = require("../../../entities/EntitySelection");
+
+var _System = require("../../../entities/systems/System");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _PhysicsPlaneDebugShape = require("../../../addons/physicspack/shapes/PhysicsPlaneDebugShape");
+
+var _PhysicsCylinderDebugShape = require("../../../addons/physicspack/shapes/PhysicsCylinderDebugShape");
+
+var _PhysicsSphereDebugShape = require("../../../addons/physicspack/shapes/PhysicsSphereDebugShape");
+
+var _PhysicsBoxDebugShape = require("../../../addons/physicspack/shapes/PhysicsBoxDebugShape");
+
+var _SphereCollider = require("../../../addons/physicspack/colliders/SphereCollider");
+
+var _BoxCollider = require("../../../addons/physicspack/colliders/BoxCollider");
+
+var _CylinderCollider = require("../../../addons/physicspack/colliders/CylinderCollider");
+
+var _PlaneCollider = require("../../../addons/physicspack/colliders/PlaneCollider");
+
+var _MeshCollider = require("../../../addons/physicspack/colliders/MeshCollider");
+
+var _Transform = require("../../../math/Transform");
+
+var _Material = require("../../../renderer/Material");
+
+var _ShaderLib = require("../../../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _Pool = require("../../../addons/physicspack/util/Pool");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_PhysicsDebugRenderSystem = PhysicsDebugRenderSystem;
 function PhysicsDebugRenderSystem() {
-	System.call(this, 'PhysicsDebugRenderSystem', ['TransformComponent']);
+	_System.System.call(this, 'PhysicsDebugRenderSystem', ['TransformComponent']);
 
 	this.priority = 3;
 
@@ -28,44 +65,44 @@ function PhysicsDebugRenderSystem() {
 	}.bind(this));
 
 	/**
-	 * If set to true, all entities with a ColliderComponent attached is rendered, and the selection is disregarded.
-	 * @type {boolean}
-	 */
+  * If set to true, all entities with a ColliderComponent attached is rendered, and the selection is disregarded.
+  * @type {boolean}
+  */
 	this.renderAll = true;
 
 	/**
-	 * The selected entities to be rendered.
-	 * @type {EntitySelection}
-	 */
-	this.selection = new EntitySelection();
+  * The selected entities to be rendered.
+  * @type {EntitySelection}
+  */
+	this.selection = new _EntitySelection.EntitySelection();
 
-	this.sphereMeshData = new PhysicsSphereDebugShape(32);
-	this.boxMeshData = new PhysicsBoxDebugShape();
-	this.cylinderMeshData = new PhysicsCylinderDebugShape(32);
-	this.planeMeshData = new PhysicsPlaneDebugShape();
+	this.sphereMeshData = new _PhysicsSphereDebugShape.PhysicsSphereDebugShape(32);
+	this.boxMeshData = new _PhysicsBoxDebugShape.PhysicsBoxDebugShape();
+	this.cylinderMeshData = new _PhysicsCylinderDebugShape.PhysicsCylinderDebugShape(32);
+	this.planeMeshData = new _PhysicsPlaneDebugShape.PhysicsPlaneDebugShape();
 
-	this.material = new Material(ShaderLib.simpleColored);
+	this.material = new _Material.Material(ShaderLib.simpleColored);
 	this.material.uniforms.color = [0, 1, 0];
 	this.material.wireframe = true;
-	this.renderablePool = new Pool({
-		create: function () {
+	this.renderablePool = new _Pool.Pool({
+		create: function create() {
 			return {
 				meshData: null,
-				transform: new Transform(),
+				transform: new _Transform.Transform(),
 				materials: []
 			};
 		},
-		init: function (meshData, material) {
+		init: function init(meshData, material) {
 			this.meshData = meshData;
 			this.materials[0] = material;
 		},
-		destroy: function (renderable) {
+		destroy: function destroy(renderable) {
 			renderable.meshData = null;
 			renderable.materials.length = 0;
 		}
 	});
 }
-PhysicsDebugRenderSystem.prototype = Object.create(System.prototype);
+PhysicsDebugRenderSystem.prototype = Object.create(_System.System.prototype);
 PhysicsDebugRenderSystem.prototype.constructor = PhysicsDebugRenderSystem;
 
 /**
@@ -114,16 +151,16 @@ PhysicsDebugRenderSystem.prototype.process = function (entities) {
 PhysicsDebugRenderSystem.prototype.getWorldTransform = function (colliderEntity, collider, targetTransform) {
 	targetTransform.copy(colliderEntity.transformComponent.sync().worldTransform);
 
-	if (collider instanceof SphereCollider) {
+	if (collider instanceof _SphereCollider.SphereCollider) {
 		var scale = collider.radius;
 		targetTransform.scale.set(scale, scale, scale);
-	} else if (collider instanceof BoxCollider) {
+	} else if (collider instanceof _BoxCollider.BoxCollider) {
 		targetTransform.scale.copy(collider.halfExtents).scale(2);
-	} else if (collider instanceof CylinderCollider) {
+	} else if (collider instanceof _CylinderCollider.CylinderCollider) {
 		targetTransform.scale.set(collider.radius, collider.radius, collider.height);
-	} else if (collider instanceof PlaneCollider) {
+	} else if (collider instanceof _PlaneCollider.PlaneCollider) {
 		targetTransform.scale.set(1, 1, 1);
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof _MeshCollider.MeshCollider) {
 		targetTransform.scale.set(collider.scale);
 	}
 };
@@ -136,15 +173,15 @@ PhysicsDebugRenderSystem.prototype.getWorldTransform = function (colliderEntity,
  */
 PhysicsDebugRenderSystem.prototype.getMeshData = function (collider) {
 	var meshData;
-	if (collider instanceof SphereCollider) {
+	if (collider instanceof _SphereCollider.SphereCollider) {
 		meshData = this.sphereMeshData;
-	} else if (collider instanceof BoxCollider) {
+	} else if (collider instanceof _BoxCollider.BoxCollider) {
 		meshData = this.boxMeshData;
-	} else if (collider instanceof CylinderCollider) {
+	} else if (collider instanceof _CylinderCollider.CylinderCollider) {
 		meshData = this.cylinderMeshData;
-	} else if (collider instanceof PlaneCollider) {
+	} else if (collider instanceof _PlaneCollider.PlaneCollider) {
 		meshData = this.planeMeshData;
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof _MeshCollider.MeshCollider) {
 		meshData = collider.meshData;
 	}
 	return meshData;
@@ -185,4 +222,4 @@ PhysicsDebugRenderSystem.prototype.cleanup = function () {
  * @example
  * world.setSystem(new PhysicsDebugRenderSystem());
  */
-export { exported_PhysicsDebugRenderSystem as PhysicsDebugRenderSystem };
+exports.PhysicsDebugRenderSystem = exported_PhysicsDebugRenderSystem;

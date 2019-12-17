@@ -1,8 +1,15 @@
-import { Component } from "../../../entities/components/Component";
-import { ObjectUtils as ObjectUtil } from "../../../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Box2DComponent = undefined;
+
+var _Component = require("../../../entities/components/Component");
+
+var _ObjectUtil = require("../../../util/ObjectUtil");
+
 var exported_Box2DComponent = Box2DComponent;
 function Box2DComponent(options) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'Box2DComponent';
 
@@ -10,7 +17,7 @@ function Box2DComponent(options) {
 	this.world = null;
 	this.mass = 1;
 
-	ObjectUtil.copyOptions(this, options, {
+	_ObjectUtil.ObjectUtils.copyOptions(this, options, {
 		shape: 'box',
 		width: 1,
 		height: 1,
@@ -24,7 +31,7 @@ function Box2DComponent(options) {
 	});
 }
 
-Box2DComponent.prototype = Object.create(Component.prototype);
+Box2DComponent.prototype = Object.create(_Component.Component.prototype);
 Box2DComponent.prototype.constructor = Box2DComponent;
 
 /**
@@ -32,4 +39,4 @@ Box2DComponent.prototype.constructor = Box2DComponent;
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
  */
-export { exported_Box2DComponent as Box2DComponent };
+exports.Box2DComponent = exported_Box2DComponent;

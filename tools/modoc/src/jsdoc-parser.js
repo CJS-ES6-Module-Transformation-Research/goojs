@@ -1,19 +1,37 @@
-import * as util from "./util";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.extract = exports.extractTagTargetClass = exports.extractTagExtends = exports.extractTagType = exports.extractTagReturn = exports.extractTagParam = exports.extractDescription = exports.extractName = exports.extractType = exports.partition = undefined;
+
+var _util = require('./util');
+
+var util = _interopRequireWildcard(_util);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 // jshint node:true
 'use strict';
 
-var SUPPORTED_TAGS = [
-	'description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type',
-	'@default', '@deprecated', '@property', '@extends', '@hidden', '@private', '@virtual',
-	'@target-class', '@group', '@require-path'
-];
+var SUPPORTED_TAGS = ['description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type', '@default', '@deprecated', '@property', '@extends', '@hidden', '@private', '@virtual', '@target-class', '@group', '@require-path'];
 
-var stripStars = function (string) {
+var stripStars = function stripStars(string) {
 	var stripped = string.replace(/^[ \t\n\r]*\*?[ \t\n\r]*|[ \t\n\r]+$/g, '');
 	return stripped.replace(/^[ \t]*\* ?/gm, '');
 };
 
-var partition = function (doc) {
+var partition = function partition(doc) {
 	var tags = { description: [] };
 
 	var currentTag = 'description';
@@ -57,9 +75,9 @@ var partition = function (doc) {
 	return tags;
 };
 
-let exported_partition = partition;
+var exported_partition = partition;
 
-var warnOnRogueTags = function (tags) {
+var warnOnRogueTags = function warnOnRogueTags(tags) {
 	for (var i = 0; i < tags.length; i++) {
 		var tag = tags[i];
 		if (SUPPORTED_TAGS.indexOf(tag) === -1) {
@@ -68,7 +86,7 @@ var warnOnRogueTags = function (tags) {
 	}
 };
 
-var indexOfMatchingParen = function (string, offset, openParen, closeParen) {
+var indexOfMatchingParen = function indexOfMatchingParen(string, offset, openParen, closeParen) {
 	var i = offset;
 	var parens = 1;
 
@@ -87,9 +105,11 @@ var indexOfMatchingParen = function (string, offset, openParen, closeParen) {
 	return -1;
 };
 
-var extractType = function (string, offset) {
+var extractType = function extractType(string, offset) {
 	var i = string.indexOf('{', offset);
-	if (i === -1) { return { type: '', end: offset }; }
+	if (i === -1) {
+		return { type: '', end: offset };
+	}
 
 	var end = indexOfMatchingParen(string, i, '{', '}');
 
@@ -99,13 +119,13 @@ var extractType = function (string, offset) {
 	};
 };
 
-let exported_extractType = extractType;
+var exported_extractType = extractType;
 
-var isSpace = function (char) {
+var isSpace = function isSpace(char) {
 	return char === ' ' || char === '\t';
 };
 
-var firstSpace = function (string, offset) {
+var firstSpace = function firstSpace(string, offset) {
 	var i = offset;
 	while (!isSpace(string[i])) {
 		i++;
@@ -116,7 +136,7 @@ var firstSpace = function (string, offset) {
 	return i;
 };
 
-var firstNonSpace = function (string, offset) {
+var firstNonSpace = function firstNonSpace(string, offset) {
 	var i = offset;
 	while (isSpace(string[i])) {
 		i++;
@@ -127,10 +147,13 @@ var firstNonSpace = function (string, offset) {
 	return i;
 };
 
-var extractName = function (string, offset) {
+var extractName = function extractName(string, offset) {
 	var i = firstNonSpace(string, offset);
 
-	var name, default_, optional = false, end;
+	var name,
+	    default_,
+	    optional = false,
+	    end;
 	if (string[i] === '[') {
 		optional = true;
 		var endParen = indexOfMatchingParen(string, i, '[', ']');
@@ -161,9 +184,9 @@ var extractName = function (string, offset) {
 	};
 };
 
-let exported_extractName = extractName;
+var exported_extractName = extractName;
 
-var extractDescription = function (string, offset) {
+var extractDescription = function extractDescription(string, offset) {
 	var i = firstNonSpace(string, offset);
 
 	return {
@@ -172,9 +195,9 @@ var extractDescription = function (string, offset) {
 	};
 };
 
-let exported_extractDescription = extractDescription;
+var exported_extractDescription = extractDescription;
 
-var extractUntilSpace = function (string, offset) {
+var extractUntilSpace = function extractUntilSpace(string, offset) {
 	var i = firstNonSpace(string, offset);
 
 	var limit = firstSpace(string, i);
@@ -185,7 +208,7 @@ var extractUntilSpace = function (string, offset) {
 	};
 };
 
-var extractTagParam = function (param) {
+var extractTagParam = function extractTagParam(param) {
 	var typeData = extractType(param, 0);
 	var type = typeData.type;
 	var offset = typeData.end;
@@ -208,11 +231,11 @@ var extractTagParam = function (param) {
 	};
 };
 
-let exported_extractTagParam = extractTagParam;
+var exported_extractTagParam = extractTagParam;
 
 var extractTagProperty = extractTagParam; // same for now
 
-var extractTagReturn = function (returns) {
+var extractTagReturn = function extractTagReturn(returns) {
 	var typeData = extractType(returns, 0);
 	var type = typeData.type;
 	var offset = typeData.end;
@@ -226,9 +249,9 @@ var extractTagReturn = function (returns) {
 	};
 };
 
-let exported_extractTagReturn = extractTagReturn;
+var exported_extractTagReturn = extractTagReturn;
 
-var extractTagType = function (type) {
+var extractTagType = function extractTagType(type) {
 	var typeData = extractType(type, 0);
 
 	return {
@@ -236,32 +259,32 @@ var extractTagType = function (type) {
 	};
 };
 
-let exported_extractTagType = extractTagType;
+var exported_extractTagType = extractTagType;
 
-var extractTagDefault = function (default_) {
+var extractTagDefault = function extractTagDefault(default_) {
 	// no processing required
 	return {
 		default_: default_
 	};
 };
 
-var extractTagDeprecated = function (deprecated) {
+var extractTagDeprecated = function extractTagDeprecated(deprecated) {
 	// no processing required
 	return {
 		description: deprecated
 	};
 };
 
-var extractTagExtends = function (extends_) {
+var extractTagExtends = function extractTagExtends(extends_) {
 	// no processing required
 	return {
 		base: extends_
 	};
 };
 
-let exported_extractTagExtends = extractTagExtends;
+var exported_extractTagExtends = extractTagExtends;
 
-var extractTagExampleLink = function (exampleLink) {
+var extractTagExampleLink = function extractTagExampleLink(exampleLink) {
 	var linkData = extractUntilSpace(exampleLink, 0);
 	var link = linkData.string;
 	var offset = linkData.end;
@@ -276,10 +299,12 @@ var extractTagExampleLink = function (exampleLink) {
 	};
 };
 
-var extractTagTargetClass = function (targetClass) {
+var extractTagTargetClass = function extractTagTargetClass(targetClass) {
 	// @target-class <class> <name> method|member|static-member|static-method
 	var match = targetClass.match(/^\s*(\w+)\s+(\w+)\s+(method|member|static-method|static-member|constructor)/);
-	if (!match) { throw new Error('malformed @target-class; got ' + targetClass); }
+	if (!match) {
+		throw new Error('malformed @target-class; got ' + targetClass);
+	}
 	return {
 		className: match[1],
 		itemName: match[2],
@@ -287,37 +312,63 @@ var extractTagTargetClass = function (targetClass) {
 	};
 };
 
-let exported_extractTagTargetClass = extractTagTargetClass;
+var exported_extractTagTargetClass = extractTagTargetClass;
 
-var extractTagGroup = function (group) {
+var extractTagGroup = function extractTagGroup(group) {
 	// no processing required
 	return {
 		group: group
 	};
 };
 
-var extractTagRequirePath = function (requirePath) {
+var extractTagRequirePath = function extractTagRequirePath(requirePath) {
 	// no processing required
 	return {
 		requirePath: requirePath
 	};
 };
 
-var tagExtractors = (function () {
+var tagExtractors = function () {
 	var mapping = {
-		'description': function (tag) { return tag[0]; },
-		'@param': function (tag) { return tag.map(extractTagParam); },
-		'@returns': function (tag) { return extractTagReturn(tag[0]); },
-		'@example': function (tag) { return tag[0]; },
-		'@example-link': function (tag) { return extractTagExampleLink(tag[0]); },
-		'@type': function (tag) { return extractTagType(tag[0]); },
-		'@default': function (tag) { return extractTagDefault(tag[0]); },
-		'@deprecated': function (tag) { return extractTagDeprecated(tag[0]); },
-		'@property': function (tag) { return tag.map(extractTagProperty); },
-		'@extends': function (tag) { return extractTagExtends(tag[0]); },
-		'@target-class': function (tag) { return extractTagTargetClass(tag[0]); },
-		'@group': function (tag) { return extractTagGroup(tag[0]); },
-		'@require-path': function (tag) { return extractTagRequirePath(tag[0]); }
+		'description': function description(tag) {
+			return tag[0];
+		},
+		'@param': function param(tag) {
+			return tag.map(extractTagParam);
+		},
+		'@returns': function returns(tag) {
+			return extractTagReturn(tag[0]);
+		},
+		'@example': function example(tag) {
+			return tag[0];
+		},
+		'@example-link': function exampleLink(tag) {
+			return extractTagExampleLink(tag[0]);
+		},
+		'@type': function type(tag) {
+			return extractTagType(tag[0]);
+		},
+		'@default': function _default(tag) {
+			return extractTagDefault(tag[0]);
+		},
+		'@deprecated': function deprecated(tag) {
+			return extractTagDeprecated(tag[0]);
+		},
+		'@property': function property(tag) {
+			return tag.map(extractTagProperty);
+		},
+		'@extends': function _extends(tag) {
+			return extractTagExtends(tag[0]);
+		},
+		'@target-class': function targetClass(tag) {
+			return extractTagTargetClass(tag[0]);
+		},
+		'@group': function group(tag) {
+			return extractTagGroup(tag[0]);
+		},
+		'@require-path': function requirePath(tag) {
+			return extractTagRequirePath(tag[0]);
+		}
 	};
 
 	return Object.keys(mapping).map(function (tagName) {
@@ -326,9 +377,9 @@ var tagExtractors = (function () {
 			extractor: mapping[tagName]
 		};
 	});
-})();
+}();
 
-var extract = function (doc) {
+var extract = function extract(doc) {
 	var stripped = stripStars(doc);
 
 	var tags = partition(stripped);
@@ -344,14 +395,14 @@ var extract = function (doc) {
 	return tags;
 };
 
-let exported_extract = extract;
-export { exported_partition as partition };
-export { exported_extractType as extractType };
-export { exported_extractName as extractName };
-export { exported_extractDescription as extractDescription };
-export { exported_extractTagParam as extractTagParam };
-export { exported_extractTagReturn as extractTagReturn };
-export { exported_extractTagType as extractTagType };
-export { exported_extractTagExtends as extractTagExtends };
-export { exported_extractTagTargetClass as extractTagTargetClass };
-export { exported_extract as extract };
+var exported_extract = extract;
+exports.partition = exported_partition;
+exports.extractType = exported_extractType;
+exports.extractName = exported_extractName;
+exports.extractDescription = exported_extractDescription;
+exports.extractTagParam = exported_extractTagParam;
+exports.extractTagReturn = exported_extractTagReturn;
+exports.extractTagType = exported_extractTagType;
+exports.extractTagExtends = exported_extractTagExtends;
+exports.extractTagTargetClass = exported_extractTagTargetClass;
+exports.extract = exported_extract;

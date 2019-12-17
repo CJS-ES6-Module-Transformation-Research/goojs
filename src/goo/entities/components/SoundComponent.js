@@ -1,19 +1,44 @@
-import { Component } from "../../entities/components/Component";
-import * as AudioContext from "../../sound/AudioContext";
-import { Vector3 } from "../../math/Vector3";
-import * as MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _Vector = require("../../math/Vector3");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_SoundComponent = SoundComponent;
 function SoundComponent() {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'SoundComponent';
 
 	this._system = null;
 
 	/**
-	 * Current sounds in the entity. Add a sound using {@link SoundComponent#addSound}.
-	 * @type {Array<Sound>}
-	 */
+  * Current sounds in the entity. Add a sound using {@link SoundComponent#addSound}.
+  * @type {Array<Sound>}
+  */
 	this.sounds = [];
 
 	this._isPanned = true;
@@ -30,9 +55,9 @@ function SoundComponent() {
 	this._inNode2d = AudioContext.getContext().createGain();
 	this._inNode2d.connect(this._outDryNode);
 
-	this._oldPosition = new Vector3();
-	this._position = new Vector3();
-	this._orientation = new Vector3();
+	this._oldPosition = new _Vector.Vector3();
+	this._position = new _Vector.Vector3();
+	this._orientation = new _Vector.Vector3();
 	this._attachedToCamera = false;
 
 	this._autoPlayDirty = false;
@@ -44,7 +69,7 @@ function SoundComponent() {
 
 SoundComponent.type = 'SoundComponent';
 
-SoundComponent.prototype = Object.create(Component.prototype);
+SoundComponent.prototype = Object.create(_Component.Component.prototype);
 SoundComponent.prototype.constructor = SoundComponent;
 
 /**
@@ -144,7 +169,7 @@ SoundComponent.prototype._autoPlaySounds = function () {
  * @param {number} tpf
  * @hidden
  */
-SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
+SoundComponent.prototype.process = function (settings, mvMat /*, tpf*/) {
 	this._pannerNode.rolloffFactor = settings.rolloffFactor;
 	this._pannerNode.maxDistance = settings.maxDistance;
 
@@ -186,4 +211,4 @@ SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
  * @extends {Component}
  */
-export { exported_SoundComponent as SoundComponent };
+exports.SoundComponent = exported_SoundComponent;

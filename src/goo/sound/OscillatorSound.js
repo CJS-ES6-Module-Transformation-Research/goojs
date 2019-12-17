@@ -1,5 +1,28 @@
-import * as AudioContext from "../sound/AudioContext";
-import * as MathUtils from "../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.OscillatorSound = undefined;
+
+var _AudioContext = require("../sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_OscillatorSound = OscillatorSound;
 
 function OscillatorSound() {
@@ -69,12 +92,6 @@ OscillatorSound.prototype.connectTo = function (nodes) {
 	}
 };
 
-OscillatorSound.TYPES = [
-	'sine',
-	'square',
-	'sawtooth',
-	'triangle',
-	'custom'
-];
+OscillatorSound.TYPES = ['sine', 'square', 'sawtooth', 'triangle', 'custom'];
 
-export { exported_OscillatorSound as OscillatorSound };
+exports.OscillatorSound = exported_OscillatorSound;

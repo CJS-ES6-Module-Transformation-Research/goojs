@@ -1,17 +1,23 @@
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { World } from "../../../../src/goo/entities/World";
-import { AnimationComponent } from "../../../../src/goo/animationpack/components/AnimationComponent";
-import { AnimationLayer } from "../../../../src/goo/animationpack/layer/AnimationLayer";
-import { SkeletonPose } from "../../../../src/goo/animationpack/SkeletonPose";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _AnimationComponent = require("../../../../src/goo/animationpack/components/AnimationComponent");
+
+var _AnimationLayer = require("../../../../src/goo/animationpack/layer/AnimationLayer");
+
+var _SkeletonPose = require("../../../../src/goo/animationpack/SkeletonPose");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('AnimationComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -22,7 +28,7 @@ describe('AnimationComponentHandler', function () {
 		var config = Configs.entity(['animation']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.animationComponent).toEqual(jasmine.any(AnimationComponent));
+			expect(entity.animationComponent).toEqual(jasmine.any(_AnimationComponent.AnimationComponent));
 			done();
 		});
 	});
@@ -32,8 +38,8 @@ describe('AnimationComponentHandler', function () {
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
 			var component = entity.animationComponent;
-			expect(component._skeletonPose).toEqual(jasmine.any(SkeletonPose));
-			expect(component.layers[0]).toEqual(jasmine.any(AnimationLayer));
+			expect(component._skeletonPose).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
+			expect(component.layers[0]).toEqual(jasmine.any(_AnimationLayer.AnimationLayer));
 			done();
 		});
 	});

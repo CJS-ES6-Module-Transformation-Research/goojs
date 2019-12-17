@@ -1,21 +1,25 @@
-import { World } from "../../../../src/goo/entities/World";
-import { HtmlComponent } from "../../../../src/goo/entities/components/HtmlComponent";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import "../../../../src/goo/loaders/handlers/HtmlComponentHandler";
+var _World = require("../../../../src/goo/entities/World");
+
+var _HtmlComponent = require("../../../../src/goo/entities/components/HtmlComponent");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+require("../../../../src/goo/loaders/handlers/HtmlComponentHandler");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('HtmlComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
+		var world = new _World.World();
 		world.gooRunner = {
 			renderer: {
 				domElement: document.createElement('div')
 			}
 		};
 
-		loader = new DynamicLoader({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -26,7 +30,7 @@ describe('HtmlComponentHandler', function () {
 		var config = Configs.entity(['html']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.htmlComponent).toEqual(jasmine.any(HtmlComponent));
+			expect(entity.htmlComponent).toEqual(jasmine.any(_HtmlComponent.HtmlComponent));
 			expect(entity.htmlComponent.useTransformComponent).toBeTruthy();
 			expect(/[^\-\w]/.test(entity.htmlComponent.domElement.id)).toBeFalsy();
 			expect(document.getElementById(entity.htmlComponent.domElement.id)).not.toBeNull();

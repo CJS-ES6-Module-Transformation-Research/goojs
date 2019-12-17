@@ -1,32 +1,40 @@
-import { BoundingBox } from "../../renderer/bounds/BoundingBox";
-import { Component } from "../../entities/components/Component";
-import { MeshData } from "../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshDataComponent = undefined;
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _Component = require("../../entities/components/Component");
+
+var _MeshData = require("../../renderer/MeshData");
+
 var exported_MeshDataComponent = MeshDataComponent;
 function MeshDataComponent(meshData) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'MeshDataComponent';
 
 	/**
-	 * @type {MeshData}
-	 */
+  * @type {MeshData}
+  */
 	this.meshData = meshData;
 
 	/** Bounding volume in local space.
-	 * @type {BoundingVolume}
-	 */
-	this.modelBound = new BoundingBox();
+  * @type {BoundingVolume}
+  */
+	this.modelBound = new _BoundingBox.BoundingBox();
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.modelBoundDirty = true;
 
 	/**
-	 * @type {SkeletonPose}
-	 * @default
-	 */
+  * @type {SkeletonPose}
+  * @default
+  */
 	this.currentPose = null; // SkeletonPose
 
 	// @ifdef DEBUG
@@ -36,7 +44,7 @@ function MeshDataComponent(meshData) {
 
 MeshDataComponent.type = 'MeshDataComponent';
 
-MeshDataComponent.prototype = Object.create(Component.prototype);
+MeshDataComponent.prototype = Object.create(_Component.Component.prototype);
 MeshDataComponent.prototype.constructor = MeshDataComponent;
 
 /**
@@ -93,7 +101,7 @@ MeshDataComponent.prototype.clone = function (options) {
 };
 
 MeshDataComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof MeshData) {
+	if (obj instanceof _MeshData.MeshData) {
 		var meshDataComponent = new MeshDataComponent(obj);
 		entity.setComponent(meshDataComponent);
 		return true;
@@ -106,4 +114,4 @@ MeshDataComponent.applyOnEntity = function (obj, entity) {
  * @param {MeshData} meshData Target mesh data for this component.
  * @extends Component
  */
-export { exported_MeshDataComponent as MeshDataComponent };
+exports.MeshDataComponent = exported_MeshDataComponent;

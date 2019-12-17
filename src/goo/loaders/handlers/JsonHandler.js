@@ -1,13 +1,34 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import * as PromiseUtils from "../../util/PromiseUtils";
-var exported_JsonHandler = JsonHandler;
-function JsonHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.JsonHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  } else {
+    var newObj = {};if (obj != null) {
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+      }
+    }newObj.default = obj;return newObj;
+  }
 }
 
-JsonHandler.prototype = Object.create(ConfigHandler.prototype);
+var exported_JsonHandler = JsonHandler;
+function JsonHandler() {
+  _ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+JsonHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 JsonHandler.prototype.constructor = JsonHandler;
-ConfigHandler._registerClass('json', JsonHandler);
+_ConfigHandler.ConfigHandler._registerClass('json', JsonHandler);
 
 /**
  * Adds/updates/removes a json data object.
@@ -17,19 +38,19 @@ ConfigHandler._registerClass('json', JsonHandler);
  * @returns {RSVP.Promise} Resolves with the updated shader or null if removed
  */
 JsonHandler.prototype._update = function (ref, config) {
-	if (!config) {
-		this._remove(ref);
-		return PromiseUtils.resolve();
-	}
+  if (!config) {
+    this._remove(ref);
+    return PromiseUtils.resolve();
+  }
 
-	var data;
-	try {
-		data = JSON.parse(config.body);
-	} catch (error) {
-		data = {};
-	}
+  var data;
+  try {
+    data = JSON.parse(config.body);
+  } catch (error) {
+    data = {};
+  }
 
-	return PromiseUtils.resolve(data)
+  return PromiseUtils.resolve(data);
 };
 
 /**
@@ -42,4 +63,4 @@ JsonHandler.prototype._update = function (ref, config) {
  * @extends ConfigHandler
  * @private
  */
-export { exported_JsonHandler as JsonHandler };
+exports.JsonHandler = exported_JsonHandler;

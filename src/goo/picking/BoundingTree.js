@@ -1,6 +1,14 @@
-import { BoundingBox } from "../renderer/bounds/BoundingBox";
-import { BoundingSphere } from "../renderer/bounds/BoundingSphere";
-import { Vector3 } from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BoundingTree = undefined;
+
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _BoundingSphere = require("../renderer/bounds/BoundingSphere");
+
+var _Vector = require("../math/Vector3");
+
 var exported_BoundingTree = BoundingTree;
 function BoundingTree(boundType) {
 	this.leftTree = null;
@@ -15,7 +23,7 @@ function BoundingTree(boundType) {
 	this.boundType = boundType ? boundType : BoundingTree.BOUNDTYPE_BOX;
 }
 
-var vecStore = new Vector3();
+var vecStore = new _Vector.Vector3();
 
 BoundingTree.BOUNDTYPE_SPHERE = 'sphere';
 BoundingTree.BOUNDTYPE_BOX = 'box';
@@ -34,7 +42,7 @@ BoundingTree.prototype.construct = function (entity) {
 	meshData.updatePrimitiveCounts();
 	if (meshData.getSectionCount() === 1) {
 		this.primitiveIndices = [];
-		for ( var i = 0, max = meshData.getPrimitiveCount(0); i < max; i++) {
+		for (var i = 0, max = meshData.getPrimitiveCount(0); i < max; i++) {
 			this.primitiveIndices.push(i);
 		}
 		this.createTree(entity, 0, 0, this.primitiveIndices.length);
@@ -135,12 +143,12 @@ BoundingTree.prototype.split = function (entity, sectionStart, sectionEnd) {
 BoundingTree.prototype.createBounds = function () {
 	switch (this.boundType) {
 		case BoundingTree.BOUNDTYPE_BOX:
-			this.localBound = new BoundingBox();
-			this.worldBound = new BoundingBox();
+			this.localBound = new _BoundingBox.BoundingBox();
+			this.worldBound = new _BoundingBox.BoundingBox();
 			break;
 		case BoundingTree.BOUNDTYPE_SPHERE:
-			this.localBound = new BoundingSphere();
-			this.worldBound = new BoundingSphere();
+			this.localBound = new _BoundingSphere.BoundingSphere();
+			this.worldBound = new _BoundingSphere.BoundingSphere();
 			break;
 		default:
 			break;
@@ -174,7 +182,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 			if (ray.intersects(vertices, false, vecStore)) {
 				var worldTransform = entity.transformComponent.sync().worldTransform;
 
-				var point = new Vector3();
+				var point = new _Vector.Vector3();
 				point.set(vecStore);
 				point.applyPostPoint(worldTransform.matrix);
 
@@ -184,7 +192,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 
 				var verticesCopy = [];
 				for (var copyIndex = vertices.length - 1; copyIndex >= 0; copyIndex--) {
-					verticesCopy[copyIndex] = new Vector3().set(vertices[copyIndex]);
+					verticesCopy[copyIndex] = new _Vector.Vector3().set(vertices[copyIndex]);
 					verticesCopy[copyIndex].applyPostPoint(worldTransform.matrix);
 				}
 
@@ -204,4 +212,4 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
  * Bounding tree node
  * @param boundType
  */
-export { exported_BoundingTree as BoundingTree };
+exports.BoundingTree = exported_BoundingTree;

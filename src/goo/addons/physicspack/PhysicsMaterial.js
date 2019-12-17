@@ -1,18 +1,21 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var exported_PhysicsMaterial = PhysicsMaterial;
 function PhysicsMaterial(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * The friction coefficient. Multiplication is used to combine two friction values.
-	 * @type {number}
-	 */
-	this.friction = settings.friction !== undefined ? settings.friction : 0.3;
+  /**
+   * The friction coefficient. Multiplication is used to combine two friction values.
+   * @type {number}
+   */
+  this.friction = settings.friction !== undefined ? settings.friction : 0.3;
 
-	/**
-	 * The "bounciness" of the collider.
-	 * @type {number}
-	 */
-	this.restitution = settings.restitution !== undefined ? settings.restitution : 0;
+  /**
+   * The "bounciness" of the collider.
+   * @type {number}
+   */
+  this.restitution = settings.restitution !== undefined ? settings.restitution : 0;
 }
 
 /**
@@ -20,4 +23,4 @@ function PhysicsMaterial(settings) {
  * @param {number} [settings.friction=0.3]
  * @param {number} [settings.restitution=0]
  */
-export { exported_PhysicsMaterial as PhysicsMaterial };
+exports.PhysicsMaterial = exported_PhysicsMaterial;

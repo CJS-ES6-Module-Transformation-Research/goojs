@@ -1,4 +1,24 @@
-import * as Noise from "./Noise";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ValueNoise = undefined;
+
+var _Noise = require("./Noise");
+
+var Noise = _interopRequireWildcard(_Noise);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_ValueNoise = ValueNoise;
 function ValueNoise() {
 	Noise.call(this);
@@ -7,12 +27,7 @@ function ValueNoise() {
 ValueNoise.prototype = Object.create(Noise.prototype);
 ValueNoise.prototype.constructor = ValueNoise;
 
-ValueNoise.sources = [
-	0.0 / 15.0, 1.0 / 15.0, 2.0 / 15.0, 3.0 / 15.0, 4.0 / 15.0,
-	5.0 / 15.0, 6.0 / 15.0, 7.0 / 15.0, 8.0 / 15.0, 9.0 / 15.0,
-	10.0 / 15.0, 11.0 / 15.0, 12.0 / 15.0, 13.0 / 15.0, 14.0 / 15.0,
-	15.0 / 15.0
-];
+ValueNoise.sources = [0.0 / 15.0, 1.0 / 15.0, 2.0 / 15.0, 3.0 / 15.0, 4.0 / 15.0, 5.0 / 15.0, 6.0 / 15.0, 7.0 / 15.0, 8.0 / 15.0, 9.0 / 15.0, 10.0 / 15.0, 11.0 / 15.0, 12.0 / 15.0, 13.0 / 15.0, 14.0 / 15.0, 15.0 / 15.0];
 
 /**
  * Evaluates the one-dimensional value noise function at a specific position.
@@ -154,4 +169,4 @@ ValueNoise.evaluate4d = function (px, py, pz, pw, scale) {
  * Value noise is simpler and computationally lighter than Perlin noise yet produce visually similar results when used in fractals.
  *  Only used to define the class. Should never be instantiated.
  */
-export { exported_ValueNoise as ValueNoise };
+exports.ValueNoise = exported_ValueNoise;

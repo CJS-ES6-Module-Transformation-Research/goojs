@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_getSnow;
 var functionObject_getFire;
 var functionObject_getSmoke;
@@ -7,12 +10,12 @@ var functionObject_getSmoke;
  */
 function ParticleLib() {}
 
-functionObject_getSmoke = function(options) {
+exports.getSmoke = functionObject_getSmoke = function functionObject_getSmoke(options) {
     options = options || {};
     options.scale = typeof options.scale !== "undefined" ? options.scale : 1;
     options.spread = typeof options.spread !== "undefined" ? options.spread : 2;
     options.rate = typeof options.spread !== "undefined" ? options.rate : 25;
-    options.velocity = typeof options.velocity !== "undefined" ? options.velocity : function(particle/*, particleEntity*/) {
+    options.velocity = typeof options.velocity !== "undefined" ? options.velocity : function (particle /*, particleEntity*/) {
         // not nice, will end up a square
         var vec3 = particle.velocity;
         vec3.x = (Math.random() - 0.5) * 2 * options.spread * options.scale;
@@ -43,7 +46,7 @@ functionObject_getSmoke = function(options) {
     };
 };
 
-functionObject_getFire = function(options) {
+exports.getFire = functionObject_getFire = function functionObject_getFire(options) {
     options = options || {};
     options.scale = typeof options.scale !== "undefined" ? options.scale : 1;
     options.spread = typeof options.spread !== "undefined" ? options.spread : 2;
@@ -57,7 +60,7 @@ functionObject_getFire = function(options) {
         minLifetime: 0.5,
         maxLifetime: 2.0,
 
-        getEmissionVelocity: function(particle/*, particleEntity*/) {
+        getEmissionVelocity: function getEmissionVelocity(particle /*, particleEntity*/) {
             // not nice, will end up a square
             var vec3 = particle.velocity;
             vec3.x = (Math.random() - 0.5) * 2 * options.spread * options.scale;
@@ -86,7 +89,7 @@ functionObject_getFire = function(options) {
     };
 };
 
-functionObject_getSnow = function(options) {
+exports.getSnow = functionObject_getSnow = function functionObject_getSnow(options) {
     options = options || {};
     options.scale = typeof options.scale !== "undefined" ? options.scale : 2;
     options.spread = typeof options.spread !== "undefined" ? options.spread : 50;
@@ -100,13 +103,13 @@ functionObject_getSnow = function(options) {
         minLifetime: 15.0,
         maxLifetime: 25.0,
 
-        getEmissionPoint: function(particle/*, particleEntity*/) {
+        getEmissionPoint: function getEmissionPoint(particle /*, particleEntity*/) {
             var vec3 = particle.position;
             options.getEmissionPoint(vec3);
             return vec3;
         },
 
-        getEmissionVelocity: function(particle/*, particleEntity*/) {
+        getEmissionVelocity: function getEmissionVelocity(particle /*, particleEntity*/) {
             var vec3 = particle.velocity;
             options.getEmissionVelocity(vec3);
             return vec3;
@@ -133,4 +136,6 @@ functionObject_getSnow = function(options) {
     };
 };
 
-export { functionObject_getSmoke as getSmoke, functionObject_getFire as getFire, functionObject_getSnow as getSnow };
+exports.getSmoke = functionObject_getSmoke;
+exports.getFire = functionObject_getFire;
+exports.getSnow = functionObject_getSnow;

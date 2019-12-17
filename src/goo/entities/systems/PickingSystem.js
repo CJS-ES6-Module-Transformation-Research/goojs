@@ -1,7 +1,13 @@
-import { System } from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PickingSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 var exported_PickingSystem = PickingSystem;
 function PickingSystem(settings) {
-	System.call(this, 'PickingSystem', ['MeshRendererComponent', 'TransformComponent']);
+	_System.System.call(this, 'PickingSystem', ['MeshRendererComponent', 'TransformComponent']);
 	this.passive = true;
 	this.pickRay = null;
 	this.onPick = null;
@@ -11,7 +17,7 @@ function PickingSystem(settings) {
 	this.setPickLogic(settings.pickLogic || null);
 }
 
-PickingSystem.prototype = Object.create(System.prototype);
+PickingSystem.prototype = Object.create(_System.System.prototype);
 PickingSystem.prototype.constructor = PickingSystem;
 
 PickingSystem.prototype.setPickLogic = function (pickLogic) {
@@ -40,7 +46,7 @@ PickingSystem.prototype.process = function (entities) {
 		return;
 	}
 	var pickList = [];
-	for ( var i = 0; i < entities.length; i++) {
+	for (var i = 0; i < entities.length; i++) {
 		var entity = entities[i];
 		var meshRendererComponent = entity.meshRendererComponent;
 
@@ -64,15 +70,15 @@ PickingSystem.prototype.process = function (entities) {
 		}
 		// just use bounding pick instead... first must have a world bound
 		else if (meshRendererComponent.worldBound) {
-			// pick ray must intersect world bound
-			var result = meshRendererComponent.worldBound.intersectsRayWhere(this.pickRay);
-			if (result && result.distances.length) {
-				pickList.push({
-					'entity': entity,
-					'intersection': result
-				});
+				// pick ray must intersect world bound
+				var result = meshRendererComponent.worldBound.intersectsRayWhere(this.pickRay);
+				if (result && result.distances.length) {
+					pickList.push({
+						'entity': entity,
+						'intersection': result
+					});
+				}
 			}
-		}
 	}
 
 	pickList.sort(function (a, b) {
@@ -86,4 +92,4 @@ PickingSystem.prototype.process = function (entities) {
  * Helps gather pickable entities
  * @extends System
  */
-export { exported_PickingSystem as PickingSystem };
+exports.PickingSystem = exported_PickingSystem;

@@ -1,21 +1,44 @@
-import { Component } from "../../../entities/components/Component";
-import { Quaternion } from "../../../math/Quaternion";
-import { Transform } from "../../../math/Transform";
-import * as SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AbstractRigidBodyComponent = undefined;
+
+var _Component = require("../../../entities/components/Component");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Transform = require("../../../math/Transform");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_AbstractRigidBodyComponent = AbstractRigidBodyComponent;
 
-var tmpQuat = new Quaternion();
+var tmpQuat = new _Quaternion.Quaternion();
 
 function AbstractRigidBodyComponent() {
-	Component.call(this, arguments);
+	_Component.Component.call(this, arguments);
 
 	/**
-	 * Joints on the body. Use .addJoint to add one, or .removeJoint to remove.
-	 * @type {Array}
-	 */
+  * Joints on the body. Use .addJoint to add one, or .removeJoint to remove.
+  * @type {Array}
+  */
 	this.joints = [];
 }
-AbstractRigidBodyComponent.prototype = Object.create(Component.prototype);
+AbstractRigidBodyComponent.prototype = Object.create(_Component.Component.prototype);
 AbstractRigidBodyComponent.prototype.constructor = AbstractRigidBodyComponent;
 
 /**
@@ -69,18 +92,18 @@ AbstractRigidBodyComponent.prototype.destroy = function () {};
  * @param {Entity} entity
  * @param {System} system
  */
-AbstractRigidBodyComponent.prototype.initializeJoint = function (/*joint, entity, system*/) {};
+AbstractRigidBodyComponent.prototype.initializeJoint = function () /*joint, entity, system*/{};
 
 /**
  * Removes a joint from the physics engine.
  * @virtual
  * @param {PhysicsJoint}  joint
  */
-AbstractRigidBodyComponent.prototype.destroyJoint = function (/*joint*/) {};
+AbstractRigidBodyComponent.prototype.destroyJoint = function () /*joint*/{};
 
-var inverseBodyTransform = new Transform();
-var trans = new Transform();
-var trans2 = new Transform();
+var inverseBodyTransform = new _Transform.Transform();
+var trans = new _Transform.Transform();
+var trans2 = new _Transform.Transform();
 
 /**
  * Traverse the tree of colliders from a root entity and down.
@@ -103,7 +126,7 @@ AbstractRigidBodyComponent.prototype.traverseColliders = function (entity, callb
 
 			// Look at the world transform and then get the transform relative to the root entity. This is needed for compounds with more than one level of recursion
 			trans.copy(childEntity.transformComponent.worldTransform);
-			Transform.combine(inverseBodyTransform, trans, trans2);
+			_Transform.Transform.combine(inverseBodyTransform, trans, trans2);
 
 			var offset = trans2.translation;
 			var rot = trans2.rotation;
@@ -129,7 +152,7 @@ AbstractRigidBodyComponent.prototype.traverseColliders = function (entity, callb
  * @virtual
  * @param entity
  */
-AbstractRigidBodyComponent.prototype.attached = function (/*entity*/) {};
+AbstractRigidBodyComponent.prototype.attached = function () /*entity*/{};
 
 /**
  * @private
@@ -144,7 +167,7 @@ AbstractRigidBodyComponent.prototype.attached = function (entity) {
  * @private
  * @param entity
  */
-AbstractRigidBodyComponent.prototype.detached = function (/*entity*/) {
+AbstractRigidBodyComponent.prototype.detached = function () /*entity*/{
 	this._entity = null;
 	this._system = null;
 };
@@ -153,4 +176,4 @@ AbstractRigidBodyComponent.prototype.detached = function (/*entity*/) {
  * Base class for rigid bodies.
  * @extends Component
  */
-export { exported_AbstractRigidBodyComponent as AbstractRigidBodyComponent };
+exports.AbstractRigidBodyComponent = exported_AbstractRigidBodyComponent;

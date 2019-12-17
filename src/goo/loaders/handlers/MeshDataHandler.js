@@ -1,20 +1,49 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { MeshData } from "../../renderer/MeshData";
-import * as BufferUtils from "../../renderer/BufferUtils";
-import { Capabilities } from "../../renderer/Capabilities";
-import * as PromiseUtils from "../../util/PromiseUtils";
-import * as ArrayUtils from "../../util/ArrayUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshDataHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _BufferUtils = require("../../renderer/BufferUtils");
+
+var BufferUtils = _interopRequireWildcard(_BufferUtils);
+
+var _Capabilities = require("../../renderer/Capabilities");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_MeshDataHandler = MeshDataHandler;
 
 var WEIGHTS_PER_VERT = 4;
 
 function MeshDataHandler() {
-	ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-MeshDataHandler.prototype = Object.create(ConfigHandler.prototype);
+MeshDataHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 MeshDataHandler.prototype.constructor = MeshDataHandler;
-ConfigHandler._registerClass('mesh', MeshDataHandler);
+_ConfigHandler.ConfigHandler._registerClass('mesh', MeshDataHandler);
 
 /**
  * Removes the meshdata from the objects config
@@ -74,7 +103,9 @@ MeshDataHandler.prototype._createMeshData = function (config) {
 
 	var indexCount = 0;
 	if (config.indexLengths) {
-		indexCount = config.indexLengths.reduce(function (store, val) { return store + val; });
+		indexCount = config.indexLengths.reduce(function (store, val) {
+			return store + val;
+		});
 	} else if (config.indices) {
 		indexCount = config.indices.wordLength;
 	}
@@ -95,11 +126,11 @@ MeshDataHandler.prototype._createMeshData = function (config) {
 	for (var key in config.attributes) {
 		var map = config.attributes[key];
 		var type = map.value[2];
-		attributeMap[key] = MeshData.createAttribute(map.dimensions, typeMatch[type]);
+		attributeMap[key] = _MeshData.MeshData.createAttribute(map.dimensions, typeMatch[type]);
 	}
 
-	var meshData = new MeshData(attributeMap, vertexCount, indexCount);
-	meshData.type = skinned ? MeshData.SKINMESH : MeshData.MESH;
+	var meshData = new _MeshData.MeshData(attributeMap, vertexCount, indexCount);
+	meshData.type = skinned ? _MeshData.MeshData.SKINMESH : _MeshData.MeshData.MESH;
 	return meshData;
 };
 
@@ -112,7 +143,7 @@ MeshDataHandler.prototype._createMeshData = function (config) {
  * @private
  */
 MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
-	var skinned = meshData.type === MeshData.SKINMESH;
+	var skinned = meshData.type === _MeshData.MeshData.SKINMESH;
 
 	for (var key in config.attributes) {
 		if (key === 'JOINTIDS') {
@@ -124,10 +155,10 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 	}
 
 	/**Remapping the joints. This will enable us to have skeleton with hundreds of joints even
-	 * though meshes can only have ~70
-	 */
+  * though meshes can only have ~70
+  */
 	if (skinned && config.attributes.JOINTIDS) {
-		var buffer = meshData.getAttributeBuffer(MeshData.JOINTIDS);
+		var buffer = meshData.getAttributeBuffer(_MeshData.MeshData.JOINTIDS);
 		var jointData = ArrayUtils.getTypedArray(bindata, config.attributes.JOINTIDS.value);
 
 		// Map skeleton joint index local joint index
@@ -169,7 +200,7 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 		}
 	}
 
-	if (!Capabilities.ElementIndexUInt && meshData.vertexCount > 65536) {
+	if (!_Capabilities.Capabilities.ElementIndexUInt && meshData.vertexCount > 65536) {
 		meshData.deIndex();
 	}
 
@@ -183,4 +214,4 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
  * @param {Function} updateObject
  * @private
  */
-export { exported_MeshDataHandler as MeshDataHandler };
+exports.MeshDataHandler = exported_MeshDataHandler;

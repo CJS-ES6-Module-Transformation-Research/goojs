@@ -1,4 +1,24 @@
-import * as MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AbstractAnimationChannel = undefined;
+
+var _MathUtils = require('../../math/MathUtils');
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_AbstractAnimationChannel = AbstractAnimationChannel;
 function AbstractAnimationChannel(channelName, times, blendType) {
 	this._blendType = blendType || AbstractAnimationChannel.BLENDTYPES.LINEAR;
@@ -40,7 +60,7 @@ AbstractAnimationChannel.prototype.getMaxTime = function () {
 AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) {
 	var timeCount = this._times.length;
 
-	if (!(timeCount)) {
+	if (!timeCount) {
 		return;
 	}
 	// figure out what frames we are between and by how much
@@ -93,4 +113,4 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
  * @param {string} blendType the blendtype between transform keyframes of the channel. Defaults to AbstractAnimationChannel.BLENDTYPES.LINEAR
  * @private
  */
-export { exported_AbstractAnimationChannel as AbstractAnimationChannel };
+exports.AbstractAnimationChannel = exported_AbstractAnimationChannel;

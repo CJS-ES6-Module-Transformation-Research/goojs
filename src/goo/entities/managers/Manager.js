@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var exported_Manager = Manager;
 function Manager() {
 	this.installedAPI = {};
@@ -18,4 +21,4 @@ Manager.prototype.applyAPI = function (worldBy) {
 /**
  * Base class for managers.
  */
-export { exported_Manager as Manager };
+exports.Manager = exported_Manager;

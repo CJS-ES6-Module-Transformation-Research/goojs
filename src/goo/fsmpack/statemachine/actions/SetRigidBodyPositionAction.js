@@ -1,11 +1,18 @@
-import { Action } from "./Action";
-import { Vector3 } from "./../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetRigidBodyPositionAction = undefined;
+
+var _Action = require("./Action");
+
+var _Vector = require("./../../../math/Vector3");
+
 var exported_SetRigidBodyPositionAction = SetRigidBodyPositionAction;
 
-function SetRigidBodyPositionAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function SetRigidBodyPositionAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-SetRigidBodyPositionAction.prototype = Object.create(Action.prototype);
+SetRigidBodyPositionAction.prototype = Object.create(_Action.Action.prototype);
 SetRigidBodyPositionAction.prototype.constructor = SetRigidBodyPositionAction;
 
 SetRigidBodyPositionAction.external = {
@@ -24,12 +31,14 @@ SetRigidBodyPositionAction.external = {
 	transitions: []
 };
 
-var tmpVector = new Vector3();
+var tmpVector = new _Vector.Vector3();
 SetRigidBodyPositionAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.rigidBodyComponent) { return; }
+	if (!entity || !entity.rigidBodyComponent) {
+		return;
+	}
 	tmpVector.setArray(this.position);
 	entity.rigidBodyComponent.setPosition(tmpVector);
 };
 
-export { exported_SetRigidBodyPositionAction as SetRigidBodyPositionAction };
+exports.SetRigidBodyPositionAction = exported_SetRigidBodyPositionAction;

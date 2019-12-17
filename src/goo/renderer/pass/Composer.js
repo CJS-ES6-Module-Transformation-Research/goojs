@@ -1,7 +1,32 @@
-import { RenderTarget } from "../../renderer/pass/RenderTarget";
-import { FullscreenPass } from "../../renderer/pass/FullscreenPass";
-import * as ShaderLib from "../../renderer/shaders/ShaderLib";
-import * as SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Composer = undefined;
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
+var _FullscreenPass = require("../../renderer/pass/FullscreenPass");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Composer = Composer;
 function Composer(renderTarget) {
 	this._passedWriteBuffer = !!renderTarget;
@@ -11,14 +36,14 @@ function Composer(renderTarget) {
 		var width = window.innerWidth || 1;
 		var height = window.innerHeight || 1;
 
-		this.writeBuffer = new RenderTarget(width, height);
+		this.writeBuffer = new _RenderTarget.RenderTarget(width, height);
 	}
 
 	this.readBuffer = this.writeBuffer.clone();
 
 	this.passes = [];
 	this._clearColor = [0, 0, 0, 1];
-	this.copyPass = new FullscreenPass(ShaderLib.copy);
+	this.copyPass = new _FullscreenPass.FullscreenPass(ShaderLib.copy);
 
 	this.size = null;
 	this.dirty = false;
@@ -65,11 +90,7 @@ Composer.prototype.swapBuffers = function () {
 };
 
 Composer.prototype._checkPassResize = function (pass, size) {
-	return !pass.viewportSize ||
-		pass.viewportSize.x !== size.x ||
-		pass.viewportSize.y !== size.y ||
-		pass.viewportSize.width !== size.width ||
-		pass.viewportSize.height !== size.height;
+	return !pass.viewportSize || pass.viewportSize.x !== size.x || pass.viewportSize.y !== size.y || pass.viewportSize.width !== size.width || pass.viewportSize.height !== size.height;
 };
 
 Composer.prototype.addPass = function (pass, renderer) {
@@ -97,7 +118,7 @@ Composer.prototype.updateSize = function (renderer) {
 
 	this.deallocateBuffers(renderer);
 
-	this.writeBuffer = new RenderTarget(width, height);
+	this.writeBuffer = new _RenderTarget.RenderTarget(width, height);
 	this.readBuffer = this.writeBuffer.clone();
 
 	for (var i = 0, il = this.passes.length; i < il; i++) {
@@ -116,7 +137,9 @@ Composer.prototype.render = function (renderer, delta, camera, lights) {
 	}
 
 	var maskActive = false;
-	var pass, i, il = this.passes.length;
+	var pass,
+	    i,
+	    il = this.passes.length;
 
 	for (i = 0; i < il; i++) {
 		pass = this.passes[i];
@@ -143,4 +166,4 @@ Composer.prototype.render = function (renderer, delta, camera, lights) {
  * @param {RenderTarget} renderTarget Data to wrap
  * @property {RenderTarget} renderTarget Data to wrap
  */
-export { exported_Composer as Composer };
+exports.Composer = exported_Composer;

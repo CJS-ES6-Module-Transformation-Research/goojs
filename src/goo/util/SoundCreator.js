@@ -1,22 +1,45 @@
-import { SoundHandler } from "../loaders/handlers/SoundHandler";
-import * as AudioContext from "../sound/AudioContext";
-import { Ajax } from "../util/Ajax";
-import * as StringUtils from "../util/StringUtils";
-import * as PromiseUtils from "../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundCreator = undefined;
+
+var _SoundHandler = require("../loaders/handlers/SoundHandler");
+
+var _AudioContext = require("../sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _Ajax = require("../util/Ajax");
+
+var _StringUtils = require("../util/StringUtils");
+
+var StringUtils = _interopRequireWildcard(_StringUtils);
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_SoundCreator = SoundCreator;
 function SoundCreator() {
-	var ajax = this.ajax = new Ajax();
+	var ajax = this.ajax = new _Ajax.Ajax();
 
-	this.soundHandler = new SoundHandler(
-		{},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		},
-		function () {},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		}
-	);
+	this.soundHandler = new _SoundHandler.SoundHandler({}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	}, function () {}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	});
 }
 
 /**
@@ -54,4 +77,4 @@ SoundCreator.prototype.loadSound = function (url, settings) {
 /**
  * Provides a simple way to load sounds
  */
-export { exported_SoundCreator as SoundCreator };
+exports.SoundCreator = exported_SoundCreator;

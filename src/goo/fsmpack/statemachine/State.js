@@ -1,5 +1,28 @@
-import * as ArrayUtils from "../../util/ArrayUtils";
-import * as SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.State = undefined;
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_State = State;
 
 function State(uuid) {
@@ -37,7 +60,7 @@ function State(uuid) {
 		getEntityById: function (id) {
 			return this._fsm.entity._world.by.id(id).first();
 		}.bind(this),
-		send: function (channels/*, data*/) {
+		send: function (channels /*, data*/) {
 			if (channels) {
 				if (typeof channels === 'string' && this._transitions[channels]) {
 					this.requestTransition(this._transitions[channels]);
@@ -303,4 +326,4 @@ State.prototype.removeMachine = function (machine) {
 	ArrayUtils.remove(this._machines, machine);
 };
 
-export { exported_State as State };
+exports.State = exported_State;

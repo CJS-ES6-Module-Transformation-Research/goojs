@@ -1,43 +1,55 @@
 // jshint node:true
 'use strict';
 
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 var isWin = /^win/.test(process.platform);
 
 var PATH_SEPARATOR = isWin ? '\\' : '/';
 
-let exported_PATH_SEPARATOR = PATH_SEPARATOR;
+var exported_PATH_SEPARATOR = PATH_SEPARATOR;
 
 var regex = isWin ? /\\?(\w+)\.js$/ : /\/?(\w+)\.js$/;
 
-var getFileName = function (file) {
+var getFileName = function getFileName(file) {
 	return file.match(regex)[1];
 };
 
-let exported_getFileName = getFileName;
+var exported_getFileName = getFileName;
 
-var stringUntil = function (string, until) {
+var stringUntil = function stringUntil(string, until) {
 	return string.slice(0, string.indexOf(until));
 };
 
-let exported_stringUntil = stringUntil;
+var exported_stringUntil = stringUntil;
 
-var stringFrom = function (string, from) {
+var stringFrom = function stringFrom(string, from) {
 	return string.slice(string.indexOf(from) + 1);
 };
 
-let exported_stringFrom = stringFrom;
+var exported_stringFrom = stringFrom;
 
-var pipe = function (f, g) {
+var pipe = function pipe(f, g) {
 	return function () {
 		return g(f.apply(null, arguments));
 	};
 };
 
-let exported_pipe = pipe;
-var deepClone = function (obj) {
+var exported_pipe = pipe;
+var deepClone = function deepClone(obj) {
 	if (obj instanceof Array) {
 		return obj.map(deepClone);
-	} else if (typeof obj === 'object') {
+	} else if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object') {
 		var clone = {};
 		Object.keys(obj).forEach(function (key) {
 			clone[key] = deepClone(obj[key]);
@@ -48,27 +60,27 @@ var deepClone = function (obj) {
 	}
 };
 
-let exported_deepClone = deepClone;
+var exported_deepClone = deepClone;
 
-var upperFirst = function (string) {
+var upperFirst = function upperFirst(string) {
 	return string[0].toUpperCase() + string.slice(1);
 };
 
-let exported_upperFirst = upperFirst;
+var exported_upperFirst = upperFirst;
 
-var lowerFirst = function (string) {
+var lowerFirst = function lowerFirst(string) {
 	return string[0].toLowerCase() + string.slice(1);
 };
 
-let exported_lowerFirst = lowerFirst;
+var exported_lowerFirst = lowerFirst;
 
-var tagToIdentifier = function (tagName) {
+var tagToIdentifier = function tagToIdentifier(tagName) {
 	return lowerFirst(tagName.slice(1).split('-').map(upperFirst).join(''));
 };
 
-let exported_tagToIdentifier = tagToIdentifier;
+var exported_tagToIdentifier = tagToIdentifier;
 
-var createIdGenerator = function (prefix) {
+var createIdGenerator = function createIdGenerator(prefix) {
 	var counter = 0;
 	return function (override) {
 		if (arguments.length) {
@@ -80,14 +92,14 @@ var createIdGenerator = function (prefix) {
 	};
 };
 
-let exported_createIdGenerator = createIdGenerator;
-export { exported_PATH_SEPARATOR as PATH_SEPARATOR };
-export { exported_getFileName as getFileName };
-export { exported_stringUntil as stringUntil };
-export { exported_stringFrom as stringFrom };
-export { exported_pipe as pipe };
-export { exported_deepClone as deepClone };
-export { exported_upperFirst as upperFirst };
-export { exported_lowerFirst as lowerFirst };
-export { exported_tagToIdentifier as tagToIdentifier };
-export { exported_createIdGenerator as createIdGenerator };
+var exported_createIdGenerator = createIdGenerator;
+exports.PATH_SEPARATOR = exported_PATH_SEPARATOR;
+exports.getFileName = exported_getFileName;
+exports.stringUntil = exported_stringUntil;
+exports.stringFrom = exported_stringFrom;
+exports.pipe = exported_pipe;
+exports.deepClone = exported_deepClone;
+exports.upperFirst = exported_upperFirst;
+exports.lowerFirst = exported_lowerFirst;
+exports.tagToIdentifier = exported_tagToIdentifier;
+exports.createIdGenerator = exported_createIdGenerator;

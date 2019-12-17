@@ -1,5 +1,7 @@
-import { Vector3 } from "../../../../src/goo/math/Vector3";
-import { PointLight } from "../../../../src/goo/renderer/light/PointLight";
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _PointLight = require("../../../../src/goo/renderer/light/PointLight");
+
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('PointLight', function () {
@@ -8,8 +10,8 @@ describe('PointLight', function () {
 	});
 
 	it('gets the color from the first parameter passed to the constructor', function () {
-		var color = new Vector3(0.2, 0.3, 0.5);
-		var light = new PointLight(color);
+		var color = new _Vector.Vector3(0.2, 0.3, 0.5);
+		var light = new _PointLight.PointLight(color);
 
 		expect(light.color).toBeCloseToVector(color);
 		expect(light.color).not.toBe(color);
@@ -17,8 +19,8 @@ describe('PointLight', function () {
 
 	describe('copy', function () {
 		it('can copy everything from another point light', function () {
-			var original = new PointLight(new Vector3(11, 22, 33));
-			var copy = new PointLight(new Vector3(44, 55, 66));
+			var original = new _PointLight.PointLight(new _Vector.Vector3(11, 22, 33));
+			var copy = new _PointLight.PointLight(new _Vector.Vector3(44, 55, 66));
 			copy.copy(original);
 
 			expect(copy).toBeCloned(original);
@@ -27,7 +29,7 @@ describe('PointLight', function () {
 
 	describe('clone', function () {
 		it('can clone a point light', function () {
-			var original = new PointLight(new Vector3(11, 22, 33));
+			var original = new _PointLight.PointLight(new _Vector.Vector3(11, 22, 33));
 			var clone = original.clone();
 
 			expect(clone).toBeCloned(original);

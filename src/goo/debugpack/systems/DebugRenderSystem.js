@@ -1,9 +1,33 @@
-import { System } from "../../entities/systems/System";
-import * as SystemBus from "../../entities/SystemBus";
-import * as DebugDrawHelper from "../../debugpack/DebugDrawHelper";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DebugRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _DebugDrawHelper = require("../../debugpack/DebugDrawHelper");
+
+var DebugDrawHelper = _interopRequireWildcard(_DebugDrawHelper);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_DebugRenderSystem = DebugRenderSystem;
 function DebugRenderSystem() {
-	System.call(this, 'DebugRenderSystem', ['TransformComponent']);
+	_System.System.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
 	this._renderablesTree = {};
 	this.renderList = [];
@@ -17,10 +41,8 @@ function DebugRenderSystem() {
 	};
 	this.inserted();
 
-	this._interestComponents = [
-		'CameraComponent',
-		'LightComponent'
-		//'MeshRendererComponent'
+	this._interestComponents = ['CameraComponent', 'LightComponent'
+	//'MeshRendererComponent'
 	];
 
 	this.camera = null;
@@ -41,7 +63,7 @@ function DebugRenderSystem() {
 	this.oldSelectionActive = false;
 }
 
-DebugRenderSystem.prototype = Object.create(System.prototype);
+DebugRenderSystem.prototype = Object.create(_System.System.prototype);
 DebugRenderSystem.prototype.constructor = DebugRenderSystem;
 
 DebugRenderSystem.prototype.setup = function () {
@@ -49,8 +71,7 @@ DebugRenderSystem.prototype.setup = function () {
 	SystemBus.addListener('goo.setLights', this.lightsListener);
 };
 
-DebugRenderSystem.prototype.inserted = function (/*entity*/) {
-};
+DebugRenderSystem.prototype.inserted = function () /*entity*/{};
 
 DebugRenderSystem.prototype.deleted = function (entity) {
 	delete this._renderablesTree[entity.id];
@@ -74,7 +95,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 				var options = { full: this.doRender[componentName] || component.debugLevel === 'full' };
 				var tree = this._renderablesTree[entity.id] = this._renderablesTree[entity.id] || {};
 
-				if (tree[componentName] && ((tree[componentName].length === 2 && options.full) || (tree[componentName].length === 1 && !options.full))) {
+				if (tree[componentName] && (tree[componentName].length === 2 && options.full || tree[componentName].length === 1 && !options.full)) {
 					renderables = tree[componentName];
 				} else {
 					renderables = DebugDrawHelper.getRenderablesFor(component, options);
@@ -178,4 +199,4 @@ DebugRenderSystem.prototype.cleanup = function () {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { exported_DebugRenderSystem as DebugRenderSystem };
+exports.DebugRenderSystem = exported_DebugRenderSystem;

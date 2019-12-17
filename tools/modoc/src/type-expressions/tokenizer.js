@@ -1,31 +1,42 @@
 // jshint node:true
 'use strict';
 
-var makeToken = function (type, data) {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var makeToken = function makeToken(type, data) {
 	var token = { type: type };
-	if (data) { token.data = data; }
+	if (data) {
+		token.data = data;
+	}
 	return token;
 };
 
-let exported_makeToken = makeToken;
+var exported_makeToken = makeToken;
 
-var isIdentifier = function (char) {
-	return /[_?\w\.]/.test(char);
+var isIdentifier = function isIdentifier(char) {
+	return (/[_?\w\.]/.test(char)
+	);
 };
 
-var isSymbol = function (char) {
-	return /[*:,|(){}<>\[\]]/.test(char);
+var isSymbol = function isSymbol(char) {
+	return (/[*:,|(){}<>\[\]]/.test(char)
+	);
 };
 
-var chopIdentifier = function (string, offset) {
+var chopIdentifier = function chopIdentifier(string, offset) {
 	var result = /^((?:\?|\.{3})?)([_A-Za-z][.\w]*[\w]?)(=?)/.exec(string.substr(offset));
 
 	var token = makeToken('identifier', result[2]);
 
 	// nullable/optional notations should be handled by the parser, not the lexer
 	// but this a tad simpler
-	if (result[1]) { token.nullable = true; }
-	if (result[3]) { token.optional = true; }
+	if (result[1]) {
+		token.nullable = true;
+	}
+	if (result[3]) {
+		token.optional = true;
+	}
 
 	return {
 		token: token,
@@ -33,19 +44,16 @@ var chopIdentifier = function (string, offset) {
 	};
 };
 
-var chopSymbol = function (string, offset) {
+var chopSymbol = function chopSymbol(string, offset) {
 	return {
 		token: makeToken('symbol', string[offset]),
 		pointer: offset + 1
 	};
 };
 
-var choppers = [
-	{ test: isIdentifier, chop: chopIdentifier },
-	{ test: isSymbol, chop: chopSymbol }
-];
+var choppers = [{ test: isIdentifier, chop: chopIdentifier }, { test: isSymbol, chop: chopSymbol }];
 
-var tokenize = function (string) {
+var tokenize = function tokenize(string) {
 	var tokens = [];
 	var pointer = 0;
 
@@ -71,6 +79,6 @@ var tokenize = function (string) {
 	return tokens;
 };
 
-let exported_tokenize = tokenize;
-export { exported_makeToken as makeToken };
-export { exported_tokenize as tokenize };
+var exported_tokenize = tokenize;
+exports.makeToken = exported_makeToken;
+exports.tokenize = exported_tokenize;

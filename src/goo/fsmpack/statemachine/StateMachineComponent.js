@@ -1,9 +1,33 @@
-import { Component } from "../../entities/components/Component";
-import * as ArrayUtils from "../../util/ArrayUtils";
-import * as SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StateMachineComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_StateMachineComponent = StateMachineComponent;
 function StateMachineComponent() {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -18,7 +42,7 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component.prototype);
+StateMachineComponent.prototype = Object.create(_Component.Component.prototype);
 
 StateMachineComponent.vars = {};
 
@@ -160,4 +184,4 @@ StateMachineComponent.prototype.play = function () {
  * StateMachineComponent
  * @private
  */
-export { exported_StateMachineComponent as StateMachineComponent };
+exports.StateMachineComponent = exported_StateMachineComponent;

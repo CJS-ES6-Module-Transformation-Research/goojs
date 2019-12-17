@@ -1,7 +1,13 @@
-import { System } from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.P2System = undefined;
+
+var _System = require('../../entities/systems/System');
+
 var exported_P2System = P2System;
 function P2System(settings) {
-	System.call(this, 'P2System', ['P2Component', 'TransformComponent']);
+	_System.System.call(this, 'P2System', ['P2Component', 'TransformComponent']);
 
 	settings = settings || {};
 
@@ -12,12 +18,12 @@ function P2System(settings) {
 	this.stepFrequency = settings.stepFrequency || 60;
 }
 
-P2System.prototype = Object.create(System.prototype);
+P2System.prototype = Object.create(_System.System.prototype);
 P2System.prototype.constructor = P2System;
 
 function updateTransform(transformComponent, p2Component) {
 	var position = p2Component.body.position,
-		scale = p2Component.scale;
+	    scale = p2Component.scale;
 
 	transformComponent.transform.translation.setDirect(position[0] * scale, position[1] * scale, 0);
 	transformComponent.transform.rotation.fromAngles(p2Component.offsetAngleX, p2Component.offsetAngleY, p2Component.offsetAngleZ + p2Component.body.angle);
@@ -43,7 +49,7 @@ P2System.prototype.inserted = function (entity) {
 
 	for (var i = 0; i < p2Component.shapes.length; i++) {
 		var shape = p2Component.shapes[i],
-			p2shape;
+		    p2shape;
 		switch (shape.type) {
 			case 'box':
 				p2shape = new p2.Rectangle(shape.width, shape.height);
@@ -105,4 +111,4 @@ P2System.prototype.process = function (entities /*, tpf */) {
  * });
  * goo.world.setSystem(p2System);
  */
-export { exported_P2System as P2System };
+exports.P2System = exported_P2System;

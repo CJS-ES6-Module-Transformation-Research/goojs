@@ -1,17 +1,46 @@
-import { System } from "../../entities/systems/System";
-import * as SystemBus from "../../entities/SystemBus";
-import { SimplePartitioner } from "../../renderer/SimplePartitioner";
-import { Material } from "../../renderer/Material";
-import * as ShaderLib from "../../renderer/shaders/ShaderLib";
-import * as ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _SimplePartitioner = require("../../renderer/SimplePartitioner");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_RenderSystem = RenderSystem;
 function RenderSystem() {
-	System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
+	_System.System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
 	this.entities = [];
 	this.renderList = [];
 	this.postRenderables = [];
-	this.partitioner = new SimplePartitioner();
+	this.partitioner = new _SimplePartitioner.SimplePartitioner();
 	this.preRenderers = [];
 	this.composers = [];
 	this._composersActive = true;
@@ -38,14 +67,14 @@ function RenderSystem() {
 		x: 0,
 		y: 0,
 		pickingStore: {},
-		pickingCallback: function (id, depth) {
+		pickingCallback: function pickingCallback(id, depth) {
 			console.log(id, depth);
 		},
 		skipUpdateBuffer: false
 	};
 }
 
-RenderSystem.prototype = Object.create(System.prototype);
+RenderSystem.prototype = Object.create(_System.System.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 
 RenderSystem.prototype.pick = function (x, y, callback, skipUpdateBuffer) {
@@ -139,7 +168,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 	var shaderDef = ObjectUtils.deepClone(ShaderLib.uber);
 	shaderDef.fshader = fshader;
 	if (key !== 'flat') {
-		this._debugMaterials[key] = new Material(shaderDef, key);
+		this._debugMaterials[key] = new _Material.Material(shaderDef, key);
 		if (key === 'wireframe') {
 			this._debugMaterials[key].wireframe = true;
 		}
@@ -155,7 +184,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 			};
 		}
 	} else {
-		this._debugMaterials[key] = Material.createEmptyMaterial(null, key);
+		this._debugMaterials[key] = _Material.Material.createEmptyMaterial(null, key);
 		this._debugMaterials[key].flat = true;
 	}
 };
@@ -205,4 +234,4 @@ RenderSystem.prototype.invalidateHandles = function (renderer) {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { exported_RenderSystem as RenderSystem };
+exports.RenderSystem = exported_RenderSystem;

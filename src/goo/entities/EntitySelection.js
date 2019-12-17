@@ -1,10 +1,16 @@
-import { Selection } from "./Selection";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EntitySelection = undefined;
+
+var _Selection = require("./Selection");
+
 var exported_EntitySelection = EntitySelection;
 function EntitySelection() {
-	Selection.apply(this, arguments);
+	_Selection.Selection.apply(this, arguments);
 }
 
-EntitySelection.prototype = Object.create(Selection.prototype);
+EntitySelection.prototype = Object.create(_Selection.Selection.prototype);
 EntitySelection.prototype.constructor = EntitySelection;
 
 /**
@@ -14,7 +20,9 @@ EntitySelection.prototype.constructor = EntitySelection;
  * @example-link http://code.gooengine.com/latest/examples/goo/entities/EntitySelection/EntitySelection-setOps-example.html Working example
  */
 EntitySelection.prototype.and = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var union;
 
@@ -59,7 +67,9 @@ EntitySelection.prototype.and = function () {
  * @example-link http://code.gooengine.com/latest/examples/goo/entities/EntitySelection/EntitySelection-setOps-example.html Working example
  */
 EntitySelection.prototype.intersects = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var intersection;
 
@@ -103,7 +113,9 @@ EntitySelection.prototype.intersects = function () {
  * @example-link http://code.gooengine.com/latest/examples/goo/entities/EntitySelection/EntitySelection-setOps-example.html Working example
  */
 EntitySelection.prototype.without = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var difference;
 
@@ -133,9 +145,13 @@ EntitySelection.prototype.without = function () {
  * @returns {EntitySelection} Returns self to allow chaining
  */
 EntitySelection.prototype.andSelf = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
-	if (this.stack.length <= 1) { return this; }
+	if (this.stack.length <= 1) {
+		return this;
+	}
 
 	var prev = this.stack[this.stack.length - 2];
 
@@ -149,7 +165,9 @@ EntitySelection.prototype.andSelf = function () {
  * @example-link http://code.gooengine.com/latest/examples/goo/entities/EntitySelection/EntitySelection-parent-example.html Working example
  */
 EntitySelection.prototype.parent = function () {
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var hashTable = [];
 
@@ -178,14 +196,18 @@ EntitySelection.prototype.parent = function () {
  */
 EntitySelection.prototype.children = function () {
 	// could use flatMap
-	if (this.top === null) { return this; }
+	if (this.top === null) {
+		return this;
+	}
 
 	var children = this.top.map(function (entity) {
 		return entity.transformComponent.children.map(function (childTransform) {
 			return childTransform.entity;
 		});
 	});
-	var flatChildren = children.reduce(function (prev, cur) { return prev.concat(cur); }, []);
+	var flatChildren = children.reduce(function (prev, cur) {
+		return prev.concat(cur);
+	}, []);
 	this.stack.push(flatChildren);
 	this.top = flatChildren;
 
@@ -201,7 +223,9 @@ EntitySelection.prototype.children = function () {
  */
 EntitySelection.installMethod = function (method, name, dependentComponent) {
 	EntitySelection.prototype[name] = function () {
-		if (this.top === null) { return this; }
+		if (this.top === null) {
+			return this;
+		}
 
 		for (var i = 0; i < this.top.length; i++) {
 			var entity = this.top[i];
@@ -246,4 +270,4 @@ function toArray() {
  * A specialised selection object for entities
  * @extends Selection
  */
-export { exported_EntitySelection as EntitySelection };
+exports.EntitySelection = exported_EntitySelection;

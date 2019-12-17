@@ -1,16 +1,21 @@
-import { DynamicLoader } from "../../../../../src/goo/loaders/DynamicLoader";
-import { Vector3 } from "../../../../../src/goo/math/Vector3";
-import { World } from "../../../../../src/goo/entities/World";
-import { RigidBodyComponent } from "../../../../../src/goo/addons/physicspack/components/RigidBodyComponent";
-import "../../../../../src/goo/addons/physicspack/handlers/RigidBodyComponentHandler";
+var _DynamicLoader = require("../../../../../src/goo/loaders/DynamicLoader");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _RigidBodyComponent = require("../../../../../src/goo/addons/physicspack/components/RigidBodyComponent");
+
+require("../../../../../src/goo/addons/physicspack/handlers/RigidBodyComponentHandler");
+
 var Configs = require('../../../../../test/unit/loaders/Configs');
 
 describe('RigidBodyComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -26,15 +31,15 @@ describe('RigidBodyComponentHandler', function () {
 
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.rigidBodyComponent).toEqual(jasmine.any(RigidBodyComponent));
+			expect(entity.rigidBodyComponent).toEqual(jasmine.any(_RigidBodyComponent.RigidBodyComponent));
 
-			var velocity = new Vector3();
+			var velocity = new _Vector.Vector3();
 			entity.rigidBodyComponent.getVelocity(velocity);
-			expect(velocity).toEqual(new Vector3(1, 2, 3));
+			expect(velocity).toEqual(new _Vector.Vector3(1, 2, 3));
 
-			var angularVelocity = new Vector3();
+			var angularVelocity = new _Vector.Vector3();
 			entity.rigidBodyComponent.getAngularVelocity(angularVelocity);
-			expect(angularVelocity).toEqual(new Vector3(4, 5, 6));
+			expect(angularVelocity).toEqual(new _Vector.Vector3(4, 5, 6));
 
 			expect(entity.rigidBodyComponent.mass).toBe(3);
 

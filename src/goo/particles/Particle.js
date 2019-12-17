@@ -1,29 +1,52 @@
-import * as ParticleUtils from "../particles/ParticleUtils";
-import { Vector3 } from "../math/Vector3";
-import { Vector4 } from "../math/Vector4";
-import { MeshData } from "../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Particle = undefined;
+
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var ParticleUtils = _interopRequireWildcard(_ParticleUtils);
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = require("../math/Vector4");
+
+var _MeshData = require("../renderer/MeshData");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Particle = Particle;
 
-var calcVec = new Vector3();
+var calcVec = new _Vector.Vector3();
 
 function Particle(particleComponent, index) {
 	this.alive = false;
-	this.position = new Vector3();
-	this.velocity = new Vector3();
+	this.position = new _Vector.Vector3();
+	this.velocity = new _Vector.Vector3();
 	this.lifeSpan = 0;
 	this.parent = particleComponent;
 	this.age = 0;
 	this.index = index;
-	this.color = new Vector4(1, 0, 0, 1);
+	this.color = new _Vector2.Vector4(1, 0, 0, 1);
 	this.size = 0.0;
 	this.spin = 0.0;
 	this.mass = 1.0;
 	this.emitter = null;
 	this.uvIndex = 0;
 	this.lastUVIndex = -1;
-	this.bbX = new Vector3();
-	this.bbY = new Vector3();
-	this.lastColor = new Vector4();
+	this.bbX = new _Vector.Vector3();
+	this.bbY = new _Vector.Vector3();
+	this.lastColor = new _Vector2.Vector4();
 }
 
 /**
@@ -65,7 +88,7 @@ Particle.prototype.update = function (tpf, particleEntity) {
 
 	// apply current color to mesh
 	if (!this.lastColor.equals(this.color)) {
-		var colorBuffer = this.parent.meshData.getAttributeBuffer(MeshData.COLOR);
+		var colorBuffer = this.parent.meshData.getAttributeBuffer(_MeshData.MeshData.COLOR);
 
 		var offset = this.index * 16;
 
@@ -102,14 +125,16 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	} else {
 		var cA = Math.cos(this.spin) * this.size;
 		var sA = Math.sin(this.spin) * this.size;
-		var upX = this.bbY.x, upY = this.bbY.y, upZ = this.bbY.z;
+		var upX = this.bbY.x,
+		    upY = this.bbY.y,
+		    upZ = this.bbY.z;
 		this.bbY.set(this.bbX);
 		this.bbX.scale(cA).addDirect(upX * sA, upY * sA, upZ * sA);
 		this.bbY.scale(-sA).addDirect(upX * cA, upY * cA, upZ * cA);
 	}
 
 	// apply billboard vectors to mesh verts
-	var vertexBuffer = this.parent.meshData.getAttributeBuffer(MeshData.POSITION);
+	var vertexBuffer = this.parent.meshData.getAttributeBuffer(_MeshData.MeshData.POSITION);
 
 	var offset = this.index * 12;
 
@@ -138,9 +163,9 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	vertexBuffer[offset + 9 + 2] = calcVec.z;
 
 	if (this.lastUVIndex !== this.uvIndex) {
-		var uvBuffer = this.parent.meshData.getAttributeBuffer(MeshData.TEXCOORD0);
-		var uIndex = (this.uvIndex % this.parent.uRange) / this.parent.uRange;
-		var vIndex = 1.0 - (Math.floor(this.uvIndex / this.parent.vRange) / this.parent.vRange);
+		var uvBuffer = this.parent.meshData.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
+		var uIndex = this.uvIndex % this.parent.uRange / this.parent.uRange;
+		var vIndex = 1.0 - Math.floor(this.uvIndex / this.parent.vRange) / this.parent.vRange;
 		var uDelta = 1.0 / this.parent.uRange;
 		var vDelta = 1.0 / this.parent.vRange;
 
@@ -172,7 +197,7 @@ Particle.prototype.update = function (tpf, particleEntity) {
 Particle.prototype.kill = function () {
 	this.alive = false;
 	// collapse particle to a single point, effectively hiding it from view.
-	var vertexBuffer = this.parent.meshData.getAttributeBuffer(MeshData.POSITION);
+	var vertexBuffer = this.parent.meshData.getAttributeBuffer(_MeshData.MeshData.POSITION);
 	var pointA = vertexBuffer.subarray(this.index * 12, this.index * 12 + 3);
 	vertexBuffer.set(pointA, this.index * 12 + 3);
 	vertexBuffer.set(pointA, this.index * 12 + 6);
@@ -182,4 +207,4 @@ Particle.prototype.kill = function () {
 /**
  * Data object tracking a single particle in a particle component
  */
-export { exported_Particle as Particle };
+exports.Particle = exported_Particle;

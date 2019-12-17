@@ -1,9 +1,30 @@
-import { Vector2 } from "../../math/Vector2";
-import * as MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GamepadData = undefined;
+
+var _Vector = require("../../math/Vector2");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_GamepadData = GamepadData;
 function GamepadData() {
-	this.leftStickDirection = new Vector2();
-	this.rightStickDirection = new Vector2();
+	this.leftStickDirection = new _Vector.Vector2();
+	this.rightStickDirection = new _Vector.Vector2();
 
 	// TODO: Redo buttondata when Gamepad API is done. probably will be true for other things as well.
 	this.buttonData = {};
@@ -86,4 +107,4 @@ GamepadData.prototype.calculateStickAmount = function (x, y) {
 /**
  * Used for storing derived data from gamepads
  */
-export { exported_GamepadData as GamepadData };
+exports.GamepadData = exported_GamepadData;

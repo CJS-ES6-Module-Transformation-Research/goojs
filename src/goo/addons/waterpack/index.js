@@ -1,12 +1,15 @@
-import { FlatWaterRenderer } from "./FlatWaterRenderer";
-import { ProjectedGrid } from "./ProjectedGrid";
-import { ProjectedGridWaterRenderer } from "./ProjectedGridWaterRenderer";
+var _FlatWaterRenderer = require("./FlatWaterRenderer");
+
+var _ProjectedGrid = require("./ProjectedGrid");
+
+var _ProjectedGridWaterRenderer = require("./ProjectedGridWaterRenderer");
+
 module.exports = {
-	FlatWaterRenderer: FlatWaterRenderer,
-	ProjectedGrid: ProjectedGrid,
-	ProjectedGridWaterRenderer: ProjectedGridWaterRenderer
+	FlatWaterRenderer: _FlatWaterRenderer.FlatWaterRenderer,
+	ProjectedGrid: _ProjectedGrid.ProjectedGrid,
+	ProjectedGridWaterRenderer: _ProjectedGridWaterRenderer.ProjectedGridWaterRenderer
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

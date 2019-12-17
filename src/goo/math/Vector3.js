@@ -1,7 +1,40 @@
-import * as ObjectUtils from "../util/ObjectUtils";
-import * as MathUtils from "./MathUtils";
-import { Vector } from "./Vector";
-import { Vector4 } from "./Vector4";
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Vector3 = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _MathUtils = require("./MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _Vector = require("./Vector");
+
+var _Vector2 = require("./Vector4");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Vector3 = Vector3;
 function Vector3(x, y, z) {
 	// @ifdef DEBUG
@@ -15,7 +48,7 @@ function Vector3(x, y, z) {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
-	} else if (arguments.length === 1 && typeof arguments[0] === 'object') {
+	} else if (arguments.length === 1 && _typeof(arguments[0]) === 'object') {
 		if (arguments[0] instanceof Vector3) {
 			// Vector3
 			this.copy(arguments[0]);
@@ -37,15 +70,15 @@ function Vector3(x, y, z) {
 	// @endif
 }
 
-Vector3.prototype = Object.create(Vector.prototype);
+Vector3.prototype = Object.create(_Vector.Vector.prototype);
 Vector3.prototype.constructor = Vector3;
 
 // @ifdef DEBUG
-Vector.setupAliases(Vector3.prototype, [['x'], ['y'], ['z']]);
-Vector.setupIndices(Vector3.prototype, 3);
+_Vector.Vector.setupAliases(Vector3.prototype, [['x'], ['y'], ['z']]);
+_Vector.Vector.setupIndices(Vector3.prototype, 3);
 // @endif
 
-Vector.setupAliases(Vector3.prototype, [['u', 'r'], ['v', 'g'], ['w', 'b']]);
+_Vector.Vector.setupAliases(Vector3.prototype, [['u', 'r'], ['v', 'g'], ['w', 'b']]);
 
 /**
  * Zero-vector (0, 0, 0)
@@ -85,9 +118,12 @@ Vector3.UNIT_Z = new Vector3(0, 0, 1);
  */
 Vector3.prototype.getComponent = function (index) {
 	switch (index) {
-		case 0: return this.x;
-		case 1: return this.y;
-		case 2: return this.z;
+		case 0:
+			return this.x;
+		case 1:
+			return this.y;
+		case 2:
+			return this.z;
 	}
 };
 
@@ -100,9 +136,12 @@ Vector3.prototype.getComponent = function (index) {
  */
 Vector3.prototype.setComponent = function (index, value) {
 	switch (index) {
-		case 0: this.x = value; break;
-		case 1: this.y = value; break;
-		case 2: this.z = value; break;
+		case 0:
+			this.x = value;break;
+		case 1:
+			this.y = value;break;
+		case 2:
+			this.z = value;break;
 	}
 	return this;
 };
@@ -121,17 +160,17 @@ Vector3.prototype.add = function (rhs) {
 		this.x += rhs.x;
 		this.y += rhs.y;
 		this.z += rhs.z;
-	} else if (rhs instanceof Vector4) {
+	} else if (rhs instanceof _Vector2.Vector4) {
 		console.warn('Passing a Vector4 argument to Vector3.prototype.add is deprecated. Consider using .addDirect instead.');
 		this.x += rhs.x;
 		this.y += rhs.y;
 		this.z += rhs.z;
-	} else if (typeof (rhs) === 'object' && typeof (rhs.length) === 'number') {
+	} else if ((typeof rhs === "undefined" ? "undefined" : _typeof(rhs)) === 'object' && typeof rhs.length === 'number') {
 		console.warn('Passing arrays to Vector3.prototype.add is deprecated - use Vector3.prototype.addDirect instead.');
 		this.x += rhs[0];
 		this.y += rhs[1];
 		this.z += rhs[2];
-	} else if (typeof (rhs) === 'number') {
+	} else if (typeof rhs === 'number') {
 		console.warn('Passing numbers to Vector3.prototype.add is deprecated - use Vector3.prototype.addDirect instead.');
 		this.x += rhs;
 		this.y += rhs;
@@ -218,7 +257,7 @@ Vector3.prototype.negate = function () {
  * a.mul(b); // a == (4, 10, 18)
  */
 Vector3.prototype.mul = function (rhs) {
-	if (typeof (rhs) === 'number') {
+	if (typeof rhs === 'number') {
 		console.warn('Vector3.prototype.mul only accepts vector arguments now. Please use Vector3.prototype.scale instead.');
 		this.x *= rhs;
 		this.y *= rhs;
@@ -275,7 +314,7 @@ Vector3.prototype.scale = function (factor) {
  * v.div(1, 2, 3); // v == (2, 2, 2)
  */
 Vector3.prototype.div = function (rhs) {
-	if (typeof (rhs) === 'number') {
+	if (typeof rhs === 'number') {
 		console.warn('Passing a number argument to Vector3.prototype.div is deprecated. Use Vector3.prototype.divDirect instead.');
 		this.x /= rhs;
 		this.y /= rhs;
@@ -317,9 +356,7 @@ Vector3.prototype.divDirect = function (x, y, z) {
  * a.dot(b) === 0; // true
  */
 Vector3.prototype.dot = function (rhs) {
-	return this.x * rhs.x +
-		this.y * rhs.y +
-		this.z * rhs.z;
+	return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z;
 };
 
 /**
@@ -330,9 +367,7 @@ Vector3.prototype.dot = function (rhs) {
  * @returns {number}
  */
 Vector3.prototype.dotDirect = function (x, y, z) {
-	return this.x * x +
-		this.y * y +
-		this.z * z;
+	return this.x * x + this.y * y + this.z * z;
 };
 
 /**
@@ -342,9 +377,7 @@ Vector3.prototype.dotDirect = function (x, y, z) {
  */
 Vector3.prototype.equals = function (rhs) {
 	var eps = MathUtils.EPSILON;
-	return (Math.abs(this.x - rhs.x) <= eps) &&
-		(Math.abs(this.y - rhs.y) <= eps) &&
-		(Math.abs(this.z - rhs.z) <= eps);
+	return Math.abs(this.x - rhs.x) <= eps && Math.abs(this.y - rhs.y) <= eps && Math.abs(this.z - rhs.z) <= eps;
 };
 
 /**
@@ -356,9 +389,7 @@ Vector3.prototype.equals = function (rhs) {
  */
 Vector3.prototype.equalsDirect = function (x, y, z) {
 	var eps = MathUtils.EPSILON;
-	return (Math.abs(this.x - x) <= eps) &&
-		(Math.abs(this.y - y) <= eps) &&
-		(Math.abs(this.z - z) <= eps);
+	return Math.abs(this.x - x) <= eps && Math.abs(this.y - y) <= eps && Math.abs(this.z - z) <= eps;
 };
 
 /**
@@ -427,10 +458,10 @@ Vector3.prototype.lerp = function (end, factor) {
 	var tmpVec = new Vector3();
 
 	/**
-	 * Reflects a vector relative to the plane obtained from the normal parameter.
-	 * @param {Vector3} normal Defines the plane that reflects the vector. Assumed to be of unit length.
-	 * @returns {Vector3} Self to allow chaining
-	 */
+  * Reflects a vector relative to the plane obtained from the normal parameter.
+  * @param {Vector3} normal Defines the plane that reflects the vector. Assumed to be of unit length.
+  * @returns {Vector3} Self to allow chaining
+  */
 	Vector3.prototype.reflect = function (normal) {
 		tmpVec.copy(normal);
 		tmpVec.scale(2 * this.dot(normal));
@@ -448,7 +479,7 @@ Vector3.prototype.lerp = function (end, factor) {
  * v.set(new Vector3(2, 4, 6)); // v == (2, 4, 6)
  */
 Vector3.prototype.set = function (rhs) {
-	if (rhs instanceof Vector3 || rhs instanceof Vector4) {
+	if (rhs instanceof Vector3 || rhs instanceof _Vector2.Vector4) {
 		this.x = rhs.x;
 		this.y = rhs.y;
 		this.z = rhs.z;
@@ -618,8 +649,8 @@ Vector3.prototype.applyPostPoint = function (matrix) {
 	var y = this.y;
 	var z = this.z;
 
-	this.x = source[0] * x + source[4] * y + source[ 8] * z + source[12];
-	this.y = source[1] * x + source[5] * y + source[ 9] * z + source[13];
+	this.x = source[0] * x + source[4] * y + source[8] * z + source[12];
+	this.y = source[1] * x + source[5] * y + source[9] * z + source[13];
 	this.z = source[2] * x + source[6] * y + source[10] * z + source[14];
 
 	return this;
@@ -724,26 +755,26 @@ Object.defineProperty(Vector3.prototype, 'data', {
 		var that = this;
 		Object.defineProperties(data, {
 			'0': {
-				get: function () {
+				get: function get() {
 					return that.x;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.x = value;
 				}
 			},
 			'1': {
-				get: function () {
+				get: function get() {
 					return that.y;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.y = value;
 				}
 			},
 			'2': {
-				get: function () {
+				get: function get() {
 					return that.z;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.z = value;
 				}
 			}
@@ -824,8 +855,8 @@ Vector3.distance = ObjectUtils.warnOnce('Vector3.distance is deprecated. Use Vec
  */
 Vector3.distanceSquared = ObjectUtils.warnOnce('Vector3.distanceSquared is deprecated. Use Vector3.prototype.distanceSquared instead.', function (lhs, rhs) {
 	var x = lhs.x - rhs.x,
-		y = lhs.y - rhs.y,
-		z = lhs.z - rhs.z;
+	    y = lhs.y - rhs.y,
+	    z = lhs.z - rhs.z;
 	return x * x + y * y + z * z;
 });
 
@@ -879,9 +910,7 @@ Vector3.dot = ObjectUtils.warnOnce('Vector3.dot is deprecated. Use Vector3.proto
 	var ldata = lhs.data || lhs;
 	var rdata = rhs.data || rhs;
 
-	return ldata[0] * rdata[0] +
-		ldata[1] * rdata[1] +
-		ldata[2] * rdata[2];
+	return ldata[0] * rdata[0] + ldata[1] * rdata[1] + ldata[2] * rdata[2];
 });
 
 /**
@@ -949,9 +978,7 @@ Vector3.prototype.dotVector = ObjectUtils.warnOnce('Vector3.prototype.dotVector 
 	var ldata = this.data;
 	var rdata = rhs.data;
 
-	return ldata[0] * rdata[0] +
-		ldata[1] * rdata[1] +
-		ldata[2] * rdata[2];
+	return ldata[0] * rdata[0] + ldata[1] * rdata[1] + ldata[2] * rdata[2];
 });
 
 /**
@@ -1007,11 +1034,7 @@ Vector3.sub = ObjectUtils.warnOnce('Vector3.sub is deprecated. Use Vector3.proto
 // SHIM END
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Vector3.prototype, [
-	'dot', 'dotDirect',
-	'length', 'lengthSquared',
-	'distance', 'distanceSquared'
-]);
+_Vector.Vector.addReturnChecks(Vector3.prototype, ['dot', 'dotDirect', 'length', 'lengthSquared', 'distance', 'distanceSquared']);
 
 /**
  * Vector with 3 components.
@@ -1028,4 +1051,4 @@ Vector.addReturnChecks(Vector3.prototype, [
  * // Methods return the self object and allows for chaining:
  * a.add(b).sub(c); // a = a + b - c
  */
-export { exported_Vector3 as Vector3 };
+exports.Vector3 = exported_Vector3;

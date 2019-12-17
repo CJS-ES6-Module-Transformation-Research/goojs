@@ -1,12 +1,15 @@
-import { AmmoComponent } from "./AmmoComponent";
-import { AmmoSystem } from "./AmmoSystem";
-import { calculateTriangleMeshShapejs as calculateTriangleMeshShape } from "./calculateTriangleMeshShape";
+var _AmmoComponent = require("./AmmoComponent");
+
+var _AmmoSystem = require("./AmmoSystem");
+
+var _calculateTriangleMeshShape = require("./calculateTriangleMeshShape");
+
 module.exports = {
-	AmmoComponent: AmmoComponent,
-	AmmoSystem: AmmoSystem,
-	calculateTriangleMeshShape: calculateTriangleMeshShape
+	AmmoComponent: _AmmoComponent.AmmoComponent,
+	AmmoSystem: _AmmoSystem.AmmoSystem,
+	calculateTriangleMeshShape: _calculateTriangleMeshShape.calculateTriangleMeshShapejs
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

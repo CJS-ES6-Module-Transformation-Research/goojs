@@ -1,19 +1,40 @@
-import { AbstractAnimationChannel } from "../../animationpack/clip/AbstractAnimationChannel";
-import * as MathUtils from "../../math/MathUtils";
-var exported_InterpolatedFloatChannel = InterpolatedFloatChannel;
-function InterpolatedFloatChannel(channelName, times, values, blendType) {
-	AbstractAnimationChannel.call(this, channelName, times, blendType);
-	this._values = values ? values.slice(0) : null;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.InterpolatedFloatChannel = undefined;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  } else {
+    var newObj = {};if (obj != null) {
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+      }
+    }newObj.default = obj;return newObj;
+  }
 }
 
-InterpolatedFloatChannel.prototype = Object.create(AbstractAnimationChannel.prototype);
+var exported_InterpolatedFloatChannel = InterpolatedFloatChannel;
+function InterpolatedFloatChannel(channelName, times, values, blendType) {
+  _AbstractAnimationChannel.AbstractAnimationChannel.call(this, channelName, times, blendType);
+  this._values = values ? values.slice(0) : null;
+}
+
+InterpolatedFloatChannel.prototype = Object.create(_AbstractAnimationChannel.AbstractAnimationChannel.prototype);
 
 /*
  * Creates a data item for this type of channel
  * @returns {Array<number>}
  */
 InterpolatedFloatChannel.prototype.createStateDataObject = function () {
-	return [0.0];
+  return [0.0];
 };
 
 /*
@@ -23,7 +44,7 @@ InterpolatedFloatChannel.prototype.createStateDataObject = function () {
  * @param {Array<number>} value The data item to apply animation to
  */
 InterpolatedFloatChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent, value) {
-	value[0] = MathUtils.lerp(progressPercent, this._values[sampleIndex], this._values[sampleIndex + 1]);
+  value[0] = MathUtils.lerp(progressPercent, this._values[sampleIndex], this._values[sampleIndex + 1]);
 };
 
 /**
@@ -33,9 +54,9 @@ InterpolatedFloatChannel.prototype.setCurrentSample = function (sampleIndex, pro
  * @returns {Array<number>} our resulting TransformData.
  */
 InterpolatedFloatChannel.prototype.getData = function (index, store) {
-	var rVal = store || [];
-	rVal[0] = this._values[index];
-	return rVal;
+  var rVal = store || [];
+  rVal[0] = this._values[index];
+  return rVal;
 };
 
 /**
@@ -46,4 +67,4 @@ InterpolatedFloatChannel.prototype.getData = function (index, store) {
  * @param {Array<number>} values our value samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export { exported_InterpolatedFloatChannel as InterpolatedFloatChannel };
+exports.InterpolatedFloatChannel = exported_InterpolatedFloatChannel;

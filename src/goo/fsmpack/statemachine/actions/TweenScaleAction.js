@@ -1,17 +1,39 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 } from "../../../math/Vector3";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenScaleAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_TweenScaleAction = TweenScaleAction;
 
-function TweenScaleAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TweenScaleAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.fromScale = new Vector3();
-	this.toScale = new Vector3();
+	this.fromScale = new _Vector.Vector3();
+	this.toScale = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(Action.prototype);
+TweenScaleAction.prototype = Object.create(_Action.Action.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -61,7 +83,7 @@ TweenScaleAction.external = {
 	}]
 };
 
-TweenScaleAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenScaleAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Scale Complete' : undefined;
 };
 
@@ -96,4 +118,4 @@ TweenScaleAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_TweenScaleAction as TweenScaleAction };
+exports.TweenScaleAction = exported_TweenScaleAction;

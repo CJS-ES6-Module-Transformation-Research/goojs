@@ -1,13 +1,19 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EvalAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
 var exported_EvalAction = EvalAction;
 
-function EvalAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function EvalAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
 	this.expressionFunction = null;
 }
 
-EvalAction.prototype = Object.create(Action.prototype);
+EvalAction.prototype = Object.create(_Action.Action.prototype);
 EvalAction.prototype.constructor = EvalAction;
 
 EvalAction.external = {
@@ -38,4 +44,4 @@ EvalAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_EvalAction as EvalAction };
+exports.EvalAction = exported_EvalAction;

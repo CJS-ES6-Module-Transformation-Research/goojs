@@ -1,18 +1,44 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { AnimationClip } from "../../animationpack/clip/AnimationClip";
-import { JointChannel } from "../../animationpack/clip/JointChannel";
-import { TransformChannel } from "../../animationpack/clip/TransformChannel";
-import { InterpolatedFloatChannel } from "../../animationpack/clip/InterpolatedFloatChannel";
-import { TriggerChannel } from "../../animationpack/clip/TriggerChannel";
-import * as ArrayUtils from "../../util/ArrayUtils";
-var exported_AnimationClipHandler = AnimationClipHandler;
-function AnimationClipHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationClipHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _AnimationClip = require("../../animationpack/clip/AnimationClip");
+
+var _JointChannel = require("../../animationpack/clip/JointChannel");
+
+var _TransformChannel = require("../../animationpack/clip/TransformChannel");
+
+var _InterpolatedFloatChannel = require("../../animationpack/clip/InterpolatedFloatChannel");
+
+var _TriggerChannel = require("../../animationpack/clip/TriggerChannel");
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-AnimationClipHandler.prototype = Object.create(ConfigHandler.prototype);
+var exported_AnimationClipHandler = AnimationClipHandler;
+function AnimationClipHandler() {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+AnimationClipHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 AnimationClipHandler.prototype.constructor = AnimationClipHandler;
-ConfigHandler._registerClass('clip', AnimationClipHandler);
+_ConfigHandler.ConfigHandler._registerClass('clip', AnimationClipHandler);
 
 /**
  * Creates an empty animation clip
@@ -21,7 +47,7 @@ ConfigHandler._registerClass('clip', AnimationClipHandler);
  * @private
  */
 AnimationClipHandler.prototype._create = function () {
-	return new AnimationClip();
+	return new _AnimationClip.AnimationClip();
 };
 
 /**
@@ -33,8 +59,10 @@ AnimationClipHandler.prototype._create = function () {
  */
 AnimationClipHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (clip) {
-		if (!clip) { return clip; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (clip) {
+		if (!clip) {
+			return clip;
+		}
 		return that.loadObject(config.binaryRef, options).then(function (bindata) {
 			if (!bindata) {
 				throw new Error('Binary clip data was empty');
@@ -76,40 +104,16 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 					scales = ArrayUtils.getTypedArray(bindata, channelConfig.scaleSamples);
 
 					if (type === 'Joint') {
-						channel = new JointChannel(
-							channelConfig.jointIndex,
-							channelConfig.name,
-							times,
-							rots,
-							trans,
-							scales,
-							blendType
-						);
+						channel = new _JointChannel.JointChannel(channelConfig.jointIndex, channelConfig.name, times, rots, trans, scales, blendType);
 					} else {
-						channel = new TransformChannel(
-							channelConfig.name,
-							times,
-							rots,
-							trans,
-							scales,
-							blendType
-						);
+						channel = new _TransformChannel.TransformChannel(channelConfig.name, times, rots, trans, scales, blendType);
 					}
 					break;
 				case 'FloatLERP':
-					channel = new InterpolatedFloatChannel(
-						channelConfig.name,
-						times,
-						channelConfig.values,
-						blendType
-					);
+					channel = new _InterpolatedFloatChannel.InterpolatedFloatChannel(channelConfig.name, times, channelConfig.values, blendType);
 					break;
 				case 'Trigger':
-					channel = new TriggerChannel(
-						channelConfig.name,
-						times,
-						channelConfig.keys
-					);
+					channel = new _TriggerChannel.TriggerChannel(channelConfig.name, times, channelConfig.keys);
 					channel.guarantee = !!channelConfig.guarantee;
 					break;
 				default:
@@ -130,4 +134,4 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
  * @param {Function} updateObject
  * @private
  */
-export { exported_AnimationClipHandler as AnimationClipHandler };
+exports.AnimationClipHandler = exported_AnimationClipHandler;

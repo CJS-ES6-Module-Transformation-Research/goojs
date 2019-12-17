@@ -1,12 +1,33 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
-var exported_SetRotationAction = SetRotationAction;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetRotationAction = undefined;
 
-function SetRotationAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var FsmUtils = _interopRequireWildcard(_FsmUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-SetRotationAction.prototype = Object.create(Action.prototype);
+var exported_SetRotationAction = SetRotationAction;
+
+function SetRotationAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+}
+
+SetRotationAction.prototype = Object.create(_Action.Action.prototype);
 SetRotationAction.prototype.constructor = SetRotationAction;
 
 SetRotationAction.prototype.configure = function (settings) {
@@ -55,11 +76,7 @@ SetRotationAction.external = {
 
 SetRotationAction.prototype.setRotation = function (fsm) {
 	if (this.entity !== null) {
-		this.entity.transformComponent.transform.setRotationXYZ(
-			FsmUtils.getValue(this.amountX, fsm),
-			FsmUtils.getValue(this.amountY, fsm),
-			FsmUtils.getValue(this.amountZ, fsm)
-		);
+		this.entity.transformComponent.transform.setRotationXYZ(FsmUtils.getValue(this.amountX, fsm), FsmUtils.getValue(this.amountY, fsm), FsmUtils.getValue(this.amountZ, fsm));
 		this.entity.transformComponent.setUpdated();
 	}
 };
@@ -76,4 +93,4 @@ SetRotationAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_SetRotationAction as SetRotationAction };
+exports.SetRotationAction = exported_SetRotationAction;
