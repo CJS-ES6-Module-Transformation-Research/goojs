@@ -1,17 +1,55 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { Texture } from "../../renderer/Texture";
-import { DdsLoader } from "../../loaders/dds/DdsLoader";
-import { CrunchLoader } from "../../loaders/crunch/CrunchLoader";
-import { TgaLoader } from "../../loaders/tga/TgaLoader";
-import * as PromiseUtils from "../../util/PromiseUtils";
-import * as ObjectUtils from "../../util/ObjectUtils";
-import * as CanvasUtils from "../../util/CanvasUtils";
-import * as StringUtils from "../../util/StringUtils";
-import { anonymus as SystemBus } from "../../entities/SystemBus";
-import * as MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextureHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _Texture = require("../../renderer/Texture");
+
+var _DdsLoader = require("../../loaders/dds/DdsLoader");
+
+var _CrunchLoader = require("../../loaders/crunch/CrunchLoader");
+
+var _TgaLoader = require("../../loaders/tga/TgaLoader");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _CanvasUtils = require("../../util/CanvasUtils");
+
+var CanvasUtils = _interopRequireWildcard(_CanvasUtils);
+
+var _StringUtils = require("../../util/StringUtils");
+
+var StringUtils = _interopRequireWildcard(_StringUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function TextureHandler() {
-	ConfigHandler.apply(this, arguments);
-	SystemBus.addListener('playStateChanged', function (playState) {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+	_SystemBus.anonymus.addListener('playStateChanged', function (playState) {
 		this._objects.forEach(function (texture) {
 			if (texture.image && texture.image.play && texture.image.pause) {
 				var video = texture.image;
@@ -28,23 +66,13 @@ function TextureHandler() {
 	}.bind(this));
 }
 
-TextureHandler.prototype = Object.create(ConfigHandler.prototype);
+TextureHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 TextureHandler.prototype.constructor = TextureHandler;
-ConfigHandler._registerClass('texture', TextureHandler);
+_ConfigHandler.ConfigHandler._registerClass('texture', TextureHandler);
 
-TextureHandler.minFilters = [
-	'NearestNeighborNoMipMaps',
-	'NearestNeighborNearestMipMap',
-	'NearestNeighborLinearMipMap',
-	'BilinearNoMipMaps',
-	'BilinearNearestMipMap',
-	'Trilinear'
-];
+TextureHandler.minFilters = ['NearestNeighborNoMipMaps', 'NearestNeighborNearestMipMap', 'NearestNeighborLinearMipMap', 'BilinearNoMipMaps', 'BilinearNearestMipMap', 'Trilinear'];
 
-TextureHandler.magFilters = [
-	'NearestNeighbor',
-	'Bilinear'
-];
+TextureHandler.magFilters = ['NearestNeighbor', 'Bilinear'];
 
 TextureHandler.noMipMapAlternatives = {
 	'NearestNeighborNoMipMaps': 'NearestNeighborNoMipMaps',
@@ -56,9 +84,9 @@ TextureHandler.noMipMapAlternatives = {
 };
 
 TextureHandler.loaders = {
-	dds: DdsLoader,
-	crn: CrunchLoader, // TODO: not working atm.
-	tga: TgaLoader
+	dds: _DdsLoader.DdsLoader,
+	crn: _CrunchLoader.CrunchLoader, // TODO: not working atm.
+	tga: _TgaLoader.TgaLoader
 };
 
 // Dummy textures to use while loading image
@@ -104,9 +132,8 @@ TextureHandler.prototype._remove = function (ref) {
  * @private
  */
 TextureHandler.prototype._create = function () {
-	return new Texture();
+	return new _Texture.Texture();
 };
-
 
 TextureHandler.prototype._loadWebSupportedImage = function (texture, config, options) {
 	return this.loadObject(config.imageRef, options).then(function (image) {
@@ -117,12 +144,11 @@ TextureHandler.prototype._loadWebSupportedImage = function (texture, config, opt
 	});
 };
 
-TextureHandler.prototype._loadSpecialImage = function (texture, config, type/*, options*/) {
+TextureHandler.prototype._loadSpecialImage = function (texture, config, type /*, options*/) {
 	// Special (dds, tga, crn)
 	var Loader = TextureHandler.loaders[type];
 	var imageRef = config.imageRef;
-	return this.loadObject(imageRef)
-	.then(function (data) {
+	return this.loadObject(imageRef).then(function (data) {
 		if (data && data.preloaded) {
 			ObjectUtils.extend(texture.image, data.image);
 			texture.format = data.format;
@@ -152,8 +178,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 		};
 		if (config.autoPlay !== false && !options.editMode) {
 			video.play();
-		}
-		else {
+		} else {
 			video.pause();
 			video.currentTime = 0;
 		}
@@ -187,8 +212,10 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
  */
 TextureHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
-		if (!texture) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
+		if (!texture) {
+			return;
+		}
 		var ret;
 
 		// Wrap
@@ -203,9 +230,7 @@ TextureHandler.prototype._update = function (ref, config, options) {
 			texture.magFilter = config.magFilter;
 		}
 		if (TextureHandler.minFilters.indexOf(config.minFilter) !== -1) {
-			texture.minFilter = config.generateMipmaps !== false ?
-				config.minFilter :
-				TextureHandler.noMipMapAlternatives[config.minFilter];
+			texture.minFilter = config.generateMipmaps !== false ? config.minFilter : TextureHandler.noMipMapAlternatives[config.minFilter];
 		}
 
 		texture.anisotropy = Math.max(config.anisotropy, 1);
@@ -271,4 +296,4 @@ var exported_TextureHandler = TextureHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_TextureHandler as TextureHandler };
+exports.TextureHandler = exported_TextureHandler;

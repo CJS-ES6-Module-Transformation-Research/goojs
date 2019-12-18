@@ -1,13 +1,40 @@
-import * as AudioContext from "../sound/AudioContext";
-import * as MathUtils from "../math/MathUtils";
-import { PromiseUtils as PromiseUtil } from "../util/PromiseUtil";
-import * as RSVP from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Sound = undefined;
+
+var _AudioContext = require("../sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _PromiseUtil = require("../util/PromiseUtil");
+
+var _rsvp = require("../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function Sound() {
 	/** @type {string}
-	 */
+  */
 	this.id = null;
 	/** @type {string}
-	 */
+  */
 	this.name = null;
 	this._loop = false;
 	this._rate = 1.0;
@@ -23,7 +50,7 @@ function Sound() {
 	this._outNode = AudioContext.getContext().createGain();
 	this.connectTo();
 
-			// Playback memory
+	// Playback memory
 	this._playStart = 0;
 	this._pausePos = 0;
 	//this._endTimer = null;
@@ -32,16 +59,16 @@ function Sound() {
 	this._paused = false;
 
 	/**
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * @type {boolean}
+  * @readonly
+  */
 	this.spatialize = true;
 
 	/**
-	 * If true, it will start playing when the SoundSystem runs play().
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * If true, it will start playing when the SoundSystem runs play().
+  * @type {boolean}
+  * @readonly
+  */
 	this.autoPlay = false;
 
 	// @ifdef DEBUG
@@ -143,7 +170,7 @@ Sound.prototype.fade = function (volume, time) {
 	this._outNode.gain.cancelScheduledValues(AudioContext.getContext().currentTime);
 	this._outNode.gain.setValueAtTime(this._outNode.gain.value, AudioContext.getContext().currentTime);
 	this._outNode.gain.linearRampToValueAtTime(volume, AudioContext.getContext().currentTime + time);
-	return PromiseUtil.delay(volume, time * 1000);
+	return _PromiseUtil.PromiseUtils.delay(volume, time * 1000);
 };
 
 Sound.prototype.isPlaying = function () {
@@ -293,4 +320,4 @@ var exported_Sound = Sound;
 /**
  * A representation of a sound in the engine
  */
-export { exported_Sound as Sound };
+exports.Sound = exported_Sound;

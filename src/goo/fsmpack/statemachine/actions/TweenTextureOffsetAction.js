@@ -1,16 +1,37 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector2 } from "../../../math/Vector2";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenTextureOffsetAction = undefined;
 
-function TweenTextureOffsetAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromOffset = new Vector2();
-	this.toOffset = new Vector2();
+var _Vector = require("../../../math/Vector2");
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function TweenTextureOffsetAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromOffset = new _Vector.Vector2();
+	this.toOffset = new _Vector.Vector2();
 	this.completed = false;
 }
 
-TweenTextureOffsetAction.prototype = Object.create(Action.prototype);
+TweenTextureOffsetAction.prototype = Object.create(_Action.Action.prototype);
 TweenTextureOffsetAction.prototype.constructor = TweenTextureOffsetAction;
 
 TweenTextureOffsetAction.external = {
@@ -60,7 +81,7 @@ TweenTextureOffsetAction.external = {
 	}]
 };
 
-TweenTextureOffsetAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenTextureOffsetAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On UV Tween Complete' : undefined;
 };
 
@@ -107,4 +128,4 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenTextureOffsetAction = TweenTextureOffsetAction;
-export { exported_TweenTextureOffsetAction as TweenTextureOffsetAction };
+exports.TweenTextureOffsetAction = exported_TweenTextureOffsetAction;

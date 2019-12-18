@@ -1,36 +1,60 @@
-import { LogicLayer } from "./LogicLayer";
-import { LogicNode } from "./LogicNode";
-import * as LogicNodes from "./LogicNodes";
-import { LogicInterface } from "./LogicInterface";
-import { Vector3 } from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeVec3 = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var LogicNodes = _interopRequireWildcard(_LogicNodes);
+
+var _LogicInterface = require("./LogicInterface");
+
+var _Vector = require("../../math/Vector3");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function LogicNodeVec3() {
-	LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeVec3.logicInterface;
 	this.type = 'LogicNodeVec3';
 	this._x = this._y = this._z = 0; // REVIEW: unused?
 }
 
-LogicNodeVec3.prototype = Object.create(LogicNode.prototype);
+LogicNodeVec3.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeVec3.editorName = 'Vec3';
 
 LogicNodeVec3.prototype.onInputChanged = function (instDesc) {
-	var x = LogicLayer.readPort(instDesc, LogicNodeVec3.inportX);
-	var y = LogicLayer.readPort(instDesc, LogicNodeVec3.inportY);
-	var z = LogicLayer.readPort(instDesc, LogicNodeVec3.inportZ);
-	var xyz = LogicLayer.readPort(instDesc, LogicNodeVec3.inportVec3);
+	var x = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeVec3.inportX);
+	var y = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeVec3.inportY);
+	var z = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeVec3.inportZ);
+	var xyz = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeVec3.inportVec3);
 	if (xyz !== null) {
 		x = xyz.x;
 		y = xyz.y;
 		z = xyz.z;
 	}
 
-	LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportVec3, new Vector3(x, y, z));
-	LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportX, x);
-	LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportY, y);
-	LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportZ, z);
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportVec3, new _Vector.Vector3(x, y, z));
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportX, x);
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportY, y);
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeVec3.outportZ, z);
 };
 
-LogicNodeVec3.logicInterface = new LogicInterface();
+LogicNodeVec3.logicInterface = new _LogicInterface.LogicInterface();
 
 LogicNodeVec3.outportVec3 = LogicNodeVec3.logicInterface.addOutputProperty('xyz', 'Vector3');
 LogicNodeVec3.inportVec3 = LogicNodeVec3.logicInterface.addInputProperty('xyz', 'Vector3', null);
@@ -49,4 +73,4 @@ var exported_LogicNodeVec3 = LogicNodeVec3;
  * Logic node that provides a Vec3.
  * @private
  */
-export { exported_LogicNodeVec3 as LogicNodeVec3 };
+exports.LogicNodeVec3 = exported_LogicNodeVec3;

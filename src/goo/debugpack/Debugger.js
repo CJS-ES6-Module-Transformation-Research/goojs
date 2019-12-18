@@ -1,5 +1,20 @@
-import { MarkerComponent } from "./components/MarkerComponent";
-import { MarkerSystem } from "./systems/MarkerSystem";
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Debugger = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+var _MarkerComponent = require("./components/MarkerComponent");
+
+var _MarkerSystem = require("./systems/MarkerSystem");
+
 function Debugger(exportPicked) {
 	this.goo = null;
 	this.exportPicked = exportPicked || false;
@@ -60,9 +75,13 @@ Debugger.prototype._setUpPicking = function () {
 				this.oldPicked = this.picked;
 				this.picked = entity;
 
-				if (this.picked === this.oldPicked) { this.picked = null; }
+				if (this.picked === this.oldPicked) {
+					this.picked = null;
+				}
 
-				if (this.exportPicked) { window.picked = this.picked; }
+				if (this.exportPicked) {
+					window.picked = this.picked;
+				}
 				displayInfo(this.picked);
 				updateMarker(this.picked, this.oldPicked);
 			}
@@ -83,7 +102,7 @@ Debugger.prototype.inject = function (goo) {
 
 	// adding marker system if there is none
 	if (!this.goo.world.getSystem('MarkerSystem')) {
-		this.goo.world.setSystem(new MarkerSystem(this.goo));
+		this.goo.world.setSystem(new _MarkerSystem.MarkerSystem(this.goo));
 	}
 
 	this._setUpPicking();
@@ -108,16 +127,9 @@ function createPanel() {
 	var div = document.createElement('div');
 	div.id = 'debugdiv';
 	// serializer
-	var innerHTML =
-		'<span style="font-size: x-small;font-family: sans-serif">Filter</span><br />' +
-		'<textarea cols="30" id="debugparams">name, Compo, tran, data</textarea><br />' +
-		'<span style="font-size: x-small;font-family: sans-serif">Result</span><br />' +
-		'<textarea readonly rows="10" cols="30" id="debugtex">Click on an entity</textarea><br />';
+	var innerHTML = '<span style="font-size: x-small;font-family: sans-serif">Filter</span><br />' + '<textarea cols="30" id="debugparams">name, Compo, tran, data</textarea><br />' + '<span style="font-size: x-small;font-family: sans-serif">Result</span><br />' + '<textarea readonly rows="10" cols="30" id="debugtex">Click on an entity</textarea><br />';
 	// repl
-	innerHTML += '<hr />' +
-		'<span style="font-size: x-small;font-family: sans-serif">REPL</span><br />' +
-		'<textarea readonly rows="10" cols="30" id="replouttex">...</textarea><br />' +
-		'<textarea cols="30" id="replintex">entity.</textarea>';
+	innerHTML += '<hr />' + '<span style="font-size: x-small;font-family: sans-serif">REPL</span><br />' + '<textarea readonly rows="10" cols="30" id="replouttex">...</textarea><br />' + '<textarea cols="30" id="replintex">entity.</textarea>';
 	div.innerHTML = innerHTML;
 	div.style.position = 'absolute';
 	div.style.zIndex = '2001';
@@ -146,17 +158,19 @@ function createPanel() {
  */
 function getFilterList(str) {
 	return str.split(',').map(function (entry) {
-			return entry.replace(/(^[\s]+|[\s]+$)/g, '');
-		}).filter(function (entry) {
-			return entry.length > 0;
-		}).map(function (entry) {
-			return new RegExp(entry);
-		});
+		return entry.replace(/(^[\s]+|[\s]+$)/g, '');
+	}).filter(function (entry) {
+		return entry.length > 0;
+	}).map(function (entry) {
+		return new RegExp(entry);
+	});
 }
 
 // JSON.stringy handles typed arrays as objects ("0": 0, "1": 0, "2": 0, "3": 0 ... )
 function stringifyTypedArray(typedArray) {
-	if (typedArray.length === 0) { return '[]'; }
+	if (typedArray.length === 0) {
+		return '[]';
+	}
 
 	var ret = '[' + typedArray[0];
 	for (var i = 1; i < typedArray.length; i++) {
@@ -176,23 +190,21 @@ function stringifyTypedArray(typedArray) {
  */
 function filterProperties(obj, interests, ident, recursionDeph) {
 	if (interests.length === 0) {
-		return 'No interests specified;\n\n' +
-			'Some popular interests: is, tran, Compo\n\n' +
-			'Every entry separated by a comma is a regex';
+		return 'No interests specified;\n\n' + 'Some popular interests: is, tran, Compo\n\n' + 'Every entry separated by a comma is a regex';
 	}
 
-	if (recursionDeph < 0) { return ident + 'REACHED MAXIMUM DEPH\n'; }
+	if (recursionDeph < 0) {
+		return ident + 'REACHED MAXIMUM DEPH\n';
+	}
 
 	// null
-	if (obj === null) { return ident + 'null\n'; }
+	if (obj === null) {
+		return ident + 'null\n';
+	}
 
 	// 'primitive' types and arrays or primitive types
-	var typeOfObj = typeof obj;
-	if (typeOfObj === 'undefined' ||
-		typeOfObj === 'number' ||
-		typeOfObj === 'boolean' ||
-		typeOfObj === 'string' ||
-		(obj instanceof Array && (typeof obj[0] === 'string' || typeof obj[0] === 'number' || typeof obj[0] === 'boolean'))) {
+	var typeOfObj = typeof obj === "undefined" ? "undefined" : _typeof(obj);
+	if (typeOfObj === 'undefined' || typeOfObj === 'number' || typeOfObj === 'boolean' || typeOfObj === 'string' || obj instanceof Array && (typeof obj[0] === 'string' || typeof obj[0] === 'number' || typeof obj[0] === 'boolean')) {
 		return ident + JSON.stringify(obj) + '\n';
 	}
 
@@ -202,25 +214,27 @@ function filterProperties(obj, interests, ident, recursionDeph) {
 	}
 	// generic objects
 	else {
-		var retArr = [];
-		// go through all the properties of a function
-		for (var prop in obj) {
-			if (obj.hasOwnProperty(prop)) {
-				// skip if function
-				if (typeof obj[prop] === 'function') { continue; }
+			var retArr = [];
+			// go through all the properties of a function
+			for (var prop in obj) {
+				if (obj.hasOwnProperty(prop)) {
+					// skip if function
+					if (typeof obj[prop] === 'function') {
+						continue;
+					}
 
-				// explore further if it matches with at least one interest
-				for (var i in interests) {
-					if (interests[i].test(prop)) {
-						var filterStr = filterProperties(obj[prop], interests, ident + ' ', recursionDeph - 1);
-						retArr.push(ident + prop + '\n' + filterStr);
-						break;
+					// explore further if it matches with at least one interest
+					for (var i in interests) {
+						if (interests[i].test(prop)) {
+							var filterStr = filterProperties(obj[prop], interests, ident + ' ', recursionDeph - 1);
+							retArr.push(ident + prop + '\n' + filterStr);
+							break;
+						}
 					}
 				}
 			}
+			return retArr.join('');
 		}
-		return retArr.join('');
-	}
 }
 
 /**
@@ -236,14 +250,13 @@ function updateMarker(picked, oldPicked) {
 			oldPicked.clearComponent('MarkerComponent');
 		}
 		if (picked !== null) {
-			picked.setComponent(new MarkerComponent(picked));
+			picked.setComponent(new _MarkerComponent.MarkerComponent(picked));
 		}
-	}
-	else {
+	} else {
 		if (picked.hasComponent('MarkerComponent')) {
 			picked.clearComponent('MarkerComponent');
 		} else {
-			picked.setComponent(new MarkerComponent(picked));
+			picked.setComponent(new _MarkerComponent.MarkerComponent(picked));
 		}
 	}
 }
@@ -257,7 +270,9 @@ function updateMarker(picked, oldPicked) {
 function displayInfo(entity) {
 	var filterList = getFilterList(document.getElementById('debugparams').value);
 
-	if (entity) { console.log('==> ', entity); }
+	if (entity) {
+		console.log('==> ', entity);
+	}
 
 	var entityStr = filterProperties(entity, filterList, '', 20);
 
@@ -273,4 +288,4 @@ var exported_Debugger = Debugger;
  * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
  * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
  */
-export { exported_Debugger as Debugger };
+exports.Debugger = exported_Debugger;

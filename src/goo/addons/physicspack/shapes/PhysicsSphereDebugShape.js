@@ -1,13 +1,19 @@
-import { MeshData } from "../../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PhysicsSphereDebugShape = undefined;
+
+var _MeshData = require("../../../renderer/MeshData");
+
 function PhysicsSphereDebugShape(numSegments) {
 	numSegments = numSegments || 32;
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]);
 	this.numSegments = numSegments;
-	MeshData.call(this, attributeMap, 3 * 3 * numSegments, 3 * 2 * numSegments);
+	_MeshData.MeshData.call(this, attributeMap, 3 * 3 * numSegments, 3 * 2 * numSegments);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsSphereDebugShape.prototype = Object.create(MeshData.prototype);
+PhysicsSphereDebugShape.prototype = Object.create(_MeshData.MeshData.prototype);
 PhysicsSphereDebugShape.prototype.constructor = PhysicsSphereDebugShape;
 
 /**
@@ -43,7 +49,7 @@ PhysicsSphereDebugShape.prototype.rebuild = function () {
 		indices.push(2 * numSegments + i, 2 * numSegments + (i + 1) % numSegments);
 	}
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -56,4 +62,4 @@ var exported_PhysicsSphereDebugShape = PhysicsSphereDebugShape;
  * @param {number} [numSegments=32]
  * @extends MeshData
  */
-export { exported_PhysicsSphereDebugShape as PhysicsSphereDebugShape };
+exports.PhysicsSphereDebugShape = exported_PhysicsSphereDebugShape;

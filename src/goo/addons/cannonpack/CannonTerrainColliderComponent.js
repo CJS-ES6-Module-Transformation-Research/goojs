@@ -1,6 +1,12 @@
-import { Component } from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonTerrainColliderComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
 function CannonTerrainColliderComponent(settings) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'CannonTerrainColliderComponent';
 
@@ -13,7 +19,7 @@ function CannonTerrainColliderComponent(settings) {
 	this.cannonShape = new CANNON.Heightfield(settings.data, settings.shapeOptions);
 }
 
-CannonTerrainColliderComponent.prototype = Object.create(Component.prototype);
+CannonTerrainColliderComponent.prototype = Object.create(_Component.Component.prototype);
 CannonTerrainColliderComponent.constructor = CannonTerrainColliderComponent;
 
 var exported_CannonTerrainColliderComponent = CannonTerrainColliderComponent;
@@ -26,4 +32,4 @@ var exported_CannonTerrainColliderComponent = CannonTerrainColliderComponent;
  * @param {Object} [settings.data]
  * @param {Object} [settings.shapeOptions]
  */
-export { exported_CannonTerrainColliderComponent as CannonTerrainColliderComponent };
+exports.CannonTerrainColliderComponent = exported_CannonTerrainColliderComponent;

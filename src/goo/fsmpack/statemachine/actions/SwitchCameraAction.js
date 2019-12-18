@@ -1,13 +1,20 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { anonymus as SystemBus } from "../../../entities/SystemBus";
-import { Renderer } from "../../../renderer/Renderer";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SwitchCameraAction = undefined;
 
-function SwitchCameraAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _Renderer = require("../../../renderer/Renderer");
+
+function SwitchCameraAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this._camera = null;
 }
 
-SwitchCameraAction.prototype = Object.create(Action.prototype);
+SwitchCameraAction.prototype = Object.create(_Action.Action.prototype);
 SwitchCameraAction.prototype.constructor = SwitchCameraAction;
 
 SwitchCameraAction.external = {
@@ -25,23 +32,22 @@ SwitchCameraAction.external = {
 	transitions: []
 };
 
-SwitchCameraAction.prototype.ready = function (/*fsm*/) {
-	this._camera = Renderer.mainCamera; // make this into get activeCamera
+SwitchCameraAction.prototype.ready = function () /*fsm*/{
+	this._camera = _Renderer.Renderer.mainCamera; // make this into get activeCamera
 };
 
 SwitchCameraAction.prototype.enter = function (fsm) {
 	var world = fsm.getOwnerEntity()._world;
 	var cameraEntity = world.entityManager.getEntityById(this.cameraEntityRef);
 	if (cameraEntity && cameraEntity.cameraComponent) {
-		SystemBus.emit('goo.setCurrentCamera', {
+		_SystemBus.anonymus.emit('goo.setCurrentCamera', {
 			camera: cameraEntity.cameraComponent.camera,
 			entity: cameraEntity
 		});
 	}
 };
 
-SwitchCameraAction.prototype.cleanup = function (/*fsm*/) {
-};
+SwitchCameraAction.prototype.cleanup = function () /*fsm*/{};
 
 var exported_SwitchCameraAction = SwitchCameraAction;
-export { exported_SwitchCameraAction as SwitchCameraAction };
+exports.SwitchCameraAction = exported_SwitchCameraAction;

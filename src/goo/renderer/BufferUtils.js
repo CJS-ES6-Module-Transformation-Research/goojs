@@ -1,4 +1,10 @@
-import { Capabilities } from "../renderer/Capabilities";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.cloneTypedArray = exports.browserType = exports.createIndexBuffer = undefined;
+
+var _Capabilities = require("../renderer/Capabilities");
+
 var functionObject_cloneTypedArray;
 var functionObject_browserType;
 var functionObject_createIndexBuffer;
@@ -8,7 +14,7 @@ var functionObject_createIndexBuffer;
  */
 function BufferUtils() {}
 
-functionObject_createIndexBuffer = function(indexCount, vertexCount) {
+exports.createIndexBuffer = functionObject_createIndexBuffer = function functionObject_createIndexBuffer(indexCount, vertexCount) {
     var indices;
     if (vertexCount <= 256) {
         // 2^8
@@ -21,7 +27,7 @@ functionObject_createIndexBuffer = function(indexCount, vertexCount) {
     } else if (vertexCount <= 65536) {
         // 2^16
         indices = new Uint16Array(indexCount);
-    } else if (Capabilities.ElementIndexUInt) {
+    } else if (_Capabilities.Capabilities.ElementIndexUInt) {
         // 2^32
         indices = new Uint32Array(indexCount);
     } else {
@@ -31,19 +37,21 @@ functionObject_createIndexBuffer = function(indexCount, vertexCount) {
 };
 
 function storeBrowserType() {
-	var aKeys = ['Trident', 'MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera'],
-		sUsrAg = typeof(navigator) !== 'undefined' && navigator.userAgent || '',
-		nIdx = aKeys.length - 1;
-	for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--) {
-		// nothing
-	}
-	functionObject_browserType = aKeys[nIdx];
+    var aKeys = ['Trident', 'MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera'],
+        sUsrAg = typeof navigator !== 'undefined' && navigator.userAgent || '',
+        nIdx = aKeys.length - 1;
+    for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--) {
+        // nothing
+    }
+    exports.browserType = functionObject_browserType = aKeys[nIdx];
 }
 
 storeBrowserType();
 
-functionObject_cloneTypedArray = function(source) {
+exports.cloneTypedArray = functionObject_cloneTypedArray = function functionObject_cloneTypedArray(source) {
     return new source.constructor(source);
 };
 
-export { functionObject_createIndexBuffer as createIndexBuffer, functionObject_browserType as browserType, functionObject_cloneTypedArray as cloneTypedArray };
+exports.createIndexBuffer = functionObject_createIndexBuffer;
+exports.browserType = functionObject_browserType;
+exports.cloneTypedArray = functionObject_cloneTypedArray;

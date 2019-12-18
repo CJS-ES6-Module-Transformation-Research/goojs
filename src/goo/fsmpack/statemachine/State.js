@@ -1,5 +1,25 @@
-import * as ArrayUtils from "../../util/ArrayUtils";
-import { anonymus as SystemBus } from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.State = undefined;
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 function State(uuid) {
 	this.uuid = uuid;
@@ -36,7 +56,7 @@ function State(uuid) {
 		getEntityById: function (id) {
 			return this._fsm.entity._world.by.id(id).first();
 		}.bind(this),
-		send: function (channels/*, data*/) {
+		send: function (channels /*, data*/) {
 			if (channels) {
 				if (typeof channels === 'string' && this._transitions[channels]) {
 					this.requestTransition(this._transitions[channels]);
@@ -106,7 +126,7 @@ State.prototype.requestTransition = function (target) {
 				};
 				data.error = 'Exceeded max loop depth (' + this.parent.maxLoopDepth + ') in "' + [data.entityName, data.machineName, data.stateName].join('" / "') + '"';
 				console.warn(data.error);
-				SystemBus.emit('goo.fsm.error', data);
+				_SystemBus.anonymus.emit('goo.fsm.error', data);
 				return;
 			}
 
@@ -129,7 +149,7 @@ State.prototype.clearTransition = function (eventName) {
 };
 
 State.prototype.enter = function () {
-	SystemBus.emit('goo.fsm.enter', {
+	_SystemBus.anonymus.emit('goo.fsm.enter', {
 		entityId: this._fsm && this._fsm.entity ? this._fsm.entity.id : '',
 		machineName: this.parent ? this.parent.name : '',
 		stateId: this.uuid,
@@ -198,7 +218,7 @@ State.prototype.update = function () {
 };
 
 State.prototype.kill = function () {
-	SystemBus.emit('goo.fsm.exit', {
+	_SystemBus.anonymus.emit('goo.fsm.exit', {
 		entityId: this._fsm && this._fsm.entity ? this._fsm.entity.id : '',
 		machineName: this.parent ? this.parent.name : '',
 		stateId: this.uuid,
@@ -303,4 +323,4 @@ State.prototype.removeMachine = function (machine) {
 };
 
 var exported_State = State;
-export { exported_State as State };
+exports.State = exported_State;

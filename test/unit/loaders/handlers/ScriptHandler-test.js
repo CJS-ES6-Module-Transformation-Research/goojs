@@ -1,8 +1,8 @@
-import { ScriptHandler } from "../../../../src/goo/scriptpack/ScriptHandler";
+var _ScriptHandler = require('../../../../src/goo/scriptpack/ScriptHandler');
 
 describe('ScriptHandler', function () {
 	describe('validateParameter', function () {
-		var validateParameter = ScriptHandler.validateParameter;
+		var validateParameter = _ScriptHandler.ScriptHandler.validateParameter;
 
 		it('validates a minimal parameter (key, type only)', function () {
 			expect(validateParameter({

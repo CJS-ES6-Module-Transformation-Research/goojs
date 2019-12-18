@@ -1,19 +1,48 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { MeshRendererComponent } from "../../entities/components/MeshRendererComponent";
-import { Material } from "../../renderer/Material";
-import * as ShaderLib from "../../renderer/shaders/ShaderLib";
-import * as RSVP from "../../util/rsvp";
-import * as ObjectUtils from "../../util/ObjectUtils";
-function MeshRendererComponentHandler() {
-	ComponentHandler.apply(this, arguments);
-	this._type = 'MeshRendererComponent';
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MeshRendererComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _MeshRendererComponent = require("../../entities/components/MeshRendererComponent");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  } else {
+    var newObj = {};if (obj != null) {
+      for (var key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+      }
+    }newObj.default = obj;return newObj;
+  }
 }
 
-MeshRendererComponentHandler.prototype = Object.create(ComponentHandler.prototype);
-MeshRendererComponentHandler.prototype.constructor = MeshRendererComponentHandler;
-ComponentHandler._registerClass('meshRenderer', MeshRendererComponentHandler);
+function MeshRendererComponentHandler() {
+  _ComponentHandler.ComponentHandler.apply(this, arguments);
+  this._type = 'MeshRendererComponent';
+}
 
-MeshRendererComponentHandler.DEFAULT_MATERIAL = new Material(ShaderLib.uber, 'Default material');
+MeshRendererComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
+MeshRendererComponentHandler.prototype.constructor = MeshRendererComponentHandler;
+_ComponentHandler.ComponentHandler._registerClass('meshRenderer', MeshRendererComponentHandler);
+
+MeshRendererComponentHandler.DEFAULT_MATERIAL = new _Material.Material(ShaderLib.uber, 'Default material');
 
 /**
  * Prepare component. Set defaults on config here.
@@ -22,12 +51,12 @@ MeshRendererComponentHandler.DEFAULT_MATERIAL = new Material(ShaderLib.uber, 'De
  * @private
  */
 MeshRendererComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
-		cullMode: 'Dynamic',
-		castShadows: true,
-		receiveShadows: true,
-		reflectable: true
-	});
+  return ObjectUtils.defaults(config, {
+    cullMode: 'Dynamic',
+    castShadows: true,
+    receiveShadows: true,
+    reflectable: true
+  });
 };
 
 /**
@@ -36,7 +65,7 @@ MeshRendererComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshRendererComponentHandler.prototype._create = function () {
-	return new MeshRendererComponent();
+  return new _MeshRendererComponent.MeshRendererComponent();
 };
 
 /**
@@ -47,39 +76,41 @@ MeshRendererComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
-   var that = this;
+  var that = this;
 
-   return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-       if (!component) { return; }
-       // Component settings
-       component.cullMode = config.cullMode;
-       component.castShadows = config.castShadows;
-       component.receiveShadows = config.receiveShadows;
-       component.isReflectable = config.reflectable;
-       //component.isPickable = config.pickable;
+  return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+    if (!component) {
+      return;
+    }
+    // Component settings
+    component.cullMode = config.cullMode;
+    component.castShadows = config.castShadows;
+    component.receiveShadows = config.receiveShadows;
+    component.isReflectable = config.reflectable;
+    //component.isPickable = config.pickable;
 
-       // Materials
-       var materials = config.materials;
-       if (!materials || !Object.keys(materials).length) {
-           var selectionMaterial = component.materials.filter(function (material) {
-               return material.name === 'gooSelectionIndicator';
-           });
-           component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
-           return component;
-       }
+    // Materials
+    var materials = config.materials;
+    if (!materials || !Object.keys(materials).length) {
+      var selectionMaterial = component.materials.filter(function (material) {
+        return material.name === 'gooSelectionIndicator';
+      });
+      component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
+      return component;
+    }
 
-       var promises = [];
-       ObjectUtils.forEach(materials, function (item) {
-           promises.push(that._load(item.materialRef, options));
-       }, null, 'sortValue');
-       return RSVP.all(promises).then(function (materials) {
-           var selectionMaterial = component.materials.filter(function (material) {
-               return material.name === 'gooSelectionIndicator';
-           });
-           component.materials = materials.concat(selectionMaterial);
-           return component;
-       });
-   });
+    var promises = [];
+    ObjectUtils.forEach(materials, function (item) {
+      promises.push(that._load(item.materialRef, options));
+    }, null, 'sortValue');
+    return RSVP.all(promises).then(function (materials) {
+      var selectionMaterial = component.materials.filter(function (material) {
+        return material.name === 'gooSelectionIndicator';
+      });
+      component.materials = materials.concat(selectionMaterial);
+      return component;
+    });
+  });
 };
 
 var exported_MeshRendererComponentHandler = MeshRendererComponentHandler;
@@ -92,4 +123,4 @@ var exported_MeshRendererComponentHandler = MeshRendererComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_MeshRendererComponentHandler as MeshRendererComponentHandler };
+exports.MeshRendererComponentHandler = exported_MeshRendererComponentHandler;

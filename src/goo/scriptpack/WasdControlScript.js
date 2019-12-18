@@ -1,5 +1,26 @@
-import { Vector3 } from "../math/Vector3";
-import * as ScriptUtils from "../scripts/ScriptUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.externals = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var ScriptUtils = _interopRequireWildcard(_ScriptUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var functionObject_externals;
 
 function WasdControlScript() {
@@ -9,12 +30,12 @@ function WasdControlScript() {
 	var moveState;
 	var bypass = false;
 
-	var fwdVector = new Vector3(0, 0, -1);
-	var leftVector = new Vector3(-1, 0, 0);
+	var fwdVector = new _Vector.Vector3(0, 0, -1);
+	var leftVector = new _Vector.Vector3(-1, 0, 0);
 
-	var moveVector = new Vector3();
-	var calcVector = new Vector3();
-	var translation = new Vector3();
+	var moveVector = new _Vector.Vector3();
+	var calcVector = new _Vector.Vector3();
+	var translation = new _Vector.Vector3();
 
 	// ---
 	function updateMovementVector() {
@@ -23,7 +44,9 @@ function WasdControlScript() {
 	}
 
 	function keyDown(event) {
-		if (event.altKey) {	return;	}
+		if (event.altKey) {
+			return;
+		}
 
 		switch (ScriptUtils.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
@@ -51,7 +74,9 @@ function WasdControlScript() {
 	}
 
 	function keyUp(event) {
-		if (event.altKey) {	return;	}
+		if (event.altKey) {
+			return;
+		}
 
 		switch (ScriptUtils.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
@@ -103,22 +128,18 @@ function WasdControlScript() {
 	}
 
 	function update(parameters, environment) {
-		if (!bypass && moveVector.equals(Vector3.ZERO)) {
+		if (!bypass && moveVector.equals(_Vector.Vector3.ZERO)) {
 			return;
 		}
 
-		if (!bypass && (parameters.whenUsed && environment.entity !== environment.activeCameraEntity)) {
+		if (!bypass && parameters.whenUsed && environment.entity !== environment.activeCameraEntity) {
 			return;
 		}
 
 		bypass = false;
 
 		// direction of movement in local coords
-		calcVector.setDirect(
-			fwdVector.x * moveVector.z + leftVector.x * moveVector.x,
-			fwdVector.y * moveVector.z + leftVector.y * moveVector.x,
-			fwdVector.z * moveVector.z + leftVector.z * moveVector.x
-		);
+		calcVector.setDirect(fwdVector.x * moveVector.z + leftVector.x * moveVector.x, fwdVector.y * moveVector.z + leftVector.y * moveVector.x, fwdVector.z * moveVector.z + leftVector.z * moveVector.x);
 		calcVector.normalize();
 
 		// move speed for this run...
@@ -158,59 +179,59 @@ function WasdControlScript() {
 	};
 }
 
-functionObject_externals = {
-    key: "WASD",
-    name: "WASD Control",
-    description: "Enables moving via the WASD keys",
+exports.externals = functionObject_externals = {
+	key: "WASD",
+	name: "WASD Control",
+	description: "Enables moving via the WASD keys",
 
-    parameters: [{
-        key: "whenUsed",
-        type: "boolean",
-        name: "When Camera Used",
-        description: "Script only runs when the camera to which it is added is being used.",
-        "default": true
-    }, {
-        key: "crawlKey",
-        type: "string",
-        control: "key",
-        "default": "Shift"
-    }, {
-        key: "forwardKey",
-        type: "string",
-        control: "key",
-        "default": "W"
-    }, {
-        key: "backKey",
-        type: "string",
-        control: "key",
-        "default": "S"
-    }, {
-        key: "strafeLeftKey",
-        type: "string",
-        control: "key",
-        "default": "A"
-    }, {
-        key: "strafeRightKey",
-        type: "string",
-        control: "key",
-        "default": "D"
-    }, {
-        key: "walkSpeed",
-        type: "int",
-        control: "slider",
-        "default": 10,
-        min: 1,
-        max: 100,
-        exponential: true
-    }, {
-        key: "crawlSpeed",
-        control: "slider",
-        type: "int",
-        "default": 1,
-        min: 0.1,
-        max: 10,
-        exponential: true
-    }]
+	parameters: [{
+		key: "whenUsed",
+		type: "boolean",
+		name: "When Camera Used",
+		description: "Script only runs when the camera to which it is added is being used.",
+		"default": true
+	}, {
+		key: "crawlKey",
+		type: "string",
+		control: "key",
+		"default": "Shift"
+	}, {
+		key: "forwardKey",
+		type: "string",
+		control: "key",
+		"default": "W"
+	}, {
+		key: "backKey",
+		type: "string",
+		control: "key",
+		"default": "S"
+	}, {
+		key: "strafeLeftKey",
+		type: "string",
+		control: "key",
+		"default": "A"
+	}, {
+		key: "strafeRightKey",
+		type: "string",
+		control: "key",
+		"default": "D"
+	}, {
+		key: "walkSpeed",
+		type: "int",
+		control: "slider",
+		"default": 10,
+		min: 1,
+		max: 100,
+		exponential: true
+	}, {
+		key: "crawlSpeed",
+		control: "slider",
+		type: "int",
+		"default": 1,
+		min: 0.1,
+		max: 10,
+		exponential: true
+	}]
 };
 
-export { functionObject_externals as externals };
+exports.externals = functionObject_externals;

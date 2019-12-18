@@ -1,35 +1,61 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import * as AudioContext from "../../sound/AudioContext";
-import { Sound } from "../../sound/Sound";
-import * as PromiseUtils from "../../util/PromiseUtils";
-import * as ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _Sound = require("../../sound/Sound");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function SoundHandler() {
-	ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 	this._audioCache = {};
 
 	if (window.Audio !== undefined) {
 		var audioTest = new Audio();
 
-		this._codecs = [
-			{
-				type: 'mp3',
-				enabled: !!audioTest.canPlayType('audio/mpeg;')
-			}, {
-				type: 'ogg',
-				enabled: !!audioTest.canPlayType('audio/ogg; codecs="vorbis"')
-			}, {
-				type: 'wav',
-				enabled: !!audioTest.canPlayType('audio/wav; codecs="1"')
-			}
-		];
+		this._codecs = [{
+			type: 'mp3',
+			enabled: !!audioTest.canPlayType('audio/mpeg;')
+		}, {
+			type: 'ogg',
+			enabled: !!audioTest.canPlayType('audio/ogg; codecs="vorbis"')
+		}, {
+			type: 'wav',
+			enabled: !!audioTest.canPlayType('audio/wav; codecs="1"')
+		}];
 	} else {
 		this._codecs = [];
 	}
 }
 
-SoundHandler.prototype = Object.create(ConfigHandler.prototype);
+SoundHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 SoundHandler.prototype.constructor = SoundHandler;
-ConfigHandler._registerClass('sound', SoundHandler);
+_ConfigHandler.ConfigHandler._registerClass('sound', SoundHandler);
 
 /**
  * Removes a sound
@@ -38,7 +64,9 @@ ConfigHandler._registerClass('sound', SoundHandler);
  */
 SoundHandler.prototype._remove = function (ref) {
 	var sound = this._objects.get(ref);
-	if (!sound) { return; }
+	if (!sound) {
+		return;
+	}
 
 	sound.stop();
 	this._objects.delete(ref);
@@ -66,7 +94,7 @@ SoundHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundHandler.prototype._create = function () {
-	return new Sound();
+	return new _Sound.Sound();
 };
 
 /**
@@ -81,8 +109,10 @@ SoundHandler.prototype._update = function (ref, config, options) {
 		return PromiseUtils.resolve();
 	}
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (sound) {
-		if (!sound) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (sound) {
+		if (!sound) {
+			return;
+		}
 		sound.update(config);
 		for (var i = 0; i < that._codecs.length; i++) {
 			var codec = that._codecs[i];
@@ -97,7 +127,7 @@ SoundHandler.prototype._update = function (ref, config, options) {
 						return PromiseUtils.createPromise(function (resolve) {
 							AudioContext.getContext().decodeAudioData(buffer, function (audioBuffer) {
 								resolve(audioBuffer);
-							}, function (/*err*/) {
+							}, function () /*err*/{
 								console.error('Could not decode audio ' + ref);
 								// shouldn't this just reject?
 								resolve(null);
@@ -128,4 +158,4 @@ var exported_SoundHandler = SoundHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_SoundHandler as SoundHandler };
+exports.SoundHandler = exported_SoundHandler;

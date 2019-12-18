@@ -1,17 +1,23 @@
-import { World } from "../../../../src/goo/entities/World";
-import { LightComponent } from "../../../../src/goo/entities/components/LightComponent";
-import { PointLight } from "../../../../src/goo/renderer/light/PointLight";
-import { SpotLight } from "../../../../src/goo/renderer/light/SpotLight";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import "../../../../src/goo/loaders/handlers/LightComponentHandler";
+var _World = require("../../../../src/goo/entities/World");
+
+var _LightComponent = require("../../../../src/goo/entities/components/LightComponent");
+
+var _PointLight = require("../../../../src/goo/renderer/light/PointLight");
+
+var _SpotLight = require("../../../../src/goo/renderer/light/SpotLight");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+require("../../../../src/goo/loaders/handlers/LightComponentHandler");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('LightComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -22,7 +28,7 @@ describe('LightComponentHandler', function () {
 		var config = Configs.entity(['light']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.lightComponent).toEqual(jasmine.any(LightComponent));
+			expect(entity.lightComponent).toEqual(jasmine.any(_LightComponent.LightComponent));
 			done();
 		});
 	});
@@ -36,13 +42,13 @@ describe('LightComponentHandler', function () {
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
 			component = entity.lightComponent;
-			expect(component.light).toEqual(jasmine.any(PointLight));
+			expect(component.light).toEqual(jasmine.any(_PointLight.PointLight));
 
 			config.components.light = spotLight;
 			return loader.update(config.id, config);
 		}).then(function (entity) {
 			expect(entity.lightComponent).toBe(component);
-			expect(entity.lightComponent.light).toEqual(jasmine.any(SpotLight));
+			expect(entity.lightComponent.light).toEqual(jasmine.any(_SpotLight.SpotLight));
 			done();
 		});
 	});

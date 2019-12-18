@@ -1,33 +1,39 @@
-import { Component } from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CssTransformComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 function CssTransformComponent(domElement, faceCamera) {
-	Component.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	this.type = 'CssTransformComponent';
+  this.type = 'CssTransformComponent';
 
-	/**
-	 * DOM element.
-	 */
-	this.domElement = domElement;
+  /**
+   * DOM element.
+   */
+  this.domElement = domElement;
 
-	/**
-	 * @type {number}
-	 * @default 1
-	 */
-	this.scale = 1;
+  /**
+   * @type {number}
+   * @default 1
+   */
+  this.scale = 1;
 
-	/**
-	 * @type {boolean}
-	 */
-	this.faceCamera = (typeof faceCamera === 'undefined') ? false : faceCamera;
+  /**
+   * @type {boolean}
+   */
+  this.faceCamera = typeof faceCamera === 'undefined' ? false : faceCamera;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 CssTransformComponent.type = 'CssTransformComponent';
 
-CssTransformComponent.prototype = Object.create(Component.prototype);
+CssTransformComponent.prototype = Object.create(_Component.Component.prototype);
 CssTransformComponent.prototype.constructor = CssTransformComponent;
 
 var exported_CssTransformComponent = CssTransformComponent;
@@ -38,4 +44,4 @@ var exported_CssTransformComponent = CssTransformComponent;
  * @param {boolean} faceCamera
  * @extends Component
  */
-export { exported_CssTransformComponent as CssTransformComponent };
+exports.CssTransformComponent = exported_CssTransformComponent;

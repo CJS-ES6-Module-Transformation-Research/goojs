@@ -1,25 +1,60 @@
-import { ConfigHandler } from "../loaders/handlers/ConfigHandler";
-import * as ArrayUtils from "../util/ArrayUtils";
-import * as RSVP from "../util/rsvp";
-import * as ObjectUtils from "../util/ObjectUtils";
-import { Composer } from "../renderer/pass/Composer";
-import { RenderPass } from "../renderer/pass/RenderPass";
-import { FullscreenPass } from "../renderer/pass/FullscreenPass";
-import * as ShaderLib from "../renderer/shaders/ShaderLib";
-import * as PassLib from "../passpack/PassLib";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PosteffectsHandler = undefined;
+
+var _ConfigHandler = require("../loaders/handlers/ConfigHandler");
+
+var _ArrayUtils = require("../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+var _rsvp = require("../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _Composer = require("../renderer/pass/Composer");
+
+var _RenderPass = require("../renderer/pass/RenderPass");
+
+var _FullscreenPass = require("../renderer/pass/FullscreenPass");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _PassLib = require("../passpack/PassLib");
+
+var PassLib = _interopRequireWildcard(_PassLib);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function PosteffectsHandler() {
-	ConfigHandler.apply(this, arguments);
-	this._composer = new Composer();
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+	this._composer = new _Composer.Composer();
 	var renderSystem = this.world.getSystem('RenderSystem');
-	this._renderPass = new RenderPass(renderSystem.renderList);
-	this._outPass = new FullscreenPass(ObjectUtils.deepClone(ShaderLib.copy));
+	this._renderPass = new _RenderPass.RenderPass(renderSystem.renderList);
+	this._outPass = new _FullscreenPass.FullscreenPass(ObjectUtils.deepClone(ShaderLib.copy));
 	this._outPass.renderToScreen = true;
 }
 
-
-PosteffectsHandler.prototype = Object.create(ConfigHandler.prototype);
+PosteffectsHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 PosteffectsHandler.prototype.constructor = PosteffectsHandler;
-ConfigHandler._registerClass('posteffects', PosteffectsHandler);
+_ConfigHandler.ConfigHandler._registerClass('posteffects', PosteffectsHandler);
 
 /**
  * Removes the posteffects, i e removes the composer from rendersystem.
@@ -35,7 +70,7 @@ PosteffectsHandler.prototype._remove = function (ref) {
 		this._composer.destroy(this.world.gooRunner.renderer);
 	}
 
-	this._composer = new Composer();
+	this._composer = new _Composer.Composer();
 };
 
 /**
@@ -56,8 +91,10 @@ PosteffectsHandler.prototype._create = function () {
  */
 PosteffectsHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (posteffects) {
-		if (!posteffects) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (posteffects) {
+		if (!posteffects) {
+			return;
+		}
 
 		var oldEffects = posteffects.slice();
 		var promises = [];
@@ -74,9 +111,13 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
 			return posteffects;
 		});
 	}).then(function (posteffects) {
-		if (!posteffects) { return; }
+		if (!posteffects) {
+			return;
+		}
 
-		var enabled = posteffects.some(function (effect) { return effect.enabled; });
+		var enabled = posteffects.some(function (effect) {
+			return effect.enabled;
+		});
 		var renderSystem = that.world.getSystem('RenderSystem');
 		var composer = that._composer;
 
@@ -175,4 +216,4 @@ var exported_PosteffectsHandler = PosteffectsHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_PosteffectsHandler as PosteffectsHandler };
+exports.PosteffectsHandler = exported_PosteffectsHandler;

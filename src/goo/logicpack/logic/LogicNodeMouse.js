@@ -1,9 +1,32 @@
-import { LogicLayer } from "./LogicLayer";
-import { LogicNode } from "./LogicNode";
-import * as LogicNodes from "./LogicNodes";
-import { LogicInterface } from "./LogicInterface";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeMouse = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var LogicNodes = _interopRequireWildcard(_LogicNodes);
+
+var _LogicInterface = require("./LogicInterface");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function LogicNodeMouse() {
-	LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeMouse.logicInterface;
 	this.type = 'LogicNodeMouse';
 
@@ -12,23 +35,23 @@ function LogicNodeMouse() {
 		var my = event.clientY;
 		var dx = mx - this.x;
 		var dy = my - this.y;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portX, mx);
-		LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portY, my);
-		LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portDX, dx);
-		LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portDY, dy);
+		_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portX, mx);
+		_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portY, my);
+		_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portDX, dx);
+		_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeMouse.portDY, dy);
 	}.bind(this);
 
 	this.eventMouseDown = function (event) {
 		if (event.button === 0) {
-			LogicLayer.fireEvent(this.logicInstance, LogicNodeMouse.outEventLmb);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, LogicNodeMouse.outEventLmb);
 		}
 		if (event.button === 2) {
-			LogicLayer.fireEvent(this.logicInstance, LogicNodeMouse.outEventRmb);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, LogicNodeMouse.outEventRmb);
 		}
 	}.bind(this);
 }
 
-LogicNodeMouse.prototype = Object.create(LogicNode.prototype);
+LogicNodeMouse.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeMouse.editorName = 'Mouse';
 
 LogicNodeMouse.prototype.onSystemStarted = function () {
@@ -43,7 +66,7 @@ LogicNodeMouse.prototype.onSystemStopped = function () {
 	document.removeEventListener('mousedown', this.eventMouseDown);
 };
 
-LogicNodeMouse.logicInterface = new LogicInterface();
+LogicNodeMouse.logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeMouse.portX = LogicNodeMouse.logicInterface.addOutputProperty('x', 'float', 0);
 LogicNodeMouse.portY = LogicNodeMouse.logicInterface.addOutputProperty('y', 'float', 0);
 LogicNodeMouse.portDX = LogicNodeMouse.logicInterface.addOutputProperty('dx', 'float', 0);
@@ -59,4 +82,4 @@ var exported_LogicNodeMouse = LogicNodeMouse;
  * Logic node that reads mouse input.
  * @private
  */
-export { exported_LogicNodeMouse as LogicNodeMouse };
+exports.LogicNodeMouse = exported_LogicNodeMouse;

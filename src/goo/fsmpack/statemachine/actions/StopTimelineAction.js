@@ -1,10 +1,15 @@
-import { Action } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StopTimelineAction = undefined;
 
-function StopTimelineAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+function StopTimelineAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-StopTimelineAction.prototype = Object.create(Action.prototype);
+StopTimelineAction.prototype = Object.create(_Action.Action.prototype);
 StopTimelineAction.prototype.constructor = StopTimelineAction;
 
 StopTimelineAction.external = {
@@ -20,10 +25,12 @@ StopTimelineAction.external = {
 StopTimelineAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('TimelineComponent')) { return; }
+	if (!entity.hasComponent('TimelineComponent')) {
+		return;
+	}
 
 	entity.timelineComponent.stop();
 };
 
 var exported_StopTimelineAction = StopTimelineAction;
-export { exported_StopTimelineAction as StopTimelineAction };
+exports.StopTimelineAction = exported_StopTimelineAction;

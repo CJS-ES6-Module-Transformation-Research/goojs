@@ -1,17 +1,41 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 } from "../../../math/Vector3";
-import * as MathUtils from "../../../math/MathUtils";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DollyZoomAction = undefined;
 
-function DollyZoomAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.from = new Vector3();
-	this.to = new Vector3();
+var _Vector = require("../../../math/Vector3");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function DollyZoomAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.from = new _Vector.Vector3();
+	this.to = new _Vector.Vector3();
 	this.completed = false;
 }
 
-DollyZoomAction.prototype = Object.create(Action.prototype);
+DollyZoomAction.prototype = Object.create(_Action.Action.prototype);
 DollyZoomAction.prototype.constructor = DollyZoomAction;
 
 DollyZoomAction.external = {
@@ -60,7 +84,7 @@ DollyZoomAction.external = {
 	}]
 };
 
-DollyZoomAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+DollyZoomAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Dolly Zoom Complete';
 };
 
@@ -73,17 +97,13 @@ DollyZoomAction.prototype.enter = function (fsm) {
 		var translation = transformComponent.transform.translation;
 		var camera = entity.cameraComponent.camera;
 
-		this.fromDistance = new Vector3(this.lookAt).distance(camera.translation);
+		this.fromDistance = new _Vector.Vector3(this.lookAt).distance(camera.translation);
 		this.toDistance = this.fromDistance - this.forward;
 
 		this.eyeTargetScale = Math.tan(camera.fov * (Math.PI / 180) / 2) * this.fromDistance;
 
-		var initialTranslation = new Vector3().copy(translation);
-		var toVec = Vector3.fromArray(this.lookAt)
-			.sub(initialTranslation)
-			.normalize()
-			.scale(this.forward)
-			.add(initialTranslation);
+		var initialTranslation = new _Vector.Vector3().copy(translation);
+		var toVec = _Vector.Vector3.fromArray(this.lookAt).sub(initialTranslation).normalize().scale(this.forward).add(initialTranslation);
 
 		this.from.set(initialTranslation.x, initialTranslation.y, initialTranslation.z);
 		this.to.setDirect(toVec.x, toVec.y, toVec.z);
@@ -111,7 +131,7 @@ DollyZoomAction.prototype.update = function (fsm) {
 		transformComponent.setUpdated();
 
 		var d = MathUtils.lerp(fT, this.fromDistance, this.toDistance);
-		var fov = (180 / Math.PI) * 2 * Math.atan(this.eyeTargetScale / d);
+		var fov = 180 / Math.PI * 2 * Math.atan(this.eyeTargetScale / d);
 		camera.setFrustumPerspective(fov);
 
 		if (t >= 1) {
@@ -122,4 +142,4 @@ DollyZoomAction.prototype.update = function (fsm) {
 };
 
 var exported_DollyZoomAction = DollyZoomAction;
-export { exported_DollyZoomAction as DollyZoomAction };
+exports.DollyZoomAction = exported_DollyZoomAction;

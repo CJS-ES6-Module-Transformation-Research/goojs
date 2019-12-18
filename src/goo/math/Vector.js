@@ -1,11 +1,42 @@
-import * as ObjectUtils from "../util/ObjectUtils";
-import * as MathUtils from "./MathUtils";
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Vector = undefined;
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _MathUtils = require("./MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function Vector(size) {
 
 	/**
-	 * @hidden
-	 * @deprecated
-	 */
+  * @hidden
+  * @deprecated
+  */
 	this._size = size;
 }
 
@@ -26,10 +57,10 @@ Vector.setupAliases = function (prototype, aliases) {
 
 		aliasesPerComponent.forEach(function (alias) {
 			Object.defineProperty(prototype, alias, {
-				get: function () {
+				get: function get() {
 					return this[componentName];
 				},
-				set: function (value) {
+				set: function set(value) {
 					this[componentName] = value;
 
 					// @ifdef DEBUG
@@ -45,7 +76,7 @@ Vector.setupAliases = function (prototype, aliases) {
 
 // @ifdef DEBUG
 Vector.setupIndices = function (prototype, count) {
-	var raise = function () {
+	var raise = function raise() {
 		throw new Error('Vector component access through indices is not supported anymore');
 	};
 
@@ -93,34 +124,34 @@ Object.defineProperty(Vector.prototype, 'data', {
 		var that = this;
 		Object.defineProperties(data, {
 			'0': {
-				get: function () {
+				get: function get() {
 					return that.x;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.x = value;
 				}
 			},
 			'1': {
-				get: function () {
+				get: function get() {
 					return that.y;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.y = value;
 				}
 			},
 			'2': {
-				get: function () {
+				get: function get() {
 					return that.z;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.z = value;
 				}
 			},
 			'3': {
-				get: function () {
+				get: function get() {
 					return that.w;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.w = value;
 				}
 			}
@@ -252,7 +283,7 @@ Vector.copy = ObjectUtils.warnOnce('Vector.copy is deprecated.', function (sourc
 		target = new Vector(size);
 	}
 
-	for (var i=0; i<size; i++) {
+	for (var i = 0; i < size; i++) {
 		target.data[i] = source.data[i];
 	}
 
@@ -265,7 +296,7 @@ Vector.copy = ObjectUtils.warnOnce('Vector.copy is deprecated.', function (sourc
  */
 Vector.prototype.copy = ObjectUtils.warnOnce('Vector.prototype.copy  is deprecated.', function (source) {
 	var size = source._size;
-	for (var i=0; i<size; i++) {
+	for (var i = 0; i < size; i++) {
 		this.data[i] = source.data[i];
 	}
 	return this;
@@ -476,7 +507,7 @@ Vector.prototype.clone = ObjectUtils.warnOnce('Vector.prototype.clone is depreca
  * @deprecated
  */
 Vector.prototype.set = ObjectUtils.warnOnce('Vector.prototype.set is deprecated.', function () {
-	if (arguments.length === 1 && typeof arguments[0] === 'object') {
+	if (arguments.length === 1 && _typeof(arguments[0]) === 'object') {
 		if (arguments[0] instanceof Vector) {
 			this.copy(arguments[0]);
 		} else {
@@ -516,4 +547,4 @@ var exported_Vector = Vector;
 /**
  * Abstract vector class
  */
-export { exported_Vector as Vector };
+exports.Vector = exported_Vector;

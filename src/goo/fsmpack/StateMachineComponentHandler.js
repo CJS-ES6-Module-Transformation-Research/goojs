@@ -1,15 +1,40 @@
-import { ComponentHandler } from "../loaders/handlers/ComponentHandler";
-import { StateMachineComponent } from "../fsmpack/statemachine/StateMachineComponent";
-import * as RSVP from "../util/rsvp";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StateMachineComponentHandler = undefined;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _StateMachineComponent = require("../fsmpack/statemachine/StateMachineComponent");
+
+var _rsvp = require("../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function StateMachineComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'StateMachineComponent';
 }
 
-StateMachineComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+StateMachineComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 StateMachineComponentHandler.prototype.constructor = StateMachineComponentHandler;
-ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
 
 /**
  * Create statemachine component
@@ -17,7 +42,7 @@ ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
  * @hidden
  */
 StateMachineComponentHandler.prototype._create = function () {
-	return new StateMachineComponent();
+	return new _StateMachineComponent.StateMachineComponent();
 };
 
 StateMachineComponentHandler.prototype._remove = function (entity) {
@@ -48,8 +73,10 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 	options.reload = true;
 	options.instantiate = true;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var promises = [];
 		ObjectUtils.forEach(config.machines, function (machineConfig) {
@@ -84,4 +111,4 @@ var exported_StateMachineComponentHandler = StateMachineComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_StateMachineComponentHandler as StateMachineComponentHandler };
+exports.StateMachineComponentHandler = exported_StateMachineComponentHandler;

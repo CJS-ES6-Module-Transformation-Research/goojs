@@ -1,17 +1,26 @@
-import { Component } from "../../entities/components/Component";
-import { Quad } from "../../shapes/Quad";
-import { MeshRendererComponent } from "../../entities/components/MeshRendererComponent";
-import { MeshDataComponent } from "../../entities/components/MeshDataComponent";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Dom3dComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Quad = require("../../shapes/Quad");
+
+var _MeshRendererComponent = require("../../entities/components/MeshRendererComponent");
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
 function Dom3dComponent(domElement, settings) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'Dom3dComponent';
 
 	settings = settings || {};
 
 	/**
-	 * @type {boolean}
-	 */
+  * @type {boolean}
+  */
 	this.hidden = false;
 
 	this.width = settings.width || 500;
@@ -22,9 +31,9 @@ function Dom3dComponent(domElement, settings) {
 	this.entity = null;
 	this.initDom(domElement);
 
-	this.meshData = new Quad(1, 1);
-	this.meshDataComponent = new MeshDataComponent(this.meshData);
-	this.meshRendererComponent = new MeshRendererComponent();
+	this.meshData = new _Quad.Quad(1, 1);
+	this.meshDataComponent = new _MeshDataComponent.MeshDataComponent(this.meshData);
+	this.meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
 
 	this._transformDirty = true;
 	this._transformUpdatedListener = null;
@@ -36,7 +45,7 @@ function Dom3dComponent(domElement, settings) {
 
 Dom3dComponent.type = 'Dom3dComponent';
 
-Dom3dComponent.prototype = Object.create(Component.prototype);
+Dom3dComponent.prototype = Object.create(_Component.Component.prototype);
 Dom3dComponent.prototype.constructor = Dom3dComponent;
 
 Dom3dComponent.prototype.attached = function (entity) {
@@ -102,4 +111,4 @@ var exported_Dom3dComponent = Dom3dComponent;
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
  */
-export { exported_Dom3dComponent as Dom3dComponent };
+exports.Dom3dComponent = exported_Dom3dComponent;

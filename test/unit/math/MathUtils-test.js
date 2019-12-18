@@ -1,6 +1,22 @@
-import * as MathUtils from "../../../src/goo/math/MathUtils";
-import { Vector3 } from "../../../src/goo/math/Vector3";
-import { Vector2 } from "../../../src/goo/math/Vector2";
+var _MathUtils = require("../../../src/goo/math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _Vector = require("../../../src/goo/math/Vector3");
+
+var _Vector2 = require("../../../src/goo/math/Vector2");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 describe('MathUtils', function () {
 	it('can convert to radians from degrees', function () {
@@ -12,7 +28,7 @@ describe('MathUtils', function () {
 	});
 
 	it('can perform linear interpolation', function () {
-		expect(MathUtils.lerp(-1.0, 10.0, 20.0)).toEqual( 0.0);
+		expect(MathUtils.lerp(-1.0, 10.0, 20.0)).toEqual(0.0);
 		expect(MathUtils.lerp(0.0, 10.0, 20.0)).toEqual(10.0);
 		expect(MathUtils.lerp(0.5, 10.0, 20.0)).toEqual(15.0);
 		expect(MathUtils.lerp(1.0, 10.0, 20.0)).toEqual(20.0);
@@ -44,8 +60,8 @@ describe('MathUtils', function () {
 		expect(MathUtils.scurve5(1.00)).toEqual(1.0);
 	});
 
-	it('can convert to cartesian coordinates from spherical coordinates', function (){
-		var c = new Vector3();
+	it('can convert to cartesian coordinates from spherical coordinates', function () {
+		var c = new _Vector.Vector3();
 
 		MathUtils.sphericalToCartesian(16, 0, 0, c);
 		expect(c.x).toBeCloseTo(16);
@@ -64,17 +80,7 @@ describe('MathUtils', function () {
 	});
 
 	describe('isPowerOfTwo', function () {
-		[
-			[0, true],
-			[1, true],
-			[2, true],
-			[3, false],
-			[8, true],
-			[13, false],
-			[255, false],
-			[256, true],
-			[257, false]
-		].forEach(function (pair) {
+		[[0, true], [1, true], [2, true], [3, false], [8, true], [13, false], [255, false], [256, true], [257, false]].forEach(function (pair) {
 			it(pair[0] + ' is ' + (pair[1] ? '' : 'not ') + 'a power of two', function () {
 				expect(MathUtils.isPowerOfTwo(pair[0])).toEqual(pair[1]);
 			});
@@ -82,17 +88,7 @@ describe('MathUtils', function () {
 	});
 
 	describe('nearestPowerOfTwo', function () {
-		[
-			[0, 0],
-			[1, 1],
-			[2, 2],
-			[3, 4],
-			[8, 8],
-			[13, 16],
-			[255, 256],
-			[256, 256],
-			[257, 512]
-		].forEach(function (pair) {
+		[[0, 0], [1, 1], [2, 2], [3, 4], [8, 8], [13, 16], [255, 256], [256, 256], [257, 512]].forEach(function (pair) {
 			it('the nearest power of two of ' + pair[0] + ' is ' + pair[1], function () {
 				expect(MathUtils.nearestPowerOfTwo(pair[0])).toEqual(pair[1]);
 			});
@@ -100,39 +96,34 @@ describe('MathUtils', function () {
 	});
 
 	it('can compute the area of a triangle', function () {
-		expect(MathUtils.triangleArea(new Vector2(5, 5), new Vector2(5, 6), new Vector2(7, 5))).toBeCloseTo(1.0);
+		expect(MathUtils.triangleArea(new _Vector2.Vector2(5, 5), new _Vector2.Vector2(5, 6), new _Vector2.Vector2(7, 5))).toBeCloseTo(1.0);
 	});
 
 	it('can do barycentric interpolation', function () {
-		var t1 = new Vector3(2, 2, 30);
-		var t2 = new Vector3(4, 2, 40);
-		var t3 = new Vector3(2, 6, 50);
+		var t1 = new _Vector.Vector3(2, 2, 30);
+		var t2 = new _Vector.Vector3(4, 2, 40);
+		var t3 = new _Vector.Vector3(2, 6, 50);
 
-		expect(MathUtils.barycentricInterpolation(t1, t2, t3, new Vector3(2, 4, 123)).z).toBeCloseTo(40);
-		expect(MathUtils.barycentricInterpolation(t1, t2, t3, new Vector3(3, 2, 123)).z).toBeCloseTo(35);
-		expect(MathUtils.barycentricInterpolation(
-			t1, t2, t3, new Vector3((t1.x + t2.x + t3.x) / 3, (t1.y + t2.y + t3.y) / 3, 123)).z
-		).toBeCloseTo(40);
+		expect(MathUtils.barycentricInterpolation(t1, t2, t3, new _Vector.Vector3(2, 4, 123)).z).toBeCloseTo(40);
+		expect(MathUtils.barycentricInterpolation(t1, t2, t3, new _Vector.Vector3(3, 2, 123)).z).toBeCloseTo(35);
+		expect(MathUtils.barycentricInterpolation(t1, t2, t3, new _Vector.Vector3((t1.x + t2.x + t3.x) / 3, (t1.y + t2.y + t3.y) / 3, 123)).z).toBeCloseTo(40);
 	});
 
 	it('gets the correct triangle normal', function () {
 		var p1 = [0, 0, 0];
 		var p2 = [0, 1, 0];
 		var p3 = [1, 1, 0];
-		expect(MathUtils.getTriangleNormal(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2]))
-			.toEqual([0, 0, -1]);
+		expect(MathUtils.getTriangleNormal(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2])).toEqual([0, 0, -1]);
 
 		p1 = [0, 0, 0];
 		p2 = [0, 0, 1];
 		p3 = [1, 0, 1];
-		expect(MathUtils.getTriangleNormal(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2]))
-			.toEqual([0, 1, 0]);
+		expect(MathUtils.getTriangleNormal(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2])).toEqual([0, 1, 0]);
 
 		p1 = [1, 0, 0];
 		p2 = [0, 1, 0];
 		p3 = [0, 0, 1];
-		expect(MathUtils.getTriangleNormal(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2]))
-			.toEqual([1, 1, 1]);
+		expect(MathUtils.getTriangleNormal(p1[0], p1[1], p1[2], p2[0], p2[1], p2[2], p3[0], p3[1], p3[2])).toEqual([1, 1, 1]);
 	});
 
 	it('can do positive modulo', function () {

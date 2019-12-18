@@ -1,65 +1,79 @@
-import * as ArrayUtils from "../../../src/goo/util/ArrayUtils";
+var _ArrayUtils = require('../../../src/goo/util/ArrayUtils');
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+function _interopRequireWildcard(obj) {
+			if (obj && obj.__esModule) {
+						return obj;
+			} else {
+						var newObj = {};if (obj != null) {
+									for (var key in obj) {
+												if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+									}
+						}newObj.default = obj;return newObj;
+			}
+}
 
 describe('ArrayUtils', function () {
-	describe('fromKeys', function () {
-		it('returns an empty array for an empty collection', function () {
-			var set_ = new Set();
-			var map = new Map();
+			describe('fromKeys', function () {
+						it('returns an empty array for an empty collection', function () {
+									var set_ = new Set();
+									var map = new Map();
 
-			var setKeys = ArrayUtils.fromKeys(set_);
-			var mapKeys = ArrayUtils.fromKeys(map);
+									var setKeys = ArrayUtils.fromKeys(set_);
+									var mapKeys = ArrayUtils.fromKeys(map);
 
-			expect(setKeys).toEqual([]);
-			expect(mapKeys).toEqual([]);
-		});
+									expect(setKeys).toEqual([]);
+									expect(mapKeys).toEqual([]);
+						});
 
-		it('returns an array of keys of the given collection', function () {
-			var set_ = new Set();
-			set_.add('a');
-			set_.add('s');
-			set_.add('d');
+						it('returns an array of keys of the given collection', function () {
+									var set_ = new Set();
+									set_.add('a');
+									set_.add('s');
+									set_.add('d');
 
-			var map = new Map();
-			map.set('f', 'ff');
-			map.set('g', 'gg');
-			map.set('h', 'hh');
+									var map = new Map();
+									map.set('f', 'ff');
+									map.set('g', 'gg');
+									map.set('h', 'hh');
 
-			var setKeys = ArrayUtils.fromKeys(set_);
-			var mapKeys = ArrayUtils.fromKeys(map);
+									var setKeys = ArrayUtils.fromKeys(set_);
+									var mapKeys = ArrayUtils.fromKeys(map);
 
-			expect(setKeys).toEqual(['a', 's', 'd']);
-			expect(mapKeys).toEqual(['f', 'g', 'h']);
-		});
-	});
+									expect(setKeys).toEqual(['a', 's', 'd']);
+									expect(mapKeys).toEqual(['f', 'g', 'h']);
+						});
+			});
 
-	describe('fromValues', function () {
-		it('returns an empty array for an empty collection', function () {
-			var set_ = new Set();
-			var map = new Map();
+			describe('fromValues', function () {
+						it('returns an empty array for an empty collection', function () {
+									var set_ = new Set();
+									var map = new Map();
 
-			var setKeys = ArrayUtils.fromValues(set_);
-			var mapKeys = ArrayUtils.fromValues(map);
+									var setKeys = ArrayUtils.fromValues(set_);
+									var mapKeys = ArrayUtils.fromValues(map);
 
-			expect(setKeys).toEqual([]);
-			expect(mapKeys).toEqual([]);
-		});
+									expect(setKeys).toEqual([]);
+									expect(mapKeys).toEqual([]);
+						});
 
-		it('returns an array of keys of the given collection', function () {
-			var set_ = new Set();
-			set_.add('a');
-			set_.add('s');
-			set_.add('d');
+						it('returns an array of keys of the given collection', function () {
+									var set_ = new Set();
+									set_.add('a');
+									set_.add('s');
+									set_.add('d');
 
-			var map = new Map();
-			map.set('f', 'ff');
-			map.set('g', 'gg');
-			map.set('h', 'hh');
+									var map = new Map();
+									map.set('f', 'ff');
+									map.set('g', 'gg');
+									map.set('h', 'hh');
 
-			var setKeys = ArrayUtils.fromValues(set_);
-			var mapKeys = ArrayUtils.fromValues(map);
+									var setKeys = ArrayUtils.fromValues(set_);
+									var mapKeys = ArrayUtils.fromValues(map);
 
-			expect(setKeys).toEqual(['a', 's', 'd']);
-			expect(mapKeys).toEqual(['ff', 'gg', 'hh']);
-		});
-	});
+									expect(setKeys).toEqual(['a', 's', 'd']);
+									expect(mapKeys).toEqual(['ff', 'gg', 'hh']);
+						});
+			});
 });

@@ -1,15 +1,19 @@
-import { World } from "../../../src/goo/entities/World";
-import { DynamicLoader } from "../../../src/goo/loaders/DynamicLoader";
-import { QuadComponent } from "../../../src/goo/quadpack/QuadComponent";
-import "../../../src/goo/quadpack/QuadComponentHandler";
+var _World = require("../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../src/goo/loaders/DynamicLoader");
+
+var _QuadComponent = require("../../../src/goo/quadpack/QuadComponent");
+
+require("../../../src/goo/quadpack/QuadComponentHandler");
+
 var Configs = require('../../../test/unit/loaders/Configs');
 
 describe('QuadComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -20,7 +24,7 @@ describe('QuadComponentHandler', function () {
 		var config = Configs.entity(['quad']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.quadComponent).toEqual(jasmine.any(QuadComponent));
+			expect(entity.quadComponent).toEqual(jasmine.any(_QuadComponent.QuadComponent));
 			done();
 		});
 	});

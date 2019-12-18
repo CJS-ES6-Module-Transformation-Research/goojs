@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_fromValues;
 var functionObject_fromKeys;
 var functionObject_find;
@@ -8,7 +11,7 @@ var functionObject_getTypedArray;
  */
 function ArrayUtils() {}
 
-functionObject_getTypedArray = function(arrayBuffer, pointer) {
+exports.getTypedArray = functionObject_getTypedArray = function functionObject_getTypedArray(arrayBuffer, pointer) {
     var start = pointer[0];
     var length = pointer[1];
     var format = pointer[2];
@@ -26,7 +29,7 @@ functionObject_getTypedArray = function(arrayBuffer, pointer) {
     }
 };
 
-functionObject_remove = function(array, value, equals) {
+exports.remove = functionObject_remove = function functionObject_remove(array, value, equals) {
     var idx = -1;
     if (typeof equals === "function") {
         for (var i = 0; i < array.length; i++) {
@@ -43,7 +46,7 @@ functionObject_remove = function(array, value, equals) {
     }
 };
 
-functionObject_find = function(array, predicate) {
+exports.find = functionObject_find = function functionObject_find(array, predicate) {
     for (var i = 0; i < array.length; i++) {
         if (predicate(array[i])) {
             return array[i];
@@ -52,10 +55,10 @@ functionObject_find = function(array, predicate) {
     return null;
 };
 
-functionObject_fromKeys = function(collection) {
+exports.fromKeys = functionObject_fromKeys = function functionObject_fromKeys(collection) {
     var array = [];
 
-    collection.forEach(function(value, key) {
+    collection.forEach(function (value, key) {
         array.push(key);
     });
     //        var iterator = collection.keys();
@@ -67,10 +70,10 @@ functionObject_fromKeys = function(collection) {
     return array;
 };
 
-functionObject_fromValues = function(collection) {
+exports.fromValues = functionObject_fromValues = function functionObject_fromValues(collection) {
     var array = [];
 
-    collection.forEach(function(value) {
+    collection.forEach(function (value) {
         array.push(value);
     });
     //        var iterator = collection.values();
@@ -82,4 +85,8 @@ functionObject_fromValues = function(collection) {
     return array;
 };
 
-export { functionObject_getTypedArray as getTypedArray, functionObject_remove as remove, functionObject_find as find, functionObject_fromKeys as fromKeys, functionObject_fromValues as fromValues };
+exports.getTypedArray = functionObject_getTypedArray;
+exports.remove = functionObject_remove;
+exports.find = functionObject_find;
+exports.fromKeys = functionObject_fromKeys;
+exports.fromValues = functionObject_fromValues;

@@ -1,11 +1,33 @@
-import * as Scripts from "../scripts/Scripts";
-import { OrbitCamControlScript } from "../scripts/OrbitCamControlScript";
-import * as PanCamControlScript from "../scriptpack/PanCamScript";
-import * as ObjectUtils from "../util/ObjectUtils";
+var _Scripts = require("../scripts/Scripts");
+
+var Scripts = _interopRequireWildcard(_Scripts);
+
+var _OrbitCamControlScript = require("../scripts/OrbitCamControlScript");
+
+var _PanCamScript = require("../scriptpack/PanCamScript");
+
+var PanCamControlScript = _interopRequireWildcard(_PanCamScript);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var functionObject_externals;
 
 function OrbitNPan() {
-	var orbitScript = Scripts.create(OrbitCamControlScript);
+	var orbitScript = Scripts.create(_OrbitCamControlScript.OrbitCamControlScript);
 	var panScript = Scripts.create(PanCamControlScript);
 	function setup(parameters, environment, goo) {
 		parameters.touchMode = 'Double'; // should alaways be 2 touch mode for panning
@@ -33,7 +55,7 @@ function OrbitNPan() {
 	};
 }
 
-var orbitParams = OrbitCamControlScript.externals.parameters;
+var orbitParams = _OrbitCamControlScript.OrbitCamControlScript.externals.parameters;
 var panParams = PanCamControlScript.externals.parameters;
 
 // Make sure we don't change parameters for the other scripts
@@ -66,8 +88,8 @@ for (var i = 0; i < params.length; i++) {
 }
 
 functionObject_externals = {
-    key: "OrbitNPanControlScript",
-    name: "Orbit and Pan Control",
-    description: "This is a combo of orbitcamcontrolscript and pancamcontrolscript",
-    parameters: params
+	key: "OrbitNPanControlScript",
+	name: "Orbit and Pan Control",
+	description: "This is a combo of orbitcamcontrolscript and pancamcontrolscript",
+	parameters: params
 };

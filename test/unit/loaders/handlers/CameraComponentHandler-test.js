@@ -1,15 +1,19 @@
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { World } from "../../../../src/goo/entities/World";
-import { CameraComponent } from "../../../../src/goo/entities/components/CameraComponent";
-import { Camera } from "../../../../src/goo/renderer/Camera";
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _CameraComponent = require("../../../../src/goo/entities/components/CameraComponent");
+
+var _Camera = require("../../../../src/goo/renderer/Camera");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('CameraComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -20,8 +24,8 @@ describe('CameraComponentHandler', function () {
 		var config = Configs.entity(['camera']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.cameraComponent).toEqual(jasmine.any(CameraComponent));
-			expect(entity.cameraComponent.camera).toEqual(jasmine.any(Camera));
+			expect(entity.cameraComponent).toEqual(jasmine.any(_CameraComponent.CameraComponent));
+			expect(entity.cameraComponent.camera).toEqual(jasmine.any(_Camera.Camera));
 			done();
 		});
 	});

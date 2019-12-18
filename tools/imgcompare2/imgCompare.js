@@ -1,5 +1,12 @@
-import child_process_moduleObject from "child_process";
-var exec = child_process_moduleObject.exec;
+var _child_process = require('child_process');
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var exec = _child_process2.default.exec;
 
 var regex = /\((\d+(?:\.\d+)?)\)/;
 
@@ -21,7 +28,7 @@ function compare(actual, expected, callback) {
 
 	exec(cmd, function (error, stdout, stderr) {
 
-		console.log(stderr)
+		console.log(stderr);
 
 		callback(extractNumber(stderr));
 	});

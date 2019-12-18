@@ -1,10 +1,10 @@
-import { Action } from "./Action";
+var _Action = require('./Action');
 
-function ScriptAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ScriptAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-ScriptAction.prototype = Object.create(Action.prototype);
+ScriptAction.prototype = Object.create(_Action.Action.prototype);
 ScriptAction.prototype.constructor = ScriptAction;
 
 ScriptAction.external = {
@@ -74,7 +74,6 @@ ScriptAction.prototype.exit = function () {
 	}
 };
 
-ScriptAction.prototype.onDestroy = function () {
-};
+ScriptAction.prototype.onDestroy = function () {};
 
 module.exports = ScriptAction;

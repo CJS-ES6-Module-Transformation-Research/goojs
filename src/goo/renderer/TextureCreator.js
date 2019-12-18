@@ -1,22 +1,49 @@
-import { Texture } from "../renderer/Texture";
-import * as MathUtils from "../math/MathUtils";
-import { TextureHandler } from "../loaders/handlers/TextureHandler";
-import { Ajax } from "../util/Ajax";
-import * as StringUtils from "../util/StringUtils";
-import * as PromiseUtils from "../util/PromiseUtils";
-import * as RSVP from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextureCreator = undefined;
+
+var _Texture = require("../renderer/Texture");
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
+
+var _Ajax = require("../util/Ajax");
+
+var _StringUtils = require("../util/StringUtils");
+
+var StringUtils = _interopRequireWildcard(_StringUtils);
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _rsvp = require("../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function TextureCreator() {
-	var ajax = this.ajax = new Ajax();
-	this.textureHandler = new TextureHandler(
-		{},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		},
-		function () {},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		}
-	);
+	var ajax = this.ajax = new _Ajax.Ajax();
+	this.textureHandler = new _TextureHandler.TextureHandler({}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	}, function () {}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	});
 }
 
 //! AT: unused?
@@ -102,7 +129,7 @@ TextureCreator.prototype.loadTextureWebCam = function () {
 		video.autoplay = true;
 		video.loop = true;
 
-		var texture = new Texture(video, {
+		var texture = new _Texture.Texture(video, {
 			wrapS: 'EdgeClamp',
 			wrapT: 'EdgeClamp'
 		});
@@ -153,7 +180,7 @@ TextureCreator.prototype.loadTextureWebCam = function () {
  * @returns {RSVP.Promise} A promise that will resolve with the resulting Texture
  */
 TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
-	var texture = new Texture(null, settings);
+	var texture = new _Texture.Texture(null, settings);
 	texture.variant = 'CUBE';
 
 	var promises = imageDataArray.map(function (queryImage) {
@@ -204,8 +231,8 @@ TextureCreator._finishedLoading = function (image) {
 
 // Add Object.freeze when fast enough in browsers
 var colorInfo = new Uint8Array([255, 255, 255, 255]);
-TextureCreator.DEFAULT_TEXTURE_2D = new Texture(colorInfo, null, 1, 1);
-TextureCreator.DEFAULT_TEXTURE_CUBE = new Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
+TextureCreator.DEFAULT_TEXTURE_2D = new _Texture.Texture(colorInfo, null, 1, 1);
+TextureCreator.DEFAULT_TEXTURE_CUBE = new _Texture.Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
 TextureCreator.DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
 
 var exported_TextureCreator = TextureCreator;
@@ -216,4 +243,4 @@ var exported_TextureCreator = TextureCreator;
  * Takes away the pain of creating textures of various sorts.
  * @param {Settings} settings Texturing settings
  */
-export { exported_TextureCreator as TextureCreator };
+exports.TextureCreator = exported_TextureCreator;

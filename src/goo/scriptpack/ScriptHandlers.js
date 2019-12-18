@@ -1,2 +1,3 @@
-import "./ScriptHandler";
-import "./ScriptComponentHandler";
+require("./ScriptHandler");
+
+require("./ScriptComponentHandler");
