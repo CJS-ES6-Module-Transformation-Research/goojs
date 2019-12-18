@@ -1,23 +1,7 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-var Vector4 = require('./Vector4');
-
-/**
- * Vector with 3 components.
- * @extends Vector
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @example
- * var zero = new Vector3();
- * var a = new Vector3(1, 2, 3);
- * var b = new Vector3([1, 2, 3]); // Create from array
- * var c = new Vector3(otherVector); // Create from other Vector3
- *
- * // Methods return the self object and allows for chaining:
- * a.add(b).sub(c); // a = a + b - c
- */
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as MathUtils from "./MathUtils";
+import { Vector } from "./Vector";
+import { Vector4 } from "./Vector4";
 function Vector3(x, y, z) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -1027,6 +1011,21 @@ Vector.addReturnChecks(Vector3.prototype, [
 	'length', 'lengthSquared',
 	'distance', 'distanceSquared'
 ]);
-// @endif
+var exported_Vector3 = Vector3;
 
-module.exports = Vector3;
+/**
+ * Vector with 3 components.
+ * @extends Vector
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @example
+ * var zero = new Vector3();
+ * var a = new Vector3(1, 2, 3);
+ * var b = new Vector3([1, 2, 3]); // Create from array
+ * var c = new Vector3(otherVector); // Create from other Vector3
+ *
+ * // Methods return the self object and allows for chaining:
+ * a.add(b).sub(c); // a = a + b - c
+ */
+export { exported_Vector3 as Vector3 };

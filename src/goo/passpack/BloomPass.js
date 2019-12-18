@@ -1,22 +1,10 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
-
-/**
- * @example-link http://code.gooengine.com/latest/visual-test/goo/passpack/BloomPass/BloomPass-vtest.html Working example
- * <pre>
- * settings: {
- *     strength: 1.0,
- *     sigma: 4.0,
- *     sizeX: 256,
- *     sizeY: 256
- * }
- * </pre>
- */
+import { Material } from "../renderer/Material";
+import * as FullscreenUtils from "../renderer/pass/FullscreenUtils";
+import { RenderTarget } from "../renderer/pass/RenderTarget";
+import * as ObjectUtils from "../util/ObjectUtils";
+import * as ShaderLib from "../renderer/shaders/ShaderLib";
+import * as ShaderLibExtra from "../passpack/ShaderLibExtra";
+import { Pass } from "../renderer/pass/Pass";
 function BloomPass(settings) {
 	settings = settings || {};
 
@@ -135,4 +123,17 @@ BloomPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 BloomPass.blurX = [0.001953125, 0.0];
 BloomPass.blurY = [0.0, 0.001953125];
 
-module.exports = BloomPass;
+var exported_BloomPass = BloomPass;
+
+/**
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/passpack/BloomPass/BloomPass-vtest.html Working example
+ * <pre>
+ * settings: {
+ *     strength: 1.0,
+ *     sigma: 4.0,
+ *     sizeX: 256,
+ *     sizeY: 256
+ * }
+ * </pre>
+ */
+export { exported_BloomPass as BloomPass };

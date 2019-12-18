@@ -1,8 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Camera = require('../../../renderer/Camera');
-var BoundingSphere = require('../../../renderer/bounds/BoundingSphere');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Camera } from "../../../renderer/Camera";
+import { BoundingSphere } from "../../../renderer/bounds/BoundingSphere";
 
-function InFrustumAction(/*id, settings*/) {
+function InFrustumAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -89,4 +89,5 @@ InFrustumAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = InFrustumAction;
+var exported_InFrustumAction = InFrustumAction;
+export { exported_InFrustumAction as InFrustumAction };

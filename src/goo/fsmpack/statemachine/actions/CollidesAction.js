@@ -1,8 +1,8 @@
-var EntitySelection = require('../../../entities/EntitySelection');
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var ProximitySystem = require('../../../fsmpack/proximity/ProximitySystem');
+import { EntitySelection } from "../../../entities/EntitySelection";
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { ProximitySystem } from "../../../fsmpack/proximity/ProximitySystem";
 
-function CollidesAction(/*id, settings*/) {
+function CollidesAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -89,4 +89,5 @@ CollidesAction.prototype.update = function (fsm) {
 	fsm.send(collides ? this.transitions.collides : this.transitions.notCollides);
 };
 
-module.exports = CollidesAction;
+var exported_CollidesAction = CollidesAction;
+export { exported_CollidesAction as CollidesAction };

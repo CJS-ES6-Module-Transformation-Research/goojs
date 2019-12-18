@@ -1,5 +1,5 @@
-var Vector3 = require('../../../src/goo/math/Vector3');
-var RenderQueue = require('../../../src/goo/renderer/RenderQueue');
+import { Vector3 } from "../../../src/goo/math/Vector3";
+import { RenderQueue } from "../../../src/goo/renderer/RenderQueue";
 
 describe('RenderQueue Sorting', function () {
 	var createRenderable = function (name, renderQueueBucket, translation, defineKey) {

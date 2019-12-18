@@ -1,20 +1,13 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Quad = require('../../shapes/Quad');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
-
-/**
- * Renders transform gizmos<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import { MeshData } from "../../renderer/MeshData";
+import { Shader } from "../../renderer/Shader";
+import { Quad } from "../../shapes/Quad";
+import { RenderTarget } from "../../renderer/pass/RenderTarget";
+import { Material } from "../../renderer/Material";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import { FullscreenPass } from "../../renderer/pass/FullscreenPass";
+import * as FullscreenUtils from "../../renderer/pass/FullscreenUtils";
 function PipRenderSystem(renderSystem) {
 	System.call(this, 'PipRenderSystem', null);
 
@@ -179,4 +172,12 @@ var renderPipQuad = {
 	].join('\n')
 };
 
-module.exports = PipRenderSystem;
+var exported_PipRenderSystem = PipRenderSystem;
+
+/**
+ * Renders transform gizmos<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_PipRenderSystem as PipRenderSystem };

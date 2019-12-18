@@ -1,26 +1,19 @@
-var EntitySelection = require('../../../entities/EntitySelection');
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
-var PhysicsPlaneDebugShape = require('../../../addons/physicspack/shapes/PhysicsPlaneDebugShape');
-var PhysicsCylinderDebugShape = require('../../../addons/physicspack/shapes/PhysicsCylinderDebugShape');
-var PhysicsSphereDebugShape = require('../../../addons/physicspack/shapes/PhysicsSphereDebugShape');
-var PhysicsBoxDebugShape = require('../../../addons/physicspack/shapes/PhysicsBoxDebugShape');
-var SphereCollider = require('../../../addons/physicspack/colliders/SphereCollider');
-var BoxCollider = require('../../../addons/physicspack/colliders/BoxCollider');
-var CylinderCollider = require('../../../addons/physicspack/colliders/CylinderCollider');
-var PlaneCollider = require('../../../addons/physicspack/colliders/PlaneCollider');
-var MeshCollider = require('../../../addons/physicspack/colliders/MeshCollider');
-var Transform = require('../../../math/Transform');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
-var Pool = require('../../../addons/physicspack/util/Pool');
-
-/**
- * Renders all ColliderComponents in the scene.
- * @extends System
- * @example
- * world.setSystem(new PhysicsDebugRenderSystem());
- */
+import { EntitySelection } from "../../../entities/EntitySelection";
+import { System } from "../../../entities/systems/System";
+import { anonymus as SystemBus } from "../../../entities/SystemBus";
+import { PhysicsPlaneDebugShape } from "../../../addons/physicspack/shapes/PhysicsPlaneDebugShape";
+import { PhysicsCylinderDebugShape } from "../../../addons/physicspack/shapes/PhysicsCylinderDebugShape";
+import { PhysicsSphereDebugShape } from "../../../addons/physicspack/shapes/PhysicsSphereDebugShape";
+import { PhysicsBoxDebugShape } from "../../../addons/physicspack/shapes/PhysicsBoxDebugShape";
+import { SphereCollider } from "../../../addons/physicspack/colliders/SphereCollider";
+import { BoxCollider } from "../../../addons/physicspack/colliders/BoxCollider";
+import { CylinderCollider } from "../../../addons/physicspack/colliders/CylinderCollider";
+import { PlaneCollider } from "../../../addons/physicspack/colliders/PlaneCollider";
+import { MeshCollider } from "../../../addons/physicspack/colliders/MeshCollider";
+import { Transform } from "../../../math/Transform";
+import { Material } from "../../../renderer/Material";
+import * as ShaderLib from "../../../renderer/shaders/ShaderLib";
+import { Pool } from "../../../addons/physicspack/util/Pool";
 function PhysicsDebugRenderSystem() {
 	System.call(this, 'PhysicsDebugRenderSystem', ['TransformComponent']);
 
@@ -185,4 +178,12 @@ PhysicsDebugRenderSystem.prototype.cleanup = function () {
 	this.clear();
 };
 
-module.exports = PhysicsDebugRenderSystem;
+var exported_PhysicsDebugRenderSystem = PhysicsDebugRenderSystem;
+
+/**
+ * Renders all ColliderComponents in the scene.
+ * @extends System
+ * @example
+ * world.setSystem(new PhysicsDebugRenderSystem());
+ */
+export { exported_PhysicsDebugRenderSystem as PhysicsDebugRenderSystem };

@@ -1,8 +1,4 @@
-var Component = require('../../entities/components/Component');
-
-/**
- * @private
- */
+import { Component } from "../../entities/components/Component";
 function ProximityComponent(tag) {
 	Component.apply(this, arguments);
 
@@ -37,4 +33,9 @@ ProximityComponent.prototype.detached = function (entity) {
 	proximitySystem.remove(entity, this.tag);
 };
 
-module.exports = ProximityComponent;
+var exported_ProximityComponent = ProximityComponent;
+
+/**
+ * @private
+ */
+export { exported_ProximityComponent as ProximityComponent };

@@ -1,10 +1,4 @@
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Handles a logic layer, which is a container for Logic Nodes and connections. It handles resolving and executing
- *        connections, as well as cross-layer connections (through LogicSystem). Each LogicLayer has an entity owner.
- * @private
- */
+import { LogicInterface } from "./LogicInterface";
 function LogicLayer(ownerEntity) {
 	this._logicInterfaces = {};
 	this._connectionsBySource = {}; // REVIEW: unused?
@@ -367,4 +361,11 @@ LogicLayer.prototype.connectEndpoints = function (sourceInst, sourcePort, destIn
 	this.addConnectionByName(sourceInst, sourcePort, destInst.name, destPort);
 };
 
-module.exports = LogicLayer;
+var exported_LogicLayer = LogicLayer;
+
+/**
+ * Handles a logic layer, which is a container for Logic Nodes and connections. It handles resolving and executing
+ *        connections, as well as cross-layer connections (through LogicSystem). Each LogicLayer has an entity owner.
+ * @private
+ */
+export { exported_LogicLayer as LogicLayer };

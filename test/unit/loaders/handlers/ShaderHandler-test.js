@@ -1,6 +1,6 @@
-var GooRunner = require('../../../../src/goo/entities/GooRunner');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var Shader = require('../../../../src/goo/renderer/Shader');
+import { GooRunner } from "../../../../src/goo/entities/GooRunner";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+import { Shader } from "../../../../src/goo/renderer/Shader";
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('ShaderHandler', function () {

@@ -1,11 +1,6 @@
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var Vector3 = require('../../math/Vector3');
-var TranslationGizmo = require('../../util/gizmopack/TranslationGizmo');
-
-/**
- * @extends Gizmo
- * @hidden
- */
+import { Gizmo } from "../../util/gizmopack/Gizmo";
+import { Vector3 } from "../../math/Vector3";
+import { TranslationGizmo } from "../../util/gizmopack/TranslationGizmo";
 function GlobalTranslationGizmo() {
 	Gizmo.call(this, 'GlobalTranslationGizmo');
 
@@ -37,4 +32,10 @@ GlobalTranslationGizmo.prototype._moveOnLine = TranslationGizmo.prototype._moveO
 
 GlobalTranslationGizmo.prototype.compileRenderables = TranslationGizmo.prototype.compileRenderables;
 
-module.exports = GlobalTranslationGizmo;
+var exported_GlobalTranslationGizmo = GlobalTranslationGizmo;
+
+/**
+ * @extends Gizmo
+ * @hidden
+ */
+export { exported_GlobalTranslationGizmo as GlobalTranslationGizmo };

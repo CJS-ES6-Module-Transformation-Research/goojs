@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
-function RandomTransitionAction(/*id, settings*/) {
+function RandomTransitionAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -49,4 +49,5 @@ RandomTransitionAction.prototype.enter = function (fsm) {
 	fsm.send(transition);
 };
 
-module.exports = RandomTransitionAction;
+var exported_RandomTransitionAction = RandomTransitionAction;
+export { exported_RandomTransitionAction as RandomTransitionAction };

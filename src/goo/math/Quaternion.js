@@ -1,21 +1,9 @@
-var Vector = require('./Vector');
-var Vector3 = require('./Vector3');
-var Vector4 = require('./Vector4');
-var Matrix3 = require('./Matrix3');
-var MathUtils = require('./MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Quaternions provide a convenient mathematical notation for
- * representing orientations and rotations of objects in three dimensions.
- * Compared to Euler angles, Quaternions are simpler to compose and can help avoid the problem of gimbal lock.
- * Compared to rotation matrices, Quaternions are more numerically stable and the representation (4 numbers) is more compact.
- * Quaternions are non-commutative and provide a convenient way to interpolate between rotations (using the <i>slerp</i> function).
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @param {number} w
- */
+import { Vector } from "./Vector";
+import { Vector3 } from "./Vector3";
+import { Vector4 } from "./Vector4";
+import { Matrix3 } from "./Matrix3";
+import * as MathUtils from "./MathUtils";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Quaternion(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -809,5 +797,17 @@ Quaternion.prototype.scalarDiv = ObjectUtils.warnOnce(
 	}
 );
 
-// SHIM END
-module.exports = Quaternion;
+var exported_Quaternion = Quaternion;
+
+/**
+ * Quaternions provide a convenient mathematical notation for
+ * representing orientations and rotations of objects in three dimensions.
+ * Compared to Euler angles, Quaternions are simpler to compose and can help avoid the problem of gimbal lock.
+ * Compared to rotation matrices, Quaternions are more numerically stable and the representation (4 numbers) is more compact.
+ * Quaternions are non-commutative and provide a convenient way to interpolate between rotations (using the <i>slerp</i> function).
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {number} w
+ */
+export { exported_Quaternion as Quaternion };

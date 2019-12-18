@@ -1,19 +1,14 @@
-var Material = require('../renderer/Material');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var MeshData = require('../renderer/MeshData');
-var Shader = require('../renderer/Shader');
-var ShaderFragment = require('../renderer/shaders/ShaderFragment');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var BlurPass = require('../passpack/BlurPass');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
-
-/**
- * Screen Space Ambient Occlusion pass
- * @param renderList
- */
+import { Material } from "../renderer/Material";
+import { RenderTarget } from "../renderer/pass/RenderTarget";
+import * as ObjectUtils from "../util/ObjectUtils";
+import { MeshData } from "../renderer/MeshData";
+import { Shader } from "../renderer/Shader";
+import * as ShaderFragment from "../renderer/shaders/ShaderFragment";
+import { RenderPass } from "../renderer/pass/RenderPass";
+import { FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { BlurPass } from "../passpack/BlurPass";
+import * as ShaderLibExtra from "../passpack/ShaderLibExtra";
+import { Pass } from "../renderer/pass/Pass";
 function SsaoPass(renderList) {
 	this.depthPass = new RenderPass(renderList);
 	this.depthPass.clearColor.setDirect(1, 1, 1, 1);
@@ -104,4 +99,10 @@ var packDepth = {
 	].join('\n')
 };
 
-module.exports = SsaoPass;
+var exported_SsaoPass = SsaoPass;
+
+/**
+ * Screen Space Ambient Occlusion pass
+ * @param renderList
+ */
+export { exported_SsaoPass as SsaoPass };

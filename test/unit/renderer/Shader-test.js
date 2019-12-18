@@ -1,14 +1,14 @@
-var DirectionalLight = require('../../../src/goo/renderer/light/DirectionalLight');
-var Texture = require('../../../src/goo/renderer/Texture');
-var Camera = require('../../../src/goo/renderer/Camera');
-var Box = require('../../../src/goo/shapes/Box');
-var Material = require('../../../src/goo/renderer/Material');
-var MeshData = require('../../../src/goo/renderer/MeshData');
-var Shader = require('../../../src/goo/renderer/Shader');
-var ShaderLib = require('../../../src/goo/renderer/shaders/ShaderLib');
-var ShaderCall = require('../../../src/goo/renderer/ShaderCall');
-var RendererRecord = require('../../../src/goo/renderer/RendererRecord');
-var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
+import { DirectionalLight } from "../../../src/goo/renderer/light/DirectionalLight";
+import { Texture } from "../../../src/goo/renderer/Texture";
+import { Camera } from "../../../src/goo/renderer/Camera";
+import { Box } from "../../../src/goo/shapes/Box";
+import { Material } from "../../../src/goo/renderer/Material";
+import { MeshData } from "../../../src/goo/renderer/MeshData";
+import { Shader } from "../../../src/goo/renderer/Shader";
+import * as ShaderLib from "../../../src/goo/renderer/shaders/ShaderLib";
+import { ShaderCall } from "../../../src/goo/renderer/ShaderCall";
+import { RendererRecord } from "../../../src/goo/renderer/RendererRecord";
+import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 
 (function () {
 	describe('Shader', function () {

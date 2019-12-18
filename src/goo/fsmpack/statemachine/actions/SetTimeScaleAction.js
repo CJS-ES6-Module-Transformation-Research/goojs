@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function SetTimeScaleAction(/*id, settings*/) {
+function SetTimeScaleAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this.everyFrame = false;
 }
@@ -30,4 +30,5 @@ SetTimeScaleAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetTimeScaleAction;
+var exported_SetTimeScaleAction = SetTimeScaleAction;
+export { exported_SetTimeScaleAction as SetTimeScaleAction };

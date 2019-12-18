@@ -1,8 +1,8 @@
+import { Camera } from "../../../src/goo/renderer/Camera";
+import { BoundingSphere } from "../../../src/goo/renderer/bounds/BoundingSphere";
+import { BoundingBox } from "../../../src/goo/renderer/bounds/BoundingBox";
+import { Vector3 } from "../../../src/goo/math/Vector3";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
-var Camera = require('../../../src/goo/renderer/Camera');
-var BoundingSphere = require('../../../src/goo/renderer/bounds/BoundingSphere');
-var BoundingBox = require('../../../src/goo/renderer/bounds/BoundingBox');
-var Vector3 = require('../../../src/goo/math/Vector3');
 
 describe('Camera', function () {
 	var camera;

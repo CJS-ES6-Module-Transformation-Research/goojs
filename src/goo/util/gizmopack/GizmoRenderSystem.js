@@ -1,25 +1,18 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var Matrix3 = require('../../math/Matrix3');
-var Matrix4 = require('../../math/Matrix4');
-var Vector2 = require('../../math/Vector2');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var TranslationGizmo = require('../../util/gizmopack/TranslationGizmo');
-var GlobalTranslationGizmo = require('../../util/gizmopack/GlobalTranslationGizmo');
-var RotationGizmo = require('../../util/gizmopack/RotationGizmo');
-var GlobalRotationGizmo = require('../../util/gizmopack/GlobalRotationGizmo');
-var ScaleGizmo = require('../../util/gizmopack/ScaleGizmo');
-
-/**
- * Renders transform gizmos<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import { Material } from "../../renderer/Material";
+import * as ShaderFragment from "../../renderer/shaders/ShaderFragment";
+import { Matrix3 } from "../../math/Matrix3";
+import { Matrix4 } from "../../math/Matrix4";
+import { Vector2 } from "../../math/Vector2";
+import { MeshData } from "../../renderer/MeshData";
+import { Shader } from "../../renderer/Shader";
+import { Gizmo } from "../../util/gizmopack/Gizmo";
+import { TranslationGizmo } from "../../util/gizmopack/TranslationGizmo";
+import { GlobalTranslationGizmo } from "../../util/gizmopack/GlobalTranslationGizmo";
+import { RotationGizmo } from "../../util/gizmopack/RotationGizmo";
+import { GlobalRotationGizmo } from "../../util/gizmopack/GlobalRotationGizmo";
+import { ScaleGizmo } from "../../util/gizmopack/ScaleGizmo";
 function GizmoRenderSystem(callbacks) {
 	System.call(this, 'GizmoRenderSystem', null);
 
@@ -360,4 +353,12 @@ var customPickingShader = {
 	].join('\n')
 };
 
-module.exports = GizmoRenderSystem;
+var exported_GizmoRenderSystem = GizmoRenderSystem;
+
+/**
+ * Renders transform gizmos<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_GizmoRenderSystem as GizmoRenderSystem };

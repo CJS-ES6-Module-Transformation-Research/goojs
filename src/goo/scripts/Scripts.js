@@ -1,5 +1,5 @@
-var ScriptUtils = require('../scripts/ScriptUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import * as ScriptUtils from "../scripts/ScriptUtils";
+import * as ObjectUtils from "../util/ObjectUtils";
 
 // the collection of scripts
 var _scripts = {};
@@ -75,4 +75,15 @@ Scripts.allScripts = function () {
 	return scripts;
 };
 
-module.exports = Scripts;
+var objectLiteral_register = function(factoryFunction) {
+    var key = factoryFunction.externals.key || factoryFunction.externals.name;
+    if (_scripts[key]) {
+        console.warn("Script already registered for key " + key);
+        return;
+    }
+    //! AT: this will modify the external object but that's ok
+    ScriptUtils.fillDefaultNames(factoryFunction.externals.parameters);
+    _scripts[key] = factoryFunction;
+};
+
+export { objectLiteral_register as register };

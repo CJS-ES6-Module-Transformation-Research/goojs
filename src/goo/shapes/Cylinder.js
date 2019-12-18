@@ -1,15 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var Vector3 = require('../math/Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A 3D object representing a cylinder.
- * @extends MeshData
- * @param {number} [radialSamples=8] Number of slices
- * @param {number} [radiusTop=0.5] Radius of the cylinder at the top.
- * @param {number} [radiusBottom=radiusTop] Radius of the cylinder at the bottom. Defaults to radiusTop.
- * @param {number} [height=1] Height
- */
+import { MeshData } from "../renderer/MeshData";
+import { Vector3 } from "../math/Vector3";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Cylinder(radialSamples, radiusTop, radiusBottom, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -160,4 +151,14 @@ Cylinder.prototype.clone = function () {
 	return new Cylinder(options);
 };
 
-module.exports = Cylinder;
+var exported_Cylinder = Cylinder;
+
+/**
+ * A 3D object representing a cylinder.
+ * @extends MeshData
+ * @param {number} [radialSamples=8] Number of slices
+ * @param {number} [radiusTop=0.5] Radius of the cylinder at the top.
+ * @param {number} [radiusBottom=radiusTop] Radius of the cylinder at the bottom. Defaults to radiusTop.
+ * @param {number} [height=1] Height
+ */
+export { exported_Cylinder as Cylinder };

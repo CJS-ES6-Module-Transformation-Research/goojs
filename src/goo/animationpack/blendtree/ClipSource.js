@@ -1,14 +1,6 @@
-var MathUtils = require('../../math/MathUtils');
-var AnimationClipInstance = require('../../animationpack/clip/AnimationClipInstance');
-var Source = require('../../animationpack/blendtree/Source');
-
-/**
- * A blend tree leaf node that samples and returns values from the channels of an AnimationClip.
- * @param {AnimationClip} clip the clip to use.
- * @param {string} [filter] 'Exclude' or 'Include'
- * @param {Array<string>} [channelNames]
- * @extends Source
- */
+import * as MathUtils from "../../math/MathUtils";
+import { AnimationClipInstance } from "../../animationpack/clip/AnimationClipInstance";
+import { Source } from "../../animationpack/blendtree/Source";
 function ClipSource(clip, filter, channelNames) {
 	Source.call(this);
 	this._clip = clip;
@@ -183,4 +175,13 @@ ClipSource.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = ClipSource;
+var exported_ClipSource = ClipSource;
+
+/**
+ * A blend tree leaf node that samples and returns values from the channels of an AnimationClip.
+ * @param {AnimationClip} clip the clip to use.
+ * @param {string} [filter] 'Exclude' or 'Include'
+ * @param {Array<string>} [channelNames]
+ * @extends Source
+ */
+export { exported_ClipSource as ClipSource };

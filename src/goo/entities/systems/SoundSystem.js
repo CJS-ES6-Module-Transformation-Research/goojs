@@ -1,14 +1,8 @@
-var System = require('../../entities/systems/System');
-var AudioContext = require('../../sound/AudioContext');
-var MathUtils = require('../../math/MathUtils');
-var SystemBus = require('../../entities/SystemBus');
-var Matrix4 = require('../../math/Matrix4');
-
-/**
- * System responsible for sound.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import * as AudioContext from "../../sound/AudioContext";
+import * as MathUtils from "../../math/MathUtils";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import { Matrix4 } from "../../math/Matrix4";
 function SoundSystem() {
 	this._isSupported = AudioContext.isSupported();
 	if (!this._isSupported) {
@@ -294,4 +288,11 @@ SoundSystem.prototype.process = function (entities, tpf) {
 	}
 };
 
-module.exports = SoundSystem;
+var exported_SoundSystem = SoundSystem;
+
+/**
+ * System responsible for sound.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
+ * @extends System
+ */
+export { exported_SoundSystem as SoundSystem };

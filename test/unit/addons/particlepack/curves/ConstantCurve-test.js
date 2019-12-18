@@ -1,4 +1,4 @@
-var ConstantCurve = require('../../../../../src/goo/addons/particlepack/curves/ConstantCurve');
+import { ConstantCurve } from "../../../../../src/goo/addons/particlepack/curves/ConstantCurve";
 
 describe('ConstantCurve', function () {
 	it('.getValueAt', function () {

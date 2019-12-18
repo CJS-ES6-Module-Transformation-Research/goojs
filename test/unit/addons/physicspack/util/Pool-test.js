@@ -1,9 +1,7 @@
+import { Pool } from "../../../../../src/goo/addons/physicspack/util/Pool";
+import { Vector3 } from "../../../../../src/goo/math/Vector3";
 describe('Pool', function () {
-
-	var Pool = require('../../../../../src/goo/addons/physicspack/util/Pool');
-	var Vector3 = require('../../../../../src/goo/math/Vector3');
-
-	function createPool() {
+    function createPool() {
 		return new Pool({
 			create: function () { return new Vector3(); },
 			init: Vector3.prototype.setDirect,
@@ -11,7 +9,7 @@ describe('Pool', function () {
 		});
 	}
 
-	it('can resize', function () {
+    it('can resize', function () {
 		var pool = createPool();
 
 		pool.resize(10);
@@ -19,7 +17,7 @@ describe('Pool', function () {
 		expect(pool._objects.length).toEqual(10);
 	});
 
-	it('can get', function () {
+    it('can get', function () {
 		var pool = createPool();
 
 		var vector = pool.get(1, 2, 3);
@@ -27,7 +25,7 @@ describe('Pool', function () {
 		expect(vector).toEqual(new Vector3(1, 2, 3));
 	});
 
-	it('can release', function () {
+    it('can release', function () {
 		var pool = createPool();
 		var vector = pool.get(1, 2, 3);
 
@@ -39,7 +37,7 @@ describe('Pool', function () {
 		expect(vector).toEqual(new Vector3(0, 0, 0));
 	});
 
-	it('can create', function () {
+    it('can create', function () {
 		var pool = createPool();
 
 		var vector = pool._create();
@@ -48,7 +46,7 @@ describe('Pool', function () {
 		expect(pool._objects.length).toEqual(0);
 	});
 
-	it('can destroy', function () {
+    it('can destroy', function () {
 		var pool = createPool();
 		var vector = pool._create(1, 2, 3);
 

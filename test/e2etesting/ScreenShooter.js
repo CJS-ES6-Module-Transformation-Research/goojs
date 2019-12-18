@@ -1,11 +1,12 @@
+import webdriver from "selenium-webdriver";
+import fs from "fs";
+import path from "path";
+import async from "async";
+import mkdirp from "mkdirp";
+import events_moduleObject from "events";
 'use strict';
 
-var webdriver = require('selenium-webdriver');
-var fs = require('fs');
-var path = require('path');
-var async = require('async');
-var mkdirp = require('mkdirp');
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = events_moduleObject.EventEmitter;
 
 /**
  * @class ScreenShooter

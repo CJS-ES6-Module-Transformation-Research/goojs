@@ -1,12 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Meshdata for a grid; useful for displaying tiles
- * @extends MeshData
- * @param matrix
- * @param textureUnitsPerLine
- */
+import { MeshData } from "../renderer/MeshData";
+import * as ObjectUtils from "../util/ObjectUtils";
 function TextureGrid(matrix, textureUnitsPerLine) {
 	this.matrix = matrix;
 	this.textureUnitsPerLine = textureUnitsPerLine || 8;
@@ -114,4 +107,12 @@ TextureGrid.fromString = function (str) {
 	return new TextureGrid(stringToMatrix(str), 16);
 };
 
-module.exports = TextureGrid;
+var exported_TextureGrid = TextureGrid;
+
+/**
+ * Meshdata for a grid; useful for displaying tiles
+ * @extends MeshData
+ * @param matrix
+ * @param textureUnitsPerLine
+ */
+export { exported_TextureGrid as TextureGrid };

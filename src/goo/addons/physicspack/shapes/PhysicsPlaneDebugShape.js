@@ -1,9 +1,4 @@
-var MeshData = require('../../../renderer/MeshData');
-
-/**
- * A wireframe mesh indicating the position and orientation of a PlaneCollider.
- * @extends MeshData
- */
+import { MeshData } from "../../../renderer/MeshData";
 function PhysicsPlaneDebugShape() {
 	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
 	MeshData.call(this, attributeMap, 10, 14);
@@ -57,4 +52,10 @@ PhysicsPlaneDebugShape.prototype.rebuild = function () {
 	return this;
 };
 
-module.exports = PhysicsPlaneDebugShape;
+var exported_PhysicsPlaneDebugShape = PhysicsPlaneDebugShape;
+
+/**
+ * A wireframe mesh indicating the position and orientation of a PlaneCollider.
+ * @extends MeshData
+ */
+export { exported_PhysicsPlaneDebugShape as PhysicsPlaneDebugShape };

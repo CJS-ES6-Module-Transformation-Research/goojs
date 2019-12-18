@@ -1,19 +1,12 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var MeshData = require('../../renderer/MeshData');
-var BufferUtils = require('../../renderer/BufferUtils');
-var Capabilities = require('../../renderer/Capabilities');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ArrayUtils = require('../../util/ArrayUtils');
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { MeshData } from "../../renderer/MeshData";
+import * as BufferUtils from "../../renderer/BufferUtils";
+import { Capabilities } from "../../renderer/Capabilities";
+import * as PromiseUtils from "../../util/PromiseUtils";
+import * as ArrayUtils from "../../util/ArrayUtils";
 
 var WEIGHTS_PER_VERT = 4;
 
-/**
- * Handler for meshdata. Will not update, only create once
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
 function MeshDataHandler() {
 	ConfigHandler.apply(this, arguments);
 }
@@ -182,4 +175,13 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 	return meshData;
 };
 
-module.exports = MeshDataHandler;
+var exported_MeshDataHandler = MeshDataHandler;
+
+/**
+ * Handler for meshdata. Will not update, only create once
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_MeshDataHandler as MeshDataHandler };

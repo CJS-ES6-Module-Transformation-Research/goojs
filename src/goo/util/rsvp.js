@@ -284,10 +284,17 @@ function configure(name, value) {
 	config[name] = value;
 }
 
-module.exports = {
+var anonymus_obj = {
 	Promise: Promise,
 	Event: Event,
 	EventTarget: EventTarget,
 	all: all,
 	configure: configure
 };
+
+var exported_Promise = Promise;
+var exported_Event = Event;
+var exported_EventTarget = EventTarget;
+var exported_all = all;
+var exported_configure = configure;
+export { exported_Promise as Promise, exported_all as all };

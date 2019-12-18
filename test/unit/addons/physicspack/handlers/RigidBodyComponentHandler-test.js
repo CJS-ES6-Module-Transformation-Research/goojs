@@ -1,10 +1,9 @@
-var DynamicLoader = require('../../../../../src/goo/loaders/DynamicLoader');
-var Vector3 = require('../../../../../src/goo/math/Vector3');
-var World = require('../../../../../src/goo/entities/World');
-var RigidBodyComponent = require('../../../../../src/goo/addons/physicspack/components/RigidBodyComponent');
+import { DynamicLoader } from "../../../../../src/goo/loaders/DynamicLoader";
+import { Vector3 } from "../../../../../src/goo/math/Vector3";
+import { World } from "../../../../../src/goo/entities/World";
+import { RigidBodyComponent } from "../../../../../src/goo/addons/physicspack/components/RigidBodyComponent";
+import "../../../../../src/goo/addons/physicspack/handlers/RigidBodyComponentHandler";
 var Configs = require('../../../../../test/unit/loaders/Configs');
-
-require('../../../../../src/goo/addons/physicspack/handlers/RigidBodyComponentHandler');
 
 describe('RigidBodyComponentHandler', function () {
 	var loader;

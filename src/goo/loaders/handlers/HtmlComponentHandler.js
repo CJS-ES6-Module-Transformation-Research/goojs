@@ -1,18 +1,10 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var HtmlComponent = require('../../entities/components/HtmlComponent');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { HtmlComponent } from "../../entities/components/HtmlComponent";
+import * as RSVP from "../../util/rsvp";
+import * as PromiseUtils from "../../util/PromiseUtils";
 
 'use strict';
 
-/**
- * For handling loading of HTML components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
 function HtmlComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'HtmlComponent';
@@ -280,4 +272,14 @@ HtmlComponentHandler.prototype._remove = function (entity) {
 	}
 };
 
-module.exports = HtmlComponentHandler;
+var exported_HtmlComponentHandler = HtmlComponentHandler;
+
+/**
+ * For handling loading of HTML components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_HtmlComponentHandler as HtmlComponentHandler };

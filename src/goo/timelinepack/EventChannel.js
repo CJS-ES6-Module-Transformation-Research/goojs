@@ -1,4 +1,4 @@
-var AbstractTimelineChannel = require('../timelinepack/AbstractTimelineChannel');
+import { AbstractTimelineChannel } from "../timelinepack/AbstractTimelineChannel";
 
 function EventChannel(id) {
 	AbstractTimelineChannel.call(this, id);
@@ -85,4 +85,5 @@ EventChannel.prototype.setTime = function (time) {
 	return this;
 };
 
-module.exports = EventChannel;
+var exported_EventChannel = EventChannel;
+export { exported_EventChannel as EventChannel };

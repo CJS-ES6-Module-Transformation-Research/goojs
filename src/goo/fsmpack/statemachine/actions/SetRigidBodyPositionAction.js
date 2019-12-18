@@ -1,7 +1,7 @@
-var Action = require('./Action');
-var Vector3 = require('./../../../math/Vector3');
+import { Action } from "./Action";
+import { Vector3 } from "./../../../math/Vector3";
 
-function SetRigidBodyPositionAction(/*id, settings*/) {
+function SetRigidBodyPositionAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 SetRigidBodyPositionAction.prototype = Object.create(Action.prototype);
@@ -31,4 +31,5 @@ SetRigidBodyPositionAction.prototype.enter = function (fsm) {
 	entity.rigidBodyComponent.setPosition(tmpVector);
 };
 
-module.exports = SetRigidBodyPositionAction;
+var exported_SetRigidBodyPositionAction = SetRigidBodyPositionAction;
+export { exported_SetRigidBodyPositionAction as SetRigidBodyPositionAction };

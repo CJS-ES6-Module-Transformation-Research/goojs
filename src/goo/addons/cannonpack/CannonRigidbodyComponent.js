@@ -1,29 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
-var Transform = require('../../math/Transform');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/* global CANNON */
-
-/**
- * Adds Cannon physics to an entity. Should be combined with one of the CannonCollider components, such as the {@link CannonSphereColliderComponent}. Also see {@link CannonSystem}.
- * @extends Component
- * @param {Object} [settings]
- * @param {number} [settings.mass=1]
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
- * @example
- * world.setSystem(new CannonSystem());
- * var entity = world.createEntity();
- * var rigidBodyComponent = new CannonRigidBodyComponent({
- *   mass: 1
- * });
- * entity.setComponent(rigidBodyComponent);
- * var boxColliderComponent = new CannonBoxColliderComponent({
- *   halfExtents: new Vector3(1, 1, 1)
- * });
- * entity.setComponent(boxColliderComponent);
- */
+import { Component } from "../../entities/components/Component";
+import { Quaternion } from "../../math/Quaternion";
+import { Vector3 } from "../../math/Vector3";
+import { Transform } from "../../math/Transform";
+import * as ObjectUtils from "../../util/ObjectUtils";
 function CannonRigidbodyComponent(settings) {
 	Component.apply(this, arguments);
 
@@ -165,4 +144,26 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 	}
 };
 
-module.exports = CannonRigidbodyComponent;
+var exported_CannonRigidbodyComponent = CannonRigidbodyComponent;
+
+/* global CANNON */
+
+/**
+ * Adds Cannon physics to an entity. Should be combined with one of the CannonCollider components, such as the {@link CannonSphereColliderComponent}. Also see {@link CannonSystem}.
+ * @extends Component
+ * @param {Object} [settings]
+ * @param {number} [settings.mass=1]
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @example
+ * world.setSystem(new CannonSystem());
+ * var entity = world.createEntity();
+ * var rigidBodyComponent = new CannonRigidBodyComponent({
+ *   mass: 1
+ * });
+ * entity.setComponent(rigidBodyComponent);
+ * var boxColliderComponent = new CannonBoxColliderComponent({
+ *   halfExtents: new Vector3(1, 1, 1)
+ * });
+ * entity.setComponent(boxColliderComponent);
+ */
+export { exported_CannonRigidbodyComponent as CannonRigidbodyComponent };

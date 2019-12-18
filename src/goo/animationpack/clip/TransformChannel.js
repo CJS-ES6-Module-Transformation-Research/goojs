@@ -1,15 +1,6 @@
-var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
-var TransformData = require('../../animationpack/clip/TransformData');
-var Quaternion = require('../../math/Quaternion');
-
-/**
- * An animation channel consisting of a series of transforms interpolated over time.
- * @param channelName our name.
- * @param {Array} times our time offset values.
- * @param {Array} rotations the rotations to set on this channel at each time offset.
- * @param {Array} translations the translations to set on this channel at each time offset.
- * @param {Array} scales the scales to set on this channel at each time offset.
- */
+import { AbstractAnimationChannel } from "../../animationpack/clip/AbstractAnimationChannel";
+import { TransformData } from "../../animationpack/clip/TransformData";
+import { Quaternion } from "../../math/Quaternion";
 function TransformChannel(channelName, times, rotations, translations, scales, blendType) {
 	AbstractAnimationChannel.call(this, channelName, times, blendType);
 
@@ -119,4 +110,14 @@ TransformChannel.prototype.getData = function (index, store) {
 	return rVal;
 };
 
-module.exports = TransformChannel;
+var exported_TransformChannel = TransformChannel;
+
+/**
+ * An animation channel consisting of a series of transforms interpolated over time.
+ * @param channelName our name.
+ * @param {Array} times our time offset values.
+ * @param {Array} rotations the rotations to set on this channel at each time offset.
+ * @param {Array} translations the translations to set on this channel at each time offset.
+ * @param {Array} scales the scales to set on this channel at each time offset.
+ */
+export { exported_TransformChannel as TransformChannel };

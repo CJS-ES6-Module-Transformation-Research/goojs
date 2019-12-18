@@ -1,12 +1,4 @@
-var Vector3 = require('./Vector3');
-
-/**
- * A representation of a mathematical plane using a normal vector and a plane constant (d) whose absolute value represents the distance
- *        from the origin to the plane. It is generally calculated by taking a point (X) on the plane and finding its dot-product with the plane's
- *        normal vector. In other words: d = N dot X
- * @param {Vector3} normal Normal of the plane.
- * @param {number} constant The plane offset along the normal.
- */
+import { Vector3 } from "./Vector3";
 function Plane(normal, constant) {
 	this.normal = normal ? normal.clone() : Vector3.UNIT_Y.clone();
 	this.constant = isNaN(constant) ? 0 : constant;
@@ -114,4 +106,13 @@ Plane.prototype.clone = function () {
 	return new Plane(this.normal.clone(), this.constant);
 };
 
-module.exports = Plane;
+var exported_Plane = Plane;
+
+/**
+ * A representation of a mathematical plane using a normal vector and a plane constant (d) whose absolute value represents the distance
+ *        from the origin to the plane. It is generally calculated by taking a point (X) on the plane and finding its dot-product with the plane's
+ *        normal vector. In other words: d = N dot X
+ * @param {Vector3} normal Normal of the plane.
+ * @param {number} constant The plane offset along the normal.
+ */
+export { exported_Plane as Plane };

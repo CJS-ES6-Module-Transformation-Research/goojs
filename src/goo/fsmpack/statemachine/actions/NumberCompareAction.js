@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function NumberCompareAction(/*id, settings*/) {
+function NumberCompareAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -87,4 +87,5 @@ NumberCompareAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = NumberCompareAction;
+var exported_NumberCompareAction = NumberCompareAction;
+export { exported_NumberCompareAction as NumberCompareAction };

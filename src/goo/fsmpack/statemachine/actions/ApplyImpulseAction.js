@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 } from "../../../math/Vector3";
 
-function ApplyImpulseAction(/*id, settings*/) {
+function ApplyImpulseAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -53,4 +53,5 @@ ApplyImpulseAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = ApplyImpulseAction;
+var exported_ApplyImpulseAction = ApplyImpulseAction;
+export { exported_ApplyImpulseAction as ApplyImpulseAction };

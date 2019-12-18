@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
-function IncrementCounterAction(/*id, settings*/) {
+function IncrementCounterAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -62,4 +62,5 @@ IncrementCounterAction.prototype.cleanup = function (fsm) {
 	fsm.getFsm().removeVariable(this.name);
 };
 
-module.exports = IncrementCounterAction;
+var exported_IncrementCounterAction = IncrementCounterAction;
+export { exported_IncrementCounterAction as IncrementCounterAction };

@@ -1,9 +1,7 @@
+import { CylinderCollider } from "../../../../../src/goo/addons/physicspack/colliders/CylinderCollider";
+import { Transform } from "../../../../../src/goo/math/Transform";
 describe('CylinderCollider', function () {
-
-	var CylinderCollider = require('../../../../../src/goo/addons/physicspack/colliders/CylinderCollider');
-	var Transform = require('../../../../../src/goo/math/Transform');
-
-	it('can clone', function () {
+    it('can clone', function () {
 		var collider = new CylinderCollider({
 			radius: 123,
 			height: 456
@@ -12,7 +10,7 @@ describe('CylinderCollider', function () {
 		expect(collider).toEqual(clone);
 	});
 
-	it('can transform', function () {
+    it('can transform', function () {
 		var collider = new CylinderCollider({
 			radius: 2,
 			height: 3

@@ -1,6 +1,3 @@
-/**
- * Base pass class
- */
 function Pass() {}
 
 Pass.prototype.destroy = function (/* renderer */) {};
@@ -11,4 +8,9 @@ Pass.prototype.updateSize = function (/* size, renderer */) {};
 
 Pass.prototype.invalidateHandles = function (/* renderer */) {};
 
-module.exports = Pass;
+var exported_Pass = Pass;
+
+/**
+ * Base pass class
+ */
+export { exported_Pass as Pass };

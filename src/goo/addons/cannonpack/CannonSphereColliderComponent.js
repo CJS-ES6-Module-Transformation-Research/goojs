@@ -1,13 +1,4 @@
-var Component = require('../../entities/components/Component');
-
-/* global CANNON */
-
-/**
- * Sphere collider for the {@link CannonSystem}.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
- * @param {Object} [settings]
- * @param {number} [settings.radius=0.5]
- */
+import { Component } from "../../entities/components/Component";
 function CannonSphereColliderComponent(settings) {
 	Component.apply(this, arguments);
 
@@ -19,4 +10,14 @@ function CannonSphereColliderComponent(settings) {
 CannonSphereColliderComponent.prototype = Object.create(Component.prototype);
 CannonSphereColliderComponent.constructor = CannonSphereColliderComponent;
 
-module.exports = CannonSphereColliderComponent;
+var exported_CannonSphereColliderComponent = CannonSphereColliderComponent;
+
+/* global CANNON */
+
+/**
+ * Sphere collider for the {@link CannonSystem}.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @param {Object} [settings]
+ * @param {number} [settings.radius=0.5]
+ */
+export { exported_CannonSphereColliderComponent as CannonSphereColliderComponent };

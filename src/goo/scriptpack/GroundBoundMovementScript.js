@@ -1,4 +1,4 @@
-var Vector3 = require('../math/Vector3');
+import { Vector3 } from "../math/Vector3";
 
 var calcVec = new Vector3();
 var _defaults = {
@@ -13,10 +13,6 @@ var _defaults = {
 	modTurn: 0.3
 };
 
-/**
- * A script for handling basic movement and jumping over a terrain.
- * The standard usage of this script will likely also need some input listener and camera handling.
- */
 function GroundBoundMovementScript(properties) {
 	properties = properties || {};
 	for (var key in _defaults) {
@@ -310,4 +306,10 @@ GroundBoundMovementScript.prototype.run = function (entity) {
 	this.applyGroundContact(entity, transform);
 };
 
-module.exports = GroundBoundMovementScript;
+var exported_GroundBoundMovementScript = GroundBoundMovementScript;
+
+/**
+ * A script for handling basic movement and jumping over a terrain.
+ * The standard usage of this script will likely also need some input listener and camera handling.
+ */
+export { exported_GroundBoundMovementScript as GroundBoundMovementScript };

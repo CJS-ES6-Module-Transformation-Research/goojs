@@ -1,9 +1,5 @@
-var Vector2 = require('../../math/Vector2');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Used for storing derived data from gamepads
- */
+import { Vector2 } from "../../math/Vector2";
+import * as MathUtils from "../../math/MathUtils";
 function GamepadData() {
 	this.leftStickDirection = new Vector2();
 	this.rightStickDirection = new Vector2();
@@ -86,4 +82,9 @@ GamepadData.prototype.calculateStickAmount = function (x, y) {
 	return Math.max(Math.abs(x), Math.abs(y));
 };
 
-module.exports = GamepadData;
+var exported_GamepadData = GamepadData;
+
+/**
+ * Used for storing derived data from gamepads
+ */
+export { exported_GamepadData as GamepadData };

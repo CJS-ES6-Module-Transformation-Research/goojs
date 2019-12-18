@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function StopSoundAction(/*id, settings*/) {
+function StopSoundAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -32,4 +32,5 @@ StopSoundAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = StopSoundAction;
+var exported_StopSoundAction = StopSoundAction;
+export { exported_StopSoundAction as StopSoundAction };
