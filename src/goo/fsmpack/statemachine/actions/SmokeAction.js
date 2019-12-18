@@ -1,17 +1,44 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Material } from "../../../renderer/Material";
-import * as ShaderLib from "../../../renderer/shaders/ShaderLib";
-import * as ParticleLib from "../../../particles/ParticleLib";
-import * as ParticleSystemUtils from "../../../util/ParticleSystemUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SmokeAction = undefined;
 
-function SmokeAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Material = require("../../../renderer/Material");
+
+var _ShaderLib = require("../../../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _ParticleLib = require("../../../particles/ParticleLib");
+
+var ParticleLib = _interopRequireWildcard(_ParticleLib);
+
+var _ParticleSystemUtils = require("../../../util/ParticleSystemUtils");
+
+var ParticleSystemUtils = _interopRequireWildcard(_ParticleSystemUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function SmokeAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.smokeEntity = null;
 }
 
 SmokeAction.material = null;
 
-SmokeAction.prototype = Object.create(Action.prototype);
+SmokeAction.prototype = Object.create(_Action.Action.prototype);
 SmokeAction.prototype.constructor = SmokeAction;
 
 SmokeAction.external = {
@@ -39,7 +66,7 @@ SmokeAction.prototype.enter = function (fsm) {
 	var gooRunner = entity._world.gooRunner;
 
 	if (!SmokeAction.material) {
-		SmokeAction.material = new Material(ShaderLib.particles);
+		SmokeAction.material = new _Material.Material(ShaderLib.particles);
 		var texture = ParticleSystemUtils.createFlareTexture();
 		texture.generateMipmaps = true;
 		SmokeAction.material.setTexture('DIFFUSE_MAP', texture);
@@ -51,14 +78,10 @@ SmokeAction.prototype.enter = function (fsm) {
 
 	var entityScale = entity.transformComponent.sync().worldTransform.scale;
 	var scale = (entityScale.x + entityScale.y + entityScale.z) / 3;
-	this.smokeEntity = ParticleSystemUtils.createParticleSystemEntity(
-		gooRunner.world,
-		ParticleLib.getSmoke({
-			scale: scale,
-			color: this.color
-		}),
-		SmokeAction.material
-	);
+	this.smokeEntity = ParticleSystemUtils.createParticleSystemEntity(gooRunner.world, ParticleLib.getSmoke({
+		scale: scale,
+		color: this.color
+	}), SmokeAction.material);
 	this.smokeEntity.meshRendererComponent.isPickable = false;
 	this.smokeEntity.meshRendererComponent.castShadows = false;
 	this.smokeEntity.meshRendererComponent.receiveShadows = false;
@@ -68,7 +91,7 @@ SmokeAction.prototype.enter = function (fsm) {
 	this.smokeEntity.addToWorld();
 };
 
-SmokeAction.prototype.cleanup = function (/*fsm*/) {
+SmokeAction.prototype.cleanup = function () /*fsm*/{
 	if (this.smokeEntity) {
 		this.smokeEntity.removeFromWorld();
 		this.smokeEntity = null;
@@ -76,4 +99,4 @@ SmokeAction.prototype.cleanup = function (/*fsm*/) {
 };
 
 var exported_SmokeAction = SmokeAction;
-export { exported_SmokeAction as SmokeAction };
+exports.SmokeAction = exported_SmokeAction;

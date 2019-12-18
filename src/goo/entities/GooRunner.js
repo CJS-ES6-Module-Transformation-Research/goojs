@@ -1,50 +1,93 @@
-import { World } from "./World";
-import { Renderer } from "../renderer/Renderer";
-import { TransformSystem } from "./systems/TransformSystem";
-import { RenderSystem } from "./systems/RenderSystem";
-import { BoundingUpdateSystem } from "./systems/BoundingUpdateSystem";
-import { ScriptSystem } from "./systems/ScriptSystem";
-import { LightingSystem } from "./systems/LightingSystem";
-import { CameraSystem } from "./systems/CameraSystem";
-import { ParticlesSystem } from "./systems/ParticlesSystem";
-import { Stats } from "../util/Stats";
-import { anonymus as AudioContext } from "../sound/AudioContext";
-import { SoundSystem } from "./systems/SoundSystem";
-import { TransformComponent } from "./components/TransformComponent";
-import { MeshDataComponent } from "./components/MeshDataComponent";
-import { MeshRendererComponent } from "./components/MeshRendererComponent";
-import { CameraComponent } from "./components/CameraComponent";
-import { LightComponent } from "./components/LightComponent";
-import { ScriptComponent } from "./components/ScriptComponent";
-import * as GameUtils from "../util/GameUtils";
-import * as Logo from "../util/Logo";
-import { anonymus as SystemBus } from "./SystemBus";
-import { Material } from "../renderer/Material";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GooRunner = undefined;
+
+var _World = require("./World");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _TransformSystem = require("./systems/TransformSystem");
+
+var _RenderSystem = require("./systems/RenderSystem");
+
+var _BoundingUpdateSystem = require("./systems/BoundingUpdateSystem");
+
+var _ScriptSystem = require("./systems/ScriptSystem");
+
+var _LightingSystem = require("./systems/LightingSystem");
+
+var _CameraSystem = require("./systems/CameraSystem");
+
+var _ParticlesSystem = require("./systems/ParticlesSystem");
+
+var _Stats = require("../util/Stats");
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _SoundSystem = require("./systems/SoundSystem");
+
+var _TransformComponent = require("./components/TransformComponent");
+
+var _MeshDataComponent = require("./components/MeshDataComponent");
+
+var _MeshRendererComponent = require("./components/MeshRendererComponent");
+
+var _CameraComponent = require("./components/CameraComponent");
+
+var _LightComponent = require("./components/LightComponent");
+
+var _ScriptComponent = require("./components/ScriptComponent");
+
+var _GameUtils = require("../util/GameUtils");
+
+var GameUtils = _interopRequireWildcard(_GameUtils);
+
+var _Logo = require("../util/Logo");
+
+var Logo = _interopRequireWildcard(_Logo);
+
+var _SystemBus = require("./SystemBus");
+
+var _Material = require("../renderer/Material");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function GooRunner(parameters) {
 	parameters = parameters || {};
 
 	GameUtils.initAllShims();
 
 	/**
-	 * The Goo world.
-	 * @type {World}
-	 */
-	this.world = new World({
+  * The Goo world.
+  * @type {World}
+  */
+	this.world = new _World.World({
 		gooRunner: this,
 		tpfSmoothingCount: parameters.tpfSmoothingCount
 	});
 
 	/**
-	 * Automatically created renderer.
-	 * @type {Renderer}
-	 */
-	this.renderer = new Renderer(parameters);
+  * Automatically created renderer.
+  * @type {Renderer}
+  */
+	this.renderer = new _Renderer.Renderer(parameters);
 
 	/**
-	 * Set to true to run user-defined callbacks within try/catch statements. Errors will be printed to console.
-	 * @type {boolean}
-	 * @default true
-	 */
+  * Set to true to run user-defined callbacks within try/catch statements. Errors will be printed to console.
+  * @type {boolean}
+  * @default true
+  */
 	this.useTryCatch = parameters.useTryCatch !== undefined ? parameters.useTryCatch : true;
 
 	this._setBaseSystems();
@@ -64,28 +107,28 @@ function GooRunner(parameters) {
 	}
 
 	/**
-	 * A list of callbacks to call every frame, before the world is processed.
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call every frame, before the world is processed.
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacksPreProcess = [];
 
 	/**
-	 * A list of callbacks to call every frame, after the world is processed and before the rendering is done.
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call every frame, after the world is processed and before the rendering is done.
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacksPreRender = [];
 
 	/**
-	 * A list of callbacks to call every frame, after the rendering is done.
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call every frame, after the rendering is done.
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacks = [];
 
 	/**
-	 * A list of callbacks to call once, in the following frame, before the world is processed.
-	 * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/CallbacksNextFrame/CallbacksNextFrame-vtest.html Working example
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call once, in the following frame, before the world is processed.
+  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/CallbacksNextFrame/CallbacksNextFrame-vtest.html Working example
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacksNextFrame = [];
 
 	this._takeSnapshots = [];
@@ -156,7 +199,7 @@ function GooRunner(parameters) {
 }
 
 GooRunner.prototype._setupContextLost = function () {
-	SystemBus.addListener('goo.contextLost', function () {
+	_SystemBus.anonymus.addListener('goo.contextLost', function () {
 		for (var i = 0; i < this.renderSystems.length; i++) {
 			var renderSystem = this.renderSystems[i];
 			if (renderSystem.invalidateHandles) {
@@ -179,7 +222,7 @@ GooRunner.prototype._setupContextLost = function () {
 		this.stopGameLoop();
 	}.bind(this));
 
-	SystemBus.addListener('goo.contextRestored', function () {
+	_SystemBus.anonymus.addListener('goo.contextRestored', function () {
 		this.startGameLoop();
 	}.bind(this));
 };
@@ -189,18 +232,18 @@ GooRunner.prototype._setupContextLost = function () {
  * @private
  */
 GooRunner.prototype._setBaseSystems = function () {
-	this.world.setSystem(new ScriptSystem(this.world));
-	this.world.setSystem(new TransformSystem());
-	this.world.setSystem(new CameraSystem());
-	this.world.setSystem(new ParticlesSystem());
-	this.world.setSystem(new BoundingUpdateSystem());
-	this.world.setSystem(new LightingSystem());
+	this.world.setSystem(new _ScriptSystem.ScriptSystem(this.world));
+	this.world.setSystem(new _TransformSystem.TransformSystem());
+	this.world.setSystem(new _CameraSystem.CameraSystem());
+	this.world.setSystem(new _ParticlesSystem.ParticlesSystem());
+	this.world.setSystem(new _BoundingUpdateSystem.BoundingUpdateSystem());
+	this.world.setSystem(new _LightingSystem.LightingSystem());
 
-	if (AudioContext.isSupported()) {
-		this.world.setSystem(new SoundSystem());
+	if (_AudioContext.anonymus.isSupported()) {
+		this.world.setSystem(new _SoundSystem.SoundSystem());
 	}
 
-	this.renderSystem = new RenderSystem();
+	this.renderSystem = new _RenderSystem.RenderSystem();
 	this.renderSystems = [this.renderSystem];
 	this.world.setSystem(this.renderSystem);
 };
@@ -210,12 +253,12 @@ GooRunner.prototype._setBaseSystems = function () {
  * @private
  */
 GooRunner.prototype._registerBaseComponents = function () {
-	this.world.registerComponent(TransformComponent);
-	this.world.registerComponent(MeshDataComponent);
-	this.world.registerComponent(MeshRendererComponent);
-	this.world.registerComponent(CameraComponent);
-	this.world.registerComponent(LightComponent);
-	this.world.registerComponent(ScriptComponent);
+	this.world.registerComponent(_TransformComponent.TransformComponent);
+	this.world.registerComponent(_MeshDataComponent.MeshDataComponent);
+	this.world.registerComponent(_MeshRendererComponent.MeshRendererComponent);
+	this.world.registerComponent(_CameraComponent.CameraComponent);
+	this.world.registerComponent(_LightComponent.LightComponent);
+	this.world.registerComponent(_ScriptComponent.ScriptComponent);
 };
 
 /**
@@ -270,7 +313,8 @@ GooRunner.prototype._updateFrame = function (time) {
 
 	var tpf = (time - this.start) / 1000.0;
 
-	if (tpf < 0) { // skip a loop - original start time probably bad.
+	if (tpf < 0) {
+		// skip a loop - original start time probably bad.
 		this.start = time;
 		this.animationId = window.requestAnimationFrame(this.run.bind(this));
 		return;
@@ -316,7 +360,7 @@ GooRunner.prototype._updateFrame = function (time) {
 	this.renderer.info.reset();
 
 	if (this.doRender) {
-		this.renderer.checkResize(Renderer.mainCamera);
+		this.renderer.checkResize(_Renderer.Renderer.mainCamera);
 		this.renderer.setRenderTarget();
 		//this.renderer.clear();
 
@@ -334,7 +378,7 @@ GooRunner.prototype._updateFrame = function (time) {
 			}
 		}
 		// handle pick requests
-		if (this._picking.doPick && Renderer.mainCamera) {
+		if (this._picking.doPick && _Renderer.Renderer.mainCamera) {
 			var clearColor = this.renderer.clearColor;
 			this._picking.clearColorStore[0] = clearColor.r;
 			this._picking.clearColorStore[1] = clearColor.g;
@@ -347,7 +391,7 @@ GooRunner.prototype._updateFrame = function (time) {
 					this.renderSystems[i].renderToPick(this.renderer, this._picking.skipUpdateBuffer);
 				}
 			}
-			this.renderer.pick(this._picking.x, this._picking.y, this._picking.pickingStore, Renderer.mainCamera);
+			this.renderer.pick(this._picking.x, this._picking.y, this._picking.pickingStore, _Renderer.Renderer.mainCamera);
 			if (this.useTryCatch) {
 				this._callSafe(this._picking.pickingCallback, this._picking.pickingStore.id, this._picking.pickingStore.depth);
 			} else {
@@ -376,11 +420,7 @@ GooRunner.prototype._updateFrame = function (time) {
 
 	// update the stats if there are any
 	if (this.stats) {
-		this.stats.update(
-			this.renderer.info.toString() + '<br>' +
-			'Transforms: ' + this.world.getSystem('TransformSystem').numUpdates +
-			'<br>Cached shaders: ' + this.renderer.rendererRecord.shaderCache.size
-		);
+		this.stats.update(this.renderer.info.toString() + '<br>' + 'Transforms: ' + this.world.getSystem('TransformSystem').numUpdates + '<br>Cached shaders: ' + this.renderer.rendererRecord.shaderCache.size);
 	}
 
 	// resolve any snapshot requests
@@ -487,16 +527,21 @@ GooRunner.prototype._addDebugKeys = function () {
 	};
 
 	document.addEventListener('keydown', function (event) {
-		if (!event[ACTIVE_KEY]) { return; }
+		if (!event[ACTIVE_KEY]) {
+			return;
+		}
 
 		switch (event.which) {
-			case 32: // Space
+			case 32:
+				// Space
 				GameUtils.toggleFullScreen();
 				break;
-			case 13: // Enter
+			case 13:
+				// Enter
 				GameUtils.togglePointerLock();
 				break;
-			case 49: // 1
+			case 49:
+				// 1
 				this.renderSystem.setDebugMaterial();
 				break;
 			default:
@@ -586,9 +631,8 @@ GooRunner.prototype.triggerEvent = function (type, evt) {
 	evt.type = type;
 	this._eventTriggered[type] = evt.domEvent;
 	this._dispatchEvent(evt);
-	SystemBus.emit('goo.trigger.' + type, evt);
+	_SystemBus.anonymus.emit('goo.trigger.' + type, evt);
 };
-
 
 GooRunner.prototype._dispatchEvent = function (evt) {
 	var types = Object.keys(this._eventTriggered);
@@ -644,7 +688,7 @@ GooRunner.prototype._enableEvent = function (type) {
 		this.pick(x, y, function (index, depth) {
 			var dpx = this.renderer.devicePixelRatio;
 			var entity = this.world.entityManager.getEntityByIndex(index);
-			var intersection = Renderer.mainCamera.getWorldPosition(x * dpx, y * dpx, this.renderer.viewportWidth, this.renderer.viewportHeight, depth);
+			var intersection = _Renderer.Renderer.mainCamera.getWorldPosition(x * dpx, y * dpx, this.renderer.viewportWidth, this.renderer.viewportHeight, depth);
 			this._dispatchEvent({
 				entity: entity,
 				depth: depth,
@@ -760,7 +804,7 @@ GooRunner.prototype.pickSync = function (x, y, skipUpdateBuffer) {
 
 	// get the picking data from the buffer
 	var pickingStore = {};
-	this.renderer.pick(x, y, pickingStore, Renderer.mainCamera);
+	this.renderer.pick(x, y, pickingStore, _Renderer.Renderer.mainCamera);
 	return pickingStore;
 };
 
@@ -778,14 +822,14 @@ GooRunner.prototype.clear = function () {
 	}
 
 	// a lot of stuff may reside in here
-	SystemBus.clear();
+	_SystemBus.anonymus.clear();
 
 	// clearing cached materials
-	Material.store = [];
-	Material.hash = [];
+	_Material.Material.store = [];
+	_Material.Material.hash = [];
 
 	// this should never have existed in the first place
-	Renderer.mainCamera = null;
+	_Renderer.Renderer.mainCamera = null;
 
 	// clears out whatever visibility-change listeners were attached to document
 	GameUtils.clearVisibilityChangeListeners();
@@ -809,7 +853,7 @@ GooRunner.prototype.clear = function () {
  * Adds a small stats widget showing fps, rendercalls, vertices, indices, transform updates and cached shaders
  */
 GooRunner.prototype.addStats = function () {
-	this.stats = new Stats();
+	this.stats = new _Stats.Stats();
 	this.stats.domElement.style.position = 'absolute';
 	this.stats.domElement.style.left = '10px';
 	this.stats.domElement.style.top = '10px';
@@ -851,4 +895,4 @@ var exported_GooRunner = GooRunner;
  * @param {boolean} [parameters.debugKeys=false] If enabled the hotkeys Shift+[1..6] will be enabled
  * @param {boolean} [parameters.useTryCatch=true]
  */
-export { exported_GooRunner as GooRunner };
+exports.GooRunner = exported_GooRunner;

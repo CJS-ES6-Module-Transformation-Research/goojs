@@ -1,17 +1,23 @@
-import { Vector3 } from "./Vector3";
-function Plane(normal, constant) {
-	this.normal = normal ? normal.clone() : Vector3.UNIT_Y.clone();
-	this.constant = isNaN(constant) ? 0 : constant;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Plane = undefined;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+var _Vector = require('./Vector3');
+
+function Plane(normal, constant) {
+  this.normal = normal ? normal.clone() : _Vector.Vector3.UNIT_Y.clone();
+  this.constant = isNaN(constant) ? 0 : constant;
+
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 // TODO: add Object.freeze? - Object.freeze is still too slow unfortunately
-Plane.XZ = new Plane(Vector3.UNIT_Y, 0);
-Plane.XY = new Plane(Vector3.UNIT_Z, 0);
-Plane.YZ = new Plane(Vector3.UNIT_X, 0);
+Plane.XZ = new Plane(_Vector.Vector3.UNIT_Y, 0);
+Plane.XY = new Plane(_Vector.Vector3.UNIT_Z, 0);
+Plane.YZ = new Plane(_Vector.Vector3.UNIT_X, 0);
 
 /**
  * @param {Vector3} point
@@ -19,7 +25,7 @@ Plane.YZ = new Plane(Vector3.UNIT_X, 0);
  *         otherwise it is positive. If the point is on the plane, it is zero.
  */
 Plane.prototype.pseudoDistance = function (point) {
-	return this.normal.dot(point) - this.constant;
+  return this.normal.dot(point) - this.constant;
 };
 
 /**
@@ -30,10 +36,10 @@ Plane.prototype.pseudoDistance = function (point) {
  * @returns {Plane} Self for chaining.
  */
 Plane.prototype.setPlanePoints = function (pointA, pointB, pointC) {
-	this.normal.set(pointB).sub(pointA);
-	this.normal.cross(new Vector3(pointC.x - pointA.x, pointC.y - pointA.y, pointC.z - pointA.z)).normalize();
-	this.constant = this.normal.dot(pointA);
-	return this;
+  this.normal.set(pointB).sub(pointA);
+  this.normal.cross(new _Vector.Vector3(pointC.x - pointA.x, pointC.y - pointA.y, pointC.z - pointA.z)).normalize();
+  this.constant = this.normal.dot(pointA);
+  return this;
 };
 
 /**
@@ -43,17 +49,17 @@ Plane.prototype.setPlanePoints = function (pointA, pointB, pointC) {
  * @returns {Vector3} The reflected vector.
  */
 Plane.prototype.reflectVector = function (unitVector, store) {
-	var result = store;
-	if (typeof result === 'undefined') {
-		result = new Vector3();
-	}
+  var result = store;
+  if (typeof result === 'undefined') {
+    result = new _Vector.Vector3();
+  }
 
-	var dotProd = this.normal.dot(unitVector) * 2;
-	result.set(unitVector).sub(new Vector3(this.normal.x * dotProd, this.normal.y * dotProd, this.normal.z * dotProd));
-	return result;
+  var dotProd = this.normal.dot(unitVector) * 2;
+  result.set(unitVector).sub(new _Vector.Vector3(this.normal.x * dotProd, this.normal.y * dotProd, this.normal.z * dotProd));
+  return result;
 };
 
-var p0 = new Vector3();
+var p0 = new _Vector.Vector3();
 
 /**
  * Get the intersection of a ray with a plane.
@@ -64,27 +70,22 @@ var p0 = new Vector3();
  * @returns {Vector3} The store, or new Vector3 if no store was given. In the case where the ray is parallel with the plane, null is returned (and a warning is printed to console).
  */
 Plane.prototype.rayIntersect = function (ray, store, suppressWarnings, precision) {
-	//! AT: the only function with a suppressWarnings
-	precision = typeof precision === 'undefined' ? 1e-7 : precision;
-	store = store || new Vector3();
+  //! AT: the only function with a suppressWarnings
+  precision = typeof precision === 'undefined' ? 1e-7 : precision;
+  store = store || new _Vector.Vector3();
 
-	var lDotN = ray.direction.dot(this.normal);
-	if (Math.abs(lDotN) < precision) {
-		//! AT: this is the only function where we have this suppressWarnings mechanism
-		if (!suppressWarnings) {
-			console.warn('Ray parallel with plane');
-		}
-		return null;
-	}
+  var lDotN = ray.direction.dot(this.normal);
+  if (Math.abs(lDotN) < precision) {
+    //! AT: this is the only function where we have this suppressWarnings mechanism
+    if (!suppressWarnings) {
+      console.warn('Ray parallel with plane');
+    }
+    return null;
+  }
 
-	var pMinusL0DotN = p0.set(this.normal)
-		.scale(this.constant)
-		.sub(ray.origin)
-		.dot(this.normal);
+  var pMinusL0DotN = p0.set(this.normal).scale(this.constant).sub(ray.origin).dot(this.normal);
 
-	return store.set(ray.direction)
-		.scale(pMinusL0DotN / lDotN)
-		.add(ray.origin);
+  return store.set(ray.direction).scale(pMinusL0DotN / lDotN).add(ray.origin);
 };
 
 /**
@@ -93,9 +94,9 @@ Plane.prototype.rayIntersect = function (ray, store, suppressWarnings, precision
  * @returns {Plane} Returns self to allow chaining
  */
 Plane.prototype.copy = function (source) {
-	this.normal.copy(source.normal);
-	this.constant = source.constant;
-	return this;
+  this.normal.copy(source.normal);
+  this.constant = source.constant;
+  return this;
 };
 
 /**
@@ -103,7 +104,7 @@ Plane.prototype.copy = function (source) {
  * @returns {Plane}
  */
 Plane.prototype.clone = function () {
-	return new Plane(this.normal.clone(), this.constant);
+  return new Plane(this.normal.clone(), this.constant);
 };
 
 var exported_Plane = Plane;
@@ -115,4 +116,4 @@ var exported_Plane = Plane;
  * @param {Vector3} normal Normal of the plane.
  * @param {number} constant The plane offset along the normal.
  */
-export { exported_Plane as Plane };
+exports.Plane = exported_Plane;

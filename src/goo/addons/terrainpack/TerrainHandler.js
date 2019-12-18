@@ -1,23 +1,50 @@
-import { Terrain } from "../../addons/terrainpack/Terrain";
-import { Vegetation } from "../../addons/terrainpack/Vegetation";
-import { Forrest } from "../../addons/terrainpack/Forrest";
-import { Vector3 } from "../../math/Vector3";
-import { Ajax } from "../../util/Ajax";
-import * as MathUtils from "../../math/MathUtils";
-import { Texture } from "../../renderer/Texture";
-import { TextureCreator } from "../../renderer/TextureCreator";
-import { anonymus as RSVP } from "../../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TerrainHandler = undefined;
+
+var _Terrain = require("../../addons/terrainpack/Terrain");
+
+var _Vegetation = require("../../addons/terrainpack/Vegetation");
+
+var _Forrest = require("../../addons/terrainpack/Forrest");
+
+var _Vector = require("../../math/Vector3");
+
+var _Ajax = require("../../util/Ajax");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _Texture = require("../../renderer/Texture");
+
+var _TextureCreator = require("../../renderer/TextureCreator");
+
+var _rsvp = require("../../util/rsvp");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 function TerrainHandler(goo, terrainSize, clipmapLevels, resourceFolder) {
 	this.goo = goo;
 	this.terrainSize = terrainSize;
 	this.resourceFolder = resourceFolder;
-	this.terrain = new Terrain(goo, this.terrainSize, clipmapLevels);
-	this.vegetation = new Vegetation();
-	this.forrest = new Forrest();
+	this.terrain = new _Terrain.Terrain(goo, this.terrainSize, clipmapLevels);
+	this.vegetation = new _Vegetation.Vegetation();
+	this.forrest = new _Forrest.Forrest();
 
 	this.hidden = false;
-	this.store = new Vector3();
+	this.store = new _Vector.Vector3();
 	this.settings = null;
 	this.pick = true;
 	this.draw = false;
@@ -47,7 +74,7 @@ TerrainHandler.prototype.getHeightAt = function (pos) {
 var LMB = false;
 var altKey = false;
 
-var mousedown = function (e) {
+var mousedown = function mousedown(e) {
 	if (e.button === 0) {
 		this.eventX = e.clientX;
 		this.eventY = e.clientY;
@@ -61,7 +88,7 @@ var mousedown = function (e) {
 	}
 };
 
-var mouseup = function (e) {
+var mouseup = function mouseup(e) {
 	if (e.button === 0) {
 		LMB = false;
 		this.draw = false;
@@ -69,7 +96,7 @@ var mouseup = function (e) {
 	}
 };
 
-var mousemove = function (e) {
+var mousemove = function mousemove(e) {
 	this.eventX = e.clientX;
 	this.eventY = e.clientY;
 
@@ -112,7 +139,7 @@ TerrainHandler.prototype.initLevel = function (terrainData, settings, forrestLOD
 	var terrainPromise = this._loadData(terrainData.heightMap);
 	var splatPromise = this._loadData(terrainData.splatMap);
 
-	return RSVP.all([terrainPromise, splatPromise]).then(function (datas) {
+	return _rsvp.anonymus.all([terrainPromise, splatPromise]).then(function (datas) {
 		var terrainBuffer = datas[0];
 		var splatBuffer = datas[1];
 
@@ -135,9 +162,9 @@ TerrainHandler.prototype.initLevel = function (terrainData, settings, forrestLOD
 };
 
 TerrainHandler.prototype._loadData = function (url) {
-	var promise = new RSVP.Promise();
+	var promise = new _rsvp.anonymus.Promise();
 
-	var ajax = new Ajax();
+	var ajax = new _Ajax.Ajax();
 	ajax.get({
 		url: this.resourceFolder + url,
 		responseType: 'arraybuffer'
@@ -151,7 +178,7 @@ TerrainHandler.prototype._loadData = function (url) {
 };
 
 TerrainHandler.prototype._textureLoad = function (url) {
-	return new TextureCreator().loadTexture2D(url, {
+	return new _TextureCreator.TextureCreator().loadTexture2D(url, {
 		anisotropy: 4
 	});
 };
@@ -164,7 +191,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 	promises.push(this._textureLoad(this.resourceFolder + terrainData.ground4.texture));
 	promises.push(this._textureLoad(this.resourceFolder + terrainData.ground5.texture));
 	promises.push(this._textureLoad(this.resourceFolder + terrainData.stone.texture));
-	return RSVP.all(promises).then(function (textures) {
+	return _rsvp.anonymus.all(promises).then(function (textures) {
 		this.terrain.init({
 			heightMap: parentMipmap,
 			splatMap: splatMap,
@@ -178,7 +205,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 		this.terrainInfo = this.terrain.getTerrainData();
 
 		var terrainSize = this.terrainSize;
-		var calcVec = new Vector3();
+		var calcVec = new _Vector.Vector3();
 
 		var terrainQuery = this.terrainQuery = {
 			getHeightAt: function (pos) {
@@ -193,7 +220,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var row = Math.floor(z);
 
 				var intOnX = x - col,
-					intOnZ = z - row;
+				    intOnZ = z - row;
 
 				var col1 = col + 1;
 				var row1 = row + 1;
@@ -208,8 +235,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var bottomLeft = this.terrainInfo.heights[row1 * terrainSize + col];
 				var bottomRight = this.terrainInfo.heights[row1 * terrainSize + col1];
 
-				return MathUtils.lerp(intOnZ, MathUtils.lerp(intOnX, topLeft, topRight),
-					MathUtils.lerp(intOnX, bottomLeft, bottomRight));
+				return MathUtils.lerp(intOnZ, MathUtils.lerp(intOnX, topLeft, topRight), MathUtils.lerp(intOnX, bottomLeft, bottomRight));
 			}.bind(this),
 			getNormalAt: function (pos) {
 				var x = pos[0];
@@ -230,7 +256,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var topRight = this.terrainInfo.heights[row * terrainSize + col1];
 				var bottomLeft = this.terrainInfo.heights[row1 * terrainSize + col];
 
-				return calcVec.setDirect((topLeft - topRight), 1, (bottomLeft - topLeft)).normalize();
+				return calcVec.setDirect(topLeft - topRight, 1, bottomLeft - topLeft).normalize();
 			}.bind(this),
 			getVegetationType: function (xx, zz, slope) {
 				var rand = Math.random();
@@ -332,8 +358,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var bottomLeft = this.lightMapData[row1 * this.lightMapSize + col];
 				var bottomRight = this.lightMapData[row1 * this.lightMapSize + col1];
 
-				return MathUtils.lerp(intOnZ, MathUtils.lerp(intOnX, topLeft, topRight),
-						MathUtils.lerp(intOnX, bottomLeft, bottomRight)) / 255.0;
+				return MathUtils.lerp(intOnZ, MathUtils.lerp(intOnX, topLeft, topRight), MathUtils.lerp(intOnX, bottomLeft, bottomRight)) / 255.0;
 			}.bind(this),
 
 			getType: function (xx, zz, slope, rand) {
@@ -365,22 +390,21 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 			}.bind(this)
 		};
 
-		return new TextureCreator().loadTexture2D(this.resourceFolder + terrainData.vegetationAtlas).then(function (vegetationAtlasTexture) {
+		return new _TextureCreator.TextureCreator().loadTexture2D(this.resourceFolder + terrainData.vegetationAtlas).then(function (vegetationAtlasTexture) {
 
 			vegetationAtlasTexture.anisotropy = 4;
 			var vegetationTypes = terrainData.vegetationTypes;
 
-			return new TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlas).then(function (forrestAtlasTexture) {
+			return new _TextureCreator.TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlas).then(function (forrestAtlasTexture) {
 
 				forrestAtlasTexture.anisotropy = 4;
 
-				return new TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlasNormals).then(function (forrestAtlasNormals) {
+				return new _TextureCreator.TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlasNormals).then(function (forrestAtlasNormals) {
 
 					var forrestTypes = terrainData.forrestTypes;
 
 					this.vegetation.init(this.goo.world, terrainQuery, vegetationAtlasTexture, vegetationTypes, this.vegetationSettings);
 					this.forrest.init(this.goo.world, terrainQuery, forrestAtlasTexture, forrestAtlasNormals, forrestTypes, forrestLODEntityMap);
-
 				}.bind(this));
 			}.bind(this));
 		}.bind(this));
@@ -397,7 +421,7 @@ TerrainHandler.prototype.initPhysics = function () {
 
 TerrainHandler.prototype.useLightmap = function (data, size) {
 	if (data) {
-		var lightMap = new Texture(data, {
+		var lightMap = new _Texture.Texture(data, {
 			magFilter: 'Bilinear',
 			minFilter: 'NearestNeighborNoMipMaps',
 			wrapS: 'EdgeClamp',
@@ -419,7 +443,7 @@ TerrainHandler.prototype.useLightmap = function (data, size) {
 
 TerrainHandler.prototype.useLightmap = function (data, size) {
 	if (data) {
-		var lightMap = new Texture(data, {
+		var lightMap = new _Texture.Texture(data, {
 			magFilter: 'Bilinear',
 			minFilter: 'NearestNeighborNoMipMaps',
 			wrapS: 'EdgeClamp',
@@ -468,8 +492,7 @@ TerrainHandler.prototype.update = function (cameraEntity) {
 				rgba = [0, 0, 0, 1];
 			}
 
-			this.terrain.draw(settings.mode, type, settings.size, this.store.x, this.store.y, this.store.z,
-				settings.power * this.goo.world.tpf * 60 / 100, settings.brushTexture, rgba);
+			this.terrain.draw(settings.mode, type, settings.size, this.store.x, this.store.y, this.store.z, settings.power * this.goo.world.tpf * 60 / 100, settings.brushTexture, rgba);
 			this.terrain.updateTextures();
 		}
 
@@ -484,4 +507,4 @@ TerrainHandler.prototype.update = function (cameraEntity) {
 };
 
 var exported_TerrainHandler = TerrainHandler;
-export { exported_TerrainHandler as TerrainHandler };
+exports.TerrainHandler = exported_TerrainHandler;

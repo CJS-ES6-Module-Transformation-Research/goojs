@@ -1,11 +1,31 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MultiplyVariableAction = undefined;
 
-function MultiplyVariableAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var FsmUtils = _interopRequireWildcard(_FsmUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-MultiplyVariableAction.prototype = Object.create(Action.prototype);
+function MultiplyVariableAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+}
+
+MultiplyVariableAction.prototype = Object.create(_Action.Action.prototype);
 MultiplyVariableAction.prototype.constructor = MultiplyVariableAction;
 
 MultiplyVariableAction.external = {
@@ -38,4 +58,4 @@ MultiplyVariableAction.prototype.update = function (fsm) {
 };
 
 var exported_MultiplyVariableAction = MultiplyVariableAction;
-export { exported_MultiplyVariableAction as MultiplyVariableAction };
+exports.MultiplyVariableAction = exported_MultiplyVariableAction;

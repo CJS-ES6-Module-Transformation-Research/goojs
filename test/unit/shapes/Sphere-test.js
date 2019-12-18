@@ -1,7 +1,7 @@
-import { Sphere } from "../../../src/goo/shapes/Sphere";
+var _Sphere = require('../../../src/goo/shapes/Sphere');
 
 describe('Sphere', function () {
-	var a = new Sphere(8, 4);
+	var a = new _Sphere.Sphere(8, 4);
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(37);

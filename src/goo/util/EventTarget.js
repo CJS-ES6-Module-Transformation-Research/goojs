@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function EventTarget() {
 	this._listenerMap = new Map();
 	this._listenersCopy = [];
@@ -90,4 +93,4 @@ var exported_EventTarget = EventTarget;
  * }
  * MyObject.prototype = Object.create(EventTarget.prototype);
  */
-export { exported_EventTarget as EventTarget };
+exports.EventTarget = exported_EventTarget;

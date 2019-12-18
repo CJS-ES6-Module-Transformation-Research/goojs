@@ -1,9 +1,30 @@
-import { AbstractState } from "../../animationpack/state/AbstractState";
-import { BinaryLerpSource } from "../../animationpack/blendtree/BinaryLerpSource";
-import * as MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AbstractTransitionState = undefined;
+
+var _AbstractState = require("../../animationpack/state/AbstractState");
+
+var _BinaryLerpSource = require("../../animationpack/blendtree/BinaryLerpSource");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 function AbstractTransitionState() {
-	AbstractState.call(this);
+	_AbstractState.AbstractState.call(this);
 
 	this._sourceState = null;
 	this._targetState = null;
@@ -13,7 +34,7 @@ function AbstractTransitionState() {
 	this._blendType = AbstractTransitionState.BLENDTYPES.LINEAR;
 }
 
-AbstractTransitionState.prototype = Object.create(AbstractState.prototype);
+AbstractTransitionState.prototype = Object.create(_AbstractState.AbstractState.prototype);
 AbstractTransitionState.prototype.constructor = AbstractTransitionState;
 
 AbstractTransitionState.BLENDTYPES = {};
@@ -56,8 +77,12 @@ AbstractTransitionState.prototype.update = function (globalTime) {
 
 AbstractTransitionState.prototype.readFromConfig = function (config) {
 	if (config) {
-		if (config.fadeTime !== undefined) { this._fadeTime = config.fadeTime; }
-		if (config.blendType !== undefined) { this._blendType = config.blendType; }
+		if (config.fadeTime !== undefined) {
+			this._fadeTime = config.fadeTime;
+		}
+		if (config.blendType !== undefined) {
+			this._blendType = config.blendType;
+		}
 	}
 };
 
@@ -75,7 +100,7 @@ AbstractTransitionState.prototype.getCurrentSourceData = function () {
 	if (!this._sourceData) {
 		this._sourceData = {};
 	}
-	return BinaryLerpSource.combineSourceData(sourceAData, sourceBData, this._percent, this._sourceData);
+	return _BinaryLerpSource.BinaryLerpSource.combineSourceData(sourceAData, sourceBData, this._percent, this._sourceData);
 };
 
 /**
@@ -114,13 +139,13 @@ AbstractTransitionState.prototype.isValid = function (timeWindow, globalTime) {
 };
 
 AbstractTransitionState.prototype.resetClips = function (globalTime) {
-	AbstractState.prototype.resetClips.call(this, globalTime);
+	_AbstractState.AbstractState.prototype.resetClips.call(this, globalTime);
 	//this._sourceData = {};
 	this._percent = 0.0;
 };
 
 AbstractTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractState.prototype.shiftClipTime.call(this, shiftTime);
+	_AbstractState.AbstractState.prototype.shiftClipTime.call(this, shiftTime);
 	//this._percent = 0.0;  // definitely not 0, or maybe 0
 };
 
@@ -141,4 +166,4 @@ var exported_AbstractTransitionState = AbstractTransitionState;
  * @private
  */
 
-export { exported_AbstractTransitionState as AbstractTransitionState };
+exports.AbstractTransitionState = exported_AbstractTransitionState;

@@ -1,8 +1,28 @@
-import { AbstractTimelineChannel } from "../timelinepack/AbstractTimelineChannel";
-import * as MathUtils from "../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ValueChannel = undefined;
+
+var _AbstractTimelineChannel = require("../timelinepack/AbstractTimelineChannel");
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 function ValueChannel(id, options) {
-	AbstractTimelineChannel.call(this, id);
+	_AbstractTimelineChannel.AbstractTimelineChannel.call(this, id);
 
 	this.value = 0;
 
@@ -11,7 +31,7 @@ function ValueChannel(id, options) {
 	this.callbackEnd = options.callbackEnd;
 }
 
-ValueChannel.prototype = Object.create(AbstractTimelineChannel.prototype);
+ValueChannel.prototype = Object.create(_AbstractTimelineChannel.AbstractTimelineChannel.prototype);
 ValueChannel.prototype.constructor = ValueChannel;
 
 /**
@@ -47,8 +67,12 @@ ValueChannel.prototype.addKeyframe = function (id, time, value, easingFunction) 
  * @param time
  */
 ValueChannel.prototype.update = function (time) {
-	if (!this.enabled) { return this.value; }
-	if (!this.keyframes.length) { return this.value; }
+	if (!this.enabled) {
+		return this.value;
+	}
+	if (!this.keyframes.length) {
+		return this.value;
+	}
 
 	var newValue;
 	var newEntryIndex;
@@ -83,7 +107,9 @@ ValueChannel.prototype.setTime = ValueChannel.prototype.update;
 ValueChannel.getSimpleTransformTweener = function (type, vectorComponent, entityId, resolver) {
 	var entity;
 	return function (time, value) {
-		if (!entity) { entity = resolver(entityId); }
+		if (!entity) {
+			entity = resolver(entityId);
+		}
 
 		//
 		// REVIEW:
@@ -104,8 +130,10 @@ ValueChannel.getSimpleTransformTweener = function (type, vectorComponent, entity
 
 ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rotation) {
 	var entity;
-	var func = function (time, value) {
-		if (!entity) { entity = resolver(entityId); }
+	var func = function func(time, value) {
+		if (!entity) {
+			entity = resolver(entityId);
+		}
 		//! AT: same here as above; a tmp fix
 		if (entity) {
 			var rotation = func.rotation;
@@ -119,4 +147,4 @@ ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rota
 };
 
 var exported_ValueChannel = ValueChannel;
-export { exported_ValueChannel as ValueChannel };
+exports.ValueChannel = exported_ValueChannel;

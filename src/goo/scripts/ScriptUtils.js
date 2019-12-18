@@ -1,4 +1,24 @@
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.keyForCode = exports.fillDefaultNames = exports.fillDefaultValues = exports.PROPERTY_TYPES = exports.TYPE_VALIDATORS = exports.isRefType = exports.DEFAULTS_BY_TYPE = undefined;
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+        return obj;
+    } else {
+        var newObj = {};if (obj != null) {
+            for (var key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            }
+        }newObj.default = obj;return newObj;
+    }
+}
+
 var functionObject_keyForCode;
 var functionObject__keyInverse;
 var functionObject__keys;
@@ -15,7 +35,7 @@ var functionObject_DEFAULTS_BY_TYPE;
 
 function ScriptUtils() {}
 
-functionObject_DEFAULTS_BY_TYPE = {
+exports.DEFAULTS_BY_TYPE = functionObject_DEFAULTS_BY_TYPE = {
     "array": [],
     "float": 0,
     "int": 0,
@@ -34,29 +54,20 @@ functionObject_DEFAULTS_BY_TYPE = {
     "text": null
 };
 
-functionObject_REF_TYPES = [
-    "animation",
-    "camera",
-    "entity",
-    "image",
-    "sound",
-    "texture",
-    "json",
-    "text"
-];
+functionObject_REF_TYPES = ["animation", "camera", "entity", "image", "sound", "texture", "json", "text"];
 
-functionObject_isRefType = function(type) {
+exports.isRefType = functionObject_isRefType = function functionObject_isRefType(type) {
     return ObjectUtils.contains(functionObject_REF_TYPES, type);
 };
 
-functionObject_TYPE_VALIDATORS = function() {
-    var isVec = function(length) {
-        return function(data) {
+exports.TYPE_VALIDATORS = functionObject_TYPE_VALIDATORS = function () {
+    var isVec = function isVec(length) {
+        return function (data) {
             return Array.isArray(data) && data.length === length;
         };
     };
 
-    var isRef = function(type) {
+    var isRef = function isRef(type) {
         function isDirectRef(data) {
             return ObjectUtils.isString(data) && ObjectUtils.getExtension(data) === type;
         }
@@ -70,7 +81,7 @@ functionObject_TYPE_VALIDATORS = function() {
             return data && isDirectRef(data[type + "Ref"]);
         }
 
-        return function(data) {
+        return function (data) {
             return isDirectRef(data) || isWrappedRef(data);
         };
     };
@@ -96,24 +107,9 @@ functionObject_TYPE_VALIDATORS = function() {
     };
 }();
 
-functionObject_PARAMETER_TYPES = [
-    "string",
-    "int",
-    "float",
-    "vec2",
-    "vec3",
-    "vec4",
-    "boolean",
-    "texture",
-    "sound",
-    "camera",
-    "entity",
-    "animation",
-    "json",
-    "text"
-];
+functionObject_PARAMETER_TYPES = ["string", "int", "float", "vec2", "vec3", "vec4", "boolean", "texture", "sound", "camera", "entity", "animation", "json", "text"];
 
-functionObject_PARAMETER_CONTROLS = function() {
+functionObject_PARAMETER_CONTROLS = function () {
     var typeControls = {
         "string": ["key"],
         "int": ["spinner", "slider", "jointSelector"],
@@ -140,7 +136,7 @@ functionObject_PARAMETER_CONTROLS = function() {
     return typeControls;
 }();
 
-functionObject_PROPERTY_TYPES = [{
+exports.PROPERTY_TYPES = functionObject_PROPERTY_TYPES = [{
     prop: "key",
     type: "string",
     mustBeDefined: true,
@@ -151,14 +147,14 @@ functionObject_PROPERTY_TYPES = [{
     mustBeDefined: true,
     minLength: 1,
 
-    getAllowedValues: function() {
+    getAllowedValues: function getAllowedValues() {
         return functionObject_PARAMETER_TYPES;
     }
 }, {
     prop: "control",
     type: "string",
 
-    getAllowedValues: function(parameter) {
+    getAllowedValues: function getAllowedValues(parameter) {
         // Allowed controls depend on the parameter type.
         return functionObject_PARAMETER_CONTROLS[parameter.type];
     }
@@ -185,13 +181,13 @@ functionObject_PROPERTY_TYPES = [{
     type: "boolean"
 }];
 
-functionObject_fillDefaultValues = function(parameters, specs) {
+exports.fillDefaultValues = functionObject_fillDefaultValues = function functionObject_fillDefaultValues(parameters, specs) {
     if (!(specs instanceof Array)) {
         return;
     }
 
     var keys = [];
-    specs.forEach(function(spec) {
+    specs.forEach(function (spec) {
         if (!spec || typeof spec.key !== "string") {
             return;
         }
@@ -214,7 +210,7 @@ functionObject_fillDefaultValues = function(parameters, specs) {
     }
 };
 
-functionObject_fillDefaultNames = function(specs) {
+exports.fillDefaultNames = functionObject_fillDefaultNames = function functionObject_fillDefaultNames(specs) {
     if (!(specs instanceof Array)) {
         return;
     }
@@ -227,7 +223,7 @@ functionObject_fillDefaultNames = function(specs) {
         return capitalisedKey.replace(/(.)([A-Z])/g, "$1 $2");
     }
 
-    specs.forEach(function(spec) {
+    specs.forEach(function (spec) {
         if (!spec) {
             return;
         }
@@ -237,7 +233,7 @@ functionObject_fillDefaultNames = function(specs) {
     });
 };
 
-functionObject_getKey = function(str) {
+functionObject_getKey = function functionObject_getKey(str) {
     if (functionObject__keys[str]) {
         return functionObject__keys[str];
     } else {
@@ -362,7 +358,7 @@ functionObject__keys = {
     "Backslash": 220
 };
 
-functionObject__keyInverse = function(assoc) {
+functionObject__keyInverse = function (assoc) {
     var inverseAssoc = {};
 
     var keys = Object.keys(assoc);
@@ -372,8 +368,14 @@ functionObject__keyInverse = function(assoc) {
     return inverseAssoc;
 }(functionObject__keys);
 
-functionObject_keyForCode = function(code) {
+exports.keyForCode = functionObject_keyForCode = function functionObject_keyForCode(code) {
     return functionObject__keyInverse[code];
 };
 
-export { functionObject_DEFAULTS_BY_TYPE as DEFAULTS_BY_TYPE, functionObject_isRefType as isRefType, functionObject_TYPE_VALIDATORS as TYPE_VALIDATORS, functionObject_PROPERTY_TYPES as PROPERTY_TYPES, functionObject_fillDefaultValues as fillDefaultValues, functionObject_fillDefaultNames as fillDefaultNames, functionObject_keyForCode as keyForCode };
+exports.DEFAULTS_BY_TYPE = functionObject_DEFAULTS_BY_TYPE;
+exports.isRefType = functionObject_isRefType;
+exports.TYPE_VALIDATORS = functionObject_TYPE_VALIDATORS;
+exports.PROPERTY_TYPES = functionObject_PROPERTY_TYPES;
+exports.fillDefaultValues = functionObject_fillDefaultValues;
+exports.fillDefaultNames = functionObject_fillDefaultNames;
+exports.keyForCode = functionObject_keyForCode;

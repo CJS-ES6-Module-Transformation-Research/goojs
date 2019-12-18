@@ -1,17 +1,42 @@
-import { ConfigHandler } from "../loaders/handlers/ConfigHandler";
-import * as ObjectUtils from "../util/ObjectUtils";
-import { State } from "../fsmpack/statemachine/State";
-import { Machine } from "../fsmpack/statemachine/Machine";
-import { Actions } from "../fsmpack/statemachine/actions/Actions";
-import { anonymus as RSVP } from "../util/rsvp";
-function MachineHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MachineHandler = undefined;
+
+var _ConfigHandler = require("../loaders/handlers/ConfigHandler");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _State = require("../fsmpack/statemachine/State");
+
+var _Machine = require("../fsmpack/statemachine/Machine");
+
+var _Actions = require("../fsmpack/statemachine/actions/Actions");
+
+var _rsvp = require("../util/rsvp");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-MachineHandler.prototype = Object.create(ConfigHandler.prototype);
+function MachineHandler() {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+MachineHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 MachineHandler.prototype.constructor = MachineHandler;
 
-ConfigHandler._registerClass('machine', MachineHandler);
+_ConfigHandler.ConfigHandler._registerClass('machine', MachineHandler);
 
 /**
  * Creates an empty machine
@@ -19,7 +44,7 @@ ConfigHandler._registerClass('machine', MachineHandler);
  * @private
  */
 MachineHandler.prototype._create = function () {
-	return new Machine();
+	return new _Machine.Machine();
 };
 
 /**
@@ -44,8 +69,10 @@ MachineHandler.prototype._prepare = function (config) {
  */
 MachineHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (machine) {
-		if (!machine) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (machine) {
+		if (!machine) {
+			return;
+		}
 		machine.id = ref;
 		machine.name = config.name;
 		machine.maxLoopDepth = config.maxLoopDepth;
@@ -62,7 +89,7 @@ MachineHandler.prototype._update = function (ref, config, options) {
 		for (var key in config.states) {
 			promises.push(that._updateState(machine, config.states[key], options));
 		}
-		return RSVP.all(promises).then(function () {
+		return _rsvp.anonymus.all(promises).then(function () {
 			machine.setInitialState(config.initialState);
 			return machine;
 		});
@@ -91,7 +118,7 @@ MachineHandler.prototype._updateActions = function (state, stateConfig) {
 	ObjectUtils.forEach(stateConfig.actions, function (actionConfig) {
 		var action = state.getAction(actionConfig.id);
 		if (!action) {
-			var Action = Actions.actionForType(actionConfig.type);
+			var Action = _Actions.Actions.actionForType(actionConfig.type);
 			action = new Action(actionConfig.id, actionConfig.options);
 			if (action.onCreate) {
 				action.onCreate(state.proxy);
@@ -130,7 +157,7 @@ MachineHandler.prototype._updateState = function (machine, stateConfig, options)
 	if (machine._states && machine._states[stateConfig.id]) {
 		state = machine._states[stateConfig.id];
 	} else {
-		state = new State(stateConfig.id);
+		state = new _State.State(stateConfig.id);
 		machine.addState(state);
 	}
 	state.name = stateConfig.name;
@@ -155,13 +182,13 @@ MachineHandler.prototype._updateState = function (machine, stateConfig, options)
 	}
 
 	/*
-	// TODO: Test and use this. Will make the promises sorted correctly.
-	ObjectUtils.forEach(stateConfig.childMachines, function (childMachineConfig) {
-		promises.push(that._load(childMachineConfig.machineRef, options));
-	}, null, 'sortValue');
-	*/
+ // TODO: Test and use this. Will make the promises sorted correctly.
+ ObjectUtils.forEach(stateConfig.childMachines, function (childMachineConfig) {
+ 	promises.push(that._load(childMachineConfig.machineRef, options));
+ }, null, 'sortValue');
+ */
 
-	return RSVP.all(promises).then(function (machines) {
+	return _rsvp.anonymus.all(promises).then(function (machines) {
 		for (var i = 0; i < machines; i++) {
 			state.addMachine(machines[i]);
 		}
@@ -179,4 +206,4 @@ var exported_MachineHandler = MachineHandler;
  * @param {Function} getConfig
  * @param {Function} updateObject
  */
-export { exported_MachineHandler as MachineHandler };
+exports.MachineHandler = exported_MachineHandler;

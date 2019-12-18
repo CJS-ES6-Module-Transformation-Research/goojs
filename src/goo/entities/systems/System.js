@@ -1,32 +1,35 @@
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 function System(type, interests) {
 
-	/**
-	 * @type {World}
-	 */
-	this.world = null;
+  /**
+   * @type {World}
+   */
+  this.world = null;
 
-	/**
-	 * @type {string}
-	 */
-	this.type = type;
+  /**
+   * @type {string}
+   */
+  this.type = type;
 
-	/**
-	 * @type {array}
-	 */
-	this.interests = interests;
+  /**
+   * @type {array}
+   */
+  this.interests = interests;
 
-	this._activeEntities = [];
+  this._activeEntities = [];
 
-	/**
-	 * @type {boolean}
-	 */
-	this.passive = false;
+  /**
+   * @type {boolean}
+   */
+  this.passive = false;
 
-	/**
-	 * Priority of a system. The lower the number the higher the priority is. By default a systems has priority 0. Internal goo systems (like TransformSystem and CameraSystem) should have negative priority.
-	 * @type {number}
-	 */
-	this.priority = 0;
+  /**
+   * Priority of a system. The lower the number the higher the priority is. By default a systems has priority 0. Internal goo systems (like TransformSystem and CameraSystem) should have negative priority.
+   * @type {number}
+   */
+  this.priority = 0;
 }
 
 /**
@@ -34,14 +37,14 @@ function System(type, interests) {
  * @param {array} entities
  * @param {number} tpf
  */
-System.prototype.process = function (/*entities, tpf*/) {};
+System.prototype.process = function () /*entities, tpf*/{};
 
 /**
  * Called on each physics tick, if the system is not passive.
  * @param {array} entities
  * @param {number} fixedTpf
  */
-System.prototype.fixedUpdate = function (/*entities, fixedTpf*/) {};
+System.prototype.fixedUpdate = function () /*entities, fixedTpf*/{};
 
 /**
  * Called when an entity is added to the world and systems need to be informed. Called by the world.
@@ -49,27 +52,27 @@ System.prototype.fixedUpdate = function (/*entities, fixedTpf*/) {};
  * @param entity
  */
 System.prototype.added = function (entity) {
-	this._check(entity);
+  this._check(entity);
 };
 
 /**
  * Called when an entity is added to the world and systems need to be informed. To be implemented in subclasses.
  * @param entity
  */
-System.prototype.inserted = function (/*entity*/) {};
+System.prototype.inserted = function () /*entity*/{};
 
 /**
  * Called when an entity is remove from the world and systems need to be informed. To be implemented in subclasses.
  * @param entity
  */
-System.prototype.deleted = function (/*entity*/) {};
+System.prototype.deleted = function () /*entity*/{};
 
 /**
  * Called when an entity gets/loses components
  * @param entity
  */
 System.prototype.changed = function (entity) {
-	this._check(entity);
+  this._check(entity);
 };
 
 /**
@@ -77,11 +80,11 @@ System.prototype.changed = function (entity) {
  * @param entity
  */
 System.prototype.removed = function (entity) {
-	var index = this._activeEntities.indexOf(entity);
-	if (index !== -1) {
-		this._activeEntities.splice(index, 1);
-		this.deleted(entity);
-	}
+  var index = this._activeEntities.indexOf(entity);
+  if (index !== -1) {
+    this._activeEntities.splice(index, 1);
+    this.deleted(entity);
+  }
 };
 
 /**
@@ -92,7 +95,7 @@ System.prototype.removed = function (entity) {
  * @param {World} world
  */
 System.prototype.setup = function (world) {
-	world.entityManager.getEntities().forEach(this._check.bind(this));
+  world.entityManager.getEntities().forEach(this._check.bind(this));
 };
 
 /**
@@ -100,14 +103,14 @@ System.prototype.setup = function (world) {
  * By default it will call the deleted method on all entities it is keeping track of.
  */
 System.prototype.cleanup = function () {
-	for (var i = 0; i < this._activeEntities.length; i++) {
-		var entity = this._activeEntities[i];
-		this.deleted(entity);
-	}
+  for (var i = 0; i < this._activeEntities.length; i++) {
+    var entity = this._activeEntities[i];
+    this.deleted(entity);
+  }
 };
 
 function getTypeAttributeName(type) {
-	return type.charAt(0).toLowerCase() + type.substr(1);
+  return type.charAt(0).toLowerCase() + type.substr(1);
 }
 
 /**
@@ -116,46 +119,46 @@ function getTypeAttributeName(type) {
  * @private
  */
 System.prototype._check = function (entity) {
-	if (this.interests && this.interests.length === 0) {
-		return;
-	}
-	var isInterested = this.interests === null;
-	if (!isInterested && this.interests.length <= entity._components.length) {
-		isInterested = true;
-		for (var i = 0; i < this.interests.length; i++) {
-			var interest = getTypeAttributeName(this.interests[i]);
+  if (this.interests && this.interests.length === 0) {
+    return;
+  }
+  var isInterested = this.interests === null;
+  if (!isInterested && this.interests.length <= entity._components.length) {
+    isInterested = true;
+    for (var i = 0; i < this.interests.length; i++) {
+      var interest = getTypeAttributeName(this.interests[i]);
 
-			if (!entity[interest]) {
-				isInterested = false;
-				break;
-			}
-		}
-	}
+      if (!entity[interest]) {
+        isInterested = false;
+        break;
+      }
+    }
+  }
 
-	var index = this._activeEntities.indexOf(entity);
-	if (isInterested && index === -1) {
-		this._activeEntities.push(entity);
-		this.inserted(entity);
-	} else if (!isInterested && index !== -1) {
-		this._activeEntities.splice(index, 1);
-		this.deleted(entity);
-	}
+  var index = this._activeEntities.indexOf(entity);
+  if (isInterested && index === -1) {
+    this._activeEntities.push(entity);
+    this.inserted(entity);
+  } else if (!isInterested && index !== -1) {
+    this._activeEntities.splice(index, 1);
+    this.deleted(entity);
+  }
 };
 
 System.prototype._fixedUpdate = function (fixedTpf) {
-	this.fixedUpdate(this._activeEntities, fixedTpf);
+  this.fixedUpdate(this._activeEntities, fixedTpf);
 };
 
 System.prototype._process = function (tpf) {
-	this.process(this._activeEntities, tpf);
+  this.process(this._activeEntities, tpf);
 };
 
 System.prototype._lateProcess = function (tpf) {
-	this.lateProcess(this._activeEntities, tpf);
+  this.lateProcess(this._activeEntities, tpf);
 };
 
 System.prototype.clear = function () {
-	this._activeEntities.length  = 0;
+  this._activeEntities.length = 0;
 };
 
 /**
@@ -185,4 +188,4 @@ var exported_System = System;
  * @property {string} type System type
  * @property {Array<String>} interests Array of component types this system is interested in
  */
-export { exported_System as System };
+exports.System = exported_System;

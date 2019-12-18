@@ -1,5 +1,5 @@
 module.exports = {
-	skeleton: function () {
+	skeleton: function skeleton() {
 		var skeleton = this.gooObject('skeleton', 'Dummy');
 		skeleton.joints = {};
 		for (var i = 0; i < 6; i++) {
@@ -7,17 +7,12 @@ module.exports = {
 				index: i,
 				parentIndex: i > 0 ? i - 1 : -32768,
 				name: 'Joint_' + i,
-				inverseBindPose: [
-					1, 0, 0, 0,
-					0, 1, 0, 0,
-					0, 0, 1, 0,
-					0, 0, 0, 1
-				]
+				inverseBindPose: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 			};
 		}
 		return skeleton;
 	},
-	animation: function () {
+	animation: function animation() {
 		var layers = this.gooObject('animation', 'Dummy');
 
 		layers.layers = {};
@@ -46,7 +41,7 @@ module.exports = {
 		}
 		return layers;
 	},
-	animstate: function () {
+	animstate: function animstate() {
 		var state = this.gooObject('animstate', 'Dummy');
 
 		state.clipSource = {
@@ -57,7 +52,7 @@ module.exports = {
 		};
 		return state;
 	},
-	clip: function () {
+	clip: function clip() {
 		var clip = this.gooObject('clip', 'Dummy');
 		clip.binaryRef = this.binary(128);
 
@@ -67,8 +62,8 @@ module.exports = {
 		}
 		return clip;
 	},
-	clipChannel: function (index, samples) {
-		index = (index !== undefined) ? index : 0;
+	clipChannel: function clipChannel(index, samples) {
+		index = index !== undefined ? index : 0;
 		samples = samples || 4;
 
 		var channel = {

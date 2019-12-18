@@ -1,6 +1,27 @@
-import * as Scripts from "../scripts/Scripts";
-import * as WasdControlScript from "../scriptpack/WasdControlScript";
-import * as MouseLookControlScript from "../scriptpack/MouseLookControlScript";
+var _Scripts = require("../scripts/Scripts");
+
+var Scripts = _interopRequireWildcard(_Scripts);
+
+var _WasdControlScript = require("../scriptpack/WasdControlScript");
+
+var WasdControlScript = _interopRequireWildcard(_WasdControlScript);
+
+var _MouseLookControlScript = require("../scriptpack/MouseLookControlScript");
+
+var MouseLookControlScript = _interopRequireWildcard(_MouseLookControlScript);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var functionObject_externals;
 
 function FlyControlScript() {
@@ -34,8 +55,8 @@ var mouseLookParams = MouseLookControlScript.externals.parameters;
 var params = wasdParams.concat(mouseLookParams.slice(1));
 
 functionObject_externals = {
-    key: "FlyControlScript",
-    name: "Fly Control",
-    description: "This is a combo of the Wasd script and the MouseLook script",
-    parameters: params
+	key: "FlyControlScript",
+	name: "Fly Control",
+	description: "This is a combo of the Wasd script and the MouseLook script",
+	parameters: params
 };

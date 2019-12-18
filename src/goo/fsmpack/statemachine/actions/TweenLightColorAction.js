@@ -1,16 +1,37 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 } from "../../../math/Vector3";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenLightColorAction = undefined;
 
-function TweenLightColorAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromCol = new Vector3();
-	this.toCol = new Vector3();
+var _Vector = require("../../../math/Vector3");
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function TweenLightColorAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromCol = new _Vector.Vector3();
+	this.toCol = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenLightColorAction.prototype = Object.create(Action.prototype);
+TweenLightColorAction.prototype = Object.create(_Action.Action.prototype);
 TweenLightColorAction.prototype.constructor = TweenLightColorAction;
 
 TweenLightColorAction.external = {
@@ -54,7 +75,7 @@ TweenLightColorAction.external = {
 	}]
 };
 
-TweenLightColorAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenLightColorAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Light Complete' : undefined;
 };
 
@@ -95,4 +116,4 @@ TweenLightColorAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenLightColorAction = TweenLightColorAction;
-export { exported_TweenLightColorAction as TweenLightColorAction };
+exports.TweenLightColorAction = exported_TweenLightColorAction;

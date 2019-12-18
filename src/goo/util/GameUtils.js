@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_initPointerLockShims;
 var functionObject_initFullscreenShims;
 var functionObject_initAnimationShims;
@@ -23,19 +26,19 @@ functionObject_supported = {
     pointerLock: true
 };
 
-functionObject_requestFullScreen = function() {
+functionObject_requestFullScreen = function functionObject_requestFullScreen() {
     if (!document.fullscreenElement && document.documentElement.requestFullScreen) {
         document.documentElement.requestFullScreen();
     }
 };
 
-functionObject_exitFullScreen = function() {
+functionObject_exitFullScreen = function functionObject_exitFullScreen() {
     if (document.fullscreenElement && document.cancelFullScreen) {
         document.cancelFullScreen();
     }
 };
 
-functionObject_toggleFullScreen = function() {
+exports.toggleFullScreen = functionObject_toggleFullScreen = function functionObject_toggleFullScreen() {
     if (!document.fullscreenElement) {
         if (document.documentElement.requestFullScreen) {
             document.documentElement.requestFullScreen();
@@ -47,20 +50,20 @@ functionObject_toggleFullScreen = function() {
     }
 };
 
-functionObject_requestPointerLock = function(optionalTarget) {
+exports.requestPointerLock = functionObject_requestPointerLock = function functionObject_requestPointerLock(optionalTarget) {
     var target = optionalTarget || document.documentElement;
     if (target.requestPointerLock) {
         target.requestPointerLock();
     }
 };
 
-functionObject_exitPointerLock = function() {
+exports.exitPointerLock = functionObject_exitPointerLock = function functionObject_exitPointerLock() {
     if (document.exitPointerLock) {
         document.exitPointerLock();
     }
 };
 
-functionObject_togglePointerLock = function(optionalTarget) {
+exports.togglePointerLock = functionObject_togglePointerLock = function functionObject_togglePointerLock(optionalTarget) {
     if (!document.pointerLockElement) {
         functionObject_requestPointerLock(optionalTarget);
     } else {
@@ -70,7 +73,7 @@ functionObject_togglePointerLock = function(optionalTarget) {
 
 var visibilityChangeListeners = [];
 
-functionObject_addVisibilityChangeListener = function(callback) {
+exports.addVisibilityChangeListener = functionObject_addVisibilityChangeListener = function functionObject_addVisibilityChangeListener(callback) {
     if (typeof callback !== "function") {
         return;
     }
@@ -90,7 +93,7 @@ functionObject_addVisibilityChangeListener = function(callback) {
     }
 
     if (typeof document.addEventListener !== "undefined" && typeof hidden !== "undefined") {
-        var eventListener = function() {
+        var eventListener = function eventListener() {
             if (document[hidden]) {
                 callback(true);
             } else {
@@ -105,25 +108,25 @@ functionObject_addVisibilityChangeListener = function(callback) {
     }
 };
 
-functionObject_clearVisibilityChangeListeners = function() {
-    visibilityChangeListeners.forEach(function(listener) {
+exports.clearVisibilityChangeListeners = functionObject_clearVisibilityChangeListeners = function functionObject_clearVisibilityChangeListeners() {
+    visibilityChangeListeners.forEach(function (listener) {
         document.removeEventListener(listener.eventName, listener.eventListener);
     });
     visibilityChangeListeners = [];
 };
 
-functionObject_initAllShims = function(global) {
+exports.initAllShims = functionObject_initAllShims = function functionObject_initAllShims(global) {
     functionObject_initWebGLShims();
     functionObject_initAnimationShims();
     functionObject_initFullscreenShims(global);
     functionObject_initPointerLockShims(global);
 };
 
-functionObject_initWebGLShims = function() {
+functionObject_initWebGLShims = function functionObject_initWebGLShims() {
     window.Uint8ClampedArray = window.Uint8ClampedArray || window.Uint8Array;
 };
 
-functionObject_initAnimationShims = function() {
+functionObject_initAnimationShims = function functionObject_initAnimationShims() {
     var lastTime = 0;
     var vendors = ["ms", "moz", "webkit", "o"];
 
@@ -133,9 +136,10 @@ functionObject_initAnimationShims = function() {
     }
 
     if (window.requestAnimationFrame === undefined) {
-        window.requestAnimationFrame = function(callback) {
-            var currTime = Date.now(), timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() {
+        window.requestAnimationFrame = function (callback) {
+            var currTime = Date.now(),
+                timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function () {
                 callback(currTime + timeToCall);
             }, timeToCall);
             lastTime = currTime + timeToCall;
@@ -144,32 +148,32 @@ functionObject_initAnimationShims = function() {
     }
 
     if (window.cancelAnimationFrame === undefined) {
-        window.cancelAnimationFrame = function(id) {
+        window.cancelAnimationFrame = function (id) {
             clearTimeout(id);
         };
     }
 };
 
-functionObject_initFullscreenShims = function(global) {
+functionObject_initFullscreenShims = function functionObject_initFullscreenShims(global) {
     global = global || window;
     var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
     if (!document.hasOwnProperty("fullscreenEnabled")) {
-        var getter = function() {
+        var getter = function () {
             if ("webkitIsFullScreen" in document) {
-                return function() {
+                return function () {
                     return document.webkitFullscreenEnabled;
                 };
             }
             if ("mozFullScreenEnabled" in document) {
-                return function() {
+                return function () {
                     return document.mozFullScreenEnabled;
                 };
             }
 
             functionObject_supported.fullscreen = false;
 
-            return function() {
+            return function () {
                 return false;
             };
         }();
@@ -183,15 +187,11 @@ functionObject_initFullscreenShims = function(global) {
     }
 
     if (!document.hasOwnProperty("fullscreenElement")) {
-        var getter = function() {
-            var name = [
-                "webkitCurrentFullScreenElement",
-                "webkitFullscreenElement",
-                "mozFullScreenElement"
-            ];
+        var getter = function () {
+            var name = ["webkitCurrentFullScreenElement", "webkitFullscreenElement", "mozFullScreenElement"];
 
-            var getNameInDocument = function(i) {
-                return function() {
+            var getNameInDocument = function getNameInDocument(i) {
+                return function () {
                     return document[name[i]];
                 };
             };
@@ -201,7 +201,7 @@ functionObject_initFullscreenShims = function(global) {
                     return getNameInDocument(i);
                 }
             }
-            return function() {
+            return function () {
                 return null;
             };
         }();
@@ -231,43 +231,43 @@ functionObject_initFullscreenShims = function(global) {
     document.addEventListener("mozfullscreenerror", fullscreenerror, false);
 
     if (!elementPrototype.requestFullScreen) {
-        elementPrototype.requestFullScreen = function() {
+        elementPrototype.requestFullScreen = function () {
             if (elementPrototype.msRequestFullscreen) {
-                return function() {
+                return function () {
                     this.msRequestFullscreen();
                 };
             }
 
             if (elementPrototype.webkitRequestFullscreen) {
-                return function() {
+                return function () {
                     this.webkitRequestFullscreen(global.Element.ALLOW_KEYBOARD_INPUT);
                 };
             }
 
             if (elementPrototype.webkitRequestFullScreen) {
-                return function() {
+                return function () {
                     this.webkitRequestFullScreen(global.Element.ALLOW_KEYBOARD_INPUT);
                 };
             }
 
             if (elementPrototype.mozRequestFullScreen) {
-                return function() {
+                return function () {
                     this.mozRequestFullScreen();
                 };
             }
 
-            return function() {};
+            return function () {};
         }();
     }
 
     if (!document.cancelFullScreen) {
-        document.cancelFullScreen = function() {
-            return document.webkitCancelFullScreen || document.mozCancelFullScreen || function() {};
+        document.cancelFullScreen = function () {
+            return document.webkitCancelFullScreen || document.mozCancelFullScreen || function () {};
         }();
     }
 };
 
-functionObject_initPointerLockShims = function(global) {
+functionObject_initPointerLockShims = function functionObject_initPointerLockShims(global) {
     global = global || window;
     var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
@@ -283,7 +283,7 @@ functionObject_initPointerLockShims = function(global) {
             configurable: false,
             writeable: false,
 
-            get: function() {
+            get: function get() {
                 return this.webkitMovementX || this.mozMovementX || 0;
             }
         });
@@ -295,7 +295,7 @@ functionObject_initPointerLockShims = function(global) {
             configurable: false,
             writeable: false,
 
-            get: function() {
+            get: function get() {
                 return this.webkitMovementY || this.mozMovementY || 0;
             }
         });
@@ -324,18 +324,18 @@ functionObject_initPointerLockShims = function(global) {
     document.addEventListener("mozpointerlockerror", pointerlockerror, false);
 
     if (!("pointerLockElement" in document)) {
-        var getter = function() {
+        var getter = function () {
             if ("webkitPointerLockElement" in document) {
-                return function() {
+                return function () {
                     return document.webkitPointerLockElement;
                 };
             }
             if ("mozPointerLockElement" in document) {
-                return function() {
+                return function () {
                     return document.mozPointerLockElement;
                 };
             }
-            return function() {
+            return function () {
                 return null;
             };
         }();
@@ -349,34 +349,34 @@ functionObject_initPointerLockShims = function(global) {
     }
 
     if (!elementPrototype.requestPointerLock) {
-        elementPrototype.requestPointerLock = function() {
+        elementPrototype.requestPointerLock = function () {
             if (elementPrototype.webkitRequestPointerLock) {
-                return function() {
+                return function () {
                     this.webkitRequestPointerLock();
                 };
             }
 
             if (elementPrototype.mozRequestPointerLock) {
-                return function() {
+                return function () {
                     this.mozRequestPointerLock();
                 };
             }
 
             if (navigator.pointer) {
-                return function() {
+                return function () {
                     navigator.pointer.lock(this, pointerlockchange, pointerlockerror);
                 };
             }
 
             functionObject_supported.pointerLock = false;
 
-            return function() {};
+            return function () {};
         }();
     }
 
     if (!document.exitPointerLock) {
-        document.exitPointerLock = function() {
-            return document.webkitExitPointerLock || document.mozExitPointerLock || function() {
+        document.exitPointerLock = function () {
+            return document.webkitExitPointerLock || document.mozExitPointerLock || function () {
                 if (navigator.pointer) {
                     navigator.pointer.unlock();
                 }
@@ -385,4 +385,10 @@ functionObject_initPointerLockShims = function(global) {
     }
 };
 
-export { functionObject_toggleFullScreen as toggleFullScreen, functionObject_requestPointerLock as requestPointerLock, functionObject_exitPointerLock as exitPointerLock, functionObject_togglePointerLock as togglePointerLock, functionObject_addVisibilityChangeListener as addVisibilityChangeListener, functionObject_clearVisibilityChangeListeners as clearVisibilityChangeListeners, functionObject_initAllShims as initAllShims };
+exports.toggleFullScreen = functionObject_toggleFullScreen;
+exports.requestPointerLock = functionObject_requestPointerLock;
+exports.exitPointerLock = functionObject_exitPointerLock;
+exports.togglePointerLock = functionObject_togglePointerLock;
+exports.addVisibilityChangeListener = functionObject_addVisibilityChangeListener;
+exports.clearVisibilityChangeListeners = functionObject_clearVisibilityChangeListeners;
+exports.initAllShims = functionObject_initAllShims;

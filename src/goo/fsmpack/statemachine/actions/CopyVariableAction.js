@@ -1,11 +1,26 @@
-import { Action } from "./Action";
-import * as FsmUtils from "../FsmUtils";
+var _Action = require("./Action");
 
-function CopyVariableAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+var _FsmUtils = require("../FsmUtils");
+
+var FsmUtils = _interopRequireWildcard(_FsmUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-CopyVariableAction.prototype = Object.create(Action.prototype);
+function CopyVariableAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
+}
+
+CopyVariableAction.prototype = Object.create(_Action.Action.prototype);
 CopyVariableAction.prototype.constructor = CopyVariableAction;
 
 CopyVariableAction.external = {

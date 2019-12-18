@@ -1,4 +1,10 @@
-import { LogicInterface } from "./LogicInterface";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicLayer = undefined;
+
+var _LogicInterface = require('./LogicInterface');
+
 function LogicLayer(ownerEntity) {
 	this._logicInterfaces = {};
 	this._connectionsBySource = {}; // REVIEW: unused?
@@ -55,7 +61,6 @@ LogicLayer.prototype.addInterfaceInstance = function (iface, instance, name, wan
 
 		// nice n^2 algo here to remove all instances.
 		_this.unresolveAllConnections();
-
 	};
 	instDesc.getPorts = function () {
 		return iface.getPorts();
@@ -75,7 +80,8 @@ LogicLayer.prototype.unresolveAllConnections = function () {
 	// Un-do all connection resolving. Processes all instances, all ports and all connections
 	for (var n in this._logicInterfaces) {
 		var ports = this._logicInterfaces[n].outConnections;
-		if (ports === undefined) { // REVIEW: not really needed, the for loop below would not blow up or execute anything if ports were undefined
+		if (ports === undefined) {
+			// REVIEW: not really needed, the for loop below would not blow up or execute anything if ports were undefined
 			continue;
 		}
 
@@ -95,7 +101,7 @@ LogicLayer.resolvePortID = function (instDesc, portName) {
 		return portName;
 	}
 
-	if (LogicInterface.isDynamicPortName(portName)) {
+	if (_LogicInterface.LogicInterface.isDynamicPortName(portName)) {
 		return portName;
 	}
 
@@ -103,7 +109,7 @@ LogicLayer.resolvePortID = function (instDesc, portName) {
 	// if realPortid is a number, no need to do all this
 	var ports = instDesc.getPorts();
 	for (var j = 0; j < ports.length; j++) {
-		if (LogicInterface.makePortDataName(ports[j]) === portName) {
+		if (_LogicInterface.LogicInterface.makePortDataName(ports[j]) === portName) {
 			return ports[j].id;
 		}
 	}
@@ -121,7 +127,7 @@ LogicLayer.prototype.resolveTargetAndPortID = function (targetRef, portName) {
 	}
 
 	// First check the proxy cases.
-	if (tgt.obj.entityRef !== undefined && LogicInterface.isDynamicPortName(portName)) {
+	if (tgt.obj.entityRef !== undefined && _LogicInterface.LogicInterface.isDynamicPortName(portName)) {
 		var logicLayer2 = this.logicSystem.getLayerByEntity(tgt.obj.entityRef);
 		for (var n in logicLayer2._logicInterfaces) {
 			var l = logicLayer2._logicInterfaces[n];
@@ -129,7 +135,7 @@ LogicLayer.prototype.resolveTargetAndPortID = function (targetRef, portName) {
 			// 	console.log(l);
 			// }
 
-			if (l.obj.type === 'LogicNodeInput' && l.obj.dummyInport !== null && LogicInterface.makePortDataName(l.obj.dummyInport)) {
+			if (l.obj.type === 'LogicNodeInput' && l.obj.dummyInport !== null && _LogicInterface.LogicInterface.makePortDataName(l.obj.dummyInport)) {
 				return {
 					target: l,
 					portID: portName
@@ -301,7 +307,6 @@ LogicLayer.fireEvent = function (instDesc, outPortID) {
 	});
 };
 
-
 LogicLayer.resolveEntityRef = function (instDesc, entityRef) {
 	if (entityRef === '[self]') {
 		return instDesc.layer.ownerEntity;
@@ -368,4 +373,4 @@ var exported_LogicLayer = LogicLayer;
  *        connections, as well as cross-layer connections (through LogicSystem). Each LogicLayer has an entity owner.
  * @private
  */
-export { exported_LogicLayer as LogicLayer };
+exports.LogicLayer = exported_LogicLayer;

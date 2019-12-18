@@ -1,75 +1,109 @@
-import { Source } from "./blendtree/Source";
-import { BinaryLerpSource } from "./blendtree/BinaryLerpSource";
-import { ClipSource } from "./blendtree/ClipSource";
-import { FrozenClipSource } from "./blendtree/FrozenClipSource";
-import { ManagedTransformSource } from "./blendtree/ManagedTransformSource";
-import { AbstractAnimationChannel } from "./clip/AbstractAnimationChannel";
-import { AnimationClip } from "./clip/AnimationClip";
-import { AnimationClipInstance } from "./clip/AnimationClipInstance";
-import { InterpolatedFloatChannel } from "./clip/InterpolatedFloatChannel";
-import { JointChannel } from "./clip/JointChannel";
-import { JointData } from "./clip/JointData";
-import { TransformChannel } from "./clip/TransformChannel";
-import { TransformData } from "./clip/TransformData";
-import { TriggerChannel } from "./clip/TriggerChannel";
-import { TriggerData } from "./clip/TriggerData";
-import { AnimationComponent } from "./components/AnimationComponent";
-import { AnimationClipHandler } from "./handlers/AnimationClipHandler";
-import { AnimationComponentHandler } from "./handlers/AnimationComponentHandler";
-import { anonymus as AnimationHandlers } from "./handlers/AnimationHandlers";
-import { AnimationLayersHandler } from "./handlers/AnimationLayersHandler";
-import { AnimationStateHandler } from "./handlers/AnimationStateHandler";
-import { SkeletonHandler } from "./handlers/SkeletonHandler";
-import { Joint } from "./Joint";
-import { AnimationLayer } from "./layer/AnimationLayer";
-import { LayerLerpBlender } from "./layer/LayerLerpBlender";
-import { Skeleton } from "./Skeleton";
-import { SkeletonPose } from "./SkeletonPose";
-import { AbstractState } from "./state/AbstractState";
-import { AbstractTransitionState } from "./state/AbstractTransitionState";
-import { FadeTransitionState } from "./state/FadeTransitionState";
-import { FrozenTransitionState } from "./state/FrozenTransitionState";
-import { SteadyState } from "./state/SteadyState";
-import { SyncFadeTransitionState } from "./state/SyncFadeTransitionState";
-import { AnimationSystem } from "./systems/AnimationSystem";
+var _Source = require("./blendtree/Source");
+
+var _BinaryLerpSource = require("./blendtree/BinaryLerpSource");
+
+var _ClipSource = require("./blendtree/ClipSource");
+
+var _FrozenClipSource = require("./blendtree/FrozenClipSource");
+
+var _ManagedTransformSource = require("./blendtree/ManagedTransformSource");
+
+var _AbstractAnimationChannel = require("./clip/AbstractAnimationChannel");
+
+var _AnimationClip = require("./clip/AnimationClip");
+
+var _AnimationClipInstance = require("./clip/AnimationClipInstance");
+
+var _InterpolatedFloatChannel = require("./clip/InterpolatedFloatChannel");
+
+var _JointChannel = require("./clip/JointChannel");
+
+var _JointData = require("./clip/JointData");
+
+var _TransformChannel = require("./clip/TransformChannel");
+
+var _TransformData = require("./clip/TransformData");
+
+var _TriggerChannel = require("./clip/TriggerChannel");
+
+var _TriggerData = require("./clip/TriggerData");
+
+var _AnimationComponent = require("./components/AnimationComponent");
+
+var _AnimationClipHandler = require("./handlers/AnimationClipHandler");
+
+var _AnimationComponentHandler = require("./handlers/AnimationComponentHandler");
+
+var _AnimationHandlers = require("./handlers/AnimationHandlers");
+
+var _AnimationLayersHandler = require("./handlers/AnimationLayersHandler");
+
+var _AnimationStateHandler = require("./handlers/AnimationStateHandler");
+
+var _SkeletonHandler = require("./handlers/SkeletonHandler");
+
+var _Joint = require("./Joint");
+
+var _AnimationLayer = require("./layer/AnimationLayer");
+
+var _LayerLerpBlender = require("./layer/LayerLerpBlender");
+
+var _Skeleton = require("./Skeleton");
+
+var _SkeletonPose = require("./SkeletonPose");
+
+var _AbstractState = require("./state/AbstractState");
+
+var _AbstractTransitionState = require("./state/AbstractTransitionState");
+
+var _FadeTransitionState = require("./state/FadeTransitionState");
+
+var _FrozenTransitionState = require("./state/FrozenTransitionState");
+
+var _SteadyState = require("./state/SteadyState");
+
+var _SyncFadeTransitionState = require("./state/SyncFadeTransitionState");
+
+var _AnimationSystem = require("./systems/AnimationSystem");
+
 module.exports = {
-	Source: Source,
-	BinaryLerpSource: BinaryLerpSource,
-	ClipSource: ClipSource,
-	FrozenClipSource: FrozenClipSource,
-	ManagedTransformSource: ManagedTransformSource,
-	AbstractAnimationChannel: AbstractAnimationChannel,
-	AnimationClip: AnimationClip,
-	AnimationClipInstance: AnimationClipInstance,
-	InterpolatedFloatChannel: InterpolatedFloatChannel,
-	JointChannel: JointChannel,
-	JointData: JointData,
-	TransformChannel: TransformChannel,
-	TransformData: TransformData,
-	TriggerChannel: TriggerChannel,
-	TriggerData: TriggerData,
-	AnimationComponent: AnimationComponent,
-	AnimationClipHandler: AnimationClipHandler,
-	AnimationComponentHandler: AnimationComponentHandler,
-	AnimationHandlers: AnimationHandlers,
-	AnimationLayersHandler: AnimationLayersHandler,
-	AnimationStateHandler: AnimationStateHandler,
-	SkeletonHandler: SkeletonHandler,
-	Joint: Joint,
-	AnimationLayer: AnimationLayer,
-	LayerLerpBlender: LayerLerpBlender,
-	Skeleton: Skeleton,
-	SkeletonPose: SkeletonPose,
-	AbstractState: AbstractState,
-	AbstractTransitionState: AbstractTransitionState,
-	FadeTransitionState: FadeTransitionState,
-	FrozenTransitionState: FrozenTransitionState,
-	SteadyState: SteadyState,
-	SyncFadeTransitionState: SyncFadeTransitionState,
-	AnimationSystem: AnimationSystem
+	Source: _Source.Source,
+	BinaryLerpSource: _BinaryLerpSource.BinaryLerpSource,
+	ClipSource: _ClipSource.ClipSource,
+	FrozenClipSource: _FrozenClipSource.FrozenClipSource,
+	ManagedTransformSource: _ManagedTransformSource.ManagedTransformSource,
+	AbstractAnimationChannel: _AbstractAnimationChannel.AbstractAnimationChannel,
+	AnimationClip: _AnimationClip.AnimationClip,
+	AnimationClipInstance: _AnimationClipInstance.AnimationClipInstance,
+	InterpolatedFloatChannel: _InterpolatedFloatChannel.InterpolatedFloatChannel,
+	JointChannel: _JointChannel.JointChannel,
+	JointData: _JointData.JointData,
+	TransformChannel: _TransformChannel.TransformChannel,
+	TransformData: _TransformData.TransformData,
+	TriggerChannel: _TriggerChannel.TriggerChannel,
+	TriggerData: _TriggerData.TriggerData,
+	AnimationComponent: _AnimationComponent.AnimationComponent,
+	AnimationClipHandler: _AnimationClipHandler.AnimationClipHandler,
+	AnimationComponentHandler: _AnimationComponentHandler.AnimationComponentHandler,
+	AnimationHandlers: _AnimationHandlers.anonymus,
+	AnimationLayersHandler: _AnimationLayersHandler.AnimationLayersHandler,
+	AnimationStateHandler: _AnimationStateHandler.AnimationStateHandler,
+	SkeletonHandler: _SkeletonHandler.SkeletonHandler,
+	Joint: _Joint.Joint,
+	AnimationLayer: _AnimationLayer.AnimationLayer,
+	LayerLerpBlender: _LayerLerpBlender.LayerLerpBlender,
+	Skeleton: _Skeleton.Skeleton,
+	SkeletonPose: _SkeletonPose.SkeletonPose,
+	AbstractState: _AbstractState.AbstractState,
+	AbstractTransitionState: _AbstractTransitionState.AbstractTransitionState,
+	FadeTransitionState: _FadeTransitionState.FadeTransitionState,
+	FrozenTransitionState: _FrozenTransitionState.FrozenTransitionState,
+	SteadyState: _SteadyState.SteadyState,
+	SyncFadeTransitionState: _SyncFadeTransitionState.SyncFadeTransitionState,
+	AnimationSystem: _AnimationSystem.AnimationSystem
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

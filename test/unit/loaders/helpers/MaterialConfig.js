@@ -1,9 +1,9 @@
-import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
+var _ObjectUtil = require('../../../../src/goo/util/ObjectUtil');
 
 module.exports = {
-	material: function () {
+	material: function material() {
 		var material = this.gooObject('material', 'Dummy');
-		_.extend(material, {
+		_ObjectUtil.ObjectUtils.extend(material, {
 			uniforms: {
 				materialAmbient: {
 					value: [0, 0, 0, 1],
@@ -35,14 +35,14 @@ module.exports = {
 		});
 		return material;
 	},
-	texture: function () {
+	texture: function texture() {
 		var texture = this.gooObject('texture', 'Dummy');
-		_.extend(texture, {
+		_ObjectUtil.ObjectUtils.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
 			repeat: [1, 1],
-			imageRef: (typeof(window) !== 'undefined' && window.__karma__ ? 'base/test/unit/loaders/res/' : '') + 'checker.png',
+			imageRef: (typeof window !== 'undefined' && window.__karma__ ? 'base/test/unit/loaders/res/' : '') + 'checker.png',
 			wrapS: 'Repeat',
 			wrapT: 'Repeat',
 			anisotropy: 1,
@@ -50,9 +50,9 @@ module.exports = {
 		});
 		return texture;
 	},
-	textureSVG: function () {
+	textureSVG: function textureSVG() {
 		var texture = this.gooObject('texture', 'Dummy');
-		_.extend(texture, {
+		_ObjectUtil.ObjectUtils.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
@@ -65,9 +65,9 @@ module.exports = {
 		});
 		return texture;
 	},
-	shader: function () {
+	shader: function shader() {
 		var shader = this.gooObject('shader', 'Dummy');
-		_.extend(shader, {
+		_ObjectUtil.ObjectUtils.extend(shader, {
 			attributes: {
 				vertexPoisition: 'POSITION',
 				vertexNormal: 'NORMAL',
@@ -81,19 +81,17 @@ module.exports = {
 			},
 			vshaderRef: this.vshader(),
 			fshaderRef: this.fshader(),
-			processors: [
-				'uber'
-			]
+			processors: ['uber']
 		});
 		return shader;
 	},
-	vshader: function () {
+	vshader: function vshader() {
 		var ref = this.randomRef('vert');
 		var code = "void main() { gl_Position = vec4(1.0); }";
 		this.addToBundle(code, ref);
 		return ref;
 	},
-	fshader: function () {
+	fshader: function fshader() {
 		var ref = this.randomRef('frag');
 		var code = "void main() { gl_FragColor = vec4(1.0); }";
 		this.addToBundle(code, ref);

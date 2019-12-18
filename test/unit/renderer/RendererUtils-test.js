@@ -1,4 +1,19 @@
-import * as RendererUtils from "../../../src/goo/renderer/RendererUtils";
+var _RendererUtils = require('../../../src/goo/renderer/RendererUtils');
+
+var RendererUtils = _interopRequireWildcard(_RendererUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('RendererUtils', function () {
@@ -14,7 +29,7 @@ describe('RendererUtils', function () {
 			expect(clone(true)).toBe(true);
 			expect(clone('asd')).toBe('asd');
 
-			var func = function () {};
+			var func = function func() {};
 			expect(clone(func)).toBe(func);
 		});
 

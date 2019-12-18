@@ -1,4 +1,19 @@
-import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
+var _ObjectUtils = require('../../../src/goo/util/ObjectUtils');
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('ObjectUtils', function () {
@@ -141,7 +156,7 @@ describe('ObjectUtils', function () {
 			expect(clone(true)).toBe(true);
 			expect(clone('asd')).toBe('asd');
 
-			var func = function () {};
+			var func = function func() {};
 			expect(clone(func)).toBe(func);
 		});
 
@@ -173,7 +188,7 @@ describe('ObjectUtils', function () {
 			expect(clone(original)).toBeCloned(original);
 		});
 
-		if (typeof(module) === 'undefined') {
+		if (typeof module === 'undefined') {
 			it('clones dom elements', function () {
 				var original = document.createElement('div');
 				original.classList.add('asd');

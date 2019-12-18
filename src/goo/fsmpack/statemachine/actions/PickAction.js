@@ -1,11 +1,17 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { anonymus as SystemBus } from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PickAction = undefined;
 
-function PickAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+function PickAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-PickAction.prototype = Object.create(Action.prototype);
+PickAction.prototype = Object.create(_Action.Action.prototype);
 PickAction.prototype.constructor = PickAction;
 
 PickAction.external = {
@@ -26,7 +32,7 @@ var labels = {
 	pick: 'On pick entity'
 };
 
-PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -66,16 +72,16 @@ PickAction.prototype.enter = function (fsm) {
 
 	document.addEventListener('click', this.eventListener);
 	document.addEventListener('touchstart', this.eventListener);
-	SystemBus.addListener('goo.trigger.click', this.eventListener);
-	SystemBus.addListener('goo.trigger.touchstart', this.eventListener);
+	_SystemBus.anonymus.addListener('goo.trigger.click', this.eventListener);
+	_SystemBus.anonymus.addListener('goo.trigger.touchstart', this.eventListener);
 };
 
 PickAction.prototype.exit = function () {
 	document.removeEventListener('click', this.eventListener);
 	document.removeEventListener('touchstart', this.eventListener);
-	SystemBus.removeListener('goo.trigger.click', this.eventListener);
-	SystemBus.removeListener('goo.trigger.touchstart', this.eventListener);
+	_SystemBus.anonymus.removeListener('goo.trigger.click', this.eventListener);
+	_SystemBus.anonymus.removeListener('goo.trigger.touchstart', this.eventListener);
 };
 
 var exported_PickAction = PickAction;
-export { exported_PickAction as PickAction };
+exports.PickAction = exported_PickAction;

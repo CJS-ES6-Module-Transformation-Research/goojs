@@ -1,5 +1,21 @@
-import { Vector3 } from "../math/Vector3";
-import * as MathUtils from "../math/MathUtils";
+var _Vector = require("../math/Vector3");
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var functionObject_externals;
 
 /**
@@ -9,14 +25,14 @@ var functionObject_externals;
 function AxisAlignedCamControlScript() {
 	function setup(params, env) {
 		// Look axis
-		env.axis = Vector3.UNIT_Z.clone();
+		env.axis = _Vector.Vector3.UNIT_Z.clone();
 		// Up axis will most often be Y but you never know...
-		env.upAxis = Vector3.UNIT_Y.clone();
+		env.upAxis = _Vector.Vector3.UNIT_Y.clone();
 		setView(params, env, params.view);
 		env.currentView = params.view;
-		env.lookAtPoint	= new Vector3();
-		env.distance	= params.distance;
-		env.smoothness	= Math.pow(MathUtils.clamp(params.smoothness, 0, 1), 0.3);
+		env.lookAtPoint = new _Vector.Vector3();
+		env.distance = params.distance;
+		env.smoothness = Math.pow(MathUtils.clamp(params.smoothness, 0, 1), 0.3);
 		env.axisAlignedDirty = true;
 	}
 
@@ -27,12 +43,12 @@ function AxisAlignedCamControlScript() {
 		env.currentView = view;
 		switch (view) {
 			case 'XY':
-				env.axis.set(Vector3.UNIT_Z);
-				env.upAxis.set(Vector3.UNIT_Y);
+				env.axis.set(_Vector.Vector3.UNIT_Z);
+				env.upAxis.set(_Vector.Vector3.UNIT_Y);
 				break;
 			case 'ZY':
-				env.axis.set(Vector3.UNIT_X);
-				env.upAxis.set(Vector3.UNIT_Y);
+				env.axis.set(_Vector.Vector3.UNIT_X);
+				env.upAxis.set(_Vector.Vector3.UNIT_Y);
 				break;
 		}
 		env.axisAlignedDirty = true;
@@ -56,8 +72,7 @@ function AxisAlignedCamControlScript() {
 	}
 
 	// Removes all listeners
-	function cleanup(/*params, env*/) {
-	}
+	function cleanup() /*params, env*/{}
 
 	return {
 		setup: setup,
@@ -67,30 +82,30 @@ function AxisAlignedCamControlScript() {
 }
 
 functionObject_externals = {
-    key: "AxisAlignedCamControlScript",
-    name: "Axis-aligned Camera Control",
-    description: "Aligns a camera along an axis, and enables switching between them.",
+	key: "AxisAlignedCamControlScript",
+	name: "Axis-aligned Camera Control",
+	description: "Aligns a camera along an axis, and enables switching between them.",
 
-    parameters: [{
-        key: "whenUsed",
-        name: "When Camera Used",
-        description: "Script only runs when the camera to which it is added is being used.",
-        "default": true,
-        type: "boolean"
-    }, {
-        key: "distance",
-        name: "Distance",
-        type: "float",
-        description: "Camera distance from lookat point",
-        control: "slider",
-        "default": 1,
-        min: 1,
-        max: 1e3
-    }, {
-        key: "view",
-        type: "string",
-        "default": "XY",
-        control: "select",
-        options: ["XY", "ZY"]
-    }]
+	parameters: [{
+		key: "whenUsed",
+		name: "When Camera Used",
+		description: "Script only runs when the camera to which it is added is being used.",
+		"default": true,
+		type: "boolean"
+	}, {
+		key: "distance",
+		name: "Distance",
+		type: "float",
+		description: "Camera distance from lookat point",
+		control: "slider",
+		"default": 1,
+		min: 1,
+		max: 1e3
+	}, {
+		key: "view",
+		type: "string",
+		"default": "XY",
+		control: "select",
+		options: ["XY", "ZY"]
+	}]
 };

@@ -1,22 +1,43 @@
-import * as EntityUtils from "../../../src/goo/entities/EntityUtils";
-import { Entity } from "../../../src/goo/entities/Entity";
-import { World } from "../../../src/goo/entities/World";
-import { TransformComponent } from "../../../src/goo/entities/components/TransformComponent";
-import { MeshDataComponent } from "../../../src/goo/entities/components/MeshDataComponent";
-import { MeshRendererComponent } from "../../../src/goo/entities/components/MeshRendererComponent";
-import { TransformSystem } from "../../../src/goo/entities/systems/TransformSystem";
-import { Box } from "../../../src/goo/shapes/Box";
+var _EntityUtils = require("../../../src/goo/entities/EntityUtils");
+
+var EntityUtils = _interopRequireWildcard(_EntityUtils);
+
+var _Entity = require("../../../src/goo/entities/Entity");
+
+var _World = require("../../../src/goo/entities/World");
+
+var _TransformComponent = require("../../../src/goo/entities/components/TransformComponent");
+
+var _MeshDataComponent = require("../../../src/goo/entities/components/MeshDataComponent");
+
+var _MeshRendererComponent = require("../../../src/goo/entities/components/MeshRendererComponent");
+
+var _TransformSystem = require("../../../src/goo/entities/systems/TransformSystem");
+
+var _Box = require("../../../src/goo/shapes/Box");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 describe('EntityUtils', function () {
 	var world;
-	var meshData = new Box();
+	var meshData = new _Box.Box();
 
 	beforeEach(function () {
-		world = new World();
-		world.registerComponent(TransformComponent);
-		world.registerComponent(MeshDataComponent);
-		world.add(new TransformSystem());
-		Entity.entityCount = 0;
+		world = new _World.World();
+		world.registerComponent(_TransformComponent.TransformComponent);
+		world.registerComponent(_MeshDataComponent.MeshDataComponent);
+		world.add(new _TransformSystem.TransformSystem());
+		_Entity.Entity.entityCount = 0;
 	});
 
 	it('can get the root entity', function () {
@@ -33,14 +54,14 @@ describe('EntityUtils', function () {
 	});
 
 	it('can get the total bounding box', function () {
-		var e1 = world.createEntity(meshData, new MeshRendererComponent());
-		var e2 = world.createEntity(meshData, new MeshRendererComponent(), [10, 10, 10]);
+		var e1 = world.createEntity(meshData, new _MeshRendererComponent.MeshRendererComponent());
+		var e2 = world.createEntity(meshData, new _MeshRendererComponent.MeshRendererComponent(), [10, 10, 10]);
 		e1.transformComponent.attachChild(e2.transformComponent);
-		var e3 = world.createEntity(meshData, new MeshRendererComponent(), [10, 10, 10]);
+		var e3 = world.createEntity(meshData, new _MeshRendererComponent.MeshRendererComponent(), [10, 10, 10]);
 		e2.transformComponent.attachChild(e3.transformComponent);
 		world.process();
 		var es = [e1, e2, e3, e1, e2, e3];
-		for (var i = 0; i<es.length; i++) {
+		for (var i = 0; i < es.length; i++) {
 			var e = es[i];
 			e.transformComponent.updateTransform();
 			e.transformComponent.updateWorldTransform();

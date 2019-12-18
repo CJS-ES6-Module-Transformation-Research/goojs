@@ -1,14 +1,22 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { AnimationComponent } from "../../animationpack/components/AnimationComponent";
-import { anonymus as RSVP } from "../../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _AnimationComponent = require("../../animationpack/components/AnimationComponent");
+
+var _rsvp = require("../../util/rsvp");
+
 function AnimationComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'AnimationComponent';
 }
 
-AnimationComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+AnimationComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 AnimationComponentHandler.prototype.constructor = AnimationComponentHandler;
-ComponentHandler._registerClass('animation', AnimationComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('animation', AnimationComponentHandler);
 
 /**
  * Create animation component.
@@ -16,7 +24,7 @@ ComponentHandler._registerClass('animation', AnimationComponentHandler);
  * @private
  */
 AnimationComponentHandler.prototype._create = function () {
-	return new AnimationComponent();
+	return new _AnimationComponent.AnimationComponent();
 };
 
 /**
@@ -29,8 +37,10 @@ AnimationComponentHandler.prototype._create = function () {
 AnimationComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var promises = [];
 		var p;
@@ -51,7 +61,7 @@ AnimationComponentHandler.prototype.update = function (entity, config, options) 
 			});
 			promises.push(p);
 		}
-		return RSVP.all(promises).then(function () {
+		return _rsvp.anonymus.all(promises).then(function () {
 			return component;
 		});
 	});
@@ -67,4 +77,4 @@ var exported_AnimationComponentHandler = AnimationComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_AnimationComponentHandler as AnimationComponentHandler };
+exports.AnimationComponentHandler = exported_AnimationComponentHandler;

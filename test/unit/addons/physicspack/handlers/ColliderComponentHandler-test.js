@@ -1,20 +1,29 @@
-import { DynamicLoader } from "../../../../../src/goo/loaders/DynamicLoader";
-import { Vector3 } from "../../../../../src/goo/math/Vector3";
-import { World } from "../../../../../src/goo/entities/World";
-import { BoxCollider } from "../../../../../src/goo/addons/physicspack/colliders/BoxCollider";
-import { PlaneCollider } from "../../../../../src/goo/addons/physicspack/colliders/PlaneCollider";
-import { CylinderCollider } from "../../../../../src/goo/addons/physicspack/colliders/CylinderCollider";
-import { SphereCollider } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
-import { ColliderComponent } from "../../../../../src/goo/addons/physicspack/components/ColliderComponent";
-import "../../../../../src/goo/addons/physicspack/handlers/ColliderComponentHandler";
+var _DynamicLoader = require("../../../../../src/goo/loaders/DynamicLoader");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _BoxCollider = require("../../../../../src/goo/addons/physicspack/colliders/BoxCollider");
+
+var _PlaneCollider = require("../../../../../src/goo/addons/physicspack/colliders/PlaneCollider");
+
+var _CylinderCollider = require("../../../../../src/goo/addons/physicspack/colliders/CylinderCollider");
+
+var _SphereCollider = require("../../../../../src/goo/addons/physicspack/colliders/SphereCollider");
+
+var _ColliderComponent = require("../../../../../src/goo/addons/physicspack/components/ColliderComponent");
+
+require("../../../../../src/goo/addons/physicspack/handlers/ColliderComponentHandler");
+
 var Configs = require('../../../../../test/unit/loaders/Configs');
 
 describe('ColliderComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -30,7 +39,7 @@ describe('ColliderComponentHandler', function () {
 
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.colliderComponent).toEqual(jasmine.any(ColliderComponent));
+			expect(entity.colliderComponent).toEqual(jasmine.any(_ColliderComponent.ColliderComponent));
 			expect(entity.colliderComponent.isTrigger).toBe(true);
 			expect(entity.colliderComponent.material.friction).toBe(0.5);
 			expect(entity.colliderComponent.material.restitution).toBe(0.6);
@@ -44,9 +53,9 @@ describe('ColliderComponentHandler', function () {
 		config.components.collider.shapeOptions.halfExtents = [1, 2, 3];
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.colliderComponent).toEqual(jasmine.any(ColliderComponent));
-			expect(entity.colliderComponent.collider).toEqual(jasmine.any(BoxCollider));
-			expect(entity.colliderComponent.collider.halfExtents).toEqual(new Vector3(1, 2, 3));
+			expect(entity.colliderComponent).toEqual(jasmine.any(_ColliderComponent.ColliderComponent));
+			expect(entity.colliderComponent.collider).toEqual(jasmine.any(_BoxCollider.BoxCollider));
+			expect(entity.colliderComponent.collider.halfExtents).toEqual(new _Vector.Vector3(1, 2, 3));
 			done();
 		});
 	});
@@ -56,8 +65,8 @@ describe('ColliderComponentHandler', function () {
 		config.components.collider = Configs.component.collider('Plane');
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.colliderComponent).toEqual(jasmine.any(ColliderComponent));
-			expect(entity.colliderComponent.collider).toEqual(jasmine.any(PlaneCollider));
+			expect(entity.colliderComponent).toEqual(jasmine.any(_ColliderComponent.ColliderComponent));
+			expect(entity.colliderComponent.collider).toEqual(jasmine.any(_PlaneCollider.PlaneCollider));
 			done();
 		});
 	});
@@ -69,8 +78,8 @@ describe('ColliderComponentHandler', function () {
 		config.components.collider.shapeOptions.radius = 3;
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.colliderComponent).toEqual(jasmine.any(ColliderComponent));
-			expect(entity.colliderComponent.collider).toEqual(jasmine.any(CylinderCollider));
+			expect(entity.colliderComponent).toEqual(jasmine.any(_ColliderComponent.ColliderComponent));
+			expect(entity.colliderComponent.collider).toEqual(jasmine.any(_CylinderCollider.CylinderCollider));
 			expect(entity.colliderComponent.collider.height).toEqual(2);
 			expect(entity.colliderComponent.collider.radius).toEqual(3);
 			done();
@@ -86,14 +95,14 @@ describe('ColliderComponentHandler', function () {
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
 			component = entity.colliderComponent;
-			expect(component.collider).toEqual(jasmine.any(SphereCollider));
-			expect(component.worldCollider).toEqual(jasmine.any(SphereCollider));
+			expect(component.collider).toEqual(jasmine.any(_SphereCollider.SphereCollider));
+			expect(component.worldCollider).toEqual(jasmine.any(_SphereCollider.SphereCollider));
 			config.components.collider = boxConfig;
 			return loader.update(config.id, config);
 		}).then(function (entity) {
 			expect(entity.colliderComponent).toBe(component);
-			expect(entity.colliderComponent.collider).toEqual(jasmine.any(BoxCollider));
-			expect(entity.colliderComponent.worldCollider).toEqual(jasmine.any(BoxCollider));
+			expect(entity.colliderComponent.collider).toEqual(jasmine.any(_BoxCollider.BoxCollider));
+			expect(entity.colliderComponent.worldCollider).toEqual(jasmine.any(_BoxCollider.BoxCollider));
 			done();
 		});
 	});

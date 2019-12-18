@@ -1,12 +1,24 @@
-import { System } from "../../entities/systems/System";
-import { anonymus as SystemBus } from "../../entities/SystemBus";
-import { MeshData } from "../../renderer/MeshData";
-import { Material } from "../../renderer/Material";
-import { Shader } from "../../renderer/Shader";
-import { Transform } from "../../math/Transform";
-import { Grid } from "../../shapes/Grid";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GridRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Material = require("../../renderer/Material");
+
+var _Shader = require("../../renderer/Shader");
+
+var _Transform = require("../../math/Transform");
+
+var _Grid = require("../../shapes/Grid");
+
 function GridRenderSystem() {
-	System.call(this, 'GridRenderSystem', []);
+	_System.System.call(this, 'GridRenderSystem', []);
 
 	this.renderList = [];
 	this.doRender = {
@@ -18,29 +30,29 @@ function GridRenderSystem() {
 
 	this.camera = null;
 	this.lights = [];
-	this.transform1 = new Transform();
+	this.transform1 = new _Transform.Transform();
 	this.transform1.rotation.rotateX(-Math.PI / 2);
 	this.transform1.scale.setDirect(this.scale, this.scale, this.scale);
 	this.transform1.update();
 
-	this.transform2 = new Transform();
+	this.transform2 = new _Transform.Transform();
 	this.transform2.rotation.rotateX(-Math.PI / 2);
 	this.transform2.scale.setDirect(this.scale, this.scale, this.scale);
 	this.transform2.update();
 
 	var col = 0.2;
-	var gridMaterial1 = new Material(gridShaderDef, 'Grid Material');
+	var gridMaterial1 = new _Material.Material(gridShaderDef, 'Grid Material');
 	gridMaterial1.blendState.blending = 'TransparencyBlending';
 	gridMaterial1.uniforms.color = [col, col, col, 1];
 	gridMaterial1.depthState.write = false;
 	gridMaterial1.depthState.enabled = true;
-	var gridMaterial2 = new Material(gridShaderDef, 'Grid Material');
+	var gridMaterial2 = new _Material.Material(gridShaderDef, 'Grid Material');
 	gridMaterial2.blendState.blending = 'TransparencyBlending';
 	gridMaterial2.uniforms.color = [col, col, col, 1];
 	gridMaterial2.depthState.write = false;
 	gridMaterial2.depthState.enabled = true;
 
-	var gridMesh = new Grid(this.count, this.count);
+	var gridMesh = new _Grid.Grid(this.count, this.count);
 	this.grid1 = {
 		meshData: gridMesh,
 		materials: [gridMaterial1],
@@ -61,21 +73,21 @@ function GridRenderSystem() {
 
 	// stop using this pattern - use instead .bind()
 	var that = this;
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	_SystemBus.anonymus.addListener('goo.setCurrentCamera', function (newCam) {
 		that.camera = newCam.camera;
 	});
 
-	SystemBus.addListener('goo.setLights', function (lights) {
+	_SystemBus.anonymus.addListener('goo.setLights', function (lights) {
 		that.lights = lights;
 	});
 }
 
-GridRenderSystem.prototype = Object.create(System.prototype);
+GridRenderSystem.prototype = Object.create(_System.System.prototype);
 GridRenderSystem.prototype.constructor = GridRenderSystem;
 
-GridRenderSystem.prototype.inserted = function (/*entity*/) {};
+GridRenderSystem.prototype.inserted = function () /*entity*/{};
 
-GridRenderSystem.prototype.deleted = function (/*entity*/) {};
+GridRenderSystem.prototype.deleted = function () /*entity*/{};
 
 function smoothstep(t, level) {
 	for (var i = 0; i < level; ++i) {
@@ -84,7 +96,7 @@ function smoothstep(t, level) {
 	return t;
 }
 
-GridRenderSystem.prototype.process = function (/*entities, tpf*/) {
+GridRenderSystem.prototype.process = function () /*entities, tpf*/{
 	if (!this.doRender.grid) {
 		return;
 	}
@@ -145,7 +157,7 @@ GridRenderSystem.prototype.process = function (/*entities, tpf*/) {
 	}
 };
 
-GridRenderSystem.prototype.render = function (renderer/*, picking*/) {
+GridRenderSystem.prototype.render = function (renderer /*, picking*/) {
 	renderer.checkResize(this.camera);
 
 	if (this.camera && this.doRender.grid) {
@@ -164,52 +176,20 @@ GridRenderSystem.prototype.invalidateHandles = function (renderer) {
 
 var gridShaderDef = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: _MeshData.MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: _Shader.Shader.VIEW_MATRIX,
+		projectionMatrix: _Shader.Shader.PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX,
 		color: [0.55, 0.55, 0.55, 1],
-		fogNear: Shader.NEAR_PLANE,
-		fogFar: Shader.FAR_PLANE,
+		fogNear: _Shader.Shader.NEAR_PLANE,
+		fogFar: _Shader.Shader.FAR_PLANE,
 		opacity: 1,
 		scale: 1
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-
-		'uniform mat4 worldMatrix;',
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-
-		'varying float depth;',
-
-		'void main(void) {',
-			'vec4 viewPosition = viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-
-			'depth = -viewPosition.z;',
-
-			'gl_Position = projectionMatrix * viewPosition;',
-		'}'
-	].join('\n'),
-	fshader: [
-		'precision mediump float;',
-
-		'uniform vec4 color;',
-		'uniform float fogNear;',
-		'uniform float fogFar;',
-		'uniform float opacity;',
-		'uniform float scale;',
-
-		'varying float depth;',
-
-		'void main(void) {',
-			'gl_FragColor = color;',
-			'float lerpVal = 1.0 - clamp(depth * 3.0 / min(scale, fogFar * 3.0), 0.0, 1.0);',
-			'gl_FragColor.a = opacity * lerpVal;',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', 'uniform mat4 worldMatrix;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'varying float depth;', 'void main(void) {', 'vec4 viewPosition = viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);', 'depth = -viewPosition.z;', 'gl_Position = projectionMatrix * viewPosition;', '}'].join('\n'),
+	fshader: ['precision mediump float;', 'uniform vec4 color;', 'uniform float fogNear;', 'uniform float fogFar;', 'uniform float opacity;', 'uniform float scale;', 'varying float depth;', 'void main(void) {', 'gl_FragColor = color;', 'float lerpVal = 1.0 - clamp(depth * 3.0 / min(scale, fogFar * 3.0), 0.0, 1.0);', 'gl_FragColor.a = opacity * lerpVal;', '}'].join('\n')
 };
 
 var exported_GridRenderSystem = GridRenderSystem;
@@ -219,4 +199,4 @@ var exported_GridRenderSystem = GridRenderSystem;
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { exported_GridRenderSystem as GridRenderSystem };
+exports.GridRenderSystem = exported_GridRenderSystem;

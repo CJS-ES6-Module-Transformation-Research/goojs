@@ -1,18 +1,24 @@
-import { AbstractTimelineChannel } from "./AbstractTimelineChannel";
-import { EventChannel } from "./EventChannel";
-import { TimelineComponent } from "./TimelineComponent";
-import { TimelineComponentHandler } from "./TimelineComponentHandler";
-import { TimelineSystem } from "./TimelineSystem";
-import { ValueChannel } from "./ValueChannel";
+var _AbstractTimelineChannel = require("./AbstractTimelineChannel");
+
+var _EventChannel = require("./EventChannel");
+
+var _TimelineComponent = require("./TimelineComponent");
+
+var _TimelineComponentHandler = require("./TimelineComponentHandler");
+
+var _TimelineSystem = require("./TimelineSystem");
+
+var _ValueChannel = require("./ValueChannel");
+
 module.exports = {
-	AbstractTimelineChannel: AbstractTimelineChannel,
-	EventChannel: EventChannel,
-	TimelineComponent: TimelineComponent,
-	TimelineComponentHandler: TimelineComponentHandler,
-	TimelineSystem: TimelineSystem,
-	ValueChannel: ValueChannel
+	AbstractTimelineChannel: _AbstractTimelineChannel.AbstractTimelineChannel,
+	EventChannel: _EventChannel.EventChannel,
+	TimelineComponent: _TimelineComponent.TimelineComponent,
+	TimelineComponentHandler: _TimelineComponentHandler.TimelineComponentHandler,
+	TimelineSystem: _TimelineSystem.TimelineSystem,
+	ValueChannel: _ValueChannel.ValueChannel
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

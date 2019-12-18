@@ -1,5 +1,26 @@
-import { MeshData } from "../renderer/MeshData";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Cone = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function Cone(radialSamples, radius, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -11,15 +32,15 @@ function Cone(radialSamples, radius, height) {
 	this.radius = radius || 1;
 	this.height = typeof height === 'undefined' ? 2 : height;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.radialSamples * 3 + this.radialSamples + 1, this.radialSamples * 3 * 2);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
+	_MeshData.MeshData.call(this, attributeMap, this.radialSamples * 3 + this.radialSamples + 1, this.radialSamples * 3 * 2);
 
 	this.indexModes = ['Triangles'];
 
 	this.rebuild();
 }
 
-Cone.prototype = Object.create(MeshData.prototype);
+Cone.prototype = Object.create(_MeshData.MeshData.prototype);
 Cone.prototype.constructor = Cone;
 
 /**
@@ -38,23 +59,11 @@ Cone.prototype.rebuild = function () {
 	var ak = Math.PI * 2 / this.radialSamples;
 	var at = 1 / this.radialSamples;
 	for (var i = 0, k = 0, t = 0; i < this.radialSamples; i++, k += ak, t += at) {
-		verts.push(
-			0, 0, this.height,
-			Math.cos(k) * this.radius, Math.sin(k) * this.radius, 0,
-			Math.cos(k + ak) * this.radius, Math.sin(k + ak) * this.radius, 0
-		);
+		verts.push(0, 0, this.height, Math.cos(k) * this.radius, Math.sin(k) * this.radius, 0, Math.cos(k + ak) * this.radius, Math.sin(k + ak) * this.radius, 0);
 
-		norms.push(
-			0, 0, 1,
-			Math.cos(k) * Math.cos(slope), Math.sin(k) * Math.cos(slope), Math.sin(slope),
-			Math.cos(k + ak) * Math.cos(slope), Math.sin(k + ak) * Math.cos(slope), Math.sin(slope)
-		);
+		norms.push(0, 0, 1, Math.cos(k) * Math.cos(slope), Math.sin(k) * Math.cos(slope), Math.sin(slope), Math.cos(k + ak) * Math.cos(slope), Math.sin(k + ak) * Math.cos(slope), Math.sin(slope));
 
-		tex.push(
-			t + at / 2, 1.0,
-			t, 0.5,
-			t + at, 0.5
-		);
+		tex.push(t + at / 2, 1.0, t, 0.5, t + at, 0.5);
 
 		indices.push(i * 3 + 0, i * 3 + 1, i * 3 + 2);
 	}
@@ -80,9 +89,9 @@ Cone.prototype.rebuild = function () {
 
 	indices.push(baseCenterIndex + this.radialSamples, baseCenterIndex, baseCenterIndex + 1);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0).set(tex);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -108,4 +117,4 @@ var exported_Cone = Cone;
  * @param {number} [radius=1] Radius of the cone
  * @param {number} [height=2] The height of the cone
  */
-export { exported_Cone as Cone };
+exports.Cone = exported_Cone;

@@ -1,7 +1,11 @@
-import { TransformComponent } from "../../../../src/goo/entities/components/TransformComponent";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { World } from "../../../../src/goo/entities/World";
-import { Vector3 } from "../../../../src/goo/math/Vector3";
+var _TransformComponent = require("../../../../src/goo/entities/components/TransformComponent");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _Vector = require("../../../../src/goo/math/Vector3");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
@@ -11,8 +15,8 @@ describe('TransformComponentHandler', function () {
 	beforeEach(function () {
 		jasmine.addMatchers(CustomMatchers);
 
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -23,7 +27,7 @@ describe('TransformComponentHandler', function () {
 		var config = Configs.entity(['transform']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.transformComponent).toEqual(jasmine.any(TransformComponent));
+			expect(entity.transformComponent).toEqual(jasmine.any(_TransformComponent.TransformComponent));
 			done();
 		});
 	});
@@ -38,11 +42,11 @@ describe('TransformComponentHandler', function () {
 		loader.load(config.id).then(function (entity) {
 			var t = entity.transformComponent.transform;
 			var ct = config.components.transform;
-			expect(t.translation).toBeCloseToVector(Vector3.fromArray(ct.translation));
-			expect(t.scale).toBeCloseToVector(Vector3.fromArray(ct.scale));
+			expect(t.translation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.translation));
+			expect(t.scale).toBeCloseToVector(_Vector.Vector3.fromArray(ct.scale));
 			var rotation = t.rotation.toAngles();
 			rotation.scale(180 / Math.PI);
-			expect(rotation).toBeCloseToVector(Vector3.fromArray(ct.rotation));
+			expect(rotation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.rotation));
 			done();
 		});
 	});
@@ -56,20 +60,20 @@ describe('TransformComponentHandler', function () {
 		newConfig.id = config.id;
 
 		loader.preload(Configs.get());
-		loader.load(config.id).then(function (/*entity*/) {
+		loader.load(config.id).then(function () /*entity*/{
 			//component = entity.transformComponent;
 
 			return loader.update(config.id, newConfig);
 		}).then(function (entity) {
-//				expect(entity.transformComponent).toEqual(component);
+			//				expect(entity.transformComponent).toEqual(component);
 
 			var t = entity.transformComponent.transform;
 			var ct = newConfig.components.transform;
-			expect(t.translation).toBeCloseToVector(Vector3.fromArray(ct.translation));
-			expect(t.scale).toBeCloseToVector(Vector3.fromArray(ct.scale));
+			expect(t.translation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.translation));
+			expect(t.scale).toBeCloseToVector(_Vector.Vector3.fromArray(ct.scale));
 			var rotation = t.rotation.toAngles();
 			rotation.scale(180 / Math.PI);
-			expect(rotation).toBeCloseToVector(Vector3.fromArray(ct.rotation));
+			expect(rotation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.rotation));
 			done();
 		});
 	});
@@ -100,7 +104,7 @@ describe('TransformComponentHandler', function () {
 			expect(entity.transformComponent.children.length).toBeGreaterThan(0);
 
 			var child = entity.transformComponent.children[0];
-			expect(child).toEqual(jasmine.any(TransformComponent));
+			expect(child).toEqual(jasmine.any(_TransformComponent.TransformComponent));
 			expect(child.entity.id).toBe(childConfig.id);
 			expect(child.parent).toBe(entity.transformComponent);
 			expect(inScene(parentConfig.id)).toBeFalsy();

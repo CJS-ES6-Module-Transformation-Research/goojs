@@ -1,10 +1,10 @@
-import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
+var _ObjectUtil = require('../../../../src/goo/util/ObjectUtil');
 
 module.exports = {
-	mesh: function () {
+	mesh: function mesh() {
 		var config = this.gooObject('mesh', 'Dummy');
 		var samples = 3;
-		_.extend(config, {
+		_ObjectUtil.ObjectUtils.extend(config, {
 			binaryRef: this.binary(128),
 			type: 'Mesh',
 			indexLengths: [samples],

@@ -1,10 +1,15 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MouseMoveAction = undefined;
 
-function MouseMoveAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function MouseMoveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-MouseMoveAction.prototype = Object.create(Action.prototype);
+MouseMoveAction.prototype = Object.create(_Action.Action.prototype);
 MouseMoveAction.prototype.constructor = MouseMoveAction;
 
 MouseMoveAction.external = {
@@ -28,7 +33,7 @@ var labels = {
 	touchmove: 'On touch move'
 };
 
-MouseMoveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+MouseMoveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -41,11 +46,11 @@ MouseMoveAction.prototype.enter = function (fsm) {
 		}
 	}.bind(this);
 
-	this.mouseEventListener = function (/*event*/) {
+	this.mouseEventListener = function () /*event*/{
 		update('mouse');
 	}.bind(this);
 
-	this.touchEventListener = function (/*event*/) {
+	this.touchEventListener = function () /*event*/{
 		update('touch');
 	}.bind(this);
 
@@ -59,4 +64,4 @@ MouseMoveAction.prototype.exit = function () {
 };
 
 var exported_MouseMoveAction = MouseMoveAction;
-export { exported_MouseMoveAction as MouseMoveAction };
+exports.MouseMoveAction = exported_MouseMoveAction;

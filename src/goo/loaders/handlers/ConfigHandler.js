@@ -1,5 +1,26 @@
-import { anonymus as RSVP } from "../../util/rsvp";
-import * as PromiseUtils from "../../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ConfigHandler = undefined;
+
+var _rsvp = require("../../util/rsvp");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function ConfigHandler(world, getConfig, updateObject, loadObject) {
 	this.world = world;
 	this.getConfig = getConfig;
@@ -34,7 +55,7 @@ ConfigHandler.prototype._remove = function (ref) {
  * @param {Object} config
  * @private
  */
-ConfigHandler.prototype._prepare = function (/*config*/) {};
+ConfigHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Loads object for given ref
@@ -63,12 +84,10 @@ ConfigHandler.prototype.load = function (ref, options) {
 	} else {
 		var promise = this.getConfig(ref, options).then(function (config) {
 			return this.update(ref, config, options);
-		}.bind(this))
-		.then(function (object) {
+		}.bind(this)).then(function (object) {
 			this._loading.delete(ref);
 			return object;
-		}.bind(this))
-		.then(null, function (err) {
+		}.bind(this)).then(null, function (err) {
 			this._loading.delete(ref);
 			throw err;
 		}.bind(this));
@@ -86,7 +105,7 @@ ConfigHandler.prototype.clear = function () {
 	this._objects.clear();
 	this._loading.clear();
 
-	return RSVP.all(promises);
+	return _rsvp.anonymus.all(promises);
 };
 
 /**
@@ -122,7 +141,7 @@ ConfigHandler.prototype._update = function (ref, config, options) {
 		options = {};
 	}
 
-	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (!this._objects.has(ref) || options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine') {
 		this._objects.set(ref, this._create());
 	}
 	this._prepare(config);
@@ -165,4 +184,4 @@ var exported_ConfigHandler = ConfigHandler;
  * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
  * @hidden
  */
-export { exported_ConfigHandler as ConfigHandler };
+exports.ConfigHandler = exported_ConfigHandler;

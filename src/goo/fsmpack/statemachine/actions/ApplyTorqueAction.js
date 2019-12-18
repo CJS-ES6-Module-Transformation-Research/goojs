@@ -1,12 +1,19 @@
-import { Action } from "./Action";
-import { Vector3 } from "../../../math/Vector3";
-import { anonymus as SystemBus } from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ApplyTorqueAction = undefined;
 
-function ApplyTorqueAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+function ApplyTorqueAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-ApplyTorqueAction.prototype = Object.create(Action.prototype);
+ApplyTorqueAction.prototype = Object.create(_Action.Action.prototype);
 ApplyTorqueAction.prototype.constructor = ApplyTorqueAction;
 
 ApplyTorqueAction.external = {
@@ -33,11 +40,13 @@ ApplyTorqueAction.external = {
 	transitions: []
 };
 
-var torqueVector = new Vector3();
+var torqueVector = new _Vector.Vector3();
 ApplyTorqueAction.prototype.enter = function (fsm) {
-	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
+	_SystemBus.anonymus.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
-		if (!entity || !entity.rigidBodyComponent) { return; }
+		if (!entity || !entity.rigidBodyComponent) {
+			return;
+		}
 
 		torqueVector.setArray(this.torque);
 		if (this.space === 'World') {
@@ -49,8 +58,8 @@ ApplyTorqueAction.prototype.enter = function (fsm) {
 };
 
 ApplyTorqueAction.prototype.exit = function () {
-	SystemBus.removeListener('goo.physics.substep', this.substepListener);
+	_SystemBus.anonymus.removeListener('goo.physics.substep', this.substepListener);
 };
 
 var exported_ApplyTorqueAction = ApplyTorqueAction;
-export { exported_ApplyTorqueAction as ApplyTorqueAction };
+exports.ApplyTorqueAction = exported_ApplyTorqueAction;

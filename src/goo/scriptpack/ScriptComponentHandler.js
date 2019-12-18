@@ -1,39 +1,72 @@
-import { ComponentHandler } from "../loaders/handlers/ComponentHandler";
-import { ScriptComponent } from "../entities/components/ScriptComponent";
-import { anonymus as RSVP } from "../util/rsvp";
-import * as ObjectUtils from "../util/ObjectUtils";
-import * as PromiseUtils from "../util/PromiseUtils";
-import { anonymus as SystemBus } from "../entities/SystemBus";
-import * as Scripts from "../scripts/Scripts";
-import * as ScriptUtils from "../scripts/ScriptUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScriptComponentHandler = undefined;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _ScriptComponent = require("../entities/components/ScriptComponent");
+
+var _rsvp = require("../util/rsvp");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _SystemBus = require("../entities/SystemBus");
+
+var _Scripts = require("../scripts/Scripts");
+
+var Scripts = _interopRequireWildcard(_Scripts);
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var ScriptUtils = _interopRequireWildcard(_ScriptUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function ScriptComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'ScriptComponent';
 }
 
-ScriptComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+ScriptComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 ScriptComponentHandler.prototype.constructor = ScriptComponentHandler;
-ComponentHandler._registerClass('script', ScriptComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('script', ScriptComponentHandler);
 
 ScriptComponentHandler.ENGINE_SCRIPT_PREFIX = 'GOO_ENGINE_SCRIPTS/';
 
-ScriptComponentHandler.prototype._prepare = function (/*config*/) {};
+ScriptComponentHandler.prototype._prepare = function () /*config*/{};
 
 ScriptComponentHandler.prototype._create = function () {
-	return new ScriptComponent();
+	return new _ScriptComponent.ScriptComponent();
 };
 
 ScriptComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options)
-	.then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
-		return RSVP.all(ObjectUtils.map(config.scripts, function (instanceConfig) {
+		return _rsvp.anonymus.all(ObjectUtils.map(config.scripts, function (instanceConfig) {
 			return that._updateScriptInstance(component, instanceConfig, options);
-		}, null, 'sortValue'))
-		.then(function (scripts) {
+		}, null, 'sortValue')).then(function (scripts) {
 			component.scripts = scripts;
 			return component;
 		});
@@ -43,8 +76,7 @@ ScriptComponentHandler.prototype.update = function (entity, config, options) {
 ScriptComponentHandler.prototype._updateScriptInstance = function (component, instanceConfig, options) {
 	var that = this;
 
-	return this._createOrLoadScript(component, instanceConfig)
-	.then(function (script) {
+	return this._createOrLoadScript(component, instanceConfig).then(function (script) {
 		var newParameters = instanceConfig.options || {};
 		if (script.parameters) {
 			ObjectUtils.defaults(newParameters, script.parameters);
@@ -60,7 +92,7 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 			if (newScript.parameters) {
 				// Re-use the parameters object, but clean it before updating it.
 				var keys = Object.keys(newScript.parameters);
-				for (var i=0; i<keys.length; i++) {
+				for (var i = 0; i < keys.length; i++) {
 					delete newScript.parameters[keys[i]];
 				}
 			} else {
@@ -75,18 +107,11 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 			newScript.enabled = false;
 		}
 
-		return that._setParameters(
-			newScript.parameters,
-			newParameters,
-			script.externals,
-			options
-		)
-		.then(function () {
+		return that._setParameters(newScript.parameters, newParameters, script.externals, options).then(function () {
 			if (newScript.argsUpdated && newScript.context) {
 				newScript.argsUpdated(newScript.parameters, newScript.context, window.goo);
 			}
-		})
-		.then(ObjectUtils.constant(newScript));
+		}).then(ObjectUtils.constant(newScript));
 	});
 };
 
@@ -202,7 +227,7 @@ ScriptComponentHandler.prototype._createEngineScript = function (scriptName) {
 	script.id = ScriptComponentHandler.ENGINE_SCRIPT_PREFIX + scriptName;
 	script.enabled = false;
 
-	SystemBus.emit('goo.scriptExternals', {
+	_SystemBus.anonymus.emit('goo.scriptExternals', {
 		id: script.id,
 		externals: script.externals
 	});
@@ -243,7 +268,7 @@ ScriptComponentHandler.prototype._setParameters = function (parameters, config, 
 
 	parameters.enabled = config.enabled !== false;
 
-	return RSVP.all(promises);
+	return _rsvp.anonymus.all(promises);
 };
 
 /**
@@ -314,4 +339,4 @@ var exported_ScriptComponentHandler = ScriptComponentHandler;
 /**
  * @hidden
  */
-export { exported_ScriptComponentHandler as ScriptComponentHandler };
+exports.ScriptComponentHandler = exported_ScriptComponentHandler;

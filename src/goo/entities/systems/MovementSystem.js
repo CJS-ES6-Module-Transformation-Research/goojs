@@ -1,9 +1,15 @@
-import { System } from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MovementSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 function MovementSystem() {
-	System.call(this, 'MovementSystem', ['MovementComponent']);
+	_System.System.call(this, 'MovementSystem', ['MovementComponent']);
 }
 
-MovementSystem.prototype = Object.create(System.prototype);
+MovementSystem.prototype = Object.create(_System.System.prototype);
 MovementSystem.prototype.constructor = MovementSystem;
 
 MovementSystem.prototype.addVelocityToTransform = function (vel, transform, tpf) {
@@ -41,4 +47,4 @@ var exported_MovementSystem = MovementSystem;
  * to the transform of the entity which has it every frame.
  * @extends System
  */
-export { exported_MovementSystem as MovementSystem };
+exports.MovementSystem = exported_MovementSystem;

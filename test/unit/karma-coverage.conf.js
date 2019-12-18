@@ -1,10 +1,46 @@
-import path from "path";
-import webpack from "webpack";
-import karmacoverage from "karma-coverage";
-import karmajasmine from "karma-jasmine";
-import karmachromelauncher from "karma-chrome-launcher";
-import karmawebpack from "karma-webpack";
-import * as karmaWebpackProvidePluginSettings from "./karmaWebpackProvidePluginSettings";
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _webpack = require("webpack");
+
+var _webpack2 = _interopRequireDefault(_webpack);
+
+var _karmaCoverage = require("karma-coverage");
+
+var _karmaCoverage2 = _interopRequireDefault(_karmaCoverage);
+
+var _karmaJasmine = require("karma-jasmine");
+
+var _karmaJasmine2 = _interopRequireDefault(_karmaJasmine);
+
+var _karmaChromeLauncher = require("karma-chrome-launcher");
+
+var _karmaChromeLauncher2 = _interopRequireDefault(_karmaChromeLauncher);
+
+var _karmaWebpack = require("karma-webpack");
+
+var _karmaWebpack2 = _interopRequireDefault(_karmaWebpack);
+
+var _karmaWebpackProvidePluginSettings = require("./karmaWebpackProvidePluginSettings");
+
+var karmaWebpackProvidePluginSettings = _interopRequireWildcard(_karmaWebpackProvidePluginSettings);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
 
 module.exports = function (config) {
 	config.set({
@@ -15,21 +51,11 @@ module.exports = function (config) {
 
 		basePath: '../../',
 
-		files: [
-			'lib/cannon/cannon.min.js',
-			{ pattern: 'test/unit/**/*.mp4', included: false },
-			{ pattern: 'test/unit/**/*.png', included: false },
-			'test/unit/**/*-test.js'
-		],
+		files: ['lib/cannon/cannon.min.js', { pattern: 'test/unit/**/*.mp4', included: false }, { pattern: 'test/unit/**/*.png', included: false }, 'test/unit/**/*-test.js'],
 
 		frameworks: ['jasmine'],
 
-		plugins: [
-			karmacoverage,
-			karmajasmine,
-			karmachromelauncher,
-			karmawebpack
-		],
+		plugins: [_karmaCoverage2.default, _karmaJasmine2.default, _karmaChromeLauncher2.default, _karmaWebpack2.default],
 
 		preprocessors: {
 			'test/unit/**/*-test.js': ['webpack']
@@ -51,7 +77,7 @@ module.exports = function (config) {
 		webpack: {
 			resolve: {
 				// Everything relative to repo root
-				root: path.resolve(path.join(__dirname, '..', '..'))
+				root: _path2.default.resolve(_path2.default.join(__dirname, '..', '..'))
 			},
 
 			node: {
@@ -62,7 +88,7 @@ module.exports = function (config) {
 			module: {
 				loaders: [{
 					test: /\.js?$/,
-					include: path.join(__dirname, 'src'),
+					include: _path2.default.join(__dirname, 'src'),
 					loader: 'babel?stage=0'
 				}],
 				postLoaders: [{
@@ -72,9 +98,7 @@ module.exports = function (config) {
 				}]
 			},
 
-			plugins: [
-				new webpack.ProvidePlugin(karmaWebpackProvidePluginSettings)
-			]
+			plugins: [new _webpack2.default.ProvidePlugin(karmaWebpackProvidePluginSettings)]
 
 		},
 

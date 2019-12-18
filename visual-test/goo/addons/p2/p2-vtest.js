@@ -1,20 +1,13 @@
 goo.V.attachToGlobal();
 
-V.describe([
-	'All entities in the scene hold a p2Component',
-	'',
-	'Controls:',
-	'anykey: add more objects'
-].join('\n'));
+V.describe(['All entities in the scene hold a p2Component', '', 'Controls:', 'anykey: add more objects'].join('\n'));
 
 V.button('anykey', addPrimitives);
 
 function createEntity(meshData, p2Settings, pos, material) {
 	material = material || V.getColoredMaterial();
 
-	return world.createEntity(meshData, material, pos)
-		.set(new goo.P2Component(p2Settings))
-		.addToWorld();
+	return world.createEntity(meshData, material, pos).set(new goo.P2Component(p2Settings)).addToWorld();
 }
 
 var gooRunner = V.initGoo();
@@ -31,7 +24,7 @@ function addPrimitives() {
 		var z = V.rng.nextFloat() * 16 - 8;
 		if (V.rng.nextFloat() < 0.5) {
 			var w = 1 + V.rng.nextFloat() * 2,
-				h = 1 + V.rng.nextFloat() * 2;
+			    h = 1 + V.rng.nextFloat() * 2;
 			createEntity(new goo.Box(w, h, 1 + V.rng.nextFloat() * 2), {
 				mass: 1,
 				shapes: [{

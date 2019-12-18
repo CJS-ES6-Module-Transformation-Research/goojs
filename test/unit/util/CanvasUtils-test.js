@@ -1,4 +1,18 @@
-import * as CanvasUtils from "../../../src/goo/util/CanvasUtils";
+var _CanvasUtils = require('../../../src/goo/util/CanvasUtils');
+
+var CanvasUtils = _interopRequireWildcard(_CanvasUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 describe('CanvasUtils', function () {
 	describe('Rendering an SVG to canvas', function () {
@@ -9,9 +23,7 @@ describe('CanvasUtils', function () {
 		};
 
 		it('should create an canvas element with the given dimensions', function (done) {
-			var data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">' +
-				'<rect x="0" y="0" width="200" height="100" fill="blue" />' +
-				'</svg>';
+			var data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">' + '<rect x="0" y="0" width="200" height="100" fill="blue" />' + '</svg>';
 
 			CanvasUtils.renderSvgToCanvas(data, options, function (canvas) {
 				expect(canvas).toEqual(jasmine.any(HTMLCanvasElement));

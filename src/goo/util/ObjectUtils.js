@@ -1,3 +1,15 @@
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 var functionObject_getExtension;
 var functionObject_isInteger;
 var functionObject_isNumber;
@@ -11,7 +23,7 @@ var functionObject_warnOnce;
 var functionObject_cloneSet;
 var functionObject_cloneMap;
 var functionObject_shallowSelectiveClone;
-var functionObject_deepClone;
+var _functionObject_deepClone;
 var functionObject_map;
 var functionObject_forEach;
 var functionObject_each;
@@ -23,11 +35,11 @@ var functionObject_find;
 var functionObject_contains;
 function ObjectUtils() {}
 
-functionObject_contains = function(array, value) {
+exports.contains = functionObject_contains = function functionObject_contains(array, value) {
     return array.indexOf(value) !== -1;
 };
 
-functionObject_find = function(array, predicate) {
+exports.find = functionObject_find = function functionObject_find(array, predicate) {
     for (var i = 0; i < array.length; ++i) {
         var item = array[i];
         if (predicate(item, i)) {
@@ -38,7 +50,7 @@ functionObject_find = function(array, predicate) {
     return undefined;
 };
 
-functionObject_defaults = function(destination, source) {
+exports.defaults = functionObject_defaults = function functionObject_defaults(destination, source) {
     var keys = Object.keys(source);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -50,7 +62,7 @@ functionObject_defaults = function(destination, source) {
     return destination;
 };
 
-functionObject_copyOptions = function(destination, options, defaults) {
+exports.copyOptions = functionObject_copyOptions = function functionObject_copyOptions(destination, options, defaults) {
     var keys = Object.keys(defaults);
 
     if (options) {
@@ -66,7 +78,7 @@ functionObject_copyOptions = function(destination, options, defaults) {
     return destination;
 };
 
-functionObject_extend = function(destination, source) {
+exports.extend = functionObject_extend = function functionObject_extend(destination, source) {
     if (!source) {
         return;
     }
@@ -80,7 +92,7 @@ functionObject_extend = function(destination, source) {
     return destination;
 };
 
-functionObject_clone = function(obj) {
+exports.clone = functionObject_clone = function functionObject_clone(obj) {
     if (!functionObject_isObject(obj)) {
         return obj;
     }
@@ -90,7 +102,7 @@ functionObject_clone = function(obj) {
 // Save bytes in the minified (but not gzipped) version:
 var nativeForEach = Array.prototype.forEach;
 
-functionObject_each = function(obj, iterator, context, sortProp) {
+functionObject_each = function functionObject_each(obj, iterator, context, sortProp) {
     if (typeof obj === "undefined" || obj === null) {
         return;
     }
@@ -103,7 +115,7 @@ functionObject_each = function(obj, iterator, context, sortProp) {
     } else {
         var keys = Object.keys(obj);
         if (sortProp !== undefined) {
-            keys.sort(function(a, b) {
+            keys.sort(function (a, b) {
                 return obj[a][sortProp] - obj[b][sortProp];
             });
         }
@@ -113,19 +125,19 @@ functionObject_each = function(obj, iterator, context, sortProp) {
     }
 };
 
-functionObject_map = function(collection, iteratee, context, sortProp) {
+exports.map = functionObject_map = function functionObject_map(collection, iteratee, context, sortProp) {
     var result = [];
 
-    functionObject_forEach(collection, function(value, key) {
+    functionObject_forEach(collection, function (value, key) {
         result.push(iteratee.call(context, value, key, collection));
     }, context, sortProp);
 
     return result;
 };
 
-functionObject_deepClone = function(object) {
+exports.deepClone = _functionObject_deepClone = function functionObject_deepClone(object) {
     // handle primitive types, functions, null and undefined
-    if (object === null || typeof object !== "object") {
+    if (object === null || (typeof object === "undefined" ? "undefined" : _typeof(object)) !== "object") {
         return object;
     }
 
@@ -136,7 +148,7 @@ functionObject_deepClone = function(object) {
 
     // handle arrays (even sparse ones)
     if (object instanceof Array) {
-        return object.map(functionObject_deepClone);
+        return object.map(_functionObject_deepClone);
     }
 
     // handle html nodes
@@ -150,40 +162,40 @@ functionObject_deepClone = function(object) {
     var keys = Object.keys(object);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
-        copy[key] = functionObject_deepClone(object[key]);
+        copy[key] = _functionObject_deepClone(object[key]);
     }
     return copy;
 };
 
-functionObject_shallowSelectiveClone = function(source, keys) {
+exports.shallowSelectiveClone = functionObject_shallowSelectiveClone = function functionObject_shallowSelectiveClone(source, keys) {
     var clone = {};
 
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
         clone[key] = source[key];
     });
 
     return clone;
 };
 
-functionObject_cloneMap = function(source) {
+exports.cloneMap = functionObject_cloneMap = function functionObject_cloneMap(source) {
     var clone = new Map();
-    source.forEach(function(value, key) {
+    source.forEach(function (value, key) {
         clone.set(key, value);
     });
     return clone;
 };
 
-functionObject_cloneSet = function(source) {
+exports.cloneSet = functionObject_cloneSet = function functionObject_cloneSet(source) {
     var clone = new Set();
-    source.forEach(function(value) {
+    source.forEach(function (value) {
         clone.add(value);
     });
     return clone;
 };
 
-functionObject_warnOnce = function(message, fun) {
+exports.warnOnce = functionObject_warnOnce = function functionObject_warnOnce(message, fun) {
     var warned = false;
-    return function() {
+    return function () {
         if (!warned) {
             console.warn(message);
             warned = true;
@@ -193,43 +205,43 @@ functionObject_warnOnce = function(message, fun) {
     };
 };
 
-functionObject_constant = function(value) {
-    return function() {
+exports.constant = functionObject_constant = function functionObject_constant(value) {
+    return function () {
         return value;
     };
 };
 
-functionObject_property = function(propName) {
-    return function(obj) {
+functionObject_property = function functionObject_property(propName) {
+    return function (obj) {
         return obj[propName];
     };
 };
 
-functionObject_isArray = function(value) {
+exports.isArray = functionObject_isArray = function functionObject_isArray(value) {
     return Array.isArray(value);
 };
 
-functionObject_isObject = function(value) {
+functionObject_isObject = function functionObject_isObject(value) {
     return value === Object(value);
 };
 
-functionObject_isString = function(value) {
+exports.isString = functionObject_isString = function functionObject_isString(value) {
     return typeof value === "string";
 };
 
-functionObject_isBoolean = function(value) {
+exports.isBoolean = functionObject_isBoolean = function functionObject_isBoolean(value) {
     return value === true || value === false;
 };
 
-functionObject_isNumber = function(value) {
+exports.isNumber = functionObject_isNumber = function functionObject_isNumber(value) {
     return typeof value === "number";
 };
 
-functionObject_isInteger = function(value) {
+exports.isInteger = functionObject_isInteger = function functionObject_isInteger(value) {
     return functionObject_isNumber(value) && value % 1 === 0;
 };
 
-functionObject_getExtension = function(value) {
+exports.getExtension = functionObject_getExtension = function functionObject_getExtension(value) {
     if (functionObject_isString(value)) {
         var dotIndex = value.lastIndexOf(".");
         if (dotIndex >= -1) {
@@ -240,4 +252,22 @@ functionObject_getExtension = function(value) {
     return "";
 };
 
-export { functionObject_contains as contains, functionObject_find as find, functionObject_defaults as defaults, functionObject_copyOptions as copyOptions, functionObject_extend as extend, functionObject_clone as clone, functionObject_map as map, functionObject_deepClone as deepClone, functionObject_shallowSelectiveClone as shallowSelectiveClone, functionObject_cloneMap as cloneMap, functionObject_cloneSet as cloneSet, functionObject_warnOnce as warnOnce, functionObject_constant as constant, functionObject_isArray as isArray, functionObject_isString as isString, functionObject_isBoolean as isBoolean, functionObject_isNumber as isNumber, functionObject_isInteger as isInteger, functionObject_getExtension as getExtension };
+exports.contains = functionObject_contains;
+exports.find = functionObject_find;
+exports.defaults = functionObject_defaults;
+exports.copyOptions = functionObject_copyOptions;
+exports.extend = functionObject_extend;
+exports.clone = functionObject_clone;
+exports.map = functionObject_map;
+exports.deepClone = _functionObject_deepClone;
+exports.shallowSelectiveClone = functionObject_shallowSelectiveClone;
+exports.cloneMap = functionObject_cloneMap;
+exports.cloneSet = functionObject_cloneSet;
+exports.warnOnce = functionObject_warnOnce;
+exports.constant = functionObject_constant;
+exports.isArray = functionObject_isArray;
+exports.isString = functionObject_isString;
+exports.isBoolean = functionObject_isBoolean;
+exports.isNumber = functionObject_isNumber;
+exports.isInteger = functionObject_isInteger;
+exports.getExtension = functionObject_getExtension;

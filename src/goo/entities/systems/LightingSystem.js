@@ -1,8 +1,16 @@
-import { Capabilities } from "../../renderer/Capabilities";
-import { System } from "../../entities/systems/System";
-import { anonymus as SystemBus } from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LightingSystem = undefined;
+
+var _Capabilities = require("../../renderer/Capabilities");
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
 function LightingSystem() {
-	System.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
+	_System.System.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
 
 	this.overrideLights = null;
 
@@ -11,7 +19,7 @@ function LightingSystem() {
 	this._needsUpdate = true;
 }
 
-LightingSystem.prototype = Object.create(System.prototype);
+LightingSystem.prototype = Object.create(_System.System.prototype);
 LightingSystem.prototype.constructor = LightingSystem;
 
 /**
@@ -20,7 +28,7 @@ LightingSystem.prototype.constructor = LightingSystem;
  */
 LightingSystem.prototype.setOverrideLights = function (overrideLights) {
 	this.overrideLights = overrideLights;
-	SystemBus.emit('goo.setLights', this.overrideLights);
+	_SystemBus.anonymus.emit('goo.setLights', this.overrideLights);
 	this._needsUpdate = true;
 };
 
@@ -55,12 +63,12 @@ LightingSystem.prototype.process = function (entities) {
 
 			if (!lightComponent.hidden) {
 				var light = lightComponent.light;
-				light.shadowCaster = light.shadowCaster && Capabilities.TextureFloat; // Needs float texture for shadows (for now)
+				light.shadowCaster = light.shadowCaster && _Capabilities.Capabilities.TextureFloat; // Needs float texture for shadows (for now)
 				this.lights.push(light);
 			}
 		}
 		this._needsUpdate = false;
-		SystemBus.emit('goo.setLights', this.lights);
+		_SystemBus.anonymus.emit('goo.setLights', this.lights);
 	}
 };
 
@@ -77,4 +85,4 @@ var exported_LightingSystem = LightingSystem;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
  * @extends System
  */
-export { exported_LightingSystem as LightingSystem };
+exports.LightingSystem = exported_LightingSystem;

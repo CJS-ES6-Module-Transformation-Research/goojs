@@ -1,10 +1,15 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PauseAnimationAction = undefined;
 
-function PauseAnimationAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function PauseAnimationAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-PauseAnimationAction.prototype = Object.create(Action.prototype);
+PauseAnimationAction.prototype = Object.create(_Action.Action.prototype);
 PauseAnimationAction.prototype.constructor = PauseAnimationAction;
 
 PauseAnimationAction.external = {
@@ -36,4 +41,4 @@ PauseAnimationAction.prototype.enter = function (fsm) {
 };
 
 var exported_PauseAnimationAction = PauseAnimationAction;
-export { exported_PauseAnimationAction as PauseAnimationAction };
+exports.PauseAnimationAction = exported_PauseAnimationAction;

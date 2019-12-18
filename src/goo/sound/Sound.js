@@ -1,13 +1,36 @@
-import { anonymus as AudioContext } from "../sound/AudioContext";
-import * as MathUtils from "../math/MathUtils";
-import { PromiseUtils as PromiseUtil } from "../util/PromiseUtil";
-import { anonymus as RSVP } from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Sound = undefined;
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _PromiseUtil = require("../util/PromiseUtil");
+
+var _rsvp = require("../util/rsvp");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function Sound() {
 	/** @type {string}
-	 */
+  */
 	this.id = null;
 	/** @type {string}
-	 */
+  */
 	this.name = null;
 	this._loop = false;
 	this._rate = 1.0;
@@ -20,10 +43,10 @@ function Sound() {
 	this._stream = null;
 	this._streamSource = null;
 	this._currentSource = null;
-	this._outNode = AudioContext.getContext().createGain();
+	this._outNode = _AudioContext.anonymus.getContext().createGain();
 	this.connectTo();
 
-			// Playback memory
+	// Playback memory
 	this._playStart = 0;
 	this._pausePos = 0;
 	//this._endTimer = null;
@@ -32,16 +55,16 @@ function Sound() {
 	this._paused = false;
 
 	/**
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * @type {boolean}
+  * @readonly
+  */
 	this.spatialize = true;
 
 	/**
-	 * If true, it will start playing when the SoundSystem runs play().
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * If true, it will start playing when the SoundSystem runs play().
+  * @type {boolean}
+  * @readonly
+  */
 	this.autoPlay = false;
 
 	// @ifdef DEBUG
@@ -60,12 +83,12 @@ Sound.prototype.play = function (when) {
 	if (this._currentSource) {
 		return this._endPromise;
 	}
-	this._endPromise = new RSVP.Promise(); //! AT: this needs refactoring
+	this._endPromise = new _rsvp.anonymus.Promise(); //! AT: this needs refactoring
 	if (!this._buffer || this._stream) {
 		return this._endPromise;
 	}
 
-	var currentSource = this._currentSource = AudioContext.getContext().createBufferSource();
+	var currentSource = this._currentSource = _AudioContext.anonymus.getContext().createBufferSource();
 
 	this._paused = false;
 	this._currentSource.onended = function () {
@@ -83,7 +106,7 @@ Sound.prototype.play = function (when) {
 		this._currentSource.loopEnd = this._duration + this._offset;
 	}
 
-	this._playStart = AudioContext.getContext().currentTime - this._pausePos;
+	this._playStart = _AudioContext.anonymus.getContext().currentTime - this._pausePos;
 	var duration = this._duration - this._pausePos;
 
 	if (this._loop) {
@@ -105,7 +128,7 @@ Sound.prototype.pause = function () {
 
 	this._paused = true;
 
-	this._pausePos = (AudioContext.getContext().currentTime - this._playStart) % this._duration;
+	this._pausePos = (_AudioContext.anonymus.getContext().currentTime - this._playStart) % this._duration;
 	this._pausePos /= this._rate;
 	this._stop();
 };
@@ -140,10 +163,10 @@ Sound.prototype.fadeOut = function (time) {
 };
 
 Sound.prototype.fade = function (volume, time) {
-	this._outNode.gain.cancelScheduledValues(AudioContext.getContext().currentTime);
-	this._outNode.gain.setValueAtTime(this._outNode.gain.value, AudioContext.getContext().currentTime);
-	this._outNode.gain.linearRampToValueAtTime(volume, AudioContext.getContext().currentTime + time);
-	return PromiseUtil.delay(volume, time * 1000);
+	this._outNode.gain.cancelScheduledValues(_AudioContext.anonymus.getContext().currentTime);
+	this._outNode.gain.setValueAtTime(this._outNode.gain.value, _AudioContext.anonymus.getContext().currentTime);
+	this._outNode.gain.linearRampToValueAtTime(volume, _AudioContext.anonymus.getContext().currentTime + time);
+	return _PromiseUtil.PromiseUtils.delay(volume, time * 1000);
 };
 
 Sound.prototype.isPlaying = function () {
@@ -284,7 +307,7 @@ Sound.prototype.setAudioStream = function (stream) {
 	}
 	this.stop();
 	this._stream = stream;
-	this._streamSource = AudioContext.getContext().createMediaStreamSource(stream);
+	this._streamSource = _AudioContext.anonymus.getContext().createMediaStreamSource(stream);
 	this._streamSource.connect(this._outNode);
 };
 
@@ -293,4 +316,4 @@ var exported_Sound = Sound;
 /**
  * A representation of a sound in the engine
  */
-export { exported_Sound as Sound };
+exports.Sound = exported_Sound;

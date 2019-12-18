@@ -1,21 +1,39 @@
-import { World } from "../../../../src/goo/entities/World";
-import { Entity } from "../../../../src/goo/entities/Entity";
-import * as ShaderLib from "../../../../src/goo/renderer/shaders/ShaderLib";
-import { Material } from "../../../../src/goo/renderer/Material";
-import { MeshRendererComponent } from "../../../../src/goo/entities/components/MeshRendererComponent";
+var _World = require("../../../../src/goo/entities/World");
+
+var _Entity = require("../../../../src/goo/entities/Entity");
+
+var _ShaderLib = require("../../../../src/goo/renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _Material = require("../../../../src/goo/renderer/Material");
+
+var _MeshRendererComponent = require("../../../../src/goo/entities/components/MeshRendererComponent");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 describe('MeshRendererComponent', function () {
 	var world;
 
 	beforeEach(function () {
-		world = new World();
-		world.registerComponent(MeshRendererComponent);
+		world = new _World.World();
+		world.registerComponent(_MeshRendererComponent.MeshRendererComponent);
 	});
 
 	describe('.applyOnEntity', function () {
 		it('sets a MeshRendererComponent when trying to add a Material', function () {
-			var entity = new Entity(world);
-			var material = new Material(ShaderLib.simpleColored, '');
+			var entity = new _Entity.Entity(world);
+			var material = new _Material.Material(ShaderLib.simpleColored, '');
 			entity.set(material);
 
 			expect(entity.meshRendererComponent).toBeTruthy();
@@ -23,11 +41,11 @@ describe('MeshRendererComponent', function () {
 		});
 
 		it('adds a material to an entity which already has a MeshRendererComponent', function () {
-			var entity = new Entity(world);
-			var meshRendererComponent = new MeshRendererComponent();
+			var entity = new _Entity.Entity(world);
+			var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
 			entity.set(meshRendererComponent);
 
-			var material = new Material(ShaderLib.simpleColored, '');
+			var material = new _Material.Material(ShaderLib.simpleColored, '');
 			entity.set(material);
 
 			expect(entity.meshRendererComponent).toBe(meshRendererComponent);
@@ -39,8 +57,8 @@ describe('MeshRendererComponent', function () {
 		var meshRendererComponent, entity;
 
 		beforeEach(function () {
-			meshRendererComponent = new MeshRendererComponent(ShaderLib.simpleLit);
-			entity = new Entity().set(meshRendererComponent);
+			meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent(ShaderLib.simpleLit);
+			entity = new _Entity.Entity().set(meshRendererComponent);
 		});
 
 		it('changes the diffuse color when given 3 numbers', function () {
@@ -111,19 +129,19 @@ describe('MeshRendererComponent', function () {
 
 	describe('constructor', function () {
 		it('creates a MeshRendererComponent from nothing', function () {
-			var meshRendererComponent = new MeshRendererComponent();
+			var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
 			expect(meshRendererComponent.materials).toEqual([]);
 		});
 
 		it('creates a MeshRendererComponent from a material', function () {
-			var material = new Material();
-			var meshRendererComponent = new MeshRendererComponent(material);
+			var material = new _Material.Material();
+			var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent(material);
 			expect(meshRendererComponent.materials).toEqual([material]);
 		});
 
 		it('creates a MeshRendererComponent from an array of materials', function () {
-			var materials = [new Material('asd'), new Material('dsa')];
-			var meshRendererComponent = new MeshRendererComponent(materials);
+			var materials = [new _Material.Material('asd'), new _Material.Material('dsa')];
+			var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent(materials);
 			expect(meshRendererComponent.materials).toEqual(materials);
 		});
 	});

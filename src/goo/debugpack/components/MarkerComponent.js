@@ -1,7 +1,28 @@
-import { Component } from "../../entities/components/Component";
-import * as BoundingVolumeMeshBuilder from "../../debugpack/BoundingVolumeMeshBuilder";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MarkerComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _BoundingVolumeMeshBuilder = require("../../debugpack/BoundingVolumeMeshBuilder");
+
+var BoundingVolumeMeshBuilder = _interopRequireWildcard(_BoundingVolumeMeshBuilder);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function MarkerComponent(hostEntity) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'MarkerComponent';
 
@@ -10,7 +31,7 @@ function MarkerComponent(hostEntity) {
 	this.meshData = BoundingVolumeMeshBuilder.build(hostModelBound);
 }
 
-MarkerComponent.prototype = Object.create(Component.prototype);
+MarkerComponent.prototype = Object.create(_Component.Component.prototype);
 MarkerComponent.prototype.constructor = MarkerComponent;
 
 var exported_MarkerComponent = MarkerComponent;
@@ -20,4 +41,4 @@ var exported_MarkerComponent = MarkerComponent;
  * @param {Entity} entity The entity this component is attached to
  * @extends Component
  */
-export { exported_MarkerComponent as MarkerComponent };
+exports.MarkerComponent = exported_MarkerComponent;

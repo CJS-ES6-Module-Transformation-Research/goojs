@@ -1,9 +1,32 @@
-import { LogicLayer } from "./LogicLayer";
-import { LogicNode } from "./LogicNode";
-import * as LogicNodes from "./LogicNodes";
-import { LogicInterface } from "./LogicInterface";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeWASD = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var LogicNodes = _interopRequireWildcard(_LogicNodes);
+
+var _LogicInterface = require("./LogicInterface");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function LogicNodeWASD() {
-	LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeWASD.logicInterface;
 	this.type = 'LogicNodeWASD';
 
@@ -16,7 +39,7 @@ function LogicNodeWASD() {
 		var keyEvent = LogicNodeWASD.downKeys[character];
 		if (keyEvent) {
 			preventRepeat[character] = true;
-			LogicLayer.fireEvent(this.logicInstance, keyEvent);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, keyEvent);
 		}
 	}.bind(this);
 	this.eventListenerUp = function (event) {
@@ -26,12 +49,12 @@ function LogicNodeWASD() {
 		}
 		var keyEvent = LogicNodeWASD.upKeys[character];
 		if (keyEvent) {
-			LogicLayer.fireEvent(this.logicInstance, keyEvent);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, keyEvent);
 		}
 	}.bind(this);
 }
 
-LogicNodeWASD.prototype = Object.create(LogicNode.prototype);
+LogicNodeWASD.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeWASD.editorName = 'WASD';
 
 LogicNodeWASD.prototype.onSystemStarted = function () {
@@ -44,7 +67,7 @@ LogicNodeWASD.prototype.onSystemStopped = function () {
 	document.removeEventListener('keyup', this.eventListenerUp);
 };
 
-LogicNodeWASD.logicInterface = new LogicInterface();
+LogicNodeWASD.logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeWASD.downKeys = {
 	'w': LogicNodeWASD.logicInterface.addOutputEvent('W-down'),
 	'a': LogicNodeWASD.logicInterface.addOutputEvent('A-down'),
@@ -66,4 +89,4 @@ var exported_LogicNodeWASD = LogicNodeWASD;
  * Logic node handling WASD input.
  * @private
  */
-export { exported_LogicNodeWASD as LogicNodeWASD };
+exports.LogicNodeWASD = exported_LogicNodeWASD;
