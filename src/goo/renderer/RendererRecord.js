@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var exported_RendererRecord = RendererRecord;
 function RendererRecord() {
 	this.currentBuffer = {
@@ -49,4 +52,4 @@ RendererRecord.prototype.invalidateBuffer = function (target) {
  * Holds the renderer's state
  * @hidden
  */
-export { exported_RendererRecord as RendererRecord };
+exports.RendererRecord = exported_RendererRecord;

@@ -1,7 +1,13 @@
-import { System } from "../../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Box2DSystem = undefined;
+
+var _System = require('../../../entities/systems/System');
+
 var exported_Box2DSystem = Box2DSystem;
 function Box2DSystem() {
-	System.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
+	_System.System.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
 
 	this.SCALE = 0.5;
 	this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(0.0, -9.81));
@@ -17,7 +23,7 @@ function createPolygonShape(vertices) {
 	var buffer = Box2D.allocate(vertices.length * FLOAT_SIZE * 2, 'float', Box2D.ALLOC_STACK);
 	var offset = 0;
 	for (var i = 0; i < vertices.length; i++) {
-		Box2D.setValue(buffer + (offset), vertices[i].get_x(), 'float');
+		Box2D.setValue(buffer + offset, vertices[i].get_x(), 'float');
 		Box2D.setValue(buffer + (offset + FLOAT_SIZE), vertices[i].get_y(), 'float');
 		offset += FLOAT_SIZE * 2;
 	}
@@ -26,7 +32,7 @@ function createPolygonShape(vertices) {
 	return shape;
 }
 
-Box2DSystem.prototype = Object.create(System.prototype);
+Box2DSystem.prototype = Object.create(_System.System.prototype);
 Box2DSystem.prototype.constructor = Box2DSystem;
 
 Box2DSystem.prototype.inserted = function (entity) {
@@ -145,4 +151,4 @@ Box2DSystem.prototype.process = function (entities, tpf) {
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
  */
-export { exported_Box2DSystem as Box2DSystem };
+exports.Box2DSystem = exported_Box2DSystem;

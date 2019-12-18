@@ -1,11 +1,17 @@
-import { Action } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StartTimelineAction = undefined;
+
+var _Action = require('./Action');
+
 var exported_StartTimelineAction = StartTimelineAction;
 
-function StartTimelineAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function StartTimelineAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-StartTimelineAction.prototype = Object.create(Action.prototype);
+StartTimelineAction.prototype = Object.create(_Action.Action.prototype);
 StartTimelineAction.prototype.constructor = StartTimelineAction;
 
 StartTimelineAction.external = {
@@ -21,9 +27,11 @@ StartTimelineAction.external = {
 StartTimelineAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('TimelineComponent')) { return; }
+	if (!entity.hasComponent('TimelineComponent')) {
+		return;
+	}
 
 	entity.timelineComponent.start();
 };
 
-export { exported_StartTimelineAction as StartTimelineAction };
+exports.StartTimelineAction = exported_StartTimelineAction;

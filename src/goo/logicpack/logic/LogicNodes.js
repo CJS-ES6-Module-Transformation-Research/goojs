@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_getAllTypes;
 var functionObject_getClass;
 var functionObject_getInterfaceByName;
@@ -11,7 +14,7 @@ function LogicNodes() {}
 
 functionObject_types = {};
 
-functionObject_registerType = function(name, fn) {
+exports.registerType = functionObject_registerType = function functionObject_registerType(name, fn) {
     functionObject_types[name] = {
         fn: fn,
         name: name,
@@ -19,16 +22,16 @@ functionObject_registerType = function(name, fn) {
     };
 };
 
-functionObject_getInterfaceByName = function(name) {
+functionObject_getInterfaceByName = function functionObject_getInterfaceByName(name) {
     if (functionObject_types[name] !== undefined) {
         return functionObject_types[name].fn.logicInterface;
     }
     return null;
 };
 
-functionObject_getClass = function(name) {
+exports.getClass = functionObject_getClass = function functionObject_getClass(name) {
     if (functionObject_types[name] === undefined) {
-        return function() {
+        return function () {
             console.error("LogicNode type [" + name + "] does not exist.");
             return null;
         };
@@ -37,7 +40,7 @@ functionObject_getClass = function(name) {
     return functionObject_types[name].fn;
 };
 
-functionObject_getAllTypes = function() {
+functionObject_getAllTypes = function functionObject_getAllTypes() {
     var out = [];
     for (var n in functionObject_types) {
         out.push(functionObject_types[n]);
@@ -45,4 +48,5 @@ functionObject_getAllTypes = function() {
     return out;
 };
 
-export { functionObject_registerType as registerType, functionObject_getClass as getClass };
+exports.registerType = functionObject_registerType;
+exports.getClass = functionObject_getClass;

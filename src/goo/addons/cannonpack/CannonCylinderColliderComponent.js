@@ -1,7 +1,13 @@
-import { Component } from "../../entities/components/Component";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonCylinderColliderComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 var exported_CannonCylinderColliderComponent = CannonCylinderColliderComponent;
 function CannonCylinderColliderComponent(settings) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	settings = settings || {};
 	this.type = 'CannonCylinderColliderComponent';
@@ -11,14 +17,9 @@ function CannonCylinderColliderComponent(settings) {
 	var height = typeof settings.height === 'number' ? settings.height : 1;
 	var numSegments = typeof settings.numSegments === 'number' ? settings.numSegments : 10;
 
-	this.cannonShape = new CANNON.Cylinder(
-		radiusTop,
-		radiusBottom,
-		height,
-		numSegments
-	);
+	this.cannonShape = new CANNON.Cylinder(radiusTop, radiusBottom, height, numSegments);
 }
-CannonCylinderColliderComponent.prototype = Object.create(Component.prototype);
+CannonCylinderColliderComponent.prototype = Object.create(_Component.Component.prototype);
 CannonCylinderColliderComponent.constructor = CannonCylinderColliderComponent;
 
 /* global CANNON */
@@ -32,4 +33,4 @@ CannonCylinderColliderComponent.constructor = CannonCylinderColliderComponent;
  * @param {number} [settings.height=0.5]
  * @param {number} [settings.numSegments=10]
  */
-export { exported_CannonCylinderColliderComponent as CannonCylinderColliderComponent };
+exports.CannonCylinderColliderComponent = exported_CannonCylinderColliderComponent;

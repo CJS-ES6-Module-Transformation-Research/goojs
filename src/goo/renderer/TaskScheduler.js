@@ -1,26 +1,39 @@
-import * as PromiseUtils from "../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.each = undefined;
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+function _interopRequireWildcard(obj) {
+    if (obj && obj.__esModule) {
+        return obj;
+    } else {
+        var newObj = {};if (obj != null) {
+            for (var key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+            }
+        }newObj.default = obj;return newObj;
+    }
+}
+
 var functionObject_each;
 var functionObject_maxTimePerFrame;
 
-var performance = typeof(window) !== 'undefined' ? window.performance : {};
+var performance = typeof window !== 'undefined' ? window.performance : {};
 
-performance.now = (
-	performance.now ||
-	performance.mozNow ||
-	performance.msNow ||
-	performance.oNow ||
-	performance.webkitNow ||
-	function () {
-		return Date.now();
-	}
-);
+performance.now = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function () {
+    return Date.now();
+};
 
 function TaskScheduler() {}
 
 functionObject_maxTimePerFrame = 50;
 
-functionObject_each = function(queue) {
-    return PromiseUtils.createPromise(function(resolve) {
+exports.each = functionObject_each = function functionObject_each(queue) {
+    return PromiseUtils.createPromise(function (resolve) {
         var i = 0;
 
         function process() {
@@ -43,4 +56,4 @@ functionObject_each = function(queue) {
     });
 };
 
-export { functionObject_each as each };
+exports.each = functionObject_each;

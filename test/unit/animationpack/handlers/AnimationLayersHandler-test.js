@@ -1,16 +1,21 @@
-import { World } from "../../../../src/goo/entities/World";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { SteadyState } from "../../../../src/goo/animationpack/state/SteadyState";
-import { AnimationLayer } from "../../../../src/goo/animationpack/layer/AnimationLayer";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _SteadyState = require("../../../../src/goo/animationpack/state/SteadyState");
+
+var _AnimationLayer = require("../../../../src/goo/animationpack/layer/AnimationLayer");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('AnimationLayersHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -24,8 +29,8 @@ describe('AnimationLayersHandler', function () {
 			expect(layers.length).toBe(Object.keys(layersConfig.layers).length);
 
 			var layer = layers[0];
-			expect(layer).toEqual(jasmine.any(AnimationLayer));
-			expect(layer._currentState).toEqual(jasmine.any(SteadyState));
+			expect(layer).toEqual(jasmine.any(_AnimationLayer.AnimationLayer));
+			expect(layer._currentState).toEqual(jasmine.any(_SteadyState.SteadyState));
 			done();
 		});
 	});

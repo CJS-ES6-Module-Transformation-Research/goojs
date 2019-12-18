@@ -1,12 +1,18 @@
-import { System } from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AmmoSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 var exported_AmmoSystem = AmmoSystem;
 function AmmoSystem(settings) {
-	System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
+	_System.System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
 	this.settings = settings || {};
 	this.fixedTime = 1 / (this.settings.stepFrequency || 60);
 	this.maxSubSteps = this.settings.maxSubSteps || 5;
 	var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
-	var dispatcher = new Ammo.btCollisionDispatcher( collisionConfiguration );
+	var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
 	var overlappingPairCache = new Ammo.btDbvtBroadphase();
 	var solver = new Ammo.btSequentialImpulseConstraintSolver();
 	this.ammoWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
@@ -17,7 +23,7 @@ function AmmoSystem(settings) {
 	this.ammoWorld.setGravity(new Ammo.btVector3(0, gravity, 0));
 }
 
-AmmoSystem.prototype = Object.create(System.prototype);
+AmmoSystem.prototype = Object.create(_System.System.prototype);
 
 AmmoSystem.prototype.inserted = function (entity) {
 	if (entity.ammoComponent) {
@@ -35,7 +41,7 @@ AmmoSystem.prototype.deleted = function (entity) {
 };
 
 AmmoSystem.prototype.process = function (entities, tpf) {
-	this.ammoWorld.stepSimulation( tpf, this.maxSubSteps, this.fixedTime);
+	this.ammoWorld.stepSimulation(tpf, this.maxSubSteps, this.fixedTime);
 
 	for (var i = 0; i < entities.length; i++) {
 		var e = entities[i];
@@ -63,4 +69,4 @@ AmmoSystem.prototype.process = function (entities, tpf) {
  * var ammoSystem = new AmmoSystem({stepFrequency: 60});
  * goo.world.setSystem(ammoSystem);
  */
-export { exported_AmmoSystem as AmmoSystem };
+exports.AmmoSystem = exported_AmmoSystem;

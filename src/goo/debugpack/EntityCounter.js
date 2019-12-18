@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var exported_EntityCounter = EntityCounter;
 function EntityCounter(skipFrames) {
 	this.goo = null;
@@ -44,9 +47,7 @@ EntityCounter.prototype.inject = function (goo) {
 function createPanel() {
 	var div = document.createElement('div');
 	div.id = '_entitycounterdiv';
-	var innerHTML =
-		'<span style="font-size: x-small;font-family: sans-serif">Counter</span><br />' +
-		'<textarea cols="30" rows="6" id="_entitycountertex">...</textarea>';
+	var innerHTML = '<span style="font-size: x-small;font-family: sans-serif">Counter</span><br />' + '<textarea cols="30" rows="6" id="_entitycountertex">...</textarea>';
 	div.innerHTML = innerHTML;
 	div.style.position = 'absolute';
 	div.style.zIndex = '2001';
@@ -72,4 +73,4 @@ function createPanel() {
  * The entity counter utility class creates a panel and updates it with data on the systems in the world and how many entities each contains
  * @param {number} [skipFrames] Sets how many frames should it skip between refreshes
  */
-export { exported_EntityCounter as EntityCounter };
+exports.EntityCounter = exported_EntityCounter;

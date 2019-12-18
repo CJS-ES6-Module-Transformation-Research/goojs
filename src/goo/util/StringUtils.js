@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_parseURL;
 var functionObject_escapeHtmlEntities;
 var functionObject_getUniqueId;
@@ -18,25 +21,25 @@ var functionObject_endsWith;
  */
 function StringUtils() {}
 
-functionObject_endsWith = function(str, suffix) {
+exports.endsWith = functionObject_endsWith = function functionObject_endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 };
 
-functionObject_startsWith = function(str, prefix) {
+functionObject_startsWith = function functionObject_startsWith(str, prefix) {
     return str.indexOf(prefix) === 0;
 };
 
-functionObject_capitalize = function(str) {
+exports.capitalize = functionObject_capitalize = function functionObject_capitalize(str) {
     return str.charAt(0).toUpperCase() + str.substring(1);
 };
 
-functionObject_uncapitalize = function(str) {
+exports.uncapitalize = functionObject_uncapitalize = function functionObject_uncapitalize(str) {
     return str.charAt(0).toLowerCase() + str.substring(1);
 };
 
-functionObject_createUniqueId = function(type) {
+exports.createUniqueId = functionObject_createUniqueId = function functionObject_createUniqueId(type) {
     var date = Date.now();
-    var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         // | 0 is a hack to floor a number, so this is a random number between 0 and 15
         var randomNumber = (date + Math.random() * 16) % 16 | 0;
         if (c === "x") {
@@ -52,7 +55,7 @@ functionObject_createUniqueId = function(type) {
     return uuid + "." + type;
 };
 
-functionObject_getUntil = function(string, stopString) {
+functionObject_getUntil = function functionObject_getUntil(string, stopString) {
     var stopIndex = string.indexOf(stopString);
     if (stopIndex === -1) {
         return string;
@@ -61,7 +64,7 @@ functionObject_getUntil = function(string, stopString) {
     }
 };
 
-functionObject_getAfterLast = function(string, stopString) {
+exports.getAfterLast = functionObject_getAfterLast = function functionObject_getAfterLast(string, stopString) {
     var stopIndex = string.lastIndexOf(stopString);
     if (stopIndex === -1) {
         return string;
@@ -70,7 +73,7 @@ functionObject_getAfterLast = function(string, stopString) {
     }
 };
 
-functionObject_getFrom = function(string, startString) {
+functionObject_getFrom = function functionObject_getFrom(string, startString) {
     var startIndex = string.indexOf(startString);
     if (startIndex === -1) {
         return "";
@@ -81,7 +84,7 @@ functionObject_getFrom = function(string, startString) {
     }
 };
 
-functionObject_getIndexedName = function(base, takenNames, separator) {
+functionObject_getIndexedName = function functionObject_getIndexedName(base, takenNames, separator) {
     if (!separator) {
         separator = "_";
     }
@@ -107,7 +110,7 @@ functionObject_getIndexedName = function(base, takenNames, separator) {
     return base + separator + index;
 };
 
-functionObject_getUniqueName = function(desiredName, takenNames, separator) {
+functionObject_getUniqueName = function functionObject_getUniqueName(desiredName, takenNames, separator) {
     if (takenNames.indexOf(desiredName) === -1) {
         return desiredName;
     }
@@ -115,11 +118,11 @@ functionObject_getUniqueName = function(desiredName, takenNames, separator) {
     return functionObject_getIndexedName(desiredName, takenNames, separator);
 };
 
-functionObject_toAscii = function(input) {
+functionObject_toAscii = function functionObject_toAscii(input) {
     return input.replace(/([^\x00-\x7F])/g, "x");
 };
 
-functionObject_hashCode = function(str) {
+functionObject_hashCode = function functionObject_hashCode(str) {
     var hash = 0;
 
     if (str.length === 0) {
@@ -139,13 +142,13 @@ functionObject_hashCode = function(str) {
 // used in generating ids
 var idCounter = Date.now();
 
-functionObject_getUniqueId = function() {
+functionObject_getUniqueId = function functionObject_getUniqueId() {
     idCounter++;
     var stringedArguments = Array.prototype.slice.call(arguments, 0).join("");
     return functionObject_hashCode(idCounter + "" + stringedArguments);
 };
 
-functionObject_escapeHtmlEntities = function(text) {
+functionObject_escapeHtmlEntities = function functionObject_escapeHtmlEntities(text) {
     var div = document.createElement("div");
     div.appendChild(document.createTextNode(text));
 
@@ -154,7 +157,7 @@ functionObject_escapeHtmlEntities = function(text) {
         34: "quot"
     };
 
-    return div.innerHTML.replace(/[\u00A0-\u2666\"\']/g, function(c) {
+    return div.innerHTML.replace(/[\u00A0-\u2666\"\']/g, function (c) {
         var entityName = edgeCases[c.charCodeAt(0)];
         return "&" + (entityName || "#" + c.charCodeAt(0)) + ";";
     });
@@ -182,26 +185,20 @@ functionObject_escapeHtmlEntities = function(text) {
 /**
  * @private
  */
-var splitRegExp = new RegExp(
-	'^' +
-	'(?:' +
-	'([^:/?#.]+)' +                         // scheme - ignore special characters
-	// used by other URL parts such as :,
-	// ?, /, #, and .
-	':)?' +
-	'(?://' +
-	'(?:([^/?#]*)@)?' +                     // userInfo
-	'([\\w\\d\\-\\u0100-\\uffff.%]*)' +     // domain - restrict to letters,
-	// digits, dashes, dots, percent
-	// escapes, and unicode characters.
-	'(?::([0-9]+))?' +                      // port
-	')?' +
-	'([^?#]+)?' +                           // path
-	'(?:\\?([^#]*))?' +                     // query
-	'(?:#(.*))?' +                          // fragment
-	'$');
+var splitRegExp = new RegExp('^' + '(?:' + '([^:/?#.]+)' + // scheme - ignore special characters
+// used by other URL parts such as :,
+// ?, /, #, and .
+':)?' + '(?://' + '(?:([^/?#]*)@)?' + // userInfo
+"([\\w\\d\\-\\u0100-\\uffff.%]*)" + // domain - restrict to letters,
+// digits, dashes, dots, percent
+// escapes, and unicode characters.
+'(?::([0-9]+))?' + // port
+')?' + '([^?#]+)?' + // path
+'(?:\\?([^#]*))?' + // query
+'(?:#(.*))?' + // fragment
+'$');
 
-functionObject_parseURL = function(uri) {
+exports.parseURL = functionObject_parseURL = function functionObject_parseURL(uri) {
     var split = uri.match(splitRegExp);
     return {
         "scheme": split[1],
@@ -214,4 +211,9 @@ functionObject_parseURL = function(uri) {
     };
 };
 
-export { functionObject_endsWith as endsWith, functionObject_capitalize as capitalize, functionObject_uncapitalize as uncapitalize, functionObject_createUniqueId as createUniqueId, functionObject_getAfterLast as getAfterLast, functionObject_parseURL as parseURL };
+exports.endsWith = functionObject_endsWith;
+exports.capitalize = functionObject_capitalize;
+exports.uncapitalize = functionObject_uncapitalize;
+exports.createUniqueId = functionObject_createUniqueId;
+exports.getAfterLast = functionObject_getAfterLast;
+exports.parseURL = functionObject_parseURL;

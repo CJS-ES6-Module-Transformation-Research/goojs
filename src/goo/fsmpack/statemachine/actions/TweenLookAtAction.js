@@ -1,19 +1,42 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 } from "../../../math/Vector3";
-import { Quaternion } from "../../../math/Quaternion";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenLookAtAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_TweenLookAtAction = TweenLookAtAction;
 
-function TweenLookAtAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TweenLookAtAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.quatFrom = new Quaternion();
-	this.quatTo = new Quaternion();
-	this.quatFinal = new Quaternion();
+	this.quatFrom = new _Quaternion.Quaternion();
+	this.quatTo = new _Quaternion.Quaternion();
+	this.quatFinal = new _Quaternion.Quaternion();
 	this.completed = false;
 }
 
-TweenLookAtAction.prototype = Object.create(Action.prototype);
+TweenLookAtAction.prototype = Object.create(_Action.Action.prototype);
 TweenLookAtAction.prototype.constructor = TweenLookAtAction;
 
 TweenLookAtAction.external = {
@@ -57,7 +80,7 @@ TweenLookAtAction.external = {
 	}]
 };
 
-TweenLookAtAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenLookAtAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween LookAt Complete' : undefined;
 };
 
@@ -69,9 +92,9 @@ TweenLookAtAction.prototype.enter = function (fsm) {
 
 	this.quatFrom.fromRotationMatrix(transform.rotation);
 
-	var dir = Vector3.fromArray(this.to).sub(transform.translation);
+	var dir = _Vector.Vector3.fromArray(this.to).sub(transform.translation);
 	this.rot = transform.rotation.clone();
-	this.rot.lookAt(dir, Vector3.UNIT_Y);
+	this.rot.lookAt(dir, _Vector.Vector3.UNIT_Y);
 	this.quatTo.fromRotationMatrix(this.rot);
 
 	this.completed = false;
@@ -86,7 +109,7 @@ TweenLookAtAction.prototype.update = function (fsm) {
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = Easing[this.easing1][this.easing2](t);
-	Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
+	_Quaternion.Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
 
 	this.quatFinal.toRotationMatrix(transform.rotation);
 	entity.transformComponent.setUpdated();
@@ -97,4 +120,4 @@ TweenLookAtAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_TweenLookAtAction as TweenLookAtAction };
+exports.TweenLookAtAction = exported_TweenLookAtAction;

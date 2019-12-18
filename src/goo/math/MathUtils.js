@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_warnNaN;
 var functionObject_floatToHalfFloat;
 var functionObject_fastRandom;
@@ -32,21 +35,21 @@ var functionObject_DEG_TO_RAD;
  */
 function MathUtils() {}
 
-functionObject_DEG_TO_RAD = Math.PI / 180.0;
-functionObject_RAD_TO_DEG = 180.0 / Math.PI;
-functionObject_HALF_PI = 0.5 * Math.PI;
-functionObject_TWO_PI = 2.0 * Math.PI;
-functionObject_EPSILON = 0.00001;
+exports.DEG_TO_RAD = functionObject_DEG_TO_RAD = Math.PI / 180.0;
+exports.RAD_TO_DEG = functionObject_RAD_TO_DEG = 180.0 / Math.PI;
+exports.HALF_PI = functionObject_HALF_PI = 0.5 * Math.PI;
+exports.TWO_PI = functionObject_TWO_PI = 2.0 * Math.PI;
+exports.EPSILON = functionObject_EPSILON = 0.00001;
 
-functionObject_radFromDeg = function(degrees) {
+exports.radFromDeg = functionObject_radFromDeg = function functionObject_radFromDeg(degrees) {
     return degrees * functionObject_DEG_TO_RAD;
 };
 
-functionObject_degFromRad = function(radians) {
+exports.degFromRad = functionObject_degFromRad = function functionObject_degFromRad(radians) {
     return radians * functionObject_RAD_TO_DEG;
 };
 
-functionObject_lerp = function(factor, start, end) {
+exports.lerp = functionObject_lerp = function functionObject_lerp(factor, start, end) {
     if (start === end) {
         return start;
     } else {
@@ -54,7 +57,7 @@ functionObject_lerp = function(factor, start, end) {
     }
 };
 
-functionObject_clamp = function(value, min, max) {
+exports.clamp = functionObject_clamp = function functionObject_clamp(value, min, max) {
     if (min < max) {
         return value < min ? min : value > max ? max : value;
     } else {
@@ -62,7 +65,7 @@ functionObject_clamp = function(value, min, max) {
     }
 };
 
-functionObject_radialClamp = function(value, min, max) {
+exports.radialClamp = functionObject_radialClamp = function functionObject_radialClamp(value, min, max) {
     // Rotating coordinates to be mirrored
     var zero = (min + max) / 2 + (max > min ? Math.PI : 0);
     var _value = functionObject_moduloPositive(value - zero, functionObject_TWO_PI);
@@ -82,21 +85,21 @@ functionObject_radialClamp = function(value, min, max) {
     return _value < _min ? min : _value > _max ? max : value;
 };
 
-functionObject_moduloPositive = function(value, size) {
+exports.moduloPositive = functionObject_moduloPositive = function functionObject_moduloPositive(value, size) {
     var wrappedValue = value % size;
     wrappedValue += wrappedValue < 0 ? size : 0;
     return wrappedValue;
 };
 
-functionObject_scurve3 = function(x) {
+exports.scurve3 = functionObject_scurve3 = function functionObject_scurve3(x) {
     return (-2.0 * x + 3.0) * x * x;
 };
 
-functionObject_scurve5 = function(x) {
+exports.scurve5 = functionObject_scurve5 = function functionObject_scurve5(x) {
     return ((6.0 * x - 15.0) * x + 10.0) * x * x * x;
 };
 
-functionObject_sphericalToCartesian = function(radius, azimuth, polar, store) {
+exports.sphericalToCartesian = functionObject_sphericalToCartesian = function functionObject_sphericalToCartesian(radius, azimuth, polar, store) {
     var a = radius * Math.cos(polar);
 
     store.x = a * Math.cos(azimuth);
@@ -104,14 +107,14 @@ functionObject_sphericalToCartesian = function(radius, azimuth, polar, store) {
     store.z = a * Math.sin(azimuth);
 };
 
-functionObject_cartesianToSpherical = function(x, y, z, store) {
+functionObject_cartesianToSpherical = function functionObject_cartesianToSpherical(x, y, z, store) {
     var a = Math.sqrt(x * x + z * z);
     store.x = Math.sqrt(x * x + y * y + z * z); // radius
     store.y = Math.atan2(z, x); // azimuth
     store.z = Math.atan2(y, a); // polar
 };
 
-functionObject_getTriangleNormal = function(p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z) {
+exports.getTriangleNormal = functionObject_getTriangleNormal = function functionObject_getTriangleNormal(p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z) {
     var ux = p2x - p1x;
     var uy = p2y - p1y;
     var uz = p2z - p1z;
@@ -127,11 +130,11 @@ functionObject_getTriangleNormal = function(p1x, p1y, p1z, p2x, p2y, p2z, p3x, p
     return [nx, ny, nz];
 };
 
-functionObject_isPowerOfTwo = function(value) {
+exports.isPowerOfTwo = functionObject_isPowerOfTwo = function functionObject_isPowerOfTwo(value) {
     return (value & value - 1) === 0;
 };
 
-functionObject_nearestPowerOfTwo = function(value) {
+exports.nearestPowerOfTwo = functionObject_nearestPowerOfTwo = function functionObject_nearestPowerOfTwo(value) {
     value--;
     value |= value >> 1;
     value |= value >> 2;
@@ -144,22 +147,20 @@ functionObject_nearestPowerOfTwo = function(value) {
 
 functionObject_nearestHigherPowerOfTwo = functionObject_nearestPowerOfTwo;
 
-functionObject_closeTo = function(v1, v2, tolerance) {
+exports.closeTo = functionObject_closeTo = function functionObject_closeTo(v1, v2, tolerance) {
     tolerance = typeof tolerance !== "undefined" ? tolerance : 0.001;
     return Math.abs(v1 - v2) <= tolerance;
 };
 
-functionObject_sign = function(value) {
+exports.sign = functionObject_sign = function functionObject_sign(value) {
     return value < 0 ? -1 : value > 0 ? 1 : 0;
 };
 
-functionObject_triangleArea = function(t1, t2, t3) {
-    return Math.abs(
-        t1.x * t2.y + t2.x * t3.y + t3.x * t1.y - t2.y * t3.x - t3.y * t1.x - t1.y * t2.x
-    ) / 2;
+exports.triangleArea = functionObject_triangleArea = function functionObject_triangleArea(t1, t2, t3) {
+    return Math.abs(t1.x * t2.y + t2.x * t3.y + t3.x * t1.y - t2.y * t3.x - t3.y * t1.x - t1.y * t2.x) / 2;
 };
 
-functionObject_barycentricInterpolation = function(t1, t2, t3, p) {
+exports.barycentricInterpolation = functionObject_barycentricInterpolation = function functionObject_barycentricInterpolation(t1, t2, t3, p) {
     var t1Area = functionObject_triangleArea(t2, t3, p);
     var t2Area = functionObject_triangleArea(t1, t3, p);
     var t3Area = functionObject_triangleArea(t1, t2, p);
@@ -180,23 +181,23 @@ functionObject_barycentricInterpolation = function(t1, t2, t3, p) {
     return p;
 };
 
-functionObject_smoothstep = function(edge0, edge1, x) {
+exports.smoothstep = functionObject_smoothstep = function functionObject_smoothstep(edge0, edge1, x) {
     x = functionObject_clamp((x - edge0) / (edge1 - edge0), 0, 1);
     return x * x * (3 - 2 * x);
 };
 
-functionObject_randomSeed = 1337;
+exports.randomSeed = functionObject_randomSeed = 1337;
 
-functionObject_fastRandom = function() {
-    functionObject_randomSeed = (functionObject_randomSeed * 9301 + 49297) % 233280;
+exports.fastRandom = functionObject_fastRandom = function functionObject_fastRandom() {
+    exports.randomSeed = functionObject_randomSeed = (functionObject_randomSeed * 9301 + 49297) % 233280;
     return functionObject_randomSeed / 233280;
 };
 
-functionObject_floatToHalfFloat = function() {
+functionObject_floatToHalfFloat = function () {
     var floatView = new Float32Array(1);
     var int32View = new Int32Array(floatView.buffer);
 
-    return function(fval) {
+    return function (fval) {
         floatView[0] = fval;
         var fbits = int32View[0];
         var sign = fbits >> 16 & 0x8000;
@@ -222,15 +223,15 @@ functionObject_floatToHalfFloat = function() {
     };
 }();
 
-functionObject_warnNaN = function(object, property) {
+functionObject_warnNaN = function functionObject_warnNaN(object, property) {
     var value = object[property];
 
     Object.defineProperty(object, property, {
-        get: function() {
+        get: function get() {
             return value;
         },
 
-        set: function(_value) {
+        set: function set(_value) {
             if (isNaN(_value)) {
                 throw new Error("Tried to assign NaN to " + property);
             }
@@ -239,4 +240,27 @@ functionObject_warnNaN = function(object, property) {
     });
 };
 
-export { functionObject_DEG_TO_RAD as DEG_TO_RAD, functionObject_RAD_TO_DEG as RAD_TO_DEG, functionObject_HALF_PI as HALF_PI, functionObject_TWO_PI as TWO_PI, functionObject_EPSILON as EPSILON, functionObject_radFromDeg as radFromDeg, functionObject_degFromRad as degFromRad, functionObject_lerp as lerp, functionObject_clamp as clamp, functionObject_radialClamp as radialClamp, functionObject_moduloPositive as moduloPositive, functionObject_scurve3 as scurve3, functionObject_scurve5 as scurve5, functionObject_sphericalToCartesian as sphericalToCartesian, functionObject_getTriangleNormal as getTriangleNormal, functionObject_isPowerOfTwo as isPowerOfTwo, functionObject_nearestPowerOfTwo as nearestPowerOfTwo, functionObject_closeTo as closeTo, functionObject_sign as sign, functionObject_triangleArea as triangleArea, functionObject_barycentricInterpolation as barycentricInterpolation, functionObject_smoothstep as smoothstep, functionObject_randomSeed as randomSeed, functionObject_fastRandom as fastRandom };
+exports.DEG_TO_RAD = functionObject_DEG_TO_RAD;
+exports.RAD_TO_DEG = functionObject_RAD_TO_DEG;
+exports.HALF_PI = functionObject_HALF_PI;
+exports.TWO_PI = functionObject_TWO_PI;
+exports.EPSILON = functionObject_EPSILON;
+exports.radFromDeg = functionObject_radFromDeg;
+exports.degFromRad = functionObject_degFromRad;
+exports.lerp = functionObject_lerp;
+exports.clamp = functionObject_clamp;
+exports.radialClamp = functionObject_radialClamp;
+exports.moduloPositive = functionObject_moduloPositive;
+exports.scurve3 = functionObject_scurve3;
+exports.scurve5 = functionObject_scurve5;
+exports.sphericalToCartesian = functionObject_sphericalToCartesian;
+exports.getTriangleNormal = functionObject_getTriangleNormal;
+exports.isPowerOfTwo = functionObject_isPowerOfTwo;
+exports.nearestPowerOfTwo = functionObject_nearestPowerOfTwo;
+exports.closeTo = functionObject_closeTo;
+exports.sign = functionObject_sign;
+exports.triangleArea = functionObject_triangleArea;
+exports.barycentricInterpolation = functionObject_barycentricInterpolation;
+exports.smoothstep = functionObject_smoothstep;
+exports.randomSeed = functionObject_randomSeed;
+exports.fastRandom = functionObject_fastRandom;

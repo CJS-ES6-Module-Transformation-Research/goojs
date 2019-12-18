@@ -1,7 +1,7 @@
-import { Box } from "../../../src/goo/shapes/Box";
+var _Box = require('../../../src/goo/shapes/Box');
 
 describe('Box', function () {
-	var a = new Box();
+	var a = new _Box.Box();
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(24);

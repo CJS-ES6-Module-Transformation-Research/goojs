@@ -1,4 +1,10 @@
-import { Capabilities } from "../../renderer/Capabilities";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.flipDXT = exports.getComponents = exports.getIntFromBytes = exports.getIntFromString = exports.isSet = exports.shiftCount = undefined;
+
+var _Capabilities = require("../../renderer/Capabilities");
+
 var functionObject_flipUInt24;
 var functionObject_ThreeBitMask;
 var functionObject_getBytesFromUInt24;
@@ -13,11 +19,11 @@ var functionObject_isSupported;
 
 function DdsUtils() {}
 
-functionObject_isSupported = function() {
-    return !!Capabilities.CompressedTextureS3TC;
+functionObject_isSupported = function functionObject_isSupported() {
+    return !!_Capabilities.Capabilities.CompressedTextureS3TC;
 };
 
-functionObject_shiftCount = function(mask) {
+exports.shiftCount = functionObject_shiftCount = function functionObject_shiftCount(mask) {
     if (mask === 0) {
         return 0;
     }
@@ -34,11 +40,11 @@ functionObject_shiftCount = function(mask) {
     return i;
 };
 
-functionObject_isSet = function(value, bitMask) {
+exports.isSet = functionObject_isSet = function functionObject_isSet(value, bitMask) {
     return (value & bitMask) === bitMask;
 };
 
-functionObject_getIntFromString = function(string) {
+exports.getIntFromString = functionObject_getIntFromString = function functionObject_getIntFromString(string) {
     var bytes = [];
     for (var i = 0; i < string.length; i++) {
         bytes[i] = string.charCodeAt(i);
@@ -46,7 +52,7 @@ functionObject_getIntFromString = function(string) {
     return functionObject_getIntFromBytes(bytes);
 };
 
-functionObject_getIntFromBytes = function(bytes) {
+exports.getIntFromBytes = functionObject_getIntFromBytes = function functionObject_getIntFromBytes(bytes) {
     var rVal = 0;
     rVal |= (bytes[0] & 0xff) << 0;
     if (bytes.length > 1) {
@@ -61,31 +67,31 @@ functionObject_getIntFromBytes = function(bytes) {
     return rVal;
 };
 
-functionObject_getComponents = function(format) {
+exports.getComponents = functionObject_getComponents = function functionObject_getComponents(format) {
     switch (format) {
-    case "Alpha":
-        return 1;
-    case "RGB":
-        return 3;
-    case "RGBA":
-        return 4;
-    case "Luminance":
-        return 1;
-    case "LuminanceAlpha":
-        return 2;
-    case "PrecompressedDXT1":
-        return 1;
-    case "PrecompressedDXT1A":
-        return 1;
-    case "PrecompressedDXT3":
-        return 2;
-    case "PrecompressedDXT5":
-        return 2;
+        case "Alpha":
+            return 1;
+        case "RGB":
+            return 3;
+        case "RGBA":
+            return 4;
+        case "Luminance":
+            return 1;
+        case "LuminanceAlpha":
+            return 2;
+        case "PrecompressedDXT1":
+            return 1;
+        case "PrecompressedDXT1A":
+            return 1;
+        case "PrecompressedDXT3":
+            return 2;
+        case "PrecompressedDXT5":
+            return 2;
     }
     return 0;
 };
 
-functionObject_flipDXT = function(rawData, width, height, format) {
+exports.flipDXT = functionObject_flipDXT = function functionObject_flipDXT(rawData, width, height, format) {
     var returnData = new Uint8Array(rawData.length);
 
     var blocksPerColumn = width + 3 >> 2;
@@ -98,87 +104,79 @@ functionObject_flipDXT = function(rawData, width, height, format) {
             var target = (targetRow * blocksPerColumn + column) * bytesPerBlock;
             var source = (sourceRow * blocksPerColumn + column) * bytesPerBlock;
             switch (format) {
-            case "PrecompressedDXT1":
-            case "PrecompressedDXT1A":
-                // case PrecompressedLATC_L:
-                returnData[target + 0] = rawData[source + 0];
-                returnData[target + 1] = rawData[source + 1];
-                returnData[target + 2] = rawData[source + 2];
-                returnData[target + 3] = rawData[source + 3];
-                returnData[target + 4] = rawData[source + 7];
-                returnData[target + 5] = rawData[source + 6];
-                returnData[target + 6] = rawData[source + 5];
-                returnData[target + 7] = rawData[source + 4];
-                break;
-            case "PrecompressedDXT3":
-                // Alpha
-                returnData[target + 0] = rawData[source + 6];
-                returnData[target + 1] = rawData[source + 7];
-                returnData[target + 2] = rawData[source + 4];
-                returnData[target + 3] = rawData[source + 5];
-                returnData[target + 4] = rawData[source + 2];
-                returnData[target + 5] = rawData[source + 3];
-                returnData[target + 6] = rawData[source + 0];
-                returnData[target + 7] = rawData[source + 1];
-                // Color
-                returnData[target + 8] = rawData[source + 8];
-                returnData[target + 9] = rawData[source + 9];
-                returnData[target + 10] = rawData[source + 10];
-                returnData[target + 11] = rawData[source + 11];
-                returnData[target + 12] = rawData[source + 15];
-                returnData[target + 13] = rawData[source + 14];
-                returnData[target + 14] = rawData[source + 13];
-                returnData[target + 15] = rawData[source + 12];
-                break;
-            // case PrecompressedLATC_LA:
-            // // alpha
-            // System.arraycopy(rawData, source, returnData, target, 4);
-            // returnData[target + 4] = rawData[source + 7];
-            // returnData[target + 5] = rawData[source + 6];
-            // returnData[target + 6] = rawData[source + 5];
-            // returnData[target + 7] = rawData[source + 4];
-            //
-            // // Color
-            // System.arraycopy(rawData, source + 8, returnData, target + 8, 4);
-            // returnData[target + 12] = rawData[source + 15];
-            // returnData[target + 13] = rawData[source + 14];
-            // returnData[target + 14] = rawData[source + 13];
-            // returnData[target + 15] = rawData[source + 12];
-            // break;
-            case "PrecompressedDXT5":
-                // Alpha, the first 2 bytes remain
-                returnData[target + 0] = rawData[source + 0];
-                returnData[target + 1] = rawData[source + 1];
+                case "PrecompressedDXT1":
+                case "PrecompressedDXT1A":
+                    // case PrecompressedLATC_L:
+                    returnData[target + 0] = rawData[source + 0];
+                    returnData[target + 1] = rawData[source + 1];
+                    returnData[target + 2] = rawData[source + 2];
+                    returnData[target + 3] = rawData[source + 3];
+                    returnData[target + 4] = rawData[source + 7];
+                    returnData[target + 5] = rawData[source + 6];
+                    returnData[target + 6] = rawData[source + 5];
+                    returnData[target + 7] = rawData[source + 4];
+                    break;
+                case "PrecompressedDXT3":
+                    // Alpha
+                    returnData[target + 0] = rawData[source + 6];
+                    returnData[target + 1] = rawData[source + 7];
+                    returnData[target + 2] = rawData[source + 4];
+                    returnData[target + 3] = rawData[source + 5];
+                    returnData[target + 4] = rawData[source + 2];
+                    returnData[target + 5] = rawData[source + 3];
+                    returnData[target + 6] = rawData[source + 0];
+                    returnData[target + 7] = rawData[source + 1];
+                    // Color
+                    returnData[target + 8] = rawData[source + 8];
+                    returnData[target + 9] = rawData[source + 9];
+                    returnData[target + 10] = rawData[source + 10];
+                    returnData[target + 11] = rawData[source + 11];
+                    returnData[target + 12] = rawData[source + 15];
+                    returnData[target + 13] = rawData[source + 14];
+                    returnData[target + 14] = rawData[source + 13];
+                    returnData[target + 15] = rawData[source + 12];
+                    break;
+                // case PrecompressedLATC_LA:
+                // // alpha
+                // System.arraycopy(rawData, source, returnData, target, 4);
+                // returnData[target + 4] = rawData[source + 7];
+                // returnData[target + 5] = rawData[source + 6];
+                // returnData[target + 6] = rawData[source + 5];
+                // returnData[target + 7] = rawData[source + 4];
+                //
+                // // Color
+                // System.arraycopy(rawData, source + 8, returnData, target + 8, 4);
+                // returnData[target + 12] = rawData[source + 15];
+                // returnData[target + 13] = rawData[source + 14];
+                // returnData[target + 14] = rawData[source + 13];
+                // returnData[target + 15] = rawData[source + 12];
+                // break;
+                case "PrecompressedDXT5":
+                    // Alpha, the first 2 bytes remain
+                    returnData[target + 0] = rawData[source + 0];
+                    returnData[target + 1] = rawData[source + 1];
 
-                // extract 3 bits each and flip them
-                functionObject_getBytesFromUInt24(
-                    returnData,
-                    target + 5,
-                    functionObject_flipUInt24(functionObject_getUInt24(rawData, source + 2))
-                );
-                functionObject_getBytesFromUInt24(
-                    returnData,
-                    target + 2,
-                    functionObject_flipUInt24(functionObject_getUInt24(rawData, source + 5))
-                );
+                    // extract 3 bits each and flip them
+                    functionObject_getBytesFromUInt24(returnData, target + 5, functionObject_flipUInt24(functionObject_getUInt24(rawData, source + 2)));
+                    functionObject_getBytesFromUInt24(returnData, target + 2, functionObject_flipUInt24(functionObject_getUInt24(rawData, source + 5)));
 
-                // Color
-                returnData[target + 8] = rawData[source + 8];
-                returnData[target + 9] = rawData[source + 9];
-                returnData[target + 10] = rawData[source + 10];
-                returnData[target + 11] = rawData[source + 11];
-                returnData[target + 12] = rawData[source + 15];
-                returnData[target + 13] = rawData[source + 14];
-                returnData[target + 14] = rawData[source + 13];
-                returnData[target + 15] = rawData[source + 12];
-                break;
+                    // Color
+                    returnData[target + 8] = rawData[source + 8];
+                    returnData[target + 9] = rawData[source + 9];
+                    returnData[target + 10] = rawData[source + 10];
+                    returnData[target + 11] = rawData[source + 11];
+                    returnData[target + 12] = rawData[source + 15];
+                    returnData[target + 13] = rawData[source + 14];
+                    returnData[target + 14] = rawData[source + 13];
+                    returnData[target + 15] = rawData[source + 12];
+                    break;
             }
         }
     }
     return returnData;
 };
 
-functionObject_getUInt24 = function(input, offset) {
+functionObject_getUInt24 = function functionObject_getUInt24(input, offset) {
     var result = 0;
     result |= (input[offset + 0] & 0xff) << 0;
     result |= (input[offset + 1] & 0xff) << 8;
@@ -186,7 +184,7 @@ functionObject_getUInt24 = function(input, offset) {
     return result;
 };
 
-functionObject_getBytesFromUInt24 = function(input, offset, uint24) {
+functionObject_getBytesFromUInt24 = function functionObject_getBytesFromUInt24(input, offset, uint24) {
     input[offset + 0] = uint24 & 0x000000ff;
     input[offset + 1] = (uint24 & 0x0000ff00) >> 8;
     input[offset + 2] = (uint24 & 0x00ff0000) >> 16;
@@ -194,7 +192,7 @@ functionObject_getBytesFromUInt24 = function(input, offset, uint24) {
 
 functionObject_ThreeBitMask = 0x7;
 
-functionObject_flipUInt24 = function(uint24) {
+functionObject_flipUInt24 = function functionObject_flipUInt24(uint24) {
     var threeBits = [];
     for (var i = 0; i < 2; i++) {
         threeBits.push([0, 0, 0, 0]);
@@ -230,4 +228,9 @@ functionObject_flipUInt24 = function(uint24) {
     return result;
 };
 
-export { functionObject_shiftCount as shiftCount, functionObject_isSet as isSet, functionObject_getIntFromString as getIntFromString, functionObject_getIntFromBytes as getIntFromBytes, functionObject_getComponents as getComponents, functionObject_flipDXT as flipDXT };
+exports.shiftCount = functionObject_shiftCount;
+exports.isSet = functionObject_isSet;
+exports.getIntFromString = functionObject_getIntFromString;
+exports.getIntFromBytes = functionObject_getIntFromBytes;
+exports.getComponents = functionObject_getComponents;
+exports.flipDXT = functionObject_flipDXT;

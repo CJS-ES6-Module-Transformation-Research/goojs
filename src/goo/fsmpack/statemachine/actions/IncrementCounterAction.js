@@ -1,11 +1,17 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.IncrementCounterAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
 var exported_IncrementCounterAction = IncrementCounterAction;
 
-function IncrementCounterAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function IncrementCounterAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-IncrementCounterAction.prototype = Object.create(Action.prototype);
+IncrementCounterAction.prototype = Object.create(_Action.Action.prototype);
 IncrementCounterAction.prototype.constructor = IncrementCounterAction;
 
 IncrementCounterAction.external = {
@@ -63,4 +69,4 @@ IncrementCounterAction.prototype.cleanup = function (fsm) {
 	fsm.getFsm().removeVariable(this.name);
 };
 
-export { exported_IncrementCounterAction as IncrementCounterAction };
+exports.IncrementCounterAction = exported_IncrementCounterAction;

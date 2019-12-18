@@ -1,13 +1,35 @@
-import { System } from "../../entities/systems/System";
-import * as SystemBus from "../../entities/SystemBus";
-import { Renderer } from "../../renderer/Renderer";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _Renderer = require("../../renderer/Renderer");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_CameraSystem = CameraSystem;
 function CameraSystem() {
-	System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
+	_System.System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
 	this.mainCamera = null; //! AT: what's up with this? is it unused?
 }
 
-CameraSystem.prototype = Object.create(System.prototype);
+CameraSystem.prototype = Object.create(_System.System.prototype);
 CameraSystem.prototype.constructor = CameraSystem;
 
 /**
@@ -25,7 +47,7 @@ CameraSystem.prototype.findMainCamera = function () {
 };
 
 CameraSystem.prototype.inserted = function (entity) {
-	if (!Renderer.mainCamera) {
+	if (!_Renderer.Renderer.mainCamera) {
 		SystemBus.emit('goo.setCurrentCamera', {
 			camera: entity.cameraComponent.camera,
 			entity: entity
@@ -56,4 +78,4 @@ CameraSystem.prototype.onPreRender = function () {
  * Updates cameras/cameracomponents with their transform component transforms
  * @extends System
  */
-export { exported_CameraSystem as CameraSystem };
+exports.CameraSystem = exported_CameraSystem;

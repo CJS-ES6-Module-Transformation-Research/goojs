@@ -1,15 +1,37 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { AnimationComponent } from "../../animationpack/components/AnimationComponent";
-import * as RSVP from "../../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _AnimationComponent = require("../../animationpack/components/AnimationComponent");
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_AnimationComponentHandler = AnimationComponentHandler;
 function AnimationComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'AnimationComponent';
 }
 
-AnimationComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+AnimationComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 AnimationComponentHandler.prototype.constructor = AnimationComponentHandler;
-ComponentHandler._registerClass('animation', AnimationComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('animation', AnimationComponentHandler);
 
 /**
  * Create animation component.
@@ -17,7 +39,7 @@ ComponentHandler._registerClass('animation', AnimationComponentHandler);
  * @private
  */
 AnimationComponentHandler.prototype._create = function () {
-	return new AnimationComponent();
+	return new _AnimationComponent.AnimationComponent();
 };
 
 /**
@@ -30,8 +52,10 @@ AnimationComponentHandler.prototype._create = function () {
 AnimationComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var promises = [];
 		var p;
@@ -66,4 +90,4 @@ AnimationComponentHandler.prototype.update = function (entity, config, options) 
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_AnimationComponentHandler as AnimationComponentHandler };
+exports.AnimationComponentHandler = exported_AnimationComponentHandler;

@@ -1,7 +1,32 @@
-import { MeshData } from "../renderer/MeshData";
-import { Vector3 } from "../math/Vector3";
-import * as MathUtils from "../math/MathUtils";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Torus = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Vector = require("../math/Vector3");
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Torus = Torus;
 function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
@@ -17,20 +42,20 @@ function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	this.centerRadius = centerRadius !== undefined ? centerRadius : 2;
 
 	/** Inward-facing normals.
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.viewInside = false;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
 	var vertices = (this.circleSamples + 1) * (this.radialSamples + 1);
 	var indices = 6 * this.circleSamples * this.radialSamples;
-	MeshData.call(this, attributeMap, vertices, indices);
+	_MeshData.MeshData.call(this, attributeMap, vertices, indices);
 
 	this.rebuild();
 }
 
-Torus.prototype = Object.create(MeshData.prototype);
+Torus.prototype = Object.create(_MeshData.MeshData.prototype);
 Torus.prototype.constructor = Torus;
 
 /**
@@ -38,9 +63,9 @@ Torus.prototype.constructor = Torus;
  * @returns {Torus} Self for chaining.
  */
 Torus.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshData.POSITION);
-	var norms = this.getAttributeBuffer(MeshData.NORMAL);
-	var texs = this.getAttributeBuffer(MeshData.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(_MeshData.MeshData.POSITION);
+	var norms = this.getAttributeBuffer(_MeshData.MeshData.NORMAL);
+	var texs = this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	// generate geometry
@@ -48,7 +73,9 @@ Torus.prototype.rebuild = function () {
 	var inverseRadialSamples = 1.0 / this.radialSamples;
 	var i = 0;
 	// generate the cylinder itself
-	var radialAxis = new Vector3(), torusMiddle = new Vector3(), tempNormal = new Vector3();
+	var radialAxis = new _Vector.Vector3(),
+	    torusMiddle = new _Vector.Vector3(),
+	    tempNormal = new _Vector.Vector3();
 	for (var circleCount = 0; circleCount < this.circleSamples; circleCount++) {
 		// compute center point on torus circle at specified angle
 		var circleFraction = circleCount * inverseCircleSamples;
@@ -158,8 +185,7 @@ function copyInternal2(buf, from, to) {
  * @returns {Torus}
  */
 Torus.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this,
-		['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
+	var options = ObjectUtils.shallowSelectiveClone(this, ['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
 
 	return new Torus(options);
 };
@@ -172,4 +198,4 @@ Torus.prototype.clone = function () {
  * @param {number} [tubeRadius=1] Radius of tube.
  * @param {number} [centerRadius=2] Radius from center.
  */
-export { exported_Torus as Torus };
+exports.Torus = exported_Torus;

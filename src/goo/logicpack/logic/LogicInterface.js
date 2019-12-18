@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var exported_LogicInterface = LogicInterface;
 function LogicInterface(name) {
 	this.ports = [];
@@ -17,7 +20,7 @@ LogicInterface.prototype.addInputProperty = function (name_, valueType, defaultV
 		input: true,
 		property: true,
 		event: false,
-		name: (this.dn_pfx + name_),
+		name: this.dn_pfx + name_,
 		type: valueType,
 		def: defaultValue
 	});
@@ -30,7 +33,7 @@ LogicInterface.prototype.addOutputProperty = function (name_, valueType) {
 		input: false,
 		property: true,
 		event: false,
-		name: (this.dn_pfx + name_),
+		name: this.dn_pfx + name_,
 		type: valueType
 	});
 	return LogicInterface._portID;
@@ -42,7 +45,7 @@ LogicInterface.prototype.addInputEvent = function (name_) {
 		input: true,
 		property: false,
 		event: true,
-		name: (this.dn_pfx + name_)
+		name: this.dn_pfx + name_
 	});
 	return LogicInterface._portID;
 };
@@ -53,7 +56,7 @@ LogicInterface.prototype.addOutputEvent = function (name_) {
 		input: false,
 		property: false,
 		event: true,
-		name: (this.dn_pfx + name_)
+		name: this.dn_pfx + name_
 	});
 	return LogicInterface._portID;
 };
@@ -122,7 +125,7 @@ LogicInterface.makePortDataName = function (port) {
 
 		// tag dynamic ports with $ at the start so they can be routed
 		// properly.
-		var dyn = (port.dynamic === true) ? '$' : '';
+		var dyn = port.dynamic === true ? '$' : '';
 		return dyn + prefix + port.name;
 	}
 };
@@ -141,4 +144,4 @@ LogicInterface._portID = 0;
  * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that
  *        implements logic.
  */
-export { exported_LogicInterface as LogicInterface };
+exports.LogicInterface = exported_LogicInterface;

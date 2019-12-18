@@ -1,31 +1,54 @@
-import { LogicLayer } from "./LogicLayer";
-import { LogicNode } from "./LogicNode";
-import * as LogicNodes from "./LogicNodes";
-import { LogicInterface } from "./LogicInterface";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeInput = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var LogicNodes = _interopRequireWildcard(_LogicNodes);
+
+var _LogicInterface = require("./LogicInterface");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_LogicNodeInput = LogicNodeInput;
 function LogicNodeInput() {
-	LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeInput.logicInterface;
 	this.type = 'LogicNodeInput';
 	this.dummyInport = null;
 }
 
-LogicNodeInput.prototype = Object.create(LogicNode.prototype);
+LogicNodeInput.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeInput.editorName = 'Input';
 
 // Configure new input.
 LogicNodeInput.prototype.onConfigure = function (newConfig) {
-	this.dummyInport = LogicInterface.createDynamicInput(newConfig.Name);
+	this.dummyInport = _LogicInterface.LogicInterface.createDynamicInput(newConfig.Name);
 };
 
 LogicNodeInput.prototype.onInputChanged = function (instDesc, portID, value) {
 	// this will be the dummy inport getting values written.
-	LogicLayer.writeValue(this.logicInstance, LogicNodeInput.outportInput, value);
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeInput.outportInput, value);
 };
 
 LogicNodes.registerType('LogicNodeInput', LogicNodeInput);
 
-LogicNodeInput.logicInterface = new LogicInterface();
+LogicNodeInput.logicInterface = new _LogicInterface.LogicInterface();
 
 // TODO: This should be a both, not property/event.
 LogicNodeInput.outportInput = LogicNodeInput.logicInterface.addOutputProperty('Input', 'any');
@@ -40,4 +63,4 @@ LogicNodeInput.logicInterface.addConfigEntry({
  * Logic node to be used as Layer input.
  * @private
  */
-export { exported_LogicNodeInput as LogicNodeInput };
+exports.LogicNodeInput = exported_LogicNodeInput;

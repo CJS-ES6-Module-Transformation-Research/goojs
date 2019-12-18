@@ -1,15 +1,37 @@
-import * as MathUtils from "../../math/MathUtils";
-import { TransformData } from "../../animationpack/clip/TransformData";
-import { Source } from "../../animationpack/blendtree/Source";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BinaryLerpSource = undefined;
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _TransformData = require("../../animationpack/clip/TransformData");
+
+var _Source = require("../../animationpack/blendtree/Source");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_BinaryLerpSource = BinaryLerpSource;
 function BinaryLerpSource(sourceA, sourceB, blendWeight) {
-	Source.call(this);
+	_Source.Source.call(this);
 	this._sourceA = sourceA ? sourceA : null;
 	this._sourceB = sourceB ? sourceB : null;
 	this.blendWeight = blendWeight ? blendWeight : null;
 }
 
-BinaryLerpSource.prototype = Object.create(Source.prototype);
+BinaryLerpSource.prototype = Object.create(_Source.Source.prototype);
 BinaryLerpSource.prototype.constructor = BinaryLerpSource;
 
 /*
@@ -110,7 +132,7 @@ BinaryLerpSource.combineSourceData = function (sourceAData, sourceBData, blendWe
 		if (!isNaN(dataA)) {
 			BinaryLerpSource.blendFloatValues(rVal, key, blendWeight, dataA, dataB);
 			continue;
-		} else if (!(dataA instanceof TransformData)) {
+		} else if (!(dataA instanceof _TransformData.TransformData)) {
 			// A will always override if not null.
 			rVal[key] = dataA;
 			continue;
@@ -127,7 +149,7 @@ BinaryLerpSource.combineSourceData = function (sourceAData, sourceBData, blendWe
 			}
 		}
 	}
-	for ( var key in sourceBData) {
+	for (var key in sourceBData) {
 		if (rVal[key]) {
 			continue;
 		}
@@ -154,11 +176,7 @@ BinaryLerpSource.blendFloatValues = function (rVal, key, blendWeight, dataA, dat
 };
 
 BinaryLerpSource.prototype.clone = function () {
-	return new BinaryLerpSource (
-		this._sourceA,
-		this._sourceB,
-		this._blendWeight
-	);
+	return new BinaryLerpSource(this._sourceA, this._sourceB, this._blendWeight);
 };
 
 /**
@@ -168,4 +186,4 @@ BinaryLerpSource.prototype.clone = function () {
  * @param {number} blendKey A key into the related AnimationManager's values store for pulling blend weighting.
  * @extends Source
  */
-export { exported_BinaryLerpSource as BinaryLerpSource };
+exports.BinaryLerpSource = exported_BinaryLerpSource;

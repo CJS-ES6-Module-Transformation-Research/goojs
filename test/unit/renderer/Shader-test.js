@@ -1,21 +1,47 @@
-import { DirectionalLight } from "../../../src/goo/renderer/light/DirectionalLight";
-import { Texture } from "../../../src/goo/renderer/Texture";
-import { Camera } from "../../../src/goo/renderer/Camera";
-import { Box } from "../../../src/goo/shapes/Box";
-import { Material } from "../../../src/goo/renderer/Material";
-import { MeshData } from "../../../src/goo/renderer/MeshData";
-import { Shader } from "../../../src/goo/renderer/Shader";
-import * as ShaderLib from "../../../src/goo/renderer/shaders/ShaderLib";
-import { ShaderCall } from "../../../src/goo/renderer/ShaderCall";
-import { RendererRecord } from "../../../src/goo/renderer/RendererRecord";
-import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
+var _DirectionalLight = require("../../../src/goo/renderer/light/DirectionalLight");
+
+var _Texture = require("../../../src/goo/renderer/Texture");
+
+var _Camera = require("../../../src/goo/renderer/Camera");
+
+var _Box = require("../../../src/goo/shapes/Box");
+
+var _Material = require("../../../src/goo/renderer/Material");
+
+var _MeshData = require("../../../src/goo/renderer/MeshData");
+
+var _Shader = require("../../../src/goo/renderer/Shader");
+
+var _ShaderLib = require("../../../src/goo/renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _ShaderCall = require("../../../src/goo/renderer/ShaderCall");
+
+var _RendererRecord = require("../../../src/goo/renderer/RendererRecord");
+
+var _ObjectUtils = require("../../../src/goo/util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 (function () {
 	describe('Shader', function () {
 		describe('DefineKey', function () {
 			var shader;
 			beforeEach(function () {
-				shader = new Shader('TestName', ObjectUtils.clone(ShaderLib.simple));
+				shader = new _Shader.Shader('TestName', ObjectUtils.clone(ShaderLib.simple));
 			});
 
 			it('can generate define key when no defines', function () {
@@ -84,15 +110,15 @@ import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 				context = createContext();
 			});
 
-			var testSingleCall = function (shaderCall, method, value) {
+			var testSingleCall = function testSingleCall(shaderCall, method, value) {
 				shaderCall.call(value);
 				expect(method).toHaveBeenCalled();
 				var args = method.calls.mostRecent().args;
 				expect(args[args.length - 1]).toEqual(value);
 			};
 
-			var testShaderCall = function (context, method, type, value1, value2) {
-				var shaderCall = new ShaderCall(context, {}, type);
+			var testShaderCall = function testShaderCall(context, method, type, value1, value2) {
+				var shaderCall = new _ShaderCall.ShaderCall(context, {}, type);
 				spyOn(context, method);
 
 				// check that methods are correctly called for value1
@@ -125,43 +151,34 @@ import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 				testShaderCall(context, 'uniform3fv', 'vec3', [1.2, 2.3, 3.4], [3.4, 4.5, 5.6]);
 				testShaderCall(context, 'uniform4fv', 'vec4', [1.2, 2.3, 3.4, 4.5], [3.4, 4.5, 5.6, 6.7]);
 
-				testShaderCall(context, 'uniformMatrix2fv', 'mat2',
-					[1.2, 2.3, 3.4, 4.5],
-					[3.4, 4.5, 5.6, 6.7]
-				);
-				testShaderCall(context, 'uniformMatrix3fv', 'mat3',
-					[1, 2, 3, 4, 5, 6, 7, 8, 9],
-					[1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1]
-				);
-				testShaderCall(context, 'uniformMatrix4fv', 'mat4',
-					[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
-					[1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1, 10.1, 11.1, 12.1, 13.1, 14.1, 15.1, 16.1]
-				);
+				testShaderCall(context, 'uniformMatrix2fv', 'mat2', [1.2, 2.3, 3.4, 4.5], [3.4, 4.5, 5.6, 6.7]);
+				testShaderCall(context, 'uniformMatrix3fv', 'mat3', [1, 2, 3, 4, 5, 6, 7, 8, 9], [1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1]);
+				testShaderCall(context, 'uniformMatrix4fv', 'mat4', [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16], [1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1, 9.1, 10.1, 11.1, 12.1, 13.1, 14.1, 15.1, 16.1]);
 			});
 		});
 		describe('Build and compile shader', function () {
-			var createRenderer = function () {
+			var createRenderer = function createRenderer() {
 				return {
 					context: createContext(),
-					bindVertexAttribute: function () {},
-					rendererRecord: new RendererRecord()
+					bindVertexAttribute: function bindVertexAttribute() {},
+					rendererRecord: new _RendererRecord.RendererRecord()
 				};
 			};
 
-			var createShaderInfo = function (shaderDefinition) {
-				var material = new Material('test', shaderDefinition);
-				material.setTexture(Shader.DIFFUSE_MAP, new Texture());
+			var createShaderInfo = function createShaderInfo(shaderDefinition) {
+				var material = new _Material.Material('test', shaderDefinition);
+				material.setTexture(_Shader.Shader.DIFFUSE_MAP, new _Texture.Texture());
 				var renderer = createRenderer(shaderDefinition);
 				return {
-					meshData: new Box(),
+					meshData: new _Box.Box(),
 					material: material,
-					lights: [new DirectionalLight()],
-					camera: new Camera(),
+					lights: [new _DirectionalLight.DirectionalLight()],
+					camera: new _Camera.Camera(),
 					renderer: renderer
 				};
 			};
 
-			var updateShader = function (shaderInfo) {
+			var updateShader = function updateShader(shaderInfo) {
 				var shader = shaderInfo.material.shader;
 				shader.updateProcessors(shaderInfo);
 				if (shader.builder) {
@@ -212,14 +229,13 @@ import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 				// check that the ShaderCalls have been executed
 				expect(shaderInfo.renderer.context.uniform1i.calls.count()).toEqual(0);
 				expect(shaderInfo.renderer.context.uniform1f.calls.count()).toEqual(1);
-				expect(shaderInfo.renderer.context.uniform1f).toHaveBeenCalledWith({value:1}, 1);
+				expect(shaderInfo.renderer.context.uniform1f).toHaveBeenCalledWith({ value: 1 }, 1);
 				expect(shaderInfo.renderer.context.uniformMatrix4fv.calls.count()).toEqual(4);
 			});
 
 			it('has applied the correct mappings to complex shader (uber)', function () {
 				var shaderDefinition = ShaderLib.uber;
 				var shaderInfo = createShaderInfo(shaderDefinition);
-
 
 				spyOn(shaderInfo.renderer.context, 'uniform1i').and.callThrough();
 				spyOn(shaderInfo.renderer.context, 'uniform1f').and.callThrough();
@@ -263,7 +279,7 @@ import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 
 			it('can parse a uniform declaration', function () {
 				var source = 'uniform vec3 foo;';
-				Shader.investigateShader(source, target);
+				_Shader.Shader.investigateShader(source, target);
 				expect(target.uniformMapping).toEqual({
 					foo: {
 						format: 'vec3'
@@ -273,7 +289,7 @@ import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 
 			it('can parse an attribute declaration', function () {
 				var source = 'attribute float foo;';
-				Shader.investigateShader(source, target);
+				_Shader.Shader.investigateShader(source, target);
 				expect(target.attributeMapping).toEqual({
 					foo: {
 						format: 'float'
@@ -283,96 +299,94 @@ import * as ObjectUtils from "../../../src/goo/util/ObjectUtils";
 
 			it('can parse a texture sampler', function () {
 				var source = 'uniform sampler2D tex;';
-				Shader.investigateShader(source, target);
+				_Shader.Shader.investigateShader(source, target);
 				expect(target.uniformMapping).toEqual({
 					tex: {
 						format: 'sampler2D'
 					}
 				});
-				expect(target.textureSlots).toEqual([
-					{
-						format: 'sampler2D',
-						name: 'tex',
-						mapping : undefined,
-						index : 0
-					}
-				]);
+				expect(target.textureSlots).toEqual([{
+					format: 'sampler2D',
+					name: 'tex',
+					mapping: undefined,
+					index: 0
+				}]);
 			});
 		});
 	});
 
 	function createContext() {
 		return {
-			createShader: function (/*type*/) { return {}; },
-			shaderSource: function (/*shader, source*/) {},
-			compileShader: function (/*shader*/) {},
-			getShaderParameter: function (/*shader, parameter*/) { return true; },
-			getProgramParameter: function (/*shader, parameter*/) { return true; },
-			getShaderInfoLog: function (/*shader*/) { return ''; },
-			getProgramInfoLog: function (/*shader*/) { return ''; },
-			createProgram: function (/*shader*/) { return {}; },
-			getError: function () { return 0; },
-			attachShader: function (/*program, source*/) {},
-			linkProgram: function (/*program*/) {},
-			useProgram: function (/*program*/) {},
+			createShader: function createShader() /*type*/{
+				return {};
+			},
+			shaderSource: function shaderSource() /*shader, source*/{},
+			compileShader: function compileShader() /*shader*/{},
+			getShaderParameter: function getShaderParameter() /*shader, parameter*/{
+				return true;
+			},
+			getProgramParameter: function getProgramParameter() /*shader, parameter*/{
+				return true;
+			},
+			getShaderInfoLog: function getShaderInfoLog() /*shader*/{
+				return '';
+			},
+			getProgramInfoLog: function getProgramInfoLog() /*shader*/{
+				return '';
+			},
+			createProgram: function createProgram() /*shader*/{
+				return {};
+			},
+			getError: function getError() {
+				return 0;
+			},
+			attachShader: function attachShader() /*program, source*/{},
+			linkProgram: function linkProgram() /*program*/{},
+			useProgram: function useProgram() /*program*/{},
 
-			getAttribLocation: function (/*program, key*/) { return {}; },
-			getUniformLocation: function (/*program, key*/) { return {}; },
+			getAttribLocation: function getAttribLocation() /*program, key*/{
+				return {};
+			},
+			getUniformLocation: function getUniformLocation() /*program, key*/{
+				return {};
+			},
 
-			uniform1f: function (/*location, v0*/) {},
-			uniform1i: function (/*location, v0*/) {},
-			uniform2f: function (/*location, v0, v1*/) {},
-			uniform2i: function (/*location, v0, v1*/) {},
-			uniform3f: function (/*location, v0, v1, v2*/) {},
-			uniform3i: function (/*location, v0, v1, v2*/) {},
-			uniform4f: function (/*location, v0, v1, v2, v3*/) {},
-			uniform4i: function (/*location, v0, v1, v2, v3*/) {},
+			uniform1f: function uniform1f() /*location, v0*/{},
+			uniform1i: function uniform1i() /*location, v0*/{},
+			uniform2f: function uniform2f() /*location, v0, v1*/{},
+			uniform2i: function uniform2i() /*location, v0, v1*/{},
+			uniform3f: function uniform3f() /*location, v0, v1, v2*/{},
+			uniform3i: function uniform3i() /*location, v0, v1, v2*/{},
+			uniform4f: function uniform4f() /*location, v0, v1, v2, v3*/{},
+			uniform4i: function uniform4i() /*location, v0, v1, v2, v3*/{},
 
-			uniform1iv: function (/*location, values*/) {},
-			uniform2iv: function (/*location, values*/) {},
-			uniform3iv: function (/*location, values*/) {},
-			uniform4iv: function (/*location, values*/) {},
+			uniform1iv: function uniform1iv() /*location, values*/{},
+			uniform2iv: function uniform2iv() /*location, values*/{},
+			uniform3iv: function uniform3iv() /*location, values*/{},
+			uniform4iv: function uniform4iv() /*location, values*/{},
 
-			uniform1fv: function (/*location, values*/) {},
-			uniform2fv: function (/*location, values*/) {},
-			uniform3fv: function (/*location, values*/) {},
-			uniform4fv: function (/*location, values*/) {},
+			uniform1fv: function uniform1fv() /*location, values*/{},
+			uniform2fv: function uniform2fv() /*location, values*/{},
+			uniform3fv: function uniform3fv() /*location, values*/{},
+			uniform4fv: function uniform4fv() /*location, values*/{},
 
-			uniformMatrix2fv: function (/*location, transpose, data*/) {},
-			uniformMatrix3fv: function (/*location, transpose, data*/) {},
-			uniformMatrix4fv: function (/*location, transpose, data*/) {}
+			uniformMatrix2fv: function uniformMatrix2fv() /*location, transpose, data*/{},
+			uniformMatrix3fv: function uniformMatrix3fv() /*location, transpose, data*/{},
+			uniformMatrix4fv: function uniformMatrix4fv() /*location, transpose, data*/{}
 		};
 	}
 
-	function miniShaderDefinition(){
+	function miniShaderDefinition() {
 		return {
-			attributes : {
-				vertexPosition : MeshData.POSITION
+			attributes: {
+				vertexPosition: _MeshData.MeshData.POSITION
 			},
-			uniforms : {
-				viewProjectionMatrix : Shader.VIEW_PROJECTION_MATRIX,
-				worldMatrix : Shader.WORLD_MATRIX
+			uniforms: {
+				viewProjectionMatrix: _Shader.Shader.VIEW_PROJECTION_MATRIX,
+				worldMatrix: _Shader.Shader.WORLD_MATRIX
 			},
-			vshader : [
-			'attribute vec3 vertexPosition;',
-
-			'uniform mat4 viewProjectionMatrix;',
-			'uniform mat4 worldMatrix;',
-
-			'uniform float doesExist;',
-			'varying float test;',
-
-			'void main(void) {',
-				'gl_Position = viewProjectionMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-			'}'
-			].join('\n'),
-			fshader : [
-			'varying float test;',
-			'void main(void)',
-			'{',
-				'gl_FragColor = vec4(test);',
-			'}'
-			].join('\n')
+			vshader: ['attribute vec3 vertexPosition;', 'uniform mat4 viewProjectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform float doesExist;', 'varying float test;', 'void main(void) {', 'gl_Position = viewProjectionMatrix * worldMatrix * vec4(vertexPosition, 1.0);', '}'].join('\n'),
+			fshader: ['varying float test;', 'void main(void)', '{', 'gl_FragColor = vec4(test);', '}'].join('\n')
 		};
 	}
 })();

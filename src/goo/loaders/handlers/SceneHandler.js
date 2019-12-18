@@ -1,15 +1,42 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import * as SystemBus from "../../entities/SystemBus";
-import * as ObjectUtils from "../../util/ObjectUtils";
-import * as RSVP from "../../util/rsvp";
-var exported_SceneHandler = SceneHandler;
-function SceneHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SceneHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-SceneHandler.prototype = Object.create(ConfigHandler.prototype);
+var exported_SceneHandler = SceneHandler;
+function SceneHandler() {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+SceneHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 SceneHandler.prototype.constructor = SceneHandler;
-ConfigHandler._registerClass('scene', SceneHandler);
+_ConfigHandler.ConfigHandler._registerClass('scene', SceneHandler);
 
 /**
  * Removes the scene, i e removes all entities in scene from engine world
@@ -53,8 +80,10 @@ SceneHandler.prototype._create = function () {
  */
 SceneHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
-		if (!scene) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
+		if (!scene) {
+			return;
+		}
 		scene.id = ref;
 		var promises = [];
 		promises.push(that._handleEntities(config, scene, options));
@@ -96,12 +125,8 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 		return !config.entities[id];
 	});
 
-	return RSVP.all([
-		this._loadEntities(Object.keys(config.entities)),
-		this._loadEntities(removedEntityIds)
-	])
-	.then(function (result) {
-		that._addEntities(scene, result[0])
+	return RSVP.all([this._loadEntities(Object.keys(config.entities)), this._loadEntities(removedEntityIds)]).then(function (result) {
+		that._addEntities(scene, result[0]);
 		that._removeEntities(scene, result[1]);
 	});
 };
@@ -158,4 +183,4 @@ SceneHandler.prototype._handleEnvironment = function (config, scene, options) {
  * @param {Function} updateObject
  * @private
  */
-export { exported_SceneHandler as SceneHandler };
+exports.SceneHandler = exported_SceneHandler;

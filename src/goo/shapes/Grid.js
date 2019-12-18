@@ -1,5 +1,26 @@
-import { MeshData } from "../renderer/MeshData";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Grid = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Grid = Grid;
 function Grid(xSegments, ySegments, width, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
@@ -14,15 +35,15 @@ function Grid(xSegments, ySegments, width, height) {
 	this.width = width || 1;
 	this.height = height || 1;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]);
 	var vertsCount = 4 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
 	var idcsCount = 8 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
-	MeshData.call(this, attributeMap, vertsCount, idcsCount);
+	_MeshData.MeshData.call(this, attributeMap, vertsCount, idcsCount);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
 
-Grid.prototype = Object.create(MeshData.prototype);
+Grid.prototype = Object.create(_MeshData.MeshData.prototype);
 Grid.prototype.constructor = Grid;
 
 Grid.prototype.rebuild = function () {
@@ -32,29 +53,16 @@ Grid.prototype.rebuild = function () {
 	var indices = [];
 
 	// Outer lines
-	verts.push(
-		-xExtent, -yExtent, 0,
-		-xExtent, yExtent, 0,
-		xExtent, yExtent, 0,
-		xExtent, -yExtent, 0
-	);
+	verts.push(-xExtent, -yExtent, 0, -xExtent, yExtent, 0, xExtent, yExtent, 0, xExtent, -yExtent, 0);
 	// Connecting the corners
-	indices.push(
-		0, 1,
-		1, 2,
-		2, 3,
-		3, 0
-	);
+	indices.push(0, 1, 1, 2, 2, 3, 3, 0);
 
 	// X grid lines
 	var xPos;
 	var step = this.width / this.xSegments;
 	for (var i = 1; i < this.xSegments; i++) {
 		xPos = i * step - xExtent;
-		verts.push(
-			xPos, -yExtent, 0,
-			xPos, yExtent, 0
-		);
+		verts.push(xPos, -yExtent, 0, xPos, yExtent, 0);
 	}
 
 	// Y grid lines
@@ -62,15 +70,12 @@ Grid.prototype.rebuild = function () {
 	step = this.height / this.ySegments;
 	for (var i = 1; i < this.ySegments; i++) {
 		yPos = i * step - yExtent;
-		verts.push(
-			-xExtent, yPos, 0,
-			xExtent, yPos, 0
-		);
+		verts.push(-xExtent, yPos, 0, xExtent, yPos, 0);
 	}
 	for (var i = indices.length / 2; i < verts.length / 3; i += 2) {
 		indices.push(i, i + 1);
 	}
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 };
 
@@ -84,7 +89,6 @@ Grid.prototype.clone = function () {
 	return new Grid(options);
 };
 
-
 /**
  * MeshData for a Grid.
  * @extends MeshData
@@ -94,4 +98,4 @@ Grid.prototype.clone = function () {
  * @param {number} [height=1] Total height of the Grid.
  * @example var meshData = new Grid( 10, 10, 10, 10);
  */
-export { exported_Grid as Grid };
+exports.Grid = exported_Grid;

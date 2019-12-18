@@ -1,5 +1,12 @@
-import { Vector2 } from "../../math/Vector2";
-import { ObjectUtils as ObjectUtil } from "../../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderTarget = undefined;
+
+var _Vector = require("../../math/Vector2");
+
+var _ObjectUtil = require("../../util/ObjectUtil");
+
 var exported_RenderTarget = RenderTarget;
 function RenderTarget(width, height, options) {
 	this.glTexture = null;
@@ -9,7 +16,7 @@ function RenderTarget(width, height, options) {
 	this.width = Math.max(Math.floor(width), 1);
 	this.height = Math.max(Math.floor(height), 1);
 
-	ObjectUtil.copyOptions(this, options, {
+	_ObjectUtil.ObjectUtils.copyOptions(this, options, {
 		wrapS: 'EdgeClamp',
 		wrapT: 'EdgeClamp',
 		magFilter: 'Bilinear',
@@ -27,8 +34,8 @@ function RenderTarget(width, height, options) {
 
 	this.variant = '2D'; // CUBE
 
-	this.offset = new Vector2(0, 0);
-	this.repeat = new Vector2(1, 1);
+	this.offset = new _Vector.Vector2(0, 0);
+	this.repeat = new _Vector.Vector2(1, 1);
 
 	this.textureRecord = {};
 }
@@ -103,4 +110,4 @@ RenderTarget.prototype.destroy = function (context) {
  * @param {number} height Height of rendertarget
  * @param {Object} options Options
  */
-export { exported_RenderTarget as RenderTarget };
+exports.RenderTarget = exported_RenderTarget;

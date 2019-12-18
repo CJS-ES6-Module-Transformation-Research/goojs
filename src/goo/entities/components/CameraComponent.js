@@ -1,39 +1,62 @@
-import { Component } from "../../entities/components/Component";
-import { Vector3 } from "../../math/Vector3";
-import { Camera } from "../../renderer/Camera";
-import * as SystemBus from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Vector = require("../../math/Vector3");
+
+var _Camera = require("../../renderer/Camera");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_CameraComponent = CameraComponent;
 function CameraComponent(camera) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'CameraComponent';
 
 	/**
-	 * The camera contained by the component.
-	 * @type {Camera}
-	 */
+  * The camera contained by the component.
+  * @type {Camera}
+  */
 	this.camera = camera;
 
 	/**
-	 * Left vector.
-	 * @type {Vector3}
-	 * @default (-1, 0, 0)
-	 */
-	this.leftVec = new Vector3(-1, 0, 0);
+  * Left vector.
+  * @type {Vector3}
+  * @default (-1, 0, 0)
+  */
+	this.leftVec = new _Vector.Vector3(-1, 0, 0);
 
 	/**
-	 * Up vector.
-	 * @type {Vector3}
-	 * @default (0, 1, 0)
-	 */
-	this.upVec = new Vector3(0, 1, 0);
+  * Up vector.
+  * @type {Vector3}
+  * @default (0, 1, 0)
+  */
+	this.upVec = new _Vector.Vector3(0, 1, 0);
 
 	/**
-	 * Direction vector.
-	 * @type {Vector3}
-	 * @default (0, 0, -1)
-	 */
-	this.dirVec = new Vector3(0, 0, -1);
+  * Direction vector.
+  * @type {Vector3}
+  * @default (0, 0, -1)
+  */
+	this.dirVec = new _Vector.Vector3(0, 0, -1);
 
 	this._transformUpdatedListener = null;
 	this._transformDirty = true;
@@ -45,12 +68,12 @@ function CameraComponent(camera) {
 
 CameraComponent.type = 'CameraComponent';
 
-CameraComponent.prototype = Object.create(Component.prototype);
+CameraComponent.prototype = Object.create(_Component.Component.prototype);
 CameraComponent.prototype.constructor = CameraComponent;
 
 CameraComponent.prototype.api = {
 	//! AT: the component holds no reference to its entity therefore this method could never stay on the component
-	setAsMainCamera: function () {
+	setAsMainCamera: function setAsMainCamera() {
 		SystemBus.emit('goo.setCurrentCamera', {
 			camera: this.cameraComponent.camera,
 			entity: this
@@ -97,15 +120,15 @@ CameraComponent.prototype.detached = function () {
 CameraComponent.prototype.updateCamera = function (transform) {
 	this.camera._left.set(this.leftVec);
 	//! AT: let's prevent scaling or skewing from spilling in the view(projection) matrix
-//		transform.matrix.applyPostVector(this.camera._left);
+	//		transform.matrix.applyPostVector(this.camera._left);
 	this.camera._left.applyPost(transform.rotation);
 
 	this.camera._up.set(this.upVec);
-//		transform.matrix.applyPostVector(this.camera._up);
+	//		transform.matrix.applyPostVector(this.camera._up);
 	this.camera._up.applyPost(transform.rotation);
 
 	this.camera._direction.set(this.dirVec);
-//		transform.matrix.applyPostVector(this.camera._direction);
+	//		transform.matrix.applyPostVector(this.camera._direction);
 	this.camera._direction.applyPost(transform.rotation);
 
 	transform.matrix.getTranslation(this.camera.translation);
@@ -134,7 +157,7 @@ CameraComponent.prototype.clone = function () {
 };
 
 CameraComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Camera) {
+	if (obj instanceof _Camera.Camera) {
 		var cameraComponent = new CameraComponent(obj);
 		entity.setComponent(cameraComponent);
 		return true;
@@ -146,4 +169,4 @@ CameraComponent.applyOnEntity = function (obj, entity) {
  * @param {Camera} camera Camera to contain in this component.
  * @extends Component
  */
-export { exported_CameraComponent as CameraComponent };
+exports.CameraComponent = exported_CameraComponent;

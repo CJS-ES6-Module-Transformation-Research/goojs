@@ -1,20 +1,27 @@
-import { AbstractAnimationChannel } from "../../animationpack/clip/AbstractAnimationChannel";
-import { TriggerData } from "../../animationpack/clip/TriggerData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerChannel = undefined;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _TriggerData = require("../../animationpack/clip/TriggerData");
+
 var exported_TriggerChannel = TriggerChannel;
 function TriggerChannel(channelName, times, keys, blendType) {
-	AbstractAnimationChannel.call(this, channelName, times, blendType);
+	_AbstractAnimationChannel.AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._keys = keys ? keys.slice(0) : null;
 	this.guarantee = false;
 }
 
-TriggerChannel.prototype = Object.create(AbstractAnimationChannel.prototype);
+TriggerChannel.prototype = Object.create(_AbstractAnimationChannel.AbstractAnimationChannel.prototype);
 
 /**
  * Creates a data item for this type of channel
  * @returns {TriggerData}
  */
 TriggerChannel.prototype.createStateDataObject = function () {
-	return new TriggerData();
+	return new _TriggerData.TriggerData();
 };
 
 /**
@@ -38,7 +45,7 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
 			}
 			oldIndex = -1;
 		}
-		for ( var i = oldIndex + 1; i <= newIndex; i++) {
+		for (var i = oldIndex + 1; i <= newIndex; i++) {
 			triggers.push(this._keys[i]);
 		}
 		triggerData.arm(newIndex, triggers);
@@ -52,4 +59,4 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
  * @param {Array<string>} keys our key samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export { exported_TriggerChannel as TriggerChannel };
+exports.TriggerChannel = exported_TriggerChannel;

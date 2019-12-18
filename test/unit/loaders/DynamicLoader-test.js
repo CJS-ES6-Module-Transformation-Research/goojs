@@ -1,16 +1,43 @@
-import { World } from "../../../src/goo/entities/World";
-import { TransformSystem } from "../../../src/goo/entities/systems/TransformSystem";
-import { CameraSystem } from "../../../src/goo/entities/systems/CameraSystem";
-import { ParticlesSystem } from "../../../src/goo/entities/systems/ParticlesSystem";
-import { BoundingUpdateSystem } from "../../../src/goo/entities/systems/BoundingUpdateSystem";
-import { LightingSystem } from "../../../src/goo/entities/systems/LightingSystem";
-import { AnimationSystem } from "../../../src/goo/animationpack/systems/AnimationSystem";
-import { DynamicLoader } from "../../../src/goo/loaders/DynamicLoader";
-import * as AudioContext from "../../../src/goo/sound/AudioContext";
-import { SoundSystem } from "../../../src/goo/entities/systems/SoundSystem";
-import { RenderSystem } from "../../../src/goo/entities/systems/RenderSystem";
-import "../../../src/goo/loaders/handlers/EntityHandler";
-import "../../../src/goo/animationpack/handlers/AnimationHandlers";
+var _World = require("../../../src/goo/entities/World");
+
+var _TransformSystem = require("../../../src/goo/entities/systems/TransformSystem");
+
+var _CameraSystem = require("../../../src/goo/entities/systems/CameraSystem");
+
+var _ParticlesSystem = require("../../../src/goo/entities/systems/ParticlesSystem");
+
+var _BoundingUpdateSystem = require("../../../src/goo/entities/systems/BoundingUpdateSystem");
+
+var _LightingSystem = require("../../../src/goo/entities/systems/LightingSystem");
+
+var _AnimationSystem = require("../../../src/goo/animationpack/systems/AnimationSystem");
+
+var _DynamicLoader = require("../../../src/goo/loaders/DynamicLoader");
+
+var _AudioContext = require("../../../src/goo/sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _SoundSystem = require("../../../src/goo/entities/systems/SoundSystem");
+
+var _RenderSystem = require("../../../src/goo/entities/systems/RenderSystem");
+
+require("../../../src/goo/loaders/handlers/EntityHandler");
+
+require("../../../src/goo/animationpack/handlers/AnimationHandlers");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var Configs = require('../../../test/unit/loaders/Configs');
 
 describe('DynamicLoader', function () {
@@ -21,20 +48,20 @@ describe('DynamicLoader', function () {
 	var imageRef = 'ccccddddccccddddccccddddccccddddccccdddd.jpg';
 
 	beforeEach(function () {
-		var world = new World();
-		world.setSystem(new TransformSystem());
-		world.setSystem(new CameraSystem());
-		world.setSystem(new ParticlesSystem());
-		world.setSystem(new BoundingUpdateSystem());
-		world.setSystem(new LightingSystem());
-		world.setSystem(new AnimationSystem());
+		var world = new _World.World();
+		world.setSystem(new _TransformSystem.TransformSystem());
+		world.setSystem(new _CameraSystem.CameraSystem());
+		world.setSystem(new _ParticlesSystem.ParticlesSystem());
+		world.setSystem(new _BoundingUpdateSystem.BoundingUpdateSystem());
+		world.setSystem(new _LightingSystem.LightingSystem());
+		world.setSystem(new _AnimationSystem.AnimationSystem());
 		if (AudioContext) {
-			world.setSystem(new SoundSystem());
+			world.setSystem(new _SoundSystem.SoundSystem());
 		}
 
-		world.setSystem(new RenderSystem());
+		world.setSystem(new _RenderSystem.RenderSystem());
 
-		loader = new DynamicLoader({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './'
 		});
@@ -47,7 +74,7 @@ describe('DynamicLoader', function () {
 
 		loader.update(bundleRef, Configs.get());
 		// Load bundle
-		loader.load(bundleRef).then(function (/* bundle */) {
+		loader.load(bundleRef).then(function () /* bundle */{
 			var keys = Object.keys(loader._ajax._cache); // this needs to change when _cache becomes a map
 
 			expect(keys).toContain(config.id);
@@ -143,8 +170,7 @@ describe('DynamicLoader', function () {
 				bref: materialRef
 			};
 
-			expect(DynamicLoader._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 
 		it('gets individual references several levels deep', function () {
@@ -159,8 +185,7 @@ describe('DynamicLoader', function () {
 				}
 			};
 
-			expect(DynamicLoader._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 
 		it('gets packed references', function () {
@@ -171,8 +196,7 @@ describe('DynamicLoader', function () {
 				}
 			};
 
-			expect(DynamicLoader._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 
 		it('ignores thumbnailRef', function () {
@@ -182,8 +206,7 @@ describe('DynamicLoader', function () {
 				thumbnailRef: imageRef
 			};
 
-			expect(DynamicLoader._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 	});
 });

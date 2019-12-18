@@ -1,9 +1,33 @@
-import { System } from "../../entities/systems/System";
-import * as SystemBus from "../../entities/SystemBus";
-import * as StringUtils from "../../util/StringUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ProximitySystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _StringUtils = require("../../util/StringUtils");
+
+var StringUtils = _interopRequireWildcard(_StringUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_ProximitySystem = ProximitySystem;
 function ProximitySystem() {
-	System.call(this, 'ProximitySystem', ['ProximityComponent']);
+	_System.System.call(this, 'ProximitySystem', ['ProximityComponent']);
 
 	this.collections = {
 		Red: { name: 'Red', collection: [] },
@@ -13,7 +37,7 @@ function ProximitySystem() {
 	};
 }
 
-ProximitySystem.prototype = Object.create(System.prototype);
+ProximitySystem.prototype = Object.create(_System.System.prototype);
 
 ProximitySystem.prototype._collides = function (first, second) {
 	// really non-optimal
@@ -57,17 +81,17 @@ ProximitySystem.prototype.remove = function (entity, tag) {
 	collection.splice(index, 1);
 };
 
-ProximitySystem.prototype.process = function (/*entities*/) {
+ProximitySystem.prototype.process = function () /*entities*/{
 	/*
-	this._collides(this.collections.red, this.collections.blue);
-	this._collides(this.collections.red, this.collections.green);
-	this._collides(this.collections.red, this.collections.yellow);
-
-	this._collides(this.collections.blue, this.collections.green);
-	this._collides(this.collections.blue, this.collections.yellow);
-
-	this._collides(this.collections.green, this.collections.yellow);
-	*/
+ this._collides(this.collections.red, this.collections.blue);
+ this._collides(this.collections.red, this.collections.green);
+ this._collides(this.collections.red, this.collections.yellow);
+ 
+ this._collides(this.collections.blue, this.collections.green);
+ this._collides(this.collections.blue, this.collections.yellow);
+ 
+ this._collides(this.collections.green, this.collections.yellow);
+ */
 };
 
 /**
@@ -77,4 +101,4 @@ ProximitySystem.prototype.process = function (/*entities*/) {
  * @private
  * @extends System
  */
-export { exported_ProximitySystem as ProximitySystem };
+exports.ProximitySystem = exported_ProximitySystem;

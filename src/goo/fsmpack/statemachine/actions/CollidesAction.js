@@ -1,13 +1,21 @@
-import { EntitySelection } from "../../../entities/EntitySelection";
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { ProximitySystem } from "../../../fsmpack/proximity/ProximitySystem";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CollidesAction = undefined;
+
+var _EntitySelection = require("../../../entities/EntitySelection");
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _ProximitySystem = require("../../../fsmpack/proximity/ProximitySystem");
+
 var exported_CollidesAction = CollidesAction;
 
-function CollidesAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function CollidesAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-CollidesAction.prototype = Object.create(Action.prototype);
+CollidesAction.prototype = Object.create(_Action.Action.prototype);
 CollidesAction.prototype.constructor = CollidesAction;
 
 CollidesAction.external = {
@@ -37,7 +45,7 @@ var labels = {
 	notCollides: 'On bounds Separate'
 };
 
-CollidesAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+CollidesAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -45,7 +53,7 @@ CollidesAction.prototype.ready = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	var world = entity._world;
 	if (!world.getSystem('ProximitySystem')) {
-		world.setSystem(new ProximitySystem());
+		world.setSystem(new _ProximitySystem.ProximitySystem());
 	}
 };
 
@@ -54,9 +62,7 @@ CollidesAction.prototype.update = function (fsm) {
 	var world = entity._world;
 	var proximitySystem = world.getSystem('ProximitySystem');
 
-	var entities = new EntitySelection(proximitySystem.getFor(this.tag))
-		.and(world.by.tag(this.tag))
-		.toArray();
+	var entities = new _EntitySelection.EntitySelection(proximitySystem.getFor(this.tag)).and(world.by.tag(this.tag)).toArray();
 
 	var collides = false;
 
@@ -90,4 +96,4 @@ CollidesAction.prototype.update = function (fsm) {
 	fsm.send(collides ? this.transitions.collides : this.transitions.notCollides);
 };
 
-export { exported_CollidesAction as CollidesAction };
+exports.CollidesAction = exported_CollidesAction;

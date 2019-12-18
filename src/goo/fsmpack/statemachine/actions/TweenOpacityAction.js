@@ -1,14 +1,38 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as Easing from "../../../util/Easing";
-import * as MathUtils from "../../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenOpacityAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_TweenOpacityAction = TweenOpacityAction;
 
-function TweenOpacityAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TweenOpacityAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.completed = false;
 }
 
-TweenOpacityAction.prototype = Object.create(Action.prototype);
+TweenOpacityAction.prototype = Object.create(_Action.Action.prototype);
 TweenOpacityAction.prototype.constructor = TweenOpacityAction;
 
 TweenOpacityAction.external = {
@@ -53,7 +77,7 @@ TweenOpacityAction.external = {
 	}]
 };
 
-TweenOpacityAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenOpacityAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Opacity Complete' : undefined;
 };
 
@@ -103,4 +127,4 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_TweenOpacityAction as TweenOpacityAction };
+exports.TweenOpacityAction = exported_TweenOpacityAction;

@@ -1,13 +1,34 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as SystemBus from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerLeaveAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_TriggerLeaveAction = TriggerLeaveAction;
 
-function TriggerLeaveAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TriggerLeaveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerLeaveAction.prototype = Object.create(Action.prototype);
+TriggerLeaveAction.prototype = Object.create(_Action.Action.prototype);
 TriggerLeaveAction.prototype.constructor = TriggerLeaveAction;
 
 TriggerLeaveAction.external = {
@@ -23,7 +44,7 @@ TriggerLeaveAction.external = {
 	}]
 };
 
-TriggerLeaveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TriggerLeaveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'leave' ? 'On Trigger Leave' : undefined;
 };
 
@@ -40,9 +61,9 @@ TriggerLeaveAction.prototype.enter = function (fsm) {
 	SystemBus.addListener('goo.physics.triggerExit', this.listener);
 };
 
-TriggerLeaveAction.prototype.exit = function (/*fsm*/) {
+TriggerLeaveAction.prototype.exit = function () /*fsm*/{
 	SystemBus.removeListener('goo.physics.triggerExit', this.listener);
 	this.entity = null;
 };
 
-export { exported_TriggerLeaveAction as TriggerLeaveAction };
+exports.TriggerLeaveAction = exported_TriggerLeaveAction;

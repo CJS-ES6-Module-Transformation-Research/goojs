@@ -1,13 +1,20 @@
-import { Component } from "../../entities/components/Component";
-import { Vector3 } from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonBoxColliderComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Vector = require("../../math/Vector3");
+
 var exported_CannonBoxColliderComponent = CannonBoxColliderComponent;
 function CannonBoxColliderComponent(settings) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'CannonBoxColliderComponent';
 
 	settings = settings || {};
-	var e = this.halfExtents = settings.halfExtents || new Vector3(0.5, 0.5, 0.5);
+	var e = this.halfExtents = settings.halfExtents || new _Vector.Vector3(0.5, 0.5, 0.5);
 
 	// Create shape
 	this.cannonShape = new CANNON.Box(new CANNON.Vec3(e.x, e.y, e.z));
@@ -15,7 +22,7 @@ function CannonBoxColliderComponent(settings) {
 	this.isTrigger = typeof settings.isTrigger !== 'undefined' ? settings.isTrigger : false;
 }
 
-CannonBoxColliderComponent.prototype = Object.create(Component.prototype);
+CannonBoxColliderComponent.prototype = Object.create(_Component.Component.prototype);
 CannonBoxColliderComponent.constructor = CannonBoxColliderComponent;
 
 /* global CANNON */
@@ -27,4 +34,4 @@ CannonBoxColliderComponent.constructor = CannonBoxColliderComponent;
  * @param {Vector3} [settings.halfExtents] The half-extents of the box collider.
  * @extends Component
  */
-export { exported_CannonBoxColliderComponent as CannonBoxColliderComponent };
+exports.CannonBoxColliderComponent = exported_CannonBoxColliderComponent;

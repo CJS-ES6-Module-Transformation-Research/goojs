@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var functionObject_getValue;
 var functionObject_guid;
 var functionObject_keyForCode;
@@ -8,7 +11,7 @@ var functionObject_setTransitions;
 var functionObject_setParameters;
 function FsmUtils() {}
 
-functionObject_setParameters = function(settings, externalParameters) {
+exports.setParameters = functionObject_setParameters = function functionObject_setParameters(settings, externalParameters) {
     for (var i = 0; i < externalParameters.length; i++) {
         var externalParameter = externalParameters[i];
         var key = externalParameter.key;
@@ -21,7 +24,7 @@ functionObject_setParameters = function(settings, externalParameters) {
     }
 };
 
-functionObject_setTransitions = function(settings, externalTransitions) {
+exports.setTransitions = functionObject_setTransitions = function functionObject_setTransitions(settings, externalTransitions) {
     for (var i = 0; i < externalTransitions.length; i++) {
         var externalTransition = externalTransitions[i];
         var key = externalTransition.key;
@@ -31,7 +34,7 @@ functionObject_setTransitions = function(settings, externalTransitions) {
     }
 };
 
-functionObject_getKey = function(str) {
+exports.getKey = functionObject_getKey = function functionObject_getKey(str) {
     if (functionObject_keys[str]) {
         return functionObject_keys[str];
     } else {
@@ -158,36 +161,34 @@ functionObject_keys = {
 functionObject_keyInverse = [];
 
 function buildKeyInverse(assoc) {
-	var inverseAssoc = [];
+    var inverseAssoc = [];
 
-	var keys = Object.keys(assoc);
-	for (var i = 0; i < keys.length; i++) {
-		inverseAssoc[assoc[keys[i]]] = keys[i];
-	}
+    var keys = Object.keys(assoc);
+    for (var i = 0; i < keys.length; i++) {
+        inverseAssoc[assoc[keys[i]]] = keys[i];
+    }
 
-	return inverseAssoc;
+    return inverseAssoc;
 }
 
 functionObject_keyInverse = buildKeyInverse(functionObject_keys);
 
-functionObject_keyForCode = function(code) {
+functionObject_keyForCode = function functionObject_keyForCode(code) {
     if (functionObject_keyInverse[code]) {
         return functionObject_keyInverse[code];
     }
     return "FsmUtils.keyForCode: key not found for code " + code;
 };
 
-var s4 = function () {
-	return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
+var s4 = function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 };
 
-functionObject_guid = function() {
+functionObject_guid = function functionObject_guid() {
     return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
 };
 
-functionObject_getValue = function(par, fsm) {
+exports.getValue = functionObject_getValue = function functionObject_getValue(par, fsm) {
     if (typeof par === "number") {
         return par;
     } else {
@@ -195,4 +196,7 @@ functionObject_getValue = function(par, fsm) {
     }
 };
 
-export { functionObject_setParameters as setParameters, functionObject_setTransitions as setTransitions, functionObject_getKey as getKey, functionObject_getValue as getValue };
+exports.setParameters = functionObject_setParameters;
+exports.setTransitions = functionObject_setTransitions;
+exports.getKey = functionObject_getKey;
+exports.getValue = functionObject_getValue;

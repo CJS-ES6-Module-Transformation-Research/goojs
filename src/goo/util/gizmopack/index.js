@@ -1,20 +1,27 @@
-import { Gizmo } from "./Gizmo";
-import { GizmoRenderSystem } from "./GizmoRenderSystem";
-import { GlobalRotationGizmo } from "./GlobalRotationGizmo";
-import { GlobalTranslationGizmo } from "./GlobalTranslationGizmo";
-import { RotationGizmo } from "./RotationGizmo";
-import { ScaleGizmo } from "./ScaleGizmo";
-import { TranslationGizmo } from "./TranslationGizmo";
+var _Gizmo = require("./Gizmo");
+
+var _GizmoRenderSystem = require("./GizmoRenderSystem");
+
+var _GlobalRotationGizmo = require("./GlobalRotationGizmo");
+
+var _GlobalTranslationGizmo = require("./GlobalTranslationGizmo");
+
+var _RotationGizmo = require("./RotationGizmo");
+
+var _ScaleGizmo = require("./ScaleGizmo");
+
+var _TranslationGizmo = require("./TranslationGizmo");
+
 module.exports = {
-	Gizmo: Gizmo,
-	GizmoRenderSystem: GizmoRenderSystem,
-	GlobalRotationGizmo: GlobalRotationGizmo,
-	GlobalTranslationGizmo: GlobalTranslationGizmo,
-	RotationGizmo: RotationGizmo,
-	ScaleGizmo: ScaleGizmo,
-	TranslationGizmo: TranslationGizmo
+	Gizmo: _Gizmo.Gizmo,
+	GizmoRenderSystem: _GizmoRenderSystem.GizmoRenderSystem,
+	GlobalRotationGizmo: _GlobalRotationGizmo.GlobalRotationGizmo,
+	GlobalTranslationGizmo: _GlobalTranslationGizmo.GlobalTranslationGizmo,
+	RotationGizmo: _RotationGizmo.RotationGizmo,
+	ScaleGizmo: _ScaleGizmo.ScaleGizmo,
+	TranslationGizmo: _TranslationGizmo.TranslationGizmo
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

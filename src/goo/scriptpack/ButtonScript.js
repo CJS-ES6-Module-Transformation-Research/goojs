@@ -1,4 +1,19 @@
-import * as SystemBus from "../entities/SystemBus";
+var _SystemBus = require('../entities/SystemBus');
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var functionObject_externals;
 
 /**
@@ -26,8 +41,10 @@ function ButtonScript() {
 		};
 
 		env.listeners = {
-			mousedown: function (event) {
-				if (!params.whenUsed) { return; }
+			mousedown: function mousedown(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				var pressedButton = getButton(event);
 				if (pressedButton === env.button || env.button === -1) {
 					env.mouseState.down = true;
@@ -35,8 +52,10 @@ function ButtonScript() {
 					onMouseEvent(params, env, 'mousedown');
 				}
 			},
-			mouseup: function (event) {
-				if (!params.whenUsed) { return; }
+			mouseup: function mouseup(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				var pressedButton = getButton(event);
 				if (pressedButton === env.button || env.button === -1) {
 					env.mouseState.down = false;
@@ -47,8 +66,10 @@ function ButtonScript() {
 					onMouseEvent(params, env, 'mouseup');
 				}
 			},
-			dblclick: function (event) {
-				if (!params.whenUsed) { return; }
+			dblclick: function dblclick(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				var pressedButton = getButton(event);
 				if (pressedButton === env.button || env.button === -1) {
 					env.mouseState.down = false;
@@ -56,14 +77,18 @@ function ButtonScript() {
 					onMouseEvent(params, env, 'dblclick');
 				}
 			},
-			mousemove: function (event) {
-				if (!params.whenUsed || !params.enableOnMouseMove) { return; }
+			mousemove: function mousemove(event) {
+				if (!params.whenUsed || !params.enableOnMouseMove) {
+					return;
+				}
 				env.mouseState.down = false;
 				getMousePos(params, env, event);
 				onMouseEvent(params, env, 'mousemove');
 			},
-			touchstart: function (event) {
-				if (!params.whenUsed) { return; }
+			touchstart: function touchstart(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				env.mouseState.down = true;
 
 				var touches = event.targetTouches;
@@ -72,8 +97,10 @@ function ButtonScript() {
 				env.mouseState.y = touches[0].pageY - rect.top;
 				onMouseEvent(params, env, 'touchstart');
 			},
-			touchend: function (event) {
-				if (!params.whenUsed) { return; }
+			touchend: function touchend(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				event.preventDefault();
 				event.stopPropagation();
 				env.mouseState.down = false;
@@ -151,7 +178,7 @@ function ButtonScript() {
 				entity: entity
 			});
 		}
-		env.mouseState.overEntity = (entity === env.entity);
+		env.mouseState.overEntity = entity === env.entity;
 	}
 
 	return {
@@ -162,45 +189,45 @@ function ButtonScript() {
 }
 
 functionObject_externals = {
-    key: "ButtonScript",
-    name: "Button",
-    description: "Enables an entity to be interacted with using click or touch.",
+	key: "ButtonScript",
+	name: "Button",
+	description: "Enables an entity to be interacted with using click or touch.",
 
-    parameters: [{
-        key: "whenUsed",
-        type: "boolean",
-        "default": true
-    }, {
-        key: "button",
-        name: "button",
-        description: "Only interact with this mouse button.",
-        type: "string",
-        control: "select",
-        "default": "Any",
-        options: ["Any", "Left", "Middle", "Right"]
-    }, {
-        key: "linkUrl",
-        name: "linkUrl",
-        description: "URL to open when clicking the entity. Leave this field empty to disable.",
-        type: "string",
-        "default": ""
-    }, {
-        key: "linkTarget",
-        name: "linkTarget",
-        description: "The window to open the link in.",
-        type: "string",
-        "default": "_blank"
-    }, {
-        key: "channel",
-        name: "channel",
-        description: "Event channel to emit to. Will emit channel.click, .mousedown, .mouseup, .mouseover, .mouseout, .dblclick, .touchstart, .touchend",
-        type: "string",
-        "default": "button"
-    }, {
-        key: "enableOnMouseMove",
-        name: "enableOnMouseMove",
-        description: "Enables .mousemove, .mouseover, and .mouseout events. For larger scenes, this might be worth turning off, for better performance.",
-        type: "boolean",
-        "default": true
-    }]
+	parameters: [{
+		key: "whenUsed",
+		type: "boolean",
+		"default": true
+	}, {
+		key: "button",
+		name: "button",
+		description: "Only interact with this mouse button.",
+		type: "string",
+		control: "select",
+		"default": "Any",
+		options: ["Any", "Left", "Middle", "Right"]
+	}, {
+		key: "linkUrl",
+		name: "linkUrl",
+		description: "URL to open when clicking the entity. Leave this field empty to disable.",
+		type: "string",
+		"default": ""
+	}, {
+		key: "linkTarget",
+		name: "linkTarget",
+		description: "The window to open the link in.",
+		type: "string",
+		"default": "_blank"
+	}, {
+		key: "channel",
+		name: "channel",
+		description: "Event channel to emit to. Will emit channel.click, .mousedown, .mouseup, .mouseover, .mouseout, .dblclick, .touchstart, .touchend",
+		type: "string",
+		"default": "button"
+	}, {
+		key: "enableOnMouseMove",
+		name: "enableOnMouseMove",
+		description: "Enables .mousemove, .mouseover, and .mouseout events. For larger scenes, this might be worth turning off, for better performance.",
+		type: "boolean",
+		"default": true
+	}]
 };

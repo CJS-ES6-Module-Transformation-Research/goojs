@@ -1,49 +1,73 @@
-import { Component } from "../../entities/components/Component";
-import { Quaternion } from "../../math/Quaternion";
-import { Vector3 } from "../../math/Vector3";
-import { Transform } from "../../math/Transform";
-import * as ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonRigidbodyComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Quaternion = require("../../math/Quaternion");
+
+var _Vector = require("../../math/Vector3");
+
+var _Transform = require("../../math/Transform");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_CannonRigidbodyComponent = CannonRigidbodyComponent;
 function CannonRigidbodyComponent(settings) {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	settings = settings || {};
 	this.type = 'CannonRigidbodyComponent';
 
 	ObjectUtils.defaults(settings, {
 		mass: 1,
-		velocity: new Vector3()
+		velocity: new _Vector.Vector3()
 		// Todo: a lot of more things from Cannon.js API
 	}); //! AT: this is modifying the settings object which is bad practice (as in 'unintended side effects')
 
 	this.mass = settings.mass;
 	this._initialPosition = null;
-	this._initialVelocity = new Vector3();
+	this._initialVelocity = new _Vector.Vector3();
 	this._initialVelocity.set(settings.velocity);
 	this.body = null;
-	this.centerOfMassOffset = new Vector3();
+	this.centerOfMassOffset = new _Vector.Vector3();
 }
 
-CannonRigidbodyComponent.prototype = Object.create(Component.prototype);
+CannonRigidbodyComponent.prototype = Object.create(_Component.Component.prototype);
 CannonRigidbodyComponent.constructor = CannonRigidbodyComponent;
 
 CannonRigidbodyComponent.prototype.api = {
-	setForce: function (force) {
+	setForce: function setForce(force) {
 		CannonRigidbodyComponent.prototype.setForce.call(this.cannonRigidbodyComponent, force);
 	},
-	setVelocity: function (velocity) {
+	setVelocity: function setVelocity(velocity) {
 		CannonRigidbodyComponent.prototype.setVelocity.call(this.cannonRigidbodyComponent, velocity);
 	},
 	// schteppe: needs to be separate from the transformcomponent setTranslation, since the transformcomponent data will get overridden by physics
-	setPosition: function (pos) {
+	setPosition: function setPosition(pos) {
 		CannonRigidbodyComponent.prototype.setPosition.call(this.cannonRigidbodyComponent, pos);
 	},
-	setAngularVelocity: function (angularVelocity) {
+	setAngularVelocity: function setAngularVelocity(angularVelocity) {
 		CannonRigidbodyComponent.prototype.setAngularVelocity.call(this.cannonRigidbodyComponent, angularVelocity);
 	}
 };
 
-var tmpQuat = new Quaternion();
+var tmpQuat = new _Quaternion.Quaternion();
 
 /**
  * Set the force on the body
@@ -69,7 +93,7 @@ CannonRigidbodyComponent.prototype.setPosition = function (pos) {
 	if (this.body) {
 		this.body.position.set(pos.x, pos.y, pos.z);
 	} else {
-		this._initialPosition = new Vector3(pos);
+		this._initialPosition = new _Vector.Vector3(pos);
 	}
 };
 
@@ -96,10 +120,10 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 	if (!collider) {
 		// Needed for getting the Rigidbody-local transform of each collider
 		var bodyTransform = entity.transformComponent.sync().worldTransform;
-		var invBodyTransform = new Transform();
+		var invBodyTransform = new _Transform.Transform();
 		invBodyTransform.copy(bodyTransform);
 		invBodyTransform.invert(invBodyTransform);
-		var gooTrans = new Transform();
+		var gooTrans = new _Transform.Transform();
 
 		var cmOffset = this.centerOfMassOffset;
 
@@ -108,8 +132,8 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 			if (collider) {
 				// Look at the world transform and then get the transform relative to the root entity. This is needed for compounds with more than one level of recursion
 				gooTrans.copy(childEntity.transformComponent.sync().worldTransform);
-				var gooTrans2 = new Transform();
-				Transform.combine(invBodyTransform, gooTrans, gooTrans2);
+				var gooTrans2 = new _Transform.Transform();
+				_Transform.Transform.combine(invBodyTransform, gooTrans, gooTrans2);
 				gooTrans2.update();
 
 				// var gooTrans2 = new Transform();
@@ -165,4 +189,4 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
  * });
  * entity.setComponent(boxColliderComponent);
  */
-export { exported_CannonRigidbodyComponent as CannonRigidbodyComponent };
+exports.CannonRigidbodyComponent = exported_CannonRigidbodyComponent;

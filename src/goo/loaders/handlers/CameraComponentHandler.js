@@ -1,15 +1,38 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { CameraComponent } from "../../entities/components/CameraComponent";
-import { Camera } from "../../renderer/Camera";
-import * as ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _CameraComponent = require("../../entities/components/CameraComponent");
+
+var _Camera = require("../../renderer/Camera");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_CameraComponentHandler = CameraComponentHandler;
 function CameraComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'CameraComponent';
 }
 
-CameraComponentHandler.prototype = Object.create(ComponentHandler.prototype);
-ComponentHandler._registerClass('camera', CameraComponentHandler);
+CameraComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
+_ComponentHandler.ComponentHandler._registerClass('camera', CameraComponentHandler);
 CameraComponentHandler.prototype.constructor = CameraComponentHandler;
 
 /**
@@ -44,8 +67,8 @@ CameraComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 CameraComponentHandler.prototype._create = function () {
-	var camera = new Camera(45, 1, 1, 1000);
-	var component = new CameraComponent(camera);
+	var camera = new _Camera.Camera(45, 1, 1, 1000);
+	var component = new _CameraComponent.CameraComponent(camera);
 	return component;
 };
 
@@ -59,9 +82,11 @@ CameraComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 CameraComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
-		component.camera.setProjectionMode(Camera[config.projectionMode]);
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
+		component.camera.setProjectionMode(_Camera.Camera[config.projectionMode]);
 		component.camera.lockedRatio = false;
 		if (config.projectionMode === 'Perspective') {
 			component.camera.setFrustumPerspective(config.fov, null, config.near, config.far);
@@ -82,4 +107,4 @@ CameraComponentHandler.prototype.update = function (entity, config, options) {
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_CameraComponentHandler as CameraComponentHandler };
+exports.CameraComponentHandler = exported_CameraComponentHandler;

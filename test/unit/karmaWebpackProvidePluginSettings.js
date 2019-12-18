@@ -409,5 +409,5 @@ module.exports = {
 	StringUtil: 'src/goo/util/StringUtil',
 	StringUtils: 'src/goo/util/StringUtils',
 	TangentGenerator: 'src/goo/util/TangentGenerator',
-	TWEEN: 'src/goo/util/TWEEN',
+	TWEEN: 'src/goo/util/TWEEN'
 };

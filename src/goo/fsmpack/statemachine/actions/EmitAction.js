@@ -1,12 +1,33 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as SystemBus from "../../../entities/SystemBus";
-var exported_EmitAction = EmitAction;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EmitAction = undefined;
 
-function EmitAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-EmitAction.prototype = Object.create(Action.prototype);
+var exported_EmitAction = EmitAction;
+
+function EmitAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+}
+
+EmitAction.prototype = Object.create(_Action.Action.prototype);
 EmitAction.prototype.constructor = EmitAction;
 
 EmitAction.external = {
@@ -24,8 +45,8 @@ EmitAction.external = {
 	transitions: []
 };
 
-EmitAction.prototype.enter = function (/*fsm*/) {
+EmitAction.prototype.enter = function () /*fsm*/{
 	SystemBus.emit(this.channel, this.data); // data is unused?
 };
 
-export { exported_EmitAction as EmitAction };
+exports.EmitAction = exported_EmitAction;

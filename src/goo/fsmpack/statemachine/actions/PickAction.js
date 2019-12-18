@@ -1,12 +1,33 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as SystemBus from "../../../entities/SystemBus";
-var exported_PickAction = PickAction;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PickAction = undefined;
 
-function PickAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-PickAction.prototype = Object.create(Action.prototype);
+var exported_PickAction = PickAction;
+
+function PickAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+}
+
+PickAction.prototype = Object.create(_Action.Action.prototype);
 PickAction.prototype.constructor = PickAction;
 
 PickAction.external = {
@@ -27,7 +48,7 @@ var labels = {
 	pick: 'On pick entity'
 };
 
-PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -78,4 +99,4 @@ PickAction.prototype.exit = function () {
 	SystemBus.removeListener('goo.trigger.touchstart', this.eventListener);
 };
 
-export { exported_PickAction as PickAction };
+exports.PickAction = exported_PickAction;

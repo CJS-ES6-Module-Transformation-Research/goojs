@@ -1,30 +1,53 @@
-import { Vector3 } from "./Vector3";
-import { Matrix3 } from "./Matrix3";
-import { Matrix4 } from "./Matrix4";
-import * as MathUtils from "./MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Transform = undefined;
+
+var _Vector = require("./Vector3");
+
+var _Matrix = require("./Matrix3");
+
+var _Matrix2 = require("./Matrix4");
+
+var _MathUtils = require("./MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Transform = Transform;
 function Transform() {
 	/** Read only, will be updated automatically by {@link Transform.update}
-	 * @type {Matrix4}
-	 */
-	this.matrix = new Matrix4();
-	this.normalMatrix = new Matrix3();
+  * @type {Matrix4}
+  */
+	this.matrix = new _Matrix2.Matrix4();
+	this.normalMatrix = new _Matrix.Matrix3();
 
 	/** @type {Vector3} */
-	this.translation = new Vector3();
+	this.translation = new _Vector.Vector3();
 	/** @type {Matrix3} */
-	this.rotation = new Matrix3();
+	this.rotation = new _Matrix.Matrix3();
 	/** @type {Vector3} */
-	this.scale = new Vector3(1, 1, 1);
+	this.scale = new _Vector.Vector3(1, 1, 1);
 
 	// @ifdef DEBUG
 	Object.seal(this);
 	// @endif
 }
 
-var tmpVec = new Vector3();
-var tmpVec2 = new Vector3();
-var tmpMat1 = new Matrix3();
+var tmpVec = new _Vector.Vector3();
+var tmpVec2 = new _Vector.Vector3();
+var tmpMat1 = new _Matrix.Matrix3();
 
 /**
  * Combines two transforms into one. This will only work if scaling in the left hand transform is uniform
@@ -98,9 +121,9 @@ Transform.prototype.multiply = function (a, b) {
 Transform.prototype.setIdentity = function () {
 	this.matrix.setIdentity();
 
-	this.translation.set(Vector3.ZERO);
+	this.translation.set(_Vector.Vector3.ZERO);
 	this.rotation.setIdentity();
-	this.scale.set(Vector3.ONE);
+	this.scale.set(_Vector.Vector3.ONE);
 
 	return this;
 };
@@ -246,11 +269,12 @@ Transform.prototype.setRotationXYZ = function (x, y, z) {
  */
 Transform.prototype.lookAt = function (position, up) {
 	if (!up) {
-		up = Vector3.UNIT_Y;
+		up = _Vector.Vector3.UNIT_Y;
 	}
 
 	tmpVec.set(position).sub(this.translation);
-	if (tmpVec.lengthSquared() > MathUtils.EPSILON) { // should be epsilon^2 but it hopefully doesn't matter
+	if (tmpVec.lengthSquared() > MathUtils.EPSILON) {
+		// should be epsilon^2 but it hopefully doesn't matter
 		tmpVec.normalize();
 		this.rotation.lookAt(tmpVec, up);
 	}
@@ -289,7 +313,7 @@ Transform.prototype.invert = function (store) {
 	//newRotation.multiplyDiagonalPost(this.scale, newRotation).invert();
 	// }
 
-	result.scale.set(Vector3.ONE).div(this.scale);
+	result.scale.set(_Vector.Vector3.ONE).div(this.scale);
 	result.translation.copy(this.translation).negate().mul(result.scale);
 	result.translation.applyPost(result.rotation);
 
@@ -320,4 +344,4 @@ Transform.prototype.clone = function () {
  *        only matrix in which case it is represented by the matrix and scale fields as R*S, where S is a positive scale vector. For non-uniform
  *        scales and reflections, use setMatrix, which will consider M as being a general 3x3 matrix and disregard anything set in scale.
  */
-export { exported_Transform as Transform };
+exports.Transform = exported_Transform;

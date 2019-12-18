@@ -1,20 +1,42 @@
-import * as ParticleUtils from "../particles/ParticleUtils";
-import { Renderer } from "../renderer/Renderer";
-import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleEmitter = undefined;
+
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var ParticleUtils = _interopRequireWildcard(_ParticleUtils);
+
+var _Renderer = require("../renderer/Renderer");
+
+var _ObjectUtil = require("../util/ObjectUtil");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_ParticleEmitter = ParticleEmitter;
 function ParticleEmitter(options) {
-	ObjectUtil.copyOptions(this, options, {
+	_ObjectUtil.ObjectUtils.copyOptions(this, options, {
 		totalParticlesToSpawn: -1,
 		maxLifetime: 3.0,
 		minLifetime: 2.0,
 		timeline: undefined,
 		influences: [],
-		getEmissionPoint: function (particle, particleEntity) {
+		getEmissionPoint: function getEmissionPoint(particle, particleEntity) {
 			var vec3 = particle.position;
 			vec3.setDirect(0, 0, 0);
 			return ParticleUtils.applyEntityTransformPoint(vec3, particleEntity);
 		},
-		getEmissionVelocity: function (particle, particleEntity) {
+		getEmissionVelocity: function getEmissionVelocity(particle, particleEntity) {
 			var vec3 = particle.velocity;
 			vec3.setDirect(0, 1, 0);
 			return ParticleUtils.applyEntityTransformVector(vec3, particleEntity);
@@ -34,7 +56,7 @@ function ParticleEmitter(options) {
  */
 // Was: function (particle, particleEntity)
 ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
-	var camera = Renderer.mainCamera;
+	var camera = _Renderer.Renderer.mainCamera;
 	if (camera) {
 		particle.bbX.set(camera._left);
 		particle.bbY.set(camera._up);
@@ -64,4 +86,4 @@ ParticleEmitter.prototype.nextParticleLifeSpan = function () {
  * @param {function (particle)} [options.getParticleBillboardVectors=ParticleEmitter.CAMERA_BILLBOARD_FUNC] A function that sets the orientation of the particle's billboard
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
-export { exported_ParticleEmitter as ParticleEmitter };
+exports.ParticleEmitter = exported_ParticleEmitter;

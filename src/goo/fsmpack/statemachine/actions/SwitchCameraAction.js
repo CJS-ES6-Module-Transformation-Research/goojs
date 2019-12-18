@@ -1,14 +1,36 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as SystemBus from "../../../entities/SystemBus";
-import { Renderer } from "../../../renderer/Renderer";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SwitchCameraAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var SystemBus = _interopRequireWildcard(_SystemBus);
+
+var _Renderer = require("../../../renderer/Renderer");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_SwitchCameraAction = SwitchCameraAction;
 
-function SwitchCameraAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function SwitchCameraAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this._camera = null;
 }
 
-SwitchCameraAction.prototype = Object.create(Action.prototype);
+SwitchCameraAction.prototype = Object.create(_Action.Action.prototype);
 SwitchCameraAction.prototype.constructor = SwitchCameraAction;
 
 SwitchCameraAction.external = {
@@ -26,8 +48,8 @@ SwitchCameraAction.external = {
 	transitions: []
 };
 
-SwitchCameraAction.prototype.ready = function (/*fsm*/) {
-	this._camera = Renderer.mainCamera; // make this into get activeCamera
+SwitchCameraAction.prototype.ready = function () /*fsm*/{
+	this._camera = _Renderer.Renderer.mainCamera; // make this into get activeCamera
 };
 
 SwitchCameraAction.prototype.enter = function (fsm) {
@@ -41,7 +63,6 @@ SwitchCameraAction.prototype.enter = function (fsm) {
 	}
 };
 
-SwitchCameraAction.prototype.cleanup = function (/*fsm*/) {
-};
+SwitchCameraAction.prototype.cleanup = function () /*fsm*/{};
 
-export { exported_SwitchCameraAction as SwitchCameraAction };
+exports.SwitchCameraAction = exported_SwitchCameraAction;

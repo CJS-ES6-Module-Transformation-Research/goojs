@@ -1,8 +1,39 @@
-import fs from "fs";
-import glob from "glob";
-import * as extractor from "./modoc/src/extractor";
-import * as jsdocParser from "./modoc/src/jsdoc-parser";
-import "colors";
+"use strict";
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _glob = require("glob");
+
+var _glob2 = _interopRequireDefault(_glob);
+
+var _extractor = require("./modoc/src/extractor");
+
+var extractor = _interopRequireWildcard(_extractor);
+
+var _jsdocParser = require("./modoc/src/jsdoc-parser");
+
+var jsdocParser = _interopRequireWildcard(_jsdocParser);
+
+require("colors");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
 // jshint node:true
 /**
  * Reports any undocumented function parameter
@@ -13,7 +44,7 @@ import "colors";
 
 'use strict';
 
-var allFiles = glob.sync('src/**/*.js');
+var allFiles = _glob2.default.sync('src/**/*.js');
 
 function pluck(property) {
 	return function (obj) {
@@ -35,7 +66,9 @@ function makeError(functionName, message) {
 
 function validate(data) {
 	function validateFunction(data) {
-		if (!data.rawComment) { return []; }
+		if (!data.rawComment) {
+			return [];
+		}
 
 		var functionParams = data.params;
 
@@ -53,10 +86,7 @@ function validate(data) {
 
 		return functionParams.reduce(function (errors, functionParam) {
 			if (!contains(jsdocParams, functionParam)) {
-				errors.push(makeError(
-					data.name,
-					'parameter ' + functionParam + ' is missing from the jsdoc'
-				));
+				errors.push(makeError(data.name, 'parameter ' + functionParam + ' is missing from the jsdoc'));
 			}
 			return errors;
 		}, []);
@@ -72,7 +102,7 @@ function validate(data) {
 var count = 0;
 
 allFiles.forEach(function (file) {
-	var source = fs.readFileSync(file, 'utf8');
+	var source = _fs2.default.readFileSync(file, 'utf8');
 
 	var data = extractor.extract(source, file);
 

@@ -1,10 +1,42 @@
-import { Material } from "../renderer/Material";
-import * as FullscreenUtils from "../renderer/pass/FullscreenUtils";
-import { RenderTarget } from "../renderer/pass/RenderTarget";
-import * as ObjectUtils from "../util/ObjectUtils";
-import * as ShaderLib from "../renderer/shaders/ShaderLib";
-import * as ShaderLibExtra from "../passpack/ShaderLibExtra";
-import { Pass } from "../renderer/pass/Pass";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BloomPass = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _FullscreenUtils = require("../renderer/pass/FullscreenUtils");
+
+var FullscreenUtils = _interopRequireWildcard(_FullscreenUtils);
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _ShaderLibExtra = require("../passpack/ShaderLibExtra");
+
+var ShaderLibExtra = _interopRequireWildcard(_ShaderLibExtra);
+
+var _Pass = require("../renderer/pass/Pass");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_BloomPass = BloomPass;
 function BloomPass(settings) {
 	settings = settings || {};
@@ -29,7 +61,7 @@ function BloomPass(settings) {
 		materials: []
 	};
 
-	this.copyMaterial = new Material(ShaderLib.copyPure);
+	this.copyMaterial = new _Material.Material(ShaderLib.copyPure);
 	this.copyMaterial.uniforms.opacity = strength;
 	this.copyMaterial.blendState.blending = 'AdditiveBlending';
 
@@ -38,11 +70,11 @@ function BloomPass(settings) {
 		'KERNEL_SIZE_FLOAT': kernelSize.toFixed(1),
 		'KERNEL_SIZE_INT': kernelSize.toFixed(0)
 	};
-	this.convolutionMaterial = new Material(this.convolutionShader);
+	this.convolutionMaterial = new _Material.Material(this.convolutionShader);
 	this.convolutionMaterial.uniforms.uImageIncrement = BloomPass.blurX;
 	this.convolutionMaterial.uniforms.cKernel = this.convolutionShader.buildKernel(sigma);
 
-	this.bcMaterial = new Material(ShaderLibExtra.brightnesscontrast);
+	this.bcMaterial = new _Material.Material(ShaderLibExtra.brightnesscontrast);
 	this.bcMaterial.uniforms.brightness = 0.0;
 	this.bcMaterial.uniforms.contrast = 0.0;
 
@@ -51,7 +83,7 @@ function BloomPass(settings) {
 	this.needsSwap = false;
 }
 
-BloomPass.prototype = Object.create(Pass.prototype);
+BloomPass.prototype = Object.create(_Pass.Pass.prototype);
 BloomPass.prototype.constructor = BloomPass;
 
 BloomPass.prototype.destroy = function (renderer) {
@@ -85,8 +117,8 @@ BloomPass.prototype.updateSize = function (size, renderer) {
 	if (this.renderTargetY) {
 		this.renderTargetY.destroy(renderer.context);
 	}
-	this.renderTargetX = new RenderTarget(sizeX, sizeY);
-	this.renderTargetY = new RenderTarget(sizeX, sizeY);
+	this.renderTargetX = new _RenderTarget.RenderTarget(sizeX, sizeY);
+	this.renderTargetY = new _RenderTarget.RenderTarget(sizeX, sizeY);
 };
 
 BloomPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -135,4 +167,4 @@ BloomPass.blurY = [0.0, 0.001953125];
  * }
  * </pre>
  */
-export { exported_BloomPass as BloomPass };
+exports.BloomPass = exported_BloomPass;

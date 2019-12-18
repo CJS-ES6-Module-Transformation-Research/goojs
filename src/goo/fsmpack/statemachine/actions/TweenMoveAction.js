@@ -1,19 +1,41 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 } from "../../../math/Vector3";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenMoveAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_TweenMoveAction = TweenMoveAction;
 
-function TweenMoveAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TweenMoveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.fromPos = new Vector3();
-	this.toPos = new Vector3();
-	this.deltaPos = new Vector3();
-	this.oldPos = new Vector3();
+	this.fromPos = new _Vector.Vector3();
+	this.toPos = new _Vector.Vector3();
+	this.deltaPos = new _Vector.Vector3();
+	this.oldPos = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenMoveAction.prototype = Object.create(Action.prototype);
+TweenMoveAction.prototype = Object.create(_Action.Action.prototype);
 TweenMoveAction.prototype.constructor = TweenMoveAction;
 
 TweenMoveAction.external = {
@@ -63,7 +85,7 @@ TweenMoveAction.external = {
 	}]
 };
 
-TweenMoveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenMoveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Move Complete' : undefined;
 };
 
@@ -106,4 +128,4 @@ TweenMoveAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_TweenMoveAction as TweenMoveAction };
+exports.TweenMoveAction = exported_TweenMoveAction;

@@ -1,15 +1,21 @@
-import { AbstractTimelineChannel } from "../timelinepack/AbstractTimelineChannel";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EventChannel = undefined;
+
+var _AbstractTimelineChannel = require("../timelinepack/AbstractTimelineChannel");
+
 var exported_EventChannel = EventChannel;
 
 function EventChannel(id) {
-	AbstractTimelineChannel.call(this, id);
+	_AbstractTimelineChannel.AbstractTimelineChannel.call(this, id);
 
 	this.oldTime = 0;
 	this.callbackIndex = 0;
 }
 
-EventChannel.prototype = Object.create(AbstractTimelineChannel.prototype);
-EventChannel.prototype.constructor = AbstractTimelineChannel;
+EventChannel.prototype = Object.create(_AbstractTimelineChannel.AbstractTimelineChannel.prototype);
+EventChannel.prototype.constructor = _AbstractTimelineChannel.AbstractTimelineChannel;
 
 /**
  * Add a callback to be called at a specific point in time
@@ -42,10 +48,14 @@ EventChannel.prototype.addCallback = function (id, time, callback) {
  * @param time
  */
 EventChannel.prototype.update = function (time) {
-	if (!this.enabled) { return this; }
+	if (!this.enabled) {
+		return this;
+	}
 
 	var keyframes = this.keyframes;
-	if (!keyframes.length) { return this; }
+	if (!keyframes.length) {
+		return this;
+	}
 
 	// loop
 	if (time < this.oldTime) {
@@ -72,8 +82,12 @@ EventChannel.prototype.update = function (time) {
  * @param time
  */
 EventChannel.prototype.setTime = function (time) {
-	if (!this.enabled) { return this; }
-	if (!this.keyframes.length) { return this; }
+	if (!this.enabled) {
+		return this;
+	}
+	if (!this.keyframes.length) {
+		return this;
+	}
 
 	if (time <= this.keyframes[0].time) {
 		this.callbackIndex = 0;
@@ -86,4 +100,4 @@ EventChannel.prototype.setTime = function (time) {
 	return this;
 };
 
-export { exported_EventChannel as EventChannel };
+exports.EventChannel = exported_EventChannel;

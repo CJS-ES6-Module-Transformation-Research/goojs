@@ -1,20 +1,46 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Quaternion } from "../../../math/Quaternion";
-import { Matrix3 } from "../../../math/Matrix3";
-import * as MathUtils from "../../../math/MathUtils";
-import * as Easing from "../../../util/Easing";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenRotationAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Matrix = require("../../../math/Matrix3");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _Easing = require("../../../util/Easing");
+
+var Easing = _interopRequireWildcard(_Easing);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_TweenRotationAction = TweenRotationAction;
 
-function TweenRotationAction/*id, settings*/() {
-	Action.apply(this, arguments);
+function TweenRotationAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.quatFrom = new Quaternion();
-	this.quatTo = new Quaternion();
-	this.quatFinal = new Quaternion();
+	this.quatFrom = new _Quaternion.Quaternion();
+	this.quatTo = new _Quaternion.Quaternion();
+	this.quatFinal = new _Quaternion.Quaternion();
 	this.completed = false;
 }
 
-TweenRotationAction.prototype = Object.create(Action.prototype);
+TweenRotationAction.prototype = Object.create(_Action.Action.prototype);
 TweenRotationAction.prototype.constructor = TweenRotationAction;
 
 TweenRotationAction.external = {
@@ -64,7 +90,7 @@ TweenRotationAction.external = {
 	}]
 };
 
-TweenRotationAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenRotationAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Rotation Complete' : undefined;
 };
 
@@ -75,7 +101,7 @@ TweenRotationAction.prototype.enter = function (fsm) {
 	this.startTime = fsm.getTime();
 
 	this.quatFrom.fromRotationMatrix(transformComponent.transform.rotation);
-	this.quatTo.fromRotationMatrix(new Matrix3().fromAngles(this.to[0] * MathUtils.DEG_TO_RAD, this.to[1] * MathUtils.DEG_TO_RAD, this.to[2] * MathUtils.DEG_TO_RAD));
+	this.quatTo.fromRotationMatrix(new _Matrix.Matrix3().fromAngles(this.to[0] * MathUtils.DEG_TO_RAD, this.to[1] * MathUtils.DEG_TO_RAD, this.to[2] * MathUtils.DEG_TO_RAD));
 	if (this.relative) {
 		this.quatTo.mul(this.quatFrom);
 	}
@@ -91,7 +117,7 @@ TweenRotationAction.prototype.update = function (fsm) {
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = Easing[this.easing1][this.easing2](t);
-	Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
+	_Quaternion.Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
 
 	this.quatFinal.toRotationMatrix(transform.rotation);
 	entity.transformComponent.setUpdated();
@@ -102,4 +128,4 @@ TweenRotationAction.prototype.update = function (fsm) {
 	}
 };
 
-export { exported_TweenRotationAction as TweenRotationAction };
+exports.TweenRotationAction = exported_TweenRotationAction;

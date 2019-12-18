@@ -1,60 +1,82 @@
-import { Gizmo } from "../../util/gizmopack/Gizmo";
-import { Sphere } from "../../shapes/Sphere";
-import { Torus } from "../../shapes/Torus";
-import { Vector3 } from "../../math/Vector3";
-import { Matrix3 } from "../../math/Matrix3";
-import { Transform } from "../../math/Transform";
-import { Renderer } from "../../renderer/Renderer";
-import { Ray } from "../../math/Ray";
-import * as MathUtils from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RotationGizmo = undefined;
+
+var _Gizmo = require("../../util/gizmopack/Gizmo");
+
+var _Sphere = require("../../shapes/Sphere");
+
+var _Torus = require("../../shapes/Torus");
+
+var _Vector = require("../../math/Vector3");
+
+var _Matrix = require("../../math/Matrix3");
+
+var _Transform = require("../../math/Transform");
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Ray = require("../../math/Ray");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_RotationGizmo = RotationGizmo;
 function RotationGizmo() {
-	Gizmo.call(this, 'RotationGizmo');
+	_Gizmo.Gizmo.call(this, 'RotationGizmo');
 
-	this._rotation = new Matrix3();
-	this._direction = new Vector3();
+	this._rotation = new _Matrix.Matrix3();
+	this._direction = new _Vector.Vector3();
 
 	//TODO: create a function that does this sort of thing
 	this.snap = false;
-	this._accumulatedRotation = new Vector3();
-	this._oldAngle = new Vector3();
+	this._accumulatedRotation = new _Vector.Vector3();
+	this._oldAngle = new _Vector.Vector3();
 
 	this.compileRenderables();
 }
 
-RotationGizmo.prototype = Object.create(Gizmo.prototype);
+RotationGizmo.prototype = Object.create(_Gizmo.Gizmo.prototype);
 RotationGizmo.prototype.constructor = RotationGizmo;
 
 var ROTATION_SCALE = 4;
 
 (function () {
-	var worldCenter = new Vector3();
-	var pickedPoint = new Vector3();
-	var rotationDirection = new Vector3();
-	var axis = new Vector3();
-	var ray = new Ray();
-	var crossResult = new Vector3();
+	var worldCenter = new _Vector.Vector3();
+	var pickedPoint = new _Vector.Vector3();
+	var rotationDirection = new _Vector.Vector3();
+	var axis = new _Vector.Vector3();
+	var ray = new _Ray.Ray();
+	var crossResult = new _Vector.Vector3();
 
 	RotationGizmo.prototype.activate = function (props) {
-		Gizmo.prototype.activate.call(this, props);
+		_Gizmo.Gizmo.prototype.activate.call(this, props);
 
 		if (this._activeHandle.axis < 3) {
 			// Get rotation axis
-			axis.copy([Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z][this._activeHandle.axis]);
+			axis.copy([_Vector.Vector3.UNIT_X, _Vector.Vector3.UNIT_Y, _Vector.Vector3.UNIT_Z][this._activeHandle.axis]);
 			axis.applyPost(this.transform.rotation);
 
 			// Get rotation center
-			worldCenter.copy(Vector3.ZERO);
+			worldCenter.copy(_Vector.Vector3.ZERO);
 			worldCenter.applyPostPoint(this.transform.matrix);
 
 			// Get picked point in world space (sort of)
-			Renderer.mainCamera.getPickRay(
-				props.x,
-				props.y,
-				1,
-				1,
-				ray
-			);
+			_Renderer.Renderer.mainCamera.getPickRay(props.x, props.y, 1, 1, ray);
 			pickedPoint.copy(ray.origin).sub(worldCenter);
 			var d = pickedPoint.length() * 0.9;
 			pickedPoint.copy(ray.direction).scale(d).add(ray.origin);
@@ -66,12 +88,7 @@ var ROTATION_SCALE = 4;
 			rotationDirection.copy(crossResult);
 
 			rotationDirection.add(pickedPoint);
-			Renderer.mainCamera.getScreenCoordinates(
-				rotationDirection,
-				1,
-				1,
-				this._direction
-			);
+			_Renderer.Renderer.mainCamera.getScreenCoordinates(rotationDirection, 1, 1, this._direction);
 			this._direction.subDirect(props.x, props.y, 0);
 
 			this._direction.z = 0;
@@ -93,8 +110,8 @@ RotationGizmo.prototype.process = function (mouseState, oldMouseState) {
 };
 
 (function () {
-	var camRotation = new Matrix3();
-	var screenRotation = new Matrix3();
+	var camRotation = new _Matrix.Matrix3();
+	var screenRotation = new _Matrix.Matrix3();
 
 	RotationGizmo.prototype._rotateOnScreen = function (delta) {
 		this._rotation.setIdentity();
@@ -102,7 +119,7 @@ RotationGizmo.prototype.process = function (mouseState, oldMouseState) {
 		this._rotation.rotateY(delta.x * ROTATION_SCALE);
 		this._rotation.rotateX(delta.y * ROTATION_SCALE);
 
-		var camMat = Renderer.mainCamera.getViewMatrix();
+		var camMat = _Renderer.Renderer.mainCamera.getViewMatrix();
 
 		// there has to be a function for this
 		camRotation.copyMatrix4(camMat);
@@ -110,10 +127,7 @@ RotationGizmo.prototype.process = function (mouseState, oldMouseState) {
 		screenRotation.mul(this._rotation);
 		screenRotation.mul(camRotation);
 
-		this.transform.rotation.mul2(
-			screenRotation,
-			this.transform.rotation
-		);
+		this.transform.rotation.mul2(screenRotation, this.transform.rotation);
 	};
 })();
 
@@ -132,20 +146,19 @@ function inclinedType2(size, t) {
 }
 
 var snapFunction = inclinedType2(Math.PI / 4, Math.PI / 16);
-var identityFunction = function (x) { return x; };
+var identityFunction = function identityFunction(x) {
+	return x;
+};
 // ---
 
 RotationGizmo.prototype._applyRotation = function () {
-	this.transform.rotation.mul2(
-		this.transform.rotation,
-		this._rotation
-	);
+	this.transform.rotation.mul2(this.transform.rotation, this._rotation);
 };
 
 RotationGizmo.prototype._rotateOnAxis = function (delta) {
 	this._rotation.setIdentity();
 
-	var sum = (delta.x * this._direction.x) + (delta.y * this._direction.y);
+	var sum = delta.x * this._direction.x + delta.y * this._direction.y;
 	sum *= ROTATION_SCALE;
 
 	var transformFunction = this._snap ? snapFunction : identityFunction;
@@ -176,8 +189,8 @@ RotationGizmo.prototype._rotateOnAxis = function (delta) {
 };
 
 RotationGizmo.prototype.compileRenderables = function () {
-	var ballMesh = new Sphere(32, 32, 1.1);
-	var torusMesh = new Torus(64, 8, 0.1, 2.5);
+	var ballMesh = new _Sphere.Sphere(32, 32, 1.1);
+	var torusMesh = new _Torus.Torus(64, 8, 0.1, 2.5);
 
 	this.addRenderable(buildBall(ballMesh));
 	this.addRenderable(buildTorus(torusMesh, 0));
@@ -186,19 +199,19 @@ RotationGizmo.prototype.compileRenderables = function () {
 };
 
 function buildBall(ballMesh) {
-	var transform = new Transform();
+	var transform = new _Transform.Transform();
 	transform.scale.setDirect(1.2, 1.2, 1.2);
 
 	return {
 		meshData: ballMesh,
-		materials: [Gizmo.buildMaterialForAxis(3, 0.6)],
-		transform: new Transform(),
-		id: Gizmo.registerHandle({ type: 'Rotate', axis: 3 })
+		materials: [_Gizmo.Gizmo.buildMaterialForAxis(3, 0.6)],
+		transform: new _Transform.Transform(),
+		id: _Gizmo.Gizmo.registerHandle({ type: 'Rotate', axis: 3 })
 	};
 }
 
 function buildTorus(torusMesh, dim) {
-	var transform = new Transform();
+	var transform = new _Transform.Transform();
 	transform.scale.setDirect(1.7, 1.7, 1.7);
 	if (dim === 0) {
 		transform.setRotationXYZ(0, MathUtils.HALF_PI, 0);
@@ -208,9 +221,9 @@ function buildTorus(torusMesh, dim) {
 
 	return {
 		meshData: torusMesh,
-		materials: [Gizmo.buildMaterialForAxis(dim)],
+		materials: [_Gizmo.Gizmo.buildMaterialForAxis(dim)],
 		transform: transform,
-		id: Gizmo.registerHandle({ type: 'Rotate', axis: dim }),
+		id: _Gizmo.Gizmo.registerHandle({ type: 'Rotate', axis: dim }),
 		thickness: 0.35
 	};
 }
@@ -219,4 +232,4 @@ function buildTorus(torusMesh, dim) {
  * @extends Gizmo
  * @hidden
  */
-export { exported_RotationGizmo as RotationGizmo };
+exports.RotationGizmo = exported_RotationGizmo;

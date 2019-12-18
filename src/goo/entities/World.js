@@ -1,11 +1,38 @@
-import { Entity } from "./Entity";
-import { EntityManager } from "./managers/EntityManager";
-import { TransformComponent } from "./components/TransformComponent";
-import { Manager } from "./managers/Manager";
-import { System } from "./systems/System";
-import { Component } from "./components/Component";
-import { EntitySelection } from "./EntitySelection";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.World = undefined;
+
+var _Entity = require("./Entity");
+
+var _EntityManager = require("./managers/EntityManager");
+
+var _TransformComponent = require("./components/TransformComponent");
+
+var _Manager = require("./managers/Manager");
+
+var _System = require("./systems/System");
+
+var _Component = require("./components/Component");
+
+var _EntitySelection = require("./EntitySelection");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_World = World;
 
 var lastInstantiatedWorld;
@@ -21,48 +48,48 @@ function World(options) {
 	options = options || {};
 
 	/** GooRunner for updating the world and calling the renderers.
-	 * @type {GooRunner}
-	 */
+  * @type {GooRunner}
+  */
 	this.gooRunner = options.gooRunner !== undefined ? options.gooRunner : null;
 
 	/** Accumulated time per frames(tpf) the world has been running.  Calculated at the start of each frame.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.time = 0;
 
 	/** Current fixed step accumulated time.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.fixedTpfTime = 0;
 
 	/** The fixed time step to use for physics and other fixed-updates.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.fixedTpf = options.fixedTpf !== undefined ? options.fixedTpf : 1 / 60;
 
 	/** Max fixed steps to use for the fixed update loop.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.maxSubSteps = options.maxSubSteps !== undefined ? options.maxSubSteps : 10;
 
 	/** Time since last frame in seconds.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.tpf = 0;
 
 	/** The tpf, averaged by a number of samples.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.smoothedTpf = this.tpf;
 
 	/** Interpolation alpha time value: a number between 0 and 1. Use to interpolate between two fixed updates from the frame update.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.interpolationTime = 0;
 
 	/** Number of samples to use for smoothing the tpf.
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.tpfSmoothingCount = options.tpfSmoothingCount !== undefined ? options.tpfSmoothingCount : 10;
 
 	this._managers = [];
@@ -76,9 +103,9 @@ function World(options) {
 	this._installDefaultSelectors();
 
 	/** Main keeper of entities.
-	 * @type {EntityManager}
-	 */
-	this.entityManager = new EntityManager();
+  * @type {EntityManager}
+  */
+	this.entityManager = new _EntityManager.EntityManager();
 	this.setManager(this.entityManager);
 
 	this._components = [];
@@ -96,7 +123,7 @@ Object.defineProperties(World, {
 		get: ObjectUtils.warnOnce('World.time is deprecated, use world.time instead.', function () {
 			return lastInstantiatedWorld && lastInstantiatedWorld.time || 0;
 		}),
-		set: function () {
+		set: function set() {
 			throw new Error('Don\'t set World.time!');
 		}
 	},
@@ -104,7 +131,7 @@ Object.defineProperties(World, {
 		get: ObjectUtils.warnOnce('World.tpf is deprecated, use world.tpf instead.', function () {
 			return lastInstantiatedWorld && lastInstantiatedWorld.tpf || 1;
 		}),
-		set: function () {
+		set: function set() {
 			throw new Error('Don\'t set World.time!');
 		}
 	}
@@ -123,13 +150,13 @@ Object.defineProperties(World, {
 World.prototype._installDefaultSelectors = function () {
 	this.by.system = function (systemType) {
 		var system = this.getSystem(systemType);
-		return new EntitySelection(system._activeEntities);
+		return new _EntitySelection.EntitySelection(system._activeEntities);
 	}.bind(this);
 
 	this.by.component = function (componentType) {
 		var entities = this.entityManager.getEntities();
 
-		return new EntitySelection(entities.filter(function (entity) {
+		return new _EntitySelection.EntitySelection(entities.filter(function (entity) {
 			return entity.hasComponent(componentType);
 		}));
 	}.bind(this);
@@ -138,7 +165,7 @@ World.prototype._installDefaultSelectors = function () {
 	this.by.tag = function (tag) {
 		var entities = this.entityManager.getEntities();
 
-		return new EntitySelection(entities.filter(function (entity) {
+		return new _EntitySelection.EntitySelection(entities.filter(function (entity) {
 			return entity.hasTag(tag);
 		}));
 	}.bind(this);
@@ -147,7 +174,7 @@ World.prototype._installDefaultSelectors = function () {
 	this.by.attribute = function (attribute) {
 		var entities = this.entityManager.getEntities();
 
-		return new EntitySelection(entities.filter(function (entity) {
+		return new _EntitySelection.EntitySelection(entities.filter(function (entity) {
 			return entity.hasAttribute(attribute);
 		}));
 	}.bind(this);
@@ -174,13 +201,13 @@ World.prototype.add = function () {
 	for (var i = 0; i < arguments.length; i++) {
 		var argument = arguments[i];
 
-		if (argument instanceof Entity) {
+		if (argument instanceof _Entity.Entity) {
 			this.addEntity(argument);
-		} else if (argument instanceof Manager) {
+		} else if (argument instanceof _Manager.Manager) {
 			this.setManager(argument);
-		} else if (argument instanceof System) {
+		} else if (argument instanceof _System.System) {
 			this.setSystem(argument);
-		} else if (argument instanceof Component) {
+		} else if (argument instanceof _Component.Component) {
 			//! AT: TransformComponent and co and NOT instances of Component
 			this.registerComponent(argument);
 		}
@@ -205,7 +232,7 @@ World.prototype.add = function () {
 World.prototype.registerComponent = function (componentConstructor) {
 	if (this._components.indexOf(componentConstructor) === -1) {
 		this._components.push(componentConstructor);
-		Component.applyEntitySelectionAPI(componentConstructor.entitySelectionAPI, componentConstructor.type);
+		_Component.Component.applyEntitySelectionAPI(componentConstructor.entitySelectionAPI, componentConstructor.type);
 	}
 	return this;
 };
@@ -314,9 +341,10 @@ World.prototype.clearSystem = function (type) {
  * @returns {Entity}
  */
 World.prototype.createEntity = function () {
-	var entity = new Entity(this);
+	var entity = new _Entity.Entity(this);
 	for (var i = 0; i < arguments.length; i++) {
-		if (typeof arguments[i] === 'string') { // does not cover new String()
+		if (typeof arguments[i] === 'string') {
+			// does not cover new String()
 			entity.name = arguments[i];
 		} else {
 			entity.set(arguments[i]);
@@ -325,7 +353,7 @@ World.prototype.createEntity = function () {
 
 	// separate treatment
 	if (!entity.transformComponent) {
-		entity.setComponent(new TransformComponent());
+		entity.setComponent(new _TransformComponent.TransformComponent());
 	}
 
 	return entity;
@@ -522,7 +550,7 @@ World.prototype.update = function (tpf) {
 		accumulator -= fixedTpf;
 	}
 	this.fixedTpfTime = fixedTpfTime;
-	this.interpolationTime = (accumulator % fixedTpf) / fixedTpf;
+	this.interpolationTime = accumulator % fixedTpf / fixedTpf;
 	this._accumulator = accumulator;
 
 	// Frame update (process)
@@ -630,4 +658,4 @@ World.prototype.clear = function () {
  * @param {GooRunner} [options.gooRunner]
  * @param {boolean} [options.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
  */
-export { exported_World as World };
+exports.World = exported_World;

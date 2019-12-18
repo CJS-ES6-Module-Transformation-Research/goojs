@@ -1,5 +1,26 @@
-import { MeshData } from "../renderer/MeshData";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Disk = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_Disk = Disk;
 function Disk(nSegments, radius, pointiness) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
@@ -13,15 +34,15 @@ function Disk(nSegments, radius, pointiness) {
 	this.radius = radius || 1;
 	this.pointiness = pointiness || 0;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.nSegments + 1, this.nSegments * 3);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
+	_MeshData.MeshData.call(this, attributeMap, this.nSegments + 1, this.nSegments * 3);
 
 	this.indexModes = ['Triangles'];
 
 	this.rebuild();
 }
 
-Disk.prototype = Object.create(MeshData.prototype);
+Disk.prototype = Object.create(_MeshData.MeshData.prototype);
 Disk.prototype.constructor = Disk;
 
 /**
@@ -38,19 +59,11 @@ Disk.prototype.rebuild = function () {
 
 	var angleIncrement = Math.PI * 2 / this.nSegments;
 	for (var i = 0, angle = 0; i < this.nSegments; i++, angle += angleIncrement) {
-		verts.push(
-			Math.cos(angle) * this.radius,
-			Math.sin(angle) * this.radius,
-			0);
+		verts.push(Math.cos(angle) * this.radius, Math.sin(angle) * this.radius, 0);
 
-		norms.push(
-			Math.cos(angle) * Math.cos(slope),
-			Math.sin(angle) * Math.cos(slope),
-			Math.sin(slope));
+		norms.push(Math.cos(angle) * Math.cos(slope), Math.sin(angle) * Math.cos(slope), Math.sin(slope));
 
-		tex.push(
-			Math.cos(angle) * 0.5 + 0.5,
-			Math.sin(angle) * 0.5 + 0.5);
+		tex.push(Math.cos(angle) * 0.5 + 0.5, Math.sin(angle) * 0.5 + 0.5);
 
 		indices.push(this.nSegments, i, (i + 1) % this.nSegments);
 	}
@@ -59,9 +72,9 @@ Disk.prototype.rebuild = function () {
 	norms.push(0, 0, 1);
 	tex.push(0.5, 0.5);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0).set(tex);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -85,4 +98,4 @@ Disk.prototype.clone = function () {
  * @param {number} [radius=1] Radius of the disk
  * @param {number} [pointiness=0] The center of the disk can be offset in both directions from its outer edge by setting a positive or negative pointiness.
  */
-export { exported_Disk as Disk };
+exports.Disk = exported_Disk;

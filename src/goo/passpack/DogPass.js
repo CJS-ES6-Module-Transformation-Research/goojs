@@ -1,10 +1,42 @@
-import { Material } from "../renderer/Material";
-import * as FullscreenUtils from "../renderer/pass/FullscreenUtils";
-import { RenderTarget } from "../renderer/pass/RenderTarget";
-import * as ObjectUtils from "../util/ObjectUtils";
-import * as ShaderLib from "../renderer/shaders/ShaderLib";
-import * as ShaderLibExtra from "../passpack/ShaderLibExtra";
-import { Pass } from "../renderer/pass/Pass";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DogPass = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _FullscreenUtils = require("../renderer/pass/FullscreenUtils");
+
+var FullscreenUtils = _interopRequireWildcard(_FullscreenUtils);
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _ShaderLibExtra = require("../passpack/ShaderLibExtra");
+
+var ShaderLibExtra = _interopRequireWildcard(_ShaderLibExtra);
+
+var _Pass = require("../renderer/pass/Pass");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 var exported_DogPass = DogPass;
 function DogPass(settings) {
 	settings = settings || {};
@@ -32,7 +64,7 @@ function DogPass(settings) {
 
 	this.differenceShader = ObjectUtils.deepClone(ShaderLibExtra.differenceOfGaussians);
 	this.differenceShader.uniforms.threshold = threshold;
-	this.differenceMaterial = new Material(this.differenceShader);
+	this.differenceMaterial = new _Material.Material(this.differenceShader);
 
 	this.updateSigma(sigma);
 
@@ -41,7 +73,7 @@ function DogPass(settings) {
 	this.needsSwap = true;
 }
 
-DogPass.prototype = Object.create(Pass.prototype);
+DogPass.prototype = Object.create(_Pass.Pass.prototype);
 DogPass.prototype.constructor = DogPass;
 
 DogPass.prototype.destroy = function (renderer) {
@@ -86,9 +118,9 @@ DogPass.prototype.updateBackgroundMix = function (amount) {
 DogPass.prototype.updateSize = function (size) {
 	var sizeX = size.width / this.downsampleAmount;
 	var sizeY = size.height / this.downsampleAmount;
-	this.renderTargetX = new RenderTarget(sizeX, sizeY);
-	this.gaussian1 = new RenderTarget(sizeX, sizeY);
-	this.gaussian2 = new RenderTarget(sizeX, sizeY);
+	this.renderTargetX = new _RenderTarget.RenderTarget(sizeX, sizeY);
+	this.gaussian1 = new _RenderTarget.RenderTarget(sizeX, sizeY);
+	this.gaussian2 = new _RenderTarget.RenderTarget(sizeX, sizeY);
 
 	this.blurX = [0.5 / sizeX, 0.0];
 	this.blurY = [0.0, 0.5 / sizeY];
@@ -117,8 +149,8 @@ DogPass.prototype.updateSigma = function (sigma) {
 	this.convolutionShader1.uniforms.cKernel = kernel1;
 	this.convolutionShader2.uniforms.cKernel = kernel2;
 
-	this.convolutionMaterial1 = new Material(this.convolutionShader1);
-	this.convolutionMaterial2 = new Material(this.convolutionShader2);
+	this.convolutionMaterial1 = new _Material.Material(this.convolutionShader1);
+	this.convolutionMaterial2 = new _Material.Material(this.convolutionShader2);
 };
 
 DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -183,4 +215,4 @@ DogPass.prototype.invalidateHandles = function (renderer) {
 * http://en.wikipedia.org/wiki/Difference_of_Gaussians
 * http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
 */
-export { exported_DogPass as DogPass };
+exports.DogPass = exported_DogPass;

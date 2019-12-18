@@ -1,12 +1,33 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
-var exported_KeyDownAction = KeyDownAction;
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.KeyDownAction = undefined;
 
-function KeyDownAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var FsmUtils = _interopRequireWildcard(_FsmUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-KeyDownAction.prototype = Object.create(Action.prototype);
+var exported_KeyDownAction = KeyDownAction;
+
+function KeyDownAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+}
+
+KeyDownAction.prototype = Object.create(_Action.Action.prototype);
 KeyDownAction.prototype.constructor = KeyDownAction;
 
 KeyDownAction.external = {
@@ -51,4 +72,4 @@ KeyDownAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
 
-export { exported_KeyDownAction as KeyDownAction };
+exports.KeyDownAction = exported_KeyDownAction;
