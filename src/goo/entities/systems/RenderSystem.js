@@ -1,15 +1,10 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var SimplePartitioner = require('../../renderer/SimplePartitioner');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import * as SystemBus from "../../entities/SystemBus";
+import { SimplePartitioner } from "../../renderer/SimplePartitioner";
+import { Material } from "../../renderer/Material";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import * as ObjectUtils from "../../util/ObjectUtils";
+var exported_RenderSystem = RenderSystem;
 function RenderSystem() {
 	System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
@@ -205,4 +200,9 @@ RenderSystem.prototype.invalidateHandles = function (renderer) {
 	renderer.rendererRecord = null; // might hold on to stuff
 };
 
-module.exports = RenderSystem;
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_RenderSystem as RenderSystem };

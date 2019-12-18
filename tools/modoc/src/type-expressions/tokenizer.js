@@ -7,6 +7,8 @@ var makeToken = function (type, data) {
 	return token;
 };
 
+let exported_makeToken = makeToken;
+
 var isIdentifier = function (char) {
 	return /[_?\w\.]/.test(char);
 };
@@ -69,5 +71,6 @@ var tokenize = function (string) {
 	return tokens;
 };
 
-exports._makeToken = makeToken;
-exports.tokenize = tokenize;
+let exported_tokenize = tokenize;
+export { exported_makeToken as makeToken };
+export { exported_tokenize as tokenize };

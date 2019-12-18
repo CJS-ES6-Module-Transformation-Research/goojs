@@ -1,4 +1,4 @@
-var Curve = require('../../../../../src/goo/addons/particlepack/curves/Curve');
+import { Curve } from "../../../../../src/goo/addons/particlepack/curves/Curve";
 
 describe('Curve', function () {
 	it('.getValueAt', function () {

@@ -1,9 +1,10 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var ObjectUtils = require('../../util/ObjectUtils');
-var SystemBus = require('../../entities/SystemBus');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var Snow = require('../../util/Snow'); // TODO Should move!
-var RSVP = require('../../util/rsvp');
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import * as ObjectUtils from "../../util/ObjectUtils";
+import * as SystemBus from "../../entities/SystemBus";
+import * as ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
+import { Snow } from "../../util/Snow";
+import * as RSVP from "../../util/rsvp";
+var exported_EnvironmentHandler = EnvironmentHandler;
 
 var defaults = {
 	backgroundColor: [0.3, 0.3, 0.3, 1],
@@ -22,13 +23,6 @@ var soundDefaults = {
 	maxDistance: 100
 };
 
-/**
- * Handling environments
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
 function EnvironmentHandler() {
 	ConfigHandler.apply(this, arguments);
 }
@@ -180,4 +174,11 @@ EnvironmentHandler.weatherHandlers = {
 	}
 };
 
-module.exports = EnvironmentHandler;
+/**
+ * Handling environments
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_EnvironmentHandler as EnvironmentHandler };

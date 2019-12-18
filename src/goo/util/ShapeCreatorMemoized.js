@@ -1,11 +1,19 @@
-var Box = require('../shapes/Box');
-var Quad = require('../shapes/Quad');
-var Sphere = require('../shapes/Sphere');
-var Cylinder = require('../shapes/Cylinder');
-var Torus = require('../shapes/Torus');
-var Disk = require('../shapes/Disk');
-var Cone = require('../shapes/Cone');
-var ObjectUtil = require('../util/ObjectUtil');
+import { Box } from "../shapes/Box";
+import { Quad } from "../shapes/Quad";
+import { Sphere } from "../shapes/Sphere";
+import { Cylinder } from "../shapes/Cylinder";
+import { Torus } from "../shapes/Torus";
+import { Disk } from "../shapes/Disk";
+import { Cone } from "../shapes/Cone";
+import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
+var functionObject_clearCache;
+var functionObject_createCone;
+var functionObject_createDisk;
+var functionObject_createTorus;
+var functionObject_createCylinder;
+var functionObject_createSphere;
+var functionObject_createBox;
+var functionObject_createQuad;
 
 /**
  * Factory for shape creation.
@@ -43,161 +51,146 @@ function cacheOrCreate(name, options, createShape) {
 	}
 }
 
-ShapeCreatorMemoized.createQuad = function (options, oldMeshData) {
-	var width = 1, height = 1, tileX = 1, tileY = 1;
-	if (!oldMeshData ||
-		width !== oldMeshData.xExtent ||
-		height !== oldMeshData.yExtent ||
-		tileX !== oldMeshData.tileX ||
-		tileY !== oldMeshData.tileY) {
-		return cacheOrCreate('quad', {}, function () {
-			return new Quad(width, height, tileX, tileY);
-		});
-	} else {
-		return oldMeshData;
-	}
+functionObject_createQuad = function(options, oldMeshData) {
+    var width = 1, height = 1, tileX = 1, tileY = 1;
+    if (!oldMeshData || width !== oldMeshData.xExtent || height !== oldMeshData.yExtent || tileX !== oldMeshData.tileX || tileY !== oldMeshData.tileY) {
+        return cacheOrCreate("quad", {}, function() {
+            return new Quad(width, height, tileX, tileY);
+        });
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.createBox = function (options, oldMeshData) {
-	options = options || {};
-	ObjectUtil.defaults(options, {
-		textureMode: 'Uniform'
-	});
+functionObject_createBox = function(options, oldMeshData) {
+    options = options || {};
+    ObjectUtil.defaults(options, {
+        textureMode: "Uniform"
+    });
 
-	var width = 1, height = 1, length = 1, tileX = 1, tileY = 1;
-	if (!oldMeshData ||
-		width !== oldMeshData.xExtent ||
-		height !== oldMeshData.yExtent ||
-		length !== oldMeshData.zExtent ||
-		tileX !== oldMeshData.tileX ||
-		tileY !== oldMeshData.tileY ||
-		options.textureMode !== oldMeshData.textureMode.name) {
-		return cacheOrCreate('box', options, function () {
-			return new Box(width, height, length, tileX, tileY, options.textureMode);
-		});
-	} else {
-		return oldMeshData;
-	}
+    var width = 1, height = 1, length = 1, tileX = 1, tileY = 1;
+    if (!oldMeshData || width !== oldMeshData.xExtent || height !== oldMeshData.yExtent || length !== oldMeshData.zExtent || tileX !== oldMeshData.tileX || tileY !== oldMeshData.tileY || options.textureMode !== oldMeshData.textureMode.name) {
+        return cacheOrCreate("box", options, function() {
+            return new Box(width, height, length, tileX, tileY, options.textureMode);
+        });
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.createSphere = function (options, oldMeshData) {
-	options = options || {};
-	ObjectUtil.defaults(options, {
-		zSamples: 8,
-		radialSamples: 8,
-		textureMode: 'Projected',
-		radius: 1
-	});
+functionObject_createSphere = function(options, oldMeshData) {
+    options = options || {};
+    ObjectUtil.defaults(options, {
+        zSamples: 8,
+        radialSamples: 8,
+        textureMode: "Projected",
+        radius: 1
+    });
 
-	if (!oldMeshData ||
-		options.zSamples !== oldMeshData.zSamples - 1 ||
-		options.radialSamples !== oldMeshData.radialSamples ||
-		options.textureMode !== oldMeshData.textureMode.name ||
-		options.radius !== oldMeshData.radius) {
-		return cacheOrCreate('sphere', options, function () {
-			return new Sphere(options.zSamples, options.radialSamples, options.radius, options.textureMode);
-		});
-	} else {
-		return oldMeshData;
-	}
+    if (!oldMeshData || options.zSamples !== oldMeshData.zSamples - 1 || options.radialSamples !== oldMeshData.radialSamples || options.textureMode !== oldMeshData.textureMode.name || options.radius !== oldMeshData.radius) {
+        return cacheOrCreate("sphere", options, function() {
+            return new Sphere(
+                options.zSamples,
+                options.radialSamples,
+                options.radius,
+                options.textureMode
+            );
+        });
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.createCylinder = function (options, oldMeshData) {
-	options = options || {};
-	ObjectUtil.defaults(options, {
-		radialSamples: 8,
-		radius: 1
-	});
+functionObject_createCylinder = function(options, oldMeshData) {
+    options = options || {};
+    ObjectUtil.defaults(options, {
+        radialSamples: 8,
+        radius: 1
+    });
 
-	if (!oldMeshData ||
-		options.radialSamples !== oldMeshData.radialSamples ||
-		options.radius !== oldMeshData.radius) {
-		return cacheOrCreate('cylinder', options, function () {
-			return new Cylinder(options.radialSamples, options.radius);
-		});
-	} else {
-		return oldMeshData;
-	}
+    if (!oldMeshData || options.radialSamples !== oldMeshData.radialSamples || options.radius !== oldMeshData.radius) {
+        return cacheOrCreate("cylinder", options, function() {
+            return new Cylinder(options.radialSamples, options.radius);
+        });
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.createTorus = function (options, oldMeshData) {
-	options = options || {};
-	ObjectUtil.defaults(options, {
-		radialSamples: 8,
-		circleSamples: 12,
-		tubeRadius: 0.2,
-		centerRadius: 1
-	});
+functionObject_createTorus = function(options, oldMeshData) {
+    options = options || {};
+    ObjectUtil.defaults(options, {
+        radialSamples: 8,
+        circleSamples: 12,
+        tubeRadius: 0.2,
+        centerRadius: 1
+    });
 
-	if (!oldMeshData ||
-		options.radialSamples !== oldMeshData._radialSamples ||
-		options.circleSamples !== oldMeshData._circleSamples ||
-		options.tubeRadius !== oldMeshData._tubeRadius ||
-		options.centerRadius !== oldMeshData._centerRadius) {
-		return cacheOrCreate('torus', options, function () { // cannot cache torus because of real typed tubeRadius
-			return new Torus(options.circleSamples, options.radialSamples, options.tubeRadius, options.centerRadius);
-		});
-	} else {
-		return oldMeshData;
-	}
+    if (!oldMeshData || options.radialSamples !== oldMeshData._radialSamples || options.circleSamples !== oldMeshData._circleSamples || options.tubeRadius !== oldMeshData._tubeRadius || options.centerRadius !== oldMeshData._centerRadius) {
+        return cacheOrCreate("torus", options, function() {
+            // cannot cache torus because of real typed tubeRadius
+            return new Torus(
+                options.circleSamples,
+                options.radialSamples,
+                options.tubeRadius,
+                options.centerRadius
+            );
+        });
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.createDisk = function (options, oldMeshData) {
-	options = options || {};
-	ObjectUtil.defaults(options, {
-		radialSamples: 8,
-		pointiness: 0,
-		radius: 1
-	});
+functionObject_createDisk = function(options, oldMeshData) {
+    options = options || {};
+    ObjectUtil.defaults(options, {
+        radialSamples: 8,
+        pointiness: 0,
+        radius: 1
+    });
 
-	if (!oldMeshData ||
-		options.radialSamples !== oldMeshData.nSegments ||
-		options.pointiness !== oldMeshData.pointiness ||
-		options.radius !== oldMeshData.radius) {
-		if (options.pointiness === Math.floor(options.pointiness)) {
-			return cacheOrCreate('disk', options, function () {
-				return new Disk(options.radialSamples, options.radius, options.pointiness);
-			});
-		} else {
-			return new Disk(options.radialSamples, options.radius, options.pointiness);
-		}
-	} else {
-		return oldMeshData;
-	}
+    if (!oldMeshData || options.radialSamples !== oldMeshData.nSegments || options.pointiness !== oldMeshData.pointiness || options.radius !== oldMeshData.radius) {
+        if (options.pointiness === Math.floor(options.pointiness)) {
+            return cacheOrCreate("disk", options, function() {
+                return new Disk(options.radialSamples, options.radius, options.pointiness);
+            });
+        } else {
+            return new Disk(options.radialSamples, options.radius, options.pointiness);
+        }
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.createCone = function (options, oldMeshData) {
-	options = options || {};
-	ObjectUtil.defaults(options, {
-		radialSamples: 8,
-		height: 0,
-		radius: 1
-	});
+functionObject_createCone = function(options, oldMeshData) {
+    options = options || {};
+    ObjectUtil.defaults(options, {
+        radialSamples: 8,
+        height: 0,
+        radius: 1
+    });
 
-	if (!oldMeshData ||
-		options.radialSamples !== oldMeshData.radialSamples ||
-		options.height !== oldMeshData.height ||
-		options.radius !== oldMeshData.radius) {
-		if (options.height === Math.floor(options.height)) {
-			return cacheOrCreate('cone', options, function () {
-				return new Cone(options.radialSamples, options.radius, options.height);
-			});
-		} else {
-			return new Cone(options.radialSamples, options.radius, options.height);
-		}
-	} else {
-		return oldMeshData;
-	}
+    if (!oldMeshData || options.radialSamples !== oldMeshData.radialSamples || options.height !== oldMeshData.height || options.radius !== oldMeshData.radius) {
+        if (options.height === Math.floor(options.height)) {
+            return cacheOrCreate("cone", options, function() {
+                return new Cone(options.radialSamples, options.radius, options.height);
+            });
+        } else {
+            return new Cone(options.radialSamples, options.radius, options.height);
+        }
+    } else {
+        return oldMeshData;
+    }
 };
 
-ShapeCreatorMemoized.clearCache = function (context) {
-	if (context) {
-		_cacheMap.forEach(function (value) {
-			value.destroy(context);
-		});
-	}
-	_cacheQueue.length = 0;
-	_cacheMap.clear();
+functionObject_clearCache = function(context) {
+    if (context) {
+        _cacheMap.forEach(function(value) {
+            value.destroy(context);
+        });
+    }
+    _cacheQueue.length = 0;
+    _cacheMap.clear();
 };
 
-module.exports = ShapeCreatorMemoized;
+export { functionObject_clearCache as clearCache };

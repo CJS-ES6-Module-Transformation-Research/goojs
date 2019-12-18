@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that subtracts inputs.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeSub = LogicNodeSub;
 function LogicNodeSub() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeSub.logicInterface;
@@ -30,4 +26,8 @@ LogicNodeSub.inportY = LogicNodeSub.logicInterface.addInputProperty('y', 'float'
 
 LogicNodes.registerType('LogicNodeSub', LogicNodeSub);
 
-module.exports = LogicNodeSub;
+/**
+ * Logic node that subtracts inputs.
+ * @private
+ */
+export { exported_LogicNodeSub as LogicNodeSub };

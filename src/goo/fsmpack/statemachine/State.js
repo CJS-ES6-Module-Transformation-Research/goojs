@@ -1,5 +1,6 @@
-var ArrayUtils = require('../../util/ArrayUtils');
-var SystemBus = require('../../entities/SystemBus');
+import * as ArrayUtils from "../../util/ArrayUtils";
+import * as SystemBus from "../../entities/SystemBus";
+var exported_State = State;
 
 function State(uuid) {
 	this.uuid = uuid;
@@ -302,4 +303,4 @@ State.prototype.removeMachine = function (machine) {
 	ArrayUtils.remove(this._machines, machine);
 };
 
-module.exports = State;
+export { exported_State as State };

@@ -1,3 +1,8 @@
+import fs from "fs";
+import glob from "glob";
+import * as extractor from "./modoc/src/extractor";
+import * as jsdocParser from "./modoc/src/jsdoc-parser";
+import "colors";
 // jshint node:true
 /**
  * Reports any undocumented function parameter
@@ -7,14 +12,6 @@
  */
 
 'use strict';
-
-var fs = require('fs');
-var glob = require('glob');
-
-require('colors');
-
-var extractor = require('./modoc/src/extractor');
-var jsdocParser = require('./modoc/src/jsdoc-parser');
 
 var allFiles = glob.sync('src/**/*.js');
 

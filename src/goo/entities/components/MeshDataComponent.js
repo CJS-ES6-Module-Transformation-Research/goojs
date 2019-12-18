@@ -1,13 +1,7 @@
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var Component = require('../../entities/components/Component');
-var MeshData = require('../../renderer/MeshData');
-
-/**
- * Holds the mesh data, like vertices, normals, indices etc. Also defines the local bounding volume.
- * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshDataComponent/MeshDataComponent-example.html Working example
- * @param {MeshData} meshData Target mesh data for this component.
- * @extends Component
- */
+import { BoundingBox } from "../../renderer/bounds/BoundingBox";
+import { Component } from "../../entities/components/Component";
+import { MeshData } from "../../renderer/MeshData";
+var exported_MeshDataComponent = MeshDataComponent;
 function MeshDataComponent(meshData) {
 	Component.apply(this, arguments);
 
@@ -106,4 +100,10 @@ MeshDataComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = MeshDataComponent;
+/**
+ * Holds the mesh data, like vertices, normals, indices etc. Also defines the local bounding volume.
+ * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshDataComponent/MeshDataComponent-example.html Working example
+ * @param {MeshData} meshData Target mesh data for this component.
+ * @extends Component
+ */
+export { exported_MeshDataComponent as MeshDataComponent };

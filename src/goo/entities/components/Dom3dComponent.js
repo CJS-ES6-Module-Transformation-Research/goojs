@@ -1,15 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Quad = require('../../shapes/Quad');
-var MeshRendererComponent = require('../../entities/components/MeshRendererComponent');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-
-/**
- * Connects a domElement to an entity and applies the transforms of the entity to the domElement with CSS3 3D transforms.
- * @param {domElement} domElement
- * @param {Object} settings
- * @extends Component
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
- */
+import { Component } from "../../entities/components/Component";
+import { Quad } from "../../shapes/Quad";
+import { MeshRendererComponent } from "../../entities/components/MeshRendererComponent";
+import { MeshDataComponent } from "../../entities/components/MeshDataComponent";
+var exported_Dom3dComponent = Dom3dComponent;
 function Dom3dComponent(domElement, settings) {
 	Component.apply(this, arguments);
 
@@ -101,4 +94,11 @@ Dom3dComponent.prototype.destroy = function (context) {
 	this.meshData.destroy(context);
 };
 
-module.exports = Dom3dComponent;
+/**
+ * Connects a domElement to an entity and applies the transforms of the entity to the domElement with CSS3 3D transforms.
+ * @param {domElement} domElement
+ * @param {Object} settings
+ * @extends Component
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
+ */
+export { exported_Dom3dComponent as Dom3dComponent };

@@ -1,17 +1,18 @@
-var Matrix3 = require('../../../math/Matrix3');
-var Vector3 = require('../../../math/Vector3');
-var Vector4 = require('../../../math/Vector4');
-var MeshData = require('../../../renderer/MeshData');
-var Material = require('../../../renderer/Material');
-var MeshRendererComponent = require('../../../entities/components/MeshRendererComponent');
-var Component = require('../../../entities/components/Component');
-var Shader = require('../../../renderer/Shader');
-var ShaderBuilder = require('../../../renderer/shaders/ShaderBuilder');
-var ParticleData = require('../../../addons/particlepack/ParticleData');
-var Renderer = require('../../../renderer/Renderer');
-var Quad = require('../../../shapes/Quad');
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var ObjectUtils = require('../../../util/ObjectUtils');
+import { Matrix3 } from "../../../math/Matrix3";
+import { Vector3 } from "../../../math/Vector3";
+import { Vector4 } from "../../../math/Vector4";
+import { MeshData } from "../../../renderer/MeshData";
+import { Material } from "../../../renderer/Material";
+import { MeshRendererComponent } from "../../../entities/components/MeshRendererComponent";
+import { Component } from "../../../entities/components/Component";
+import { Shader } from "../../../renderer/Shader";
+import * as ShaderBuilder from "../../../renderer/shaders/ShaderBuilder";
+import { ParticleData } from "../../../addons/particlepack/ParticleData";
+import { Renderer } from "../../../renderer/Renderer";
+import { Quad } from "../../../shapes/Quad";
+import { ConstantCurve } from "../../../addons/particlepack/curves/ConstantCurve";
+import * as ObjectUtils from "../../../util/ObjectUtils";
+var exported_ParticleSystemComponent = ParticleSystemComponent;
 
 // Polyfill, needed for CocoonJS
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt
@@ -37,62 +38,6 @@ var defines = {
 	TEXTURE_FRAME_CODE: 't'
 };
 
-/**
- * A Particle System component simulates things like clouds and flames by generating and animating large numbers of small 2D images in the scene.
- * @class
- * @constructor
- * @param {Object} [options] Particle options
- * @param {boolean} [options.billboard=true]
- * @param {boolean} [options.depthTest=true]
- * @param {boolean} [options.depthWrite=true]
- * @param {boolean} [options.loop=true]
- * @param {boolean} [options.paused=false]
- * @param {boolean} [options.preWarm=false]
- * @param {boolean} [options.randomDirection=false]
- * @param {boolean} [options.sphereEmitFromShell=false]
- * @param {Curve} [options.colorOverLifetime]
- * @param {Curve} [options.localVelocityOverLifetime]
- * @param {Curve} [options.rotationSpeedOverLifetime]
- * @param {Curve} [options.sizeOverLifetime]
- * @param {Curve} [options.startAngle]
- * @param {Curve} [options.startColor]
- * @param {Curve} [options.startLifetime]
- * @param {Curve} [options.startSize]
- * @param {Curve} [options.startSpeed]
- * @param {Curve} [options.textureFrameOverLifetime]
- * @param {Curve} [options.worldVelocityOverLifetime]
- * @param {number} [options.blending='NoBlending']
- * @param {number} [options.coneAngle] Default is pi/8
- * @param {number} [options.coneLength=1]
- * @param {number} [options.coneRadius=1]
- * @param {number} [options.discardThreshold=0]
- * @param {number} [options.duration=5]
- * @param {number} [options.localSpace=true]
- * @param {number} [options.maxParticles=100]
- * @param {number} [options.renderQueue=3010]
- * @param {number} [options.rotationSpeedScale=1]
- * @param {number} [options.seed=-1]
- * @param {number} [options.startAngleScale=1]
- * @param {number} [options.startSizeScale=1]
- * @param {number} [options.texture]
- * @param {number} [options.textureAnimationCycles=1]
- * @param {number} [options.textureTilesX=1]
- * @param {number} [options.textureTilesY=1]
- * @param {number} [options.time=0]
- * @param {string} [options.coneEmitFrom='base']
- * @param {string} [options.shapeType='cone']
- * @param {Vector3} [options.boxExtents] Default is new Vector3(1,1,1)
- * @param {Vector3} [options.gravity]  Default is zero
- * @param {Vector4} [options.startColorScale] Default is new Vector4(1,1,1,1)
- * @example
- * var particleComponent = new ParticleSystemComponent({
- *     loop: true,
- *     preWarm: true,
- *     shapeType: 'sphere',
- *     sphereRadius: 0.5
- * });
- * var entity = world.createEntity([0, 0, 0], particleComponent).addToWorld();
- */
 function ParticleSystemComponent(options) {
 	options = options || {};
 	Component.apply(this, arguments);
@@ -1710,4 +1655,60 @@ ParticleSystemComponent.prototype.clone = function () {
 	return new ParticleSystemComponent(this);
 };
 
-module.exports = ParticleSystemComponent;
+/**
+ * A Particle System component simulates things like clouds and flames by generating and animating large numbers of small 2D images in the scene.
+ * @class
+ * @constructor
+ * @param {Object} [options] Particle options
+ * @param {boolean} [options.billboard=true]
+ * @param {boolean} [options.depthTest=true]
+ * @param {boolean} [options.depthWrite=true]
+ * @param {boolean} [options.loop=true]
+ * @param {boolean} [options.paused=false]
+ * @param {boolean} [options.preWarm=false]
+ * @param {boolean} [options.randomDirection=false]
+ * @param {boolean} [options.sphereEmitFromShell=false]
+ * @param {Curve} [options.colorOverLifetime]
+ * @param {Curve} [options.localVelocityOverLifetime]
+ * @param {Curve} [options.rotationSpeedOverLifetime]
+ * @param {Curve} [options.sizeOverLifetime]
+ * @param {Curve} [options.startAngle]
+ * @param {Curve} [options.startColor]
+ * @param {Curve} [options.startLifetime]
+ * @param {Curve} [options.startSize]
+ * @param {Curve} [options.startSpeed]
+ * @param {Curve} [options.textureFrameOverLifetime]
+ * @param {Curve} [options.worldVelocityOverLifetime]
+ * @param {number} [options.blending='NoBlending']
+ * @param {number} [options.coneAngle] Default is pi/8
+ * @param {number} [options.coneLength=1]
+ * @param {number} [options.coneRadius=1]
+ * @param {number} [options.discardThreshold=0]
+ * @param {number} [options.duration=5]
+ * @param {number} [options.localSpace=true]
+ * @param {number} [options.maxParticles=100]
+ * @param {number} [options.renderQueue=3010]
+ * @param {number} [options.rotationSpeedScale=1]
+ * @param {number} [options.seed=-1]
+ * @param {number} [options.startAngleScale=1]
+ * @param {number} [options.startSizeScale=1]
+ * @param {number} [options.texture]
+ * @param {number} [options.textureAnimationCycles=1]
+ * @param {number} [options.textureTilesX=1]
+ * @param {number} [options.textureTilesY=1]
+ * @param {number} [options.time=0]
+ * @param {string} [options.coneEmitFrom='base']
+ * @param {string} [options.shapeType='cone']
+ * @param {Vector3} [options.boxExtents] Default is new Vector3(1,1,1)
+ * @param {Vector3} [options.gravity]  Default is zero
+ * @param {Vector4} [options.startColorScale] Default is new Vector4(1,1,1,1)
+ * @example
+ * var particleComponent = new ParticleSystemComponent({
+ *     loop: true,
+ *     preWarm: true,
+ *     shapeType: 'sphere',
+ *     sphereRadius: 0.5
+ * });
+ * var entity = world.createEntity([0, 0, 0], particleComponent).addToWorld();
+ */
+export { exported_ParticleSystemComponent as ParticleSystemComponent };

@@ -1,18 +1,4 @@
-/**
- * Creates a new System
- *
- * Base class for all entity systems
- *        <ul>
- *        <li> interests = null -> listen to all entities
- *        <li> interests = [] -> don't listen to any entities
- *        <li> interests = ['coolComponent', 'testComponent'] -> listen to entities that contains at minimum 'coolComponent' and 'testComponent'
- *        </ul>
- * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
- * @param {string} type System type name as a string
- * @param {Array<String>} interests Array of component types this system is interested in
- * @property {string} type System type
- * @property {Array<String>} interests Array of component types this system is interested in
- */
+var exported_System = System;
 function System(type, interests) {
 
 	/**
@@ -183,4 +169,19 @@ System.prototype.onPreRender = function () {};
  */
 System.prototype.onPostRender = function () {};
 
-module.exports = System;
+/**
+ * Creates a new System
+ *
+ * Base class for all entity systems
+ *        <ul>
+ *        <li> interests = null -> listen to all entities
+ *        <li> interests = [] -> don't listen to any entities
+ *        <li> interests = ['coolComponent', 'testComponent'] -> listen to entities that contains at minimum 'coolComponent' and 'testComponent'
+ *        </ul>
+ * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
+ * @param {string} type System type name as a string
+ * @param {Array<String>} interests Array of component types this system is interested in
+ * @property {string} type System type
+ * @property {Array<String>} interests Array of component types this system is interested in
+ */
+export { exported_System as System };

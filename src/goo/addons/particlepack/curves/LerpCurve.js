@@ -1,15 +1,6 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
-var MathUtils = require('../../../math/MathUtils');
-
-/**
- * Curve that can lerp between two other curves.
- * @class
- * @constructor
- * @extends Curve
- * @param {object} [options]
- * @param {Curve} [options.curveA]
- * @param {Curve} [options.curveB]
- */
+import { Curve } from "../../../addons/particlepack/curves/Curve";
+import * as MathUtils from "../../../math/MathUtils";
+var exported_LerpCurve = LerpCurve;
 function LerpCurve(options) {
 	options = options || {};
 
@@ -44,4 +35,13 @@ LerpCurve.prototype.getIntegralValueAt = function (t, lerpValue) {
 	return MathUtils.lerp(lerpValue, this.curveA.getIntegralValueAt(t, lerpValue), this.curveB.getIntegralValueAt(t, lerpValue));
 };
 
-module.exports = LerpCurve;
+/**
+ * Curve that can lerp between two other curves.
+ * @class
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {Curve} [options.curveA]
+ * @param {Curve} [options.curveB]
+ */
+export { exported_LerpCurve as LerpCurve };

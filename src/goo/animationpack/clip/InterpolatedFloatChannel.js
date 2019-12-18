@@ -1,14 +1,6 @@
-var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * An animation source channel consisting of float value samples. These samples are interpolated between key frames. Potential uses for
- *        this channel include extracting and using forward motion from walk animations, animating colors or texture coordinates, etc.
- * @param {string} channelName the name of this channel.
- * @param {Array<number>} times the time samples
- * @param {Array<number>} values our value samples. Entries may be null. Should have as many entries as the times array.
- * @private
- */
+import { AbstractAnimationChannel } from "../../animationpack/clip/AbstractAnimationChannel";
+import * as MathUtils from "../../math/MathUtils";
+var exported_InterpolatedFloatChannel = InterpolatedFloatChannel;
 function InterpolatedFloatChannel(channelName, times, values, blendType) {
 	AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._values = values ? values.slice(0) : null;
@@ -46,4 +38,12 @@ InterpolatedFloatChannel.prototype.getData = function (index, store) {
 	return rVal;
 };
 
-module.exports = InterpolatedFloatChannel;
+/**
+ * An animation source channel consisting of float value samples. These samples are interpolated between key frames. Potential uses for
+ *        this channel include extracting and using forward motion from walk animations, animating colors or texture coordinates, etc.
+ * @param {string} channelName the name of this channel.
+ * @param {Array<number>} times the time samples
+ * @param {Array<number>} values our value samples. Entries may be null. Should have as many entries as the times array.
+ * @private
+ */
+export { exported_InterpolatedFloatChannel as InterpolatedFloatChannel };

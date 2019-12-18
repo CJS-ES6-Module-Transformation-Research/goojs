@@ -1,9 +1,8 @@
-var World = require('../../../src/goo/entities/World');
-var DynamicLoader = require('../../../src/goo/loaders/DynamicLoader');
-var TimelineComponent = require('../../../src/goo/timelinepack/TimelineComponent');
+import { World } from "../../../src/goo/entities/World";
+import { DynamicLoader } from "../../../src/goo/loaders/DynamicLoader";
+import { TimelineComponent } from "../../../src/goo/timelinepack/TimelineComponent";
+import "../../../src/goo/timelinepack/TimelineComponentHandler";
 var Configs = require('../../../test/unit/loaders/Configs');
-
-require('../../../src/goo/timelinepack/TimelineComponentHandler');
 
 describe('TimelineComponentHandler', function () {
 	var loader;

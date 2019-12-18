@@ -1,6 +1,4 @@
-/**
- * @private
- */
+var exported_TgaLoader = TgaLoader;
 function TgaLoader() {
 	this.header = null;
 	this.offset = 0;
@@ -517,4 +515,7 @@ TgaLoader.prototype.toString = function () {
 	return "TgaLoader";
 };
 
-module.exports = TgaLoader;
+/**
+ * @private
+ */
+export { exported_TgaLoader as TgaLoader };

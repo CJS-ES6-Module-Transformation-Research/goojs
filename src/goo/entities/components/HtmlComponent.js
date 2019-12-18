@@ -1,15 +1,5 @@
-var Component = require('../../entities/components/Component');
-
-/**
- * Adds a 2D DOM element to the entity, that can move with its transform.
- * @extends Component
- * @param {DOMElement} domElement
- * @param {object} [options]
- * @param {boolean} [options.hidden=false]
- * @param {boolean} [options.useTransformComponent=true]
- * @param {boolean} [options.pixelPerfect=true]
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
- */
+import { Component } from "../../entities/components/Component";
+var exported_HtmlComponent = HtmlComponent;
 function HtmlComponent(domElement, options) {
 	options = options || {};
 	Component.apply(this, arguments);
@@ -48,4 +38,14 @@ HtmlComponent.type = 'HtmlComponent';
 HtmlComponent.prototype = Object.create(Component.prototype);
 HtmlComponent.prototype.constructor = HtmlComponent;
 
-module.exports = HtmlComponent;
+/**
+ * Adds a 2D DOM element to the entity, that can move with its transform.
+ * @extends Component
+ * @param {DOMElement} domElement
+ * @param {object} [options]
+ * @param {boolean} [options.hidden=false]
+ * @param {boolean} [options.useTransformComponent=true]
+ * @param {boolean} [options.pixelPerfect=true]
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
+ */
+export { exported_HtmlComponent as HtmlComponent };

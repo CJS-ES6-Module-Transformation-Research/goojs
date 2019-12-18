@@ -1,11 +1,11 @@
-var RigidBodyComponent = require('../../../../../src/goo/addons/physicspack/components/RigidBodyComponent');
-var ColliderComponent = require('../../../../../src/goo/addons/physicspack/components/ColliderComponent');
-var RaycastResult = require('../../../../../src/goo/addons/physicspack/RaycastResult');
-var SphereCollider = require('../../../../../src/goo/addons/physicspack/colliders/SphereCollider');
-var PhysicsSystem = require('../../../../../src/goo/addons/physicspack/systems/PhysicsSystem');
-var Vector3 = require('../../../../../src/goo/math/Vector3');
-var World = require('../../../../../src/goo/entities/World');
-var SystemBus = require('../../../../../src/goo/entities/SystemBus');
+import { RigidBodyComponent } from "../../../../../src/goo/addons/physicspack/components/RigidBodyComponent";
+import { ColliderComponent } from "../../../../../src/goo/addons/physicspack/components/ColliderComponent";
+import { RaycastResult } from "../../../../../src/goo/addons/physicspack/RaycastResult";
+import { SphereCollider } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
+import { PhysicsSystem } from "../../../../../src/goo/addons/physicspack/systems/PhysicsSystem";
+import { Vector3 } from "../../../../../src/goo/math/Vector3";
+import { World } from "../../../../../src/goo/entities/World";
+import * as SystemBus from "../../../../../src/goo/entities/SystemBus";
 var CustomMatchers = require('../../../../../test/unit/CustomMatchers');
 
 describe('PhysicsSystem', function () {

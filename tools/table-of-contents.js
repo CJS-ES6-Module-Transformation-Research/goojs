@@ -1,13 +1,8 @@
+import glob from "glob";
+import path from "path";
+import fs from "fs";
 // jshint node:true
 'use strict';
-
-/**
- * Generates the table of contents for the visual tests.
- */
-
-var glob = require('glob');
-var path = require('path');
-var fs = require('fs');
 
 var makeTree = function (files) {
 	var tree = {};

@@ -1,24 +1,4 @@
-/**
- * Abstract pool class for object pooling.
- * @param {Object} [settings]
- * @param {Function} [settings.init]
- * @param {Function} [settings.create]
- * @param {Function} [settings.destroy]
- * @example
- * var vectorPool = new Pool({
- *     create: function () {
- *         return new Vector3();
- *     },
- *     init: function (x, y, z) {
- *         this.set(x, y, z);
- *     },
- *     destroy: function (vector) {
- *         vector.set(0, 0, 0);
- *     }
- * });
- * var vector = vectorPool.get(1, 2, 3);
- * vectorPool.release(vector);
- */
+var exported_Pool = Pool;
 function Pool(settings) {
 	settings = settings || {};
 
@@ -88,4 +68,25 @@ Pool.prototype.release = function (object) {
 	return this;
 };
 
-module.exports = Pool;
+/**
+ * Abstract pool class for object pooling.
+ * @param {Object} [settings]
+ * @param {Function} [settings.init]
+ * @param {Function} [settings.create]
+ * @param {Function} [settings.destroy]
+ * @example
+ * var vectorPool = new Pool({
+ *     create: function () {
+ *         return new Vector3();
+ *     },
+ *     init: function (x, y, z) {
+ *         this.set(x, y, z);
+ *     },
+ *     destroy: function (vector) {
+ *         vector.set(0, 0, 0);
+ *     }
+ * });
+ * var vector = vectorPool.get(1, 2, 3);
+ * vectorPool.release(vector);
+ */
+export { exported_Pool as Pool };

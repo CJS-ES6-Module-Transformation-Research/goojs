@@ -1,6 +1,6 @@
-var InBoxAction = require('../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction');
-var Vector3 = require('../../../../../src/goo/math/Vector3');
-var World = require('../../../../../src/goo/entities/World');
+import { InBoxAction } from "../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction";
+import { Vector3 } from "../../../../../src/goo/math/Vector3";
+import { World } from "../../../../../src/goo/entities/World";
 
 describe('InBoxAction', function () {
 	describe('Check pos against boxes', function () {

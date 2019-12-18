@@ -1,12 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that multiplies two inputs.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+var exported_LogicNodeMultiply = LogicNodeMultiply;
 function LogicNodeMultiply() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeMultiply.logicInterface;
@@ -30,4 +26,8 @@ LogicNodeMultiply.inportY = LogicNodeMultiply.logicInterface.addInputProperty('y
 
 LogicNodes.registerType('LogicNodeMultiply', LogicNodeMultiply);
 
-module.exports = LogicNodeMultiply;
+/**
+ * Logic node that multiplies two inputs.
+ * @private
+ */
+export { exported_LogicNodeMultiply as LogicNodeMultiply };

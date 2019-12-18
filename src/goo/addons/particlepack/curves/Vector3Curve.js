@@ -1,16 +1,7 @@
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var Curve = require('../../../addons/particlepack/curves/Curve');
-var ObjectUtils = require('../../../util/ObjectUtils');
-
-/**
- * Three scalar curves. Can be converted to a vec3-valued expression in GLSL code.
- * @class
- * @constructor
- * @param {object} [options]
- * @param {Curve} [options.x]
- * @param {Curve} [options.y]
- * @param {Curve} [options.z]
- */
+import { ConstantCurve } from "../../../addons/particlepack/curves/ConstantCurve";
+import { Curve } from "../../../addons/particlepack/curves/Curve";
+import * as ObjectUtils from "../../../util/ObjectUtils";
+var exported_Vector3Curve = Vector3Curve;
 function Vector3Curve(options) {
 	options = options || {};
 
@@ -53,4 +44,13 @@ Vector3Curve.prototype.getVec3IntegralValueAt = function (t, lerpValue, store) {
 	);
 };
 
-module.exports = Vector3Curve;
+/**
+ * Three scalar curves. Can be converted to a vec3-valued expression in GLSL code.
+ * @class
+ * @constructor
+ * @param {object} [options]
+ * @param {Curve} [options.x]
+ * @param {Curve} [options.y]
+ * @param {Curve} [options.z]
+ */
+export { exported_Vector3Curve as Vector3Curve };

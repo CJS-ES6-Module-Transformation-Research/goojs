@@ -1,19 +1,11 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AnimationClip = require('../../animationpack/clip/AnimationClip');
-var JointChannel = require('../../animationpack/clip/JointChannel');
-var TransformChannel = require('../../animationpack/clip/TransformChannel');
-var InterpolatedFloatChannel = require('../../animationpack/clip/InterpolatedFloatChannel');
-var TriggerChannel = require('../../animationpack/clip/TriggerChannel');
-var ArrayUtils = require('../../util/ArrayUtils');
-
-/**
- * Handler for loading animation clips into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { AnimationClip } from "../../animationpack/clip/AnimationClip";
+import { JointChannel } from "../../animationpack/clip/JointChannel";
+import { TransformChannel } from "../../animationpack/clip/TransformChannel";
+import { InterpolatedFloatChannel } from "../../animationpack/clip/InterpolatedFloatChannel";
+import { TriggerChannel } from "../../animationpack/clip/TriggerChannel";
+import * as ArrayUtils from "../../util/ArrayUtils";
+var exported_AnimationClipHandler = AnimationClipHandler;
 function AnimationClipHandler() {
 	ConfigHandler.apply(this, arguments);
 }
@@ -130,4 +122,12 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 	return clip;
 };
 
-module.exports = AnimationClipHandler;
+/**
+ * Handler for loading animation clips into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_AnimationClipHandler as AnimationClipHandler };

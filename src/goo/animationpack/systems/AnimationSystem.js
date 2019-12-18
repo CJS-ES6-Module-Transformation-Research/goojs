@@ -1,10 +1,6 @@
-var System = require('../../entities/systems/System');
-var World = require('../../entities/World');
-
-/**
- * Processes all entities with animation components, updating the animations
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { World } from "../../entities/World";
+var exported_AnimationSystem = AnimationSystem;
 function AnimationSystem() {
 	System.call(this, 'AnimationSystem', ['AnimationComponent']);
 }
@@ -46,4 +42,8 @@ AnimationSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = AnimationSystem;
+/**
+ * Processes all entities with animation components, updating the animations
+ * @extends System
+ */
+export { exported_AnimationSystem as AnimationSystem };
