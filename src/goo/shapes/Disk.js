@@ -1,14 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A disk shape
- * @extends MeshData
- * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Disk/Disk-vtest.html Working example
- * @param {number} [nSegments=8] Number of slices
- * @param {number} [radius=1] Radius of the disk
- * @param {number} [pointiness=0] The center of the disk can be offset in both directions from its outer edge by setting a positive or negative pointiness.
- */
+import { MeshData } from "../renderer/MeshData";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Disk(nSegments, radius, pointiness) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -85,4 +76,14 @@ Disk.prototype.clone = function () {
 	return new Disk(options);
 };
 
-module.exports = Disk;
+var exported_Disk = Disk;
+
+/**
+ * A disk shape
+ * @extends MeshData
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Disk/Disk-vtest.html Working example
+ * @param {number} [nSegments=8] Number of slices
+ * @param {number} [radius=1] Radius of the disk
+ * @param {number} [pointiness=0] The center of the disk can be offset in both directions from its outer edge by setting a positive or negative pointiness.
+ */
+export { exported_Disk as Disk };

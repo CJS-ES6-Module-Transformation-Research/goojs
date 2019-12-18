@@ -1,21 +1,12 @@
-var ConfigHandler = require('../loaders/handlers/ConfigHandler');
-var ArrayUtils = require('../util/ArrayUtils');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var Composer = require('../renderer/pass/Composer');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var PassLib = require('../passpack/PassLib');
-
-/**
- * Handler for loading posteffects into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler } from "../loaders/handlers/ConfigHandler";
+import * as ArrayUtils from "../util/ArrayUtils";
+import { anonymus as RSVP } from "../util/rsvp";
+import * as ObjectUtils from "../util/ObjectUtils";
+import { Composer } from "../renderer/pass/Composer";
+import { RenderPass } from "../renderer/pass/RenderPass";
+import { FullscreenPass } from "../renderer/pass/FullscreenPass";
+import * as ShaderLib from "../renderer/shaders/ShaderLib";
+import { anonymus as PassLib } from "../passpack/PassLib";
 function PosteffectsHandler() {
 	ConfigHandler.apply(this, arguments);
 	this._composer = new Composer();
@@ -174,4 +165,14 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 	});
 };
 
-module.exports = PosteffectsHandler;
+var exported_PosteffectsHandler = PosteffectsHandler;
+
+/**
+ * Handler for loading posteffects into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_PosteffectsHandler as PosteffectsHandler };

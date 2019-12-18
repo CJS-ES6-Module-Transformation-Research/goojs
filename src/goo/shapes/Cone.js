@@ -1,14 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Cone mesh data
- * @extends MeshData
- * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Cone/Cone-vtest.html Working example
- * @param {number} [radialSamples=8] Number of slices
- * @param {number} [radius=1] Radius of the cone
- * @param {number} [height=2] The height of the cone
- */
+import { MeshData } from "../renderer/MeshData";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Cone(radialSamples, radius, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -107,4 +98,14 @@ Cone.prototype.clone = function () {
 	return new Cone(options);
 };
 
-module.exports = Cone;
+var exported_Cone = Cone;
+
+/**
+ * Cone mesh data
+ * @extends MeshData
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Cone/Cone-vtest.html Working example
+ * @param {number} [radialSamples=8] Number of slices
+ * @param {number} [radius=1] Radius of the cone
+ * @param {number} [height=2] The height of the cone
+ */
+export { exported_Cone as Cone };

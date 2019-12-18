@@ -1,15 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * MeshData for a Grid.
- * @extends MeshData
- * @param {number} [xSegments=10] Number of columns.
- * @param {number} [ySegments=10] Number of rows.
- * @param {number} [width=1] Total width of the Grid.
- * @param {number} [height=1] Total height of the Grid.
- * @example var meshData = new Grid( 10, 10, 10, 10);
- */
+import { MeshData } from "../renderer/MeshData";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Grid(xSegments, ySegments, width, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -94,4 +84,15 @@ Grid.prototype.clone = function () {
 };
 
 
-module.exports = Grid;
+var exported_Grid = Grid;
+
+/**
+ * MeshData for a Grid.
+ * @extends MeshData
+ * @param {number} [xSegments=10] Number of columns.
+ * @param {number} [ySegments=10] Number of rows.
+ * @param {number} [width=1] Total width of the Grid.
+ * @param {number} [height=1] Total height of the Grid.
+ * @example var meshData = new Grid( 10, 10, 10, 10);
+ */
+export { exported_Grid as Grid };

@@ -1,15 +1,6 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var AnimationComponent = require('../../animationpack/components/AnimationComponent');
-var RSVP = require('../../util/rsvp');
-
-/**
- * For handling loading of animation components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { AnimationComponent } from "../../animationpack/components/AnimationComponent";
+import { anonymus as RSVP } from "../../util/rsvp";
 function AnimationComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'AnimationComponent';
@@ -66,4 +57,14 @@ AnimationComponentHandler.prototype.update = function (entity, config, options) 
 	});
 };
 
-module.exports = AnimationComponentHandler;
+var exported_AnimationComponentHandler = AnimationComponentHandler;
+
+/**
+ * For handling loading of animation components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_AnimationComponentHandler as AnimationComponentHandler };

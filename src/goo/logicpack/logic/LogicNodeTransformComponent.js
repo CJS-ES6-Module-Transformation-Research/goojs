@@ -1,14 +1,9 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-var Vector3 = require('../../math/Vector3');
-var Matrix3 = require('../../math/Matrix3');
-
-/**
- * Logic node that connects to the transform component of an entity.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+import { Vector3 } from "../../math/Vector3";
+import { Matrix3 } from "../../math/Matrix3";
 function LogicNodeTransformComponent() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeTransformComponent.logicInterface;
@@ -52,4 +47,10 @@ LogicNodeTransformComponent.logicInterface.addConfigEntry({
 
 LogicNodes.registerType('TransformComponent', LogicNodeTransformComponent);
 
-module.exports = LogicNodeTransformComponent;
+var exported_LogicNodeTransformComponent = LogicNodeTransformComponent;
+
+/**
+ * Logic node that connects to the transform component of an entity.
+ * @private
+ */
+export { exported_LogicNodeTransformComponent as LogicNodeTransformComponent };

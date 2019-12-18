@@ -1,9 +1,9 @@
-var AbstractPhysicsSystem = require('../../../addons/physicspack/systems/AbstractPhysicsSystem');
-var RaycastResult = require('../../../addons/physicspack/RaycastResult');
-var RigidBodyComponent = require('../../../addons/physicspack/components/RigidBodyComponent');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var Transform = require('../../../math/Transform');
+import { AbstractPhysicsSystem } from "../../../addons/physicspack/systems/AbstractPhysicsSystem";
+import { RaycastResult } from "../../../addons/physicspack/RaycastResult";
+import { RigidBodyComponent } from "../../../addons/physicspack/components/RigidBodyComponent";
+import { Vector3 } from "../../../math/Vector3";
+import { Quaternion } from "../../../math/Quaternion";
+import { Transform } from "../../../math/Transform";
 
 /* global CANNON */
 
@@ -14,12 +14,6 @@ var tmpVec = new Vector3();
 var tmpCannonResult;
 var tmpTransform = new Transform();
 
-/**
- * A physics system using [Cannon.js]{@link http://github.com/schteppe/cannon.js}.
- * @extends AbstractPhysicsSystem
- * @param {Object} [settings]
- * @param {Vector3} [settings.gravity]
- */
 function PhysicsSystem(settings) {
 	settings = settings || {};
 
@@ -480,4 +474,12 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 	}
 };
 
-module.exports = PhysicsSystem;
+var exported_PhysicsSystem = PhysicsSystem;
+
+/**
+ * A physics system using [Cannon.js]{@link http://github.com/schteppe/cannon.js}.
+ * @extends AbstractPhysicsSystem
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.gravity]
+ */
+export { exported_PhysicsSystem as PhysicsSystem };

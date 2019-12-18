@@ -1,11 +1,5 @@
-var Component = require('../../entities/components/Component');
-var Material = require('../../renderer/Material');
-
-/**
- * Defines the appearance of a mesh, through materials. Using several materials results in multi-pass rendering.
- * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshRendererComponent/MeshRendererComponent-example.html Working example
- * @extends Component
- */
+import { Component } from "../../entities/components/Component";
+import { Material } from "../../renderer/Material";
 function MeshRendererComponent(materials) {
 	Component.apply(this, arguments);
 
@@ -179,4 +173,11 @@ MeshRendererComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = MeshRendererComponent;
+var exported_MeshRendererComponent = MeshRendererComponent;
+
+/**
+ * Defines the appearance of a mesh, through materials. Using several materials results in multi-pass rendering.
+ * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshRendererComponent/MeshRendererComponent-example.html Working example
+ * @extends Component
+ */
+export { exported_MeshRendererComponent as MeshRendererComponent };

@@ -1,6 +1,6 @@
-var ScriptSystem = require('../../../../src/goo/entities/systems/ScriptSystem');
-var ScriptComponent = require('../../../../src/goo/entities/components/ScriptComponent');
-var World = require('../../../../src/goo/entities/World');
+import { ScriptSystem } from "../../../../src/goo/entities/systems/ScriptSystem";
+import { ScriptComponent } from "../../../../src/goo/entities/components/ScriptComponent";
+import { World } from "../../../../src/goo/entities/World";
 
 describe('ScriptComponent', function () {
 	var world;

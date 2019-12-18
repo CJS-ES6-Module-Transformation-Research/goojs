@@ -1,14 +1,7 @@
-var TransformData = require('../../animationpack/clip/TransformData');
-var Vector3 = require('../../math/Vector3');
-var Quaternion = require('../../math/Quaternion');
-var Source = require('../../animationpack/blendtree/Source');
-
-/**
- * This tree source maintains its own source data, which can be modified directly using instance functions. This source is meant to be used for
- *        controlling a particular joint or set of joints programatically.
- * @param {string} [sourceName] Name of source we were initialized from, if given.
- * @extends Source
- */
+import { TransformData } from "../../animationpack/clip/TransformData";
+import { Vector3 } from "../../math/Vector3";
+import { Quaternion } from "../../math/Quaternion";
+import { Source } from "../../animationpack/blendtree/Source";
 function ManagedTransformSource(sourceName) {
 	Source.call(this);
 	this._sourceName = sourceName ? sourceName : null;
@@ -155,4 +148,12 @@ ManagedTransformSource.prototype.clone = function () {
 	return new ManagedTransformSource(this._sourceName, clonedData);
 };
 
-module.exports = ManagedTransformSource;
+var exported_ManagedTransformSource = ManagedTransformSource;
+
+/**
+ * This tree source maintains its own source data, which can be modified directly using instance functions. This source is meant to be used for
+ *        controlling a particular joint or set of joints programatically.
+ * @param {string} [sourceName] Name of source we were initialized from, if given.
+ * @extends Source
+ */
+export { exported_ManagedTransformSource as ManagedTransformSource };

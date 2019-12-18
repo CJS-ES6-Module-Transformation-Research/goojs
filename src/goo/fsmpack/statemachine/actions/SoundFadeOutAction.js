@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
-function SoundFadeOutAction(/*id, settings*/) {
+function SoundFadeOutAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -51,4 +51,5 @@ SoundFadeOutAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SoundFadeOutAction;
+var exported_SoundFadeOutAction = SoundFadeOutAction;
+export { exported_SoundFadeOutAction as SoundFadeOutAction };

@@ -1,26 +1,7 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var Vector3 = require('./Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Matrix with 3x3 components. Used to store 3D rotations. It also contains common 3D Rotation operations.
- * Creates a new Matrix3 by passing in either a current Matrix3, number Array, or a set of 9 numbers.
- * @extends Matrix
- * @param {(Matrix3|Array<number>|...number)} arguments Initial values for the components.
- * @example
- * // Passing in no arguments
- * var m1 = new Matrix3(); // m1 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
- *
- * // Passing in a number Array
- * var m2 = new Matrix3([1, 0, 0, 0, 1, 0, 0, 0, 1]);
- *
- * // Passing in numbers
- * var m3 = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
- *
- * // Passing in an existing Matrix3
- * var m4 = new Matrix3(m1); // m4 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
- */
+import * as MathUtils from "./MathUtils";
+import { Matrix } from "./Matrix";
+import { Vector3 } from "./Vector3";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Matrix3() {
 	Matrix.call(this, 3, 3);
 
@@ -1070,6 +1051,24 @@ Matrix.addPostChecks(Matrix3.prototype, [
 	'fromAngles', 'rotateX', 'rotateY', 'rotateZ', 'fromAngleNormalAxis', 'lookAt',
 	'copyQuaternion', 'copy'
 ]);
-// @endif
+var exported_Matrix3 = Matrix3;
 
-module.exports = Matrix3;
+/**
+ * Matrix with 3x3 components. Used to store 3D rotations. It also contains common 3D Rotation operations.
+ * Creates a new Matrix3 by passing in either a current Matrix3, number Array, or a set of 9 numbers.
+ * @extends Matrix
+ * @param {(Matrix3|Array<number>|...number)} arguments Initial values for the components.
+ * @example
+ * // Passing in no arguments
+ * var m1 = new Matrix3(); // m1 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
+ *
+ * // Passing in a number Array
+ * var m2 = new Matrix3([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+ *
+ * // Passing in numbers
+ * var m3 = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+ *
+ * // Passing in an existing Matrix3
+ * var m4 = new Matrix3(m1); // m4 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
+ */
+export { exported_Matrix3 as Matrix3 };

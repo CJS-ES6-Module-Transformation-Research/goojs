@@ -1,16 +1,7 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var SystemBus = require('../../entities/SystemBus');
-var ObjectUtils = require('../../util/ObjectUtils');
-var RSVP = require('../../util/rsvp');
-
-/**
- * Handler for loading scene into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import * as ObjectUtils from "../../util/ObjectUtils";
+import { anonymus as RSVP } from "../../util/rsvp";
 function SceneHandler() {
 	ConfigHandler.apply(this, arguments);
 }
@@ -158,4 +149,14 @@ SceneHandler.prototype._handleEnvironment = function (config, scene, options) {
 	return this._load(config.environmentRef, options);
 };
 
-module.exports = SceneHandler;
+var exported_SceneHandler = SceneHandler;
+
+/**
+ * Handler for loading scene into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_SceneHandler as SceneHandler };

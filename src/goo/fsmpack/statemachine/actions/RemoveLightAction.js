@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
-function RemoveLightAction(/*id, settings*/) {
+function RemoveLightAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -23,4 +23,5 @@ RemoveLightAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = RemoveLightAction;
+var exported_RemoveLightAction = RemoveLightAction;
+export { exported_RemoveLightAction as RemoveLightAction };

@@ -1,12 +1,6 @@
-var System = require('../../entities/systems/System');
-var TextureGrid = require('../../shapes/TextureGrid');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-
-/**
- * Processes all entities with a text component<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { TextureGrid } from "../../shapes/TextureGrid";
+import { MeshDataComponent } from "../../entities/components/MeshDataComponent";
 function TextSystem() {
 	System.call(this, 'TextSystem', ['TextComponent']);
 }
@@ -32,4 +26,11 @@ TextSystem.prototype.process = function (entities) {
 	}
 };
 
-module.exports = TextSystem;
+var exported_TextSystem = TextSystem;
+
+/**
+ * Processes all entities with a text component<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
+ * @extends System
+ */
+export { exported_TextSystem as TextSystem };

@@ -1,13 +1,8 @@
-var System = require('../../entities/systems/System');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Renderer = require('../../renderer/Renderer');
-var Transform = require('../../math/Transform');
-
-/**
- * Processes all entities with a marker component
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { Material } from "../../renderer/Material";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import { Renderer } from "../../renderer/Renderer";
+import { Transform } from "../../math/Transform";
 function MarkerSystem(goo) {
 	System.call(this, 'MarkerSystem', ['MarkerComponent']);
 
@@ -49,4 +44,10 @@ MarkerSystem.prototype.process = function (entities) {
 	this.entities = entities;
 };
 
-module.exports = MarkerSystem;
+var exported_MarkerSystem = MarkerSystem;
+
+/**
+ * Processes all entities with a marker component
+ * @extends System
+ */
+export { exported_MarkerSystem as MarkerSystem };

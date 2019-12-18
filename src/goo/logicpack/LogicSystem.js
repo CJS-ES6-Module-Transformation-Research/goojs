@@ -1,12 +1,6 @@
-var System = require('../entities/systems/System');
-var LogicLayer = require('./logic/LogicLayer');
-var LogicInterface = require('./logic/LogicInterface');
-
-// REVIEW: this description seems inaccurate
-/**
- * Updates cameras/cameracomponents with ther transform component transforms
- * @private
- */
+import { System } from "../entities/systems/System";
+import { LogicLayer } from "./logic/LogicLayer";
+import { LogicInterface } from "./logic/LogicInterface";
 function LogicSystem() {
 	System.call(this, 'LogicSystem', null);
 
@@ -129,4 +123,11 @@ LogicSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = LogicSystem;
+var exported_LogicSystem = LogicSystem;
+
+// REVIEW: this description seems inaccurate
+/**
+ * Updates cameras/cameracomponents with ther transform component transforms
+ * @private
+ */
+export { exported_LogicSystem as LogicSystem };

@@ -1,3 +1,4 @@
+var functionObject_externals;
 function RotationScript() {
 	var mouseState, actualState, entity;
 
@@ -39,19 +40,18 @@ function RotationScript() {
 	};
 }
 
-RotationScript.externals = {
-	key: 'RotationScript',
-	name: 'Mouse Rotation',
-	description: '',
-	parameters: [{
-		key: 'fraction',
-		name: 'Speed',
-		'default': 0.01,
-		type: 'float',
-		control: 'slider',
-		min: 0.01,
-		max: 1
-	}]
-};
+functionObject_externals = {
+    key: "RotationScript",
+    name: "Mouse Rotation",
+    description: "",
 
-module.exports = RotationScript;
+    parameters: [{
+        key: "fraction",
+        name: "Speed",
+        "default": 0.01,
+        type: "float",
+        control: "slider",
+        min: 0.01,
+        max: 1
+    }]
+};

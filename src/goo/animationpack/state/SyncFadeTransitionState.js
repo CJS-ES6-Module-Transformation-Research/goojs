@@ -1,11 +1,4 @@
-var FadeTransitionState = require('../../animationpack/state/FadeTransitionState');
-
-/**
- * A transition that blends over a given time from one animation state to another, synchronizing the target state to the initial state's start time. This is best used with two clips that have similar motions.
- * @param targetState the name of the steady state we want the Animation Layer to be in at the end of the transition.
- * @param fadeTime the amount of time we should take to do the transition.
- * @param blendType {StateBlendType} the way we should interpolate the weighting during the transition.
- */
+import { FadeTransitionState } from "../../animationpack/state/FadeTransitionState";
 function SyncFadeTransitionState() {
 	FadeTransitionState.call(this);
 }
@@ -24,4 +17,12 @@ SyncFadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
 	this._sourceState.shiftClipTime(shiftTime);
 };
 
-module.exports = SyncFadeTransitionState;
+var exported_SyncFadeTransitionState = SyncFadeTransitionState;
+
+/**
+ * A transition that blends over a given time from one animation state to another, synchronizing the target state to the initial state's start time. This is best used with two clips that have similar motions.
+ * @param targetState the name of the steady state we want the Animation Layer to be in at the end of the transition.
+ * @param fadeTime the amount of time we should take to do the transition.
+ * @param blendType {StateBlendType} the way we should interpolate the weighting during the transition.
+ */
+export { exported_SyncFadeTransitionState as SyncFadeTransitionState };

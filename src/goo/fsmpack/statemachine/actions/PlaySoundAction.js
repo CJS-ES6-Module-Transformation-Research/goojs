@@ -1,7 +1,7 @@
-var Action = require('./Action');
-var PromiseUtil = require('./../../../util/PromiseUtil');
+import { Action } from "./Action";
+import { PromiseUtils as PromiseUtil } from "./../../../util/PromiseUtil";
 
-function PlaySoundAction(/*id, settings*/) {
+function PlaySoundAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -55,4 +55,5 @@ PlaySoundAction.prototype.enter = function (fsm) {
 	}.bind(this));
 };
 
-module.exports = PlaySoundAction;
+var exported_PlaySoundAction = PlaySoundAction;
+export { exported_PlaySoundAction as PlaySoundAction };

@@ -1,13 +1,7 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var Vector3 = require('./Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Matrix with 4x4 components.
- * @extends Matrix
- * @param {(Matrix4|Array<number>)} arguments Initial values for the components.
- */
+import * as MathUtils from "./MathUtils";
+import { Matrix } from "./Matrix";
+import { Vector3 } from "./Vector3";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Matrix4() {
 	Matrix.call(this, 4, 4);
 
@@ -1204,6 +1198,11 @@ Matrix.addPostChecks(Matrix4.prototype, [
 	'isOrthogonal', 'determinant',
 	'copy'
 ]);
-// @endif
+var exported_Matrix4 = Matrix4;
 
-module.exports = Matrix4;
+/**
+ * Matrix with 4x4 components.
+ * @extends Matrix
+ * @param {(Matrix4|Array<number>)} arguments Initial values for the components.
+ */
+export { exported_Matrix4 as Matrix4 };

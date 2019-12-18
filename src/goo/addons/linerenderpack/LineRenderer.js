@@ -1,12 +1,7 @@
-var Material = require('../../renderer/Material');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Transform = require('../../math/Transform');
-
-/**
- * Used internally to render a batch of lines all with the same color.
- * @param {World} world The world lines are rendered in.
- */
+import { Material } from "../../renderer/Material";
+import { MeshData } from "../../renderer/MeshData";
+import { Shader } from "../../renderer/Shader";
+import { Transform } from "../../math/Transform";
 function LineRenderer(world) {
 	this.world = world;
 
@@ -140,4 +135,10 @@ LineRenderer.prototype._addLine = function (start, end, color) {
 	this._numRenderingLines++;
 };
 
-module.exports = LineRenderer;
+var exported_LineRenderer = LineRenderer;
+
+/**
+ * Used internally to render a batch of lines all with the same color.
+ * @param {World} world The world lines are rendered in.
+ */
+export { exported_LineRenderer as LineRenderer };

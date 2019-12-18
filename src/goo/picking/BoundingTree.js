@@ -1,11 +1,6 @@
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var Vector3 = require('../math/Vector3');
-
-/**
- * Bounding tree node
- * @param boundType
- */
+import { BoundingBox } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere } from "../renderer/bounds/BoundingSphere";
+import { Vector3 } from "../math/Vector3";
 function BoundingTree(boundType) {
 	this.leftTree = null;
 	this.rightTree = null;
@@ -204,4 +199,10 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 	return result;
 };
 
-module.exports = BoundingTree;
+var exported_BoundingTree = BoundingTree;
+
+/**
+ * Bounding tree node
+ * @param boundType
+ */
+export { exported_BoundingTree as BoundingTree };

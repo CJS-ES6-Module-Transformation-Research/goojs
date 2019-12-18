@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function StartTimelineAction(/*id, settings*/) {
+function StartTimelineAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -25,4 +25,5 @@ StartTimelineAction.prototype.enter = function (fsm) {
 	entity.timelineComponent.start();
 };
 
-module.exports = StartTimelineAction;
+var exported_StartTimelineAction = StartTimelineAction;
+export { exported_StartTimelineAction as StartTimelineAction };

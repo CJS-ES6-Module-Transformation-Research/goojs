@@ -1,5 +1,5 @@
-var RendererRecord = require('../../../src/goo/renderer/RendererRecord');
-var Renderer = require('../../../src/goo/renderer/Renderer');
+import { RendererRecord } from "../../../src/goo/renderer/RendererRecord";
+import { Renderer } from "../../../src/goo/renderer/Renderer";
 
 describe('Renderer', function () {
 	describe('findOrCacheMaterialShader', function () {

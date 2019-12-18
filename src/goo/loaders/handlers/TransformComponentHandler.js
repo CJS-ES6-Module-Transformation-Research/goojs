@@ -1,17 +1,8 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var TransformComponent = require('../../entities/components/TransformComponent');
-var MathUtils = require('../../math/MathUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var RSVP = require('../../util/rsvp');
-
-/**
- * For handling loading of transform component
- * @extends ComponentHandler
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { TransformComponent } from "../../entities/components/TransformComponent";
+import * as MathUtils from "../../math/MathUtils";
+import * as ObjectUtils from "../../util/ObjectUtils";
+import { anonymus as RSVP } from "../../util/rsvp";
 function TransformComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'TransformComponent';
@@ -145,4 +136,14 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 	});
 };
 
-module.exports = TransformComponentHandler;
+var exported_TransformComponentHandler = TransformComponentHandler;
+
+/**
+ * For handling loading of transform component
+ * @extends ComponentHandler
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @hidden
+ */
+export { exported_TransformComponentHandler as TransformComponentHandler };

@@ -1,13 +1,7 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicInterface = require('./LogicInterface');
-var LogicNodes = require('./LogicNodes');
-
-/**
- * Logic node implementing a time counter. Processed every frame and time is increased. Output
- * can be read through the 'Time' port
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import { LogicInterface } from "./LogicInterface";
+import * as LogicNodes from "./LogicNodes";
 function LogicNodeTime() {
 	LogicNode.call(this);
 	this.wantsProcessCall = true;
@@ -64,4 +58,11 @@ LogicNodeTime.prototype.onEvent = function (instDesc, event) {
 
 LogicNodes.registerType('LogicNodeTime', LogicNodeTime);
 
-module.exports = LogicNodeTime;
+var exported_LogicNodeTime = LogicNodeTime;
+
+/**
+ * Logic node implementing a time counter. Processed every frame and time is increased. Output
+ * can be read through the 'Time' port
+ * @private
+ */
+export { exported_LogicNodeTime as LogicNodeTime };

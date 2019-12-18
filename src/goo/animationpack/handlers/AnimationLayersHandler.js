@@ -1,16 +1,7 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AnimationLayer = require('../../animationpack/layer/AnimationLayer');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Handler for loading animation layers
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @extends ConfigHandler
- * @private
- */
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { AnimationLayer } from "../../animationpack/layer/AnimationLayer";
+import { anonymus as RSVP } from "../../util/rsvp";
+import * as ObjectUtils from "../../util/ObjectUtils";
 function AnimationLayersHandler() {
 	ConfigHandler.apply(this, arguments);
 }
@@ -117,4 +108,14 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	});
 };
 
-module.exports = AnimationLayersHandler;
+var exported_AnimationLayersHandler = AnimationLayersHandler;
+
+/**
+ * Handler for loading animation layers
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @extends ConfigHandler
+ * @private
+ */
+export { exported_AnimationLayersHandler as AnimationLayersHandler };

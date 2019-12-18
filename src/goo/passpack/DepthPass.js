@@ -1,18 +1,12 @@
-var Material = require('../renderer/Material');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var MeshData = require('../renderer/MeshData');
-var Shader = require('../renderer/Shader');
-var ShaderFragment = require('../renderer/shaders/ShaderFragment');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var Pass = require('../renderer/pass/Pass');
-var BlurPass = require('../passpack/BlurPass');
-
-/**
- * Depth pass
- * @param renderList
- * @param outShader
- */
+import { Material } from "../renderer/Material";
+import { RenderTarget } from "../renderer/pass/RenderTarget";
+import { MeshData } from "../renderer/MeshData";
+import { Shader } from "../renderer/Shader";
+import * as ShaderFragment from "../renderer/shaders/ShaderFragment";
+import { RenderPass } from "../renderer/pass/RenderPass";
+import { FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { Pass } from "../renderer/pass/Pass";
+import { BlurPass } from "../passpack/BlurPass";
 function DepthPass(renderList, outShader) {
 	this.depthPass = new RenderPass(renderList);
 	var packDepthMaterial = new Material(packDepth);
@@ -142,4 +136,11 @@ var unpackDepth = {
 	].join('\n')
 };
 
-module.exports = DepthPass;
+var exported_DepthPass = DepthPass;
+
+/**
+ * Depth pass
+ * @param renderList
+ * @param outShader
+ */
+export { exported_DepthPass as DepthPass };

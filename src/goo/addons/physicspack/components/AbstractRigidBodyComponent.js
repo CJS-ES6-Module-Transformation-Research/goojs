@@ -1,14 +1,10 @@
-var Component = require('../../../entities/components/Component');
-var Quaternion = require('../../../math/Quaternion');
-var Transform = require('../../../math/Transform');
-var SystemBus = require('../../../entities/SystemBus');
+import { Component } from "../../../entities/components/Component";
+import { Quaternion } from "../../../math/Quaternion";
+import { Transform } from "../../../math/Transform";
+import { anonymus as SystemBus } from "../../../entities/SystemBus";
 
 var tmpQuat = new Quaternion();
 
-/**
- * Base class for rigid bodies.
- * @extends Component
- */
 function AbstractRigidBodyComponent() {
 	Component.call(this, arguments);
 
@@ -152,4 +148,10 @@ AbstractRigidBodyComponent.prototype.detached = function (/*entity*/) {
 	this._system = null;
 };
 
-module.exports = AbstractRigidBodyComponent;
+var exported_AbstractRigidBodyComponent = AbstractRigidBodyComponent;
+
+/**
+ * Base class for rigid bodies.
+ * @extends Component
+ */
+export { exported_AbstractRigidBodyComponent as AbstractRigidBodyComponent };

@@ -1,9 +1,8 @@
-var World = require('../../../../src/goo/entities/World');
-var Entity = require('../../../../src/goo/entities/Entity');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
+import { World } from "../../../../src/goo/entities/World";
+import { Entity } from "../../../../src/goo/entities/Entity";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+import "../../../../src/goo/loaders/handlers/EntityHandler";
 var Configs = require('../../../../test/unit/loaders/Configs');
-
-require('../../../../src/goo/loaders/handlers/EntityHandler');
 
 describe('EntityHandler', function () {
 	var loader;

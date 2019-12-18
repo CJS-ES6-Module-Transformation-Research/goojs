@@ -1,9 +1,4 @@
-var Selection = require('./Selection');
-
-/**
- * A specialised selection object for entities
- * @extends Selection
- */
+import { Selection } from "./Selection";
 function EntitySelection() {
 	Selection.apply(this, arguments);
 }
@@ -246,4 +241,10 @@ function toArray() {
 	}
 }
 
-module.exports = EntitySelection;
+var exported_EntitySelection = EntitySelection;
+
+/**
+ * A specialised selection object for entities
+ * @extends Selection
+ */
+export { exported_EntitySelection as EntitySelection };

@@ -1,6 +1,6 @@
-var Vector3 = require('../../../src/goo/math/Vector3');
-var Matrix3 = require('../../../src/goo/math/Matrix3');
-var Quaternion = require('../../../src/goo/math/Quaternion');
+import { Vector3 } from "../../../src/goo/math/Vector3";
+import { Matrix3 } from "../../../src/goo/math/Matrix3";
+import { Quaternion } from "../../../src/goo/math/Quaternion";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('Quaternion', function () {

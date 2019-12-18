@@ -1,12 +1,4 @@
-var MeshData = require('../renderer/MeshData');
-
-/**
- * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
- * @extends MeshData
- * @param {number} [width=1] Total width of box.
- * @param {number} [height=1] Total height of box.
- * @param {number} [length=1] Total length of box.
- */
+import { MeshData } from "../renderer/MeshData";
 function SimpleBox(width, height, length) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -81,4 +73,13 @@ SimpleBox.prototype.clone = function () {
 	return new SimpleBox(options);
 };
 
-module.exports = SimpleBox;
+var exported_SimpleBox = SimpleBox;
+
+/**
+ * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
+ * @extends MeshData
+ * @param {number} [width=1] Total width of box.
+ * @param {number} [height=1] Total height of box.
+ * @param {number} [length=1] Total length of box.
+ */
+export { exported_SimpleBox as SimpleBox };

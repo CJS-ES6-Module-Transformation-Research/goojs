@@ -1,18 +1,9 @@
-var Entity = require('../../entities/Entity');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../../renderer/bounds/BoundingSphere');
-
-/**
- * Runs a mesh combine optimization on the whole scene, based on
- * material, components etc
- * @param {World} gooWorld An instance of a goo.world object
- * @param {number} [gridCount=1] Number of grid segments to split the world in during combine
- * @param {boolean} [removeOldData=true] Remove old data which is now unused after combining
- * @param {boolean} [keepEntities=false] Keep all entities even if they are unused after combine
- */
+import { Entity } from "../../entities/Entity";
+import { MeshBuilder } from "../../util/MeshBuilder";
+import { Transform } from "../../math/Transform";
+import { Vector3 } from "../../math/Vector3";
+import { BoundingBox } from "../../renderer/bounds/BoundingBox";
+import { BoundingSphere } from "../../renderer/bounds/BoundingSphere";
 function EntityCombiner(gooWorld, gridCount, removeOldData, keepEntities) {
 	this.world = gooWorld;
 	this.gridCount = gridCount || 1;
@@ -206,4 +197,14 @@ EntityCombiner.prototype.cleanup = function () {
 	}
 };
 
-module.exports = EntityCombiner;
+var exported_EntityCombiner = EntityCombiner;
+
+/**
+ * Runs a mesh combine optimization on the whole scene, based on
+ * material, components etc
+ * @param {World} gooWorld An instance of a goo.world object
+ * @param {number} [gridCount=1] Number of grid segments to split the world in during combine
+ * @param {boolean} [removeOldData=true] Remove old data which is now unused after combining
+ * @param {boolean} [keepEntities=false] Keep all entities even if they are unused after combine
+ */
+export { exported_EntityCombiner as EntityCombiner };

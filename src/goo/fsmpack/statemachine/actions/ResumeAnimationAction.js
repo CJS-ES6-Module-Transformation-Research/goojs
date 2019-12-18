@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
-function ResumeAnimationAction(/*id, settings*/) {
+function ResumeAnimationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -35,4 +35,5 @@ ResumeAnimationAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = ResumeAnimationAction;
+var exported_ResumeAnimationAction = ResumeAnimationAction;
+export { exported_ResumeAnimationAction as ResumeAnimationAction };

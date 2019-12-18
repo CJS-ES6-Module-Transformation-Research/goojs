@@ -1,24 +1,18 @@
-var MathUtils = require('../../math/MathUtils');
-var Transform = require('../../math/Transform');
-var MeshData = require('../../renderer/MeshData');
-var Material = require('../../renderer/Material');
-var Shader = require('../../renderer/Shader');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Texture = require('../../renderer/Texture');
-var Renderer = require('../../renderer/Renderer');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
-var DirectionalLight = require('../../renderer/light/DirectionalLight');
-var Quad = require('../../shapes/Quad');
-
-/* global Ammo */
-
-/**
- * A terrain
- */
+import * as MathUtils from "../../math/MathUtils";
+import { Transform } from "../../math/Transform";
+import { MeshData } from "../../renderer/MeshData";
+import { Material } from "../../renderer/Material";
+import { Shader } from "../../renderer/Shader";
+import * as ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import * as ShaderFragment from "../../renderer/shaders/ShaderFragment";
+import { RenderTarget } from "../../renderer/pass/RenderTarget";
+import { Texture } from "../../renderer/Texture";
+import { Renderer } from "../../renderer/Renderer";
+import { FullscreenPass } from "../../renderer/pass/FullscreenPass";
+import * as FullscreenUtils from "../../renderer/pass/FullscreenUtils";
+import { DirectionalLight } from "../../renderer/light/DirectionalLight";
+import { Quad } from "../../shapes/Quad";
 function Terrain(goo, size, count) {
 	this.world = goo.world;
 	this.renderer = goo.renderer;
@@ -1351,4 +1345,11 @@ var normalmapShader = {
 	].join('\n')
 };
 
-module.exports = Terrain;
+var exported_Terrain = Terrain;
+
+/* global Ammo */
+
+/**
+ * A terrain
+ */
+export { exported_Terrain as Terrain };

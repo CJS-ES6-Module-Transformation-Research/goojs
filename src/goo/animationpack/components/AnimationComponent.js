@@ -1,15 +1,9 @@
-var Component = require('../../entities/components/Component');
-var World = require('../../entities/World'); //! AT: this should not exist
-var AnimationLayer = require('../../animationpack/layer/AnimationLayer');
-var JointData = require('../../animationpack/clip/JointData');
-var TransformData = require('../../animationpack/clip/TransformData');
-var TriggerData = require('../../animationpack/clip/TriggerData');
-
-/**
- * Holds the animation data.
- * @extends Component
- * @param {SkeletonPose} pose pose
- */
+import { Component } from "../../entities/components/Component";
+import { World } from "../../entities/World";
+import { AnimationLayer } from "../../animationpack/layer/AnimationLayer";
+import { JointData } from "../../animationpack/clip/JointData";
+import { TransformData } from "../../animationpack/clip/TransformData";
+import { TriggerData } from "../../animationpack/clip/TriggerData";
 function AnimationComponent(pose) {
 	Component.apply(this, arguments);
 
@@ -238,4 +232,11 @@ AnimationComponent.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = AnimationComponent;
+var exported_AnimationComponent = AnimationComponent;
+
+/**
+ * Holds the animation data.
+ * @extends Component
+ * @param {SkeletonPose} pose pose
+ */
+export { exported_AnimationComponent as AnimationComponent };

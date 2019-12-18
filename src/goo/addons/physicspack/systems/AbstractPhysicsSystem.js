@@ -1,10 +1,5 @@
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
-
-/**
- * Base class for physics systems.
- * @extends System
- */
+import { System } from "../../../entities/systems/System";
+import { anonymus as SystemBus } from "../../../entities/SystemBus";
 function AbstractPhysicsSystem() {
 	System.apply(this, arguments);
 
@@ -124,4 +119,10 @@ AbstractPhysicsSystem.prototype._colliderInserted = function (/*entity*/) {};
 AbstractPhysicsSystem.prototype._colliderDeleted = function (/*entity*/) {};
 AbstractPhysicsSystem.prototype._colliderDeletedComponent = function (/*entity*/) {};
 
-module.exports = AbstractPhysicsSystem;
+var exported_AbstractPhysicsSystem = AbstractPhysicsSystem;
+
+/**
+ * Base class for physics systems.
+ * @extends System
+ */
+export { exported_AbstractPhysicsSystem as AbstractPhysicsSystem };

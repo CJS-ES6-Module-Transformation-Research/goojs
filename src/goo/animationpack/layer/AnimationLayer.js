@@ -1,18 +1,10 @@
-var FadeTransitionState = require('../../animationpack/state/FadeTransitionState');
-var SyncFadeTransitionState = require('../../animationpack/state/SyncFadeTransitionState');
-var FrozenTransitionState = require('../../animationpack/state/FrozenTransitionState');
-var SteadyState = require('../../animationpack/state/SteadyState');
-var LayerLerpBlender = require('../../animationpack/layer/LayerLerpBlender');
-var World = require('../../entities/World');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Animation layers are essentially independent state machines, managed by a single AnimationManager. Each maintains a set of possible
- *        "steady states" - main states that the layer can be in. The layer can only be in one state at any given time. It may transition between
- *        states, provided that a path is defined for transition from the current state to the desired one. *
- * @param {string} name Name of layer
- * @param {string} id Id of layer
- */
+import { FadeTransitionState } from "../../animationpack/state/FadeTransitionState";
+import { SyncFadeTransitionState } from "../../animationpack/state/SyncFadeTransitionState";
+import { FrozenTransitionState } from "../../animationpack/state/FrozenTransitionState";
+import { SteadyState } from "../../animationpack/state/SteadyState";
+import { LayerLerpBlender } from "../../animationpack/layer/LayerLerpBlender";
+import { World } from "../../entities/World";
+import * as MathUtils from "../../math/MathUtils";
 function AnimationLayer(name, id) {
 	this.id = id;
 	this._name = name;
@@ -336,4 +328,13 @@ AnimationLayer.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = AnimationLayer;
+var exported_AnimationLayer = AnimationLayer;
+
+/**
+ * Animation layers are essentially independent state machines, managed by a single AnimationManager. Each maintains a set of possible
+ *        "steady states" - main states that the layer can be in. The layer can only be in one state at any given time. It may transition between
+ *        states, provided that a path is defined for transition from the current state to the desired one. *
+ * @param {string} name Name of layer
+ * @param {string} id Id of layer
+ */
+export { exported_AnimationLayer as AnimationLayer };

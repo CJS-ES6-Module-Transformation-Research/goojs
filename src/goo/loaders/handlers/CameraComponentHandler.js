@@ -1,16 +1,7 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var CameraComponent = require('../../entities/components/CameraComponent');
-var Camera = require('../../renderer/Camera');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * For handling loading of camera components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { CameraComponent } from "../../entities/components/CameraComponent";
+import { Camera } from "../../renderer/Camera";
+import * as ObjectUtils from "../../util/ObjectUtils";
 function CameraComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'CameraComponent';
@@ -82,4 +73,14 @@ CameraComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = CameraComponentHandler;
+var exported_CameraComponentHandler = CameraComponentHandler;
+
+/**
+ * For handling loading of camera components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_CameraComponentHandler as CameraComponentHandler };

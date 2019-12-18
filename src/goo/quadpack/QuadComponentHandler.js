@@ -1,14 +1,5 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var QuadComponent = require('../quadpack/QuadComponent');
-
-/**
- * For handling loading of quadcomponents
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../loaders/handlers/ComponentHandler";
+import { QuadComponent } from "../quadpack/QuadComponent";
 function QuadComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'QuadComponent';
@@ -73,4 +64,14 @@ QuadComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = QuadComponentHandler;
+var exported_QuadComponentHandler = QuadComponentHandler;
+
+/**
+ * For handling loading of quadcomponents
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_QuadComponentHandler as QuadComponentHandler };

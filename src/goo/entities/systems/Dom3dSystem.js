@@ -1,15 +1,10 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Vector3 = require('../../math/Vector3');
-var Ray = require('../../math/Ray');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
- */
+import { System } from "../../entities/systems/System";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import { Material } from "../../renderer/Material";
+import * as ShaderLib from "../../renderer/shaders/ShaderLib";
+import { Vector3 } from "../../math/Vector3";
+import { Ray } from "../../math/Ray";
+import * as MathUtils from "../../math/MathUtils";
 function Dom3dSystem(renderer) {
 	System.call(this, 'Dom3dSystem', ['TransformComponent', 'Dom3dComponent']);
 
@@ -278,4 +273,10 @@ Dom3dSystem.prototype.cleanup = function () {
 	}
 };
 
-module.exports = Dom3dSystem;
+var exported_Dom3dSystem = Dom3dSystem;
+
+/**
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
+ */
+export { exported_Dom3dSystem as Dom3dSystem };

@@ -1,14 +1,5 @@
-var Vector2 = require('../../math/Vector2');
-var ObjectUtil = require('../../util/ObjectUtil');
-
-/**
- * Creates a new RenderTarget object
- *
- * Post processing handler
- * @param {number} width Width of rendertarget
- * @param {number} height Height of rendertarget
- * @param {Object} options Options
- */
+import { Vector2 } from "../../math/Vector2";
+import { ObjectUtils as ObjectUtil } from "../../util/ObjectUtil";
 function RenderTarget(width, height, options) {
 	this.glTexture = null;
 	this._glRenderBuffer = null;
@@ -103,4 +94,14 @@ RenderTarget.prototype.destroy = function (context) {
 	}
 };
 
-module.exports = RenderTarget;
+var exported_RenderTarget = RenderTarget;
+
+/**
+ * Creates a new RenderTarget object
+ *
+ * Post processing handler
+ * @param {number} width Width of rendertarget
+ * @param {number} height Height of rendertarget
+ * @param {Object} options Options
+ */
+export { exported_RenderTarget as RenderTarget };

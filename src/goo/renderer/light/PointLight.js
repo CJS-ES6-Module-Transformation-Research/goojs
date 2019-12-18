@@ -1,11 +1,4 @@
-var Light = require('../../renderer/light/Light');
-
-/**
- * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @extends Light
- * @param {Vector3} [color=(1, 1, 1)] The color of the light
- */
+import { Light } from "../../renderer/light/Light";
 function PointLight(color) {
 	Light.call(this, color);
 
@@ -46,4 +39,12 @@ PointLight.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = PointLight;
+var exported_PointLight = PointLight;
+
+/**
+ * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @extends Light
+ * @param {Vector3} [color=(1, 1, 1)] The color of the light
+ */
+export { exported_PointLight as PointLight };

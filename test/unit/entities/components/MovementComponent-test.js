@@ -1,5 +1,5 @@
-var MovementComponent = require('../../../../src/goo/entities/components/MovementComponent');
-var Vector3 = require('../../../../src/goo/math/Vector3');
+import { MovementComponent } from "../../../../src/goo/entities/components/MovementComponent";
+import { Vector3 } from "../../../../src/goo/math/Vector3";
 
 describe('MovementComponent', function () {
 	describe('Test velocity deltas', function () {
