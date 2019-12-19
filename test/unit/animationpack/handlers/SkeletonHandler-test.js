@@ -1,15 +1,19 @@
-import { World } from "../../../../src/goo/entities/World";
-import { SkeletonPose } from "../../../../src/goo/animationpack/SkeletonPose";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+var _World = require("../../../../src/goo/entities/World");
+
+var _SkeletonPose = require("../../../../src/goo/animationpack/SkeletonPose");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('SkeletonHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -20,7 +24,7 @@ describe('SkeletonHandler', function () {
 		var config = Configs.skeleton();
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (skeleton) {
-			expect(skeleton).toEqual(jasmine.any(SkeletonPose));
+			expect(skeleton).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
 			expect(skeleton._skeleton._joints.length).toBe(Object.keys(config.joints).length);
 			done();
 		});
@@ -32,11 +36,13 @@ describe('SkeletonHandler', function () {
 		loader.load(config.id).then(function (skeleton) {
 			var joints = skeleton._skeleton._joints;
 			var ordered = joints.every(function (joint, idx) {
-				if (idx === 0) { return true; }
-				return joint._index > joints[idx-1]._index;
+				if (idx === 0) {
+					return true;
+				}
+				return joint._index > joints[idx - 1]._index;
 			});
 			expect(ordered).toBeTruthy();
-			expect(skeleton).toEqual(jasmine.any(SkeletonPose));
+			expect(skeleton).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
 			expect(skeleton._skeleton._joints.length).toBe(Object.keys(config.joints).length);
 			done();
 		});

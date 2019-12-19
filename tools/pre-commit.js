@@ -1,8 +1,15 @@
-import childProcess from "child_process";
-import path from "path";
+var _child_process = require("child_process");
 
-var exec = childProcess.exec;
-var spawn = childProcess.spawn;
+var _child_process2 = _interopRequireDefault(_child_process);
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var exec = _child_process2.default.exec;
+var spawn = _child_process2.default.spawn;
 
 function fail(message) {
 	process.stdout.write(message);
@@ -26,7 +33,7 @@ exec('git diff --staged --name-status', function (error, stdout, stderr) {
 		process.exit(0);
 	}
 
-	var args = [path.resolve('./node_modules/eslint/bin/eslint')].concat(files);
+	var args = [_path2.default.resolve('./node_modules/eslint/bin/eslint')].concat(files);
 	var child1 = spawn('node', args, { stdio: 'inherit' });
 
 	child1.on('exit', function (code) {

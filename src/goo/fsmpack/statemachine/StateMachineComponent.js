@@ -1,8 +1,30 @@
-import { Component } from "../../entities/components/Component";
-import * as ArrayUtils from "../../util/ArrayUtils";
-import { anonymus as SystemBus } from "../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StateMachineComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var ArrayUtils = _interopRequireWildcard(_ArrayUtils);
+
+var _SystemBus = require("../../entities/SystemBus");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function StateMachineComponent() {
-	Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -17,7 +39,7 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component.prototype);
+StateMachineComponent.prototype = Object.create(_Component.Component.prototype);
 
 StateMachineComponent.vars = {};
 
@@ -144,7 +166,7 @@ StateMachineComponent.prototype.update = function () {
  */
 StateMachineComponent.prototype.pause = function () {
 	this.active = false;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.pause');
+	_SystemBus.anonymus.emit('goo.entity.' + this.entity.name + '.fsm.pause');
 };
 
 /**
@@ -152,7 +174,7 @@ StateMachineComponent.prototype.pause = function () {
  */
 StateMachineComponent.prototype.play = function () {
 	this.active = true;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.play');
+	_SystemBus.anonymus.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
 
 var exported_StateMachineComponent = StateMachineComponent;
@@ -161,4 +183,4 @@ var exported_StateMachineComponent = StateMachineComponent;
  * StateMachineComponent
  * @private
  */
-export { exported_StateMachineComponent as StateMachineComponent };
+exports.StateMachineComponent = exported_StateMachineComponent;

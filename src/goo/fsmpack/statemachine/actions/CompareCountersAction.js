@@ -1,9 +1,14 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CompareCountersAction = undefined;
 
-function CompareCountersAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function CompareCountersAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-CompareCountersAction.prototype = Object.create(Action.prototype);
+CompareCountersAction.prototype = Object.create(_Action.Action.prototype);
 CompareCountersAction.prototype.constructor = CompareCountersAction;
 
 CompareCountersAction.external = {
@@ -47,7 +52,7 @@ var operators = {
 	greater: '>'
 };
 
-CompareCountersAction.getTransitionLabel = function (transitionKey, actionConfig){
+CompareCountersAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	if (operators[transitionKey]) {
 		return 'On ' + (actionConfig.options.name1 || 'Counter1') + ' ' + operators[transitionKey] + ' ' + (actionConfig.options.name2 || 'counter2');
 	}
@@ -83,4 +88,4 @@ CompareCountersAction.prototype.update = function (fsm) {
 };
 
 var exported_CompareCountersAction = CompareCountersAction;
-export { exported_CompareCountersAction as CompareCountersAction };
+exports.CompareCountersAction = exported_CompareCountersAction;

@@ -1,16 +1,45 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { Material } from "../../renderer/Material";
-import * as ShaderLib from "../../renderer/shaders/ShaderLib";
-import { RenderQueue } from "../../renderer/RenderQueue";
-import * as RSVP from "../../util/rsvp";
-import * as ObjectUtils from "../../util/ObjectUtils";
-function MaterialHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MaterialHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var ShaderLib = _interopRequireWildcard(_ShaderLib);
+
+var _RenderQueue = require("../../renderer/RenderQueue");
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-MaterialHandler.prototype = Object.create(ConfigHandler.prototype);
+function MaterialHandler() {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+MaterialHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 MaterialHandler.prototype.constructor = MaterialHandler;
-ConfigHandler._registerClass('material', MaterialHandler);
+_ConfigHandler.ConfigHandler._registerClass('material', MaterialHandler);
 
 MaterialHandler.ENGINE_SHADER_PREFIX = 'GOO_ENGINE_SHADERS/';
 
@@ -55,7 +84,7 @@ MaterialHandler.prototype._prepare = function (config) {
  * @private
  */
 MaterialHandler.prototype._create = function () {
-	return new Material();
+	return new _Material.Material();
 };
 
 MaterialHandler.prototype._remove = function (ref) {
@@ -77,8 +106,10 @@ MaterialHandler.prototype._remove = function (ref) {
  */
 MaterialHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (material) {
-		if (!material) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (material) {
+		if (!material) {
+			return;
+		}
 
 		var promises = [];
 
@@ -95,7 +126,7 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 
 		if (config.renderQueue === -1) {
 			if (config.blendState.blending !== 'NoBlending') {
-				material.renderQueue = RenderQueue.TRANSPARENT;
+				material.renderQueue = _RenderQueue.RenderQueue.TRANSPARENT;
 			} else {
 				material.renderQueue = null;
 			}
@@ -131,11 +162,10 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 		// Shader
 		var shaderRef = config.shaderRef;
 		if (!shaderRef) {
-			material.shader = Material.createShader(ShaderLib.texturedLit, 'DefaultShader');
-		}
-		else if (shaderRef.indexOf(MaterialHandler.ENGINE_SHADER_PREFIX) === 0) {
+			material.shader = _Material.Material.createShader(ShaderLib.texturedLit, 'DefaultShader');
+		} else if (shaderRef.indexOf(MaterialHandler.ENGINE_SHADER_PREFIX) === 0) {
 			var shaderName = shaderRef.slice(MaterialHandler.ENGINE_SHADER_PREFIX.length);
-			material.shader = Material.createShader(ShaderLib[shaderName]);
+			material.shader = _Material.Material.createShader(ShaderLib[shaderName]);
 		} else {
 			var p = that._load(shaderRef, options).then(function (shader) {
 				material.shader = shader;
@@ -183,4 +213,4 @@ var exported_MaterialHandler = MaterialHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_MaterialHandler as MaterialHandler };
+exports.MaterialHandler = exported_MaterialHandler;

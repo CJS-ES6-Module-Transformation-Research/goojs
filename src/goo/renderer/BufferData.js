@@ -1,4 +1,24 @@
-import * as BufferUtils from "../renderer/BufferUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BufferData = undefined;
+
+var _BufferUtils = require("../renderer/BufferUtils");
+
+var BufferUtils = _interopRequireWildcard(_BufferUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function BufferData(data, target) {
 	this.data = data;
 	this.target = target;
@@ -52,7 +72,8 @@ BufferData.prototype.copy = function (source) {
 		var sourceView = new Uint8Array(source.data);
 		var destinationView = new Uint8Array(this.data);
 		destinationView.set(sourceView);
-	} else { // TypedArray
+	} else {
+		// TypedArray
 		this.data.set(source.data);
 	}
 	this.target = source.target;
@@ -69,7 +90,8 @@ BufferData.prototype.clone = function () {
 	var clonedData;
 	if (this.data instanceof ArrayBuffer) {
 		clonedData = this.data.slice(0);
-	} else { // TypedArray
+	} else {
+		// TypedArray
 		clonedData = BufferUtils.cloneTypedArray(this.data);
 	}
 
@@ -88,4 +110,4 @@ var exported_BufferData = BufferData;
  * @property {ArrayBuffer} data Data to wrap
  * @property {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
  */
-export { exported_BufferData as BufferData };
+exports.BufferData = exported_BufferData;

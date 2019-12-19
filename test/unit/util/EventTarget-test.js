@@ -1,14 +1,14 @@
-import { EventTarget } from "../../../src/goo/util/EventTarget";
+var _EventTarget = require('../../../src/goo/util/EventTarget');
 
 function Test() {
-	EventTarget.apply(this, arguments);
+	_EventTarget.EventTarget.apply(this, arguments);
 }
-Test.prototype = Object.create(EventTarget.prototype);
+Test.prototype = Object.create(_EventTarget.EventTarget.prototype);
 
 describe('EventTarget', function () {
 	var test;
-	var listener = function (/*event*/) { };
-	var listener2 = function (/*event*/) { };
+	var listener = function listener() /*event*/{};
+	var listener2 = function listener2() /*event*/{};
 	var sendEvent = {
 		type: 'send',
 		data: undefined
@@ -94,14 +94,14 @@ describe('EventTarget', function () {
 	it('Listener can remove itself during call', function () {
 		var counter = 0;
 
-		var listenerStart = function () {
+		var listenerStart = function listenerStart() {
 			counter++;
 		};
-		var listenerRemove = function (event) {
+		var listenerRemove = function listenerRemove(event) {
 			counter++;
 			event.target.off(event.type, listenerRemove);
 		};
-		var listenerEnd = function () {
+		var listenerEnd = function listenerEnd() {
 			counter++;
 		};
 
@@ -125,13 +125,13 @@ describe('EventTarget', function () {
 	it('Listener can add new listeners during call', function () {
 		var counter = 0;
 
-		var listenerStart = function () {
+		var listenerStart = function listenerStart() {
 			counter++;
 		};
-		var listenerAdd = function () {
+		var listenerAdd = function listenerAdd() {
 			counter++;
 		};
-		var listenerEnd = function (event) {
+		var listenerEnd = function listenerEnd(event) {
 			counter++;
 			event.target.on(event.type, listenerAdd);
 		};

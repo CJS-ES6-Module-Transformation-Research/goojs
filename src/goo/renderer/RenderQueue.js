@@ -1,4 +1,10 @@
-import { Vector3 } from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderQueue = undefined;
+
+var _Vector = require("../math/Vector3");
+
 function RenderQueue() {
 	this.opaqueSorter = function (a, b) {
 		var shader1 = a.meshRendererComponent.materials[0].shader;
@@ -30,7 +36,7 @@ function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3();
+var tmpVec = new _Vector.Vector3();
 
 /**
  * @param {Array<Entity>} renderList
@@ -123,4 +129,4 @@ var exported_RenderQueue = RenderQueue;
  * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
  * back to front.
  */
-export { exported_RenderQueue as RenderQueue };
+exports.RenderQueue = exported_RenderQueue;

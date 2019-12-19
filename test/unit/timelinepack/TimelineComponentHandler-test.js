@@ -1,15 +1,19 @@
-import { World } from "../../../src/goo/entities/World";
-import { DynamicLoader } from "../../../src/goo/loaders/DynamicLoader";
-import { TimelineComponent } from "../../../src/goo/timelinepack/TimelineComponent";
-import "../../../src/goo/timelinepack/TimelineComponentHandler";
+var _World = require("../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../src/goo/loaders/DynamicLoader");
+
+var _TimelineComponent = require("../../../src/goo/timelinepack/TimelineComponent");
+
+require("../../../src/goo/timelinepack/TimelineComponentHandler");
+
 var Configs = require('../../../test/unit/loaders/Configs');
 
 describe('TimelineComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -21,7 +25,7 @@ describe('TimelineComponentHandler', function () {
 		loader.preload(Configs.get());
 
 		loader.load(config.id).then(function (entity) {
-			expect(entity.timelineComponent).toEqual(jasmine.any(TimelineComponent));
+			expect(entity.timelineComponent).toEqual(jasmine.any(_TimelineComponent.TimelineComponent));
 
 			//
 			expect(entity.timelineComponent.channels.length).toEqual(2);

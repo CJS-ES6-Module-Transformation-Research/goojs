@@ -1,10 +1,34 @@
-import { System } from "../../entities/systems/System";
-import { Renderer } from "../../renderer/Renderer";
-import { Matrix4 } from "../../math/Matrix4";
-import * as MathUtils from "../../math/MathUtils";
-import { Vector3 } from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CssTransformSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Matrix = require("../../math/Matrix4");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _Vector = require("../../math/Vector3");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function CssTransformSystem(renderer) {
-	System.call(this, 'CssTransformSystem', ['TransformComponent', 'CssTransformComponent']);
+	_System.System.call(this, 'CssTransformSystem', ['TransformComponent', 'CssTransformComponent']);
 
 	this.renderer = renderer;
 
@@ -15,32 +39,28 @@ function CssTransformSystem(renderer) {
 	}
 }
 
-var tmpMatrix = new Matrix4();
-var tmpMatrix2 = new Matrix4();
-var tmpVector = new Vector3();
+var tmpMatrix = new _Matrix.Matrix4();
+var tmpMatrix2 = new _Matrix.Matrix4();
+var tmpVector = new _Vector.Vector3();
 
-CssTransformSystem.prototype = Object.create(System.prototype);
+CssTransformSystem.prototype = Object.create(_System.System.prototype);
 CssTransformSystem.prototype.constructor = CssTransformSystem;
 
-var epsilon = function (value) {
+var epsilon = function epsilon(value) {
 	return Math.abs(value) < 0.000001 ? 0 : value;
 };
 
 var prefixes = ['', '-webkit-', '-moz-', '-ms-', '-o-'];
-var setStyle = function (element, property, style) {
+var setStyle = function setStyle(element, property, style) {
 	for (var j = 0; j < prefixes.length; j++) {
 		element.style[prefixes[j] + property] = style;
 	}
 };
 
-var getCSSMatrix = function (matrix) {
+var getCSSMatrix = function getCSSMatrix(matrix) {
 	var elements = matrix.data;
 
-
-	return 'matrix3d(' + epsilon(elements[0]) + ',' + epsilon(-elements[1]) + ',' + epsilon(elements[2]) + ',' + epsilon(elements[3]) + ','
-		+ epsilon(elements[4]) + ',' + epsilon(-elements[5]) + ',' + epsilon(elements[6]) + ',' + epsilon(elements[7]) + ','
-		+ epsilon(elements[8]) + ',' + epsilon(-elements[9]) + ',' + epsilon(elements[10]) + ',' + epsilon(elements[11]) + ','
-		+ epsilon(elements[12]) + ',' + epsilon(-elements[13]) + ',' + epsilon(elements[14]) + ',' + epsilon(elements[15]) + ')';
+	return 'matrix3d(' + epsilon(elements[0]) + ',' + epsilon(-elements[1]) + ',' + epsilon(elements[2]) + ',' + epsilon(elements[3]) + ',' + epsilon(elements[4]) + ',' + epsilon(-elements[5]) + ',' + epsilon(elements[6]) + ',' + epsilon(elements[7]) + ',' + epsilon(elements[8]) + ',' + epsilon(-elements[9]) + ',' + epsilon(elements[10]) + ',' + epsilon(elements[11]) + ',' + epsilon(elements[12]) + ',' + epsilon(-elements[13]) + ',' + epsilon(elements[14]) + ',' + epsilon(elements[15]) + ')';
 };
 
 CssTransformSystem.prototype.process = function (entities) {
@@ -48,7 +68,7 @@ CssTransformSystem.prototype.process = function (entities) {
 		return;
 	}
 
-	var camera = Renderer.mainCamera;
+	var camera = _Renderer.Renderer.mainCamera;
 
 	if (!camera) {
 		return;
@@ -61,7 +81,7 @@ CssTransformSystem.prototype.process = function (entities) {
 	tmpMatrix2.copy(tmpMatrix);
 	tmpMatrix.invert();
 
-	tmpMatrix.setTranslation(new Vector3(0, 0, fov));
+	tmpMatrix.setTranslation(new _Vector.Vector3(0, 0, fov));
 	var style = getCSSMatrix(tmpMatrix);
 	setStyle(this.containerDom, 'transform', style);
 
@@ -114,4 +134,4 @@ var exported_CssTransformSystem = CssTransformSystem;
 /**
  * @extends System
  */
-export { exported_CssTransformSystem as CssTransformSystem };
+exports.CssTransformSystem = exported_CssTransformSystem;

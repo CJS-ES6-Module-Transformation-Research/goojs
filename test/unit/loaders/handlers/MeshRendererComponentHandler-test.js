@@ -1,15 +1,19 @@
-import { MeshRendererComponent } from "../../../../src/goo/entities/components/MeshRendererComponent";
-import { Material } from "../../../../src/goo/renderer/Material";
-import { World } from "../../../../src/goo/entities/World";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+var _MeshRendererComponent = require("../../../../src/goo/entities/components/MeshRendererComponent");
+
+var _Material = require("../../../../src/goo/renderer/Material");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('MeshRendererComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -20,8 +24,8 @@ describe('MeshRendererComponentHandler', function () {
 		var config = Configs.entity(['meshRenderer']);
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshRendererComponent).toEqual(jasmine.any(MeshRendererComponent));
-			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(Material));
+			expect(entity.meshRendererComponent).toEqual(jasmine.any(_MeshRendererComponent.MeshRendererComponent));
+			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(_Material.Material));
 			done();
 		});
 	});
@@ -43,8 +47,8 @@ describe('MeshRendererComponentHandler', function () {
 			for (var i = 0; i < keys.length; i++) {
 				expect(sortMaterials[keys[i]]).toBe(materials[i].id);
 			}
-			expect(entity.meshRendererComponent).toEqual(jasmine.any(MeshRendererComponent));
-			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(Material));
+			expect(entity.meshRendererComponent).toEqual(jasmine.any(_MeshRendererComponent.MeshRendererComponent));
+			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(_Material.Material));
 			done();
 		});
 	});

@@ -1,4 +1,18 @@
-import * as ScriptUtils from "../../../src/goo/scripts/ScriptUtils";
+var _ScriptUtils = require('../../../src/goo/scripts/ScriptUtils');
+
+var ScriptUtils = _interopRequireWildcard(_ScriptUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 describe('ScriptUtils', function () {
 	it('defaults missing keys', function () {

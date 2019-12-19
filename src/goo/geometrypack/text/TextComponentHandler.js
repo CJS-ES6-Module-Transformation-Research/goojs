@@ -1,15 +1,37 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { TextComponent } from "../../geometrypack/text/TextComponent";
-import * as PromiseUtils from "../../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _TextComponent = require("../../geometrypack/text/TextComponent");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function TextComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'TextComponent';
 }
 
-TextComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+TextComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 TextComponentHandler.prototype.constructor = TextComponentHandler;
 
-ComponentHandler._registerClass('text', TextComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('text', TextComponentHandler);
 
 /**
  * Create a TextComponent object.
@@ -17,7 +39,7 @@ ComponentHandler._registerClass('text', TextComponentHandler);
  * @private
  */
 TextComponentHandler.prototype._create = function () {
-	return new TextComponent();
+	return new _TextComponent.TextComponent();
 };
 
 /**
@@ -40,8 +62,10 @@ TextComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 TextComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		// load font
 
@@ -57,7 +81,7 @@ TextComponentHandler.prototype.update = function (entity, config, options) {
 
 				// smoothness is between 0 and 1
 				// with 0 looking rough and choppy and 1 looking as smooth as possible
-				var computeStepLength = function (fontSize, smoothness) {
+				var computeStepLength = function computeStepLength(fontSize, smoothness) {
 					return ((1 - smoothness) * 0.08 + 0.01) * fontSize;
 				};
 
@@ -85,4 +109,4 @@ var exported_TextComponentHandler = TextComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_TextComponentHandler as TextComponentHandler };
+exports.TextComponentHandler = exported_TextComponentHandler;

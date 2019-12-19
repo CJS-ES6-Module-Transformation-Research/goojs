@@ -1,10 +1,15 @@
-import { Action } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.NextFrameAction = undefined;
 
-function NextFrameAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+function NextFrameAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-NextFrameAction.prototype = Object.create(Action.prototype);
+NextFrameAction.prototype = Object.create(_Action.Action.prototype);
 NextFrameAction.prototype.constructor = NextFrameAction;
 
 NextFrameAction.external = {
@@ -25,7 +30,7 @@ var labels = {
 	transition: 'On Next Frame'
 };
 
-NextFrameAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+NextFrameAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -34,4 +39,4 @@ NextFrameAction.prototype.update = function (fsm) {
 };
 
 var exported_NextFrameAction = NextFrameAction;
-export { exported_NextFrameAction as NextFrameAction };
+exports.NextFrameAction = exported_NextFrameAction;

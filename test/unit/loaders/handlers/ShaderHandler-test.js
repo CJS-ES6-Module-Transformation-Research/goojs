@@ -1,17 +1,20 @@
-import { GooRunner } from "../../../../src/goo/entities/GooRunner";
-import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { Shader } from "../../../../src/goo/renderer/Shader";
+var _GooRunner = require("../../../../src/goo/entities/GooRunner");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Shader = require("../../../../src/goo/renderer/Shader");
+
 var Configs = require('../../../../test/unit/loaders/Configs');
 
 describe('ShaderHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new GooRunner({
+		gooRunner = new _GooRunner.GooRunner({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new DynamicLoader({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: gooRunner.world,
 			rootPath: 'loaders/res/'
 		});
@@ -25,7 +28,7 @@ describe('ShaderHandler', function () {
 		var config = Configs.shader();
 		loader.preload(Configs.get());
 		loader.load(config.id).then(function (shader) {
-			expect(shader).toEqual(jasmine.any(Shader));
+			expect(shader).toEqual(jasmine.any(_Shader.Shader));
 			done();
 		});
 	});

@@ -1,6 +1,9 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var supported = true;
 
-var AudioContext = typeof(window) !== 'undefined' && (window.AudioContext || window.webkitAudioContext);
+var AudioContext = typeof window !== 'undefined' && (window.AudioContext || window.webkitAudioContext);
 if (!AudioContext) {
 	// warn once
 	console.warn('WebAudio not supported');
@@ -10,7 +13,7 @@ if (!AudioContext) {
 var context;
 
 var anonymus_obj = {
-	getContext: function () {
+	getContext: function getContext() {
 		// try to get a context if it's supposedly supported or not cached
 		if (!context && supported) {
 			try {
@@ -23,27 +26,28 @@ var anonymus_obj = {
 		}
 		return context;
 	},
-	isSupported: function () {
+	isSupported: function isSupported() {
 		return supported;
 	}
 };
 
-var exported_getContext = function() {
-    // try to get a context if it's supposedly supported or not cached
-    if (!context && supported) {
-        try {
-            // even if window.AudioContext is available something might go wrong
-            context = new AudioContext();
-        } catch (e) {
-            console.warn(e.message);
-            supported = false;
-        }
-    }
-    return context;
+var exported_getContext = function exported_getContext() {
+	// try to get a context if it's supposedly supported or not cached
+	if (!context && supported) {
+		try {
+			// even if window.AudioContext is available something might go wrong
+			context = new AudioContext();
+		} catch (e) {
+			console.warn(e.message);
+			supported = false;
+		}
+	}
+	return context;
 };
 
-var exported_isSupported = function() {
-    return supported;
+var exported_isSupported = function exported_isSupported() {
+	return supported;
 };
 
-export { exported_getContext as getContext, exported_isSupported as isSupported };
+exports.getContext = exported_getContext;
+exports.isSupported = exported_isSupported;

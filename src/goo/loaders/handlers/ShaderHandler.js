@@ -1,15 +1,43 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { Material } from "../../renderer/Material";
-import * as ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
-import * as RSVP from "../../util/rsvp";
-import * as PromiseUtils from "../../util/PromiseUtils";
-function ShaderHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ShaderHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderBuilder = require("../../renderer/shaders/ShaderBuilder");
+
+var ShaderBuilder = _interopRequireWildcard(_ShaderBuilder);
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-ShaderHandler.prototype = Object.create(ConfigHandler.prototype);
+function ShaderHandler() {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+ShaderHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 ShaderHandler.prototype.constructor = ShaderHandler;
-ConfigHandler._registerClass('shader', ShaderHandler);
+_ConfigHandler.ConfigHandler._registerClass('shader', ShaderHandler);
 
 /**
  * Removes a shader
@@ -44,10 +72,7 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 		return PromiseUtils.reject('Shader error, missing fragment shader ref');
 	}
 
-	var promises = [
-		this.loadObject(config.vshaderRef, options),
-		this.loadObject(config.fshaderRef, options)
-	];
+	var promises = [this.loadObject(config.vshaderRef, options), this.loadObject(config.fshaderRef, options)];
 
 	return RSVP.all(promises).then(function (shaders) {
 		var vshader = shaders[0];
@@ -80,7 +105,7 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 			}
 		}
 
-		var shader = Material.createShader(shaderDefinition, ref);
+		var shader = _Material.Material.createShader(shaderDefinition, ref);
 
 		this._objects.set(ref, shader);
 
@@ -98,4 +123,4 @@ var exported_ShaderHandler = ShaderHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_ShaderHandler as ShaderHandler };
+exports.ShaderHandler = exported_ShaderHandler;

@@ -1,5 +1,16 @@
-import { MeshData } from "../renderer/MeshData";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Quad = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function Quad(width, height, tileX, tileY) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -10,36 +21,36 @@ function Quad(width, height, tileX, tileY) {
 	}
 
 	/** Half-extent along the local x axis.
-	 * @type {number}
-	 * @default 0.5
-	 */
+  * @type {number}
+  * @default 0.5
+  */
 	this.xExtent = width !== undefined ? width * 0.5 : 0.5;
 
 	/** Half-extent along the local y axis.
-	 * @type {number}
-	 * @default 0.5
-	 */
+  * @type {number}
+  * @default 0.5
+  */
 	this.yExtent = height !== undefined ? height * 0.5 : 0.5;
 
 	/** Number of texture repetitions in the texture's x direction.
-	 * @type {number}
-	 * @default 1
-	 */
+  * @type {number}
+  * @default 1
+  */
 	this.tileX = tileX || 1;
 
 	/** Number of texture repetitions in the texture's y direction.
-	 * @type {number}
-	 * @default 1
-	 */
+  * @type {number}
+  * @default 1
+  */
 	this.tileY = tileY || 1;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, 4, 6);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
+	_MeshData.MeshData.call(this, attributeMap, 4, 6);
 
 	this.rebuild();
 }
 
-Quad.prototype = Object.create(MeshData.prototype);
+Quad.prototype = Object.create(_MeshData.MeshData.prototype);
 Quad.prototype.constructor = Quad;
 
 /**
@@ -52,9 +63,9 @@ Quad.prototype.rebuild = function () {
 	var tileX = this.tileX;
 	var tileY = this.tileY;
 
-	this.getAttributeBuffer(MeshData.POSITION).set([-xExtent, -yExtent, 0, -xExtent, yExtent, 0, xExtent, yExtent, 0, xExtent, -yExtent, 0]);
-	this.getAttributeBuffer(MeshData.NORMAL).set([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set([0, 0, 0, tileY, tileX, tileY, tileX, 0]);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set([-xExtent, -yExtent, 0, -xExtent, yExtent, 0, xExtent, yExtent, 0, xExtent, -yExtent, 0]);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
+	this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0).set([0, 0, 0, tileY, tileX, tileY, tileX, 0]);
 
 	this.getIndexBuffer().set([0, 3, 1, 1, 3, 2]);
 
@@ -82,4 +93,4 @@ var exported_Quad = Quad;
  * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
  * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
  */
-export { exported_Quad as Quad };
+exports.Quad = exported_Quad;

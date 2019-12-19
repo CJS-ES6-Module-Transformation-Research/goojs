@@ -1,7 +1,32 @@
-import { MeshData } from "../renderer/MeshData";
-import { Vector3 } from "../math/Vector3";
-import * as MathUtils from "../math/MathUtils";
-import * as ObjectUtils from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Sphere = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Vector = require("../math/Vector3");
+
+var _MathUtils = require("../math/MathUtils");
+
+var MathUtils = _interopRequireWildcard(_MathUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function Sphere(zSamples, radialSamples, radius, textureMode) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -11,56 +36,55 @@ function Sphere(zSamples, radialSamples, radius, textureMode) {
 		textureMode = props.textureMode;
 	}
 	/** Number of segments.
-	 * @type {number}
-	 * @default 8
-	 */
+  * @type {number}
+  * @default 8
+  */
 	this.zSamples = (zSamples !== undefined ? zSamples : 8) + 1;
 	/** Number of slices.
-	 * @type {number}
-	 * @default 8
-	 */
+  * @type {number}
+  * @default 8
+  */
 	this.radialSamples = radialSamples !== undefined ? radialSamples : 8;
 	/** @type {number}
-	 * @default 0.5
-	 */
+  * @default 0.5
+  */
 	this.radius = radius !== undefined ? radius : 0.5;
 
 	if (typeof textureMode === 'string') {
 		textureMode = Sphere.TextureModes[textureMode];
 	}
 	/** Texture wrapping mode.
-	 * @type {Enum}
-	 * @default Sphere.TextureModes.Polar
-	 */
+  * @type {Enum}
+  * @default Sphere.TextureModes.Polar
+  */
 	this.textureMode = textureMode !== undefined ? textureMode : Sphere.TextureModes.Polar;
 
 	/** Inward-facing normals, for skydomes.
-	 * @type {boolean}
-	 * @default false
-	 */
+  * @type {boolean}
+  * @default false
+  */
 	this.viewInside = false;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
 
-	var samples = (this.textureMode === Sphere.TextureModes.Chromeball) ? this.zSamples + 1 : this.zSamples;
+	var samples = this.textureMode === Sphere.TextureModes.Chromeball ? this.zSamples + 1 : this.zSamples;
 
 	// If Projected & Linear use shared pole vertices the uv-mapping will get too distorted, so let them
 	// have full 'rings' of vertices for a straighter texture mapping.
-	this._useSharedPoleVertices = (this.textureMode !== Sphere.TextureModes.Projected) &&
-		(this.textureMode !== Sphere.TextureModes.Linear);
+	this._useSharedPoleVertices = this.textureMode !== Sphere.TextureModes.Projected && this.textureMode !== Sphere.TextureModes.Linear;
 
 	// sharedVert = pole vertex that represents a whole layer. When not using shared vertices,
 	// full layers are used for both poles.
 	var sharedVerts = this._useSharedPoleVertices ? 2 : 0;
 	var verts = (samples - sharedVerts) * (this.radialSamples + 1) + sharedVerts;
-	var tris = 6 * ((samples) - 2) * this.radialSamples;
+	var tris = 6 * (samples - 2) * this.radialSamples;
 
-	MeshData.call(this, attributeMap, verts, tris);
+	_MeshData.MeshData.call(this, attributeMap, verts, tris);
 
 	this.rebuild();
 }
 
-Sphere.prototype = Object.create(MeshData.prototype);
+Sphere.prototype = Object.create(_MeshData.MeshData.prototype);
 Sphere.prototype.constructor = Sphere;
 
 /**
@@ -68,9 +92,9 @@ Sphere.prototype.constructor = Sphere;
  * @returns {Sphere} Self for chaining.
  */
 Sphere.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshData.POSITION);
-	var norms = this.getAttributeBuffer(MeshData.NORMAL);
-	var texs = this.getAttributeBuffer(MeshData.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(_MeshData.MeshData.POSITION);
+	var norms = this.getAttributeBuffer(_MeshData.MeshData.NORMAL);
+	var texs = this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	// generate geometry
@@ -100,9 +124,9 @@ Sphere.prototype.rebuild = function () {
 
 	// generate the sphere itself
 	var i = 0;
-	var tempVa = new Vector3();
-	var tempVb = new Vector3();
-	var tempVc = new Vector3();
+	var tempVa = new _Vector.Vector3();
+	var tempVb = new _Vector.Vector3();
+	var tempVc = new _Vector.Vector3();
 	for (var iZ = zBegin; iZ < zEnd; iZ++) {
 		var fAFraction = MathUtils.HALF_PI * (-1.0 + fZFactor * iZ); // in (-pi / 2, pi / 2)
 		var fZFraction = Math.sin(fAFraction); // in (-1, 1)
@@ -142,7 +166,7 @@ Sphere.prototype.rebuild = function () {
 			// When not having shared pole vertices: ajustment of u at the poles for linear & projected modes.
 			// This is because at the pole we squeeze a quad into a triangle, so this centers the pointy end of it.
 			var uOffset = 0;
-			if (!this._useSharedPoleVertices && (iZ === zBegin || iZ === (zEnd - 1))) {
+			if (!this._useSharedPoleVertices && (iZ === zBegin || iZ === zEnd - 1)) {
 				uOffset = 0.5 * fInvRS;
 			}
 
@@ -287,7 +311,7 @@ Sphere.prototype.rebuild = function () {
 	// generate connectivity
 	var index = 0;
 
-	var samples = (this.textureMode === Sphere.TextureModes.Chromeball) ? this.zSamples + 1 : this.zSamples;
+	var samples = this.textureMode === Sphere.TextureModes.Chromeball ? this.zSamples + 1 : this.zSamples;
 
 	var iZStart = 0;
 	if (!this._useSharedPoleVertices) {
@@ -414,4 +438,4 @@ var exported_Sphere = Sphere;
  * @param {number} [radius=0.5] Radius.
  * @param {Enum} [textureMode=Sphere.TextureModes.Polar] Texture wrapping mode.
  */
-export { exported_Sphere as Sphere };
+exports.Sphere = exported_Sphere;

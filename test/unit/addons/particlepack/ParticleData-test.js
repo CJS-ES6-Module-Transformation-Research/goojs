@@ -1,7 +1,11 @@
-import { Vector3 } from "../../../../src/goo/math/Vector3";
-import { World } from "../../../../src/goo/entities/World";
-import { TransformComponent } from "../../../../src/goo/entities/components/TransformComponent";
-import { ParticleSystemComponent } from "../../../../src/goo/addons/particlepack/components/ParticleSystemComponent";
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _TransformComponent = require("../../../../src/goo/entities/components/TransformComponent");
+
+var _ParticleSystemComponent = require("../../../../src/goo/addons/particlepack/components/ParticleSystemComponent");
+
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('ParticleData', function () {
@@ -9,15 +13,15 @@ describe('ParticleData', function () {
 
 	beforeEach(function () {
 		jasmine.addMatchers(CustomMatchers);
-		world = new World();
-		world.registerComponent(TransformComponent);
-		world.registerComponent(ParticleSystemComponent);
+		world = new _World.World();
+		world.registerComponent(_TransformComponent.TransformComponent);
+		world.registerComponent(_ParticleSystemComponent.ParticleSystemComponent);
 	});
 
 	it('can get world position', function () {
-		var component = new ParticleSystemComponent();
+		var component = new _ParticleSystemComponent.ParticleSystemComponent();
 		world.createEntity([0, 0, 0], component).addToWorld();
-		var store = new Vector3();
+		var store = new _Vector.Vector3();
 		component.particles[0].getWorldPosition(store);
 	});
 });

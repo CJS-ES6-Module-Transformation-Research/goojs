@@ -1,11 +1,17 @@
-import { Action } from "../../../fsmpack/statemachine/actions/Action";
-import { anonymus as SystemBus } from "../../../entities/SystemBus";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EmitAction = undefined;
 
-function EmitAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+function EmitAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-EmitAction.prototype = Object.create(Action.prototype);
+EmitAction.prototype = Object.create(_Action.Action.prototype);
 EmitAction.prototype.constructor = EmitAction;
 
 EmitAction.external = {
@@ -23,9 +29,9 @@ EmitAction.external = {
 	transitions: []
 };
 
-EmitAction.prototype.enter = function (/*fsm*/) {
-	SystemBus.emit(this.channel, this.data); // data is unused?
+EmitAction.prototype.enter = function () /*fsm*/{
+	_SystemBus.anonymus.emit(this.channel, this.data); // data is unused?
 };
 
 var exported_EmitAction = EmitAction;
-export { exported_EmitAction as EmitAction };
+exports.EmitAction = exported_EmitAction;

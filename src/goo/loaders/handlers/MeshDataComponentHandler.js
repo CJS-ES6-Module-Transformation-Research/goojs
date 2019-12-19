@@ -1,19 +1,52 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { MeshDataComponent } from "../../entities/components/MeshDataComponent";
-import { BoundingBox } from "../../renderer/bounds/BoundingBox";
-import * as ShapeCreatorMemoized from "../../util/ShapeCreatorMemoized";
-import * as RSVP from "../../util/rsvp";
-import * as ObjectUtils from "../../util/ObjectUtils";
-import * as StringUtils from "../../util/StringUtils";
-import { Vector3 } from "../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshDataComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _ShapeCreatorMemoized = require("../../util/ShapeCreatorMemoized");
+
+var ShapeCreatorMemoized = _interopRequireWildcard(_ShapeCreatorMemoized);
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _StringUtils = require("../../util/StringUtils");
+
+var StringUtils = _interopRequireWildcard(_StringUtils);
+
+var _Vector = require("../../math/Vector3");
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function MeshDataComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'MeshDataComponent';
 }
 
-MeshDataComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+MeshDataComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 MeshDataComponentHandler.prototype.constructor = MeshDataComponentHandler;
-ComponentHandler._registerClass('meshData', MeshDataComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('meshData', MeshDataComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -22,8 +55,7 @@ ComponentHandler._registerClass('meshData', MeshDataComponentHandler);
  * @private
  */
 MeshDataComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
-	});
+	return ObjectUtils.defaults(config, {});
 };
 
 /**
@@ -32,7 +64,7 @@ MeshDataComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshDataComponentHandler.prototype._create = function () {
-	return new MeshDataComponent();
+	return new _MeshDataComponent.MeshDataComponent();
 };
 
 /**
@@ -56,8 +88,10 @@ MeshDataComponentHandler.prototype._remove = function (entity) {
  */
 MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		component.meshData = null;
 		component.currentPose = null;
@@ -78,8 +112,8 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 					var min = meshData.boundingBox.min;
 					var max = meshData.boundingBox.max;
 					var size = [max[0] - min[0], max[1] - min[1], max[2] - min[2]];
-					var center = new Vector3(max[0] + min[0], max[1] + min[1], max[2] + min[2]).scale(0.5);
-					var bounding = new BoundingBox(center, size[0] / 2, size[1] / 2, size[2] / 2);
+					var center = new _Vector.Vector3(max[0] + min[0], max[1] + min[1], max[2] + min[2]).scale(0.5);
+					var bounding = new _BoundingBox.BoundingBox(center, size[0] / 2, size[1] / 2, size[2] / 2);
 					component.setModelBound(bounding, false);
 				}
 			}));
@@ -115,4 +149,4 @@ var exported_MeshDataComponentHandler = MeshDataComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_MeshDataComponentHandler as MeshDataComponentHandler };
+exports.MeshDataComponentHandler = exported_MeshDataComponentHandler;

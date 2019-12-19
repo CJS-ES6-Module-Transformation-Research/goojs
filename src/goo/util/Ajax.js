@@ -1,8 +1,28 @@
-import { TextureHandler } from "../loaders/handlers/TextureHandler";
-import * as PromiseUtils from "../util/PromiseUtils";
-import * as ObjectUtils from "../util/ObjectUtils";
-import * as StringUtils from "../util/StringUtils";
-import * as RSVP from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Ajax = undefined;
+
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+var _StringUtils = require("../util/StringUtils");
+
+var StringUtils = _interopRequireWildcard(_StringUtils);
+
+var _rsvp = require("../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 function Ajax(rootPath, options) {
 	if (rootPath) {
 		this._rootPath = rootPath;
@@ -56,7 +76,7 @@ Ajax.prototype.get = function (options) {
 	}
 
 	return PromiseUtils.createPromise(function (resolve, reject) {
-		var handleStateChange = function () {
+		var handleStateChange = function handleStateChange() {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
 					request.removeEventListener('readystatechange', handleStateChange);
@@ -82,7 +102,6 @@ Ajax.ARRAY_BUFFER = 'arraybuffer';
  */
 Ajax.crossOrigin = false;
 
-
 var MIME_TYPES = {
 	mp4: 'video/mp4',
 	ogv: 'video/ogg',
@@ -100,7 +119,7 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = StringUtils.parseURL(path).path;//! AT: dunno what to call this
+	var path2 = StringUtils.parseURL(path).path; //! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
@@ -148,8 +167,7 @@ Ajax.prototype.load = function (path, reload) {
 		ajaxProperties.responseType = Ajax.ARRAY_BUFFER;
 	}
 
-	return this._cache[path] = this.get(ajaxProperties)
-	.then(function (request) {
+	return this._cache[path] = this.get(ajaxProperties).then(function (request) {
 		if (typeInGroup(type, 'bundle')) {
 			var bundle = JSON.parse(request.response);
 			that.prefill(bundle, reload);
@@ -221,7 +239,7 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 	var promise = PromiseUtils.createPromise(function (resolve, reject) {
 		var timeout;
 
-		var _resolve = function () {
+		var _resolve = function _resolve() {
 			if (!video.dataReady) {
 				console.warn('Video is not ready');
 			}
@@ -231,16 +249,15 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 			resolve(video);
 		};
 
-		var canPlay = function () {
+		var canPlay = function canPlay() {
 			video.dataReady = true;
 			_resolve();
 		};
 
-		var loadStart = function () {
+		var loadStart = function loadStart() {
 			if (iOS) {
 				_resolve();
-			}
-			else {
+			} else {
 				timeout = setTimeout(_resolve, VIDEO_LOAD_TIMEOUT);
 			}
 		};
@@ -275,8 +292,7 @@ Ajax.prototype._loadAudio = function (url) {
 	};
 	return this.get(ajaxProperties).then(function (request) {
 		return request.response;
-	})
-	.then(null, function (err) {
+	}).then(null, function (err) {
 		throw new Error('Could not load data from ' + url + ', ' + err);
 	});
 };
@@ -330,7 +346,7 @@ Ajax.types = {
 	binary: addKeys({
 		dat: true,
 		bin: true
-	}, Object.keys(TextureHandler.loaders)),
+	}, Object.keys(_TextureHandler.TextureHandler.loaders)),
 	audio: {
 		mp3: true,
 		wav: true,
@@ -341,11 +357,7 @@ Ajax.types = {
 	}
 };
 
-Ajax.types.asset = addKeys(
-	{},
-	Object.keys(Ajax.types.image)
-		.concat(Object.keys(Ajax.types.binary))
-);
+Ajax.types.asset = addKeys({}, Object.keys(Ajax.types.image).concat(Object.keys(Ajax.types.binary)));
 
 var exported_Ajax = Ajax;
 
@@ -354,4 +366,4 @@ var exported_Ajax = Ajax;
  * @param {string} rootPath
  * @param {Object} options
  */
-export { exported_Ajax as Ajax };
+exports.Ajax = exported_Ajax;

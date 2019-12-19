@@ -1,17 +1,48 @@
-import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { SoundComponent } from "../../entities/components/SoundComponent";
-import * as AudioContext from "../../sound/AudioContext";
-import * as RSVP from "../../util/rsvp";
-import * as PromiseUtils from "../../util/PromiseUtils";
-import * as ObjectUtils from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _SoundComponent = require("../../entities/components/SoundComponent");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var AudioContext = _interopRequireWildcard(_AudioContext);
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var PromiseUtils = _interopRequireWildcard(_PromiseUtils);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
 function SoundComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'SoundComponent';
 }
 
-SoundComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+SoundComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 SoundComponentHandler.prototype.constructor = SoundComponentHandler;
-ComponentHandler._registerClass('sound', SoundComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('sound', SoundComponentHandler);
 
 /**
  * Removes the souncomponent and stops all connected sounds
@@ -45,7 +76,7 @@ SoundComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundComponentHandler.prototype._create = function () {
-	return new SoundComponent();
+	return new _SoundComponent.SoundComponent();
 };
 
 /**
@@ -61,8 +92,10 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 	}
 
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 		component.updateConfig(config);
 
 		// Remove old sounds
@@ -101,4 +134,4 @@ var exported_SoundComponentHandler = SoundComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_SoundComponentHandler as SoundComponentHandler };
+exports.SoundComponentHandler = exported_SoundComponentHandler;

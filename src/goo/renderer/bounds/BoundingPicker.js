@@ -1,29 +1,28 @@
-import { Ray } from "../../math/Ray";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.pick = undefined;
+
+var _Ray = require("../../math/Ray");
+
 var functionObject_pickFromList;
 var functionObject_pick;
 
 /**
  * BoundingPicker
  */
-function BoundingPicker() {
-}
+function BoundingPicker() {}
 
-var pickRay = new Ray();
+var pickRay = new _Ray.Ray();
 
-functionObject_pick = function(world, camera, x, y) {
+exports.pick = functionObject_pick = function functionObject_pick(world, camera, x, y) {
     var entities = world.entityManager.getEntities();
     return functionObject_pickFromList(world, entities, camera, x, y);
 };
 
-functionObject_pickFromList = function(world, entities, camera, x, y) {
+functionObject_pickFromList = function functionObject_pickFromList(world, entities, camera, x, y) {
     var renderer = world.gooRunner.renderer;
-    camera.getPickRay(
-        x,
-        y,
-        renderer.domElement.offsetWidth,
-        renderer.domElement.offsetHeight,
-        pickRay
-    );
+    camera.getPickRay(x, y, renderer.domElement.offsetWidth, renderer.domElement.offsetHeight, pickRay);
     // var dpx = renderer.devicePixelRatio;
     // camera.getPickRay(x * dpx, y * dpx, renderer.domElement.offsetWidth, renderer.domElement.offsetHeight, pickRay);
 
@@ -45,11 +44,11 @@ functionObject_pickFromList = function(world, entities, camera, x, y) {
         }
     }
 
-    pickList.sort(function(a, b) {
+    pickList.sort(function (a, b) {
         return a.intersection.distances[0] - b.intersection.distances[0];
     });
 
     return pickList;
 };
 
-export { functionObject_pick as pick };
+exports.pick = functionObject_pick;

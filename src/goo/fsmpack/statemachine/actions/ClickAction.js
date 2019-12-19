@@ -1,14 +1,19 @@
-import { Action } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ClickAction = undefined;
 
-function ClickAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require('./Action');
+
+function ClickAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
 	this.selected = false;
 	this.x = 0;
 	this.y = 0;
 }
 
-ClickAction.prototype = Object.create(Action.prototype);
+ClickAction.prototype = Object.create(_Action.Action.prototype);
 ClickAction.prototype.constructor = ClickAction;
 
 ClickAction.external = {
@@ -24,7 +29,7 @@ ClickAction.external = {
 	}]
 };
 
-ClickAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+ClickAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Click/Tap Entity';
 };
 
@@ -117,4 +122,4 @@ ClickAction.prototype.exit = function () {
 };
 
 var exported_ClickAction = ClickAction;
-export { exported_ClickAction as ClickAction };
+exports.ClickAction = exported_ClickAction;

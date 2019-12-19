@@ -1,14 +1,34 @@
-import { Action } from "./Action";
-import * as BoundingPicker from "./../../../renderer/bounds/BoundingPicker";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HoverEnterAction = undefined;
 
-function HoverEnterAction/*id, settings*/() {
-	Action.apply(this, arguments);
+var _Action = require("./Action");
+
+var _BoundingPicker = require("./../../../renderer/bounds/BoundingPicker");
+
+var BoundingPicker = _interopRequireWildcard(_BoundingPicker);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
+
+function HoverEnterAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverEnterAction.prototype = Object.create(Action.prototype);
+HoverEnterAction.prototype = Object.create(_Action.Action.prototype);
 HoverEnterAction.prototype.constructor = HoverEnterAction;
 
 HoverEnterAction.types = {
@@ -37,13 +57,13 @@ HoverEnterAction.external = {
 	}]
 };
 
-HoverEnterAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HoverEnterAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Entity Hover Enter';
 };
 
 HoverEnterAction.prototype.enter = function (fsm) {
 	var that = this;
-	var isHit = function (entity) {
+	var isHit = function isHit(entity) {
 		if (!entity) {
 			return false;
 		}
@@ -57,7 +77,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 		return hit;
 	};
 
-	var checkEnter = function (entity) {
+	var checkEnter = function checkEnter(entity) {
 		var hit = isHit(entity);
 
 		if ((that.first || !that.hit) && hit) {
@@ -112,4 +132,4 @@ HoverEnterAction.prototype.exit = function () {
 };
 
 var exported_HoverEnterAction = HoverEnterAction;
-export { exported_HoverEnterAction as HoverEnterAction };
+exports.HoverEnterAction = exported_HoverEnterAction;

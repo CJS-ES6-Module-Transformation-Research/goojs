@@ -1,14 +1,39 @@
-import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { AnimationLayer } from "../../animationpack/layer/AnimationLayer";
-import * as RSVP from "../../util/rsvp";
-import * as ObjectUtils from "../../util/ObjectUtils";
-function AnimationLayersHandler() {
-	ConfigHandler.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationLayersHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _AnimationLayer = require("../../animationpack/layer/AnimationLayer");
+
+var _rsvp = require("../../util/rsvp");
+
+var RSVP = _interopRequireWildcard(_rsvp);
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var ObjectUtils = _interopRequireWildcard(_ObjectUtils);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
 }
 
-AnimationLayersHandler.prototype = Object.create(ConfigHandler.prototype);
+function AnimationLayersHandler() {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+}
+
+AnimationLayersHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 AnimationLayersHandler.prototype.constructor = AnimationLayersHandler;
-ConfigHandler._registerClass('animation', AnimationLayersHandler);
+_ConfigHandler.ConfigHandler._registerClass('animation', AnimationLayersHandler);
 
 /**
  * Creates an empty array to store animation layers
@@ -47,8 +72,10 @@ AnimationLayersHandler.prototype._setInitialState = function (layer, stateKey) {
  */
 AnimationLayersHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
-		if (!object) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+		if (!object) {
+			return;
+		}
 		var promises = [];
 
 		var i = 0;
@@ -77,7 +104,7 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	var that = this;
 
 	if (!layer) {
-		layer = new AnimationLayer(layerConfig.name);
+		layer = new _AnimationLayer.AnimationLayer(layerConfig.name);
 	} else {
 		layer._name = layerConfig.name;
 	}
@@ -118,4 +145,4 @@ var exported_AnimationLayersHandler = AnimationLayersHandler;
  * @extends ConfigHandler
  * @private
  */
-export { exported_AnimationLayersHandler as AnimationLayersHandler };
+exports.AnimationLayersHandler = exported_AnimationLayersHandler;
