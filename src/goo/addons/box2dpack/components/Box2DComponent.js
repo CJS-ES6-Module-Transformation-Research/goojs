@@ -1,11 +1,5 @@
-var Component = require('../../../entities/components/Component');
-var ObjectUtil = require('../../../util/ObjectUtil');
-
-/**
- * Box2DComponent
- * @extends Component
- * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
- */
+import { Component } from "../../../entities/components/Component";
+import { ObjectUtils as ObjectUtil } from "../../../util/ObjectUtil";
 function Box2DComponent(options) {
 	Component.apply(this, arguments);
 
@@ -32,4 +26,11 @@ function Box2DComponent(options) {
 Box2DComponent.prototype = Object.create(Component.prototype);
 Box2DComponent.prototype.constructor = Box2DComponent;
 
-module.exports = Box2DComponent;
+var exported_Box2DComponent = Box2DComponent;
+
+/**
+ * Box2DComponent
+ * @extends Component
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
+ */
+export { exported_Box2DComponent as Box2DComponent };

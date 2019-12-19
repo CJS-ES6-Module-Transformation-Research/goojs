@@ -1,23 +1,14 @@
-var Entity = require('./Entity');
-var EntityManager = require('./managers/EntityManager');
-var TransformComponent = require('./components/TransformComponent');
-var Manager = require('./managers/Manager');
-var System = require('./systems/System');
-var Component = require('./components/Component');
-var EntitySelection = require('./EntitySelection');
-var ObjectUtils = require('../util/ObjectUtils');
+import { Entity } from "./Entity";
+import { EntityManager } from "./managers/EntityManager";
+import { TransformComponent } from "./components/TransformComponent";
+import { Manager } from "./managers/Manager";
+import { System } from "./systems/System";
+import { Component } from "./components/Component";
+import { EntitySelection } from "./EntitySelection";
+import * as ObjectUtils from "../util/ObjectUtils";
 
 var lastInstantiatedWorld;
 
-/**
- * Main handler for an entity world. The World keeps track of managers and systems,
- * and also provides methods to create, select and remove entities.
- * Note that process() has to be called manually if objects need to be added and retrieved within the same update loop.
- * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
- * @param {object} [options]
- * @param {GooRunner} [options.gooRunner]
- * @param {boolean} [options.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
- */
 function World(options) {
 	if (options && options._registerBaseComponents) {
 		console.warn('World constructor changed! Please use it like this instead: new World({ gooRunner: gooRunner })');
@@ -629,4 +620,15 @@ World.prototype.clear = function () {
 	}
 };
 
-module.exports = World;
+var exported_World = World;
+
+/**
+ * Main handler for an entity world. The World keeps track of managers and systems,
+ * and also provides methods to create, select and remove entities.
+ * Note that process() has to be called manually if objects need to be added and retrieved within the same update loop.
+ * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
+ * @param {object} [options]
+ * @param {GooRunner} [options.gooRunner]
+ * @param {boolean} [options.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
+ */
+export { exported_World as World };

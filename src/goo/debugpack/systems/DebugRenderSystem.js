@@ -1,12 +1,6 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var DebugDrawHelper = require('../../debugpack/DebugDrawHelper');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import * as DebugDrawHelper from "../../debugpack/DebugDrawHelper";
 function DebugRenderSystem() {
 	System.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
@@ -178,4 +172,11 @@ DebugRenderSystem.prototype.cleanup = function () {
 	SystemBus.removeListener('goo.setLights', this.lightsListener);
 };
 
-module.exports = DebugRenderSystem;
+var exported_DebugRenderSystem = DebugRenderSystem;
+
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_DebugRenderSystem as DebugRenderSystem };

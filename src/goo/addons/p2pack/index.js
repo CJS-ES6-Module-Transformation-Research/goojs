@@ -1,6 +1,8 @@
+import { P2Component } from "./P2Component";
+import { P2System } from "./P2System";
 module.exports = {
-	P2Component: require('./P2Component'),
-	P2System: require('./P2System')
+	P2Component: P2Component,
+	P2System: P2System
 };
 
 if (typeof(window) !== 'undefined') {

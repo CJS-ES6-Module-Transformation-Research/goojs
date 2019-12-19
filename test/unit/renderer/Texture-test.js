@@ -1,4 +1,4 @@
-var Texture = require('../../../src/goo/renderer/Texture');
+import { Texture } from "../../../src/goo/renderer/Texture";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('Texture', function () {

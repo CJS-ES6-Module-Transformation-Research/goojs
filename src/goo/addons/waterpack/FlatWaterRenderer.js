@@ -1,26 +1,15 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Camera = require('../../renderer/Camera');
-var Plane = require('../../math/Plane');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Vector3 = require('../../math/Vector3');
-var Vector4 = require('../../math/Vector4');
-var Material = require('../../renderer/Material');
-var Texture = require('../../renderer/Texture');
-var TextureCreator = require('../../renderer/TextureCreator');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-
-/**
- * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Water/water-vtest.html Working example
- * @param {Object} [settings] Water settings passed in a JSON object
- * @param {boolean} [settings.useRefraction=true] Render refraction in water
- * @param {boolean} [settings.divider=2] Resolution divider for reflection/refraction
- * @param {boolean} [settings.normalsUrl] Url to texture to use as normalmap
- * @param {boolean} [settings.normalsTexture] Texture instance to use as normalmap
- * @param {boolean} [settings.updateWaterPlaneFromEntity=true] Use water entity y for water plane position
- */
+import { MeshData } from "../../renderer/MeshData";
+import { Shader } from "../../renderer/Shader";
+import { Camera } from "../../renderer/Camera";
+import { Plane } from "../../math/Plane";
+import { RenderTarget } from "../../renderer/pass/RenderTarget";
+import { Vector3 } from "../../math/Vector3";
+import { Vector4 } from "../../math/Vector4";
+import { Material } from "../../renderer/Material";
+import { Texture } from "../../renderer/Texture";
+import { TextureCreator } from "../../renderer/TextureCreator";
+import * as ShaderBuilder from "../../renderer/shaders/ShaderBuilder";
+import * as ShaderFragment from "../../renderer/shaders/ShaderFragment";
 function FlatWaterRenderer(settings) {
 	settings = settings || {};
 
@@ -487,4 +476,16 @@ var packDepthY = {
 	].join('\n')
 };
 
-module.exports = FlatWaterRenderer;
+var exported_FlatWaterRenderer = FlatWaterRenderer;
+
+/**
+ * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Water/water-vtest.html Working example
+ * @param {Object} [settings] Water settings passed in a JSON object
+ * @param {boolean} [settings.useRefraction=true] Render refraction in water
+ * @param {boolean} [settings.divider=2] Resolution divider for reflection/refraction
+ * @param {boolean} [settings.normalsUrl] Url to texture to use as normalmap
+ * @param {boolean} [settings.normalsTexture] Texture instance to use as normalmap
+ * @param {boolean} [settings.updateWaterPlaneFromEntity=true] Use water entity y for water plane position
+ */
+export { exported_FlatWaterRenderer as FlatWaterRenderer };

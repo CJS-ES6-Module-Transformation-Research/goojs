@@ -1,5 +1,5 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var BoundingVolume = require('../../../../src/goo/renderer/bounds/BoundingVolume');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { BoundingVolume } from "../../../../src/goo/renderer/bounds/BoundingVolume";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('BoundingVolume', function () {

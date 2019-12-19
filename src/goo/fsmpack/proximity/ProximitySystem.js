@@ -1,14 +1,6 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var StringUtils = require('../../util/StringUtils');
-
-/**
- * Processes all entities with a proximity component
- * @param {Renderer} renderer
- * @param {RenderSystem} renderSystem
- * @private
- * @extends System
- */
+import { System } from "../../entities/systems/System";
+import { anonymus as SystemBus } from "../../entities/SystemBus";
+import * as StringUtils from "../../util/StringUtils";
 function ProximitySystem() {
 	System.call(this, 'ProximitySystem', ['ProximityComponent']);
 
@@ -77,4 +69,13 @@ ProximitySystem.prototype.process = function (/*entities*/) {
 	*/
 };
 
-module.exports = ProximitySystem;
+var exported_ProximitySystem = ProximitySystem;
+
+/**
+ * Processes all entities with a proximity component
+ * @param {Renderer} renderer
+ * @param {RenderSystem} renderSystem
+ * @private
+ * @extends System
+ */
+export { exported_ProximitySystem as ProximitySystem };

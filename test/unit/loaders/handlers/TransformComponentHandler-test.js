@@ -1,8 +1,8 @@
-var TransformComponent = require('../../../../src/goo/entities/components/TransformComponent');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var World = require('../../../../src/goo/entities/World');
+import { TransformComponent } from "../../../../src/goo/entities/components/TransformComponent";
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+import { World } from "../../../../src/goo/entities/World";
+import { Vector3 } from "../../../../src/goo/math/Vector3";
 var Configs = require('../../../../test/unit/loaders/Configs');
-var Vector3 = require('../../../../src/goo/math/Vector3');
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('TransformComponentHandler', function () {

@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function AddVariableAction(/*id, settings*/) {
+function AddVariableAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -49,4 +49,5 @@ AddVariableAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = AddVariableAction;
+var exported_AddVariableAction = AddVariableAction;
+export { exported_AddVariableAction as AddVariableAction };

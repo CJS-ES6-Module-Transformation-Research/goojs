@@ -1,4 +1,4 @@
-var TextureCreator = require('../../../src/goo/renderer/TextureCreator');
+import { TextureCreator } from "../../../src/goo/renderer/TextureCreator";
 
 describe('TextureCreator', function () {
 	var textureCreator;

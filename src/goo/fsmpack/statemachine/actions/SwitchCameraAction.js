@@ -1,8 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
-var Renderer = require('../../../renderer/Renderer');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { anonymus as SystemBus } from "../../../entities/SystemBus";
+import { Renderer } from "../../../renderer/Renderer";
 
-function SwitchCameraAction(/*id, settings*/) {
+function SwitchCameraAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this._camera = null;
 }
@@ -43,4 +43,5 @@ SwitchCameraAction.prototype.enter = function (fsm) {
 SwitchCameraAction.prototype.cleanup = function (/*fsm*/) {
 };
 
-module.exports = SwitchCameraAction;
+var exported_SwitchCameraAction = SwitchCameraAction;
+export { exported_SwitchCameraAction as SwitchCameraAction };

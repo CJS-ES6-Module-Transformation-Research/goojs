@@ -1,9 +1,4 @@
-var System = require('../../entities/systems/System');
-
-/**
- * Processes all entities with a FSM component
- * @private
- */
+import { System } from "../../entities/systems/System";
 function StateMachineSystem(engine) {
 	System.call(this, 'StateMachineSystem', ['StateMachineComponent']);
 
@@ -132,4 +127,10 @@ StateMachineSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = StateMachineSystem;
+var exported_StateMachineSystem = StateMachineSystem;
+
+/**
+ * Processes all entities with a FSM component
+ * @private
+ */
+export { exported_StateMachineSystem as StateMachineSystem };

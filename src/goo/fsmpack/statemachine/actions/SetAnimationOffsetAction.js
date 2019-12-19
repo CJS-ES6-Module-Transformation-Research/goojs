@@ -1,6 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
-function SetAnimationOffsetAction(/*id, settings*/) {
+function SetAnimationOffsetAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -29,4 +29,5 @@ SetAnimationOffsetAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetAnimationOffsetAction;
+var exported_SetAnimationOffsetAction = SetAnimationOffsetAction;
+export { exported_SetAnimationOffsetAction as SetAnimationOffsetAction };

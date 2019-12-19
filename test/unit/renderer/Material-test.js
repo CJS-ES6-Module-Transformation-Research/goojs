@@ -1,5 +1,5 @@
-var Material = require('../../../src/goo/renderer/Material');
-var ShaderLib = require('../../../src/goo/renderer/shaders/ShaderLib');
+import { Material } from "../../../src/goo/renderer/Material";
+import * as ShaderLib from "../../../src/goo/renderer/shaders/ShaderLib";
 
 describe('Material', function () {
 	describe('constructor', function () {

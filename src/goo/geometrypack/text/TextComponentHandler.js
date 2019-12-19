@@ -1,17 +1,6 @@
-/* global opentype */
-
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var TextComponent = require('../../geometrypack/text/TextComponent');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * For handling loading of text components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function.
- * @param {Function} updateObject The handler function.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { TextComponent } from "../../geometrypack/text/TextComponent";
+import * as PromiseUtils from "../../util/PromiseUtils";
 function TextComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'TextComponent';
@@ -86,4 +75,14 @@ TextComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = TextComponentHandler;
+var exported_TextComponentHandler = TextComponentHandler;
+
+/**
+ * For handling loading of text components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function.
+ * @param {Function} updateObject The handler function.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_TextComponentHandler as TextComponentHandler };

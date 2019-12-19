@@ -1,14 +1,9 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-var Vector3 = require('../../math/Vector3');
-var Matrix3 = require('../../math/Matrix3');
-
-/**
- * Logic node for vector < matrix computation
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+import { Vector3 } from "../../math/Vector3";
+import { Matrix3 } from "../../math/Matrix3";
 function LogicNodeApplyMatrix() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeApplyMatrix.logicInterface;
@@ -34,4 +29,10 @@ LogicNodeApplyMatrix.inportY = LogicNodeApplyMatrix.logicInterface.addInputPrope
 
 LogicNodes.registerType('LogicNodeApplyMatrix', LogicNodeApplyMatrix);
 
-module.exports = LogicNodeApplyMatrix;
+var exported_LogicNodeApplyMatrix = LogicNodeApplyMatrix;
+
+/**
+ * Logic node for vector < matrix computation
+ * @private
+ */
+export { exported_LogicNodeApplyMatrix as LogicNodeApplyMatrix };

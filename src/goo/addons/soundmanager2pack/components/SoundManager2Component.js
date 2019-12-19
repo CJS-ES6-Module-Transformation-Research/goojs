@@ -1,9 +1,4 @@
-var Component = require('../../../entities/components/Component');
-
-/**
- * @extends Component
- * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
- */
+import { Component } from "../../../entities/components/Component";
 function SoundManager2Component(settings) {
 	this.type = 'SoundManager2Component';
 
@@ -24,4 +19,10 @@ SoundManager2Component.prototype.playSound = function (soundName) {
 	this.sounds[soundName].soundObject.play();
 };
 
-module.exports = SoundManager2Component;
+var exported_SoundManager2Component = SoundManager2Component;
+
+/**
+ * @extends Component
+ * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
+ */
+export { exported_SoundManager2Component as SoundManager2Component };

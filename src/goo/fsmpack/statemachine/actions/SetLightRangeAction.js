@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function SetLightRangeAction(/*id, settings*/) {
+function SetLightRangeAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -48,4 +48,5 @@ SetLightRangeAction.prototype.enter = function (/*fsm*/) {
 	}
 };
 
-module.exports = SetLightRangeAction;
+var exported_SetLightRangeAction = SetLightRangeAction;
+export { exported_SetLightRangeAction as SetLightRangeAction };

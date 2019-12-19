@@ -1,12 +1,4 @@
-var System = require('../../../entities/systems/System');
-
-/**
- * Handles integration with Sound Manager 2
- * @desc Depends on the global soundManager object.
- * Load soundmanager2 with a script tag before using this system.
- * @extends System
- * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
- */
+import { System } from "../../../entities/systems/System";
 function SoundManager2System(settings) {
 	System.call(this, 'SoundManager2System', ['SoundManager2Component', 'TransformComponent']);
 
@@ -56,4 +48,13 @@ SoundManager2System.prototype.process = function (/*entities , tpf */) {
 	}*/
 };
 
-module.exports = SoundManager2System;
+var exported_SoundManager2System = SoundManager2System;
+
+/**
+ * Handles integration with Sound Manager 2
+ * @desc Depends on the global soundManager object.
+ * Load soundmanager2 with a script tag before using this system.
+ * @extends System
+ * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
+ */
+export { exported_SoundManager2System as SoundManager2System };

@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function SpriteAnimationAction(/*id, settings*/) {
+function SpriteAnimationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this.completed = false;
 }
@@ -114,4 +114,5 @@ SpriteAnimationAction.prototype.update = function (fsm) {
 
 SpriteAnimationAction.prototype.exit = function (/*fsm*/) {};
 
-module.exports = SpriteAnimationAction;
+var exported_SpriteAnimationAction = SpriteAnimationAction;
+export { exported_SpriteAnimationAction as SpriteAnimationAction };

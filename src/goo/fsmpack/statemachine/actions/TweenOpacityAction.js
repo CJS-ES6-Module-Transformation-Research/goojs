@@ -1,8 +1,8 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Easing = require('../../../util/Easing');
-var MathUtils = require('../../../math/MathUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import * as Easing from "../../../util/Easing";
+import * as MathUtils from "../../../math/MathUtils";
 
-function TweenOpacityAction(/*id, settings*/) {
+function TweenOpacityAction/*id, settings*/() {
 	Action.apply(this, arguments);
 	this.completed = false;
 }
@@ -102,4 +102,5 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenOpacityAction;
+var exported_TweenOpacityAction = TweenOpacityAction;
+export { exported_TweenOpacityAction as TweenOpacityAction };

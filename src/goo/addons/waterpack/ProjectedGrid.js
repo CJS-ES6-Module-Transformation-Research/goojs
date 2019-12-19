@@ -1,16 +1,10 @@
-var MeshData = require('../../renderer/MeshData');
-var Vector2 = require('../../math/Vector2');
-var Vector3 = require('../../math/Vector3');
-var Vector4 = require('../../math/Vector4');
-var Matrix4 = require('../../math/Matrix4');
-var Camera = require('../../renderer/Camera');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Projected grid mesh
- * @param {number} [densityX=20] Density in X of grid
- * @param {number} [densityY=20] Density in Y of grid
- */
+import { MeshData } from "../../renderer/MeshData";
+import { Vector2 } from "../../math/Vector2";
+import { Vector3 } from "../../math/Vector3";
+import { Vector4 } from "../../math/Vector4";
+import { Matrix4 } from "../../math/Matrix4";
+import { Camera } from "../../renderer/Camera";
+import * as MathUtils from "../../math/MathUtils";
 function ProjectedGrid(densityX, densityY) {
 	this.densityX = densityX !== undefined ? densityX : 20;
 	this.densityY = densityY !== undefined ? densityY : 20;
@@ -335,4 +329,11 @@ ProjectedGrid.prototype.rebuild = function () {
 	return this;
 };
 
-module.exports = ProjectedGrid;
+var exported_ProjectedGrid = ProjectedGrid;
+
+/**
+ * Projected grid mesh
+ * @param {number} [densityX=20] Density in X of grid
+ * @param {number} [densityY=20] Density in Y of grid
+ */
+export { exported_ProjectedGrid as ProjectedGrid };

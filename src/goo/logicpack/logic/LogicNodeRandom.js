@@ -1,13 +1,7 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicInterface = require('./LogicInterface');
-var LogicNodes = require('./LogicNodes');
-
-/**
- * Logic node implementing a random value. Every frame a new random value is written
- * to its output.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import { LogicInterface } from "./LogicInterface";
+import * as LogicNodes from "./LogicNodes";
 function LogicNodeRandom() {
 	LogicNode.call(this);
 	this.wantsProcessCall = true;
@@ -30,4 +24,11 @@ LogicNodeRandom.prototype.processLogic = function () {
 
 LogicNodes.registerType('LogicNodeRandom', LogicNodeRandom);
 
-module.exports = LogicNodeRandom;
+var exported_LogicNodeRandom = LogicNodeRandom;
+
+/**
+ * Logic node implementing a random value. Every frame a new random value is written
+ * to its output.
+ * @private
+ */
+export { exported_LogicNodeRandom as LogicNodeRandom };

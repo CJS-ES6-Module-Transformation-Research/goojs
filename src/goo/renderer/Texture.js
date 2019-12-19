@@ -1,67 +1,6 @@
-var Vector2 = require('../math/Vector2');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * <code>Texture</code> defines a texture object to be used to display an image on a piece of geometry. The image to be displayed is
- *        defined by the <code>Image</code> class. All attributes required for texture mapping are contained within this class. This includes
- *        mipmapping if desired, magnificationFilter options, apply options and correction options. Default values are as follows:
- *        minificationFilter - NearestNeighborNoMipMaps, magnificationFilter - NearestNeighbor, wrap - EdgeClamp on S, T and R, apply - Modulate,
- *        environment - None.
- * @param {Image} image Image to use as base for texture
- * @param {Object} settings Texturing settings
- * @param {string} [settings.wrapS='Repeat'] possible values:
- *		<ul>
- *			<li>'Repeat' = Repeat texture (ignore integer part of texture coords)
- *			<li>'MirroredRepeat' = Repeat with reversed direction on odd integer part of texture coords
- *			<li>'EdgeClamp' = Clamp texture coord range to 0..1 and use edge color
- *		</ul>
- * @param {string} [settings.wrapT='Repeat'] possible values:
- *		<ul>
- *			<li>'Repeat' = Repeat texture (ignore integer part of texture coords)
- *			<li>'MirroredRepeat' = Repeat with reversed direction on odd integer part of texture coords
- *			<li>'EdgeClamp' = Clamp texture coord range to 0..1 and use edge color
- *		</ul>
- * @param {string} [settings.magFilter='Bilinear'] possible values:
- *		<ul>
- *			<li>'NearestNeighbor' =
- *			<li>'Bilinear' =
- *		</ul>
- * @param {string} [settings.minFilter='TriLinear'] possible values:
- *		<ul>
- *			<li>'NearestNeighborNoMipMaps' =
- *			<li>'NearestNeighborNearestMipMap' =
- *			<li>'NearestNeighborLinearMipMap' =
- *			<li>'BilinearNoMipMaps' =
- *			<li>'BilinearNearestMipMap' =
- *			<li>'Trilinear' =
- *		</ul>
- * @param {number} [settings.anisotropy=1] Amount of anisotropic filtering (1=1x, 4=4x etc, max usually 4 or 16. Card max in Capabilities.maxAnisotropy)
- * @param {string} [settings.format='RGBA'] possible values:
- *		<ul>
- *			<li>'RGBA' =
- *			<li>'RGB' =
- *			<li>'Alpha' =
- *			<li>'Luminance' =
- *			<li>'LuminanceAlpha' =
- *		</ul>
- * @param {string} [settings.type='UnsignedByte'] possible values:
- *		<ul>
- *			<li>'UnsignedByte' =
- *			<li>'UnsignedShort565' =
- *			<li>'UnsignedShort4444' =
- *			<li>'UnsignedShort5551' =
- *			<li>'Float' =
- *		</ul>
- * @param {Array} [settings.offset=(0, 0)] Texture offset
- * @param {Array} [settings.repeat=(1, 1)] Texture repeat/scale
- * @param {boolean} [settings.generateMipmaps='true'] Automatically generate mipmaps
- * @param {boolean} [settings.premultiplyAlpha='false'] Premultiply alpha
- * @param {number} [settings.unpackAlignment=1] Unpack alignment setting
- * @param {boolean} [settings.flipY='true'] Flip texture in y-axis
- * @param {number} width Width of the texture
- * @param {number} height Height of the texture
- */
+import { Vector2 } from "../math/Vector2";
+import * as PromiseUtils from "../util/PromiseUtils";
+import * as ObjectUtils from "../util/ObjectUtils";
 function Texture(image, settings, width, height) {
 	this.glTexture = null;
 
@@ -280,4 +219,66 @@ Texture.prototype.clone = function () {
 
 Texture.CUBE_FACES = ['PositiveX', 'NegativeX', 'PositiveY', 'NegativeY', 'PositiveZ', 'NegativeZ'];
 
-module.exports = Texture;
+var exported_Texture = Texture;
+
+/**
+ * <code>Texture</code> defines a texture object to be used to display an image on a piece of geometry. The image to be displayed is
+ *        defined by the <code>Image</code> class. All attributes required for texture mapping are contained within this class. This includes
+ *        mipmapping if desired, magnificationFilter options, apply options and correction options. Default values are as follows:
+ *        minificationFilter - NearestNeighborNoMipMaps, magnificationFilter - NearestNeighbor, wrap - EdgeClamp on S, T and R, apply - Modulate,
+ *        environment - None.
+ * @param {Image} image Image to use as base for texture
+ * @param {Object} settings Texturing settings
+ * @param {string} [settings.wrapS='Repeat'] possible values:
+ *		<ul>
+ *			<li>'Repeat' = Repeat texture (ignore integer part of texture coords)
+ *			<li>'MirroredRepeat' = Repeat with reversed direction on odd integer part of texture coords
+ *			<li>'EdgeClamp' = Clamp texture coord range to 0..1 and use edge color
+ *		</ul>
+ * @param {string} [settings.wrapT='Repeat'] possible values:
+ *		<ul>
+ *			<li>'Repeat' = Repeat texture (ignore integer part of texture coords)
+ *			<li>'MirroredRepeat' = Repeat with reversed direction on odd integer part of texture coords
+ *			<li>'EdgeClamp' = Clamp texture coord range to 0..1 and use edge color
+ *		</ul>
+ * @param {string} [settings.magFilter='Bilinear'] possible values:
+ *		<ul>
+ *			<li>'NearestNeighbor' =
+ *			<li>'Bilinear' =
+ *		</ul>
+ * @param {string} [settings.minFilter='TriLinear'] possible values:
+ *		<ul>
+ *			<li>'NearestNeighborNoMipMaps' =
+ *			<li>'NearestNeighborNearestMipMap' =
+ *			<li>'NearestNeighborLinearMipMap' =
+ *			<li>'BilinearNoMipMaps' =
+ *			<li>'BilinearNearestMipMap' =
+ *			<li>'Trilinear' =
+ *		</ul>
+ * @param {number} [settings.anisotropy=1] Amount of anisotropic filtering (1=1x, 4=4x etc, max usually 4 or 16. Card max in Capabilities.maxAnisotropy)
+ * @param {string} [settings.format='RGBA'] possible values:
+ *		<ul>
+ *			<li>'RGBA' =
+ *			<li>'RGB' =
+ *			<li>'Alpha' =
+ *			<li>'Luminance' =
+ *			<li>'LuminanceAlpha' =
+ *		</ul>
+ * @param {string} [settings.type='UnsignedByte'] possible values:
+ *		<ul>
+ *			<li>'UnsignedByte' =
+ *			<li>'UnsignedShort565' =
+ *			<li>'UnsignedShort4444' =
+ *			<li>'UnsignedShort5551' =
+ *			<li>'Float' =
+ *		</ul>
+ * @param {Array} [settings.offset=(0, 0)] Texture offset
+ * @param {Array} [settings.repeat=(1, 1)] Texture repeat/scale
+ * @param {boolean} [settings.generateMipmaps='true'] Automatically generate mipmaps
+ * @param {boolean} [settings.premultiplyAlpha='false'] Premultiply alpha
+ * @param {number} [settings.unpackAlignment=1] Unpack alignment setting
+ * @param {boolean} [settings.flipY='true'] Flip texture in y-axis
+ * @param {number} width Width of the texture
+ * @param {number} height Height of the texture
+ */
+export { exported_Texture as Texture };

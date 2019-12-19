@@ -1,5 +1,5 @@
-var World = require('../../../../src/goo/entities/World');
-var EntityManager = require('../../../../src/goo/entities/managers/EntityManager');
+import { World } from "../../../../src/goo/entities/World";
+import { EntityManager } from "../../../../src/goo/entities/managers/EntityManager";
 
 describe('EntityManager', function () {
 	var world;

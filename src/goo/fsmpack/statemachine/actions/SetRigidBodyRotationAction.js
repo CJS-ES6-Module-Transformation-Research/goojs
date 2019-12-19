@@ -1,9 +1,9 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Matrix3 = require('../../../math/Matrix3');
-var Quaternion = require('../../../math/Quaternion');
-var MathUtils = require('../../../math/MathUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Matrix3 } from "../../../math/Matrix3";
+import { Quaternion } from "../../../math/Quaternion";
+import * as MathUtils from "../../../math/MathUtils";
 
-function SetRigidBodyRotationAction(/*id, settings*/) {
+function SetRigidBodyRotationAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -63,4 +63,5 @@ SetRigidBodyRotationAction.prototype.enter = function (fsm) {
 	this.setRotation(fsm);
 };
 
-module.exports = SetRigidBodyRotationAction;
+var exported_SetRigidBodyRotationAction = SetRigidBodyRotationAction;
+export { exported_SetRigidBodyRotationAction as SetRigidBodyRotationAction };

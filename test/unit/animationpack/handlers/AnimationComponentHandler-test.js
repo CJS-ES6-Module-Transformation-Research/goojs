@@ -1,11 +1,10 @@
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var World = require('../../../../src/goo/entities/World');
+import { DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
+import { World } from "../../../../src/goo/entities/World";
+import { AnimationComponent } from "../../../../src/goo/animationpack/components/AnimationComponent";
+import { AnimationLayer } from "../../../../src/goo/animationpack/layer/AnimationLayer";
+import { SkeletonPose } from "../../../../src/goo/animationpack/SkeletonPose";
+import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
 var Configs = require('../../../../test/unit/loaders/Configs');
-var AnimationComponent = require('../../../../src/goo/animationpack/components/AnimationComponent');
-var AnimationLayer = require('../../../../src/goo/animationpack/layer/AnimationLayer');
-var SkeletonPose = require('../../../../src/goo/animationpack/SkeletonPose');
-
-require('../../../../src/goo/animationpack/handlers/AnimationHandlers');
 
 describe('AnimationComponentHandler', function () {
 	var loader;

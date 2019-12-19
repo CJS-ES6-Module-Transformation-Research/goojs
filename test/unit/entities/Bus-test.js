@@ -1,4 +1,4 @@
-var Bus = require('../../../src/goo/entities/Bus');
+import { Bus } from "../../../src/goo/entities/Bus";
 
 describe('Bus', function () {
 	var bus;

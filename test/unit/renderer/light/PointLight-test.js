@@ -1,5 +1,5 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var PointLight = require('../../../../src/goo/renderer/light/PointLight');
+import { Vector3 } from "../../../../src/goo/math/Vector3";
+import { PointLight } from "../../../../src/goo/renderer/light/PointLight";
 var CustomMatchers = require('../../../../test/unit/CustomMatchers');
 
 describe('PointLight', function () {

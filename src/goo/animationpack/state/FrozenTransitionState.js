@@ -1,9 +1,4 @@
-var AbstractTransitionState = require('../../animationpack/state/AbstractTransitionState');
-
-/**
- * A two state transition that freezes the starting state at its current position and blends that over time with a target state. The target
- *        state moves forward in time during the blend as normal.
- */
+import { AbstractTransitionState } from "../../animationpack/state/AbstractTransitionState";
 function FrozenTransitionState() {
 	AbstractTransitionState.call(this);
 }
@@ -49,4 +44,10 @@ FrozenTransitionState.prototype.shiftClipTime = function (shiftTime) {
 	this._targetState.shiftClipTime(shiftTime);
 };
 
-module.exports = FrozenTransitionState;
+var exported_FrozenTransitionState = FrozenTransitionState;
+
+/**
+ * A two state transition that freezes the starting state at its current position and blends that over time with a target state. The target
+ *        state moves forward in time during the blend as normal.
+ */
+export { exported_FrozenTransitionState as FrozenTransitionState };

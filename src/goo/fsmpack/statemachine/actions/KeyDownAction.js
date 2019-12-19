@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
+import * as FsmUtils from "../../../fsmpack/statemachine/FsmUtils";
 
-function KeyDownAction(/*id, settings*/) {
+function KeyDownAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -50,4 +50,5 @@ KeyDownAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
 
-module.exports = KeyDownAction;
+var exported_KeyDownAction = KeyDownAction;
+export { exported_KeyDownAction as KeyDownAction };

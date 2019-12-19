@@ -1,18 +1,9 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var SoundComponent = require('../../entities/components/SoundComponent');
-var AudioContext = require('../../sound/AudioContext');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * For handling loading of sound components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { SoundComponent } from "../../entities/components/SoundComponent";
+import * as AudioContext from "../../sound/AudioContext";
+import * as RSVP from "../../util/rsvp";
+import * as PromiseUtils from "../../util/PromiseUtils";
+import * as ObjectUtils from "../../util/ObjectUtils";
 function SoundComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._type = 'SoundComponent';
@@ -100,4 +91,14 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = SoundComponentHandler;
+var exported_SoundComponentHandler = SoundComponentHandler;
+
+/**
+ * For handling loading of sound components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_SoundComponentHandler as SoundComponentHandler };

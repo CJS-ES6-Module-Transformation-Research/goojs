@@ -1,7 +1,7 @@
-var Spline = require('../../../src/goo/math/splines/Spline');
-var Vector2 = require('../../../src/goo/math/Vector2');
-var Vector3 = require('../../../src/goo/math/Vector3');
-var Vector4 = require('../../../src/goo/math/Vector4');
+import { Spline } from "../../../src/goo/math/splines/Spline";
+import { Vector2 } from "../../../src/goo/math/Vector2";
+import { Vector3 } from "../../../src/goo/math/Vector3";
+import { Vector4 } from "../../../src/goo/math/Vector4";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 
 describe('Spline', function () {

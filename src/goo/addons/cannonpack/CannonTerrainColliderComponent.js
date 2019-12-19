@@ -1,13 +1,4 @@
-var Component = require('../../entities/components/Component');
-
-/* global CANNON */
-
-/**
- * Terrain collider. Attach to an entity with a {@link CannonRigidbodyComponent}.
- * @param {Object} [settings]
- * @param {Object} [settings.data]
- * @param {Object} [settings.shapeOptions]
- */
+import { Component } from "../../entities/components/Component";
 function CannonTerrainColliderComponent(settings) {
 	Component.apply(this, arguments);
 
@@ -25,4 +16,14 @@ function CannonTerrainColliderComponent(settings) {
 CannonTerrainColliderComponent.prototype = Object.create(Component.prototype);
 CannonTerrainColliderComponent.constructor = CannonTerrainColliderComponent;
 
-module.exports = CannonTerrainColliderComponent;
+var exported_CannonTerrainColliderComponent = CannonTerrainColliderComponent;
+
+/* global CANNON */
+
+/**
+ * Terrain collider. Attach to an entity with a {@link CannonRigidbodyComponent}.
+ * @param {Object} [settings]
+ * @param {Object} [settings.data]
+ * @param {Object} [settings.shapeOptions]
+ */
+export { exported_CannonTerrainColliderComponent as CannonTerrainColliderComponent };

@@ -1,18 +1,9 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Joint = require('../../animationpack/Joint');
-var Skeleton = require('../../animationpack/Skeleton');
-var SkeletonPose = require('../../animationpack/SkeletonPose');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Handler for loading skeletons into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { Joint } from "../../animationpack/Joint";
+import { Skeleton } from "../../animationpack/Skeleton";
+import { SkeletonPose } from "../../animationpack/SkeletonPose";
+import * as PromiseUtils from "../../util/PromiseUtils";
+import * as ObjectUtils from "../../util/ObjectUtils";
 function SkeletonHandler() {
 	ConfigHandler.apply(this, arguments);
 }
@@ -60,4 +51,14 @@ SkeletonHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = SkeletonHandler;
+var exported_SkeletonHandler = SkeletonHandler;
+
+/**
+ * Handler for loading skeletons into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_SkeletonHandler as SkeletonHandler };

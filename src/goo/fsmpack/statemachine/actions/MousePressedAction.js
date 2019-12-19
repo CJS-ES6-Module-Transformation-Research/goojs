@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function MousePressedAction(/*id, settings*/) {
+function MousePressedAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -50,4 +50,5 @@ MousePressedAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = MousePressedAction;
+var exported_MousePressedAction = MousePressedAction;
+export { exported_MousePressedAction as MousePressedAction };

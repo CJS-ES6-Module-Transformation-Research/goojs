@@ -1,18 +1,10 @@
-var Box = require('../shapes/Box');
-var Sphere = require('../shapes/Sphere');
-var MeshData = require('../renderer/MeshData');
-var Material = require('../renderer/Material');
-var Shader = require('../renderer/Shader');
-var TextureCreator = require('../renderer/TextureCreator');
-var Transform = require('../math/Transform');
-
-/**
- * Skybox
- * @param type
- * @param images
- * @param textureMode
- * @param yRotation
- */
+import { Box } from "../shapes/Box";
+import { Sphere } from "../shapes/Sphere";
+import { MeshData } from "../renderer/MeshData";
+import { Material } from "../renderer/Material";
+import { Shader } from "../renderer/Shader";
+import { TextureCreator } from "../renderer/TextureCreator";
+import { Transform } from "../math/Transform";
 function Skybox(type, images, textureMode, yRotation) {
 	var promise;
 	if (type === Skybox.SPHERE) {
@@ -145,4 +137,13 @@ shaders.sphere = {
 	].join('\n')
 };
 
-module.exports = Skybox;
+var exported_Skybox = Skybox;
+
+/**
+ * Skybox
+ * @param type
+ * @param images
+ * @param textureMode
+ * @param yRotation
+ */
+export { exported_Skybox as Skybox };

@@ -1,12 +1,7 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node handling WASD input.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
 function LogicNodeWASD2() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeWASD2.logicInterface;
@@ -71,4 +66,10 @@ LogicNodeWASD2.downKeys = {
 
 LogicNodes.registerType('LogicNodeWASD2', LogicNodeWASD2);
 
-module.exports = LogicNodeWASD2;
+var exported_LogicNodeWASD2 = LogicNodeWASD2;
+
+/**
+ * Logic node handling WASD input.
+ * @private
+ */
+export { exported_LogicNodeWASD2 as LogicNodeWASD2 };

@@ -1,12 +1,7 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node to be used as layer output.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
 function LogicNodeOutput() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeOutput.logicInterface;
@@ -34,4 +29,10 @@ LogicNodeOutput.logicInterface = new LogicInterface();
 LogicNodeOutput.inportOutput = LogicNodeOutput.logicInterface.addInputProperty('Output', 'any');
 LogicNodeOutput.logicInterface.addConfigEntry({ name: 'Name', type: 'string', label: 'Name'});
 
-module.exports = LogicNodeOutput;
+var exported_LogicNodeOutput = LogicNodeOutput;
+
+/**
+ * Logic node to be used as layer output.
+ * @private
+ */
+export { exported_LogicNodeOutput as LogicNodeOutput };

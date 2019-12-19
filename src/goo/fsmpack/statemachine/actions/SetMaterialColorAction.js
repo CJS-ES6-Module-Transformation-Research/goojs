@@ -1,6 +1,6 @@
-var Action = require('./Action');
+import { Action } from "./Action";
 
-function SetMaterialColorAction(/*id, settings*/) {
+function SetMaterialColorAction/*id, settings*/() {
 	Action.apply(this, arguments);
 }
 
@@ -56,4 +56,5 @@ SetMaterialColorAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetMaterialColorAction;
+var exported_SetMaterialColorAction = SetMaterialColorAction;
+export { exported_SetMaterialColorAction as SetMaterialColorAction };

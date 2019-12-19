@@ -1,13 +1,11 @@
+import fs from "fs";
+import glob from "glob";
+import _ from "underscore";
+import * as extractor from "./extractor";
+import * as jsdocProcessor from "./jsdoc-processor";
+import * as util from "./util";
 // jshint node:true
 'use strict';
-
-var fs = require('fs');
-var glob = require('glob');
-var _ = require('underscore');
-
-var extractor = require('./extractor');
-var jsdocProcessor = require('./jsdoc-processor');
-var util = require('./util');
 
 
 function getFiles(sourcePath, ignore) {
@@ -129,6 +127,9 @@ function compileDoc(files) {
 	return classes;
 }
 
-exports.getFiles = getFiles;
-exports.filterPrivates = filterPrivates;
-exports.compileDoc = compileDoc;
+var exported_getFiles = getFiles;
+export { exported_getFiles as getFiles };
+var exported_filterPrivates = filterPrivates;
+export { exported_filterPrivates as filterPrivates };
+var exported_compileDoc = compileDoc;
+export { exported_compileDoc as compileDoc };

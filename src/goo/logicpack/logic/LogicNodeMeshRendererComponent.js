@@ -1,13 +1,8 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-var Vector3 = require('../../math/Vector3');
-
-/**
- * Logic node that connects to the MeshRendererComponent of an entity.
- * @private
- */
+import { LogicLayer } from "./LogicLayer";
+import { LogicNode } from "./LogicNode";
+import * as LogicNodes from "./LogicNodes";
+import { LogicInterface } from "./LogicInterface";
+import { Vector3 } from "../../math/Vector3";
 function LogicNodeMeshRendererComponent() {
 	LogicNode.call(this);
 	this.logicInterface = LogicNodeMeshRendererComponent.logicInterface;
@@ -54,4 +49,10 @@ LogicNodeMeshRendererComponent.logicInterface.addConfigEntry({
 });
 LogicNodes.registerType('MeshRendererComponent', LogicNodeMeshRendererComponent);
 
-module.exports = LogicNodeMeshRendererComponent;
+var exported_LogicNodeMeshRendererComponent = LogicNodeMeshRendererComponent;
+
+/**
+ * Logic node that connects to the MeshRendererComponent of an entity.
+ * @private
+ */
+export { exported_LogicNodeMeshRendererComponent as LogicNodeMeshRendererComponent };

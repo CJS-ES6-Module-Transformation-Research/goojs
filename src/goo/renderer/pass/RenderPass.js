@@ -1,10 +1,6 @@
-var Renderer = require('../../renderer/Renderer');
-var Pass = require('../../renderer/pass/Pass');
-var Vector4 = require('../../math/Vector4');
-
-/**
- * A pass that renders provided renderlist to the rendertarget or screen
- */
+import { Renderer } from "../../renderer/Renderer";
+import { Pass } from "../../renderer/pass/Pass";
+import { Vector4 } from "../../math/Vector4";
 function RenderPass(renderList, filter) {
 	this.renderList = renderList;
 	this.filter = filter;
@@ -55,4 +51,9 @@ RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta
 	}
 };
 
-module.exports = RenderPass;
+var exported_RenderPass = RenderPass;
+
+/**
+ * A pass that renders provided renderlist to the rendertarget or screen
+ */
+export { exported_RenderPass as RenderPass };

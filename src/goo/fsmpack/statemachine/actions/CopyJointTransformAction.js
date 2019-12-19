@@ -1,4 +1,4 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action } from "../../../fsmpack/statemachine/actions/Action";
 
 function CopyJointTransformAction() {
 	Action.apply(this, arguments);
@@ -60,4 +60,5 @@ function updateWorldTransform(transformComponent) {
 	}
 }
 
-module.exports = CopyJointTransformAction;
+var exported_CopyJointTransformAction = CopyJointTransformAction;
+export { exported_CopyJointTransformAction as CopyJointTransformAction };

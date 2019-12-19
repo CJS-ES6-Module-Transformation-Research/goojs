@@ -1,21 +1,16 @@
-var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
-var ParticleSystemComponent = require('../../../addons/particlepack/components/ParticleSystemComponent');
-var LinearCurve = require('../../../addons/particlepack/curves/LinearCurve');
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var PolyCurve = require('../../../addons/particlepack/curves/PolyCurve');
-var Vector3Curve = require('../../../addons/particlepack/curves/Vector3Curve');
-var Vector4Curve = require('../../../addons/particlepack/curves/Vector4Curve');
-var LerpCurve = require('../../../addons/particlepack/curves/LerpCurve');
-var RSVP = require('../../../util/rsvp');
-var ObjectUtils = require('../../../util/ObjectUtils');
-var Vector3 = require('../../../math/Vector3');
-var MathUtils = require('../../../math/MathUtils');
-var ParticleSystemUtils = require('../../../util/ParticleSystemUtils');
-
-/**
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler } from "../../../loaders/handlers/ComponentHandler";
+import { ParticleSystemComponent } from "../../../addons/particlepack/components/ParticleSystemComponent";
+import { LinearCurve } from "../../../addons/particlepack/curves/LinearCurve";
+import { ConstantCurve } from "../../../addons/particlepack/curves/ConstantCurve";
+import { PolyCurve } from "../../../addons/particlepack/curves/PolyCurve";
+import { Vector3Curve } from "../../../addons/particlepack/curves/Vector3Curve";
+import { Vector4Curve } from "../../../addons/particlepack/curves/Vector4Curve";
+import { LerpCurve } from "../../../addons/particlepack/curves/LerpCurve";
+import * as RSVP from "../../../util/rsvp";
+import * as ObjectUtils from "../../../util/ObjectUtils";
+import { Vector3 } from "../../../math/Vector3";
+import * as MathUtils from "../../../math/MathUtils";
+import * as ParticleSystemUtils from "../../../util/ParticleSystemUtils";
 function ParticleSystemComponentHandler() {
 	ComponentHandler.apply(this, arguments);
 	this._cachedPresetTextures = {};
@@ -261,4 +256,10 @@ ParticleSystemComponentHandler.prototype.update = function (entity, config, opti
 	});
 };
 
-module.exports = ParticleSystemComponentHandler;
+var exported_ParticleSystemComponentHandler = ParticleSystemComponentHandler;
+
+/**
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_ParticleSystemComponentHandler as ParticleSystemComponentHandler };
