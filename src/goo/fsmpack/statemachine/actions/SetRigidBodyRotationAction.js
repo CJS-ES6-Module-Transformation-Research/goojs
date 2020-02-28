@@ -1,13 +1,13 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Matrix3 = require('../../../math/Matrix3');
-var Quaternion = require('../../../math/Quaternion');
-var MathUtils = require('../../../math/MathUtils');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Matrix3 as Matrix3js } from "../../../math/Matrix3";
+import { Quaternion as Quaternionjs } from "../../../math/Quaternion";
+import { DEG_TO_RAD as MathUtilsjs_DEG_TO_RAD } from "../../../math/MathUtils";
 
-function SetRigidBodyRotationAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetRigidBodyRotationAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-SetRigidBodyRotationAction.prototype = Object.create(Action.prototype);
+SetRigidBodyRotationAction.prototype = Object.create(Action_Actionjs.prototype);
 SetRigidBodyRotationAction.prototype.constructor = SetRigidBodyRotationAction;
 
 SetRigidBodyRotationAction.external = {
@@ -32,11 +32,11 @@ SetRigidBodyRotationAction.external = {
 };
 
 SetRigidBodyRotationAction.prototype.setRotation = (function () {
-	var matrix = new Matrix3();
-	var matrix2 = new Matrix3();
-	var quaternion = new Quaternion();
-	var quaternion2 = new Quaternion();
-	var DEG_TO_RAD = MathUtils.DEG_TO_RAD;
+	var matrix = new Matrix3js();
+	var matrix2 = new Matrix3js();
+	var quaternion = new Quaternionjs();
+	var quaternion2 = new Quaternionjs();
+	var DEG_TO_RAD = MathUtilsjs_DEG_TO_RAD;
 	return function (fsm) {
 		var entity = fsm.getOwnerEntity();
 		if (entity && entity.rigidBodyComponent) {
@@ -63,4 +63,5 @@ SetRigidBodyRotationAction.prototype.enter = function (fsm) {
 	this.setRotation(fsm);
 };
 
-module.exports = SetRigidBodyRotationAction;
+var exported_SetRigidBodyRotationAction = SetRigidBodyRotationAction;
+export { exported_SetRigidBodyRotationAction as SetRigidBodyRotationAction };

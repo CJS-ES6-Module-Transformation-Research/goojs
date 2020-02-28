@@ -47,4 +47,5 @@ AbstractTimelineChannel.prototype.sort = function () {
 	return this;
 };
 
-module.exports = AbstractTimelineChannel;
+var exported_AbstractTimelineChannel = AbstractTimelineChannel;
+export { exported_AbstractTimelineChannel as AbstractTimelineChannel };

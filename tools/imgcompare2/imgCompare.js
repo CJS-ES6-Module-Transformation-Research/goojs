@@ -1,4 +1,5 @@
-var exec = require('child_process').exec;
+import child_process_moduleObject from "child_process";
+var exec = child_process_moduleObject.exec;
 
 var regex = /\((\d+(?:\.\d+)?)\)/;
 

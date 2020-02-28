@@ -1,18 +1,9 @@
-var Component = require('../../entities/components/Component');
-var AudioContext = require('../../sound/AudioContext');
-var Vector3 = require('../../math/Vector3');
-var MathUtils = require('../../math/MathUtils');
-
-//! AT: every method here is prefixed with a check for AudioContext. Is it really needed? can it just be refactored away?
-//Or, isn't just one (the first) warning enough - it might ruing everything if flooding the console
-
-/**
- * Component that adds sound to an entity.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
- * @extends {Component}
- */
+import { Component as Component_Componentjs } from "../../entities/components/Component";
+import { AudioContextjs as AudioContext_AudioContextjsjs } from "../../sound/AudioContext";
+import { Vector3 as Vector3js } from "../../math/Vector3";
+import { clamp as MathUtilsjs_clamp } from "../../math/MathUtils";
 function SoundComponent() {
-	Component.apply(this, arguments);
+	Component_Componentjs.apply(this, arguments);
 
 	this.type = 'SoundComponent';
 
@@ -25,22 +16,22 @@ function SoundComponent() {
 	this.sounds = [];
 
 	this._isPanned = true;
-	this._outDryNode = AudioContext.getContext().createGain();
-	this._outWetNode = AudioContext.getContext().createGain();
+	this._outDryNode = AudioContext_AudioContextjsjs.getContext().createGain();
+	this._outWetNode = AudioContext_AudioContextjsjs.getContext().createGain();
 	this.connectTo();
-	this._pannerNode = AudioContext.getContext().createPanner();
+	this._pannerNode = AudioContext_AudioContextjsjs.getContext().createPanner();
 	this._pannerNode.connect(this._outDryNode);
-	this._inNode = AudioContext.getContext().createGain();
+	this._inNode = AudioContext_AudioContextjsjs.getContext().createGain();
 	this._inNode.connect(this._pannerNode);
 
 	// The 2D sounds are always in camera space
 	// Do we need another outDryNode for 2D?
-	this._inNode2d = AudioContext.getContext().createGain();
+	this._inNode2d = AudioContext_AudioContextjsjs.getContext().createGain();
 	this._inNode2d.connect(this._outDryNode);
 
-	this._oldPosition = new Vector3();
-	this._position = new Vector3();
-	this._orientation = new Vector3();
+	this._oldPosition = new Vector3js();
+	this._position = new Vector3js();
+	this._orientation = new Vector3js();
 	this._attachedToCamera = false;
 
 	this._autoPlayDirty = false;
@@ -52,7 +43,7 @@ function SoundComponent() {
 
 SoundComponent.type = 'SoundComponent';
 
-SoundComponent.prototype = Object.create(Component.prototype);
+SoundComponent.prototype = Object.create(Component_Componentjs.prototype);
 SoundComponent.prototype.constructor = SoundComponent;
 
 /**
@@ -127,10 +118,10 @@ SoundComponent.prototype.connectTo = function (nodes) {
  */
 SoundComponent.prototype.updateConfig = function (config) {
 	if (config.volume !== undefined) {
-		this._outDryNode.gain.value = MathUtils.clamp(config.volume, 0, 1);
+		this._outDryNode.gain.value = MathUtilsjs_clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this._outWetNode.gain.value = MathUtils.clamp(config.reverb, 0, 1);
+		this._outWetNode.gain.value = MathUtilsjs_clamp(config.reverb, 0, 1);
 	}
 };
 
@@ -186,4 +177,14 @@ SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
 	this._pannerNode.setOrientation(this._orientation.x, this._orientation.y, this._orientation.z);
 };
 
-module.exports = SoundComponent;
+var exported_SoundComponent = SoundComponent;
+
+//! AT: every method here is prefixed with a check for AudioContext. Is it really needed? can it just be refactored away?
+//Or, isn't just one (the first) warning enough - it might ruing everything if flooding the console
+
+/**
+ * Component that adds sound to an entity.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
+ * @extends {Component}
+ */
+export { exported_SoundComponent as SoundComponent };

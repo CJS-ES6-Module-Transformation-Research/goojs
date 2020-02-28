@@ -1,9 +1,9 @@
-var TimelineComponent = require('../../../src/goo/timelinepack/TimelineComponent');
+import { TimelineComponent as TimelineComponentjs } from "../../../src/goo/timelinepack/TimelineComponent";
 
 describe('TimelineComponent', function () {
 	var timelineComponent;
 	beforeEach(function () {
-		timelineComponent = new TimelineComponent();
+		timelineComponent = new TimelineComponentjs();
 		timelineComponent.duration = 1000;
 	});
 

@@ -1,13 +1,13 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function SetAnimationAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetAnimationAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 	this._transitioned = false;
 	this._loopAtStart = null;
 	this._previousLoop = 0;
 }
 
-SetAnimationAction.prototype = Object.create(Action.prototype);
+SetAnimationAction.prototype = Object.create(Action_Actionjs.prototype);
 SetAnimationAction.prototype.constructor = SetAnimationAction;
 
 SetAnimationAction.external = {
@@ -98,4 +98,5 @@ SetAnimationAction.prototype.exit = function () {
 	this._previousLoop = 0;
 };
 
-module.exports = SetAnimationAction;
+var exported_SetAnimationAction = SetAnimationAction;
+export { exported_SetAnimationAction as SetAnimationAction };

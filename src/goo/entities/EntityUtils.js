@@ -1,6 +1,16 @@
-var Scripts = require('../scripts/Scripts');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var ObjectUtils = require('../util/ObjectUtils');
+import { BoundingBox as BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+
+import {
+    deepClone as ObjectUtilsjs_deepClone,
+    cloneMap as ObjectUtilsjs_cloneMap,
+    cloneSet as ObjectUtilsjs_cloneSet,
+    warnOnce as ObjectUtilsjs_warnOnce,
+} from "../util/ObjectUtils";
+
+var EntityUtils_getTotalBoundingBox;
+var EntityUtils_updateWorldTransform;
+var EntityUtils_getRoot;
+var EntityUtils_clone;
 
 /**
  * Utilities for entity creation etc
@@ -38,8 +48,8 @@ function cloneEntity(world, entity, settings) {
 	// settings is also used to store stuff on it, like animation skeletons
 	var newEntity = world.createEntity(entity.name);
 
-	newEntity._tags = ObjectUtils.cloneSet(entity._tags);
-	newEntity._attributes = ObjectUtils.cloneMap(entity._attributes);
+	newEntity._tags = ObjectUtilsjs_cloneSet(entity._tags);
+	newEntity._attributes = ObjectUtilsjs_cloneMap(entity._attributes);
 	newEntity._hidden = entity._hidden;
 	newEntity.static = entity.static;
 
@@ -71,7 +81,7 @@ function cloneEntity(world, entity, settings) {
 						name: (script.name || '') + '_clone',
 						enabled: !!script.enabled
 					};
-					if (script.parameters) { newScript.parameters = ObjectUtils.deepClone(script.parameters); }
+					if (script.parameters) { newScript.parameters = ObjectUtilsjs_deepClone(script.parameters); }
 
 					if (script.setup) { newScript.setup = script.setup; }
 					if (script.update) { newScript.update = script.update; }
@@ -127,80 +137,83 @@ function cloneEntity(world, entity, settings) {
  *         shareTextures: false
  *     });
  */
-EntityUtils.clone = function (world, entity, settings) {
-	settings = settings || {};
-	// REVIEW: It's bad style to modify the settings object provided by the caller.
-	// I.e. if the caller does:
-	//   var s = {};
-	//   EntityUtils.clone(w, e, s);
-	// ...he wouldn't expect s to have changed.
-	// REVIEW: `settings.shareData || true` will evaluate to true if shareData is false,
-	// which means that the setting will always be true.
-	//settings.shareData = settings.shareData || true;
-	//settings.shareMaterial = settings.shareMaterial || true;  // REVIEW: these are not used nor documented but would be great if they were
-	//settings.cloneHierarchy = settings.cloneHierarchy || true;
+EntityUtils_clone = function(world, entity, settings) {
+    settings = settings || {};
+    // REVIEW: It's bad style to modify the settings object provided by the caller.
+    // I.e. if the caller does:
+    //   var s = {};
+    //   EntityUtils.clone(w, e, s);
+    // ...he wouldn't expect s to have changed.
+    // REVIEW: `settings.shareData || true` will evaluate to true if shareData is false,
+    // which means that the setting will always be true.
+    //settings.shareData = settings.shareData || true;
+    //settings.shareMaterial = settings.shareMaterial || true;  // REVIEW: these are not used nor documented but would be great if they were
+    //settings.cloneHierarchy = settings.cloneHierarchy || true;
 
-	//! AT: why is everything here overridden anyways?
-	// Why is this function just defaulting some parameters and then calling cloneEntity to do the rest?
+    //! AT: why is everything here overridden anyways?
+    // Why is this function just defaulting some parameters and then calling cloneEntity to do the rest?
 
-	return cloneEntity(world, entity, settings);
-};
+    return cloneEntity(world, entity, settings);
+};;
 
 /**
  * Traverse the entity hierarchy upwards, returning the root entity
  * @param {Entity} entity The entity to begin traversing from
  * @returns {Entity} The root entity
  */
-EntityUtils.getRoot = function (entity) {
-	while (entity.transformComponent.parent) {
-		entity = entity.transformComponent.parent.entity;
-	}
-	return entity;
-};
+EntityUtils_getRoot = function(entity) {
+    while (entity.transformComponent.parent) {
+        entity = entity.transformComponent.parent.entity;
+    }
+    return entity;
+};;
 
 /**
  * @deprecated Deprecated with warning on 2016-04-06
  */
-EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
-	transformComponent.updateWorldTransform();
+EntityUtils_updateWorldTransform = ObjectUtilsjs_warnOnce(
+    "EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead",
+    function(transformComponent) {
+        transformComponent.updateWorldTransform();
 
-	for (var i = 0; i < transformComponent.children.length; i++) {
-		EntityUtils.updateWorldTransform(transformComponent.children[i]);
-	}
-});
+        for (var i = 0; i < transformComponent.children.length; i++) {
+            EntityUtils_updateWorldTransform(transformComponent.children[i]);
+        }
+    }
+);;
 
 /**
  * Returns the merged bounding box of the entity and its children
  * @param entity
  */
-EntityUtils.getTotalBoundingBox = function (entity) {
-	var mergedWorldBound = new BoundingBox();
-	var first = true;
-	entity.traverse(function (entity) {
-		if (entity.meshRendererComponent) {
-			if (first) {
-				var boundingVolume = entity.meshRendererComponent.worldBound;
-				if (boundingVolume instanceof BoundingBox) {
-					mergedWorldBound.copy(boundingVolume);
-				} else {
-					mergedWorldBound.center.set(boundingVolume.center);
-					mergedWorldBound.xExtent = mergedWorldBound.yExtent = mergedWorldBound.zExtent = boundingVolume.radius;
-				}
-				first = false;
-			} else {
-				mergedWorldBound.merge(entity.meshRendererComponent.worldBound);
-			}
-		}
-	});
+EntityUtils_getTotalBoundingBox = function(entity) {
+    var mergedWorldBound = new BoundingBoxjs();
+    var first = true;
+    entity.traverse(function(entity) {
+        if (entity.meshRendererComponent) {
+            if (first) {
+                var boundingVolume = entity.meshRendererComponent.worldBound;
+                if (boundingVolume instanceof BoundingBoxjs) {
+                    mergedWorldBound.copy(boundingVolume);
+                } else {
+                    mergedWorldBound.center.set(boundingVolume.center);
+                    mergedWorldBound.xExtent = mergedWorldBound.yExtent = mergedWorldBound.zExtent = boundingVolume.radius;
+                }
+                first = false;
+            } else {
+                mergedWorldBound.merge(entity.meshRendererComponent.worldBound);
+            }
+        }
+    });
 
-	// if the whole hierarchy lacked mesh renderer components return
-	// a tiny bounding box centered around the coordinates of the parent
-	if (first) {
-		var translation = entity.transformComponent.worldTransform.translation;
-		mergedWorldBound = new BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
-	}
+    // if the whole hierarchy lacked mesh renderer components return
+    // a tiny bounding box centered around the coordinates of the parent
+    if (first) {
+        var translation = entity.transformComponent.worldTransform.translation;
+        mergedWorldBound = new BoundingBoxjs(translation.clone(), 0.001, 0.001, 0.001);
+    }
 
-	return mergedWorldBound;
-};
+    return mergedWorldBound;
+};;
 
-module.exports = EntityUtils;
+export { EntityUtils_clone as clone, EntityUtils_getRoot as getRoot, EntityUtils_getTotalBoundingBox as getTotalBoundingBox, EntityUtils };

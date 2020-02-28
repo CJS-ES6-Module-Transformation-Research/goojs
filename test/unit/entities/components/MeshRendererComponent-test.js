@@ -1,21 +1,26 @@
-var World = require('../../../../src/goo/entities/World');
-var Entity = require('../../../../src/goo/entities/Entity');
-var ShaderLib = require('../../../../src/goo/renderer/shaders/ShaderLib');
-var Material = require('../../../../src/goo/renderer/Material');
-var MeshRendererComponent = require('../../../../src/goo/entities/components/MeshRendererComponent');
+import { World as World_Worldjs } from "../../../../src/goo/entities/World";
+import { Entity as Entityjs } from "../../../../src/goo/entities/Entity";
+
+import {
+    simpleColored as ShaderLibjs_simpleColored,
+    simpleLit as ShaderLibjs_simpleLit,
+} from "../../../../src/goo/renderer/shaders/ShaderLib";
+
+import { Material as Materialjs } from "../../../../src/goo/renderer/Material";
+import { MeshRendererComponent as MeshRendererComponentjs } from "../../../../src/goo/entities/components/MeshRendererComponent";
 
 describe('MeshRendererComponent', function () {
 	var world;
 
 	beforeEach(function () {
-		world = new World();
-		world.registerComponent(MeshRendererComponent);
+		world = new World_Worldjs();
+		world.registerComponent(MeshRendererComponentjs);
 	});
 
 	describe('.applyOnEntity', function () {
 		it('sets a MeshRendererComponent when trying to add a Material', function () {
-			var entity = new Entity(world);
-			var material = new Material(ShaderLib.simpleColored, '');
+			var entity = new Entityjs(world);
+			var material = new Materialjs(ShaderLibjs_simpleColored, '');
 			entity.set(material);
 
 			expect(entity.meshRendererComponent).toBeTruthy();
@@ -23,11 +28,11 @@ describe('MeshRendererComponent', function () {
 		});
 
 		it('adds a material to an entity which already has a MeshRendererComponent', function () {
-			var entity = new Entity(world);
-			var meshRendererComponent = new MeshRendererComponent();
+			var entity = new Entityjs(world);
+			var meshRendererComponent = new MeshRendererComponentjs();
 			entity.set(meshRendererComponent);
 
-			var material = new Material(ShaderLib.simpleColored, '');
+			var material = new Materialjs(ShaderLibjs_simpleColored, '');
 			entity.set(material);
 
 			expect(entity.meshRendererComponent).toBe(meshRendererComponent);
@@ -39,8 +44,8 @@ describe('MeshRendererComponent', function () {
 		var meshRendererComponent, entity;
 
 		beforeEach(function () {
-			meshRendererComponent = new MeshRendererComponent(ShaderLib.simpleLit);
-			entity = new Entity().set(meshRendererComponent);
+			meshRendererComponent = new MeshRendererComponentjs(ShaderLibjs_simpleLit);
+			entity = new Entityjs().set(meshRendererComponent);
 		});
 
 		it('changes the diffuse color when given 3 numbers', function () {
@@ -111,19 +116,19 @@ describe('MeshRendererComponent', function () {
 
 	describe('constructor', function () {
 		it('creates a MeshRendererComponent from nothing', function () {
-			var meshRendererComponent = new MeshRendererComponent();
+			var meshRendererComponent = new MeshRendererComponentjs();
 			expect(meshRendererComponent.materials).toEqual([]);
 		});
 
 		it('creates a MeshRendererComponent from a material', function () {
-			var material = new Material();
-			var meshRendererComponent = new MeshRendererComponent(material);
+			var material = new Materialjs();
+			var meshRendererComponent = new MeshRendererComponentjs(material);
 			expect(meshRendererComponent.materials).toEqual([material]);
 		});
 
 		it('creates a MeshRendererComponent from an array of materials', function () {
-			var materials = [new Material('asd'), new Material('dsa')];
-			var meshRendererComponent = new MeshRendererComponent(materials);
+			var materials = [new Materialjs('asd'), new Materialjs('dsa')];
+			var meshRendererComponent = new MeshRendererComponentjs(materials);
 			expect(meshRendererComponent.materials).toEqual(materials);
 		});
 	});

@@ -1,14 +1,6 @@
-var System = require('../../entities/systems/System');
-
-/**
- * Processes all entities with a portal component, a mesh renderer component and a mesh data component
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/PortalComponent/PortalComponent-vtest.html Working example
- * @param {Renderer} renderer
- * @param {RenderSystem} renderSystem
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
 function PortalSystem(renderer, renderSystem) {
-	System.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
+	System_Systemjs.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
 
 	this.renderer = renderer;
 	this.renderSystem = renderSystem;
@@ -16,7 +8,7 @@ function PortalSystem(renderer, renderSystem) {
 	this.renderList = [];
 }
 
-PortalSystem.prototype = Object.create(System.prototype);
+PortalSystem.prototype = Object.create(System_Systemjs.prototype);
 PortalSystem.prototype.constructor = PortalSystem;
 
 PortalSystem.prototype.process = function (entities) {
@@ -59,4 +51,13 @@ PortalSystem.prototype.render = function (renderer, camera, target, overrideMate
 	renderer.render(this.renderList, camera, this.renderSystem.lights, target, true, overrideMaterial);
 };
 
-module.exports = PortalSystem;
+var exported_PortalSystem = PortalSystem;
+
+/**
+ * Processes all entities with a portal component, a mesh renderer component and a mesh data component
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/PortalComponent/PortalComponent-vtest.html Working example
+ * @param {Renderer} renderer
+ * @param {RenderSystem} renderSystem
+ */
+export { exported_PortalSystem as PortalSystem };

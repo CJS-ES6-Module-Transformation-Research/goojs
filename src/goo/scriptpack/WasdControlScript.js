@@ -1,5 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var ScriptUtils = require('../scripts/ScriptUtils');
+import { Vector3 as Vector3js } from "../math/Vector3";
+import { keyForCode as ScriptUtilsjs_keyForCode } from "../scripts/ScriptUtils";
+var WasdControlScript_externals;
 
 function WasdControlScript() {
 	var entity, transformComponent, transform;
@@ -8,12 +9,12 @@ function WasdControlScript() {
 	var moveState;
 	var bypass = false;
 
-	var fwdVector = new Vector3(0, 0, -1);
-	var leftVector = new Vector3(-1, 0, 0);
+	var fwdVector = new Vector3js(0, 0, -1);
+	var leftVector = new Vector3js(-1, 0, 0);
 
-	var moveVector = new Vector3();
-	var calcVector = new Vector3();
-	var translation = new Vector3();
+	var moveVector = new Vector3js();
+	var calcVector = new Vector3js();
+	var translation = new Vector3js();
 
 	// ---
 	function updateMovementVector() {
@@ -24,7 +25,7 @@ function WasdControlScript() {
 	function keyDown(event) {
 		if (event.altKey) {	return;	}
 
-		switch (ScriptUtils.keyForCode(event.keyCode)) {
+		switch (ScriptUtilsjs_keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = true;
 				break;
@@ -52,7 +53,7 @@ function WasdControlScript() {
 	function keyUp(event) {
 		if (event.altKey) {	return;	}
 
-		switch (ScriptUtils.keyForCode(event.keyCode)) {
+		switch (ScriptUtilsjs_keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = false;
 				break;
@@ -102,7 +103,7 @@ function WasdControlScript() {
 	}
 
 	function update(parameters, environment) {
-		if (!bypass && moveVector.equals(Vector3.ZERO)) {
+		if (!bypass && moveVector.equals(Vector3js_ZERO)) {
 			return;
 		}
 
@@ -157,58 +158,59 @@ function WasdControlScript() {
 	};
 }
 
-WasdControlScript.externals = {
-	key: 'WASD',
-	name: 'WASD Control',
-	description: 'Enables moving via the WASD keys',
-	parameters: [{
-		key: 'whenUsed',
-		type: 'boolean',
-		name: 'When Camera Used',
-		description: 'Script only runs when the camera to which it is added is being used.',
-		'default': true
-	}, {
-		key: 'crawlKey',
-		type: 'string',
-		control: 'key',
-		'default': 'Shift'
-	}, {
-		key: 'forwardKey',
-		type: 'string',
-		control: 'key',
-		'default': 'W'
-	}, {
-		key: 'backKey',
-		type: 'string',
-		control: 'key',
-		'default': 'S'
-	}, {
-		key: 'strafeLeftKey',
-		type: 'string',
-		control: 'key',
-		'default': 'A'
-	}, {
-		key: 'strafeRightKey',
-		type: 'string',
-		control: 'key',
-		'default': 'D'
-	}, {
-		key: 'walkSpeed',
-		type: 'int',
-		control: 'slider',
-		'default': 10,
-		min: 1,
-		max: 100,
-		exponential: true
-	}, {
-		key: 'crawlSpeed',
-		control: 'slider',
-		type: 'int',
-		'default': 1,
-		min: 0.1,
-		max: 10,
-		exponential: true
-	}]
-};
+WasdControlScript_externals = {
+    key: "WASD",
+    name: "WASD Control",
+    description: "Enables moving via the WASD keys",
 
-module.exports = WasdControlScript;
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        name: "When Camera Used",
+        description: "Script only runs when the camera to which it is added is being used.",
+        "default": true
+    }, {
+        key: "crawlKey",
+        type: "string",
+        control: "key",
+        "default": "Shift"
+    }, {
+        key: "forwardKey",
+        type: "string",
+        control: "key",
+        "default": "W"
+    }, {
+        key: "backKey",
+        type: "string",
+        control: "key",
+        "default": "S"
+    }, {
+        key: "strafeLeftKey",
+        type: "string",
+        control: "key",
+        "default": "A"
+    }, {
+        key: "strafeRightKey",
+        type: "string",
+        control: "key",
+        "default": "D"
+    }, {
+        key: "walkSpeed",
+        type: "int",
+        control: "slider",
+        "default": 10,
+        min: 1,
+        max: 100,
+        exponential: true
+    }, {
+        key: "crawlSpeed",
+        control: "slider",
+        type: "int",
+        "default": 1,
+        min: 0.1,
+        max: 10,
+        exponential: true
+    }]
+};;
+
+export { WasdControlScript_externals as externals, WasdControlScript };

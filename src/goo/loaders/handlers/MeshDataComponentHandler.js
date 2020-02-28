@@ -1,28 +1,22 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var ShapeCreatorMemoized = require('../../util/ShapeCreatorMemoized');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
-var StringUtils = require('../../util/StringUtils');
-var Vector3 = require('../../math/Vector3');
+import {
+    ComponentHandler as ComponentHandler_ComponentHandlerjs,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../../loaders/handlers/ComponentHandler";
 
-/**
- * For handling loading of meshdatacomponents
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { MeshDataComponent as MeshDataComponentjs } from "../../entities/components/MeshDataComponent";
+import { BoundingBox as BoundingBoxjs } from "../../renderer/bounds/BoundingBox";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
+import { defaults as ObjectUtilsjs_defaults } from "../../util/ObjectUtils";
+import { capitalize as StringUtilsjs_capitalize } from "../../util/StringUtils";
+import { Vector3 as Vector3js } from "../../math/Vector3";
 function MeshDataComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'MeshDataComponent';
 }
 
-MeshDataComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+MeshDataComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
 MeshDataComponentHandler.prototype.constructor = MeshDataComponentHandler;
-ComponentHandler._registerClass('meshData', MeshDataComponentHandler);
+ComponentHandlerjs__registerClass('meshData', MeshDataComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -31,7 +25,7 @@ ComponentHandler._registerClass('meshData', MeshDataComponentHandler);
  * @private
  */
 MeshDataComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
+	return ObjectUtilsjs_defaults(config, {
 	});
 };
 
@@ -41,7 +35,7 @@ MeshDataComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshDataComponentHandler.prototype._create = function () {
-	return new MeshDataComponent();
+	return new MeshDataComponentjs();
 };
 
 /**
@@ -65,14 +59,14 @@ MeshDataComponentHandler.prototype._remove = function (entity) {
  */
 MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		component.meshData = null;
 		component.currentPose = null;
 
 		if (config.shape) {
-			var shapeCreator = ShapeCreatorMemoized['create' + StringUtils.capitalize(config.shape)];
+			var shapeCreator = ShapeCreatorMemoized['create' + StringUtilsjs_capitalize(config.shape)];
 			if (shapeCreator) {
 				component.meshData = shapeCreator(config.shapeOptions, component.meshData);
 				component.modelBoundDirty = true;
@@ -87,8 +81,8 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 					var min = meshData.boundingBox.min;
 					var max = meshData.boundingBox.max;
 					var size = [max[0] - min[0], max[1] - min[1], max[2] - min[2]];
-					var center = new Vector3(max[0] + min[0], max[1] + min[1], max[2] + min[2]).scale(0.5);
-					var bounding = new BoundingBox(center, size[0] / 2, size[1] / 2, size[2] / 2);
+					var center = new Vector3js(max[0] + min[0], max[1] + min[1], max[2] + min[2]).scale(0.5);
+					var bounding = new BoundingBoxjs(center, size[0] / 2, size[1] / 2, size[2] / 2);
 					component.setModelBound(bounding, false);
 				}
 			}));
@@ -104,7 +98,7 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 					});
 				}));
 			}
-			return RSVP.all(promises).then(function () {
+			return rsvp_rsvpjsjs.all(promises).then(function () {
 				return component;
 			});
 		} else {
@@ -114,4 +108,14 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = MeshDataComponentHandler;
+var exported_MeshDataComponentHandler = MeshDataComponentHandler;
+
+/**
+ * For handling loading of meshdatacomponents
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_MeshDataComponentHandler as MeshDataComponentHandler };

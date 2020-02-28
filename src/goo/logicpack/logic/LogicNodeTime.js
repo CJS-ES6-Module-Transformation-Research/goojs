@@ -1,36 +1,37 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicInterface = require('./LogicInterface');
-var LogicNodes = require('./LogicNodes');
-
-/**
- * Logic node implementing a time counter. Processed every frame and time is increased. Output
- * can be read through the 'Time' port
- * @private
- */
+import { writeValue as LogicLayerjs_writeValue, fireEvent as LogicLayerjs_fireEvent } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
+var LogicNodeTime_inEventReset;
+var LogicNodeTime_inEventStop;
+var LogicNodeTime_inEventStart;
+var LogicNodeTime_outEventReached1;
+var LogicNodeTime_outPropTime;
+var LogicNodeTime_editorName;
+var LogicNodeTime_logicInterface;
 function LogicNodeTime() {
-	LogicNode.call(this);
+	LogicNode_LogicNodejs.call(this);
 	this.wantsProcessCall = true;
-	this.logicInterface = LogicNodeTime.logicInterface;
+	LogicNodeTime_logicInterface = LogicNodeTime_logicInterface;;
 	this.type = 'LogicNodeTime';
 	this._time = 0;
 	this._running = true;
 }
 
 // Logic interface set-up
-LogicNodeTime.prototype = Object.create(LogicNode.prototype);
+LogicNodeTime.prototype = Object.create(LogicNode_LogicNodejs.prototype);
 
-LogicNodeTime.editorName = 'Time';
-LogicNodeTime.logicInterface = new LogicInterface();
+LogicNodeTime_editorName = "Time";;
+LogicNodeTime_logicInterface = new LogicInterface_LogicInterfacejs();
 
 // ports
-LogicNodeTime.outPropTime = LogicNodeTime.logicInterface.addOutputProperty('Time', 'float');
+LogicNodeTime_outPropTime = LogicNodeTime_logicInterface.addOutputProperty("Time", "float");;
 
 // events
-LogicNodeTime.outEventReached1 = LogicNodeTime.logicInterface.addOutputEvent('>1');
-LogicNodeTime.inEventStart = LogicNodeTime.logicInterface.addInputEvent('Start');
-LogicNodeTime.inEventStop = LogicNodeTime.logicInterface.addInputEvent('Stop');
-LogicNodeTime.inEventReset = LogicNodeTime.logicInterface.addInputEvent('Reset');
+LogicNodeTime_outEventReached1 = LogicNodeTime_logicInterface.addOutputEvent(">1");;
+LogicNodeTime_inEventStart = LogicNodeTime_logicInterface.addInputEvent("Start");;
+LogicNodeTime_inEventStop = LogicNodeTime_logicInterface.addInputEvent("Stop");;
+LogicNodeTime_inEventReset = LogicNodeTime_logicInterface.addInputEvent("Reset");;
 
 LogicNodeTime.prototype.onConfigure = function () {
 	this._time = 0;
@@ -42,26 +43,33 @@ LogicNodeTime.prototype.processLogic = function (tpf) {
 	if (this._running) {
 		var old = this._time;
 		this._time += tpf;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, this._time);
+		LogicLayerjs_writeValue(this.logicInstance, LogicNodeTime_outPropTime, this._time);
 
 		if (old < 1 && this._time >= 1) {
-			LogicLayer.fireEvent(this.logicInstance, LogicNodeTime.outEventReached1);
+			LogicLayerjs_fireEvent(this.logicInstance, LogicNodeTime_outEventReached1);
 		}
 	}
 };
 
 // should they have args too?
 LogicNodeTime.prototype.onEvent = function (instDesc, event) {
-	if (event === LogicNodeTime.inEventStart) {
+	if (event === LogicNodeTime_inEventStart) {
 		this._running = true;
-	} else if (event === LogicNodeTime.inEventStop) {
+	} else if (event === LogicNodeTime_inEventStop) {
 		this._running = false;
-	} else if (event === LogicNodeTime.inEventReset) {
+	} else if (event === LogicNodeTime_inEventReset) {
 		this._time = 0;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, 0);
+		LogicLayerjs_writeValue(this.logicInstance, LogicNodeTime_outPropTime, 0);
 	}
 };
 
-LogicNodes.registerType('LogicNodeTime', LogicNodeTime);
+LogicNodesjs_registerType('LogicNodeTime', LogicNodeTime);
 
-module.exports = LogicNodeTime;
+var exported_LogicNodeTime = LogicNodeTime;
+
+/**
+ * Logic node implementing a time counter. Processed every frame and time is increased. Output
+ * can be read through the 'Time' port
+ * @private
+ */
+export { exported_LogicNodeTime as LogicNodeTime };

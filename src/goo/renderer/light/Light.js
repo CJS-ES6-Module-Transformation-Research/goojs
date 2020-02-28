@@ -1,22 +1,16 @@
-var Vector3 = require('../../math/Vector3');
-
-/**
- * A plain light source in the scene, to be handled by shaders<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @param {Vector3} [color=(1, 1, 1)] The color of the light
- */
+import { Vector3 as Vector3js } from "../../math/Vector3";
 function Light(color) {
 	/**
 	 * The light's translation in world space
 	 * @type {Vector3}
 	 */
-	this.translation = new Vector3();
+	this.translation = new Vector3js();
 
 	/**
 	 * The color of the light
 	 * @type {Vector3}
 	 */
-	this.color = color ? color.clone() : new Vector3(1, 1, 1);
+	this.color = color ? color.clone() : new Vector3js(1, 1, 1);
 
 	/**
 	 * The intensity of the light (typically between 0 and 1)
@@ -58,7 +52,7 @@ function Light(color) {
 		near: 1,
 		far: 1000,
 		resolution: [512, 512],
-		upVector: Vector3.UNIT_Y.clone(),
+		upVector: Vector3js_UNIT_Y.clone(),
 		darkness: 1.0,
 		shadowOffset: -0.001,
 		shadowType: 'VSM'
@@ -128,4 +122,11 @@ Light.prototype.copy = function (source) {
 	return this;
 };
 
-module.exports = Light;
+var exported_Light = Light;
+
+/**
+ * A plain light source in the scene, to be handled by shaders<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @param {Vector3} [color=(1, 1, 1)] The color of the light
+ */
+export { exported_Light as Light };
