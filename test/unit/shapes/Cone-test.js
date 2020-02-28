@@ -1,7 +1,7 @@
-var Cone = require('../../../src/goo/shapes/Cone');
+import { Cone as Conejs } from "../../../src/goo/shapes/Cone";
 
 describe('Cone', function () {
-	var a = new Cone(8, 1, 1);
+	var a = new Conejs(8, 1, 1);
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(33);

@@ -1,4 +1,4 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
 var keys = {
 	38: 'up',
@@ -7,11 +7,11 @@ var keys = {
 	39: 'right'
 };
 
-function ArrowsAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ArrowsAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-ArrowsAction.prototype = Object.create(Action.prototype);
+ArrowsAction.prototype = Object.create(Action_Actionjs.prototype);
 ArrowsAction.prototype.constructor = ArrowsAction;
 
 ArrowsAction.prototype.configure = function (settings) {
@@ -66,4 +66,5 @@ ArrowsAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
 
-module.exports = ArrowsAction;
+var exported_ArrowsAction = ArrowsAction;
+export { exported_ArrowsAction as ArrowsAction };

@@ -1,4 +1,5 @@
-var exec = require('child_process').exec
+import childprocessmoduleObject from "child_process";
+var exec = childprocess_moduleObject.exec
 
 // Wraps the command line tool
 exports.compare = function(pathA,pathB,options,callback){

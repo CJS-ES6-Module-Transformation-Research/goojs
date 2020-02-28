@@ -1,5 +1,10 @@
-var path = require('path');
-var webpack = require('webpack');
+import path from "path";
+import webpack from "webpack";
+import karmacoveragemoduleDefault from "karma-coverage";
+import karmajasminemoduleDefault from "karma-jasmine";
+import karmachromelaunchermoduleDefault from "karma-chrome-launcher";
+import karmawebpackmoduleDefault from "karma-webpack";
+import * as karmaWebpackProvidePluginSettingsjsjs from "./karmaWebpackProvidePluginSettings";
 
 module.exports = function (config) {
 	config.set({
@@ -8,10 +13,10 @@ module.exports = function (config) {
 		basePath: '../../',
 
 		plugins: [
-			require('karma-coverage'),
-			require('karma-jasmine'),
-			require('karma-chrome-launcher'),
-			require('karma-webpack')
+			{},
+			{},
+			{},
+			{}
 		],
 
 		frameworks: ['jasmine'],
@@ -91,7 +96,7 @@ module.exports = function (config) {
 				root: path.resolve(path.join(__dirname, '..', '..'))
 			},
 			plugins: [
-				new webpack.ProvidePlugin(require('./karmaWebpackProvidePluginSettings'))
+				new webpack.ProvidePlugin(karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjsjs)
 			]
 		}
 	});

@@ -1,19 +1,13 @@
+import webdriver from "selenium-webdriver";
+import fs from "fs";
+import path from "path";
+import async from "async";
+import mkdirp from "mkdirp";
+import eventsmoduleObject from "events";
 'use strict';
 
-var webdriver = require('selenium-webdriver');
-var fs = require('fs');
-var path = require('path');
-var async = require('async');
-var mkdirp = require('mkdirp');
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = events_moduleObject.EventEmitter;
 
-/**
- * @class ScreenShooter
- * @param {object} [options]
- * @param {number} [options.wait]   How long to wait before taking each screenshot.
- * @param {number} [options.width]	Width of the browser window
- * @param {number} [options.height]	Height of the window
- */
 function ScreenShooter(options) {
 	options = options || {};
 
@@ -135,4 +129,13 @@ ScreenShooter.prototype.shutdown = function (callback) {
 	});
 };
 
-module.exports = ScreenShooter;
+var exported_ScreenShooter = ScreenShooter;
+
+/**
+ * @class ScreenShooter
+ * @param {object} [options]
+ * @param {number} [options.wait]   How long to wait before taking each screenshot.
+ * @param {number} [options.width]	Width of the browser window
+ * @param {number} [options.height]	Height of the window
+ */
+export { exported_ScreenShooter as ScreenShooter };

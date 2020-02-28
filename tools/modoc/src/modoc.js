@@ -1,31 +1,18 @@
+import fs from "fs";
+import childProcess from "child_process";
+import handlebars from "handlebars";
+import marked from "marked";
+import { getIndex as indexbuilder_getIndexjs } from "./index-builder";
+import { PATHSEPARATOR as util_PATHSEPARATORjs } from "./util";
+import { getFiles as trunkjs_getFiles, compileDoc as trunkjs_compileDoc } from "./trunk";
 // jshint node:true
 'use strict';
-
-/**
- Main file
- + parses comment line args
- + gets the source files to be processed
- + gets data for the index (nav bar)
- + gets the processed documentation
- + generates every -doc file
- + generates an index file (in this case Entity.js)
- + generates the changelog in a pretty format
- */
-
-var fs = require('fs');
-var childProcess = require('child_process');
-var handlebars = require('handlebars');
-var marked = require('marked');
-
-var indexBuilder = require('./index-builder');
-var util = require('./util');
-var trunk = require('./trunk');
 
 // handlebars.registerHelper("debug", function(optionalValue) {
 //   console.log("Current Context");
 //   console.log("====================");
 //   console.log(this);
- 
+
 //   if (optionalValue) {
 //     console.log("Value");
 //     console.log("====================");
@@ -96,7 +83,7 @@ function resolvePacks(classes, index) {
 
 function buildClasses(classes) {
 	var classTemplate = fs.readFileSync(
-		args.templatesPath + util.PATH_SEPARATOR + 'class.handlebars', { encoding: 'utf8' });
+		args.templatesPath + util_PATHSEPARATORjs + 'class.handlebars', { encoding: 'utf8' });
 
 	var classesArray = Object.keys(classes).map(function (className) {
 		return classes[className];
@@ -104,27 +91,27 @@ function buildClasses(classes) {
 
 	var result = handlebars.compile(classTemplate)({ classes: classesArray });
 
-	fs.writeFileSync(args.outPath + util.PATH_SEPARATOR + 'everything.html', result);
+	fs.writeFileSync(args.outPath + util_PATHSEPARATORjs + 'everything.html', result);
 }
 
 function buildIndex(index) {
 	var navTemplate = fs.readFileSync(
-		args.templatesPath + util.PATH_SEPARATOR + 'nav.handlebars', { encoding: 'utf8' });
+		args.templatesPath + util_PATHSEPARATORjs + 'nav.handlebars', { encoding: 'utf8' });
 
 	var result = handlebars.compile(navTemplate)({ index: index });
 
-	fs.writeFileSync(args.outPath + util.PATH_SEPARATOR + 'index.html', result);
+	fs.writeFileSync(args.outPath + util_PATHSEPARATORjs + 'index.html', result);
 }
 
 function buildChangelog(file) {
 	var changelog = fs.readFileSync(file, { encoding: 'utf8' });
 	var formatted = marked(changelog);
 
-	var changelogTemplate = fs.readFileSync(args.templatesPath + util.PATH_SEPARATOR + 'changelog.handlebars', { encoding: 'utf8' });
+	var changelogTemplate = fs.readFileSync(args.templatesPath + util_PATHSEPARATORjs + 'changelog.handlebars', { encoding: 'utf8' });
 
 	var result = handlebars.compile(changelogTemplate)({ content: formatted });
 
-	fs.writeFileSync(args.outPath + util.PATH_SEPARATOR + 'changelog.html', result);
+	fs.writeFileSync(args.outPath + util_PATHSEPARATORjs + 'changelog.html', result);
 }
 
 function compileDeprecated(classes) {
@@ -189,13 +176,13 @@ function compileDeprecated(classes) {
 
 function buildDeprecated(classes) {
 	var deprecatedTemplate = fs.readFileSync(
-		args.templatesPath + util.PATH_SEPARATOR + 'deprecated.handlebars', { encoding: 'utf8' });
+		args.templatesPath + util_PATHSEPARATORjs + 'deprecated.handlebars', { encoding: 'utf8' });
 
 	var data = compileDeprecated(classes);
 
 	var result = handlebars.compile(deprecatedTemplate)(data);
 
-	fs.writeFileSync(args.outPath + util.PATH_SEPARATOR + 'deprecated.html', result);
+	fs.writeFileSync(args.outPath + util_PATHSEPARATORjs + 'deprecated.html', result);
 }
 
 
@@ -204,10 +191,10 @@ var args = processArguments();
 var IGNORE_FILES = ['goo.js', 'pack.js', 'logicpack', 'soundmanager', '+'];
 
 copyStaticFiles(function () {
-	var files = trunk.getFiles(args.sourcePath, IGNORE_FILES);
+	var files = trunkjs_getFiles(args.sourcePath, IGNORE_FILES);
 
-	var classes = trunk.compileDoc(files);
-	var index = indexBuilder.getIndex(classes, 'goo');
+	var classes = trunkjs_compileDoc(files);
+	var index = indexbuilder_getIndexjs(classes, 'goo');
 	resolveRequirePaths(classes, index);
 	resolvePacks(classes, index);
 

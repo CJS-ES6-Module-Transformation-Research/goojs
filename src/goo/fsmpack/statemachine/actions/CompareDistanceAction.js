@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Renderer = require('../../../renderer/Renderer');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { mainCamera as Rendererjs_mainCamera } from "../../../renderer/Renderer";
 
-function CompareDistanceAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function CompareDistanceAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
-CompareDistanceAction.prototype = Object.create(Action.prototype);
+CompareDistanceAction.prototype = Object.create(Action_Actionjs.prototype);
 CompareDistanceAction.prototype.constructor = CompareDistanceAction;
 
 CompareDistanceAction.external = {
@@ -79,7 +79,7 @@ CompareDistanceAction.prototype.compare = function (fsm) {
 	var delta;
 
 	if (this.camera) {
-		delta = translation.clone().sub(Renderer.mainCamera.translation);
+		delta = translation.clone().sub(Rendererjs_mainCamera.translation);
 	} else {
 		delta = translation.clone().subDirect(this.position[0], this.position[1], this.position[2]);
 	}
@@ -113,4 +113,5 @@ CompareDistanceAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = CompareDistanceAction;
+var exported_CompareDistanceAction = CompareDistanceAction;
+export { exported_CompareDistanceAction as CompareDistanceAction };

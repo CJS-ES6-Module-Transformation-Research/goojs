@@ -1,26 +1,19 @@
-/* global opentype */
+import {
+    ComponentHandler as ComponentHandler_ComponentHandlerjs,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../../loaders/handlers/ComponentHandler";
 
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var TextComponent = require('../../geometrypack/text/TextComponent');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * For handling loading of text components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function.
- * @param {Function} updateObject The handler function.
- * @extends ComponentHandler
- * @hidden
- */
+import { TextComponent as TextComponentjs } from "../../geometrypack/text/TextComponent";
+import { createPromise as PromiseUtilsjs_createPromise } from "../../util/PromiseUtils";
 function TextComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'TextComponent';
 }
 
-TextComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+TextComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
 TextComponentHandler.prototype.constructor = TextComponentHandler;
 
-ComponentHandler._registerClass('text', TextComponentHandler);
+ComponentHandlerjs__registerClass('text', TextComponentHandler);
 
 /**
  * Create a TextComponent object.
@@ -28,7 +21,7 @@ ComponentHandler._registerClass('text', TextComponentHandler);
  * @private
  */
 TextComponentHandler.prototype._create = function () {
-	return new TextComponent();
+	return new TextComponentjs();
 };
 
 /**
@@ -51,12 +44,12 @@ TextComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 TextComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		// load font
 
-		return PromiseUtils.createPromise(function (resolve) {
+		return PromiseUtilsjs_createPromise(function (resolve) {
 			opentype.load(config.font.fontRef, function (err, font) {
 				if (err) {
 					console.error(err);
@@ -86,4 +79,14 @@ TextComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = TextComponentHandler;
+var exported_TextComponentHandler = TextComponentHandler;
+
+/**
+ * For handling loading of text components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function.
+ * @param {Function} updateObject The handler function.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_TextComponentHandler as TextComponentHandler };

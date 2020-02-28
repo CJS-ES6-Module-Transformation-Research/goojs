@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function LogMessageAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function LogMessageAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-LogMessageAction.prototype = Object.create(Action.prototype);
+LogMessageAction.prototype = Object.create(Action_Actionjs.prototype);
 LogMessageAction.prototype.constructor = LogMessageAction;
 
 LogMessageAction.external = {
@@ -39,4 +39,5 @@ LogMessageAction.prototype.update = function (/*fsm*/) {
 	}
 };
 
-module.exports = LogMessageAction;
+var exported_LogMessageAction = LogMessageAction;
+export { exported_LogMessageAction as LogMessageAction };

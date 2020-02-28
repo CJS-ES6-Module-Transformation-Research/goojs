@@ -1,14 +1,5 @@
-var Vector2 = require('../../math/Vector2');
-var ObjectUtil = require('../../util/ObjectUtil');
-
-/**
- * Creates a new RenderTarget object
- *
- * Post processing handler
- * @param {number} width Width of rendertarget
- * @param {number} height Height of rendertarget
- * @param {Object} options Options
- */
+import { Vector2 as Vector2js } from "../../math/Vector2";
+import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "../../util/ObjectUtil";
 function RenderTarget(width, height, options) {
 	this.glTexture = null;
 	this._glRenderBuffer = null;
@@ -17,7 +8,7 @@ function RenderTarget(width, height, options) {
 	this.width = Math.max(Math.floor(width), 1);
 	this.height = Math.max(Math.floor(height), 1);
 
-	ObjectUtil.copyOptions(this, options, {
+	ObjectUtil_ObjectUtilsjs.copyOptions(this, options, {
 		wrapS: 'EdgeClamp',
 		wrapT: 'EdgeClamp',
 		magFilter: 'Bilinear',
@@ -35,8 +26,8 @@ function RenderTarget(width, height, options) {
 
 	this.variant = '2D'; // CUBE
 
-	this.offset = new Vector2(0, 0);
-	this.repeat = new Vector2(1, 1);
+	this.offset = new Vector2js(0, 0);
+	this.repeat = new Vector2js(1, 1);
 
 	this.textureRecord = {};
 }
@@ -103,4 +94,14 @@ RenderTarget.prototype.destroy = function (context) {
 	}
 };
 
-module.exports = RenderTarget;
+var exported_RenderTarget = RenderTarget;
+
+/**
+ * Creates a new RenderTarget object
+ *
+ * Post processing handler
+ * @param {number} width Width of rendertarget
+ * @param {number} height Height of rendertarget
+ * @param {Object} options Options
+ */
+export { exported_RenderTarget as RenderTarget };

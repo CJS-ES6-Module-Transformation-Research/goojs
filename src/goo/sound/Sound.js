@@ -1,11 +1,7 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
-var PromiseUtil = require('../util/PromiseUtil');
-var RSVP = require('../util/rsvp');
-
-/**
- * A representation of a sound in the engine
- */
+import { AudioContextjs as AudioContext_AudioContextjsjs } from "../sound/AudioContext";
+import { clamp as MathUtilsjs_clamp } from "../math/MathUtils";
+import { PromiseUtils as PromiseUtil_PromiseUtilsjs } from "../util/PromiseUtil";
+import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
 function Sound() {
 	/** @type {string}
 	 */
@@ -24,7 +20,7 @@ function Sound() {
 	this._stream = null;
 	this._streamSource = null;
 	this._currentSource = null;
-	this._outNode = AudioContext.getContext().createGain();
+	this._outNode = AudioContext_AudioContextjsjs.getContext().createGain();
 	this.connectTo();
 
 			// Playback memory
@@ -64,12 +60,12 @@ Sound.prototype.play = function (when) {
 	if (this._currentSource) {
 		return this._endPromise;
 	}
-	this._endPromise = new RSVP.Promise(); //! AT: this needs refactoring
+	this._endPromise = new rsvp_rsvpjsjs.Promise(); //! AT: this needs refactoring
 	if (!this._buffer || this._stream) {
 		return this._endPromise;
 	}
 
-	var currentSource = this._currentSource = AudioContext.getContext().createBufferSource();
+	var currentSource = this._currentSource = AudioContext_AudioContextjsjs.getContext().createBufferSource();
 
 	this._paused = false;
 	this._currentSource.onended = function () {
@@ -87,7 +83,7 @@ Sound.prototype.play = function (when) {
 		this._currentSource.loopEnd = this._duration + this._offset;
 	}
 
-	this._playStart = AudioContext.getContext().currentTime - this._pausePos;
+	this._playStart = AudioContext_AudioContextjsjs.getContext().currentTime - this._pausePos;
 	var duration = this._duration - this._pausePos;
 
 	if (this._loop) {
@@ -109,7 +105,7 @@ Sound.prototype.pause = function () {
 
 	this._paused = true;
 
-	this._pausePos = (AudioContext.getContext().currentTime - this._playStart) % this._duration;
+	this._pausePos = (AudioContext_AudioContextjsjs.getContext().currentTime - this._playStart) % this._duration;
 	this._pausePos /= this._rate;
 	this._stop();
 };
@@ -144,10 +140,10 @@ Sound.prototype.fadeOut = function (time) {
 };
 
 Sound.prototype.fade = function (volume, time) {
-	this._outNode.gain.cancelScheduledValues(AudioContext.getContext().currentTime);
-	this._outNode.gain.setValueAtTime(this._outNode.gain.value, AudioContext.getContext().currentTime);
-	this._outNode.gain.linearRampToValueAtTime(volume, AudioContext.getContext().currentTime + time);
-	return PromiseUtil.delay(volume, time * 1000);
+	this._outNode.gain.cancelScheduledValues(AudioContext_AudioContextjsjs.getContext().currentTime);
+	this._outNode.gain.setValueAtTime(this._outNode.gain.value, AudioContext_AudioContextjsjs.getContext().currentTime);
+	this._outNode.gain.linearRampToValueAtTime(volume, AudioContext_AudioContextjsjs.getContext().currentTime + time);
+	return PromiseUtil_PromiseUtilsjs.delay(volume, time * 1000);
 };
 
 Sound.prototype.isPlaying = function () {
@@ -192,7 +188,7 @@ Sound.prototype.update = function (config) {
 		}
 	}
 	if (config.volume !== undefined) {
-		this._volume = MathUtils.clamp(config.volume, 0, 1);
+		this._volume = MathUtilsjs_clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.offset !== undefined) {
@@ -233,7 +229,7 @@ Sound.prototype._clampInterval = function () {
 	} else {
 		this._duration = this._buffer.duration - this._offset;
 	}
-	this._pausePos = MathUtils.clamp(this._pausePos, 0, this._duration);
+	this._pausePos = MathUtilsjs_clamp(this._pausePos, 0, this._duration);
 };
 
 /**
@@ -288,8 +284,13 @@ Sound.prototype.setAudioStream = function (stream) {
 	}
 	this.stop();
 	this._stream = stream;
-	this._streamSource = AudioContext.getContext().createMediaStreamSource(stream);
+	this._streamSource = AudioContext_AudioContextjsjs.getContext().createMediaStreamSource(stream);
 	this._streamSource.connect(this._outNode);
 };
 
-module.exports = Sound;
+var exported_Sound = Sound;
+
+/**
+ * A representation of a sound in the engine
+ */
+export { exported_Sound as Sound };

@@ -1,18 +1,6 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-
-/**
- * Vector with 4 components
- * @extends Vector
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @param {number} w
- * @example
- * var v1 = new Vector4(); // v1 == (0, 0, 0, 0)
- * var v2 = new Vector4(1, 2, 3, 4); // v2 == (1, 2, 3, 4)
- */
+import { warnOnce as ObjectUtilsjs_warnOnce } from "../util/ObjectUtils";
+import { EPSILON as MathUtilsjs_EPSILON } from "./MathUtils";
+import { Vector as Vectorjs } from "./Vector";
 function Vector4(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -51,15 +39,15 @@ function Vector4(x, y, z, w) {
 	// @endif
 }
 
-Vector4.prototype = Object.create(Vector.prototype);
+Vector4.prototype = Object.create(Vectorjs.prototype);
 Vector4.prototype.constructor = Vector4;
 
 // @ifdef DEBUG
-Vector.setupAliases(Vector4.prototype, [['x'], ['y'], ['z'], ['w']]);
-Vector.setupIndices(Vector4.prototype, 4);
+Vectorjs_setupAliases(Vector4.prototype, [['x'], ['y'], ['z'], ['w']]);
+Vectorjs_setupIndices(Vector4.prototype, 4);
 // @endif
 
-Vector.setupAliases(Vector4.prototype, [['r'], ['g'], ['b'], ['a']]);
+Vectorjs_setupAliases(Vector4.prototype, [['r'], ['g'], ['b'], ['a']]);
 
 /**
  * Zero-vector (0, 0, 0, 0)
@@ -340,10 +328,10 @@ Vector4.prototype.dotDirect = function (x, y, z, w) {
  * @returns {boolean}
  */
 Vector4.prototype.equals = function (rhs) {
-	return (Math.abs(this.x - rhs.x) <= MathUtils.EPSILON) &&
-		(Math.abs(this.y - rhs.y) <= MathUtils.EPSILON) &&
-		(Math.abs(this.z - rhs.z) <= MathUtils.EPSILON) &&
-		(Math.abs(this.w - rhs.w) <= MathUtils.EPSILON);
+	return (Math.abs(this.x - rhs.x) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.y - rhs.y) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.z - rhs.z) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.w - rhs.w) <= MathUtilsjs_EPSILON);
 };
 
 /**
@@ -355,10 +343,10 @@ Vector4.prototype.equals = function (rhs) {
  * @returns {boolean}
  */
 Vector4.prototype.equalsDirect = function (x, y, z, w) {
-	return (Math.abs(this.x - x) <= MathUtils.EPSILON) &&
-		(Math.abs(this.y - y) <= MathUtils.EPSILON) &&
-		(Math.abs(this.z - z) <= MathUtils.EPSILON) &&
-		(Math.abs(this.w - w) <= MathUtils.EPSILON);
+	return (Math.abs(this.x - x) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.y - y) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.z - z) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.w - w) <= MathUtilsjs_EPSILON);
 };
 
 /**
@@ -468,7 +456,7 @@ Vector4.prototype.length = function () {
 Vector4.prototype.normalize = function () {
 	var length = this.length();
 
-	if (length < MathUtils.EPSILON) {
+	if (length < MathUtilsjs_EPSILON) {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
@@ -650,7 +638,7 @@ Vector4.prototype.toArray = function () {
 };
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Vector4.prototype, [
+Vectorjs_addReturnChecks(Vector4.prototype, [
 	'dot', 'dotDirect',
 	'length', 'lengthSquared',
 	'distance', 'distanceSquared'
@@ -659,7 +647,7 @@ Vector.addReturnChecks(Vector4.prototype, [
 
 // SHIM START
 Object.defineProperty(Vector4.prototype, 'data', {
-	get: ObjectUtils.warnOnce('The .data property of Vector4 was removed. Please use the .x, .y, .z and .w properties instead.', function () {
+	get: ObjectUtilsjs_warnOnce('The .data property of Vector4 was removed. Please use the .x, .y, .z and .w properties instead.', function () {
 		var data = [];
 		var that = this;
 		Object.defineProperties(data, {
@@ -704,7 +692,7 @@ Object.defineProperty(Vector4.prototype, 'data', {
  * @hidden
  * @deprecated
  */
-Vector4.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vector4 is deprecated. Please use the set method instead.', function (rhs) {
+Vector4.prototype.setVector = ObjectUtilsjs_warnOnce('The setVector method of Vector4 is deprecated. Please use the set method instead.', function (rhs) {
 	return this.set(rhs);
 });
 
@@ -712,7 +700,7 @@ Vector4.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vect
  * @hidden
  * @deprecated
  */
-Vector4.add = ObjectUtils.warnOnce('Vector4.add is deprecated. Use Vector4.prototype.add instead.', function (lhs, rhs, target) {
+Vector4.add = ObjectUtilsjs_warnOnce('Vector4.add is deprecated. Use Vector4.prototype.add instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -740,7 +728,7 @@ Vector4.add = ObjectUtils.warnOnce('Vector4.add is deprecated. Use Vector4.proto
  * @hidden
  * @deprecated
  */
-Vector4.sub = ObjectUtils.warnOnce('Vector4.sub is deprecated. Use Vector4.prototype.sub instead.', function (lhs, rhs, target) {
+Vector4.sub = ObjectUtilsjs_warnOnce('Vector4.sub is deprecated. Use Vector4.prototype.sub instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -768,7 +756,7 @@ Vector4.sub = ObjectUtils.warnOnce('Vector4.sub is deprecated. Use Vector4.proto
  * @hidden
  * @deprecated
  */
-Vector4.mul = ObjectUtils.warnOnce('Vector4.mul is deprecated. Use Vector4.prototype.mul instead.', function (lhs, rhs, target) {
+Vector4.mul = ObjectUtilsjs_warnOnce('Vector4.mul is deprecated. Use Vector4.prototype.mul instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -796,7 +784,7 @@ Vector4.mul = ObjectUtils.warnOnce('Vector4.mul is deprecated. Use Vector4.proto
  * @hidden
  * @deprecated
  */
-Vector4.div = ObjectUtils.warnOnce('Vector4.div is deprecated. Use Vector4.prototype.div instead.', function (lhs, rhs, target) {
+Vector4.div = ObjectUtilsjs_warnOnce('Vector4.div is deprecated. Use Vector4.prototype.div instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -824,7 +812,7 @@ Vector4.div = ObjectUtils.warnOnce('Vector4.div is deprecated. Use Vector4.proto
  * @hidden
  * @deprecated
  */
-Vector4.dot = ObjectUtils.warnOnce('Vector4.dot is deprecated. Use Vector4.prototype.dot instead.', function (lhs, rhs) {
+Vector4.dot = ObjectUtilsjs_warnOnce('Vector4.dot is deprecated. Use Vector4.prototype.dot instead.', function (lhs, rhs) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -846,7 +834,7 @@ Vector4.dot = ObjectUtils.warnOnce('Vector4.dot is deprecated. Use Vector4.proto
  * @hidden
  * @deprecated
  */
-Vector4.prototype.addVector = ObjectUtils.warnOnce('Vector4.prototype.addVector is deprecated. Use .add instead.', function (vector) {
+Vector4.prototype.addVector = ObjectUtilsjs_warnOnce('Vector4.prototype.addVector is deprecated. Use .add instead.', function (vector) {
 	this.data[0] += vector.data[0];
 	this.data[1] += vector.data[1];
 	this.data[2] += vector.data[2];
@@ -859,7 +847,7 @@ Vector4.prototype.addVector = ObjectUtils.warnOnce('Vector4.prototype.addVector 
  * @hidden
  * @deprecated
  */
-Vector4.prototype.dotVector = ObjectUtils.warnOnce('Vector4.prototype.dotVector is deprecated. Use .dot instead.', function (rhs) {
+Vector4.prototype.dotVector = ObjectUtilsjs_warnOnce('Vector4.prototype.dotVector is deprecated. Use .dot instead.', function (rhs) {
 	var ldata = this.data;
 	var rdata = rhs.data;
 
@@ -873,7 +861,7 @@ Vector4.prototype.dotVector = ObjectUtils.warnOnce('Vector4.prototype.dotVector 
  * @hidden
  * @deprecated
  */
-Vector4.prototype.mulVector = ObjectUtils.warnOnce('Vector4.prototype.mulVector is deprecated. Use .mul instead.', function (vector) {
+Vector4.prototype.mulVector = ObjectUtilsjs_warnOnce('Vector4.prototype.mulVector is deprecated. Use .mul instead.', function (vector) {
 	this.data[0] *= vector.data[0];
 	this.data[1] *= vector.data[1];
 	this.data[2] *= vector.data[2];
@@ -886,7 +874,7 @@ Vector4.prototype.mulVector = ObjectUtils.warnOnce('Vector4.prototype.mulVector 
  * @hidden
  * @deprecated
  */
-Vector4.prototype.setVector = ObjectUtils.warnOnce('Vector4.prototype.setVector is deprecated. Use .set instead.', function (vector) {
+Vector4.prototype.setVector = ObjectUtilsjs_warnOnce('Vector4.prototype.setVector is deprecated. Use .set instead.', function (vector) {
 	this.data[0] = vector.data[0];
 	this.data[1] = vector.data[1];
 	this.data[2] = vector.data[2];
@@ -899,7 +887,7 @@ Vector4.prototype.setVector = ObjectUtils.warnOnce('Vector4.prototype.setVector 
  * @hidden
  * @deprecated
  */
-Vector4.prototype.subVector = ObjectUtils.warnOnce('Vector4.prototype.subVector is deprecated. Use .sub instead.', function (vector) {
+Vector4.prototype.subVector = ObjectUtilsjs_warnOnce('Vector4.prototype.subVector is deprecated. Use .sub instead.', function (vector) {
 	this.data[0] -= vector.data[0];
 	this.data[1] -= vector.data[1];
 	this.data[2] -= vector.data[2];
@@ -908,6 +896,17 @@ Vector4.prototype.subVector = ObjectUtils.warnOnce('Vector4.prototype.subVector 
 	return this;
 });
 
-// SHIM END
+var exported_Vector4 = Vector4;
 
-module.exports = Vector4;
+/**
+ * Vector with 4 components
+ * @extends Vector
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {number} w
+ * @example
+ * var v1 = new Vector4(); // v1 == (0, 0, 0, 0)
+ * var v2 = new Vector4(1, 2, 3, 4); // v2 == (1, 2, 3, 4)
+ */
+export { exported_Vector4 as Vector4 };

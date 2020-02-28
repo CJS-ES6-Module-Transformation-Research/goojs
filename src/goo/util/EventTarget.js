@@ -1,11 +1,3 @@
-/**
- * EventTarget is implemented by objects that can receive events and may have listeners for them.
- * @example
- * function MyObject() {
- * 		EventTarget.apply(this, arguments);
- * }
- * MyObject.prototype = Object.create(EventTarget.prototype);
- */
 function EventTarget() {
 	this._listenerMap = new Map();
 	this._listenersCopy = [];
@@ -88,4 +80,14 @@ EventTarget.prototype.has = function (type) {
 	return this._listenerMap.has(type);
 };
 
-module.exports = EventTarget;
+var exported_EventTarget = EventTarget;
+
+/**
+ * EventTarget is implemented by objects that can receive events and may have listeners for them.
+ * @example
+ * function MyObject() {
+ * 		EventTarget.apply(this, arguments);
+ * }
+ * MyObject.prototype = Object.create(EventTarget.prototype);
+ */
+export { exported_EventTarget as EventTarget };

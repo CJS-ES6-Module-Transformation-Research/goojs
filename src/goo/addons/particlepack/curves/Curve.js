@@ -1,10 +1,4 @@
-/**
- * A curve that has a time-dependent value (time is always between 0 and 1), and can be translated into GLSL code.
- * @constructor
- * @param {object} [options]
- * @param {string} [options.type]
- * @param {number} [options.timeOffset=0]
- */
+var Curve_numberToGLSL;
 function Curve(options) {
 	options = options || {};
 
@@ -25,9 +19,9 @@ function Curve(options) {
  * @param {number} n
  * @returns {string}
  */
-Curve.numberToGLSL = function (n) {
-	return (n + '').indexOf('.') === -1 ? n + '.0' : n + '';
-};
+Curve_numberToGLSL = function(n) {
+ return (n + "").indexOf(".") === -1 ? n + ".0" : n + "";
+};;
 
 Curve.prototype = {
 
@@ -82,4 +76,14 @@ Curve.prototype = {
 	}
 };
 
-module.exports = Curve;
+export { Curve_numberToGLSL as numberToGLSL };
+var exported_Curve = Curve;
+
+/**
+ * A curve that has a time-dependent value (time is always between 0 and 1), and can be translated into GLSL code.
+ * @constructor
+ * @param {object} [options]
+ * @param {string} [options.type]
+ * @param {number} [options.timeOffset=0]
+ */
+export { exported_Curve as Curve };

@@ -1,16 +1,11 @@
-var Component = require('../../../entities/components/Component');
-var Quaternion = require('../../../math/Quaternion');
-var Transform = require('../../../math/Transform');
-var SystemBus = require('../../../entities/SystemBus');
+import { Component as Component_Componentjs } from "../../../entities/components/Component";
+import { Quaternion as Quaternionjs } from "../../../math/Quaternion";
+import { Transform as Transformjs } from "../../../math/Transform";
 
-var tmpQuat = new Quaternion();
+var tmpQuat = new Quaternionjs();
 
-/**
- * Base class for rigid bodies.
- * @extends Component
- */
 function AbstractRigidBodyComponent() {
-	Component.call(this, arguments);
+	Component_Componentjs.call(this, arguments);
 
 	/**
 	 * Joints on the body. Use .addJoint to add one, or .removeJoint to remove.
@@ -18,7 +13,7 @@ function AbstractRigidBodyComponent() {
 	 */
 	this.joints = [];
 }
-AbstractRigidBodyComponent.prototype = Object.create(Component.prototype);
+AbstractRigidBodyComponent.prototype = Object.create(Component_Componentjs.prototype);
 AbstractRigidBodyComponent.prototype.constructor = AbstractRigidBodyComponent;
 
 /**
@@ -81,9 +76,9 @@ AbstractRigidBodyComponent.prototype.initializeJoint = function (/*joint, entity
  */
 AbstractRigidBodyComponent.prototype.destroyJoint = function (/*joint*/) {};
 
-var inverseBodyTransform = new Transform();
-var trans = new Transform();
-var trans2 = new Transform();
+var inverseBodyTransform = new Transformjs();
+var trans = new Transformjs();
+var trans2 = new Transformjs();
 
 /**
  * Traverse the tree of colliders from a root entity and down.
@@ -106,7 +101,7 @@ AbstractRigidBodyComponent.prototype.traverseColliders = function (entity, callb
 
 			// Look at the world transform and then get the transform relative to the root entity. This is needed for compounds with more than one level of recursion
 			trans.copy(childEntity.transformComponent.worldTransform);
-			Transform.combine(inverseBodyTransform, trans, trans2);
+			Transformjs_combine(inverseBodyTransform, trans, trans2);
 
 			var offset = trans2.translation;
 			var rot = trans2.rotation;
@@ -152,4 +147,10 @@ AbstractRigidBodyComponent.prototype.detached = function (/*entity*/) {
 	this._system = null;
 };
 
-module.exports = AbstractRigidBodyComponent;
+var exported_AbstractRigidBodyComponent = AbstractRigidBodyComponent;
+
+/**
+ * Base class for rigid bodies.
+ * @extends Component
+ */
+export { exported_AbstractRigidBodyComponent as AbstractRigidBodyComponent };

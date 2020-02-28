@@ -142,4 +142,5 @@ Machine.prototype.setInitialState = function (initialState) {
 	this.initialState = initialState;
 };
 
-module.exports = Machine;
+var exported_Machine = Machine;
+export { exported_Machine as Machine };

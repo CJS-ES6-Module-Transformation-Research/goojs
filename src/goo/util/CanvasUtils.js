@@ -1,5 +1,9 @@
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import { createPromise as PromiseUtilsjs_createPromise } from "../util/PromiseUtils";
+import { defaults as ObjectUtilsjs_defaults } from "../util/ObjectUtils";
+var CanvasUtils_svgDataToImage;
+var CanvasUtils_getMatrixFromCanvas;
+var CanvasUtils_renderSvgToCanvas;
+var CanvasUtils_loadCanvasFromPath;
 
 // TODO: make promise based instead of sending callbacks
 
@@ -27,85 +31,92 @@ function CanvasUtils() {}
  * @param {number} [options.resizeToFit=false] If true, the image is stretched to fit and centered on the canvas.
  * @param {Function} callback
  */
-CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
-	var options = {};
-	if (arguments.length === 3) {
-		// Called with loadCanvasFromPath(path, options, callback)
-		options = arguments[1];
-		callback = arguments[2];
-	}
+CanvasUtils_loadCanvasFromPath = function(canvasPath, callback) {
+    var options = {};
+    if (arguments.length === 3) {
+        // Called with loadCanvasFromPath(path, options, callback)
+        options = arguments[1];
+        callback = arguments[2];
+    }
 
-	// have the image load
-	var img = new Image();
-	img.onerror = function () {
-		console.error('Failed to load svg!');
-		callback();
-	};
-	img.src = canvasPath;
+    // have the image load
+    var img = new Image();
+    img.onerror = function() {
+        console.error("Failed to load svg!");
+        callback();
+    };
+    img.src = canvasPath;
 
-	// create an off screen canvas
-	var canvas = document.createElement('canvas');
+    // create an off screen canvas
+    var canvas = document.createElement("canvas");
 
-	// get its context
-	var context = canvas.getContext('2d');
+    // get its context
+    var context = canvas.getContext("2d");
 
-	img.onload = function () {
-		// when ready, paint the image on the canvas
+    img.onload = function() {
+        // when ready, paint the image on the canvas
 
-		if (img.width === 0 && img.height === 0) {
-			// Could not load
-			return callback();
-		}
+        if (img.width === 0 && img.height === 0) {
+            // Could not load
+            return callback();
+        }
 
-		ObjectUtils.defaults(options, {
-			// Canvas size
-			width: img.width,
-			height: img.height,
+        ObjectUtilsjs_defaults(options, {
+            // Canvas size
+            width: img.width,
 
-			// Clipping window size & position
-			sourceX: 0,
-			sourceY: 0,
-			sourceWidth: img.width,
-			sourceHeight: img.height,
+            height: img.height,
 
-			// Destination window size & position
-			destX: 0,
-			destY: 0
-		});
+            // Clipping window size & position
+            sourceX: 0,
 
-		ObjectUtils.defaults(options, {
-			destWidth: options.width,
-			destHeight: options.height
-		});
+            sourceY: 0,
+            sourceWidth: img.width,
+            sourceHeight: img.height,
 
-		if (options.resizeToFit) {
-			// preserve aspect ratio of input image and center it
-			var ratio = options.sourceWidth / options.sourceHeight;
-			if (ratio > 1) {
-				options.destHeight = options.destWidth / ratio;
-				options.destY = (options.height - options.destHeight) * 0.5;
-			} else if (ratio < 1) {
-				options.destWidth = options.destHeight * ratio;
-				options.destX = (options.width - options.destWidth) * 0.5;
-			}
-		}
+            // Destination window size & position
+            destX: 0,
 
-		// Set dimensions
-		canvas.width = options.width;
-		canvas.height = options.height;
+            destY: 0
+        });
 
-		// Render to canvas
-		context.drawImage(
-			img,
-			options.sourceX, options.sourceY,
-			options.sourceWidth, options.sourceHeight,
-			options.destX, options.destY,
-			options.destWidth, options.destHeight
-		);
+        ObjectUtilsjs_defaults(options, {
+            destWidth: options.width,
+            destHeight: options.height
+        });
 
-		callback(canvas);
-	};
-};
+        if (options.resizeToFit) {
+            // preserve aspect ratio of input image and center it
+            var ratio = options.sourceWidth / options.sourceHeight;
+            if (ratio > 1) {
+                options.destHeight = options.destWidth / ratio;
+                options.destY = (options.height - options.destHeight) * 0.5;
+            } else if (ratio < 1) {
+                options.destWidth = options.destHeight * ratio;
+                options.destX = (options.width - options.destWidth) * 0.5;
+            }
+        }
+
+        // Set dimensions
+        canvas.width = options.width;
+        canvas.height = options.height;
+
+        // Render to canvas
+        context.drawImage(
+            img,
+            options.sourceX,
+            options.sourceY,
+            options.sourceWidth,
+            options.sourceHeight,
+            options.destX,
+            options.destY,
+            options.destWidth,
+            options.destHeight
+        );
+
+        callback(canvas);
+    };
+};;
 
 /**
  * Renders an SVG to a canvas element.
@@ -123,11 +134,11 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
  *     // canvas is an HTMLCanvasElement
  * });
  */
-CanvasUtils.renderSvgToCanvas = function (svgSource, options, callback) {
-	var url = 'data:image/svg+xml;base64,' + btoa(svgSource);
+CanvasUtils_renderSvgToCanvas = function(svgSource, options, callback) {
+    var url = "data:image/svg+xml;base64," + btoa(svgSource);
 
-	CanvasUtils.loadCanvasFromPath(url, options, callback);
-};
+    CanvasUtils_loadCanvasFromPath(url, options, callback);
+};;
 
 /**
  * Takes a canvas element and returns it's image data as a matrix.
@@ -136,26 +147,26 @@ CanvasUtils.renderSvgToCanvas = function (svgSource, options, callback) {
  * @param canvas
  * @returns {Array}
  */
-CanvasUtils.getMatrixFromCanvas = function (canvas) {
-	var context = canvas.getContext('2d');
+CanvasUtils_getMatrixFromCanvas = function(canvas) {
+    var context = canvas.getContext("2d");
 
-	var getAt = function (x, y) {
-		if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
-			return 0;
-		} else {
-			return context.getImageData(x, y, 1, 1).data[0] / 255;
-		}
-	};
+    var getAt = function(x, y) {
+        if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
+            return 0;
+        } else {
+            return context.getImageData(x, y, 1, 1).data[0] / 255;
+        }
+    };
 
-	var matrix = [];
-	for (var i = 0; i < canvas.width; i++) {
-		matrix.push([]);
-		for (var j = 0; j < canvas.height; j++) {
-			matrix[i].push(getAt(i, canvas.height - (j + 1)));
-		}
-	}
-	return matrix;
-};
+    var matrix = [];
+    for (var i = 0; i < canvas.width; i++) {
+        matrix.push([]);
+        for (var j = 0; j < canvas.height; j++) {
+            matrix[i].push(getAt(i, canvas.height - (j + 1)));
+        }
+    }
+    return matrix;
+};;
 
 /**
  *
@@ -163,22 +174,24 @@ CanvasUtils.getMatrixFromCanvas = function (canvas) {
  * @param  {string} data
  * @returns {RSVP.Promise} Promise that resolves with the Image.
  */
-CanvasUtils.svgDataToImage = function (data) {
-	var DOMURL = window.URL || window.webkitURL || window;
+CanvasUtils_svgDataToImage = function(data) {
+    var DOMURL = window.URL || window.webkitURL || window;
 
-	var svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
+    var svg = new Blob([data], {
+        type: "image/svg+xml;charset=utf-8"
+    });
 
-	var img = new Image();
-	img.src = DOMURL.createObjectURL(svg);
+    var img = new Image();
+    img.src = DOMURL.createObjectURL(svg);
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
-		img.onload = function () {
-			resolve(img);
-		};
-		img.onerror = function () {
-			reject('Could not load SVG image.');
-		};
-	});
-};
+    return PromiseUtilsjs_createPromise(function(resolve, reject) {
+        img.onload = function() {
+            resolve(img);
+        };
+        img.onerror = function() {
+            reject("Could not load SVG image.");
+        };
+    });
+};;
 
-module.exports = CanvasUtils;
+export { CanvasUtils_renderSvgToCanvas as renderSvgToCanvas, CanvasUtils };

@@ -1,6 +1,3 @@
-/**
- * Generic selection class
- */
 function Selection() {
 	this.stack = [];
 
@@ -355,4 +352,9 @@ function toArray() {
 	}
 }
 
-module.exports = Selection;
+var exported_Selection = Selection;
+
+/**
+ * Generic selection class
+ */
+export { exported_Selection as Selection };

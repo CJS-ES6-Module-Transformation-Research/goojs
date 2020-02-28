@@ -1,11 +1,4 @@
-var Vector3 = require('../../math/Vector3');
-
-/**
- * Container for particle data in the ParticleSystemComponent.
- * @class
- * @constructor
- * @param {ParticleSystemComponent} particleComponent
- */
+import { Vector3 as Vector3js } from "../../math/Vector3";
 function ParticleData(particleComponent) {
 
 	/**
@@ -37,12 +30,12 @@ function ParticleData(particleComponent) {
 	/**
 	 * @type {Vector3}
 	 */
-	this.startPosition = new Vector3();
+	this.startPosition = new Vector3js();
 
 	/**
 	 * @type {Vector3}
 	 */
-	this.startDirection = new Vector3();
+	this.startDirection = new Vector3js();
 
 	/**
 	 * @type {number}
@@ -70,10 +63,10 @@ function ParticleData(particleComponent) {
 	this.loopAfter = 0;
 }
 
-var dirDelta = new Vector3();
-var gravityDelta = new Vector3();
-var localVelocityDelta = new Vector3();
-var worldVelocityDelta = new Vector3();
+var dirDelta = new Vector3js();
+var gravityDelta = new Vector3js();
+var localVelocityDelta = new Vector3js();
+var worldVelocityDelta = new Vector3js();
 
 /**
  * Get the world position of the particle
@@ -122,4 +115,12 @@ ParticleData.prototype.getWorldPosition = function (store) {
 	return store;
 };
 
-module.exports = ParticleData;
+var exported_ParticleData = ParticleData;
+
+/**
+ * Container for particle data in the ParticleSystemComponent.
+ * @class
+ * @constructor
+ * @param {ParticleSystemComponent} particleComponent
+ */
+export { exported_ParticleData as ParticleData };

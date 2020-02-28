@@ -1,20 +1,15 @@
-var System = require('../../entities/systems/System');
+import { System as System_Systemjs } from "../../entities/systems/System";
 
 // has to stay here because it's used by traverseFunc below
 // it's pretty crappy how it's sprinkled over the code
 var numUpdates;
 
-/**
- * Processes all entities with transform components, making sure they are up to date and valid according to the "scenegraph"
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
- * @extends System
- */
 function TransformSystem() {
-	System.call(this, 'TransformSystem', ['TransformComponent']);
+	System_Systemjs.call(this, 'TransformSystem', ['TransformComponent']);
 	this.numUpdates = 0;
 }
 
-TransformSystem.prototype = Object.create(System.prototype);
+TransformSystem.prototype = Object.create(System_Systemjs.prototype);
 TransformSystem.prototype.constructor = TransformSystem;
 
 TransformSystem.prototype.process = function () {
@@ -54,4 +49,11 @@ function traverseFunc(entity) {
 	}
 }
 
-module.exports = TransformSystem;
+var exported_TransformSystem = TransformSystem;
+
+/**
+ * Processes all entities with transform components, making sure they are up to date and valid according to the "scenegraph"
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
+ * @extends System
+ */
+export { exported_TransformSystem as TransformSystem };

@@ -1,9 +1,9 @@
-var Action = require('./Action');
+import { Action as Action_Actionjs } from "./Action";
 
-function PauseParticleSystemAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function PauseParticleSystemAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
-PauseParticleSystemAction.prototype = Object.create(Action.prototype);
+PauseParticleSystemAction.prototype = Object.create(Action_Actionjs.prototype);
 PauseParticleSystemAction.prototype.constructor = PauseParticleSystemAction;
 
 PauseParticleSystemAction.external = {
@@ -22,4 +22,5 @@ PauseParticleSystemAction.prototype.enter = function (fsm) {
 	entity.particleSystemComponent.pause();
 };
 
-module.exports = PauseParticleSystemAction;
+var exported_PauseParticleSystemAction = PauseParticleSystemAction;
+export { exported_PauseParticleSystemAction as PauseParticleSystemAction };

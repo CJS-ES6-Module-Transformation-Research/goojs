@@ -1,17 +1,9 @@
-var Component = require('../../entities/components/Component');
-var Quad = require('../../shapes/Quad');
-var MeshRendererComponent = require('../../entities/components/MeshRendererComponent');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-
-/**
- * Connects a domElement to an entity and applies the transforms of the entity to the domElement with CSS3 3D transforms.
- * @param {domElement} domElement
- * @param {Object} settings
- * @extends Component
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
- */
+import { Component as Component_Componentjs } from "../../entities/components/Component";
+import { Quad as Quadjs } from "../../shapes/Quad";
+import { MeshRendererComponent as MeshRendererComponentjs } from "../../entities/components/MeshRendererComponent";
+import { MeshDataComponent as MeshDataComponentjs } from "../../entities/components/MeshDataComponent";
 function Dom3dComponent(domElement, settings) {
-	Component.apply(this, arguments);
+	Component_Componentjs.apply(this, arguments);
 
 	this.type = 'Dom3dComponent';
 
@@ -30,9 +22,9 @@ function Dom3dComponent(domElement, settings) {
 	this.entity = null;
 	this.initDom(domElement);
 
-	this.meshData = new Quad(1, 1);
-	this.meshDataComponent = new MeshDataComponent(this.meshData);
-	this.meshRendererComponent = new MeshRendererComponent();
+	this.meshData = new Quadjs(1, 1);
+	this.meshDataComponent = new MeshDataComponentjs(this.meshData);
+	this.meshRendererComponent = new MeshRendererComponentjs();
 
 	this._transformDirty = true;
 	this._transformUpdatedListener = null;
@@ -44,7 +36,7 @@ function Dom3dComponent(domElement, settings) {
 
 Dom3dComponent.type = 'Dom3dComponent';
 
-Dom3dComponent.prototype = Object.create(Component.prototype);
+Dom3dComponent.prototype = Object.create(Component_Componentjs.prototype);
 Dom3dComponent.prototype.constructor = Dom3dComponent;
 
 Dom3dComponent.prototype.attached = function (entity) {
@@ -101,4 +93,13 @@ Dom3dComponent.prototype.destroy = function (context) {
 	this.meshData.destroy(context);
 };
 
-module.exports = Dom3dComponent;
+var exported_Dom3dComponent = Dom3dComponent;
+
+/**
+ * Connects a domElement to an entity and applies the transforms of the entity to the domElement with CSS3 3D transforms.
+ * @param {domElement} domElement
+ * @param {Object} settings
+ * @extends Component
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
+ */
+export { exported_Dom3dComponent as Dom3dComponent };
