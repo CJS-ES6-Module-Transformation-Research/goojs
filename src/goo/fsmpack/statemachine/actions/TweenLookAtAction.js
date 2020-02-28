@@ -1,17 +1,24 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3js } from "../../../math/Vector3";
-import { Quaternion as Quaternionjs } from "../../../math/Quaternion";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenLookAtAction = undefined;
 
-function TweenLookAtAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.quatFrom = new Quaternionjs();
-	this.quatTo = new Quaternionjs();
-	this.quatFinal = new Quaternionjs();
+var _Vector = require("../../../math/Vector3");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+function TweenLookAtAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.quatFrom = new _Quaternion.Quaternion();
+	this.quatTo = new _Quaternion.Quaternion();
+	this.quatFinal = new _Quaternion.Quaternion();
 	this.completed = false;
 }
 
-TweenLookAtAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenLookAtAction.prototype = Object.create(_Action.Action.prototype);
 TweenLookAtAction.prototype.constructor = TweenLookAtAction;
 
 TweenLookAtAction.external = {
@@ -55,7 +62,7 @@ TweenLookAtAction.external = {
 	}]
 };
 
-TweenLookAtAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenLookAtAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween LookAt Complete' : undefined;
 };
 
@@ -96,4 +103,4 @@ TweenLookAtAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenLookAtAction = TweenLookAtAction;
-export { exported_TweenLookAtAction as TweenLookAtAction };
+exports.TweenLookAtAction = exported_TweenLookAtAction;

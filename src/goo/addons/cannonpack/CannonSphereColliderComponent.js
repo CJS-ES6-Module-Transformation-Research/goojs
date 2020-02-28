@@ -1,13 +1,19 @@
-import { Component as Component_Componentjs } from "../../entities/components/Component";
-function CannonSphereColliderComponent(settings) {
-	Component_Componentjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CannonSphereColliderComponent = undefined;
 
-	settings = settings || {};
-	this.type = 'CannonSphereColliderComponent';
-	this.radius = settings.radius || 0.5;
-	this.cannonShape = new CANNON.Sphere(this.radius);
+var _Component = require("../../entities/components/Component");
+
+function CannonSphereColliderComponent(settings) {
+  _Component.Component.apply(this, arguments);
+
+  settings = settings || {};
+  this.type = 'CannonSphereColliderComponent';
+  this.radius = settings.radius || 0.5;
+  this.cannonShape = new CANNON.Sphere(this.radius);
 }
-CannonSphereColliderComponent.prototype = Object.create(Component_Componentjs.prototype);
+CannonSphereColliderComponent.prototype = Object.create(_Component.Component.prototype);
 CannonSphereColliderComponent.constructor = CannonSphereColliderComponent;
 
 var exported_CannonSphereColliderComponent = CannonSphereColliderComponent;
@@ -20,4 +26,4 @@ var exported_CannonSphereColliderComponent = CannonSphereColliderComponent;
  * @param {Object} [settings]
  * @param {number} [settings.radius=0.5]
  */
-export { exported_CannonSphereColliderComponent as CannonSphereColliderComponent };
+exports.CannonSphereColliderComponent = exported_CannonSphereColliderComponent;

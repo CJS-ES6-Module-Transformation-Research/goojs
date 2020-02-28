@@ -1,9 +1,9 @@
-import { EventChannel as EventChannel_EventChanneljs } from "../../../src/goo/timelinepack/EventChannel";
+var _EventChannel = require('../../../src/goo/timelinepack/EventChannel');
 
 describe('EventChannel', function () {
 	var channel;
 	beforeEach(function () {
-		channel = new EventChannel_EventChanneljs();
+		channel = new _EventChannel.EventChannel();
 	});
 
 	describe('addCallback', function () {
@@ -16,10 +16,7 @@ describe('EventChannel', function () {
 
 		it('can insert an entry before any other entry', function () {
 			// setup
-			channel.addCallback('id1', 100)
-				.addCallback('id2', 200)
-				.addCallback('id3', 300)
-				.addCallback('id4', 400);
+			channel.addCallback('id1', 100).addCallback('id2', 200).addCallback('id3', 300).addCallback('id4', 400);
 
 			// inserting an entry before any existing entries
 			channel.addCallback('id5', 10);
@@ -30,10 +27,7 @@ describe('EventChannel', function () {
 
 		it('can insert an entry after any other entry', function () {
 			// setup
-			channel.addCallback('id1', 100)
-				.addCallback('id2', 200)
-				.addCallback('id3', 300)
-				.addCallback('id4', 400);
+			channel.addCallback('id1', 100).addCallback('id2', 200).addCallback('id3', 300).addCallback('id4', 400);
 
 			// inserting an entry before any existing entries
 			channel.addCallback('id5', 500);
@@ -44,10 +38,7 @@ describe('EventChannel', function () {
 
 		it('can insert an entry and maintain the set of entries sorted', function () {
 			// setup
-			channel.addCallback('', 100)
-				.addCallback('', 200)
-				.addCallback('', 300)
-				.addCallback('', 400);
+			channel.addCallback('', 100).addCallback('', 200).addCallback('', 300).addCallback('', 400);
 
 			// inserting an entry before any existing entries
 			channel.addCallback('', 250);
@@ -60,7 +51,9 @@ describe('EventChannel', function () {
 	describe('update', function () {
 		it('will not trigger an event that is scheduled at position 0 when jumping form position 0 to 0', function () {
 			var data = 0;
-			channel.addCallback('id', 0, function () { data += 123; });
+			channel.addCallback('id', 0, function () {
+				data += 123;
+			});
 			channel.update(0);
 
 			expect(data).toEqual(0);
@@ -68,7 +61,9 @@ describe('EventChannel', function () {
 
 		it('will trigger an event that is scheduled at position 0 when jumping form position 0 to 1', function () {
 			var data = 0;
-			channel.addCallback('id', 0, function () { data += 123; });
+			channel.addCallback('id', 0, function () {
+				data += 123;
+			});
 			channel.update(1);
 
 			expect(data).toEqual(123);
@@ -78,11 +73,13 @@ describe('EventChannel', function () {
 			var data0 = 0;
 			var data1 = 0;
 
-			channel.addCallback('id0', 1, function () { data0 += 123; })
-				.addCallback('id1', 2, function () { data1 += 234; });
+			channel.addCallback('id0', 1, function () {
+				data0 += 123;
+			}).addCallback('id1', 2, function () {
+				data1 += 234;
+			});
 
-			channel.setTime(0)
-				.update(3);
+			channel.setTime(0).update(3);
 
 			expect(data0).toEqual(123);
 			expect(data1).toEqual(234);
@@ -94,13 +91,17 @@ describe('EventChannel', function () {
 			var data2 = 0;
 			var data3 = 0;
 
-			channel.addCallback('id0', 1, function () { data0 += 123; })
-				.addCallback('id1', 2, function () { data1 += 234; })
-				.addCallback('id2', 3, function () { data2 += 345; })
-				.addCallback('id3', 4, function () { data3 += 456; });
+			channel.addCallback('id0', 1, function () {
+				data0 += 123;
+			}).addCallback('id1', 2, function () {
+				data1 += 234;
+			}).addCallback('id2', 3, function () {
+				data2 += 345;
+			}).addCallback('id3', 4, function () {
+				data3 += 456;
+			});
 
-			channel.setTime(1.5)
-				.update(3.5);
+			channel.setTime(1.5).update(3.5);
 
 			expect(data0).toEqual(0);
 			expect(data1).toEqual(234);
@@ -112,11 +113,13 @@ describe('EventChannel', function () {
 			var data0 = 0;
 			var data1 = 0;
 
-			channel.addCallback('id0', 1, function () { data0 += 123; })
-				.addCallback('id1', 4, function () { data1 += 234; });
+			channel.addCallback('id0', 1, function () {
+				data0 += 123;
+			}).addCallback('id1', 4, function () {
+				data1 += 234;
+			});
 
-			channel.setTime(3)
-				.update(2);
+			channel.setTime(3).update(2);
 
 			expect(data0).toEqual(123);
 			expect(data1).toEqual(234);
@@ -128,13 +131,17 @@ describe('EventChannel', function () {
 			var data2 = 0;
 			var data3 = 0;
 
-			channel.addCallback('id0', 1, function () { data0 += 123; })
-				.addCallback('id1', 2, function () { data1 += 234; })
-				.addCallback('id2', 3, function () { data2 += 345; })
-				.addCallback('id3', 4, function () { data3 += 456; });
+			channel.addCallback('id0', 1, function () {
+				data0 += 123;
+			}).addCallback('id1', 2, function () {
+				data1 += 234;
+			}).addCallback('id2', 3, function () {
+				data2 += 345;
+			}).addCallback('id3', 4, function () {
+				data3 += 456;
+			});
 
-			channel.setTime(3.5)
-				.update(1.5);
+			channel.setTime(3.5).update(1.5);
 
 			expect(data0).toEqual(123);
 			expect(data1).toEqual(0);
@@ -146,7 +153,9 @@ describe('EventChannel', function () {
 			channel.enabled = false;
 
 			var data0 = 0;
-			channel.addCallback('id0', 1, function () { data0 += 123; });
+			channel.addCallback('id0', 1, function () {
+				data0 += 123;
+			});
 
 			expect(channel.update(1.5)).toBe(channel);
 			expect(data0).toEqual(0);
@@ -171,10 +180,7 @@ describe('EventChannel', function () {
 
 	describe('sort', function () {
 		it('sorts the keyframes', function () {
-			channel.addCallback('id0', 1, function () {})
-				.addCallback('id1', 2, function () {})
-				.addCallback('id2', 3, function () {})
-				.addCallback('id3', 4, function () {});
+			channel.addCallback('id0', 1, function () {}).addCallback('id1', 2, function () {}).addCallback('id2', 3, function () {}).addCallback('id3', 4, function () {});
 
 			channel.keyframes[0].time = 5;
 			channel.keyframes[2].time = 0;

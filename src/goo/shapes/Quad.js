@@ -1,5 +1,12 @@
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { shallowSelectiveClone as ObjectUtilsjs_shallowSelectiveClone } from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Quad = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 function Quad(width, height, tileX, tileY) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -10,36 +17,36 @@ function Quad(width, height, tileX, tileY) {
 	}
 
 	/** Half-extent along the local x axis.
-	 * @type {number}
-	 * @default 0.5
-	 */
+  * @type {number}
+  * @default 0.5
+  */
 	this.xExtent = width !== undefined ? width * 0.5 : 0.5;
 
 	/** Half-extent along the local y axis.
-	 * @type {number}
-	 * @default 0.5
-	 */
+  * @type {number}
+  * @default 0.5
+  */
 	this.yExtent = height !== undefined ? height * 0.5 : 0.5;
 
 	/** Number of texture repetitions in the texture's x direction.
-	 * @type {number}
-	 * @default 1
-	 */
+  * @type {number}
+  * @default 1
+  */
 	this.tileX = tileX || 1;
 
 	/** Number of texture repetitions in the texture's y direction.
-	 * @type {number}
-	 * @default 1
-	 */
+  * @type {number}
+  * @default 1
+  */
 	this.tileY = tileY || 1;
 
 	var attributeMap = MeshDatajs_defaultMap([MeshDatajs_POSITION, MeshDatajs_NORMAL, MeshDatajs_TEXCOORD0]);
-	MeshDatajs.call(this, attributeMap, 4, 6);
+	_MeshData.MeshData.call(this, attributeMap, 4, 6);
 
 	this.rebuild();
 }
 
-Quad.prototype = Object.create(MeshDatajs.prototype);
+Quad.prototype = Object.create(_MeshData.MeshData.prototype);
 Quad.prototype.constructor = Quad;
 
 /**
@@ -66,7 +73,7 @@ Quad.prototype.rebuild = function () {
  * @returns {Quad}
  */
 Quad.prototype.clone = function () {
-	var options = ObjectUtilsjs_shallowSelectiveClone(this, ['xExtent', 'yExtent', 'tileX', 'tileY']);
+	var options = (0, _ObjectUtils.shallowSelectiveClone)(this, ['xExtent', 'yExtent', 'tileX', 'tileY']);
 
 	return new Quad(options);
 };
@@ -82,4 +89,4 @@ var exported_Quad = Quad;
  * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
  * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
  */
-export { exported_Quad as Quad };
+exports.Quad = exported_Quad;

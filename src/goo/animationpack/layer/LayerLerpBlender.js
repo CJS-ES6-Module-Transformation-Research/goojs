@@ -1,4 +1,10 @@
-import { BinaryLerpSource as BinaryLerpSourcejs } from "../../animationpack/blendtree/BinaryLerpSource";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LayerLerpBlender = undefined;
+
+var _BinaryLerpSource = require("../../animationpack/blendtree/BinaryLerpSource");
+
 function LayerLerpBlender() {
 	this._blendWeight = null;
 	this._layerA = null;
@@ -23,4 +29,4 @@ var exported_LayerLerpBlender = LayerLerpBlender;
 /**
  * A layer blender that uses linear interpolation to merge the results of two layers.
  */
-export { exported_LayerLerpBlender as LayerLerpBlender };
+exports.LayerLerpBlender = exported_LayerLerpBlender;

@@ -1,4 +1,9 @@
-import { remove as ArrayUtilsjs_remove } from "../../util/ArrayUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.State = undefined;
+
+var _ArrayUtils = require('../../util/ArrayUtils');
 
 function State(uuid) {
 	this.uuid = uuid;
@@ -35,7 +40,7 @@ function State(uuid) {
 		getEntityById: function (id) {
 			return this._fsm.entity._world.by.id(id).first();
 		}.bind(this),
-		send: function (channels/*, data*/) {
+		send: function (channels /*, data*/) {
 			if (channels) {
 				if (typeof channels === 'string' && this._transitions[channels]) {
 					this.requestTransition(this._transitions[channels]);
@@ -284,7 +289,7 @@ State.prototype.removeAction = function (action) {
 		action.onDestroy(this.proxy);
 	}
 
-	ArrayUtilsjs_remove(this._actions, action);
+	(0, _ArrayUtils.remove)(this._actions, action);
 };
 
 State.prototype.addMachine = function (machine) {
@@ -298,8 +303,8 @@ State.prototype.addMachine = function (machine) {
 
 State.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtilsjs_remove(this._machines, machine);
+	(0, _ArrayUtils.remove)(this._machines, machine);
 };
 
 var exported_State = State;
-export { exported_State as State };
+exports.State = exported_State;

@@ -1,10 +1,22 @@
-import { Texture as Texturejs } from "../renderer/Texture";
-import { MathUtils as MathUtilsjs } from "../math/MathUtils";
-import { TextureHandler as TextureHandlerjs } from "../loaders/handlers/TextureHandler";
-import { Ajax as Ajax_Ajaxjs } from "../util/Ajax";
-import { createUniqueId as StringUtilsjs_createUniqueId } from "../util/StringUtils";
-import { createPromise as PromiseUtilsjs_createPromise } from "../util/PromiseUtils";
-import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextureCreator = exports.DEFAULT_TEXTURE_CUBE = exports.DEFAULT_TEXTURE_2D = undefined;
+
+var _Texture = require("../renderer/Texture");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
+
+var _Ajax = require("../util/Ajax");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _rsvp = require("../util/rsvp");
+
 var TextureCreator_DEFAULT_TEXTURE_CUBE;
 var TextureCreator_DEFAULT_TEXTURE_2D;
 var TextureCreator__finishedLoading;
@@ -12,22 +24,17 @@ var TextureCreator__globalCallback;
 var TextureCreator_clearCache;
 var TextureCreator_UNSUPPORTED_FALLBACK;
 function TextureCreator() {
-	var ajax = this.ajax = new Ajax_Ajaxjs();
-	this.textureHandler = new TextureHandlerjs(
-		{},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		},
-		function () {},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		}
-	);
+	var ajax = this.ajax = new _Ajax.Ajax();
+	this.textureHandler = new _TextureHandler.TextureHandler({}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	}, function () {}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	});
 }
 
 //! AT: unused?
 TextureCreator_UNSUPPORTED_FALLBACK = ".png";;
-TextureCreator_clearCache = function() {};;
+TextureCreator_clearCache = function TextureCreator_clearCache() {};;
 
 /**
  * Releases any references to cached objects
@@ -50,7 +57,7 @@ TextureCreator.prototype.clear = function () {
  * });
  */
 TextureCreator.prototype.loadTexture2D = function (imageUrl, settings) {
-	var id = StringUtilsjs_createUniqueId('texture');
+	var id = (0, _StringUtils.createUniqueId)('texture');
 	settings = settings || {};
 	settings.imageRef = imageUrl;
 
@@ -76,7 +83,7 @@ TextureCreator.prototype.loadTexture2D = function (imageUrl, settings) {
  * });
  */
 TextureCreator.prototype.loadTextureVideo = function (videoURL, options) {
-	var id = StringUtilsjs_createUniqueId('texture');
+	var id = (0, _StringUtils.createUniqueId)('texture');
 	options = options || {};
 	options.imageRef = videoURL;
 	options.loop = options.loop !== undefined ? options.loop : true;
@@ -103,12 +110,12 @@ TextureCreator.prototype.loadTextureVideo = function (videoURL, options) {
  */
 TextureCreator.prototype.loadTextureWebCam = function () {
 
-	return PromiseUtilsjs_createPromise(function (resolve, reject) {
+	return (0, _PromiseUtils.createPromise)(function (resolve, reject) {
 		var video = document.createElement('video');
 		video.autoplay = true;
 		video.loop = true;
 
-		var texture = new Texturejs(video, {
+		var texture = new _Texture.Texture(video, {
 			wrapS: 'EdgeClamp',
 			wrapT: 'EdgeClamp'
 		});
@@ -119,7 +126,7 @@ TextureCreator.prototype.loadTextureWebCam = function () {
 				video.height = video.videoHeight;
 
 				// set minification filter based on pow2
-				if (!(MathUtilsjs.isPowerOfTwo(video.width) && MathUtilsjs.isPowerOfTwo(video.height))) {
+				if (!(_MathUtils.MathUtils.isPowerOfTwo(video.width) && _MathUtils.MathUtils.isPowerOfTwo(video.height))) {
 					texture.generateMipmaps = false;
 					texture.minFilter = 'BilinearNoMipMaps';
 				}
@@ -159,11 +166,11 @@ TextureCreator.prototype.loadTextureWebCam = function () {
  * @returns {RSVP.Promise} A promise that will resolve with the resulting Texture
  */
 TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
-	var texture = new Texturejs(null, settings);
+	var texture = new _Texture.Texture(null, settings);
 	texture.variant = 'CUBE';
 
 	var promises = imageDataArray.map(function (queryImage) {
-		return PromiseUtilsjs_createPromise(function (resolve, reject) {
+		return (0, _PromiseUtils.createPromise)(function (resolve, reject) {
 			if (typeof queryImage === 'string') {
 				this.ajax._loadImage(queryImage).then(resolve, reject);
 			} else {
@@ -172,8 +179,8 @@ TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
 		}.bind(this));
 	}.bind(this));
 
-	return rsvp_rsvpjsjs.all(promises).then(function (images) {
-		return PromiseUtilsjs_createPromise(function (resolve, reject) {
+	return _rsvp.rsvpjs.all(promises).then(function (images) {
+		return (0, _PromiseUtils.createPromise)(function (resolve, reject) {
 			var width = images[0].width;
 			var height = images[0].height;
 			for (var i = 0; i < 6; i++) {
@@ -198,28 +205,25 @@ TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
 
 //! AT: unused
 TextureCreator__globalCallback = null;;
-TextureCreator__finishedLoading = function(image) {
-    if (TextureCreator__globalCallback) {
-        try {
-            TextureCreator__globalCallback(image);
-        } catch (e) {
-            console.error("Error in texture callback:", e);
-        }
-    }
+TextureCreator__finishedLoading = function TextureCreator__finishedLoading(image) {
+	if (TextureCreator__globalCallback) {
+		try {
+			TextureCreator__globalCallback(image);
+		} catch (e) {
+			console.error("Error in texture callback:", e);
+		}
+	}
 };;
 
 // Add Object.freeze when fast enough in browsers
 var colorInfo = new Uint8Array([255, 255, 255, 255]);
-TextureCreator_DEFAULT_TEXTURE_2D = new Texturejs(colorInfo, null, 1, 1);;
-TextureCreator_DEFAULT_TEXTURE_CUBE = new Texturejs(
-    [colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo],
-    null,
-    1,
-    1
-);;
+exports.DEFAULT_TEXTURE_2D = TextureCreator_DEFAULT_TEXTURE_2D = new _Texture.Texture(colorInfo, null, 1, 1);;
+exports.DEFAULT_TEXTURE_CUBE = TextureCreator_DEFAULT_TEXTURE_CUBE = new _Texture.Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);;
 TextureCreator_DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
 
-export { TextureCreator_DEFAULT_TEXTURE_2D as DEFAULT_TEXTURE_2D, TextureCreator_DEFAULT_TEXTURE_CUBE as DEFAULT_TEXTURE_CUBE };
+exports.DEFAULT_TEXTURE_2D = TextureCreator_DEFAULT_TEXTURE_2D;
+exports.DEFAULT_TEXTURE_CUBE = TextureCreator_DEFAULT_TEXTURE_CUBE;
+
 var exported_TextureCreator = TextureCreator;
 
 //! AT: shouldn't this stay in util?
@@ -228,4 +232,4 @@ var exported_TextureCreator = TextureCreator;
  * Takes away the pain of creating textures of various sorts.
  * @param {Settings} settings Texturing settings
  */
-export { exported_TextureCreator as TextureCreator };
+exports.TextureCreator = exported_TextureCreator;

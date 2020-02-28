@@ -1,10 +1,22 @@
-import { MeshData as MeshDatajs } from "../../renderer/MeshData";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
-import { Transform as Transformjs } from "../../math/Transform";
-import { Sphere as Spherejs } from "../../shapes/Sphere";
-import { PointLight as PointLightjs } from "../../renderer/light/PointLight";
-import { DirectionalLight as DirectionalLightjs } from "../../renderer/light/DirectionalLight";
-import { SpotLight as SpotLightjs } from "../../renderer/light/SpotLight";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LightDebug = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _Transform = require("../../math/Transform");
+
+var _Sphere = require("../../shapes/Sphere");
+
+var _PointLight = require("../../renderer/light/PointLight");
+
+var _DirectionalLight = require("../../renderer/light/DirectionalLight");
+
+var _SpotLight = require("../../renderer/light/SpotLight");
+
 var LightDebug__buildDirectionalLightMesh;
 var LightDebug__buildSpotLightMesh;
 var LightDebug__buildPointLightMesh;
@@ -13,32 +25,32 @@ var LightDebug__spotLightMesh;
 var LightDebug__pointLightMesh;
 
 function LightDebug() {
-	this._ball = new Spherejs(12, 12, 0.3);
+	this._ball = new _Sphere.Sphere(12, 12, 0.3);
 	LightDebug__pointLightMesh = LightDebug__buildPointLightMesh();;
 	LightDebug__spotLightMesh = LightDebug__buildSpotLightMesh();;
 	LightDebug__directionalLightMesh = LightDebug__buildDirectionalLightMesh();;
 }
 
 LightDebug.prototype.getMesh = function (light, options) {
-	if (light instanceof PointLightjs) {
+	if (light instanceof _PointLight.PointLight) {
 		return options.full ? [this._ball, this._pointLightMesh] : [this._ball];
-	} else if (light instanceof SpotLightjs) {
+	} else if (light instanceof _SpotLight.SpotLight) {
 		return options.full ? [this._ball, this._spotLightMesh] : [this._ball];
-	} else if (light instanceof DirectionalLightjs) {
+	} else if (light instanceof _DirectionalLight.DirectionalLight) {
 		return options.full ? [this._ball, this._directionalLightMesh] : [this._ball];
 	}
 };
 
-LightDebug__buildPointLightMesh = function() {
-    return buildBall();
+LightDebug__buildPointLightMesh = function LightDebug__buildPointLightMesh() {
+	return buildBall();
 };;
 
-LightDebug__buildSpotLightMesh = function() {
-    return buildCone();
+LightDebug__buildSpotLightMesh = function LightDebug__buildSpotLightMesh() {
+	return buildCone();
 };;
 
-LightDebug__buildDirectionalLightMesh = function() {
-    return buildColumn();
+LightDebug__buildDirectionalLightMesh = function LightDebug__buildDirectionalLightMesh() {
+	return buildColumn();
 };;
 
 function buildCircle(radius, nSegments) {
@@ -55,7 +67,7 @@ function buildCircle(radius, nSegments) {
 	}
 	indices[indices.length - 1] = 0;
 
-	var meshData = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments, indices.length);
+	var meshData = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments, indices.length);
 
 	meshData.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
@@ -69,20 +81,20 @@ function buildCircle(radius, nSegments) {
 function buildBall() {
 	var radius = 1;
 
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 	var nSegments = 128;
 	var circle = buildCircle(radius, nSegments);
 	var transform;
 
-	transform = new Transformjs();
+	transform = new _Transform.Transform();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transformjs();
+	transform = new _Transform.Transform();
 	transform.rotation.fromAngles(0, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transformjs();
+	transform = new _Transform.Transform();
 	transform.rotation.fromAngles(Math.PI / 2, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
@@ -103,7 +115,7 @@ function buildUmbrella(nSegments) {
 		indices.push(0, i + 1);
 	}
 
-	var meshData = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments + 1, indices.length);
+	var meshData = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments + 1, indices.length);
 
 	meshData.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
@@ -117,7 +129,7 @@ function buildUmbrella(nSegments) {
 function buildCone() {
 	var length = -1;
 
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 
 	var nSegments = 64;
 	var nParallel = 2;
@@ -126,14 +138,14 @@ function buildCone() {
 
 	for (var i = 1; i <= nParallel; i++) {
 		var circle = buildCircle(dyParallel * i, nSegments);
-		var transform = new Transformjs();
+		var transform = new _Transform.Transform();
 		transform.translation.setDirect(0, 0, dxParallel * i);
 		transform.update();
 		meshBuilder.addMeshData(circle, transform);
 	}
 
 	var umbrella = buildUmbrella(4);
-	var transform = new Transformjs();
+	var transform = new _Transform.Transform();
 	transform.scale.setDirect(dyParallel * nParallel, dyParallel * nParallel, dxParallel * nParallel);
 	transform.update();
 	meshBuilder.addMeshData(umbrella, transform);
@@ -155,7 +167,7 @@ function buildTube(nSegments) {
 		indices.push(i * 2, i * 2 + 1);
 	}
 
-	var meshData = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments * 2, indices.length);
+	var meshData = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments * 2, indices.length);
 
 	meshData.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
@@ -167,7 +179,7 @@ function buildTube(nSegments) {
 }
 
 function buildColumn() {
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 
 	var nSegments = 64;
 	var nParallel = 2;
@@ -176,14 +188,14 @@ function buildColumn() {
 
 	for (var i = 0; i < nParallel; i++) {
 		var circle = buildCircle(radius, nSegments);
-		var transform = new Transformjs();
+		var transform = new _Transform.Transform();
 		transform.translation.z = -dxParallel * i;
 		transform.update();
 		meshBuilder.addMeshData(circle, transform);
 	}
 
 	var tube = buildTube(4);
-	var transform = new Transformjs();
+	var transform = new _Transform.Transform();
 	transform.scale.setDirect(radius, radius, -dxParallel * nParallel);
 	transform.update();
 	meshBuilder.addMeshData(tube, transform);
@@ -193,4 +205,4 @@ function buildColumn() {
 }
 
 var exported_LightDebug = LightDebug;
-export { exported_LightDebug as LightDebug };
+exports.LightDebug = exported_LightDebug;

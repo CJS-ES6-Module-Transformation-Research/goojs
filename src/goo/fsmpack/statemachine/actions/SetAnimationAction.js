@@ -1,13 +1,18 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetAnimationAction = undefined;
 
-function SetAnimationAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function SetAnimationAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this._transitioned = false;
 	this._loopAtStart = null;
 	this._previousLoop = 0;
 }
 
-SetAnimationAction.prototype = Object.create(Action_Actionjs.prototype);
+SetAnimationAction.prototype = Object.create(_Action.Action.prototype);
 SetAnimationAction.prototype.constructor = SetAnimationAction;
 
 SetAnimationAction.external = {
@@ -19,7 +24,7 @@ SetAnimationAction.external = {
 		name: 'Animation',
 		key: 'animation',
 		type: 'animation'
-	},{
+	}, {
 		name: 'Loops',
 		key: 'loops',
 		description: 'How many times to loop before transitioning.',
@@ -37,7 +42,7 @@ var labels = {
 	complete: 'On animation complete'
 };
 
-SetAnimationAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+SetAnimationAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -59,7 +64,8 @@ SetAnimationAction.prototype.update = function (fsm) {
 	if (this.animation && entity.animationComponent) {
 		var currentState;
 
-		if (this._loopAtStart === null) { // First enter!
+		if (this._loopAtStart === null) {
+			// First enter!
 			// Set the animation
 			entity.animationComponent.transitionTo(this.animation, true);
 
@@ -76,19 +82,18 @@ SetAnimationAction.prototype.update = function (fsm) {
 		// Transition if the loop number was reached.
 		if (currentState) {
 			// Current state found - animation is still running
-			shouldTransition = shouldTransition || (currentState.getCurrentLoop() - this._loopAtStart === this.loops);
+			shouldTransition = shouldTransition || currentState.getCurrentLoop() - this._loopAtStart === this.loops;
 			this._previousLoop = currentState.getCurrentLoop();
 		} else {
 			// No current state found. The animation probably used all of its loops and changed to the "null" animation.
 			// Therefore, we cannot know the current loop. Look at the previous one
-			shouldTransition = shouldTransition || (this._previousLoop === this.loops - 1);
+			shouldTransition = shouldTransition || this._previousLoop === this.loops - 1;
 		}
 
 		if (shouldTransition) {
 			fsm.send(that.transitions.complete);
 			this._transitioned = true;
 		}
-
 	}
 };
 
@@ -99,4 +104,4 @@ SetAnimationAction.prototype.exit = function () {
 };
 
 var exported_SetAnimationAction = SetAnimationAction;
-export { exported_SetAnimationAction as SetAnimationAction };
+exports.SetAnimationAction = exported_SetAnimationAction;

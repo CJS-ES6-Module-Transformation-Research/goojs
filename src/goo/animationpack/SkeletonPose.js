@@ -1,6 +1,14 @@
-import { Transform as Transformjs } from "../math/Transform";
-import { NO_PARENT as Jointjs_NO_PARENT } from "../animationpack/Joint";
-import { Matrix4 as Matrix4js } from "../math/Matrix4";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SkeletonPose = undefined;
+
+var _Transform = require("../math/Transform");
+
+var _Joint = require("../animationpack/Joint");
+
+var _Matrix = require("../math/Matrix4");
+
 function SkeletonPose(skeleton) {
 	this._skeleton = skeleton;
 
@@ -20,17 +28,17 @@ SkeletonPose.prototype.allocateTransforms = function () {
 
 	// init local transforms
 	for (var i = 0; i < jointCount; i++) {
-		this._localTransforms[i] = new Transformjs();
+		this._localTransforms[i] = new _Transform.Transform();
 	}
 
 	// init global transforms
 	for (var i = 0; i < jointCount; i++) {
-		this._globalTransforms[i] = new Transformjs();
+		this._globalTransforms[i] = new _Transform.Transform();
 	}
 
 	// init palette
 	for (var i = 0; i < jointCount; i++) {
-		this._matrixPalette[i] = new Matrix4js();
+		this._matrixPalette[i] = new _Matrix.Matrix4();
 	}
 };
 
@@ -44,12 +52,9 @@ SkeletonPose.prototype.setToBindPose = function () {
 
 		// At this point we are in model space, so we need to remove our parent's transform (if we have one.)
 		var parentIndex = this._skeleton._joints[i]._parentIndex;
-		if (parentIndex !== Jointjs_NO_PARENT) {
+		if (parentIndex !== _Joint.NO_PARENT) {
 			// We remove the parent's transform simply by multiplying by its inverse bind pose.
-			this._localTransforms[i].matrix.mul2(
-				this._skeleton._joints[parentIndex]._inverseBindPose.matrix,
-				this._localTransforms[i].matrix
-			);
+			this._localTransforms[i].matrix.mul2(this._skeleton._joints[parentIndex]._inverseBindPose.matrix, this._localTransforms[i].matrix);
 		}
 	}
 	this.updateTransforms();
@@ -62,26 +67,20 @@ SkeletonPose.prototype.updateTransforms = function () {
 	var joints = this._skeleton._joints;
 	for (var i = 0, l = joints.length; i < l; i++) {
 		var parentIndex = joints[i]._parentIndex;
-		if (parentIndex !== Jointjs_NO_PARENT) {
+		if (parentIndex !== _Joint.NO_PARENT) {
 			// We have a parent, so take us from local->parent->model space by multiplying by parent's local->model
-			this._globalTransforms[i].matrix.mul2(
-				this._globalTransforms[parentIndex].matrix,
-				this._localTransforms[i].matrix
-			);
+			this._globalTransforms[i].matrix.mul2(this._globalTransforms[parentIndex].matrix, this._localTransforms[i].matrix);
 		} else {
 			// No parent so just set global to the local transform
 			this._globalTransforms[i].matrix.copy(this._localTransforms[i].matrix);
 		}
 
 		/*
-		 * At this point we have a local->model space transform for this joint, for skinning we multiply this by the
-		 * joint's inverse bind pose (joint->model space, inverted). This gives us a transform that can take a
-		 * vertex from bind pose (model space) to current pose (model space).
-		 */
-		this._matrixPalette[i].mul2(
-			this._globalTransforms[i].matrix,
-			joints[i]._inverseBindPose.matrix
-		);
+   * At this point we have a local->model space transform for this joint, for skinning we multiply this by the
+   * joint's inverse bind pose (joint->model space, inverted). This gives us a transform that can take a
+   * vertex from bind pose (model space) to current pose (model space).
+   */
+		this._matrixPalette[i].mul2(this._globalTransforms[i].matrix, joints[i]._inverseBindPose.matrix);
 	}
 
 	this.firePoseUpdated();
@@ -106,4 +105,4 @@ var exported_SkeletonPose = SkeletonPose;
  * Joins a {@link Skeleton} with an array of {@link Joint} poses. This allows the skeleton to exist and be reused between multiple instances of poses.
  * @param {Skeleton} skeleton
  */
-export { exported_SkeletonPose as SkeletonPose };
+exports.SkeletonPose = exported_SkeletonPose;

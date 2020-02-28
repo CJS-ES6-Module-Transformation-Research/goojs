@@ -1,14 +1,16 @@
-import { Vector3 as Vector3js } from "../../../../src/goo/math/Vector3";
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
-import { LineRenderSystem as LineRenderSystemjs } from "../../../../src/goo/addons/linerenderpack/LineRenderSystem";
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _LineRenderSystem = require("../../../../src/goo/addons/linerenderpack/LineRenderSystem");
 
 describe('LineRenderSystem', function () {
 	var world;
 	var lineRenderSystem;
 
 	beforeEach(function () {
-		world = new World_Worldjs();
-		lineRenderSystem = new LineRenderSystemjs(world);
+		world = new _World.World();
+		lineRenderSystem = new _LineRenderSystem.LineRenderSystem(world);
 	});
 
 	it('can construct', function () {

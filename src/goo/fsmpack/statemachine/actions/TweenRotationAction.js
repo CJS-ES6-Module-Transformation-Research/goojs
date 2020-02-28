@@ -1,18 +1,26 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Quaternion as Quaternionjs } from "../../../math/Quaternion";
-import { Matrix3 as Matrix3js } from "../../../math/Matrix3";
-import { MathUtils as MathUtilsjs } from "../../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenRotationAction = undefined;
 
-function TweenRotationAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.quatFrom = new Quaternionjs();
-	this.quatTo = new Quaternionjs();
-	this.quatFinal = new Quaternionjs();
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Matrix = require("../../../math/Matrix3");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+function TweenRotationAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.quatFrom = new _Quaternion.Quaternion();
+	this.quatTo = new _Quaternion.Quaternion();
+	this.quatFinal = new _Quaternion.Quaternion();
 	this.completed = false;
 }
 
-TweenRotationAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenRotationAction.prototype = Object.create(_Action.Action.prototype);
 TweenRotationAction.prototype.constructor = TweenRotationAction;
 
 TweenRotationAction.external = {
@@ -62,7 +70,7 @@ TweenRotationAction.external = {
 	}]
 };
 
-TweenRotationAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenRotationAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Rotation Complete' : undefined;
 };
 
@@ -73,7 +81,7 @@ TweenRotationAction.prototype.enter = function (fsm) {
 	this.startTime = fsm.getTime();
 
 	this.quatFrom.fromRotationMatrix(transformComponent.transform.rotation);
-	this.quatTo.fromRotationMatrix(new Matrix3js().fromAngles(this.to[0] * MathUtilsjs.DEG_TO_RAD, this.to[1] * MathUtilsjs.DEG_TO_RAD, this.to[2] * MathUtilsjs.DEG_TO_RAD));
+	this.quatTo.fromRotationMatrix(new _Matrix.Matrix3().fromAngles(this.to[0] * _MathUtils.MathUtils.DEG_TO_RAD, this.to[1] * _MathUtils.MathUtils.DEG_TO_RAD, this.to[2] * _MathUtils.MathUtils.DEG_TO_RAD));
 	if (this.relative) {
 		this.quatTo.mul(this.quatFrom);
 	}
@@ -101,4 +109,4 @@ TweenRotationAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenRotationAction = TweenRotationAction;
-export { exported_TweenRotationAction as TweenRotationAction };
+exports.TweenRotationAction = exported_TweenRotationAction;

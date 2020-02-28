@@ -1,15 +1,21 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3js } from "../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenScaleAction = undefined;
 
-function TweenScaleAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromScale = new Vector3js();
-	this.toScale = new Vector3js();
+var _Vector = require("../../../math/Vector3");
+
+function TweenScaleAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromScale = new _Vector.Vector3();
+	this.toScale = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenScaleAction.prototype = Object.create(_Action.Action.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -59,7 +65,7 @@ TweenScaleAction.external = {
 	}]
 };
 
-TweenScaleAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenScaleAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Scale Complete' : undefined;
 };
 
@@ -95,4 +101,4 @@ TweenScaleAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenScaleAction = TweenScaleAction;
-export { exported_TweenScaleAction as TweenScaleAction };
+exports.TweenScaleAction = exported_TweenScaleAction;

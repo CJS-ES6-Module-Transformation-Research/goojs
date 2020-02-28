@@ -1,23 +1,30 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../loaders/handlers/ComponentHandler";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MeshRendererComponentHandler = undefined;
 
-import { MeshRendererComponent as MeshRendererComponentjs } from "../../entities/components/MeshRendererComponent";
-import { Material as Materialjs } from "../../renderer/Material";
-import { uber as ShaderLibjs_uber } from "../../renderer/shaders/ShaderLib";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { defaults as ObjectUtilsjs_defaults, forEach as ObjectUtilsjs_forEach } from "../../util/ObjectUtils";
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _MeshRendererComponent = require("../../entities/components/MeshRendererComponent");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _rsvp = require("../../util/rsvp");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function MeshRendererComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
-	this._type = 'MeshRendererComponent';
+  _ComponentHandler.ComponentHandler.apply(this, arguments);
+  this._type = 'MeshRendererComponent';
 }
 
-MeshRendererComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
+MeshRendererComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 MeshRendererComponentHandler.prototype.constructor = MeshRendererComponentHandler;
-ComponentHandlerjs__registerClass('meshRenderer', MeshRendererComponentHandler);
+(0, _ComponentHandler._registerClass)('meshRenderer', MeshRendererComponentHandler);
 
-MeshRendererComponentHandler.DEFAULT_MATERIAL = new Materialjs(ShaderLibjs_uber, 'Default material');
+MeshRendererComponentHandler.DEFAULT_MATERIAL = new _Material.Material(_ShaderLib.uber, 'Default material');
 
 /**
  * Prepare component. Set defaults on config here.
@@ -26,12 +33,12 @@ MeshRendererComponentHandler.DEFAULT_MATERIAL = new Materialjs(ShaderLibjs_uber,
  * @private
  */
 MeshRendererComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtilsjs_defaults(config, {
-		cullMode: 'Dynamic',
-		castShadows: true,
-		receiveShadows: true,
-		reflectable: true
-	});
+  return (0, _ObjectUtils.defaults)(config, {
+    cullMode: 'Dynamic',
+    castShadows: true,
+    receiveShadows: true,
+    reflectable: true
+  });
 };
 
 /**
@@ -40,7 +47,7 @@ MeshRendererComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshRendererComponentHandler.prototype._create = function () {
-	return new MeshRendererComponentjs();
+  return new _MeshRendererComponent.MeshRendererComponent();
 };
 
 /**
@@ -51,39 +58,41 @@ MeshRendererComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
-   var that = this;
+  var that = this;
 
-   return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-       if (!component) { return; }
-       // Component settings
-       component.cullMode = config.cullMode;
-       component.castShadows = config.castShadows;
-       component.receiveShadows = config.receiveShadows;
-       component.isReflectable = config.reflectable;
-       //component.isPickable = config.pickable;
+  return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+    if (!component) {
+      return;
+    }
+    // Component settings
+    component.cullMode = config.cullMode;
+    component.castShadows = config.castShadows;
+    component.receiveShadows = config.receiveShadows;
+    component.isReflectable = config.reflectable;
+    //component.isPickable = config.pickable;
 
-       // Materials
-       var materials = config.materials;
-       if (!materials || !Object.keys(materials).length) {
-           var selectionMaterial = component.materials.filter(function (material) {
-               return material.name === 'gooSelectionIndicator';
-           });
-           component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
-           return component;
-       }
+    // Materials
+    var materials = config.materials;
+    if (!materials || !Object.keys(materials).length) {
+      var selectionMaterial = component.materials.filter(function (material) {
+        return material.name === 'gooSelectionIndicator';
+      });
+      component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
+      return component;
+    }
 
-       var promises = [];
-       ObjectUtilsjs_forEach(materials, function (item) {
-           promises.push(that._load(item.materialRef, options));
-       }, null, 'sortValue');
-       return rsvp_rsvpjsjs.all(promises).then(function (materials) {
-           var selectionMaterial = component.materials.filter(function (material) {
-               return material.name === 'gooSelectionIndicator';
-           });
-           component.materials = materials.concat(selectionMaterial);
-           return component;
-       });
-   });
+    var promises = [];
+    (0, _ObjectUtils.forEach)(materials, function (item) {
+      promises.push(that._load(item.materialRef, options));
+    }, null, 'sortValue');
+    return _rsvp.rsvpjs.all(promises).then(function (materials) {
+      var selectionMaterial = component.materials.filter(function (material) {
+        return material.name === 'gooSelectionIndicator';
+      });
+      component.materials = materials.concat(selectionMaterial);
+      return component;
+    });
+  });
 };
 
 var exported_MeshRendererComponentHandler = MeshRendererComponentHandler;
@@ -96,4 +105,4 @@ var exported_MeshRendererComponentHandler = MeshRendererComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_MeshRendererComponentHandler as MeshRendererComponentHandler };
+exports.MeshRendererComponentHandler = exported_MeshRendererComponentHandler;

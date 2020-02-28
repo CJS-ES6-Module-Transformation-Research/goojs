@@ -1,4 +1,9 @@
-import { MeshData as MeshDatajs } from "../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshRendererDebug = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
 
 function MeshRendererDebug() {
 	this._meshes = [buildBox(1, 1, 1), null];
@@ -9,35 +14,11 @@ MeshRendererDebug.prototype.getMesh = function () {
 };
 
 function buildBox(dx, dy, dz) {
-	var verts = [
-		dx,  dy,  dz,
-		dx,  dy, -dz,
-		dx, -dy,  dz,
-		dx, -dy, -dz,
-		-dx,  dy,  dz,
-		-dx,  dy, -dz,
-		-dx, -dy,  dz,
-		-dx, -dy, -dz
-	];
+	var verts = [dx, dy, dz, dx, dy, -dz, dx, -dy, dz, dx, -dy, -dz, -dx, dy, dz, -dx, dy, -dz, -dx, -dy, dz, -dx, -dy, -dz];
 
-	var indices = [
-		0, 1,
-		0, 2,
-		1, 3,
-		2, 3,
+	var indices = [0, 1, 0, 2, 1, 3, 2, 3, 4, 5, 4, 6, 5, 7, 6, 7, 0, 4, 1, 5, 2, 6, 3, 7];
 
-		4, 5,
-		4, 6,
-		5, 7,
-		6, 7,
-
-		0, 4,
-		1, 5,
-		2, 6,
-		3, 7
-	];
-
-	var meshData = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), verts.length / 3, indices.length);
+	var meshData = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), verts.length / 3, indices.length);
 
 	meshData.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
@@ -49,4 +30,4 @@ function buildBox(dx, dy, dz) {
 }
 
 var exported_MeshRendererDebug = MeshRendererDebug;
-export { exported_MeshRendererDebug as MeshRendererDebug };
+exports.MeshRendererDebug = exported_MeshRendererDebug;

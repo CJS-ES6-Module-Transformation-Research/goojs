@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var StringUtils_parseURL;
 var StringUtils_escapeHtmlEntities;
 var StringUtils_getUniqueId;
@@ -18,25 +21,25 @@ var StringUtils_endsWith;
  */
 function StringUtils() {}
 
-StringUtils_endsWith = function(str, suffix) {
+exports.endsWith = StringUtils_endsWith = function StringUtils_endsWith(str, suffix) {
     return str.indexOf(suffix, str.length - suffix.length) !== -1;
 };;
 
-StringUtils_startsWith = function(str, prefix) {
+StringUtils_startsWith = function StringUtils_startsWith(str, prefix) {
     return str.indexOf(prefix) === 0;
 };;
 
-StringUtils_capitalize = function(str) {
+exports.capitalize = StringUtils_capitalize = function StringUtils_capitalize(str) {
     return str.charAt(0).toUpperCase() + str.substring(1);
 };;
 
-StringUtils_uncapitalize = function(str) {
+exports.uncapitalize = StringUtils_uncapitalize = function StringUtils_uncapitalize(str) {
     return str.charAt(0).toLowerCase() + str.substring(1);
 };;
 
-StringUtils_createUniqueId = function(type) {
+exports.createUniqueId = StringUtils_createUniqueId = function StringUtils_createUniqueId(type) {
     var date = Date.now();
-    var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function(c) {
+    var uuid = "xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx".replace(/[xy]/g, function (c) {
         // | 0 is a hack to floor a number, so this is a random number between 0 and 15
         var randomNumber = (date + Math.random() * 16) % 16 | 0;
         if (c === "x") {
@@ -61,7 +64,7 @@ StringUtils_createUniqueId = function(type) {
  * @param {string} string
  * @param {string} stopString
  */
-StringUtils_getUntil = function(string, stopString) {
+StringUtils_getUntil = function StringUtils_getUntil(string, stopString) {
     var stopIndex = string.indexOf(stopString);
     if (stopIndex === -1) {
         return string;
@@ -76,7 +79,7 @@ StringUtils_getUntil = function(string, stopString) {
  * @param {string} stopString
  * @returns {string}
  */
-StringUtils_getAfterLast = function(string, stopString) {
+exports.getAfterLast = StringUtils_getAfterLast = function StringUtils_getAfterLast(string, stopString) {
     var stopIndex = string.lastIndexOf(stopString);
     if (stopIndex === -1) {
         return string;
@@ -94,7 +97,7 @@ StringUtils_getAfterLast = function(string, stopString) {
  * @param {string} string
  * @param {string} startString
  */
-StringUtils_getFrom = function(string, startString) {
+StringUtils_getFrom = function StringUtils_getFrom(string, startString) {
     var startIndex = string.indexOf(startString);
     if (startIndex === -1) {
         return "";
@@ -105,7 +108,7 @@ StringUtils_getFrom = function(string, startString) {
     }
 };;
 
-StringUtils_getIndexedName = function(base, takenNames, separator) {
+StringUtils_getIndexedName = function StringUtils_getIndexedName(base, takenNames, separator) {
     if (!separator) {
         separator = "_";
     }
@@ -131,7 +134,7 @@ StringUtils_getIndexedName = function(base, takenNames, separator) {
     return base + separator + index;
 };;
 
-StringUtils_getUniqueName = function(desiredName, takenNames, separator) {
+StringUtils_getUniqueName = function StringUtils_getUniqueName(desiredName, takenNames, separator) {
     if (takenNames.indexOf(desiredName) === -1) {
         return desiredName;
     }
@@ -140,7 +143,7 @@ StringUtils_getUniqueName = function(desiredName, takenNames, separator) {
 };;
 
 //! AT: toASCII, in JS everything is caps (JSON, innerHTML, etc)
-StringUtils_toAscii = function(input) {
+StringUtils_toAscii = function StringUtils_toAscii(input) {
     return input.replace(/([^\x00-\x7F])/g, "x");
 };;
 
@@ -148,7 +151,7 @@ StringUtils_toAscii = function(input) {
 Js implementation of Java's hashcode (sort of). Somewhat useful for creating
 unique ideas that contain [A-Za-z0-9-_]
 */
-StringUtils_hashCode = function(str) {
+StringUtils_hashCode = function StringUtils_hashCode(str) {
     var hash = 0;
 
     if (str.length === 0) {
@@ -169,7 +172,7 @@ StringUtils_hashCode = function(str) {
 var idCounter = Date.now();
 
 // returns an almost unique id
-StringUtils_getUniqueId = function() {
+StringUtils_getUniqueId = function StringUtils_getUniqueId() {
     idCounter++;
     var stringedArguments = Array.prototype.slice.call(arguments, 0).join("");
     return StringUtils_hashCode(idCounter + "" + stringedArguments);
@@ -180,7 +183,7 @@ StringUtils_getUniqueId = function() {
  * @param {string} text The string whose HTML entities are to be encoded.
  * @returns {string} The specified string with all its HTML entities encoded.
  */
-StringUtils_escapeHtmlEntities = function(text) {
+StringUtils_escapeHtmlEntities = function StringUtils_escapeHtmlEntities(text) {
     var div = document.createElement("div");
     div.appendChild(document.createTextNode(text));
 
@@ -189,7 +192,7 @@ StringUtils_escapeHtmlEntities = function(text) {
         34: "quot"
     };
 
-    return div.innerHTML.replace(/[\u00A0-\u2666\"\']/g, function(c) {
+    return div.innerHTML.replace(/[\u00A0-\u2666\"\']/g, function (c) {
         var entityName = edgeCases[c.charCodeAt(0)];
         return "&" + (entityName || "#" + c.charCodeAt(0)) + ";";
     });
@@ -217,26 +220,20 @@ StringUtils_escapeHtmlEntities = function(text) {
 /**
  * @private
  */
-var splitRegExp = new RegExp(
-	'^' +
-	'(?:' +
-	'([^:/?#.]+)' +                         // scheme - ignore special characters
-	// used by other URL parts such as :,
-	// ?, /, #, and .
-	':)?' +
-	'(?://' +
-	'(?:([^/?#]*)@)?' +                     // userInfo
-	'([\\w\\d\\-\\u0100-\\uffff.%]*)' +     // domain - restrict to letters,
-	// digits, dashes, dots, percent
-	// escapes, and unicode characters.
-	'(?::([0-9]+))?' +                      // port
-	')?' +
-	'([^?#]+)?' +                           // path
-	'(?:\\?([^#]*))?' +                     // query
-	'(?:#(.*))?' +                          // fragment
-	'$');
+var splitRegExp = new RegExp('^' + '(?:' + '([^:/?#.]+)' + // scheme - ignore special characters
+// used by other URL parts such as :,
+// ?, /, #, and .
+':)?' + '(?://' + '(?:([^/?#]*)@)?' + // userInfo
+"([\\w\\d\\-\\u0100-\\uffff.%]*)" + // domain - restrict to letters,
+// digits, dashes, dots, percent
+// escapes, and unicode characters.
+'(?::([0-9]+))?' + // port
+')?' + '([^?#]+)?' + // path
+'(?:\\?([^#]*))?' + // query
+'(?:#(.*))?' + // fragment
+'$');
 
-StringUtils_parseURL = function(uri) {
+exports.parseURL = StringUtils_parseURL = function StringUtils_parseURL(uri) {
     var split = uri.match(splitRegExp);
     return {
         "scheme": split[1],
@@ -249,4 +246,10 @@ StringUtils_parseURL = function(uri) {
     };
 };;
 
-export { StringUtils_endsWith as endsWith, StringUtils_capitalize as capitalize, StringUtils_uncapitalize as uncapitalize, StringUtils_createUniqueId as createUniqueId, StringUtils_getAfterLast as getAfterLast, StringUtils_parseURL as parseURL, StringUtils };
+exports.endsWith = StringUtils_endsWith;
+exports.capitalize = StringUtils_capitalize;
+exports.uncapitalize = StringUtils_uncapitalize;
+exports.createUniqueId = StringUtils_createUniqueId;
+exports.getAfterLast = StringUtils_getAfterLast;
+exports.parseURL = StringUtils_parseURL;
+exports.StringUtils = StringUtils;

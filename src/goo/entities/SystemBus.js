@@ -1,3 +1,9 @@
-import { Bus as Bus_Busjs } from "./Bus";
-var SystemBusjs = new Bus_Busjs();
-export { SystemBusjs };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SystemBusjs = undefined;
+
+var _Bus = require("./Bus");
+
+var SystemBusjs = new _Bus.Bus();
+exports.SystemBusjs = SystemBusjs;

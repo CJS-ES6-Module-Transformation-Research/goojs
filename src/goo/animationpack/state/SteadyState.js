@@ -1,6 +1,12 @@
-import { AbstractState as AbstractState_AbstractStatejs } from "../../animationpack/state/AbstractState";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SteadyState = undefined;
+
+var _AbstractState = require("../../animationpack/state/AbstractState");
+
 function SteadyState(name) {
-	AbstractState_AbstractStatejs.call(this);
+	_AbstractState.AbstractState.call(this);
 
 	this.id = null;
 	this._name = name;
@@ -8,7 +14,7 @@ function SteadyState(name) {
 	this._sourceTree = null;
 }
 
-SteadyState.prototype = Object.create(AbstractState_AbstractStatejs.prototype);
+SteadyState.prototype = Object.create(_AbstractState.AbstractState.prototype);
 SteadyState.prototype.constructor = SteadyState;
 
 /**
@@ -48,12 +54,12 @@ SteadyState.prototype.getCurrentLoop = function () {
  * @param {number} globalStartTime Usually current time
  */
 SteadyState.prototype.resetClips = function (globalStartTime) {
-	AbstractState_AbstractStatejs.prototype.resetClips.call(this, globalStartTime);
+	_AbstractState.AbstractState.prototype.resetClips.call(this, globalStartTime);
 	this._sourceTree.resetClips(globalStartTime);
 };
 
 SteadyState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractState_AbstractStatejs.prototype.shiftClipTime.call(this, shiftTime);
+	_AbstractState.AbstractState.prototype.shiftClipTime.call(this, shiftTime);
 	this._sourceTree.shiftClipTime(shiftTime);
 };
 
@@ -80,4 +86,4 @@ var exported_SteadyState = SteadyState;
  * @extends AbstractState
  * @param {string} name Name of state
  */
-export { exported_SteadyState as SteadyState };
+exports.SteadyState = exported_SteadyState;

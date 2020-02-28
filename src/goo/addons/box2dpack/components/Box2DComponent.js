@@ -1,7 +1,14 @@
-import { Component as Component_Componentjs } from "../../../entities/components/Component";
-import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "../../../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Box2DComponent = undefined;
+
+var _Component = require("../../../entities/components/Component");
+
+var _ObjectUtil = require("../../../util/ObjectUtil");
+
 function Box2DComponent(options) {
-	Component_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'Box2DComponent';
 
@@ -9,7 +16,7 @@ function Box2DComponent(options) {
 	this.world = null;
 	this.mass = 1;
 
-	ObjectUtil_ObjectUtilsjs.copyOptions(this, options, {
+	_ObjectUtil.ObjectUtils.copyOptions(this, options, {
 		shape: 'box',
 		width: 1,
 		height: 1,
@@ -23,7 +30,7 @@ function Box2DComponent(options) {
 	});
 }
 
-Box2DComponent.prototype = Object.create(Component_Componentjs.prototype);
+Box2DComponent.prototype = Object.create(_Component.Component.prototype);
 Box2DComponent.prototype.constructor = Box2DComponent;
 
 var exported_Box2DComponent = Box2DComponent;
@@ -33,4 +40,4 @@ var exported_Box2DComponent = Box2DComponent;
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
  */
-export { exported_Box2DComponent as Box2DComponent };
+exports.Box2DComponent = exported_Box2DComponent;

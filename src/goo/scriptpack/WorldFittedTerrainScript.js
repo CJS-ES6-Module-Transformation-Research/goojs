@@ -1,8 +1,14 @@
-import {     HeightMapBoundingScript as HeightMapBoundingScript_HeightMapBoundingScriptjs, } from "../scriptpack/HeightMapBoundingScript";
-import { Vector3 as Vector3js } from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.WorldFittedTerrainScript = undefined;
 
-var calcVec1 = new Vector3js();
-var calcVec2 = new Vector3js();
+var _HeightMapBoundingScript = require("../scriptpack/HeightMapBoundingScript");
+
+var _Vector = require("../math/Vector3");
+
+var calcVec1 = new _Vector.Vector3();
+var calcVec2 = new _Vector.Vector3();
 
 var _defaults = {
 	minX: 0,
@@ -39,7 +45,7 @@ function registerHeightData(heightMatrix, dimensions, heightMapData) {
 	var scriptContainer = {
 		dimensions: dimensions,
 		sideQuadCount: heightMatrix.length - 1,
-		script: new HeightMapBoundingScript_HeightMapBoundingScriptjs(heightMatrix)
+		script: new _HeightMapBoundingScript.HeightMapBoundingScript(heightMatrix)
 	};
 	return scriptContainer;
 }
@@ -146,8 +152,8 @@ WorldFittedTerrainScript.prototype.getTerrainNormalAt = function (pos) {
 		tri[i].y = this.returnToWorldDimensions(tri[i].y, dims.minZ, dims.maxZ, heightData.sideQuadCount);
 	}
 
-	calcVec1.setDirect((tri[1].x - tri[0].x), (tri[1].z - tri[0].z), (tri[1].y - tri[0].y));
-	calcVec2.setDirect((tri[2].x - tri[0].x), (tri[2].z - tri[0].z), (tri[2].y - tri[0].y));
+	calcVec1.setDirect(tri[1].x - tri[0].x, tri[1].z - tri[0].z, tri[1].y - tri[0].y);
+	calcVec2.setDirect(tri[2].x - tri[0].x, tri[2].z - tri[0].z, tri[2].y - tri[0].y);
 	calcVec1.cross(calcVec2);
 	if (calcVec1.y < 0) {
 		calcVec1.scale(-1);
@@ -163,4 +169,4 @@ var exported_WorldFittedTerrainScript = WorldFittedTerrainScript;
  * Creates and exposes a square heightmap terrain fitted within given world dimensions.
  * This does not do any visualizing of the heightMap. That needs to be done elsewhere.
  */
-export { exported_WorldFittedTerrainScript as WorldFittedTerrainScript };
+exports.WorldFittedTerrainScript = exported_WorldFittedTerrainScript;

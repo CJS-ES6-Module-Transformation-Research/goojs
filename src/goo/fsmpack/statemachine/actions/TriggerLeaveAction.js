@@ -1,11 +1,16 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerLeaveAction = undefined;
 
-function TriggerLeaveAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function TriggerLeaveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerLeaveAction.prototype = Object.create(Action_Actionjs.prototype);
+TriggerLeaveAction.prototype = Object.create(_Action.Action.prototype);
 TriggerLeaveAction.prototype.constructor = TriggerLeaveAction;
 
 TriggerLeaveAction.external = {
@@ -21,7 +26,7 @@ TriggerLeaveAction.external = {
 	}]
 };
 
-TriggerLeaveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TriggerLeaveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'leave' ? 'On Trigger Leave' : undefined;
 };
 
@@ -38,10 +43,10 @@ TriggerLeaveAction.prototype.enter = function (fsm) {
 	SystemBus.addListener('goo.physics.triggerExit', this.listener);
 };
 
-TriggerLeaveAction.prototype.exit = function (/*fsm*/) {
+TriggerLeaveAction.prototype.exit = function () /*fsm*/{
 	SystemBus.removeListener('goo.physics.triggerExit', this.listener);
 	this.entity = null;
 };
 
 var exported_TriggerLeaveAction = TriggerLeaveAction;
-export { exported_TriggerLeaveAction as TriggerLeaveAction };
+exports.TriggerLeaveAction = exported_TriggerLeaveAction;

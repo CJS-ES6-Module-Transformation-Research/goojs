@@ -1,16 +1,27 @@
-import { FadeTransitionState as FadeTransitionStatejs } from "../../animationpack/state/FadeTransitionState";
-import { SyncFadeTransitionState as SyncFadeTransitionStatejs } from "../../animationpack/state/SyncFadeTransitionState";
-import { FrozenTransitionState as FrozenTransitionStatejs } from "../../animationpack/state/FrozenTransitionState";
-import { SteadyState as SteadyStatejs } from "../../animationpack/state/SteadyState";
-import { LayerLerpBlender as LayerLerpBlender_LayerLerpBlenderjs } from "../../animationpack/layer/LayerLerpBlender";
-import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationLayer = undefined;
+
+var _FadeTransitionState = require("../../animationpack/state/FadeTransitionState");
+
+var _SyncFadeTransitionState = require("../../animationpack/state/SyncFadeTransitionState");
+
+var _FrozenTransitionState = require("../../animationpack/state/FrozenTransitionState");
+
+var _SteadyState = require("../../animationpack/state/SteadyState");
+
+var _LayerLerpBlender = require("../../animationpack/layer/LayerLerpBlender");
+
+var _MathUtils = require("../../math/MathUtils");
+
 function AnimationLayer(name, id) {
 	this.id = id;
 	this._name = name;
 
 	this._steadyStates = {};
 	this._currentState = null;
-	this._layerBlender = new LayerLerpBlender_LayerLerpBlenderjs();
+	this._layerBlender = new _LayerLerpBlender.LayerLerpBlender();
 	this._transitions = {};
 	this._transitionStates = {};
 }
@@ -41,7 +52,7 @@ AnimationLayer.prototype.setState = function (stateKey, state) {
  */
 AnimationLayer.prototype.setBlendWeight = function (weight) {
 	if (this._layerBlender) {
-		this._layerBlender._blendWeight = MathUtilsjs.clamp(weight, 0, 1);
+		this._layerBlender._blendWeight = _MathUtils.MathUtils.clamp(weight, 0, 1);
 	}
 };
 
@@ -111,7 +122,7 @@ AnimationLayer.prototype.transitionTo = function (state, globalTime, finishCallb
 	if (!transition && this._transitions) {
 		transition = this._transitions[state] || this._transitions['*'];
 	}
-	if (cState instanceof SteadyStatejs && transition) {
+	if (cState instanceof _SteadyState.SteadyState && transition) {
 		var transitionState = this._getTransitionByType(transition.type);
 		this._doTransition(transitionState, cState, this._steadyStates[state], transition, globalTime, finishCallback);
 		return true;
@@ -160,7 +171,7 @@ AnimationLayer.prototype.setCurrentState = function (state, rewind, globalTime, 
 		}
 		state.onFinished = function () {
 			this.setCurrentState(state._targetState || null, false, undefined, finishCallback);
-			if (state instanceof SteadyStatejs && finishCallback instanceof Function) {
+			if (state instanceof _SteadyState.SteadyState && finishCallback instanceof Function) {
 				finishCallback();
 			}
 			this.update();
@@ -283,21 +294,23 @@ AnimationLayer.prototype.setTimeScale = function (timeScale) {
 };
 
 AnimationLayer.prototype._getTransitionByType = function (type) {
-	if (this._transitionStates[type]) { return this._transitionStates[type]; }
+	if (this._transitionStates[type]) {
+		return this._transitionStates[type];
+	}
 	var transition;
 	switch (type) {
 		case 'Fade':
-			transition = new FadeTransitionStatejs();
+			transition = new _FadeTransitionState.FadeTransitionState();
 			break;
 		case 'SyncFade':
-			transition = new SyncFadeTransitionStatejs();
+			transition = new _SyncFadeTransitionState.SyncFadeTransitionState();
 			break;
 		case 'Frozen':
-			transition = new FrozenTransitionStatejs();
+			transition = new _FrozenTransitionState.FrozenTransitionState();
 			break;
 		default:
 			console.log('Defaulting to frozen transition type');
-			transition = new FrozenTransitionStatejs();
+			transition = new _FrozenTransitionState.FrozenTransitionState();
 	}
 	return this._transitionStates[type] = transition;
 };
@@ -307,7 +320,6 @@ AnimationLayer.prototype._getTransitionByType = function (type) {
  */
 AnimationLayer.prototype.clone = function () {
 	var cloned = new AnimationLayer(this._name);
-
 
 	for (var key in this._steadyStates) {
 		cloned._steadyStates[key] = this._steadyStates[key].clone();
@@ -336,4 +348,4 @@ var exported_AnimationLayer = AnimationLayer;
  * @param {string} name Name of layer
  * @param {string} id Id of layer
  */
-export { exported_AnimationLayer as AnimationLayer };
+exports.AnimationLayer = exported_AnimationLayer;

@@ -1,2 +1,8 @@
-import { ArrayUtils as ArrayUtils_ArrayUtilsjs } from "../util/ArrayUtils";
-export { ArrayUtils };
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ArrayUtils = undefined;
+
+var _ArrayUtils = require("../util/ArrayUtils");
+
+exports.ArrayUtils = ArrayUtils;

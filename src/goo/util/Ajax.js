@@ -1,14 +1,18 @@
-import { TextureHandler as TextureHandlerjs } from "../loaders/handlers/TextureHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Ajax = exports.types = undefined;
 
-import {
-    createPromise as PromiseUtilsjs_createPromise,
-    resolve as PromiseUtilsjs_resolve,
-    reject as PromiseUtilsjs_reject,
-} from "../util/PromiseUtils";
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
 
-import { extend as ObjectUtilsjs_extend } from "../util/ObjectUtils";
-import { parseURL as StringUtilsjs_parseURL } from "../util/StringUtils";
-import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _rsvp = require("../util/rsvp");
+
 var Ajax_types;
 var Ajax_ENGINE_SHADER_PREFIX;
 var Ajax_crossOrigin;
@@ -33,7 +37,7 @@ Ajax.prototype.prefill = function (bundle, clear) {
 	if (clear) {
 		this._cache = bundle;
 	} else {
-		ObjectUtilsjs_extend(this._cache, bundle);
+		(0, _ObjectUtils.extend)(this._cache, bundle);
 	}
 };
 
@@ -65,8 +69,8 @@ Ajax.prototype.get = function (options) {
 		request.responseType = options.responseType;
 	}
 
-	return PromiseUtilsjs_createPromise(function (resolve, reject) {
-		var handleStateChange = function () {
+	return (0, _PromiseUtils.createPromise)(function (resolve, reject) {
+		var handleStateChange = function handleStateChange() {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
 					request.removeEventListener('readystatechange', handleStateChange);
@@ -92,7 +96,6 @@ Ajax_ARRAY_BUFFER = "arraybuffer";;
  */
 Ajax_crossOrigin = false;;
 
-
 var MIME_TYPES = {
 	mp4: 'video/mp4',
 	ogv: 'video/ogg',
@@ -110,7 +113,7 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = StringUtilsjs_parseURL(path).path;//! AT: dunno what to call this
+	var path2 = (0, _StringUtils.parseURL)(path).path; //! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
@@ -118,22 +121,22 @@ Ajax.prototype.load = function (path, reload) {
 	}
 
 	if (!path) {
-		PromiseUtilsjs_reject('Path was undefined'); //! AT: no return?
+		(0, _PromiseUtils.reject)('Path was undefined'); //! AT: no return?
 		// anyways, the engine should not call this method without a path
 	}
 
 	if (path.indexOf(Ajax_ENGINE_SHADER_PREFIX) === 0) {
-		return PromiseUtilsjs_resolve();
+		return (0, _PromiseUtils.resolve)();
 	}
 
 	if (this._cache[path] && !reload) {
 		if (typeInGroup(type, 'bundle')) {
 			this.prefill(this._cache[path], reload);
 		}
-		if (this._cache[path] instanceof rsvp_rsvpjsjs.Promise) {
+		if (this._cache[path] instanceof _rsvp.rsvpjs.Promise) {
 			return this._cache[path];
 		} else {
-			return PromiseUtilsjs_resolve(this._cache[path]);
+			return (0, _PromiseUtils.resolve)(this._cache[path]);
 		}
 	}
 
@@ -158,8 +161,7 @@ Ajax.prototype.load = function (path, reload) {
 		ajaxProperties.responseType = Ajax.ARRAY_BUFFER;
 	}
 
-	return this._cache[path] = this.get(ajaxProperties)
-	.then(function (request) {
+	return this._cache[path] = this.get(ajaxProperties).then(function (request) {
 		if (typeInGroup(type, 'bundle')) {
 			var bundle = JSON.parse(request.response);
 			that.prefill(bundle, reload);
@@ -176,7 +178,7 @@ Ajax.prototype.load = function (path, reload) {
 
 Ajax.prototype.update = function (path, config) {
 	this._cache[path] = config;
-	return PromiseUtilsjs_resolve(config);
+	return (0, _PromiseUtils.resolve)(config);
 };
 
 /**
@@ -196,7 +198,7 @@ Ajax.prototype._loadImage = function (url) {
 		image.crossOrigin = 'anonymous';
 	}
 
-	return PromiseUtilsjs_createPromise(function (resolve, reject) {
+	return (0, _PromiseUtils.createPromise)(function (resolve, reject) {
 		var onLoad = function loadHandler() {
 			image.dataReady = true;
 			if (window.URL && window.URL.revokeObjectURL !== undefined) {
@@ -228,10 +230,10 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 		video.crossOrigin = 'anonymous';
 	}
 
-	var promise = PromiseUtilsjs_createPromise(function (resolve, reject) {
+	var promise = (0, _PromiseUtils.createPromise)(function (resolve, reject) {
 		var timeout;
 
-		var _resolve = function () {
+		var _resolve = function _resolve() {
 			if (!video.dataReady) {
 				console.warn('Video is not ready');
 			}
@@ -241,16 +243,15 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 			resolve(video);
 		};
 
-		var canPlay = function () {
+		var canPlay = function canPlay() {
 			video.dataReady = true;
 			_resolve();
 		};
 
-		var loadStart = function () {
+		var loadStart = function loadStart() {
 			if (iOS) {
 				_resolve();
-			}
-			else {
+			} else {
 				timeout = setTimeout(_resolve, VIDEO_LOAD_TIMEOUT);
 			}
 		};
@@ -285,8 +286,7 @@ Ajax.prototype._loadAudio = function (url) {
 	};
 	return this.get(ajaxProperties).then(function (request) {
 		return request.response;
-	})
-	.then(null, function (err) {
+	}).then(null, function (err) {
 		throw new Error('Could not load data from ' + url + ', ' + err);
 	});
 };
@@ -301,71 +301,68 @@ function addKeys(obj, keys) {
 	return obj;
 }
 
-Ajax_types = {
-    text: {
-        vert: true,
+exports.types = Ajax_types = {
+	text: {
+		vert: true,
 
-        // + Scripts in the future
-        frag: true
-    },
+		// + Scripts in the future
+		frag: true
+	},
 
-    json: {
-        shader: true,
-        script: true,
-        entity: true,
-        material: true,
-        scene: true,
-        mesh: true,
-        texture: true,
-        skeleton: true,
-        animation: true,
-        clip: true,
-        bundle: true,
-        project: true,
-        machine: true,
-        posteffects: true,
-        animstate: true,
-        sound: true,
-        environment: true,
-        skybox: true
-    },
+	json: {
+		shader: true,
+		script: true,
+		entity: true,
+		material: true,
+		scene: true,
+		mesh: true,
+		texture: true,
+		skeleton: true,
+		animation: true,
+		clip: true,
+		bundle: true,
+		project: true,
+		machine: true,
+		posteffects: true,
+		animstate: true,
+		sound: true,
+		environment: true,
+		skybox: true
+	},
 
-    image: {
-        jpg: true,
-        jpeg: true,
-        png: true,
-        gif: true
-    },
+	image: {
+		jpg: true,
+		jpeg: true,
+		png: true,
+		gif: true
+	},
 
-    video: {
-        mp4: true,
-        ogv: true,
-        webm: true
-    },
+	video: {
+		mp4: true,
+		ogv: true,
+		webm: true
+	},
 
-    binary: addKeys({
-        dat: true,
-        bin: true
-    }, Object.keys(TextureHandlerjs_loaders)),
+	binary: addKeys({
+		dat: true,
+		bin: true
+	}, Object.keys(TextureHandlerjs_loaders)),
 
-    audio: {
-        mp3: true,
-        wav: true,
-        ogg: true
-    },
+	audio: {
+		mp3: true,
+		wav: true,
+		ogg: true
+	},
 
-    bundle: {
-        bundle: true
-    }
+	bundle: {
+		bundle: true
+	}
 };;
 
-Ajax_types.asset = addKeys(
-	{},
-	Object.keys(Ajax_types.image)
-		.concat(Object.keys(Ajax_types.binary))
-);
+Ajax_types.asset = addKeys({}, Object.keys(Ajax_types.image).concat(Object.keys(Ajax_types.binary)));
 
-export { Ajax_types as types };
+exports.types = Ajax_types;
+
 var exported_Ajax = Ajax;
 
 /**
@@ -373,4 +370,4 @@ var exported_Ajax = Ajax;
  * @param {string} rootPath
  * @param {Object} options
  */
-export { exported_Ajax as Ajax };
+exports.Ajax = exported_Ajax;

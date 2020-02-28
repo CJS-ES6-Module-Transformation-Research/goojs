@@ -1,41 +1,51 @@
-import { SphereCollider as SphereColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
-import { Vector3 as Vector3js } from "../../../../../src/goo/math/Vector3";
-import { Quaternion as Quaternionjs } from "../../../../../src/goo/math/Quaternion";
-import { World as World_Worldjs } from "../../../../../src/goo/entities/World";
-import { SystemBusjs as SystemBus_SystemBusjsjs } from "../../../../../src/goo/entities/SystemBus";
-import { PhysicsMaterial as PhysicsMaterial_PhysicsMaterialjs } from "../../../../../src/goo/addons/physicspack/PhysicsMaterial";
-import { PhysicsSystem as PhysicsSystemjs } from "../../../../../src/goo/addons/physicspack/systems/PhysicsSystem";
-import { ColliderComponent as ColliderComponentjs } from "../../../../../src/goo/addons/physicspack/components/ColliderComponent";
-import { RigidBodyComponent as RigidBodyComponentjs } from "../../../../../src/goo/addons/physicspack/components/RigidBodyComponent";
-import { BallJoint as BallJointjs } from "../../../../../src/goo/addons/physicspack/joints/BallJoint";
+var _SphereCollider = require("../../../../../src/goo/addons/physicspack/colliders/SphereCollider");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _Quaternion = require("../../../../../src/goo/math/Quaternion");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _SystemBus = require("../../../../../src/goo/entities/SystemBus");
+
+var _PhysicsMaterial = require("../../../../../src/goo/addons/physicspack/PhysicsMaterial");
+
+var _PhysicsSystem = require("../../../../../src/goo/addons/physicspack/systems/PhysicsSystem");
+
+var _ColliderComponent = require("../../../../../src/goo/addons/physicspack/components/ColliderComponent");
+
+var _RigidBodyComponent = require("../../../../../src/goo/addons/physicspack/components/RigidBodyComponent");
+
+var _BallJoint = require("../../../../../src/goo/addons/physicspack/joints/BallJoint");
+
 /* global CANNON */
 
 describe('RigidBodyComponent', function () {
 
-	var SphereCollider = SphereColliderjs;
-	var Vector3 = Vector3js;
-	var Quaternion = Quaternionjs;
-	var World = World_Worldjs;
-	var SystemBus = SystemBus_SystemBusjsjs;
-	var PhysicsMaterial = PhysicsMaterial_PhysicsMaterialjs;
-	var PhysicsSystem = PhysicsSystemjs;
-	var ColliderComponent = ColliderComponentjs;
-	var RigidBodyComponent = RigidBodyComponentjs;
-	var BallJoint = BallJointjs;
+	var SphereCollider = _SphereCollider.SphereCollider;
+	var Vector3 = _Vector.Vector3;
+	var Quaternion = _Quaternion.Quaternion;
+	var World = _World.World;
+	var SystemBus = _SystemBus.SystemBusjs;
+	var PhysicsMaterial = _PhysicsMaterial.PhysicsMaterial;
+	var PhysicsSystem = _PhysicsSystem.PhysicsSystem;
+	var ColliderComponent = _ColliderComponent.ColliderComponent;
+	var RigidBodyComponent = _RigidBodyComponent.RigidBodyComponent;
+	var BallJoint = _BallJoint.BallJoint;
 
 	var world, system, rigidBodyComponent, colliderComponent, entity;
 
 	beforeEach(function () {
-		world = new World_Worldjs();
-		system = new PhysicsSystemjs({
+		world = new _World.World();
+		system = new _PhysicsSystem.PhysicsSystem({
 			maxSubSteps: 1
 		});
-		system.setGravity(new Vector3js());
+		system.setGravity(new _Vector.Vector3());
 		world.setSystem(system);
 
-		rigidBodyComponent = new RigidBodyComponentjs({ mass: 1 });
-		colliderComponent = new ColliderComponentjs({
-			collider: new SphereColliderjs({ radius: 1 })
+		rigidBodyComponent = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		colliderComponent = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		entity = world.createEntity(rigidBodyComponent, colliderComponent).addToWorld();
 		rigidBodyComponent.initialize();
@@ -83,76 +93,75 @@ describe('RigidBodyComponent', function () {
 		rigidBodyComponent.constraints = RigidBodyComponentjs_FREEZE_ALL;
 		expect(rigidBodyComponent.cannonBody.linearFactor).toEqual(new CANNON.Vec3(0, 0, 0));
 		expect(rigidBodyComponent.cannonBody.angularFactor).toEqual(new CANNON.Vec3(0, 0, 0));
-
 	});
 
 	it('can set transform from entity', function () {
 		entity.setTranslation(1, 2, 3);
 		entity.transformComponent.updateWorldTransform();
 		rigidBodyComponent.setTransformFromEntity(entity);
-		var position = new Vector3js();
+		var position = new _Vector.Vector3();
 		rigidBodyComponent.getPosition(position);
 		expect(rigidBodyComponent.cannonBody.position).toEqual(new CANNON.Vec3(1, 2, 3));
 	});
 
 	it('can applyForce', function () {
 		rigidBodyComponent.cannonBody.position.set(1, 2, 3);
-		rigidBodyComponent.applyForce(new Vector3js(1, 2, 3));
+		rigidBodyComponent.applyForce(new _Vector.Vector3(1, 2, 3));
 		expect(rigidBodyComponent.cannonBody.force).toEqual(new CANNON.Vec3(1, 2, 3));
 		expect(rigidBodyComponent.cannonBody.torque).toEqual(new CANNON.Vec3(0, 0, 0));
 	});
 
 	it('can applyForceWorld', function () {
-		rigidBodyComponent.setPosition(new Vector3js(1, 2, 3));
-		rigidBodyComponent.setQuaternion(new Quaternionjs().fromAngleAxis(Math.PI / 4, new Vector3js(1,0,0))); // Should not affect at all
-		var worldForce = new Vector3js(0, 1, 0);
-		var worldPosition = new Vector3js(2, 2, 3); // (1,0,0) relative to the body
+		rigidBodyComponent.setPosition(new _Vector.Vector3(1, 2, 3));
+		rigidBodyComponent.setQuaternion(new _Quaternion.Quaternion().fromAngleAxis(Math.PI / 4, new _Vector.Vector3(1, 0, 0))); // Should not affect at all
+		var worldForce = new _Vector.Vector3(0, 1, 0);
+		var worldPosition = new _Vector.Vector3(2, 2, 3); // (1,0,0) relative to the body
 		rigidBodyComponent.applyForceWorld(worldForce, worldPosition);
 		expect(rigidBodyComponent.cannonBody.force).toEqual(new CANNON.Vec3(0, 1, 0));
 		expect(rigidBodyComponent.cannonBody.torque).toEqual(new CANNON.Vec3(0, 0, 1)); // (1,0,0) x (0,1,0) is (0,0,1)
 	});
 
 	it('can applyForceLocal', function () {
-		rigidBodyComponent.setPosition(new Vector3js(1, 2, 3));
-		var localForce = new Vector3js(0, 1, 0);
-		var localPosition = new Vector3js(1, 0, 0);
+		rigidBodyComponent.setPosition(new _Vector.Vector3(1, 2, 3));
+		var localForce = new _Vector.Vector3(0, 1, 0);
+		var localPosition = new _Vector.Vector3(1, 0, 0);
 		rigidBodyComponent.applyForceLocal(localForce, localPosition);
 		expect(rigidBodyComponent.cannonBody.force).toEqual(new CANNON.Vec3(0, 1, 0));
 		expect(rigidBodyComponent.cannonBody.torque).toEqual(new CANNON.Vec3(0, 0, 1)); // (1,0,0) x (0,1,0) is (0,0,1)
 	});
 
 	it('can set velocity', function () {
-		rigidBodyComponent.setVelocity(new Vector3js(1, 2, 3));
+		rigidBodyComponent.setVelocity(new _Vector.Vector3(1, 2, 3));
 		expect(rigidBodyComponent.cannonBody.velocity).toEqual(new CANNON.Vec3(1, 2, 3));
 	});
 
 	it('can get velocity', function () {
 		rigidBodyComponent.cannonBody.velocity.set(1, 2, 3);
-		var velocity = new Vector3js();
+		var velocity = new _Vector.Vector3();
 		rigidBodyComponent.getVelocity(velocity);
-		expect(velocity).toEqual(new Vector3js(1, 2, 3));
+		expect(velocity).toEqual(new _Vector.Vector3(1, 2, 3));
 	});
 
 	it('can set position', function () {
-		rigidBodyComponent.setPosition(new Vector3js(1, 2, 3));
+		rigidBodyComponent.setPosition(new _Vector.Vector3(1, 2, 3));
 		expect(rigidBodyComponent.cannonBody.position).toEqual(new CANNON.Vec3(1, 2, 3));
 	});
 
 	it('can set position', function () {
-		rigidBodyComponent.setPosition(new Vector3js(1, 2, 3));
+		rigidBodyComponent.setPosition(new _Vector.Vector3(1, 2, 3));
 		expect(rigidBodyComponent.cannonBody.position).toEqual(new CANNON.Vec3(1, 2, 3));
 	});
 
 	it('can set quaternion', function () {
-		rigidBodyComponent.setQuaternion(new Quaternionjs(1, 2, 3, 4));
+		rigidBodyComponent.setQuaternion(new _Quaternion.Quaternion(1, 2, 3, 4));
 		expect(rigidBodyComponent.cannonBody.quaternion).toEqual(new CANNON.Quaternion(1, 2, 3, 4));
 	});
 
 	it('can get quaternion', function () {
 		rigidBodyComponent.cannonBody.quaternion.set(1, 2, 3, 4);
-		var quat = new Quaternionjs();
+		var quat = new _Quaternion.Quaternion();
 		rigidBodyComponent.getQuaternion(quat);
-		expect(quat).toEqual(new Quaternionjs(1, 2, 3, 4));
+		expect(quat).toEqual(new _Quaternion.Quaternion(1, 2, 3, 4));
 	});
 
 	it('can set kinematic', function () {
@@ -169,7 +178,7 @@ describe('RigidBodyComponent', function () {
 	});
 
 	it('can add and remove a BallJoint', function () {
-		var joint = new BallJointjs({
+		var joint = new _BallJoint.BallJoint({
 			connectedEntity: entity // Self, just for testing!
 		});
 
@@ -185,22 +194,22 @@ describe('RigidBodyComponent', function () {
 
 	it('emits initialized', function () {
 
-		rigidBodyComponent = new RigidBodyComponentjs({ mass: 1 });
-		colliderComponent = new ColliderComponentjs({
-			collider: new SphereColliderjs({ radius: 1 })
+		rigidBodyComponent = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		colliderComponent = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		entity = world.createEntity(rigidBodyComponent, colliderComponent).addToWorld();
 
 		var numEvents = 0;
-		var listener = function (evt) {
+		var listener = function listener(evt) {
 			numEvents++;
 			expect(evt.entity).toBe(entity);
 		};
-		SystemBus_SystemBusjsjs.addListener('goo.physics.initialized', listener);
+		_SystemBus.SystemBusjs.addListener('goo.physics.initialized', listener);
 
 		rigidBodyComponent.initialize();
 
-		SystemBus_SystemBusjsjs.removeListener('goo.physics.initialized', listener);
+		_SystemBus.SystemBusjs.removeListener('goo.physics.initialized', listener);
 
 		expect(numEvents).toBe(1);
 		expect(rigidBodyComponent.cannonBody).toBeTruthy();
@@ -212,8 +221,8 @@ describe('RigidBodyComponent', function () {
 		rigidBodyComponent.linearDamping = 0.5;
 		rigidBodyComponent.mass = 2;
 		rigidBodyComponent.restitution = 0.5;
-		rigidBodyComponent.setAngularVelocity(new Vector3js(4, 5, 6));
-		rigidBodyComponent.setVelocity(new Vector3js(1, 2, 3));
+		rigidBodyComponent.setAngularVelocity(new _Vector.Vector3(4, 5, 6));
+		rigidBodyComponent.setVelocity(new _Vector.Vector3(1, 2, 3));
 		rigidBodyComponent.sleepingThreshold = 0.5;
 		rigidBodyComponent.sleepingTimeLimit = 3;
 
@@ -226,13 +235,13 @@ describe('RigidBodyComponent', function () {
 		expect(rigidBodyComponent2.sleepingThreshold).toEqual(0.5);
 		expect(rigidBodyComponent2.sleepingTimeLimit).toEqual(3);
 
-		var angularVelocity = new Vector3js();
+		var angularVelocity = new _Vector.Vector3();
 		rigidBodyComponent2.getAngularVelocity(angularVelocity);
-		expect(angularVelocity).toEqual(new Vector3js(4, 5, 6));
+		expect(angularVelocity).toEqual(new _Vector.Vector3(4, 5, 6));
 
-		var velocity = new Vector3js();
+		var velocity = new _Vector.Vector3();
 		rigidBodyComponent2.getVelocity(velocity);
-		expect(velocity).toEqual(new Vector3js(1, 2, 3));
+		expect(velocity).toEqual(new _Vector.Vector3(1, 2, 3));
 	});
 
 	it('can set sleeping parameters', function () {
@@ -243,16 +252,16 @@ describe('RigidBodyComponent', function () {
 	});
 
 	it('can set materials per collider', function () {
-		var rigidBodyComponent = new RigidBodyComponentjs({ mass: 1 });
-		var colliderComponent = new ColliderComponentjs({
-			collider: new SphereColliderjs({ radius: 1 }),
-			material: new PhysicsMaterial_PhysicsMaterialjs({ friction: 0.7, restitution: 0.8 })
+		var rigidBodyComponent = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var colliderComponent = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 }),
+			material: new _PhysicsMaterial.PhysicsMaterial({ friction: 0.7, restitution: 0.8 })
 		});
 		var entity = world.createEntity(rigidBodyComponent, colliderComponent).addToWorld();
 
-		var colliderComponent2 = new ColliderComponentjs({
-			collider: new SphereColliderjs({ radius: 1 }),
-			material: new PhysicsMaterial_PhysicsMaterialjs({ friction: 0.9, restitution: 1.0 })
+		var colliderComponent2 = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 }),
+			material: new _PhysicsMaterial.PhysicsMaterial({ friction: 0.9, restitution: 1.0 })
 		});
 		var subEntity = world.createEntity(colliderComponent2).addToWorld();
 

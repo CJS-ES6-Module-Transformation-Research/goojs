@@ -1,5 +1,12 @@
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { MathUtils as MathUtilsjs } from "../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Surface = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MathUtils = require("../math/MathUtils");
+
 function Surface(verts, vertsPerLine, verticallyClosed) {
 	this.verts = verts;
 	this.vertsPerLine = vertsPerLine || 2;
@@ -9,12 +16,12 @@ function Surface(verts, vertsPerLine, verticallyClosed) {
 
 	var nVerts = this.verts.length / 3;
 	var nLines = nVerts / this.vertsPerLine;
-	MeshDatajs.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
+	_MeshData.MeshData.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
 
 	this.rebuild();
 }
 
-Surface.prototype = Object.create(MeshDatajs.prototype);
+Surface.prototype = Object.create(_MeshData.MeshData.prototype);
 Surface.prototype.constructor = Surface;
 
 /**
@@ -41,18 +48,7 @@ Surface.prototype.rebuild = function () {
 
 			indices.push(upLeft, downLeft, upRight, upRight, downLeft, downRight);
 
-			normals = MathUtilsjs.getTriangleNormal(
-				this.verts[upLeft * 3 + 0],
-				this.verts[upLeft * 3 + 1],
-				this.verts[upLeft * 3 + 2],
-
-				this.verts[downLeft * 3 + 0],
-				this.verts[downLeft * 3 + 1],
-				this.verts[downLeft * 3 + 2],
-
-				this.verts[upRight * 3 + 0],
-				this.verts[upRight * 3 + 1],
-				this.verts[upRight * 3 + 2]);
+			normals = _MathUtils.MathUtils.getTriangleNormal(this.verts[upLeft * 3 + 0], this.verts[upLeft * 3 + 1], this.verts[upLeft * 3 + 2], this.verts[downLeft * 3 + 0], this.verts[downLeft * 3 + 1], this.verts[downLeft * 3 + 2], this.verts[upRight * 3 + 0], this.verts[upRight * 3 + 1], this.verts[upRight * 3 + 2]);
 
 			norms.push(normals[0], normals[1], normals[2]);
 		}
@@ -62,22 +58,10 @@ Surface.prototype.rebuild = function () {
 			var downLeft = (i + 1) * this.vertsPerLine + (0 + 0);
 			var upRight = (i + 0) * this.vertsPerLine + (0 + 1);
 
-			normals = MathUtilsjs.getTriangleNormal(
-				this.verts[upLeft * 3 + 0],
-				this.verts[upLeft * 3 + 1],
-				this.verts[upLeft * 3 + 2],
-
-				this.verts[downLeft * 3 + 0],
-				this.verts[downLeft * 3 + 1],
-				this.verts[downLeft * 3 + 2],
-
-				this.verts[upRight * 3 + 0],
-				this.verts[upRight * 3 + 1],
-				this.verts[upRight * 3 + 2]);
+			normals = _MathUtils.MathUtils.getTriangleNormal(this.verts[upLeft * 3 + 0], this.verts[upLeft * 3 + 1], this.verts[upLeft * 3 + 2], this.verts[downLeft * 3 + 0], this.verts[downLeft * 3 + 1], this.verts[downLeft * 3 + 2], this.verts[upRight * 3 + 0], this.verts[upRight * 3 + 1], this.verts[upRight * 3 + 2]);
 
 			norms.push(normals[0], normals[1], normals[2]);
-		}
-		else {
+		} else {
 			norms.push(normals[0], normals[1], normals[2]);
 		}
 	}
@@ -88,18 +72,7 @@ Surface.prototype.rebuild = function () {
 		var downLeft = (i + 1) * this.vertsPerLine + (j + 0);
 		var upRight = (i + 0) * this.vertsPerLine + (j + 1);
 
-		normals = MathUtilsjs.getTriangleNormal(
-			this.verts[upLeft * 3 + 0],
-			this.verts[upLeft * 3 + 1],
-			this.verts[upLeft * 3 + 2],
-
-			this.verts[downLeft * 3 + 0],
-			this.verts[downLeft * 3 + 1],
-			this.verts[downLeft * 3 + 2],
-
-			this.verts[upRight * 3 + 0],
-			this.verts[upRight * 3 + 1],
-			this.verts[upRight * 3 + 2]);
+		normals = _MathUtils.MathUtils.getTriangleNormal(this.verts[upLeft * 3 + 0], this.verts[upLeft * 3 + 1], this.verts[upLeft * 3 + 2], this.verts[downLeft * 3 + 0], this.verts[downLeft * 3 + 1], this.verts[downLeft * 3 + 2], this.verts[upRight * 3 + 0], this.verts[upRight * 3 + 1], this.verts[upRight * 3 + 2]);
 
 		norms.push(normals[0], normals[1], normals[2]);
 	}
@@ -165,11 +138,7 @@ Surface.createFromHeightMap = function (heightMap, xScale, yScale, zScale) {
 
 	for (var z = 0; z < heightMap.length; z++) {
 		for (var x = 0; x < heightMap[z].length; x++) {
-			verts.push(
-				x * xScale,
-				heightMap[z][x] * yScale,
-				z * zScale
-			);
+			verts.push(x * xScale, heightMap[z][x] * yScale, z * zScale);
 		}
 	}
 
@@ -190,11 +159,7 @@ Surface.createTessellatedFlat = function (xSize, zSize, xCount, zCount) {
 
 	for (var z = 0; z < zCount; z++) {
 		for (var x = 0; x < xCount; x++) {
-			verts.push(
-				(x * xSize / xCount) - xSize * 0.5,
-				0,
-				(z * zSize / zCount) - zSize * 0.5
-			);
+			verts.push(x * xSize / xCount - xSize * 0.5, 0, z * zSize / zCount - zSize * 0.5);
 		}
 	}
 
@@ -208,4 +173,4 @@ var exported_Surface = Surface;
  * @param {Array<number>} verts The vertices data array
  * @param {number} [verticesPerLine=2] The number of vertices
  */
-export { exported_Surface as Surface };
+exports.Surface = exported_Surface;

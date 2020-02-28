@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var LogicNode__instanceCount;
 function LogicNode() {
 	// Generated the same way as entities are, except different naming.
@@ -48,7 +51,7 @@ LogicNode.prototype.addToLogicLayer = function (logicLayer, withId) {
 };
 
 LogicNode.prototype.configure = function (nodeData) {
-	var c = (nodeData.config !== undefined) ? nodeData.config : {};
+	var c = nodeData.config !== undefined ? nodeData.config : {};
 	this.onConfigure(c);
 	this.config = c;
 	this.connections = nodeData.connections;
@@ -88,4 +91,4 @@ var exported_LogicNode = LogicNode;
  * Base class/module for all logic boxes
  * @private
  */
-export { exported_LogicNode as LogicNode };
+exports.LogicNode = exported_LogicNode;

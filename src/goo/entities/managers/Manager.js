@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function Manager() {
 	this.installedAPI = {};
 }
@@ -19,4 +22,4 @@ var exported_Manager = Manager;
 /**
  * Base class for managers.
  */
-export { exported_Manager as Manager };
+exports.Manager = exported_Manager;

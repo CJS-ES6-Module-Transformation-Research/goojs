@@ -1,16 +1,21 @@
-import { Forrest as Forrest_Forrestjs } from "./Forrest";
-import { Terrain as Terrain_Terrainjs } from "./Terrain";
-import { TerrainHandler as TerrainHandler_TerrainHandlerjs } from "./TerrainHandler";
-import { TerrainSurface as TerrainSurface_TerrainSurfacejs } from "./TerrainSurface";
-import { Vegetation as Vegetation_Vegetationjs } from "./Vegetation";
+var _Forrest = require("./Forrest");
+
+var _Terrain = require("./Terrain");
+
+var _TerrainHandler = require("./TerrainHandler");
+
+var _TerrainSurface = require("./TerrainSurface");
+
+var _Vegetation = require("./Vegetation");
+
 module.exports = {
-	Forrest: Forrest_Forrestjs,
-	Terrain: Terrain_Terrainjs,
-	TerrainHandler: TerrainHandler_TerrainHandlerjs,
-	TerrainSurface: TerrainSurface_TerrainSurfacejs,
-	Vegetation: Vegetation_Vegetationjs
+	Forrest: _Forrest.Forrest,
+	Terrain: _Terrain.Terrain,
+	TerrainHandler: _TerrainHandler.TerrainHandler,
+	TerrainSurface: _TerrainSurface.TerrainSurface,
+	Vegetation: _Vegetation.Vegetation
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

@@ -1,11 +1,11 @@
-import { BoundingBox as BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.EntityUtils = exports.getTotalBoundingBox = exports.getRoot = exports.clone = undefined;
 
-import {
-    deepClone as ObjectUtilsjs_deepClone,
-    cloneMap as ObjectUtilsjs_cloneMap,
-    cloneSet as ObjectUtilsjs_cloneSet,
-    warnOnce as ObjectUtilsjs_warnOnce,
-} from "../util/ObjectUtils";
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _ObjectUtils = require("../util/ObjectUtils");
 
 var EntityUtils_getTotalBoundingBox;
 var EntityUtils_updateWorldTransform;
@@ -25,97 +25,117 @@ function EntityUtils() {}
  * @param {Object} settings
  */
 function cloneSkeletonPose(skeletonPose, settings) {
-	settings.skeletonMap = settings.skeletonMap || {
-		originals: [],
-		clones: []
-	};
-	var idx = settings.skeletonMap.originals.indexOf(skeletonPose);
-	var clonedSkeletonPose;
-	if (idx === -1) {
-		clonedSkeletonPose = skeletonPose.clone();
-		settings.skeletonMap.originals.push(skeletonPose);
-		settings.skeletonMap.clones.push(clonedSkeletonPose);
-	} else {
-		clonedSkeletonPose = settings.skeletonMap.clones[idx];
-	}
+  settings.skeletonMap = settings.skeletonMap || {
+    originals: [],
+    clones: []
+  };
+  var idx = settings.skeletonMap.originals.indexOf(skeletonPose);
+  var clonedSkeletonPose;
+  if (idx === -1) {
+    clonedSkeletonPose = skeletonPose.clone();
+    settings.skeletonMap.originals.push(skeletonPose);
+    settings.skeletonMap.clones.push(clonedSkeletonPose);
+  } else {
+    clonedSkeletonPose = settings.skeletonMap.clones[idx];
+  }
 
-	return clonedSkeletonPose;
+  return clonedSkeletonPose;
 }
 
 //! AT: this is a huge mess
 // cloneEntity will only work for very few cases anyways, for very specific components
 function cloneEntity(world, entity, settings) {
-	// settings is also used to store stuff on it, like animation skeletons
-	var newEntity = world.createEntity(entity.name);
+  // settings is also used to store stuff on it, like animation skeletons
+  var newEntity = world.createEntity(entity.name);
 
-	newEntity._tags = ObjectUtilsjs_cloneSet(entity._tags);
-	newEntity._attributes = ObjectUtilsjs_cloneMap(entity._attributes);
-	newEntity._hidden = entity._hidden;
-	newEntity.static = entity.static;
+  newEntity._tags = (0, _ObjectUtils.cloneSet)(entity._tags);
+  newEntity._attributes = (0, _ObjectUtils.cloneMap)(entity._attributes);
+  newEntity._hidden = entity._hidden;
+  newEntity.static = entity.static;
 
-	for (var i = 0; i < entity._components.length; i++) {
-		var component = entity._components[i];
-		if (component.type === 'TransformComponent') {
-			newEntity.transformComponent.transform.copy(component.transform);
-		} else if (component.type === 'MeshDataComponent') {
-			var clonedMeshDataComponent = component.clone(settings);
-			if (component.currentPose) {
-				clonedMeshDataComponent.currentPose = cloneSkeletonPose(component.currentPose, settings);
-			}
-			newEntity.setComponent(clonedMeshDataComponent);
-		} else if (component.type === 'AnimationComponent') {
-			var clonedAnimationComponent = component.clone();
-			clonedAnimationComponent._skeletonPose = cloneSkeletonPose(component._skeletonPose, settings);
-			newEntity.setComponent(clonedAnimationComponent);
-		} else if (component.type === 'ScriptComponent') {
-			var scriptComponent = new component.constructor();
-			for (var j = 0; j < component.scripts.length; j++) {
-				var newScript;
-				var script = component.scripts[j];
-				var key = script.externals ? script.externals.key || script.externals.name : null;
-				if (key && Scripts.getScript(key)) { // Engine script
-					newScript = Scripts.create(key, script.parameters);
-				} else { // Custom script
-					newScript = {
-						externals: script.externals,
-						name: (script.name || '') + '_clone',
-						enabled: !!script.enabled
-					};
-					if (script.parameters) { newScript.parameters = ObjectUtilsjs_deepClone(script.parameters); }
+  for (var i = 0; i < entity._components.length; i++) {
+    var component = entity._components[i];
+    if (component.type === 'TransformComponent') {
+      newEntity.transformComponent.transform.copy(component.transform);
+    } else if (component.type === 'MeshDataComponent') {
+      var clonedMeshDataComponent = component.clone(settings);
+      if (component.currentPose) {
+        clonedMeshDataComponent.currentPose = cloneSkeletonPose(component.currentPose, settings);
+      }
+      newEntity.setComponent(clonedMeshDataComponent);
+    } else if (component.type === 'AnimationComponent') {
+      var clonedAnimationComponent = component.clone();
+      clonedAnimationComponent._skeletonPose = cloneSkeletonPose(component._skeletonPose, settings);
+      newEntity.setComponent(clonedAnimationComponent);
+    } else if (component.type === 'ScriptComponent') {
+      var scriptComponent = new component.constructor();
+      for (var j = 0; j < component.scripts.length; j++) {
+        var newScript;
+        var script = component.scripts[j];
+        var key = script.externals ? script.externals.key || script.externals.name : null;
+        if (key && Scripts.getScript(key)) {
+          // Engine script
+          newScript = Scripts.create(key, script.parameters);
+        } else {
+          // Custom script
+          newScript = {
+            externals: script.externals,
+            name: (script.name || '') + '_clone',
+            enabled: !!script.enabled
+          };
+          if (script.parameters) {
+            newScript.parameters = (0, _ObjectUtils.deepClone)(script.parameters);
+          }
 
-					if (script.setup) { newScript.setup = script.setup; }
-					if (script.update) { newScript.update = script.update; }
-					if (script.cleanup) { newScript.cleanup = script.cleanup; }
-					if (script.fixedUpdate) { newScript.fixedUpdate = script.fixedUpdate; }
-					if (script.lateUpdate) { newScript.lateUpdate = script.lateUpdate; }
-					if (script.argsUpdated) { newScript.argsUpdated = script.argsUpdated; }
-					if (script.enter) { newScript.enter = script.enter; }
-					if (script.exit) { newScript.exit = script.exit; }
+          if (script.setup) {
+            newScript.setup = script.setup;
+          }
+          if (script.update) {
+            newScript.update = script.update;
+          }
+          if (script.cleanup) {
+            newScript.cleanup = script.cleanup;
+          }
+          if (script.fixedUpdate) {
+            newScript.fixedUpdate = script.fixedUpdate;
+          }
+          if (script.lateUpdate) {
+            newScript.lateUpdate = script.lateUpdate;
+          }
+          if (script.argsUpdated) {
+            newScript.argsUpdated = script.argsUpdated;
+          }
+          if (script.enter) {
+            newScript.enter = script.enter;
+          }
+          if (script.exit) {
+            newScript.exit = script.exit;
+          }
 
-					scriptComponent.scripts.push(newScript);
-				}
-			}
-			newEntity.setComponent(scriptComponent);
-			if (world.getSystem('ScriptSystem').manualSetup && component.scripts[0].context) {
-				scriptComponent.setup(newEntity);
-			}
-		} else if (component.clone) {
-			newEntity.setComponent(component.clone(settings));
-		} else {
-			newEntity.setComponent(component);
-		}
-	}
-	for (var j = 0; j < entity.transformComponent.children.length; j++) {
-		var child = entity.transformComponent.children[j];
-		var clonedChild = cloneEntity(world, child.entity, settings);
-		newEntity.transformComponent.attachChild(clonedChild.transformComponent);
-	}
+          scriptComponent.scripts.push(newScript);
+        }
+      }
+      newEntity.setComponent(scriptComponent);
+      if (world.getSystem('ScriptSystem').manualSetup && component.scripts[0].context) {
+        scriptComponent.setup(newEntity);
+      }
+    } else if (component.clone) {
+      newEntity.setComponent(component.clone(settings));
+    } else {
+      newEntity.setComponent(component);
+    }
+  }
+  for (var j = 0; j < entity.transformComponent.children.length; j++) {
+    var child = entity.transformComponent.children[j];
+    var clonedChild = cloneEntity(world, child.entity, settings);
+    newEntity.transformComponent.attachChild(clonedChild.transformComponent);
+  }
 
-	if (settings.callback) {
-		settings.callback(newEntity);
-	}
+  if (settings.callback) {
+    settings.callback(newEntity);
+  }
 
-	return newEntity;
+  return newEntity;
 }
 
 /**
@@ -137,23 +157,23 @@ function cloneEntity(world, entity, settings) {
  *         shareTextures: false
  *     });
  */
-EntityUtils_clone = function(world, entity, settings) {
-    settings = settings || {};
-    // REVIEW: It's bad style to modify the settings object provided by the caller.
-    // I.e. if the caller does:
-    //   var s = {};
-    //   EntityUtils.clone(w, e, s);
-    // ...he wouldn't expect s to have changed.
-    // REVIEW: `settings.shareData || true` will evaluate to true if shareData is false,
-    // which means that the setting will always be true.
-    //settings.shareData = settings.shareData || true;
-    //settings.shareMaterial = settings.shareMaterial || true;  // REVIEW: these are not used nor documented but would be great if they were
-    //settings.cloneHierarchy = settings.cloneHierarchy || true;
+exports.clone = EntityUtils_clone = function EntityUtils_clone(world, entity, settings) {
+  settings = settings || {};
+  // REVIEW: It's bad style to modify the settings object provided by the caller.
+  // I.e. if the caller does:
+  //   var s = {};
+  //   EntityUtils.clone(w, e, s);
+  // ...he wouldn't expect s to have changed.
+  // REVIEW: `settings.shareData || true` will evaluate to true if shareData is false,
+  // which means that the setting will always be true.
+  //settings.shareData = settings.shareData || true;
+  //settings.shareMaterial = settings.shareMaterial || true;  // REVIEW: these are not used nor documented but would be great if they were
+  //settings.cloneHierarchy = settings.cloneHierarchy || true;
 
-    //! AT: why is everything here overridden anyways?
-    // Why is this function just defaulting some parameters and then calling cloneEntity to do the rest?
+  //! AT: why is everything here overridden anyways?
+  // Why is this function just defaulting some parameters and then calling cloneEntity to do the rest?
 
-    return cloneEntity(world, entity, settings);
+  return cloneEntity(world, entity, settings);
 };;
 
 /**
@@ -161,59 +181,59 @@ EntityUtils_clone = function(world, entity, settings) {
  * @param {Entity} entity The entity to begin traversing from
  * @returns {Entity} The root entity
  */
-EntityUtils_getRoot = function(entity) {
-    while (entity.transformComponent.parent) {
-        entity = entity.transformComponent.parent.entity;
-    }
-    return entity;
+exports.getRoot = EntityUtils_getRoot = function EntityUtils_getRoot(entity) {
+  while (entity.transformComponent.parent) {
+    entity = entity.transformComponent.parent.entity;
+  }
+  return entity;
 };;
 
 /**
  * @deprecated Deprecated with warning on 2016-04-06
  */
-EntityUtils_updateWorldTransform = ObjectUtilsjs_warnOnce(
-    "EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead",
-    function(transformComponent) {
-        transformComponent.updateWorldTransform();
+EntityUtils_updateWorldTransform = (0, _ObjectUtils.warnOnce)("EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead", function (transformComponent) {
+  transformComponent.updateWorldTransform();
 
-        for (var i = 0; i < transformComponent.children.length; i++) {
-            EntityUtils_updateWorldTransform(transformComponent.children[i]);
-        }
-    }
-);;
+  for (var i = 0; i < transformComponent.children.length; i++) {
+    EntityUtils_updateWorldTransform(transformComponent.children[i]);
+  }
+});;
 
 /**
  * Returns the merged bounding box of the entity and its children
  * @param entity
  */
-EntityUtils_getTotalBoundingBox = function(entity) {
-    var mergedWorldBound = new BoundingBoxjs();
-    var first = true;
-    entity.traverse(function(entity) {
-        if (entity.meshRendererComponent) {
-            if (first) {
-                var boundingVolume = entity.meshRendererComponent.worldBound;
-                if (boundingVolume instanceof BoundingBoxjs) {
-                    mergedWorldBound.copy(boundingVolume);
-                } else {
-                    mergedWorldBound.center.set(boundingVolume.center);
-                    mergedWorldBound.xExtent = mergedWorldBound.yExtent = mergedWorldBound.zExtent = boundingVolume.radius;
-                }
-                first = false;
-            } else {
-                mergedWorldBound.merge(entity.meshRendererComponent.worldBound);
-            }
+exports.getTotalBoundingBox = EntityUtils_getTotalBoundingBox = function EntityUtils_getTotalBoundingBox(entity) {
+  var mergedWorldBound = new _BoundingBox.BoundingBox();
+  var first = true;
+  entity.traverse(function (entity) {
+    if (entity.meshRendererComponent) {
+      if (first) {
+        var boundingVolume = entity.meshRendererComponent.worldBound;
+        if (boundingVolume instanceof _BoundingBox.BoundingBox) {
+          mergedWorldBound.copy(boundingVolume);
+        } else {
+          mergedWorldBound.center.set(boundingVolume.center);
+          mergedWorldBound.xExtent = mergedWorldBound.yExtent = mergedWorldBound.zExtent = boundingVolume.radius;
         }
-    });
-
-    // if the whole hierarchy lacked mesh renderer components return
-    // a tiny bounding box centered around the coordinates of the parent
-    if (first) {
-        var translation = entity.transformComponent.worldTransform.translation;
-        mergedWorldBound = new BoundingBoxjs(translation.clone(), 0.001, 0.001, 0.001);
+        first = false;
+      } else {
+        mergedWorldBound.merge(entity.meshRendererComponent.worldBound);
+      }
     }
+  });
 
-    return mergedWorldBound;
+  // if the whole hierarchy lacked mesh renderer components return
+  // a tiny bounding box centered around the coordinates of the parent
+  if (first) {
+    var translation = entity.transformComponent.worldTransform.translation;
+    mergedWorldBound = new _BoundingBox.BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
+  }
+
+  return mergedWorldBound;
 };;
 
-export { EntityUtils_clone as clone, EntityUtils_getRoot as getRoot, EntityUtils_getTotalBoundingBox as getTotalBoundingBox, EntityUtils };
+exports.clone = EntityUtils_clone;
+exports.getRoot = EntityUtils_getRoot;
+exports.getTotalBoundingBox = EntityUtils_getTotalBoundingBox;
+exports.EntityUtils = EntityUtils;

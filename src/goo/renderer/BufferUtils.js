@@ -1,4 +1,10 @@
-import { Capabilities as Capabilitiesjs } from "../renderer/Capabilities";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BufferUtils = exports.cloneTypedArray = exports.browserType = exports.createIndexBuffer = undefined;
+
+var _Capabilities = require("../renderer/Capabilities");
+
 var BufferUtils_cloneTypedArray;
 var BufferUtils_browserType;
 var BufferUtils_createIndexBuffer;
@@ -14,7 +20,7 @@ function BufferUtils() {}
  * @param {number} vertexCount Number of vertices
  * @returns {TypedArray} Index buffer
  */
-BufferUtils_createIndexBuffer = function(indexCount, vertexCount) {
+exports.createIndexBuffer = BufferUtils_createIndexBuffer = function BufferUtils_createIndexBuffer(indexCount, vertexCount) {
     var indices;
     if (vertexCount <= 256) {
         // 2^8
@@ -37,13 +43,13 @@ BufferUtils_createIndexBuffer = function(indexCount, vertexCount) {
 };;
 
 function storeBrowserType() {
-	var aKeys = ['Trident', 'MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera'],
-		sUsrAg = typeof(navigator) !== 'undefined' && navigator.userAgent || '',
-		nIdx = aKeys.length - 1;
-	for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--) {
-		// nothing
-	}
-	BufferUtils_browserType = aKeys[nIdx];;
+    var aKeys = ['Trident', 'MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera'],
+        sUsrAg = typeof navigator !== 'undefined' && navigator.userAgent || '',
+        nIdx = aKeys.length - 1;
+    for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--) {
+        // nothing
+    }
+    exports.browserType = BufferUtils_browserType = aKeys[nIdx];;
 }
 
 storeBrowserType();
@@ -53,8 +59,11 @@ storeBrowserType();
  * @param {TypedArray} source
  * @returns {TypedArray}
  */
-BufferUtils_cloneTypedArray = function(source) {
+exports.cloneTypedArray = BufferUtils_cloneTypedArray = function BufferUtils_cloneTypedArray(source) {
     return new source.constructor(source);
 };;
 
-export { BufferUtils_createIndexBuffer as createIndexBuffer, BufferUtils_browserType as browserType, BufferUtils_cloneTypedArray as cloneTypedArray, BufferUtils };
+exports.createIndexBuffer = BufferUtils_createIndexBuffer;
+exports.browserType = BufferUtils_browserType;
+exports.cloneTypedArray = BufferUtils_cloneTypedArray;
+exports.BufferUtils = BufferUtils;

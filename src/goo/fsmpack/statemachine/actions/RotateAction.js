@@ -1,11 +1,17 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { MathUtils as MathUtilsjs } from "../../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RotateAction = undefined;
 
-function RotateAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+function RotateAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-RotateAction.prototype = Object.create(Action_Actionjs.prototype);
+RotateAction.prototype = Object.create(_Action.Action.prototype);
 RotateAction.prototype.constructor = RotateAction;
 
 RotateAction.external = {
@@ -35,7 +41,7 @@ RotateAction.external = {
 	transitions: []
 };
 
-var DEG_TO_RAD = MathUtilsjs.DEG_TO_RAD;
+var DEG_TO_RAD = _MathUtils.MathUtils.DEG_TO_RAD;
 
 RotateAction.prototype.applyRotation = function (fsm) {
 	var entity = fsm.getOwnerEntity();
@@ -60,17 +66,9 @@ RotateAction.prototype.applyRotation = function (fsm) {
 	} else {
 		if (this.everyFrame) {
 			var tpf = fsm.getTpf();
-			transform.setRotationXYZ(
-				rotationX * DEG_TO_RAD * tpf,
-				rotationY * DEG_TO_RAD * tpf,
-				rotationZ * DEG_TO_RAD * tpf
-			);
+			transform.setRotationXYZ(rotationX * DEG_TO_RAD * tpf, rotationY * DEG_TO_RAD * tpf, rotationZ * DEG_TO_RAD * tpf);
 		} else {
-			transform.setRotationXYZ(
-				rotationX * DEG_TO_RAD,
-				rotationY * DEG_TO_RAD,
-				rotationZ * DEG_TO_RAD
-			);
+			transform.setRotationXYZ(rotationX * DEG_TO_RAD, rotationY * DEG_TO_RAD, rotationZ * DEG_TO_RAD);
 		}
 	}
 
@@ -90,4 +88,4 @@ RotateAction.prototype.update = function (fsm) {
 };
 
 var exported_RotateAction = RotateAction;
-export { exported_RotateAction as RotateAction };
+exports.RotateAction = exported_RotateAction;

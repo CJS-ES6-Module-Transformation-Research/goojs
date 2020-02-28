@@ -1,27 +1,45 @@
-import { Matrix3 as Matrix3js } from "../../../math/Matrix3";
-import { Vector3 as Vector3js } from "../../../math/Vector3";
-import { Vector4 as Vector4js } from "../../../math/Vector4";
-import { MeshData as MeshDatajs } from "../../../renderer/MeshData";
-import { Material as Materialjs } from "../../../renderer/Material";
-import { MeshRendererComponent as MeshRendererComponentjs } from "../../../entities/components/MeshRendererComponent";
-import { Component as Component_Componentjs } from "../../../entities/components/Component";
-import { Shader as Shaderjs } from "../../../renderer/Shader";
-import { ShaderBuilder as ShaderBuilderjs } from "../../../renderer/shaders/ShaderBuilder";
-import { ParticleData as ParticleData_ParticleDatajs } from "../../../addons/particlepack/ParticleData";
-import { Renderer as Rendererjs } from "../../../renderer/Renderer";
-import { Quad as Quadjs } from "../../../shapes/Quad";
-import { ConstantCurve as ConstantCurvejs } from "../../../addons/particlepack/curves/ConstantCurve";
-import { extend as ObjectUtilsjs_extend, clone as ObjectUtilsjs_clone } from "../../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleSystemComponent = undefined;
+
+var _Matrix = require("../../../math/Matrix3");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Vector2 = require("../../../math/Vector4");
+
+var _MeshData = require("../../../renderer/MeshData");
+
+var _Material = require("../../../renderer/Material");
+
+var _MeshRendererComponent = require("../../../entities/components/MeshRendererComponent");
+
+var _Component = require("../../../entities/components/Component");
+
+var _Shader = require("../../../renderer/Shader");
+
+var _ShaderBuilder = require("../../../renderer/shaders/ShaderBuilder");
+
+var _ParticleData = require("../../../addons/particlepack/ParticleData");
+
+var _Renderer = require("../../../renderer/Renderer");
+
+var _Quad = require("../../../shapes/Quad");
+
+var _ConstantCurve = require("../../../addons/particlepack/curves/ConstantCurve");
+
+var _ObjectUtils = require("../../../util/ObjectUtils");
 
 // Polyfill, needed for CocoonJS
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt
 Math.cbrt = Math.cbrt || function (x) {
-  var y = Math.pow(Math.abs(x), 1/3);
-  return x < 0 ? -y : y;
+	var y = Math.pow(Math.abs(x), 1 / 3);
+	return x < 0 ? -y : y;
 };
 
-function mod(a,b) {
-	return ((a % b) + b) % b;
+function mod(a, b) {
+	return (a % b + b) % b;
 }
 
 var defines = {
@@ -39,14 +57,12 @@ var defines = {
 
 function ParticleSystemComponent(options) {
 	options = options || {};
-	Component_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 	this.type = 'ParticleSystemComponent';
 
-	this.material = new Materialjs({
-		defines: ObjectUtilsjs_clone(defines),
-		processors: [
-			ShaderBuilderjs.uber.fog
-		],
+	this.material = new _Material.Material({
+		defines: (0, _ObjectUtils.clone)(defines),
+		processors: [_ShaderBuilder.ShaderBuilder.uber.fog],
 		attributes: {
 			vertexPosition: MeshDatajs_POSITION,
 			timeInfo: 'TIME_INFO',
@@ -79,173 +95,19 @@ function ParticleSystemComponent(options) {
 			fogSettings: [0, 10000],
 			fogColor: [1, 1, 1]
 		},
-		vshader: [
-			'attribute vec3 vertexPosition;',
-			'attribute vec2 vertexUV0;',
-			'attribute vec4 timeInfo;',
-			'attribute vec4 startPos;',
-			'attribute vec4 startDir;',
+		vshader: ['attribute vec3 vertexPosition;', 'attribute vec2 vertexUV0;', 'attribute vec4 timeInfo;', 'attribute vec4 startPos;', 'attribute vec4 startDir;', 'uniform vec4 textureTileInfo;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 viewProjectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform mat3 invWorldRotation;', 'uniform mat3 worldRotation;', 'uniform vec3 cameraPosition;', 'uniform float time;', 'uniform float duration;', 'uniform vec3 gravity;', 'uniform vec4 uColor;', 'uniform float uStartSize;', 'uniform float uStartAngle;', 'uniform float uRotationSpeed;', '#ifdef FOG', 'uniform vec2 fogSettings;', 'uniform vec3 fogColor;', '#endif', 'varying vec4 color;', 'varying vec2 coords;', 'vec3 getVelocityCurveIntegral(float t, float emitRandom) {', '    return VELOCITY_CURVE_CODE;', '}', 'vec3 getWorldVelocityCurveIntegral(float t, float emitRandom) {', '    return WORLD_VELOCITY_CURVE_CODE;', '}', 'vec3 getPosition(mat3 invWorldRotation, mat3 worldRotation, float t, vec3 pos, vec3 vel, vec3 g, float emitRandom, float duration) {', '    return pos + vel * t + 0.5 * t * t * g + worldRotation * getVelocityCurveIntegral(t / duration, emitRandom) + invWorldRotation * getWorldVelocityCurveIntegral(t / duration, emitRandom);', '}', 'float getScale(float t, float emitRandom) {', '    return SIZE_CURVE_CODE;', '}', 'float getStartSize(float t, float emitRandom) {', '    return START_SIZE_CODE;', '}', 'float getTextureFrame(float t, float emitRandom) {', '    return TEXTURE_FRAME_CODE;', '}', 'float getAngle(float t, float emitRandom) {', '    return ROTATION_CURVE_CODE;', '}', 'vec4 getColor(float t, float emitRandom) {', '    return COLOR_CURVE_CODE;', '}', 'vec4 getStartColor(float t, float emitRandom) {', '    return START_COLOR_CODE;', '}', 'float getStartAngle(float t, float emitRandom) {', '    return START_ROTATION_CURVE_CODE;', '}', 'mat4 rotationMatrix(vec3 axis, float angle) {', '    axis = normalize(axis);', '    float s = sin(angle);', '    float c = cos(angle);', '    float x = axis.x;', '    float y = axis.y;', '    float z = axis.z;', '    float oc = 1.0 - c;', '    return mat4(oc * x * x + c, oc * x * y - z * s,  oc * z * x + y * s,  0.0,', '    oc * x * y + z * s, oc * y * y + c, oc * y * z - x * s, 0.0,', '    oc * z * x - y * s, oc * y * z + x * s,  oc * z * z + c, 0.0,', '    0.0, 0.0, 0.0, 1.0);', '}', 'void main(void) {', '    float active = timeInfo.y;', '    float emitTime = timeInfo.w;', '    float age = time - emitTime;', '    float ageNoMod = age;', '    float loopAfter = startDir.w;', '    #ifdef LOOP', '    age = mod(age, loopAfter);', '    emitTime = mod(emitTime, loopAfter);', '    #endif', '    float unitEmitTime = mod(emitTime / duration, 1.0);', '    float emitRandom = timeInfo.z;', '    float startSize = uStartSize * getStartSize(unitEmitTime, emitRandom);', '    float lifeTime = timeInfo.x;', '    float startAngle = uStartAngle * getStartAngle(unitEmitTime, emitRandom);', '    float unitAge = age / lifeTime;', '    color = uColor * getStartColor(unitAge, emitRandom) * getColor(unitAge, emitRandom);', '    float textureAnimationCycles = textureTileInfo.z;', '    float tileX = floor(mod(textureTileInfo.x * textureTileInfo.y * getTextureFrame(unitAge, emitRandom) * textureAnimationCycles, textureTileInfo.x));', '    float tileY = floor(mod(-textureTileInfo.y * getTextureFrame(unitAge, emitRandom) * textureAnimationCycles, textureTileInfo.y));', '    vec2 texOffset = vec2(tileX, tileY) / textureTileInfo.xy;', '    coords = (vertexUV0 / textureTileInfo.xy + texOffset);', '    float rotation = uRotationSpeed * getAngle(unitAge, emitRandom) + startAngle;', '    float c = cos(rotation);', '    float s = sin(rotation);', '    mat3 spinMatrix = mat3(c, s, 0, -s, c, 0, 0, 0, 1);',
 
-			'uniform vec4 textureTileInfo;',
-			'uniform mat4 viewMatrix;',
-			'uniform mat4 projectionMatrix;',
-			'uniform mat4 viewProjectionMatrix;',
-			'uniform mat4 worldMatrix;',
-			'uniform mat3 invWorldRotation;',
-			'uniform mat3 worldRotation;',
-			'uniform vec3 cameraPosition;',
-			'uniform float time;',
-			'uniform float duration;',
-			'uniform vec3 gravity;',
+		// hide if age > lifeTime
+		'    active *= step(-lifeTime, -age);',
 
-			'uniform vec4 uColor;',
-			'uniform float uStartSize;',
-			'uniform float uStartAngle;',
-			'uniform float uRotationSpeed;',
-
-			'#ifdef FOG',
-				'uniform vec2 fogSettings;',
-				'uniform vec3 fogColor;',
-			'#endif',
-
-			'varying vec4 color;',
-			'varying vec2 coords;',
-
-			'vec3 getVelocityCurveIntegral(float t, float emitRandom) {',
-			'    return VELOCITY_CURVE_CODE;',
-			'}',
-
-			'vec3 getWorldVelocityCurveIntegral(float t, float emitRandom) {',
-			'    return WORLD_VELOCITY_CURVE_CODE;',
-			'}',
-
-			'vec3 getPosition(mat3 invWorldRotation, mat3 worldRotation, float t, vec3 pos, vec3 vel, vec3 g, float emitRandom, float duration) {',
-			'    return pos + vel * t + 0.5 * t * t * g + worldRotation * getVelocityCurveIntegral(t / duration, emitRandom) + invWorldRotation * getWorldVelocityCurveIntegral(t / duration, emitRandom);',
-			'}',
-
-			'float getScale(float t, float emitRandom) {',
-			'    return SIZE_CURVE_CODE;',
-			'}',
-
-			'float getStartSize(float t, float emitRandom) {',
-			'    return START_SIZE_CODE;',
-			'}',
-
-			'float getTextureFrame(float t, float emitRandom) {',
-			'    return TEXTURE_FRAME_CODE;',
-			'}',
-
-			'float getAngle(float t, float emitRandom) {',
-			'    return ROTATION_CURVE_CODE;',
-			'}',
-
-			'vec4 getColor(float t, float emitRandom) {',
-			'    return COLOR_CURVE_CODE;',
-			'}',
-
-			'vec4 getStartColor(float t, float emitRandom) {',
-			'    return START_COLOR_CODE;',
-			'}',
-
-			'float getStartAngle(float t, float emitRandom) {',
-			'    return START_ROTATION_CURVE_CODE;',
-			'}',
-
-			'mat4 rotationMatrix(vec3 axis, float angle) {',
-			'    axis = normalize(axis);',
-			'    float s = sin(angle);',
-			'    float c = cos(angle);',
-			'    float x = axis.x;',
-			'    float y = axis.y;',
-			'    float z = axis.z;',
-			'    float oc = 1.0 - c;',
-			'    return mat4(oc * x * x + c, oc * x * y - z * s,  oc * z * x + y * s,  0.0,',
-			'    oc * x * y + z * s, oc * y * y + c, oc * y * z - x * s, 0.0,',
-			'    oc * z * x - y * s, oc * y * z + x * s,  oc * z * z + c, 0.0,',
-			'    0.0, 0.0, 0.0, 1.0);',
-			'}',
-
-			'void main(void) {',
-
-			'    float active = timeInfo.y;',
-			'    float emitTime = timeInfo.w;',
-			'    float age = time - emitTime;',
-			'    float ageNoMod = age;',
-			'    float loopAfter = startDir.w;',
-
-			'    #ifdef LOOP',
-			'    age = mod(age, loopAfter);',
-			'    emitTime = mod(emitTime, loopAfter);',
-			'    #endif',
-
-			'    float unitEmitTime = mod(emitTime / duration, 1.0);',
-			'    float emitRandom = timeInfo.z;',
-			'    float startSize = uStartSize * getStartSize(unitEmitTime, emitRandom);',
-			'    float lifeTime = timeInfo.x;',
-			'    float startAngle = uStartAngle * getStartAngle(unitEmitTime, emitRandom);',
-
-			'    float unitAge = age / lifeTime;',
-			'    color = uColor * getStartColor(unitAge, emitRandom) * getColor(unitAge, emitRandom);',
-
-			'    float textureAnimationCycles = textureTileInfo.z;',
-			'    float tileX = floor(mod(textureTileInfo.x * textureTileInfo.y * getTextureFrame(unitAge, emitRandom) * textureAnimationCycles, textureTileInfo.x));',
-			'    float tileY = floor(mod(-textureTileInfo.y * getTextureFrame(unitAge, emitRandom) * textureAnimationCycles, textureTileInfo.y));',
-			'    vec2 texOffset = vec2(tileX, tileY) / textureTileInfo.xy;',
-			'    coords = (vertexUV0 / textureTileInfo.xy + texOffset);',
-
-			'    float rotation = uRotationSpeed * getAngle(unitAge, emitRandom) + startAngle;',
-			'    float c = cos(rotation);',
-			'    float s = sin(rotation);',
-			'    mat3 spinMatrix = mat3(c, s, 0, -s, c, 0, 0, 0, 1);',
-
-			// hide if age > lifeTime
-			'    active *= step(-lifeTime, -age);',
-
-			// hide if age < 0
-			'    #ifdef HIDE_IF_EMITTED_BEFORE_ZERO',
-			'    active *= step(0.0, ageNoMod) * step(0.0, age);',
-			'    #endif',
-
-			'    vec3 position = getPosition(invWorldRotation, worldRotation, age, startPos.xyz, startDir.xyz, gravity, emitRandom, duration);',
-
-			'    #ifdef FOG',
-			'    vec3 viewPosition = cameraPosition - (worldMatrix * vec4(position, 0.0)).xyz;',
-			'    float d = pow(smoothstep(fogSettings.x, fogSettings.y, length(viewPosition)), 1.0);',
-			'    color.rgb = mix(color.rgb, fogColor, d);',
-			'    #endif',
-
-			'    #ifdef BILLBOARD',
-			'    vec2 offset = ((spinMatrix * vertexPosition)).xy * startSize * getScale(unitAge, emitRandom) * active;',
-			'    mat4 matPos = worldMatrix * mat4(vec4(0),vec4(0),vec4(0),vec4(position,0));',
-			'    gl_Position = viewProjectionMatrix * (worldMatrix + matPos) * vec4(0, 0, 0, 1) + projectionMatrix * vec4(offset.xy, 0, 0);',
-			'    #else',
-			'    mat4 rot = rotationMatrix(normalize(vec3(sin(emitTime*5.0),cos(emitTime*1234.0),sin(emitTime))),rotation);',
-			'    gl_Position = viewProjectionMatrix * worldMatrix * (rot * vec4(startSize * getScale(unitAge, emitRandom) * active * vertexPosition, 1.0) + vec4(position,0.0));',
-			'    #endif',
-			'}'
-		].join('\n'),
-		fshader: [
-			'uniform sampler2D particleTexture;',
-			'uniform float discardThreshold;',
-
-			'varying vec4 color;',
-			'varying vec2 coords;',
-
-			'void main(void) {',
-			'#ifdef PARTICLE_TEXTURE',
-			'    vec4 col = color * texture2D(particleTexture, coords);',
-			'#else',
-			'    vec4 col = color;',
-			'#endif',
-			'    if (col.a < discardThreshold) discard;',
-			'    gl_FragColor = col;',
-			'}'
-		].join('\n')
+		// hide if age < 0
+		'    #ifdef HIDE_IF_EMITTED_BEFORE_ZERO', '    active *= step(0.0, ageNoMod) * step(0.0, age);', '    #endif', '    vec3 position = getPosition(invWorldRotation, worldRotation, age, startPos.xyz, startDir.xyz, gravity, emitRandom, duration);', '    #ifdef FOG', '    vec3 viewPosition = cameraPosition - (worldMatrix * vec4(position, 0.0)).xyz;', '    float d = pow(smoothstep(fogSettings.x, fogSettings.y, length(viewPosition)), 1.0);', '    color.rgb = mix(color.rgb, fogColor, d);', '    #endif', '    #ifdef BILLBOARD', '    vec2 offset = ((spinMatrix * vertexPosition)).xy * startSize * getScale(unitAge, emitRandom) * active;', '    mat4 matPos = worldMatrix * mat4(vec4(0),vec4(0),vec4(0),vec4(position,0));', '    gl_Position = viewProjectionMatrix * (worldMatrix + matPos) * vec4(0, 0, 0, 1) + projectionMatrix * vec4(offset.xy, 0, 0);', '    #else', '    mat4 rot = rotationMatrix(normalize(vec3(sin(emitTime*5.0),cos(emitTime*1234.0),sin(emitTime))),rotation);', '    gl_Position = viewProjectionMatrix * worldMatrix * (rot * vec4(startSize * getScale(unitAge, emitRandom) * active * vertexPosition, 1.0) + vec4(position,0.0));', '    #endif', '}'].join('\n'),
+		fshader: ['uniform sampler2D particleTexture;', 'uniform float discardThreshold;', 'varying vec4 color;', 'varying vec2 coords;', 'void main(void) {', '#ifdef PARTICLE_TEXTURE', '    vec4 col = color * texture2D(particleTexture, coords);', '#else', '    vec4 col = color;', '#endif', '    if (col.a < discardThreshold) discard;', '    gl_FragColor = col;', '}'].join('\n')
 	});
 	this.material.cullState.enabled = false;
 	this.material.uniforms.textureTileInfo = [1, 1, 1, 0];
 
-	ObjectUtilsjs_extend(this.material.uniforms, {
+	(0, _ObjectUtils.extend)(this.material.uniforms, {
 		textureTileInfo: [1, 1, 1, 0],
 		invWorldRotation: [1, 0, 0, 0, 1, 0, 0, 0, 1],
 		worldRotation: [1, 0, 0, 0, 1, 0, 0, 0, 1],
@@ -254,77 +116,77 @@ function ParticleSystemComponent(options) {
 	});
 
 	this._nextEmitParticleIndex = 0;
-	this._localGravity = new Vector3js();
+	this._localGravity = new _Vector.Vector3();
 	this._lastTime = this.time;
-	this._worldToLocalRotation = new Matrix3js();
-	this._localToWorldRotation = new Matrix3js();
+	this._worldToLocalRotation = new _Matrix.Matrix3();
+	this._localToWorldRotation = new _Matrix.Matrix3();
 
 	/**
-	 * The entity which the component is attached on. Will be set when the component is attached to the entity.
-	 * @type {(Entity|null)}
-	 * @readonly
-	 */
+  * The entity which the component is attached on. Will be set when the component is attached to the entity.
+  * @type {(Entity|null)}
+  * @readonly
+  */
 	this.entity = null;
 
 	/**
-	 * Use the pause/play/stop methods if you want to modify the state.
-	 * @type {boolean}
-	 * @default false
-	 * @readonly
-	 */
+  * Use the pause/play/stop methods if you want to modify the state.
+  * @type {boolean}
+  * @default false
+  * @readonly
+  */
 	this.paused = options.paused !== undefined ? options.paused : false;
 
 	/**
-	 * Whether to start playing when the ParticleSystemSystem plays.
-	 * @type {boolean}
-	 * @default true
-	 */
+  * Whether to start playing when the ParticleSystemSystem plays.
+  * @type {boolean}
+  * @default true
+  */
 	this.autoPlay = options.autoPlay !== undefined ? options.autoPlay : true;
 
 	/**
-	 * The current particles in the system.
-	 * @type {Array<ParticleData>}
-	 * @readonly
-	 */
+  * The current particles in the system.
+  * @type {Array<ParticleData>}
+  * @readonly
+  */
 	this.particles = [];
 
 	/**
-	 * The particles in the system, sorted according to the sortMode.
-	 * @type {Array<ParticleData>}
-	 * @readonly
-	 */
+  * The particles in the system, sorted according to the sortMode.
+  * @type {Array<ParticleData>}
+  * @readonly
+  */
 	this.particlesSorted = [];
 
 	/**
-	 * Current time in the system.
-	 * @type {number}
-	 * @readonly
-	 */
+  * Current time in the system.
+  * @type {number}
+  * @readonly
+  */
 	this.time = options.time || 0;
 
 	/**
-	 * Force that makes particles fall.
-	 * @type {Vector3}
-	 */
-	this.gravity = options.gravity ? options.gravity.clone() : new Vector3js();
+  * Force that makes particles fall.
+  * @type {Vector3}
+  */
+	this.gravity = options.gravity ? options.gravity.clone() : new _Vector.Vector3();
 
 	/**
-	 * Extents of the box, if box shape is used. Read only. To change it, see the method setBoxExtents().
-	 * @type {Vector3}
-	 * @readonly
-	 */
-	this.boxExtents = options.boxExtents ? options.boxExtents.clone() : new Vector3js(1, 1, 1);
+  * Extents of the box, if box shape is used. Read only. To change it, see the method setBoxExtents().
+  * @type {Vector3}
+  * @readonly
+  */
+	this.boxExtents = options.boxExtents ? options.boxExtents.clone() : new _Vector.Vector3(1, 1, 1);
 
 	/**
-	 * Acts as a scale on the color curve. Should be used at runtime.
-	 * @type {Vector4}
-	 * @todo rename to color?
-	 */
-	this.startColorScale = options.startColorScale ? options.startColorScale.clone() : new Vector4js(1,1,1,1);
+  * Acts as a scale on the color curve. Should be used at runtime.
+  * @type {Vector4}
+  * @todo rename to color?
+  */
+	this.startColorScale = options.startColorScale ? options.startColorScale.clone() : new _Vector2.Vector4(1, 1, 1, 1);
 
-	this.emissionRate = options.emissionRate ? options.emissionRate.clone() : new ConstantCurvejs({ value: 10 });
+	this.emissionRate = options.emissionRate ? options.emissionRate.clone() : new _ConstantCurve.ConstantCurve({ value: 10 });
 	this.preWarm = options.preWarm !== undefined ? options.preWarm : false;
-	this._initSeed = this._seed = this.seed = (options.seed !== undefined && options.seed > 0 ? options.seed : Math.floor(Math.random() * 32768));
+	this._initSeed = this._seed = this.seed = options.seed !== undefined && options.seed > 0 ? options.seed : Math.floor(Math.random() * 32768);
 	this.shapeType = options.shapeType || 'cone';
 	this.sphereRadius = options.sphereRadius !== undefined ? options.sphereRadius : 1;
 	this.sphereEmitFromShell = options.sphereEmitFromShell || false;
@@ -337,11 +199,11 @@ function ParticleSystemComponent(options) {
 	this.colorOverLifetime = options.colorOverLifetime ? options.colorOverLifetime.clone() : null;
 	this.duration = options.duration !== undefined ? options.duration : 5;
 	this.localSpace = options.localSpace !== undefined ? options.localSpace : true;
-	this.startSpeed = options.startSpeed ? options.startSpeed.clone() : new ConstantCurvejs({ value: 5 });
+	this.startSpeed = options.startSpeed ? options.startSpeed.clone() : new _ConstantCurve.ConstantCurve({ value: 5 });
 	this.localVelocityOverLifetime = options.localVelocityOverLifetime ? options.localVelocityOverLifetime.clone() : null;
 	this.worldVelocityOverLifetime = options.worldVelocityOverLifetime ? options.worldVelocityOverLifetime.clone() : null;
 	this._maxParticles = options.maxParticles !== undefined ? options.maxParticles : 100;
-	this.startLifetime = options.startLifetime ? options.startLifetime.clone() : new ConstantCurvejs({ value: 5 });
+	this.startLifetime = options.startLifetime ? options.startLifetime.clone() : new _ConstantCurve.ConstantCurve({ value: 5 });
 	this.renderQueue = options.renderQueue !== undefined ? options.renderQueue : 3010;
 	this.discardThreshold = options.discardThreshold || 0;
 	this.loop = options.loop !== undefined ? options.loop : true;
@@ -354,7 +216,7 @@ function ParticleSystemComponent(options) {
 	this.textureFrameOverLifetime = options.textureFrameOverLifetime ? options.textureFrameOverLifetime.clone() : null;
 	this.startSize = options.startSize ? options.startSize.clone() : null;
 	this.sortMode = options.sortMode !== undefined ? options.sortMode : ParticleSystemComponent.SORT_NONE;
-	this.mesh = options.mesh ? options.mesh : new Quadjs();
+	this.mesh = options.mesh ? options.mesh : new _Quad.Quad();
 	this.billboard = options.billboard !== undefined ? options.billboard : true;
 	this.sizeOverLifetime = options.sizeOverLifetime ? options.sizeOverLifetime.clone() : null;
 	this.startAngle = options.startAngle ? options.startAngle.clone() : null;
@@ -362,7 +224,7 @@ function ParticleSystemComponent(options) {
 	this.texture = options.texture ? options.texture : null;
 	this.boundsRadius = options.boundsRadius !== undefined ? options.boundsRadius : Number.MAX_VALUE;
 }
-ParticleSystemComponent.prototype = Object.create(Component_Componentjs.prototype);
+ParticleSystemComponent.prototype = Object.create(_Component.Component.prototype);
 ParticleSystemComponent.prototype.constructor = ParticleSystemComponent;
 
 ParticleSystemComponent.type = 'ParticleSystemComponent';
@@ -384,15 +246,15 @@ ParticleSystemComponent.SORT_CAMERA_DISTANCE = 2;
 Object.defineProperties(ParticleSystemComponent.prototype, {
 
 	/**
-	 * If set to true, the particles will always face the camera.
-	 * @target-class ParticleSystemComponent billboard member
-	 * @type {boolean}
-	 */
+  * If set to true, the particles will always face the camera.
+  * @target-class ParticleSystemComponent billboard member
+  * @type {boolean}
+  */
 	billboard: {
-		get: function () {
+		get: function get() {
 			return this.material.shader.hasDefine('BILLBOARD');
 		},
-		set: function (value) {
+		set: function set(value) {
 			var shader = this.material.shader;
 			if (value) {
 				shader.setDefine('BILLBOARD', true);
@@ -403,173 +265,173 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * What type of blending to use for the particle mesh.
-	 * @target-class ParticleSystemComponent blending member
-	 * @type {string}
-	 */
+  * What type of blending to use for the particle mesh.
+  * @target-class ParticleSystemComponent blending member
+  * @type {string}
+  */
 	blending: {
-		get: function () {
+		get: function get() {
 			return this.material.blendState.blending;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.blendState.blending = value;
 		}
 	},
 
 	/**
-	 * Color of particles, as a curve over their life time.
-	 * @target-class ParticleSystemComponent colorOverLifetime member
-	 * @type {(Vector4Curve|null)}
-	 */
+  * Color of particles, as a curve over their life time.
+  * @target-class ParticleSystemComponent colorOverLifetime member
+  * @type {(Vector4Curve|null)}
+  */
 	colorOverLifetime: {
-		get: function () {
+		get: function get() {
 			return this._colorOverLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._colorOverLifetime = value;
-			this.material.shader.setDefine('COLOR_CURVE_CODE', value ? value.toGLSL('t','emitRandom') : defines.COLOR_CURVE_CODE);
+			this.material.shader.setDefine('COLOR_CURVE_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.COLOR_CURVE_CODE);
 		}
 	},
 
 	/**
-	 * Angle of the cone, if cone shape is used.
-	 * @target-class ParticleSystemComponent coneAngle member
-	 * @type {number}
-	 */
+  * Angle of the cone, if cone shape is used.
+  * @target-class ParticleSystemComponent coneAngle member
+  * @type {number}
+  */
 	coneAngle: {
-		get: function () {
+		get: function get() {
 			return this._coneAngle;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._coneAngle = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * Where to emit from, if using the cone shape. Set to 'base', 'volume' or 'volumeshell'.
-	 * @target-class ParticleSystemComponent coneEmitFrom member
-	 * @type {string}
-	 */
+  * Where to emit from, if using the cone shape. Set to 'base', 'volume' or 'volumeshell'.
+  * @target-class ParticleSystemComponent coneEmitFrom member
+  * @type {string}
+  */
 	coneEmitFrom: {
-		get: function () {
+		get: function get() {
 			return this._coneEmitFrom;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._coneEmitFrom = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * Length of the cone, if cone shape is used.
-	 * @target-class ParticleSystemComponent coneLength member
-	 * @type {number}
-	 */
+  * Length of the cone, if cone shape is used.
+  * @target-class ParticleSystemComponent coneLength member
+  * @type {number}
+  */
 	coneLength: {
-		get: function () {
+		get: function get() {
 			return this._coneLength;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._coneLength = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * Radius of the cone, if cone shape is used.
-	 * @target-class ParticleSystemComponent coneRadius member
-	 * @type {number}
-	 */
+  * Radius of the cone, if cone shape is used.
+  * @target-class ParticleSystemComponent coneRadius member
+  * @type {number}
+  */
 	coneRadius: {
-		get: function () {
+		get: function get() {
 			return this._coneRadius;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._coneRadius = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * @target-class ParticleSystemComponent depthTest member
-	 * @type {boolean}
-	 */
+  * @target-class ParticleSystemComponent depthTest member
+  * @type {boolean}
+  */
 	depthTest: {
-		get: function () {
+		get: function get() {
 			return this.material.depthState.enabled;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.depthState.enabled = value;
 		}
 	},
 
 	/**
-	 * @target-class ParticleSystemComponent depthWrite member
-	 * @type {boolean}
-	 */
+  * @target-class ParticleSystemComponent depthWrite member
+  * @type {boolean}
+  */
 	depthWrite: {
-		get: function () {
+		get: function get() {
 			return this.material.depthState.write;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.depthState.write = value;
 		}
 	},
 
 	/**
-	 * At what alpha threshold should the fragments be discarded?
-	 * @target-class ParticleSystemComponent discardThreshold member
-	 * @type {number}
-	 */
+  * At what alpha threshold should the fragments be discarded?
+  * @target-class ParticleSystemComponent discardThreshold member
+  * @type {number}
+  */
 	discardThreshold: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.discardThreshold;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.discardThreshold = value;
 		}
 	},
 
 	/**
-	 * The time for a full animation cycle of the emission.
-	 * @target-class ParticleSystemComponent duration member
-	 * @type {number}
-	 */
+  * The time for a full animation cycle of the emission.
+  * @target-class ParticleSystemComponent duration member
+  * @type {number}
+  */
 	duration: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.duration;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.duration = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * @target-class ParticleSystemComponent emissionRate member
-	 * @type {Curve}
-	 */
+  * @target-class ParticleSystemComponent emissionRate member
+  * @type {Curve}
+  */
 	emissionRate: {
-		get: function () {
+		get: function get() {
 			return this._emissionRate;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._emissionRate = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * If set to true, the partiles will be simulated in local entity space. If set to false, world space is used.
-	 * @target-class ParticleSystemComponent localSpace member
-	 * @type {boolean}
-	 */
+  * If set to true, the partiles will be simulated in local entity space. If set to false, world space is used.
+  * @target-class ParticleSystemComponent localSpace member
+  * @type {boolean}
+  */
 	localSpace: {
-		get: function () {
+		get: function get() {
 			return this._localSpace;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._localSpace = value;
 			if (this.meshEntity) {
 				var transformComponent = this.meshEntity.transformComponent;
@@ -580,49 +442,50 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * The velocity of particles in local particle space.
-	 * @target-class ParticleSystemComponent localVelocityOverLifetime member
-	 * @type {(Vector3Curve|null)}
-	 */
+  * The velocity of particles in local particle space.
+  * @target-class ParticleSystemComponent localVelocityOverLifetime member
+  * @type {(Vector3Curve|null)}
+  */
 	localVelocityOverLifetime: {
-		get: function () {
+		get: function get() {
 			return this._localVelocityOverLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._localVelocityOverLifetime = value;
-			this.material.shader.setDefine('VELOCITY_CURVE_CODE', value ? value.integralToGLSL('t','emitRandom') : defines.VELOCITY_CURVE_CODE);
+			this.material.shader.setDefine('VELOCITY_CURVE_CODE', value ? value.integralToGLSL('t', 'emitRandom') : defines.VELOCITY_CURVE_CODE);
 		}
 	},
 
 	/**
-	 * Whether to loop the particle emission after one duration cycle.
-	 * @target-class ParticleSystemComponent loop member
-	 * @type {boolean}
-	 */
+  * Whether to loop the particle emission after one duration cycle.
+  * @target-class ParticleSystemComponent loop member
+  * @type {boolean}
+  */
 	loop: {
-		get: function () {
+		get: function get() {
 			return this._loop;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._loop = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * Maximum number of particles visible at the same time.
-	 * @target-class ParticleSystemComponent maxParticles member
-	 * @type {number}
-	 */
+  * Maximum number of particles visible at the same time.
+  * @target-class ParticleSystemComponent maxParticles member
+  * @type {number}
+  */
 	maxParticles: {
-		get: function () {
+		get: function get() {
 			return this._maxParticles;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._maxParticles = value;
 			var mesh = this.mesh;
 			var meshData = this.meshData;
-			if (value * mesh.vertexCount !== meshData.vertexCount) { // Only rebuild if changed
+			if (value * mesh.vertexCount !== meshData.vertexCount) {
+				// Only rebuild if changed
 				meshData.vertexCount = value * mesh.vertexCount;
 				meshData.indexCount = value * mesh.indexCount;
 				meshData.rebuildData(meshData.vertexCount, meshData.indexCount);
@@ -635,14 +498,14 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * @target-class ParticleSystemComponent mesh member
-	 * @type {MeshData}
-	 */
+  * @target-class ParticleSystemComponent mesh member
+  * @type {MeshData}
+  */
 	mesh: {
-		get: function () {
+		get: function get() {
 			return this._mesh;
 		},
-		set: function (mesh) {
+		set: function set(mesh) {
 			this._mesh = mesh;
 			var meshData = this.meshData;
 			if (meshData) {
@@ -655,87 +518,87 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * Pre-warm the emission (fast forward time one duration). Not available if looping is on.
-	 * @target-class ParticleSystemComponent preWarm member
-	 * @type {boolean}
-	 */
+  * Pre-warm the emission (fast forward time one duration). Not available if looping is on.
+  * @target-class ParticleSystemComponent preWarm member
+  * @type {boolean}
+  */
 	preWarm: {
-		get: function () {
+		get: function get() {
 			return this._preWarm;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._preWarm = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * Emit in random directions, instead of in the emitter volume direction.
-	 * @target-class ParticleSystemComponent randomDirection member
-	 * @type {boolean}
-	 */
+  * Emit in random directions, instead of in the emitter volume direction.
+  * @target-class ParticleSystemComponent randomDirection member
+  * @type {boolean}
+  */
 	randomDirection: {
-		get: function () {
+		get: function get() {
 			return this._randomDirection;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._randomDirection = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * @target-class ParticleSystemComponent renderQueue member
-	 * @type {number}
-	 */
+  * @target-class ParticleSystemComponent renderQueue member
+  * @type {number}
+  */
 	renderQueue: {
-		get: function () {
+		get: function get() {
 			return this.material.renderQueue;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.renderQueue = value;
 		}
 	},
 
 	/**
-	 * The rotation speed in radians per second, specified using a curve over the particle life time.
-	 * @target-class ParticleSystemComponent rotationSpeedOverLifetime member
-	 * @type {(Curve|null)}
-	 */
+  * The rotation speed in radians per second, specified using a curve over the particle life time.
+  * @target-class ParticleSystemComponent rotationSpeedOverLifetime member
+  * @type {(Curve|null)}
+  */
 	rotationSpeedOverLifetime: {
-		get: function () {
+		get: function get() {
 			return this._rotationSpeedOverLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._rotationSpeedOverLifetime = value;
-			this.material.shader.setDefine('ROTATION_CURVE_CODE', value ? value.integralToGLSL('t','emitRandom') : defines.ROTATION_CURVE_CODE);
+			this.material.shader.setDefine('ROTATION_CURVE_CODE', value ? value.integralToGLSL('t', 'emitRandom') : defines.ROTATION_CURVE_CODE);
 		}
 	},
 
 	/**
-	 * Acts as a scale on the rotationSpeed curve.
-	 * @target-class ParticleSystemComponent rotationSpeedScale member
-	 * @type {number}
-	 */
+  * Acts as a scale on the rotationSpeed curve.
+  * @target-class ParticleSystemComponent rotationSpeedScale member
+  * @type {number}
+  */
 	rotationSpeedScale: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.uRotationSpeed;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.uRotationSpeed = value;
 		}
 	},
 
 	/**
-	 * Randomization seed.
-	 * @target-class ParticleSystemComponent seed member
-	 * @type {number}
-	 */
+  * Randomization seed.
+  * @target-class ParticleSystemComponent seed member
+  * @type {number}
+  */
 	seed: {
-		get: function () {
+		get: function get() {
 			return this._initSeed;
 		},
-		set: function (value) {
+		set: function set(value) {
 			if (value !== this._initSeed) {
 				this._initSeed = value;
 				this._vertexDataDirty = true;
@@ -744,44 +607,44 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * Emitter volume. Set to 'sphere', 'cone', or 'box'.
-	 * @target-class ParticleSystemComponent shapeType member
-	 * @type {string}
-	 */
+  * Emitter volume. Set to 'sphere', 'cone', or 'box'.
+  * @target-class ParticleSystemComponent shapeType member
+  * @type {string}
+  */
 	shapeType: {
-		get: function () {
+		get: function get() {
 			return this._shapeType;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._shapeType = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * This curve alters the size of particles over their life time.
-	 * @target-class ParticleSystemComponent sizeOverLifetime member
-	 * @type {(Curve|null)}
-	 */
+  * This curve alters the size of particles over their life time.
+  * @target-class ParticleSystemComponent sizeOverLifetime member
+  * @type {(Curve|null)}
+  */
 	sizeOverLifetime: {
-		get: function () {
+		get: function get() {
 			return this._sizeOverLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._sizeOverLifetime = value;
-			this.material.shader.setDefine('SIZE_CURVE_CODE', value ? value.toGLSL('t','emitRandom') : defines.SIZE_CURVE_CODE);
+			this.material.shader.setDefine('SIZE_CURVE_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.SIZE_CURVE_CODE);
 		}
 	},
 
 	/**
-	 * @target-class ParticleSystemComponent sortMode member
-	 * @type {string}
-	 */
+  * @target-class ParticleSystemComponent sortMode member
+  * @type {string}
+  */
 	sortMode: {
-		get: function () {
+		get: function get() {
 			return this._sortMode;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._sortMode = value;
 
 			var meshData = this.meshData;
@@ -794,134 +657,134 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * Whether to emit from the sphere shell, if sphere shape is used.
-	 * @target-class ParticleSystemComponent sphereEmitFromShell member
-	 * @type {boolean}
-	 */
+  * Whether to emit from the sphere shell, if sphere shape is used.
+  * @target-class ParticleSystemComponent sphereEmitFromShell member
+  * @type {boolean}
+  */
 	sphereEmitFromShell: {
-		get: function () {
+		get: function get() {
 			return this._sphereEmitFromShell;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._sphereEmitFromShell = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * The initial angle of particles, as a curve over the emitter duration.
-	 * @target-class ParticleSystemComponent startAngle member
-	 * @type {(Curve|null)}
-	 */
+  * The initial angle of particles, as a curve over the emitter duration.
+  * @target-class ParticleSystemComponent startAngle member
+  * @type {(Curve|null)}
+  */
 	startAngle: {
-		get: function () {
+		get: function get() {
 			return this._startAngle;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._startAngle = value;
-			this.material.shader.setDefine('START_ROTATION_CURVE_CODE', value ? value.toGLSL('t','emitRandom') : defines.START_ROTATION_CURVE_CODE);
+			this.material.shader.setDefine('START_ROTATION_CURVE_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.START_ROTATION_CURVE_CODE);
 		}
 	},
 
 	/**
-	 * Acts as a scale on the startAngle curve.
-	 * @target-class ParticleSystemComponent startAngleScale member
-	 * @type {number}
-	 */
+  * Acts as a scale on the startAngle curve.
+  * @target-class ParticleSystemComponent startAngleScale member
+  * @type {number}
+  */
 	startAngleScale: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.uStartAngle;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.uStartAngle = value;
 		}
 	},
 
 	/**
-	 * The initial color of particles as a color curve over the emitter duration.
-	 * @target-class ParticleSystemComponent startColor member
-	 * @type {(Vector4Curve|null)}
-	 */
+  * The initial color of particles as a color curve over the emitter duration.
+  * @target-class ParticleSystemComponent startColor member
+  * @type {(Vector4Curve|null)}
+  */
 	startColor: {
-		get: function () {
+		get: function get() {
 			return this._startColor;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._startColor = value;
-			this.material.shader.setDefine('START_COLOR_CODE', value ? value.toGLSL('t','emitRandom') : defines.START_COLOR_CODE);
+			this.material.shader.setDefine('START_COLOR_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.START_COLOR_CODE);
 		}
 	},
 
 	/**
-	 * Initial life time of particles, as a curve over the emitter duration.
-	 * @target-class ParticleSystemComponent startLifetime member
-	 * @type {(Curve|null)}
-	 */
+  * Initial life time of particles, as a curve over the emitter duration.
+  * @target-class ParticleSystemComponent startLifetime member
+  * @type {(Curve|null)}
+  */
 	startLifetime: {
-		get: function () {
+		get: function get() {
 			return this._startLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._startLifetime = value;
-			this.material.shader.setDefine('START_LIFETIME_CODE', value ? value.toGLSL('t','emitRandom') : defines.START_LIFETIME_CODE);
+			this.material.shader.setDefine('START_LIFETIME_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.START_LIFETIME_CODE);
 		}
 	},
 
 	/**
-	 * Initial size of particles, as a curve over the emitter duration.
-	 * @target-class ParticleSystemComponent startSize member
-	 * @type {(Curve|null)}
-	 */
+  * Initial size of particles, as a curve over the emitter duration.
+  * @target-class ParticleSystemComponent startSize member
+  * @type {(Curve|null)}
+  */
 	startSize: {
-		get: function () {
+		get: function get() {
 			return this._startSize;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._startSize = value;
-			this.material.shader.setDefine('START_SIZE_CODE', value ? value.toGLSL('t','emitRandom') : defines.START_SIZE_CODE);
+			this.material.shader.setDefine('START_SIZE_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.START_SIZE_CODE);
 		}
 	},
 
 	/**
-	 * Acts as a scale on the startSize curve.
-	 * @target-class ParticleSystemComponent startSizeScale member
-	 * @type {number}
-	 * @todo should this be .scale?
-	 */
+  * Acts as a scale on the startSize curve.
+  * @target-class ParticleSystemComponent startSizeScale member
+  * @type {number}
+  * @todo should this be .scale?
+  */
 	startSizeScale: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.uStartSize;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.uStartSize = value;
 		}
 	},
 
 	/**
-	 * Initial speed of the particles, described by a curve over the emitter duration.
-	 * @target-class ParticleSystemComponent startSpeed member
-	 * @type {(Curve|null)}
-	 */
+  * Initial speed of the particles, described by a curve over the emitter duration.
+  * @target-class ParticleSystemComponent startSpeed member
+  * @type {(Curve|null)}
+  */
 	startSpeed: {
-		get: function () {
+		get: function get() {
 			return this._startSpeed;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._startSpeed = value;
 			this._vertexDataDirty = true;
 		}
 	},
 
 	/**
-	 * A texture for the particles.
-	 * @target-class ParticleSystemComponent texture member
-	 * @type {(Texture|null)}
-	 */
+  * A texture for the particles.
+  * @target-class ParticleSystemComponent texture member
+  * @type {(Texture|null)}
+  */
 	texture: {
-		get: function () {
+		get: function get() {
 			return this.material.getTexture('PARTICLE_TEXTURE');
 		},
-		set: function (value) {
+		set: function set(value) {
 			var material = this.material;
 			var shader = material.shader;
 			if (value) {
@@ -935,74 +798,74 @@ Object.defineProperties(ParticleSystemComponent.prototype, {
 	},
 
 	/**
-	 * How fast the texture animation should cycle. Acts as a scale on the textureFrameOverLifetime curve.
-	 * @target-class ParticleSystemComponent textureAnimationCycles member
-	 * @type {number}
-	 */
+  * How fast the texture animation should cycle. Acts as a scale on the textureFrameOverLifetime curve.
+  * @target-class ParticleSystemComponent textureAnimationCycles member
+  * @type {number}
+  */
 	textureAnimationCycles: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.textureTileInfo[2];
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.textureTileInfo[2] = value;
 		}
 	},
 
 	/**
-	 * The current texture frame, given by a curve over the particle life time.
-	 * @target-class ParticleSystemComponent textureFrameOverLifetime member
-	 * @type {(Curve|null)}
-	 */
+  * The current texture frame, given by a curve over the particle life time.
+  * @target-class ParticleSystemComponent textureFrameOverLifetime member
+  * @type {(Curve|null)}
+  */
 	textureFrameOverLifetime: {
-		get: function () {
+		get: function get() {
 			return this._textureFrameOverLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._textureFrameOverLifetime = value;
-			this.material.shader.setDefine('TEXTURE_FRAME_CODE', value ? value.toGLSL('t','emitRandom') : defines.TEXTURE_FRAME_CODE);
+			this.material.shader.setDefine('TEXTURE_FRAME_CODE', value ? value.toGLSL('t', 'emitRandom') : defines.TEXTURE_FRAME_CODE);
 		}
 	},
 
 	/**
-	 * Texture tiling in the X direction.
-	 * @target-class ParticleSystemComponent textureTilesX member
-	 * @type {number}
-	 */
+  * Texture tiling in the X direction.
+  * @target-class ParticleSystemComponent textureTilesX member
+  * @type {number}
+  */
 	textureTilesX: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.textureTileInfo[0];
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.textureTileInfo[0] = value;
 		}
 	},
 
 	/**
-	 * Texture tiling in the Y direction.
-	 * @target-class ParticleSystemComponent textureTilesY member
-	 * @type {number}
-	 */
+  * Texture tiling in the Y direction.
+  * @target-class ParticleSystemComponent textureTilesY member
+  * @type {number}
+  */
 	textureTilesY: {
-		get: function () {
+		get: function get() {
 			return this.material.uniforms.textureTileInfo[1];
 		},
-		set: function (value) {
+		set: function set(value) {
 			this.material.uniforms.textureTileInfo[1] = value;
 		}
 	},
 
 	/**
-	 * Velocity of particles in world space.
-	 * @target-class ParticleSystemComponent worldVelocityOverLifetime member
-	 * @type {(Vector3Curve|null)}
-	 */
+  * Velocity of particles in world space.
+  * @target-class ParticleSystemComponent worldVelocityOverLifetime member
+  * @type {(Vector3Curve|null)}
+  */
 	worldVelocityOverLifetime: {
-		get: function () {
+		get: function get() {
 			return this._worldVelocityOverLifetime;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._worldVelocityOverLifetime = value;
-			this.material.shader.setDefine('WORLD_VELOCITY_CURVE_CODE', value ? value.integralToGLSL('t','emitRandom') : defines.WORLD_VELOCITY_CURVE_CODE);
+			this.material.shader.setDefine('WORLD_VELOCITY_CURVE_CODE', value ? value.integralToGLSL('t', 'emitRandom') : defines.WORLD_VELOCITY_CURVE_CODE);
 		}
 	}
 });
@@ -1020,8 +883,8 @@ ParticleSystemComponent.prototype.setBoxExtents = function (extents) {
  * @private
  */
 ParticleSystemComponent.prototype._random = function () {
-    var x = Math.sin(this._seed++) * 100000;
-    return x - Math.floor(x);
+	var x = Math.sin(this._seed++) * 100000;
+	return x - Math.floor(x);
 };
 
 /**
@@ -1055,7 +918,7 @@ ParticleSystemComponent.prototype._updateUniforms = function () {
 	g[1] = localGravity.y;
 	g[2] = localGravity.z;
 
-	for (var i=0; i<9; i++) {
+	for (var i = 0; i < 9; i++) {
 		uniforms.invWorldRotation[i] = worldToLocalRotation.data[i]; // will be multiplied with the world velocity
 		uniforms.worldRotation[i] = localToWorldRotation.data[i]; // will be multiplied with the local velocity
 	}
@@ -1133,7 +996,7 @@ ParticleSystemComponent.prototype._syncParticleDataArrays = function () {
 	var particlesUnSorted = this.particles;
 	var maxParticles = this.maxParticles;
 	while (particles.length < maxParticles) {
-		var particle = new ParticleData_ParticleDatajs(this);
+		var particle = new _ParticleData.ParticleData(this);
 		particle.index = particles.length;
 		particle.loopAfter = this.duration;
 		particles.push(particle);
@@ -1204,8 +1067,8 @@ ParticleSystemComponent.prototype._updateVertexData = function () {
 		var sum = 0;
 		var particleIndex = 0;
 		var fullIntegral = emissionRate.getIntegralValueAt(1);
-		for (var i=0; sum < maxParticles &&  i < steps; i++) {
-			var currentIntegral = (Math.floor(i / steps) * fullIntegral + emissionRate.getIntegralValueAt((i / steps) % 1)) * duration;
+		for (var i = 0; sum < maxParticles && i < steps; i++) {
+			var currentIntegral = (Math.floor(i / steps) * fullIntegral + emissionRate.getIntegralValueAt(i / steps % 1)) * duration;
 			var numToEmit = Math.floor(currentIntegral - sum);
 			sum += numToEmit;
 			while (particleIndex < sum && particleIndex < maxParticles) {
@@ -1240,14 +1103,13 @@ ParticleSystemComponent.prototype._updateVertexData = function () {
 
 			if (loop) {
 				var emitTime = particle.emitTime;
-				if (((!preWarm && emitTime >= 0) || preWarm) && ((emitTime <= 0 && preWarm) || (emitTime <= duration && !preWarm))) {
+				if ((!preWarm && emitTime >= 0 || preWarm) && (emitTime <= 0 && preWarm || emitTime <= duration && !preWarm)) {
 					particle.active = 1;
 				} else {
 					particle.active = 0;
 				}
 				particle.loopAfter = Math.max(duration, particle.lifeTime);
 			}
-
 		} else {
 			// Set all particles to be active but already dead - ready to be re-emitted at any point
 			particle.emitTime = -2 * particle.lifeTime;
@@ -1272,7 +1134,7 @@ ParticleSystemComponent.prototype._updateVertexData = function () {
 		var pos = particle.startPosition;
 		var dir = particle.startDirection;
 
-		var t = (particle.emitTime / duration) % 1;
+		var t = particle.emitTime / duration % 1;
 		this._generateLocalPositionAndDirection(pos, dir, t);
 
 		for (j = 0; j < meshVertexCount; j++) {
@@ -1308,87 +1170,55 @@ ParticleSystemComponent.prototype._generateLocalPositionAndDirection = function 
 		if (!this.sphereEmitFromShell) {
 			r *= Math.cbrt(this._random());
 		}
-		position.setDirect(
-			r * cos(phi) * sin(theta),
-			r * cos(theta),
-			r * sin(phi) * sin(theta)
-		);
-		direction.setDirect(
-			cos(phi) * sin(theta),
-			cos(theta),
-			sin(phi) * sin(theta)
-		);
+		position.setDirect(r * cos(phi) * sin(theta), r * cos(theta), r * sin(phi) * sin(theta));
+		direction.setDirect(cos(phi) * sin(theta), cos(theta), sin(phi) * sin(theta));
 	} else if (shapeType === 'cone') {
 		var phi = 2 * pi * this._random();
 		switch (this.coneEmitFrom) {
-		case 'base':
-			// Somewhere in the base
-			var ra = Math.sqrt(this._random());
-			var r = this.coneRadius * ra;
-			position.setDirect(r * cos(phi), 0, r * sin(phi));
+			case 'base':
+				// Somewhere in the base
+				var ra = Math.sqrt(this._random());
+				var r = this.coneRadius * ra;
+				position.setDirect(r * cos(phi), 0, r * sin(phi));
 
-			var r2 = (this.coneRadius + this.coneLength * Math.tan(this.coneAngle)) * ra;
-			direction.setDirect(
-				r2 * cos(phi),
-				this.coneLength,
-				r2 * sin(phi)
-			).sub(position);
-			break;
+				var r2 = (this.coneRadius + this.coneLength * Math.tan(this.coneAngle)) * ra;
+				direction.setDirect(r2 * cos(phi), this.coneLength, r2 * sin(phi)).sub(position);
+				break;
 
-		case 'volume':
-			// Somewhere in the base
-			var ra = Math.sqrt(this._random());
-			var r = this.coneRadius * ra;
-			position.setDirect(r * cos(phi), 0, r * sin(phi));
+			case 'volume':
+				// Somewhere in the base
+				var ra = Math.sqrt(this._random());
+				var r = this.coneRadius * ra;
+				position.setDirect(r * cos(phi), 0, r * sin(phi));
 
-			var r2 = (this.coneRadius + this.coneLength * Math.tan(this.coneAngle)) * ra;
-			direction.setDirect(
-				r2 * cos(phi),
-				this.coneLength,
-				r2 * sin(phi)
-			).sub(position);
+				var r2 = (this.coneRadius + this.coneLength * Math.tan(this.coneAngle)) * ra;
+				direction.setDirect(r2 * cos(phi), this.coneLength, r2 * sin(phi)).sub(position);
 
-			direction.setDirect(
-				r2 * cos(phi),
-				this.coneLength,
-				r2 * sin(phi)
-			);
-			position.lerp(direction, this._random());
-			direction.sub(position);
-			break;
+				direction.setDirect(r2 * cos(phi), this.coneLength, r2 * sin(phi));
+				position.lerp(direction, this._random());
+				direction.sub(position);
+				break;
 
-		case 'volumeshell':
+			case 'volumeshell':
 
-			var r = this.coneRadius;
-			position.setDirect(r * cos(phi), 0, r * sin(phi));
+				var r = this.coneRadius;
+				position.setDirect(r * cos(phi), 0, r * sin(phi));
 
-			var r2 = (this.coneRadius + this.coneLength * Math.tan(this.coneAngle));
-			direction.setDirect(
-				r2 * cos(phi),
-				this.coneLength,
-				r2 * sin(phi)
-			);
-			position.lerp(direction, this._random());
-			direction.sub(position);
-			break;
+				var r2 = this.coneRadius + this.coneLength * Math.tan(this.coneAngle);
+				direction.setDirect(r2 * cos(phi), this.coneLength, r2 * sin(phi));
+				position.lerp(direction, this._random());
+				direction.sub(position);
+				break;
 		}
 	} else {
 		// box
-		position.setDirect(
-			this._random() - 0.5,
-			this._random() - 0.5,
-			this._random() - 0.5
-		).mul(this.boxExtents);
+		position.setDirect(this._random() - 0.5, this._random() - 0.5, this._random() - 0.5).mul(this.boxExtents);
 		direction.setDirect(0, 1, 0);
 	}
 	if (this.randomDirection) {
 		var theta = Math.acos(2 * this._random() - 1);
 		var phi = 2 * pi * this._random();
-		direction.setDirect(
-			cos(phi) * sin(theta),
-			cos(theta),
-			sin(phi) * sin(theta)
-		);
+		direction.setDirect(cos(phi) * sin(theta), cos(theta), sin(phi) * sin(theta));
 	}
 
 	var speed = this.startSpeed.getValueAt(time, this._random());
@@ -1457,7 +1287,7 @@ ParticleSystemComponent.prototype._updateBounds = function () {
 	bounds.xExtent = bounds.yExtent = bounds.zExtent = r * 2;
 };
 
-var tmpWorldPos = new Vector3js();
+var tmpWorldPos = new _Vector.Vector3();
 
 /**
  * @private
@@ -1472,7 +1302,7 @@ ParticleSystemComponent.prototype._sortParticles = function () {
 	var l = particles.length;
 	while (l--) {
 		var particle = particles[l];
-		particle.sortValue = -particle.getWorldPosition(tmpWorldPos).dot(Rendererjs.mainCamera._direction);
+		particle.sortValue = -particle.getWorldPosition(tmpWorldPos).dot(_Renderer.Renderer.mainCamera._direction);
 	}
 
 	// Insertion sort in-place
@@ -1492,8 +1322,8 @@ ParticleSystemComponent.prototype._sortParticles = function () {
 	this._updateIndexBuffer(particles);
 };
 
-var tmpPos = new Vector3js();
-var tmpDir = new Vector3js();
+var tmpPos = new _Vector.Vector3();
+var tmpDir = new _Vector.Vector3();
 
 function copyPositionAndRotation(destTransform, srcTransform) {
 	destTransform.rotation.copy(srcTransform.rotation);
@@ -1523,7 +1353,6 @@ ParticleSystemComponent.prototype.process = function (tpf) {
 		var meshEntity = this.meshEntity;
 		copyPositionAndRotation(meshEntity.transformComponent.transform, entity.transformComponent.transform);
 		copyPositionAndRotation(meshEntity.transformComponent.sync().worldTransform, entity.transformComponent.worldTransform);
-
 	}
 
 	if (this.paused) {
@@ -1583,7 +1412,7 @@ ParticleSystemComponent.prototype.process = function (tpf) {
 ParticleSystemComponent.prototype._findGoodParticle = function () {
 	var time = this.time;
 	var particles = this.particles;
-	for (var i=this._nextEmitParticleIndex; i<this._nextEmitParticleIndex + particles.length; i++) {
+	for (var i = this._nextEmitParticleIndex; i < this._nextEmitParticleIndex + particles.length; i++) {
 		var particle = particles[i % particles.length];
 		var age = time - particle.emitTime;
 		if (age > particle.lifeTime) {
@@ -1601,25 +1430,20 @@ ParticleSystemComponent.prototype.attached = function (entity) {
 
 	this._syncParticleDataArrays();
 
-	var attributeMap = MeshDatajs_defaultMap([
-		MeshDatajs_POSITION,
-		MeshDatajs_TEXCOORD0
-	]);
+	var attributeMap = MeshDatajs_defaultMap([MeshDatajs_POSITION, MeshDatajs_TEXCOORD0]);
 	attributeMap.TIME_INFO = MeshDatajs_createAttribute(4, 'Float');
 	attributeMap.START_POS = MeshDatajs_createAttribute(4, 'Float');
 	attributeMap.START_DIR = MeshDatajs_createAttribute(4, 'Float');
 
 	var maxParticles = this.maxParticles;
-	var meshData = new MeshDatajs(attributeMap, maxParticles * this.mesh.vertexCount, maxParticles * this.mesh.indexCount);
+	var meshData = new _MeshData.MeshData(attributeMap, maxParticles * this.mesh.vertexCount, maxParticles * this.mesh.indexCount);
 	meshData.vertexData.setDataUsage('DynamicDraw');
 	this.meshData = meshData;
 
-	var meshRendererComponent = new MeshRendererComponentjs(this.material);
+	var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent(this.material);
 	meshRendererComponent.castShadows = meshRendererComponent.receiveShadows = meshRendererComponent.isPickable = meshRendererComponent.isReflectable = false;
 
-	this.meshEntity = this.entity._world.createEntity(meshData, 'ParticleSystemComponentMesh')
-		.set(meshRendererComponent)
-		.addToWorld();
+	this.meshEntity = this.entity._world.createEntity(meshData, 'ParticleSystemComponentMesh').set(meshRendererComponent).addToWorld();
 
 	this.localSpace = this._localSpace;
 	this._vertexDataDirty = true;
@@ -1629,7 +1453,7 @@ ParticleSystemComponent.prototype.attached = function (entity) {
  * @private
  * @param entity
  */
-ParticleSystemComponent.prototype.detached = function (/*entity*/) {
+ParticleSystemComponent.prototype.detached = function () /*entity*/{
 	this.meshEntity.clearComponent('MeshDataComponent');
 	this.particles.length = this.particlesSorted.length = 0;
 	this.meshEntity.removeFromWorld();
@@ -1712,4 +1536,4 @@ var exported_ParticleSystemComponent = ParticleSystemComponent;
  * });
  * var entity = world.createEntity([0, 0, 0], particleComponent).addToWorld();
  */
-export { exported_ParticleSystemComponent as ParticleSystemComponent };
+exports.ParticleSystemComponent = exported_ParticleSystemComponent;

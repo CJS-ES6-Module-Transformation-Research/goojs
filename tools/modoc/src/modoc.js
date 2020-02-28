@@ -1,10 +1,31 @@
-import fs from "fs";
-import childProcess from "child_process";
-import handlebars from "handlebars";
-import marked from "marked";
-import { getIndex as indexbuilder_getIndexjs } from "./index-builder";
-import { PATH_SEPARATOR as util_PATH_SEPARATORjs } from "./util";
-import { getFiles as trunkjs_getFiles, compileDoc as trunkjs_compileDoc } from "./trunk";
+"use strict";
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _child_process = require("child_process");
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+var _handlebars = require("handlebars");
+
+var _handlebars2 = _interopRequireDefault(_handlebars);
+
+var _marked = require("marked");
+
+var _marked2 = _interopRequireDefault(_marked);
+
+var _indexBuilder = require("./index-builder");
+
+var _util = require("./util");
+
+var _trunk = require("./trunk");
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
 // jshint node:true
 'use strict';
 
@@ -39,17 +60,14 @@ function processArguments() {
 }
 
 function copyStaticFiles(callback) {
-	childProcess.exec(
-		'cp -r ' + args.staticsPath + '/. ' + args.outPath,
-		function (error, stdout, stderr) {
-			console.log('stdout: ' + stdout);
-			console.log('stderr: ' + stderr);
-			if (error !== null) {
-				console.log('exec error: ' + error);
-			}
-			callback();
+	_child_process2.default.exec('cp -r ' + args.staticsPath + '/. ' + args.outPath, function (error, stdout, stderr) {
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
+		if (error !== null) {
+			console.log('exec error: ' + error);
 		}
-	);
+		callback();
+	});
 }
 
 function resolveRequirePaths(classes, index) {
@@ -73,7 +91,7 @@ function resolvePacks(classes, index) {
 
 			if (!class_.pack) {
 				var m = entry.requirePath.match(/([a-zA-Z\d]+pack)\//);
-				if(m && m.length >= 2){
+				if (m && m.length >= 2) {
 					class_.pack = m[1];
 				}
 			}
@@ -82,45 +100,47 @@ function resolvePacks(classes, index) {
 }
 
 function buildClasses(classes) {
-	var classTemplate = fs.readFileSync(
-		args.templatesPath + util_PATH_SEPARATORjs + 'class.handlebars', { encoding: 'utf8' });
+	var classTemplate = _fs2.default.readFileSync(args.templatesPath + _util.PATH_SEPARATOR + 'class.handlebars', { encoding: 'utf8' });
 
 	var classesArray = Object.keys(classes).map(function (className) {
 		return classes[className];
 	});
 
-	var result = handlebars.compile(classTemplate)({ classes: classesArray });
+	var result = _handlebars2.default.compile(classTemplate)({ classes: classesArray });
 
-	fs.writeFileSync(args.outPath + util_PATH_SEPARATORjs + 'everything.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.PATH_SEPARATOR + 'everything.html', result);
 }
 
 function buildIndex(index) {
-	var navTemplate = fs.readFileSync(
-		args.templatesPath + util_PATH_SEPARATORjs + 'nav.handlebars', { encoding: 'utf8' });
+	var navTemplate = _fs2.default.readFileSync(args.templatesPath + _util.PATH_SEPARATOR + 'nav.handlebars', { encoding: 'utf8' });
 
-	var result = handlebars.compile(navTemplate)({ index: index });
+	var result = _handlebars2.default.compile(navTemplate)({ index: index });
 
-	fs.writeFileSync(args.outPath + util_PATH_SEPARATORjs + 'index.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.PATH_SEPARATOR + 'index.html', result);
 }
 
 function buildChangelog(file) {
-	var changelog = fs.readFileSync(file, { encoding: 'utf8' });
-	var formatted = marked(changelog);
+	var changelog = _fs2.default.readFileSync(file, { encoding: 'utf8' });
+	var formatted = (0, _marked2.default)(changelog);
 
-	var changelogTemplate = fs.readFileSync(args.templatesPath + util_PATH_SEPARATORjs + 'changelog.handlebars', { encoding: 'utf8' });
+	var changelogTemplate = _fs2.default.readFileSync(args.templatesPath + _util.PATH_SEPARATOR + 'changelog.handlebars', { encoding: 'utf8' });
 
-	var result = handlebars.compile(changelogTemplate)({ content: formatted });
+	var result = _handlebars2.default.compile(changelogTemplate)({ content: formatted });
 
-	fs.writeFileSync(args.outPath + util_PATH_SEPARATORjs + 'changelog.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.PATH_SEPARATOR + 'changelog.html', result);
 }
 
 function compileDeprecated(classes) {
-	var constructors = [], methods = [], staticMethods = [], members = [], staticMembers = [];
+	var constructors = [],
+	    methods = [],
+	    staticMethods = [],
+	    members = [],
+	    staticMembers = [];
 
 	Object.keys(classes).forEach(function (className) {
 		var class_ = classes[className];
 
-		var getEntry = function (item) {
+		var getEntry = function getEntry(item) {
 			return {
 				class_: className,
 				item: item
@@ -175,32 +195,29 @@ function compileDeprecated(classes) {
 }
 
 function buildDeprecated(classes) {
-	var deprecatedTemplate = fs.readFileSync(
-		args.templatesPath + util_PATH_SEPARATORjs + 'deprecated.handlebars', { encoding: 'utf8' });
+	var deprecatedTemplate = _fs2.default.readFileSync(args.templatesPath + _util.PATH_SEPARATOR + 'deprecated.handlebars', { encoding: 'utf8' });
 
 	var data = compileDeprecated(classes);
 
-	var result = handlebars.compile(deprecatedTemplate)(data);
+	var result = _handlebars2.default.compile(deprecatedTemplate)(data);
 
-	fs.writeFileSync(args.outPath + util_PATH_SEPARATORjs + 'deprecated.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.PATH_SEPARATOR + 'deprecated.html', result);
 }
-
 
 var args = processArguments();
 
 var IGNORE_FILES = ['goo.js', 'pack.js', 'logicpack', 'soundmanager', '+'];
 
 copyStaticFiles(function () {
-	var files = trunkjs_getFiles(args.sourcePath, IGNORE_FILES);
+	var files = (0, _trunk.getFiles)(args.sourcePath, IGNORE_FILES);
 
-	var classes = trunkjs_compileDoc(files);
-	var index = indexbuilder_getIndexjs(classes, 'goo');
+	var classes = (0, _trunk.compileDoc)(files);
+	var index = (0, _indexBuilder.getIndex)(classes, 'goo');
 	resolveRequirePaths(classes, index);
 	resolvePacks(classes, index);
 
 	buildClasses(classes);
 	buildIndex(index);
-
 
 	buildChangelog('CHANGES');
 	buildDeprecated(classes);

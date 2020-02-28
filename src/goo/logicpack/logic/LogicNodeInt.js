@@ -1,7 +1,16 @@
-import { writeValue as LogicLayerjs_writeValue } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeInt = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 var LogicNodeInt_outportInt;
 var LogicNodeInt_ineventDecrease;
 var LogicNodeInt_ineventIncrease;
@@ -9,14 +18,14 @@ var LogicNodeInt_ineventReset;
 var LogicNodeInt_editorName;
 var LogicNodeInt_logicInterface;
 function LogicNodeInt() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	LogicNodeInt_logicInterface = LogicNodeInt_logicInterface;;
 	this.type = 'LogicNodeInt';
 	this.defValue = 0;
 	this.value = 0;
 }
 
-LogicNodeInt.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeInt.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeInt_editorName = "Int";;
 
 LogicNodeInt.prototype.onConfigure = function (newConfig) {
@@ -28,7 +37,7 @@ LogicNodeInt.prototype.onConfigure = function (newConfig) {
 };
 
 LogicNodeInt.prototype.onConnected = function (instDesc) {
-	LogicLayerjs_writeValue(instDesc, LogicNodeInt_outportInt, this.value);
+	(0, _LogicLayer.writeValue)(instDesc, LogicNodeInt_outportInt, this.value);
 };
 
 LogicNodeInt.prototype.onEvent = function (instDesc, evt) {
@@ -40,18 +49,18 @@ LogicNodeInt.prototype.onEvent = function (instDesc, evt) {
 		this.value = this.defValue;
 	}
 
-	LogicLayerjs_writeValue(this.logicInstance, LogicNodeInt_outportInt, this.value);
+	(0, _LogicLayer.writeValue)(this.logicInstance, LogicNodeInt_outportInt, this.value);
 };
 
 LogicNodeInt.prototype.onSystemStarted = function () {
-	LogicLayerjs_writeValue(this.logicInstance, LogicNodeInt_outportInt, this.value);
+	(0, _LogicLayer.writeValue)(this.logicInstance, LogicNodeInt_outportInt, this.value);
 };
 
 LogicNodeInt.prototype.onSystemStopped = function () {};
 
-LogicNodesjs_registerType('LogicNodeInt', LogicNodeInt);
+(0, _LogicNodes.registerType)('LogicNodeInt', LogicNodeInt);
 
-LogicNodeInt_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeInt_logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeInt_ineventReset = LogicNodeInt_logicInterface.addInputEvent("reset");;
 LogicNodeInt_ineventIncrease = LogicNodeInt_logicInterface.addInputEvent("increase");;
 LogicNodeInt_ineventDecrease = LogicNodeInt_logicInterface.addInputEvent("decrease");;
@@ -68,4 +77,4 @@ var exported_LogicNodeInt = LogicNodeInt;
  * Logic node that provides an integer.
  * @private
  */
-export { exported_LogicNodeInt as LogicNodeInt };
+exports.LogicNodeInt = exported_LogicNodeInt;

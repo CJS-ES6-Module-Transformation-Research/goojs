@@ -1,14 +1,23 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { PortalComponent as PortalComponentjs } from "../../../entities/components/PortalComponent";
-import { PortalSystem as PortalSystemjs } from "../../../entities/systems/PortalSystem";
-import { Material as Materialjs } from "../../../renderer/Material";
-import { textured as ShaderLibjs_textured } from "../../../renderer/shaders/ShaderLib";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetRenderTargetAction = undefined;
 
-function SetRenderTargetAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _PortalComponent = require("../../../entities/components/PortalComponent");
+
+var _PortalSystem = require("../../../entities/systems/PortalSystem");
+
+var _Material = require("../../../renderer/Material");
+
+var _ShaderLib = require("../../../renderer/shaders/ShaderLib");
+
+function SetRenderTargetAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetRenderTargetAction.prototype = Object.create(Action_Actionjs.prototype);
+SetRenderTargetAction.prototype = Object.create(_Action.Action.prototype);
 SetRenderTargetAction.prototype.constructor = SetRenderTargetAction;
 
 SetRenderTargetAction.external = {
@@ -32,7 +41,7 @@ SetRenderTargetAction.prototype.ready = function (fsm) {
 	if (!world.getSystem('PortalSystem')) {
 		var renderSystem = world.getSystem('RenderSystem');
 		var renderer = world.gooRunner.renderer;
-		world.setSystem(new PortalSystemjs(renderer, renderSystem));
+		world.setSystem(new _PortalSystem.PortalSystem(renderer, renderSystem));
 	}
 };
 
@@ -42,16 +51,20 @@ SetRenderTargetAction.prototype.enter = function (fsm) {
 
 	var cameraEntity = world.entityManager.getEntityById(this.cameraEntityRef);
 
-	if (!cameraEntity || !cameraEntity.cameraComponent || !cameraEntity.cameraComponent.camera) { return; }
+	if (!cameraEntity || !cameraEntity.cameraComponent || !cameraEntity.cameraComponent.camera) {
+		return;
+	}
 	var camera = cameraEntity.cameraComponent.camera;
 
-	var portalMaterial = new Materialjs(ShaderLibjs_textured);
+	var portalMaterial = new _Material.Material(_ShaderLib.textured);
 
-	if (!entity.meshRendererComponent) { return; }
+	if (!entity.meshRendererComponent) {
+		return;
+	}
 	this.oldMaterials = entity.meshRendererComponent.materials;
 	entity.meshRendererComponent.materials = [portalMaterial];
 
-	var portalComponent = new PortalComponentjs(camera, 500, { preciseRecursion: true });
+	var portalComponent = new _PortalComponent.PortalComponent(camera, 500, { preciseRecursion: true });
 	entity.setComponent(portalComponent);
 };
 
@@ -70,4 +83,4 @@ SetRenderTargetAction.prototype.cleanup = function (fsm) {
 };
 
 var exported_SetRenderTargetAction = SetRenderTargetAction;
-export { exported_SetRenderTargetAction as SetRenderTargetAction };
+exports.SetRenderTargetAction = exported_SetRenderTargetAction;

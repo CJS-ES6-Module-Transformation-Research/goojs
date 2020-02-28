@@ -1,20 +1,26 @@
-import {
-    ConfigHandler as ConfigHandler_ConfigHandlerjs,
-    _registerClass as ConfigHandlerjs__registerClass,
-} from "../../loaders/handlers/ConfigHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EntityHandler = undefined;
 
-import { getHandler as ComponentHandlerjs_getHandler } from "../../loaders/handlers/ComponentHandler";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { uncapitalize as StringUtilsjs_uncapitalize } from "../../util/StringUtils";
-import { optimisticAll as PromiseUtilsjs_optimisticAll } from "../../util/PromiseUtils";
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _rsvp = require("../../util/rsvp");
+
+var _StringUtils = require("../../util/StringUtils");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 function EntityHandler() {
-	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 	this._componentHandlers = {};
 }
 
-EntityHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
+EntityHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 EntityHandler.prototype.constructor = EntityHandler;
-ConfigHandlerjs__registerClass('entity', EntityHandler);
+(0, _ConfigHandler._registerClass)('entity', EntityHandler);
 
 /**
  * Creates an empty entity
@@ -41,12 +47,11 @@ EntityHandler.prototype._remove = function (ref) {
 		for (var i = 0; i < components.length; i++) {
 			var type = this._getComponentType(components[i]);
 			var p = this._updateComponent(entity, type, null);
-			if (p instanceof rsvp_rsvpjsjs.Promise) {
+			if (p instanceof _rsvp.rsvpjs.Promise) {
 				promises.push(p);
 			}
 		}
-		return rsvp_rsvpjsjs.all(promises)
-		.then(function () {
+		return _rsvp.rsvpjs.all(promises).then(function () {
 			entity.removeFromWorld();
 			that._objects.delete(ref);
 		});
@@ -55,7 +60,9 @@ EntityHandler.prototype._remove = function (ref) {
 
 function updateTags(entity, tags) {
 	entity._tags.clear();
-	if (!tags) { return; }
+	if (!tags) {
+		return;
+	}
 
 	for (var tag in tags) {
 		entity.setTag(tag);
@@ -64,7 +71,9 @@ function updateTags(entity, tags) {
 
 function updateAttributes(entity, attributes) {
 	entity._attributes.clear();
-	if (!attributes) { return; }
+	if (!attributes) {
+		return;
+	}
 
 	for (var attribute in attributes) {
 		entity.setAttribute(attribute, attributes[attribute]);
@@ -80,8 +89,10 @@ function updateAttributes(entity, attributes) {
  */
 EntityHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (entity) {
-		if (!entity) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (entity) {
+		if (!entity) {
+			return;
+		}
 		entity.id = ref;
 		entity.name = config.name;
 		entity.static = !!config.static;
@@ -95,8 +106,9 @@ EntityHandler.prototype._update = function (ref, config, options) {
 		for (var type in config.components) {
 			if (config.components[type]) {
 				var p = that._updateComponent(entity, type, config.components[type], options);
-				if (p) { promises.push(p); }
-				else {
+				if (p) {
+					promises.push(p);
+				} else {
 					console.error('Error handling component ' + type);
 				}
 			}
@@ -111,7 +123,7 @@ EntityHandler.prototype._update = function (ref, config, options) {
 			}
 		}
 		// When all is done, hide or show and return
-		return PromiseUtilsjs_optimisticAll(promises).then(function (/*components*/) {
+		return (0, _PromiseUtils.optimisticAll)(promises).then(function () /*components*/{
 			if (config.hidden) {
 				entity.hide();
 			} else {
@@ -133,10 +145,14 @@ EntityHandler.prototype._update = function (ref, config, options) {
  */
 EntityHandler.prototype._updateComponent = function (entity, type, config, options) {
 	var handler = this._getHandler(type);
-	if (!handler) { return null; }
+	if (!handler) {
+		return null;
+	}
 
 	var p = handler.update(entity, config, options);
-	if (!p || !p.then) { return null; }
+	if (!p || !p.then) {
+		return null;
+	}
 
 	return p;
 };
@@ -151,8 +167,10 @@ EntityHandler.prototype._updateComponent = function (entity, type, config, optio
 EntityHandler.prototype._getComponentType = function (component) {
 	var type = component.type;
 	type = type.slice(0, type.lastIndexOf('Component'));
-	type = StringUtilsjs_uncapitalize(type);
-	if (type === 'howler') { type = 'sound'; } // HowlerComponent should be renamed
+	type = (0, _StringUtils.uncapitalize)(type);
+	if (type === 'howler') {
+		type = 'sound';
+	} // HowlerComponent should be renamed
 	return type;
 };
 
@@ -163,14 +181,9 @@ EntityHandler.prototype._getComponentType = function (component) {
  */
 EntityHandler.prototype._getHandler = function (type) {
 	if (!this._componentHandlers[type]) {
-		var Handler = ComponentHandlerjs_getHandler(type);
+		var Handler = (0, _ComponentHandler.getHandler)(type);
 		if (Handler) {
-			this._componentHandlers[type] = new Handler(
-				this.world,
-				this.getConfig,
-				this.updateObject,
-				this.loadObject
-			);
+			this._componentHandlers[type] = new Handler(this.world, this.getConfig, this.updateObject, this.loadObject);
 		}
 	}
 	return this._componentHandlers[type];
@@ -186,4 +199,4 @@ var exported_EntityHandler = EntityHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_EntityHandler as EntityHandler };
+exports.EntityHandler = exported_EntityHandler;

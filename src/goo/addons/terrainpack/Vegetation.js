@@ -1,16 +1,30 @@
-import { MeshDataComponent as MeshDataComponentjs } from "../../entities/components/MeshDataComponent";
-import { Material as Materialjs } from "../../renderer/Material";
-import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { Transform as Transformjs } from "../../math/Transform";
-import { MeshData as MeshDatajs } from "../../renderer/MeshData";
-import { Shader as Shaderjs } from "../../renderer/Shader";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
-import { Quad as Quadjs } from "../../shapes/Quad";
-import { ShaderBuilder as ShaderBuilderjs } from "../../renderer/shaders/ShaderBuilder";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Vegetation = undefined;
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
+var _Material = require("../../renderer/Material");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _Vector = require("../../math/Vector3");
+
+var _Transform = require("../../math/Transform");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Shader = require("../../renderer/Shader");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _Quad = require("../../shapes/Quad");
+
+var _ShaderBuilder = require("../../renderer/shaders/ShaderBuilder");
 
 function Vegetation() {
-	this.calcVec = new Vector3js();
+	this.calcVec = new _Vector.Vector3();
 	this.initDone = false;
 }
 
@@ -25,7 +39,7 @@ Vegetation.prototype.init = function (world, terrainQuery, vegetationAtlasTextur
 		this.vegetationList[type] = meshData;
 	}
 
-	var material = new Materialjs(vegetationShader, 'vegetation');
+	var material = new _Material.Material(vegetationShader, 'vegetation');
 	material.setTexture('DIFFUSE_MAP', vegetationAtlasTexture);
 	material.cullState.enabled = false;
 	material.uniforms.discardThreshold = 0.2;
@@ -55,7 +69,7 @@ Vegetation.prototype.init = function (world, terrainQuery, vegetationAtlasTextur
 		this.grid[x] = [];
 		for (var z = 0; z < this.gridSize; z++) {
 			var entity = this.world.createEntity(this.material);
-			var meshDataComponent = new MeshDataComponentjs(dummyMesh);
+			var meshDataComponent = new _MeshDataComponent.MeshDataComponent(dummyMesh);
 			meshDataComponent.modelBound.xExtent = this.patchSize;
 			meshDataComponent.modelBound.yExtent = 500;
 			meshDataComponent.modelBound.zExtent = this.patchSize;
@@ -123,8 +137,8 @@ Vegetation.prototype.update = function (x, z) {
 
 			patchX -= this.gridSizeHalf;
 			patchZ -= this.gridSizeHalf;
-			var modX = MathUtilsjs.moduloPositive(patchX, this.gridSize);
-			var modZ = MathUtilsjs.moduloPositive(patchZ, this.gridSize);
+			var modX = _MathUtils.MathUtils.moduloPositive(patchX, this.gridSize);
+			var modZ = _MathUtils.MathUtils.moduloPositive(patchZ, this.gridSize);
 
 			patchX *= this.patchSize;
 			patchZ *= this.patchSize;
@@ -148,8 +162,8 @@ Vegetation.prototype.update = function (x, z) {
 };
 
 Vegetation.prototype.createPatch = function (patchX, patchZ) {
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
-	var transform = new Transformjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
+	var transform = new _Transform.Transform();
 
 	var patchDensity = this.patchDensity;
 	var patchSpacing = this.patchSpacing;
@@ -197,7 +211,7 @@ Vegetation.prototype.createPatch = function (patchX, patchZ) {
 	var meshDatas = meshBuilder.build();
 
 	// Calculate lighting from lightmap
-	for (var i = 0; i<meshDatas.length; i++) {
+	for (var i = 0; i < meshDatas.length; i++) {
 		var meshData = meshDatas[i];
 		var verts = meshData.getAttributeBuffer(MeshDatajs_POSITION);
 		var cols = meshData.getAttributeBuffer(MeshDatajs_COLOR);
@@ -213,12 +227,14 @@ Vegetation.prototype.createPatch = function (patchX, patchZ) {
 	return meshDatas[0]; // Don't create patches bigger than 65k
 };
 
-var _tempX = new Vector3js();
-var _tempY = new Vector3js();
-var _tempZ = new Vector3js();
+var _tempX = new _Vector.Vector3();
+var _tempY = new _Vector.Vector3();
+var _tempZ = new _Vector.Vector3();
 
 Vegetation.prototype.lookAt = function (matrix, direction, up) {
-	var x = _tempX, y = _tempY, z = _tempZ;
+	var x = _tempX,
+	    y = _tempY,
+	    z = _tempZ;
 
 	y.set(up).normalize();
 	x.set(up).cross(direction).normalize();
@@ -239,34 +255,21 @@ Vegetation.prototype.lookAt = function (matrix, direction, up) {
 };
 
 Vegetation.prototype.createBase = function (type) {
-	var meshData = new Quadjs(type.w, type.h, 10, 10);
+	var meshData = new _Quad.Quad(type.w, type.h, 10, 10);
 	meshData.attributeMap.BASE = MeshDatajs_createAttribute(1, 'Float');
 	meshData.attributeMap.COLOR = MeshDatajs_createAttribute(4, 'Float');
 
 	meshData.rebuildData(meshData.vertexCount, meshData.indexCount, true);
 
 	meshData.getAttributeBuffer(MeshDatajs_NORMAL).set([0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0]);
-	meshData.getAttributeBuffer(MeshDatajs_TEXCOORD0).set([
-		type.tx, type.ty,
-		type.tx, type.ty + type.th,
-		type.tx + type.tw, type.ty + type.th,
-		type.tx + type.tw, type.ty
-	]);
+	meshData.getAttributeBuffer(MeshDatajs_TEXCOORD0).set([type.tx, type.ty, type.tx, type.ty + type.th, type.tx + type.tw, type.ty + type.th, type.tx + type.tw, type.ty]);
 
+	meshData.getAttributeBuffer('BASE').set([0, type.h, type.h, 0]);
 
-	meshData.getAttributeBuffer('BASE').set([
-		0, type.h, type.h, 0
-	]);
+	meshData.getAttributeBuffer(MeshDatajs_COLOR).set([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]);
 
-	meshData.getAttributeBuffer(MeshDatajs_COLOR).set([
-		1, 1, 1, 1,
-		1, 1, 1, 1,
-		1, 1, 1, 1,
-		1, 1, 1, 1
-	]);
-
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
-	var transform = new Transformjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
+	var transform = new _Transform.Transform();
 	transform.translation.y = type.h * 0.5 - type.h * 0.1;
 	transform.translation.z = -type.w * 0.1;
 	transform.update();
@@ -294,18 +297,15 @@ Vegetation.prototype.createBase = function (type) {
 };
 
 var vegetationShader = {
-	processors: [
-		ShaderBuilderjs.light.processor,
-		function (shader) {
-			if (ShaderBuilderjs.USE_FOG) {
-				shader.setDefine('FOG', true);
-				shader.uniforms.fogSettings = ShaderBuilderjs.FOG_SETTINGS;
-				shader.uniforms.fogColor = ShaderBuilderjs.FOG_COLOR;
-			} else {
-				shader.removeDefine('FOG');
-			}
+	processors: [_ShaderBuilder.ShaderBuilder.light.processor, function (shader) {
+		if (_ShaderBuilder.ShaderBuilder.USE_FOG) {
+			shader.setDefine('FOG', true);
+			shader.uniforms.fogSettings = _ShaderBuilder.ShaderBuilder.FOG_SETTINGS;
+			shader.uniforms.fogColor = _ShaderBuilder.ShaderBuilder.FOG_COLOR;
+		} else {
+			shader.removeDefine('FOG');
 		}
-	],
+	}],
 	attributes: {
 		vertexPosition: MeshDatajs_POSITION,
 		vertexNormal: MeshDatajs_NORMAL,
@@ -319,99 +319,26 @@ var vegetationShader = {
 		cameraPosition: Shaderjs_CAMERA,
 		diffuseMap: Shaderjs_DIFFUSE_MAP,
 		discardThreshold: -0.01,
-		fogSettings: function () {
-			return ShaderBuilderjs.FOG_SETTINGS;
+		fogSettings: function fogSettings() {
+			return _ShaderBuilder.ShaderBuilder.FOG_SETTINGS;
 		},
-		fogColor: function () {
-			return ShaderBuilderjs.FOG_COLOR;
+		fogColor: function fogColor() {
+			return _ShaderBuilder.ShaderBuilder.FOG_COLOR;
 		},
 		time: Shaderjs_TIME,
 		fadeDistMin: 40.0,
 		fadeDistMax: 50.0
 	},
-	builder: function (shader, shaderInfo) {
-		ShaderBuilderjs.light.builder(shader, shaderInfo);
+	builder: function builder(shader, shaderInfo) {
+		_ShaderBuilder.ShaderBuilder.light.builder(shader, shaderInfo);
 	},
-	vshader: function () {
-		return [
-			'attribute vec3 vertexPosition;',
-			'attribute vec3 vertexNormal;',
-			'attribute vec2 vertexUV0;',
-			'attribute vec4 vertexColor;',
-			'attribute float base;',
-
-			'uniform mat4 viewProjectionMatrix;',
-			'uniform mat4 worldMatrix;',
-			'uniform vec3 cameraPosition;',
-			'uniform float time;',
-			'uniform float fadeDistMin;',
-			'uniform float fadeDistMax;',
-
-			ShaderBuilderjs.light.prevertex,
-
-			'varying vec3 normal;',
-			'varying vec3 vWorldPos;',
-			'varying vec3 viewPosition;',
-			'varying vec2 texCoord0;',
-			'varying vec4 color;',
-			'varying float dist;',
-
-			'void main(void) {',
-				'vec3 swayPos = vertexPosition;',
-				'swayPos.x += sin(time * 1.0 + swayPos.x * 0.5) * base * sin(time * 1.8 + swayPos.y * 0.6) * 0.1 + 0.08;',
-				'vec4 worldPos = worldMatrix * vec4(swayPos, 1.0);',
-				'vWorldPos = worldPos.xyz;',
-				'gl_Position = viewProjectionMatrix * worldPos;',
-
-				ShaderBuilderjs.light.vertex,
-
-				'normal = (worldMatrix * vec4(vertexNormal, 0.0)).xyz;',
-				'texCoord0 = vertexUV0;',
-				'color = vertexColor;',
-				'viewPosition = cameraPosition - worldPos.xyz;',
-				'dist = 1.0 - smoothstep(fadeDistMin, fadeDistMax, length(viewPosition.xz));',
-			'}'
-		].join('\n');
+	vshader: function vshader() {
+		return ['attribute vec3 vertexPosition;', 'attribute vec3 vertexNormal;', 'attribute vec2 vertexUV0;', 'attribute vec4 vertexColor;', 'attribute float base;', 'uniform mat4 viewProjectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform vec3 cameraPosition;', 'uniform float time;', 'uniform float fadeDistMin;', 'uniform float fadeDistMax;', _ShaderBuilder.ShaderBuilder.light.prevertex, 'varying vec3 normal;', 'varying vec3 vWorldPos;', 'varying vec3 viewPosition;', 'varying vec2 texCoord0;', 'varying vec4 color;', 'varying float dist;', 'void main(void) {', 'vec3 swayPos = vertexPosition;', 'swayPos.x += sin(time * 1.0 + swayPos.x * 0.5) * base * sin(time * 1.8 + swayPos.y * 0.6) * 0.1 + 0.08;', 'vec4 worldPos = worldMatrix * vec4(swayPos, 1.0);', 'vWorldPos = worldPos.xyz;', 'gl_Position = viewProjectionMatrix * worldPos;', _ShaderBuilder.ShaderBuilder.light.vertex, 'normal = (worldMatrix * vec4(vertexNormal, 0.0)).xyz;', 'texCoord0 = vertexUV0;', 'color = vertexColor;', 'viewPosition = cameraPosition - worldPos.xyz;', 'dist = 1.0 - smoothstep(fadeDistMin, fadeDistMax, length(viewPosition.xz));', '}'].join('\n');
 	},
-	fshader: function () {
-		return [
-			'uniform sampler2D diffuseMap;',
-			'uniform float discardThreshold;',
-			'uniform vec2 fogSettings;',
-			'uniform vec3 fogColor;',
-
-			ShaderBuilderjs.light.prefragment,
-
-			'varying vec3 normal;',
-			'varying vec3 vWorldPos;',
-			'varying vec3 viewPosition;',
-			'varying vec2 texCoord0;',
-			'varying float dist;',
-			'varying vec4 color;',
-
-			'void main(void)',
-			'{',
-				'vec4 final_color = texture2D(diffuseMap, texCoord0) * color;',
-				'if (final_color.a < discardThreshold) discard;',
-				'final_color.a = min(final_color.a, dist);',
-				'if (final_color.a <= 0.0) discard;',
-
-				'vec3 N = normalize(normal);',
-
-				ShaderBuilderjs.light.fragment,
-
-				'final_color.a = pow(final_color.a, 0.5);',
-
-				'#ifdef FOG',
-				'float d = pow(smoothstep(fogSettings.x, fogSettings.y, length(viewPosition)), 1.0);',
-				'final_color.rgb = mix(final_color.rgb, fogColor, d);',
-				'#endif',
-
-				'gl_FragColor = final_color;',
-			'}'
-		].join('\n');
+	fshader: function fshader() {
+		return ['uniform sampler2D diffuseMap;', 'uniform float discardThreshold;', 'uniform vec2 fogSettings;', 'uniform vec3 fogColor;', _ShaderBuilder.ShaderBuilder.light.prefragment, 'varying vec3 normal;', 'varying vec3 vWorldPos;', 'varying vec3 viewPosition;', 'varying vec2 texCoord0;', 'varying float dist;', 'varying vec4 color;', 'void main(void)', '{', 'vec4 final_color = texture2D(diffuseMap, texCoord0) * color;', 'if (final_color.a < discardThreshold) discard;', 'final_color.a = min(final_color.a, dist);', 'if (final_color.a <= 0.0) discard;', 'vec3 N = normalize(normal);', _ShaderBuilder.ShaderBuilder.light.fragment, 'final_color.a = pow(final_color.a, 0.5);', '#ifdef FOG', 'float d = pow(smoothstep(fogSettings.x, fogSettings.y, length(viewPosition)), 1.0);', 'final_color.rgb = mix(final_color.rgb, fogColor, d);', '#endif', 'gl_FragColor = final_color;', '}'].join('\n');
 	}
 };
 
 var exported_Vegetation = Vegetation;
-export { exported_Vegetation as Vegetation };
+exports.Vegetation = exported_Vegetation;

@@ -1,12 +1,4 @@
-define([
-	'goo/entities/Entity',
-	'goo/entities/managers/EntityManager',
-	'goo/entities/World'
-], function (
-	Entity,
-	EntityManager,
-	World
-) {
+define(['goo/entities/Entity', 'goo/entities/managers/EntityManager', 'goo/entities/World'], function (Entity, EntityManager, World) {
 	'use strict';
 
 	responseTime('EntityManager.added for 3000 entities', 10, function () {

@@ -1,14 +1,20 @@
-import { Action as Action_Actionjs } from "./Action";
-import { pick as BoundingPickerjs_pick } from "./../../../renderer/bounds/BoundingPicker";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HoverEnterAction = undefined;
 
-function HoverEnterAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("./Action");
+
+var _BoundingPicker = require("./../../../renderer/bounds/BoundingPicker");
+
+function HoverEnterAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverEnterAction.prototype = Object.create(Action_Actionjs.prototype);
+HoverEnterAction.prototype = Object.create(_Action.Action.prototype);
 HoverEnterAction.prototype.constructor = HoverEnterAction;
 
 HoverEnterAction.types = {
@@ -37,13 +43,13 @@ HoverEnterAction.external = {
 	}]
 };
 
-HoverEnterAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HoverEnterAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Entity Hover Enter';
 };
 
 HoverEnterAction.prototype.enter = function (fsm) {
 	var that = this;
-	var isHit = function (entity) {
+	var isHit = function isHit(entity) {
 		if (!entity) {
 			return false;
 		}
@@ -57,7 +63,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 		return hit;
 	};
 
-	var checkEnter = function (entity) {
+	var checkEnter = function checkEnter(entity) {
 		var hit = isHit(entity);
 
 		if ((that.first || !that.hit) && hit) {
@@ -87,7 +93,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 			var pickingStore = that.goo.pickSync(x, y);
 			pickedEntity = that.goo.world.entityManager.getEntityByIndex(pickingStore.id);
 		} else {
-			var pickList = BoundingPickerjs_pick(that.goo.world, camera, x, y);
+			var pickList = (0, _BoundingPicker.pick)(that.goo.world, camera, x, y);
 			if (pickList.length > 0) {
 				pickedEntity = pickList[0].entity;
 			}
@@ -112,4 +118,4 @@ HoverEnterAction.prototype.exit = function () {
 };
 
 var exported_HoverEnterAction = HoverEnterAction;
-export { exported_HoverEnterAction as HoverEnterAction };
+exports.HoverEnterAction = exported_HoverEnterAction;

@@ -1,12 +1,18 @@
-import { Component as Component_Componentjs } from "../../entities/components/Component";
-import { extend as ObjectUtilsjs_extend } from "../../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScriptComponent = undefined;
 
-function getGooClasses(){
-	return (typeof window !== 'undefined' && window.goo) || {};
+var _Component = require("../../entities/components/Component");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+function getGooClasses() {
+	return typeof window !== 'undefined' && window.goo || {};
 }
 
 function ScriptComponent(scripts) {
-	Component_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'ScriptComponent';
 
@@ -16,15 +22,15 @@ function ScriptComponent(scripts) {
 		this.scripts = [scripts];
 	} else {
 		/**
-		* Array of scripts tied to this script component. Scripts can be added to the component
-		* using the constructor or by manually adding to the array.
-		* @type {Array}
-		* @example
-		* // Add a script to script component
-		* var scriptComponent = new ScriptComponent();
-		* var controlScript = new WasdControlScript();
-		* scriptComponent.scripts.push(controlScript);
-		*/
+  * Array of scripts tied to this script component. Scripts can be added to the component
+  * using the constructor or by manually adding to the array.
+  * @type {Array}
+  * @example
+  * // Add a script to script component
+  * var scriptComponent = new ScriptComponent();
+  * var controlScript = new WasdControlScript();
+  * scriptComponent.scripts.push(controlScript);
+  */
 		this.scripts = [];
 	}
 
@@ -35,7 +41,7 @@ function ScriptComponent(scripts) {
 
 ScriptComponent.type = 'ScriptComponent';
 
-ScriptComponent.prototype = Object.create(Component_Componentjs.prototype);
+ScriptComponent.prototype = Object.create(_Component.Component.prototype);
 ScriptComponent.prototype.constructor = ScriptComponent;
 
 /**
@@ -48,7 +54,7 @@ ScriptComponent.prototype.constructor = ScriptComponent;
 ScriptComponent.prototype.setup = function (entity) {
 	var systemContext = entity._world.getSystem('ScriptSystem').context;
 	var componentContext = Object.create(systemContext);
-	ObjectUtilsjs_extend(componentContext, {
+	(0, _ObjectUtils.extend)(componentContext, {
 		entity: entity,
 		entityData: {}
 	});
@@ -147,11 +153,7 @@ ScriptComponent.prototype.cleanup = function () {
 	for (var i = 0; i < this.scripts.length; i++) {
 		var script = this.scripts[i];
 		if (script.context) {
-			if (script.cleanup &&
-				(script.parameters && script.parameters.enabled !== undefined ?
-					script.parameters.enabled :
-					script.enabled)
-			) {
+			if (script.cleanup && (script.parameters && script.parameters.enabled !== undefined ? script.parameters.enabled : script.enabled)) {
 				try {
 					script.cleanup(script.parameters, script.context, getGooClasses());
 				} catch (e) {
@@ -227,7 +229,7 @@ ScriptComponent.prototype._handleError = function (script, error, phase) {
  * @returns {boolean}
  */
 ScriptComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Function || (obj && obj.run instanceof Function) || (obj && obj.update instanceof Function)) {
+	if (obj instanceof Function || obj && obj.run instanceof Function || obj && obj.update instanceof Function) {
 		var scriptComponent;
 		if (!entity.scriptComponent) {
 			scriptComponent = new ScriptComponent();
@@ -253,4 +255,4 @@ var exported_ScriptComponent = ScriptComponent;
  * The script object can also define the function <code>setup({@link Entity} entity)</code>, called upon script creation.
  * @extends Component
  */
-export { exported_ScriptComponent as ScriptComponent };
+exports.ScriptComponent = exported_ScriptComponent;

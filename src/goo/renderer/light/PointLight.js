@@ -1,11 +1,17 @@
-import { Light as Light_Lightjs } from "../../renderer/light/Light";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PointLight = undefined;
+
+var _Light = require("../../renderer/light/Light");
+
 function PointLight(color) {
-	Light_Lightjs.call(this, color);
+	_Light.Light.call(this, color);
 
 	/**
-	 * The range of the light (default is 1000)
-	 * @type {number}
-	 */
+  * The range of the light (default is 1000)
+  * @type {number}
+  */
 	this.range = 1000;
 
 	// @ifdef DEBUG
@@ -13,7 +19,7 @@ function PointLight(color) {
 	// @endif
 }
 
-PointLight.prototype = Object.create(Light_Lightjs.prototype);
+PointLight.prototype = Object.create(_Light.Light.prototype);
 PointLight.prototype.constructor = PointLight;
 
 /**
@@ -26,7 +32,7 @@ PointLight.prototype.update = function (transform) {
 };
 
 PointLight.prototype.copy = function (source) {
-	Light_Lightjs.prototype.copy.call(this, source);
+	_Light.Light.prototype.copy.call(this, source);
 
 	this.range = source.range;
 
@@ -47,4 +53,4 @@ var exported_PointLight = PointLight;
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export { exported_PointLight as PointLight };
+exports.PointLight = exported_PointLight;

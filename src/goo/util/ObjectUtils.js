@@ -1,3 +1,15 @@
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+    return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 var ObjectUtils_getExtension;
 var ObjectUtils_isInteger;
 var ObjectUtils_isNumber;
@@ -11,7 +23,7 @@ var ObjectUtils_warnOnce;
 var ObjectUtils_cloneSet;
 var ObjectUtils_cloneMap;
 var ObjectUtils_shallowSelectiveClone;
-var ObjectUtils_deepClone;
+var _ObjectUtils_deepClone;
 var ObjectUtils_map;
 var ObjectUtils_forEach;
 var ObjectUtils_each;
@@ -30,7 +42,7 @@ function ObjectUtils() {}
  * @returns {boolean}
  *         True if the value exists in the array and false otherwise.
  */
-ObjectUtils_contains = function(array, value) {
+exports.contains = ObjectUtils_contains = function ObjectUtils_contains(array, value) {
     return array.indexOf(value) !== -1;
 };;
 
@@ -47,7 +59,7 @@ ObjectUtils_contains = function(array, value) {
  *         The first item that matches the predicate or undefined if no
  *         items matched the predicate.
  */
-ObjectUtils_find = function(array, predicate) {
+exports.find = ObjectUtils_find = function ObjectUtils_find(array, predicate) {
     for (var i = 0; i < array.length; ++i) {
         var item = array[i];
         if (predicate(item, i)) {
@@ -64,7 +76,7 @@ ObjectUtils_find = function(array, predicate) {
  * @param {Object} source Source object to copy from
  * @returns {Object} Returns the destination object
  */
-ObjectUtils_defaults = function(destination, source) {
+exports.defaults = ObjectUtils_defaults = function ObjectUtils_defaults(destination, source) {
     var keys = Object.keys(source);
     for (var i = 0; i < keys.length; i++) {
         var key = keys[i];
@@ -83,7 +95,7 @@ ObjectUtils_defaults = function(destination, source) {
  * @param defaults Defaults for options; if an option if not present this value is used instead
  * @returns {Object} Returns the destination object
  */
-ObjectUtils_copyOptions = function(destination, options, defaults) {
+exports.copyOptions = ObjectUtils_copyOptions = function ObjectUtils_copyOptions(destination, options, defaults) {
     var keys = Object.keys(defaults);
 
     if (options) {
@@ -105,7 +117,7 @@ ObjectUtils_copyOptions = function(destination, options, defaults) {
  * @param {Object} source Source object to copy from
  * @returns {Object} Returns the destination object
  */
-ObjectUtils_extend = function(destination, source) {
+exports.extend = ObjectUtils_extend = function ObjectUtils_extend(destination, source) {
     if (!source) {
         return;
     }
@@ -120,7 +132,7 @@ ObjectUtils_extend = function(destination, source) {
 };;
 
 // Create a (shallow-cloned) duplicate of an object.
-ObjectUtils_clone = function(obj) {
+exports.clone = ObjectUtils_clone = function ObjectUtils_clone(obj) {
     if (!ObjectUtils_isObject(obj)) {
         return obj;
     }
@@ -133,7 +145,7 @@ var nativeForEach = Array.prototype.forEach;
 // The cornerstone, an `each` implementation, aka `forEach`.
 // Handles objects with the built-in `forEach`, arrays, and raw objects.
 // Delegates to **ECMAScript 5**'s native `forEach` if available.
-ObjectUtils_each = function(obj, iterator, context, sortProp) {
+ObjectUtils_each = function ObjectUtils_each(obj, iterator, context, sortProp) {
     if (typeof obj === "undefined" || obj === null) {
         return;
     }
@@ -146,7 +158,7 @@ ObjectUtils_each = function(obj, iterator, context, sortProp) {
     } else {
         var keys = Object.keys(obj);
         if (sortProp !== undefined) {
-            keys.sort(function(a, b) {
+            keys.sort(function (a, b) {
                 return obj[a][sortProp] - obj[b][sortProp];
             });
         }
@@ -168,10 +180,10 @@ ObjectUtils_each = function(obj, iterator, context, sortProp) {
  *
  * @returns {Array}
  */
-ObjectUtils_map = function(collection, iteratee, context, sortProp) {
+exports.map = ObjectUtils_map = function ObjectUtils_map(collection, iteratee, context, sortProp) {
     var result = [];
 
-    ObjectUtils_forEach(collection, function(value, key) {
+    ObjectUtils_forEach(collection, function (value, key) {
         result.push(iteratee.call(context, value, key, collection));
     }, context, sortProp);
 
@@ -187,9 +199,9 @@ ObjectUtils_map = function(collection, iteratee, context, sortProp) {
  * @param {*} object Object to clone
  * @returns {*}
  */
-ObjectUtils_deepClone = function(object) {
+exports.deepClone = _ObjectUtils_deepClone = function ObjectUtils_deepClone(object) {
     // handle primitive types, functions, null and undefined
-    if (object === null || typeof object !== "object") {
+    if (object === null || (typeof object === "undefined" ? "undefined" : _typeof(object)) !== "object") {
         return object;
     }
 
@@ -200,7 +212,7 @@ ObjectUtils_deepClone = function(object) {
 
     // handle arrays (even sparse ones)
     if (object instanceof Array) {
-        return object.map(ObjectUtils_deepClone);
+        return object.map(_ObjectUtils_deepClone);
     }
 
     // handle html nodes
@@ -219,10 +231,10 @@ ObjectUtils_deepClone = function(object) {
     return copy;
 };;
 
-ObjectUtils_shallowSelectiveClone = function(source, keys) {
+exports.shallowSelectiveClone = ObjectUtils_shallowSelectiveClone = function ObjectUtils_shallowSelectiveClone(source, keys) {
     var clone = {};
 
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
         clone[key] = source[key];
     });
 
@@ -230,25 +242,25 @@ ObjectUtils_shallowSelectiveClone = function(source, keys) {
 };;
 
 // probably not the best way to copy maps and sets
-ObjectUtils_cloneMap = function(source) {
+exports.cloneMap = ObjectUtils_cloneMap = function ObjectUtils_cloneMap(source) {
     var clone = new Map();
-    source.forEach(function(value, key) {
+    source.forEach(function (value, key) {
         clone.set(key, value);
     });
     return clone;
 };;
 
-ObjectUtils_cloneSet = function(source) {
+exports.cloneSet = ObjectUtils_cloneSet = function ObjectUtils_cloneSet(source) {
     var clone = new Set();
-    source.forEach(function(value) {
+    source.forEach(function (value) {
         clone.add(value);
     });
     return clone;
 };;
 
-ObjectUtils_warnOnce = function(message, fun) {
+exports.warnOnce = ObjectUtils_warnOnce = function ObjectUtils_warnOnce(message, fun) {
     var warned = false;
-    return function() {
+    return function () {
         if (!warned) {
             console.warn(message);
             warned = true;
@@ -265,8 +277,8 @@ ObjectUtils_warnOnce = function(message, fun) {
  *
  * @returns {Function}
  */
-ObjectUtils_constant = function(value) {
-    return function() {
+exports.constant = ObjectUtils_constant = function ObjectUtils_constant(value) {
+    return function () {
         return value;
     };
 };;
@@ -279,8 +291,8 @@ ObjectUtils_constant = function(value) {
  *
  * @returns {Function}
  */
-ObjectUtils_property = function(propName) {
-    return function(obj) {
+ObjectUtils_property = function ObjectUtils_property(propName) {
+    return function (obj) {
         return obj[propName];
     };
 };;
@@ -292,7 +304,7 @@ ObjectUtils_property = function(propName) {
  *
  * @returns {boolean} True if the value is an array and false otherwise.
  */
-ObjectUtils_isArray = function(value) {
+exports.isArray = ObjectUtils_isArray = function ObjectUtils_isArray(value) {
     return Array.isArray(value);
 };;
 
@@ -303,7 +315,7 @@ ObjectUtils_isArray = function(value) {
  *
  * @returns {boolean} True if the value is an object and false otherwise.
  */
-ObjectUtils_isObject = function(value) {
+ObjectUtils_isObject = function ObjectUtils_isObject(value) {
     return value === Object(value);
 };;
 
@@ -314,7 +326,7 @@ ObjectUtils_isObject = function(value) {
  *
  * @returns {boolean} True if the value is a string and false otherwise.
  */
-ObjectUtils_isString = function(value) {
+exports.isString = ObjectUtils_isString = function ObjectUtils_isString(value) {
     return typeof value === "string";
 };;
 
@@ -325,7 +337,7 @@ ObjectUtils_isString = function(value) {
  *
  * @returns {boolean} True if the value is a boolean and false otherwise.
  */
-ObjectUtils_isBoolean = function(value) {
+exports.isBoolean = ObjectUtils_isBoolean = function ObjectUtils_isBoolean(value) {
     return value === true || value === false;
 };;
 
@@ -336,7 +348,7 @@ ObjectUtils_isBoolean = function(value) {
  *
  * @returns {boolean} True if the value is a number and false otherwise.
  */
-ObjectUtils_isNumber = function(value) {
+exports.isNumber = ObjectUtils_isNumber = function ObjectUtils_isNumber(value) {
     return typeof value === "number";
 };;
 
@@ -347,7 +359,7 @@ ObjectUtils_isNumber = function(value) {
  *
  * @returns {boolean} True if the value is an integer number and false otherwise.
  */
-ObjectUtils_isInteger = function(value) {
+exports.isInteger = ObjectUtils_isInteger = function ObjectUtils_isInteger(value) {
     return ObjectUtils_isNumber(value) && value % 1 === 0;
 };;
 
@@ -359,7 +371,7 @@ ObjectUtils_isInteger = function(value) {
  *
  * @returns {string}
  */
-ObjectUtils_getExtension = function(value) {
+exports.getExtension = ObjectUtils_getExtension = function ObjectUtils_getExtension(value) {
     if (ObjectUtils_isString(value)) {
         var dotIndex = value.lastIndexOf(".");
         if (dotIndex >= -1) {
@@ -370,4 +382,23 @@ ObjectUtils_getExtension = function(value) {
     return "";
 };;
 
-export { ObjectUtils_contains as contains, ObjectUtils_find as find, ObjectUtils_defaults as defaults, ObjectUtils_copyOptions as copyOptions, ObjectUtils_extend as extend, ObjectUtils_clone as clone, ObjectUtils_map as map, ObjectUtils_deepClone as deepClone, ObjectUtils_shallowSelectiveClone as shallowSelectiveClone, ObjectUtils_cloneMap as cloneMap, ObjectUtils_cloneSet as cloneSet, ObjectUtils_warnOnce as warnOnce, ObjectUtils_constant as constant, ObjectUtils_isArray as isArray, ObjectUtils_isString as isString, ObjectUtils_isBoolean as isBoolean, ObjectUtils_isNumber as isNumber, ObjectUtils_isInteger as isInteger, ObjectUtils_getExtension as getExtension, ObjectUtils };
+exports.contains = ObjectUtils_contains;
+exports.find = ObjectUtils_find;
+exports.defaults = ObjectUtils_defaults;
+exports.copyOptions = ObjectUtils_copyOptions;
+exports.extend = ObjectUtils_extend;
+exports.clone = ObjectUtils_clone;
+exports.map = ObjectUtils_map;
+exports.deepClone = _ObjectUtils_deepClone;
+exports.shallowSelectiveClone = ObjectUtils_shallowSelectiveClone;
+exports.cloneMap = ObjectUtils_cloneMap;
+exports.cloneSet = ObjectUtils_cloneSet;
+exports.warnOnce = ObjectUtils_warnOnce;
+exports.constant = ObjectUtils_constant;
+exports.isArray = ObjectUtils_isArray;
+exports.isString = ObjectUtils_isString;
+exports.isBoolean = ObjectUtils_isBoolean;
+exports.isNumber = ObjectUtils_isNumber;
+exports.isInteger = ObjectUtils_isInteger;
+exports.getExtension = ObjectUtils_getExtension;
+exports.ObjectUtils = ObjectUtils;

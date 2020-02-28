@@ -1,37 +1,51 @@
-import { Material as Materialjs } from "../renderer/Material";
-import { RenderTarget as RenderTargetjs } from "../renderer/pass/RenderTarget";
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { Shader as Shaderjs } from "../renderer/Shader";
-import { methods as ShaderFragmentjs_methods } from "../renderer/shaders/ShaderFragment";
-import { RenderPass as RenderPassjs } from "../renderer/pass/RenderPass";
-import { FullscreenPass as FullscreenPassjs } from "../renderer/pass/FullscreenPass";
-import { Pass as Pass_Passjs } from "../renderer/pass/Pass";
-import { BlurPass as BlurPassjs } from "../passpack/BlurPass";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DepthPass = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Shader = require("../renderer/Shader");
+
+var _ShaderFragment = require("../renderer/shaders/ShaderFragment");
+
+var _RenderPass = require("../renderer/pass/RenderPass");
+
+var _FullscreenPass = require("../renderer/pass/FullscreenPass");
+
+var _Pass = require("../renderer/pass/Pass");
+
+var _BlurPass = require("../passpack/BlurPass");
+
 function DepthPass(renderList, outShader) {
-	this.depthPass = new RenderPassjs(renderList);
-	var packDepthMaterial = new Materialjs(packDepth);
+	this.depthPass = new _RenderPass.RenderPass(renderList);
+	var packDepthMaterial = new _Material.Material(packDepth);
 	this.depthPass.overrideMaterial = packDepthMaterial;
 
-	this.blurTarget = new RenderTargetjs(256, 256);
-	this.blurPass = new BlurPassjs({
+	this.blurTarget = new _RenderTarget.RenderTarget(256, 256);
+	this.blurPass = new _BlurPass.BlurPass({
 		target: this.blurTarget
 	});
 
 	var shader = outShader || unpackDepth;
-	this.outPass = new FullscreenPassjs(shader);
+	this.outPass = new _FullscreenPass.FullscreenPass(shader);
 	this.outPass.useReadBuffer = false;
 	// this.outPass.clear = true;
 
 	var width = window.innerWidth || 1;
 	var height = window.innerHeight || 1;
-	this.depthTarget = new RenderTargetjs(width, height);
+	this.depthTarget = new _RenderTarget.RenderTarget(width, height);
 
 	this.enabled = true;
 	this.clear = false;
 	this.needsSwap = true;
 }
 
-DepthPass.prototype = Object.create(Pass_Passjs.prototype);
+DepthPass.prototype = Object.create(_Pass.Pass.prototype);
 DepthPass.prototype.constructor = DepthPass;
 
 DepthPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta) {
@@ -53,39 +67,17 @@ var packDepth = {
 		viewMatrix: Shaderjs_VIEW_MATRIX,
 		projectionMatrix: Shaderjs_PROJECTION_MATRIX,
 		worldMatrix: Shaderjs_WORLD_MATRIX,
-//				nearPlane: Shader.NEAR_PLANE,
+		//				nearPlane: Shader.NEAR_PLANE,
 		farPlane: Shaderjs_FAR_PLANE
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-
-		'varying vec4 vPosition;',
-
-		'void main(void) {',
-		'	vPosition = viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-		'	gl_Position = projectionMatrix * vPosition;',
-		'}'//
+	vshader: ['attribute vec3 vertexPosition;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'varying vec4 vPosition;', 'void main(void) {', '	vPosition = viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);', '	gl_Position = projectionMatrix * vPosition;', '}' //
 	].join('\n'),
-	fshader: [
-		'precision mediump float;',
+	fshader: ['precision mediump float;',
 
-//				'uniform float nearPlane;',
-		'uniform float farPlane;',
-
-		ShaderFragmentjs_methods.packDepth,
-
-		'varying vec4 vPosition;',
-
-		'void main(void)',
-		'{',
-		// ' float linearDepth = min(length(vPosition), farPlane) / (farPlane - nearPlane);',
-		'	float linearDepth = min(length(vPosition), farPlane) / farPlane;',
-		'	gl_FragColor = packDepth(linearDepth);',
-		'}'//
+	//				'uniform float nearPlane;',
+	'uniform float farPlane;', _ShaderFragment.methods.packDepth, 'varying vec4 vPosition;', 'void main(void)', '{',
+	// ' float linearDepth = min(length(vPosition), farPlane) / (farPlane - nearPlane);',
+	'	float linearDepth = min(length(vPosition), farPlane) / farPlane;', '	gl_FragColor = packDepth(linearDepth);', '}' //
 	].join('\n')
 };
 
@@ -101,38 +93,9 @@ var unpackDepth = {
 		depthMap: Shaderjs_DEPTH_MAP,
 		diffuseMap: Shaderjs_DIFFUSE_MAP
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'attribute vec2 vertexUV0;',
-
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-
-		'varying vec2 texCoord0;',
-
-		'void main(void) {',
-		'	texCoord0 = vertexUV0;',
-		'	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-		'}'//
+	vshader: ['attribute vec3 vertexPosition;', 'attribute vec2 vertexUV0;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'varying vec2 texCoord0;', 'void main(void) {', '	texCoord0 = vertexUV0;', '	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);', '}' //
 	].join('\n'),
-	fshader: [
-		'precision mediump float;',
-
-		'uniform sampler2D depthMap;',
-		'uniform sampler2D diffuseMap;',
-
-		'varying vec2 texCoord0;',
-
-		ShaderFragmentjs_methods.unpackDepth,
-
-		'void main(void)',
-		'{',
-		'	vec4 depthCol = texture2D(depthMap, texCoord0);',
-		'	vec4 diffuseCol = texture2D(diffuseMap, texCoord0);',
-		'	float depth = unpackDepth(depthCol);',
-		'	gl_FragColor = diffuseCol * vec4(depth);',
-		'}'//
+	fshader: ['precision mediump float;', 'uniform sampler2D depthMap;', 'uniform sampler2D diffuseMap;', 'varying vec2 texCoord0;', _ShaderFragment.methods.unpackDepth, 'void main(void)', '{', '	vec4 depthCol = texture2D(depthMap, texCoord0);', '	vec4 diffuseCol = texture2D(diffuseMap, texCoord0);', '	float depth = unpackDepth(depthCol);', '	gl_FragColor = diffuseCol * vec4(depth);', '}' //
 	].join('\n')
 };
 
@@ -143,4 +106,4 @@ var exported_DepthPass = DepthPass;
  * @param renderList
  * @param outShader
  */
-export { exported_DepthPass as DepthPass };
+exports.DepthPass = exported_DepthPass;

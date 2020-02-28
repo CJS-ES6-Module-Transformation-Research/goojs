@@ -1,4 +1,10 @@
-import { cubicInterpolation as Splinejs_cubicInterpolation } from "./Spline";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SplineWalker = undefined;
+
+var _Spline = require("./Spline");
+
 function SplineWalker(spline, substepSize) {
 	this.substepSize = substepSize || 0.01;
 	this._spline = spline;
@@ -17,7 +23,7 @@ SplineWalker.prototype._localInterpolation = function (store) {
 	var p1 = this._spline.controlPoints[this._segment * 3 + 1];
 	var p2 = this._spline.controlPoints[this._segment * 3 + 2];
 	var p3 = this._spline.controlPoints[this._segment * 3 + 3];
-	Splinejs_cubicInterpolation(p0, p1, p2, p3, this._localT, store);
+	(0, _Spline.cubicInterpolation)(p0, p1, p2, p3, this._localT, store);
 };
 
 /**
@@ -73,4 +79,4 @@ var exported_SplineWalker = SplineWalker;
  * Small values of this parameter lead to more substeps and better precision (at the cost of more computations).
  * @example-link http://code.gooengine.com/latest/visual-test/./SplineWalker/SplineWalker-vtest.html Comparison or normal interpolation vs using the SplineWalker
  */
-export { exported_SplineWalker as SplineWalker };
+exports.SplineWalker = exported_SplineWalker;

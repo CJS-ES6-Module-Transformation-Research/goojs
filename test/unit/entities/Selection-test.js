@@ -1,4 +1,4 @@
-import { Selection as Selectionjs } from "../../../src/goo/entities/Selection";
+var _Selection = require('../../../src/goo/entities/Selection');
 
 describe('Selection', function () {
 	function someObject() {
@@ -15,7 +15,7 @@ describe('Selection', function () {
 
 	describe('constructor', function () {
 		it('constructs an empty selection if given no parameters', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 
 			expect(selection).toEqual(Selectionjs_EMPTY);
 		});
@@ -23,7 +23,7 @@ describe('Selection', function () {
 		it('constructs a selection from an object', function () {
 			var obj1 = someObject();
 			var obj2 = someObject();
-			var selection = new Selectionjs(obj1);
+			var selection = new _Selection.Selection(obj1);
 
 			//! AT: cannot use jasmine's .toContain as it checks for equivalence and not equality
 			expect(selection.contains(obj1)).toBeTruthy();
@@ -34,7 +34,7 @@ describe('Selection', function () {
 			var obj1 = someObject();
 			var obj2 = someObject();
 			var obj3 = someObject();
-			var selection = new Selectionjs(obj1, obj2);
+			var selection = new _Selection.Selection(obj1, obj2);
 
 			expect(selection.contains(obj1)).toBeTruthy();
 			expect(selection.contains(obj2)).toBeTruthy();
@@ -45,7 +45,7 @@ describe('Selection', function () {
 			var obj1 = someObject();
 			var obj2 = someObject();
 			var obj3 = someObject();
-			var selection = new Selectionjs([obj1, obj2]);
+			var selection = new _Selection.Selection([obj1, obj2]);
 
 			expect(selection.contains(obj1)).toBeTruthy();
 			expect(selection.contains(obj2)).toBeTruthy();
@@ -56,8 +56,8 @@ describe('Selection', function () {
 			var obj1 = someObject();
 			var obj2 = someObject();
 			var obj3 = someObject();
-			var selection1 = new Selectionjs([obj1, obj2]);
-			var selection2 = new Selectionjs(selection1);
+			var selection1 = new _Selection.Selection([obj1, obj2]);
+			var selection2 = new _Selection.Selection(selection1);
 
 			expect(selection2.contains(obj1)).toBeTruthy();
 			expect(selection2.contains(obj2)).toBeTruthy();
@@ -67,7 +67,7 @@ describe('Selection', function () {
 
 	describe('contains', function () {
 		it('returns false when applied to an empty selection', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 			expect(selection.contains(123)).toBeFalsy();
 		});
 	});
@@ -75,44 +75,54 @@ describe('Selection', function () {
 	describe('each', function () {
 		it('iterates over every element', function () {
 			var array = [11, 22, 33];
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 			var sum = 0;
 
 			selection.each(function (element) {
 				sum += element;
 			});
 
-			expect(sum).toBeCloseTo(array.reduce(function (prev, cur) { return prev + cur; }, 0));
+			expect(sum).toBeCloseTo(array.reduce(function (prev, cur) {
+				return prev + cur;
+			}, 0));
 		});
 
 		it('iterates over every element until some condition is met', function () {
 			var array = [11, 22, 33, 44, 55];
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 			var sum = 0;
 
 			selection.each(function (element) {
-				if (element > 33) { return false; }
+				if (element > 33) {
+					return false;
+				}
 				sum += element;
 			});
 
-			expect(sum).toBeCloseTo(array.slice(0, 3).reduce(function (prev, cur) { return prev + cur; }, 0));
+			expect(sum).toBeCloseTo(array.slice(0, 3).reduce(function (prev, cur) {
+				return prev + cur;
+			}, 0));
 			expect(selection.toArray()).toEqual(array);
 		});
 	});
 
 	describe('filter', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
-			selection.filter(function () { return true; });
+			var selection = new _Selection.Selection();
+			selection.filter(function () {
+				return true;
+			});
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
 		});
 
 		it('filters out elements', function () {
 			var array = [11, 22, 33, 44, 55];
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
-			var predicate = function (element) { return element % 2 === 0; };
+			var predicate = function predicate(element) {
+				return element % 2 === 0;
+			};
 			selection.filter(predicate);
 
 			expect(selection.toArray()).toEqual(array.filter(predicate));
@@ -121,17 +131,21 @@ describe('Selection', function () {
 
 	describe('map', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
-			selection.map(function () { return 1; });
+			var selection = new _Selection.Selection();
+			selection.map(function () {
+				return 1;
+			});
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
 		});
 
 		it('gets a new selection by applying a function over every element of the previous selection', function () {
 			var array = [11, 22, 33, 44, 55];
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
-			var fun = function (element) { return element * 10; };
+			var fun = function fun(element) {
+				return element * 10;
+			};
 			selection.map(fun);
 
 			expect(selection.toArray()).toEqual(array.map(fun));
@@ -140,17 +154,21 @@ describe('Selection', function () {
 
 	describe('reduce', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
-			selection.reduce(function () { return 1; });
+			var selection = new _Selection.Selection();
+			selection.reduce(function () {
+				return 1;
+			});
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
 		});
 
 		it('reduces the elements in a selection', function () {
 			var array = [11, 22, 33, 44, 55];
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
-			var fun = function (prev, cur) { return prev + cur; };
+			var fun = function fun(prev, cur) {
+				return prev + cur;
+			};
 			selection.reduce(fun, 123);
 
 			expect(selection.toArray()).toEqual([array.reduce(fun, 123)]);
@@ -159,7 +177,7 @@ describe('Selection', function () {
 
 	describe('and', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 			selection.and(someObject());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -169,7 +187,7 @@ describe('Selection', function () {
 			var array1 = [11, 22, 33, 44, 55];
 			var array2 = [33, 44, 55, 66, 77];
 
-			var selection = new Selectionjs(array1);
+			var selection = new _Selection.Selection(array1);
 			selection.and(array2);
 
 			array1.forEach(function (element) {
@@ -186,7 +204,7 @@ describe('Selection', function () {
 
 	describe('intersects', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 			selection.intersects(someObject());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -196,7 +214,7 @@ describe('Selection', function () {
 			var array1 = [11, 22, 33, 44, 55];
 			var array2 = [33, 44, 55, 66, 77];
 
-			var selection = new Selectionjs(array1);
+			var selection = new _Selection.Selection(array1);
 			selection.intersects(array2);
 
 			expect(selection.contains(33)).toBeTruthy();
@@ -209,7 +227,7 @@ describe('Selection', function () {
 
 	describe('without', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 			selection.without(someObject());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -219,7 +237,7 @@ describe('Selection', function () {
 			var array1 = [11, 22, 33, 44, 55];
 			var array2 = [33, 44, 55, 66, 77];
 
-			var selection = new Selectionjs(array1);
+			var selection = new _Selection.Selection(array1);
 			selection.without(array2);
 
 			expect(selection.contains(11)).toBeTruthy();
@@ -231,14 +249,14 @@ describe('Selection', function () {
 
 	describe('andSelf', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 			selection.andSelf();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
 		});
 
 		it('returns itself when applied to an selection that has only one stack entry', function () {
-			var selection = new Selectionjs(someObjects(5));
+			var selection = new _Selection.Selection(someObjects(5));
 			selection.andSelf();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -247,8 +265,10 @@ describe('Selection', function () {
 		it('add the previous selection to the current one', function () {
 			var array = [11, 22, 33, 44, 55];
 
-			var selection = new Selectionjs(array);
-			selection.map(function (element) { return element * 10; });
+			var selection = new _Selection.Selection(array);
+			selection.map(function (element) {
+				return element * 10;
+			});
 			selection.andSelf();
 
 			array.forEach(function (element) {
@@ -262,7 +282,7 @@ describe('Selection', function () {
 
 	describe('end', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 			selection.end();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -271,8 +291,10 @@ describe('Selection', function () {
 		it('revert back to a previous selection', function () {
 			var array = [11, 22, 33, 44, 55];
 
-			var selection = new Selectionjs(array);
-			selection.map(function (element) { return element * 10; });
+			var selection = new _Selection.Selection(array);
+			selection.map(function (element) {
+				return element * 10;
+			});
 			selection.end();
 
 			array.forEach(function (element) {
@@ -287,13 +309,13 @@ describe('Selection', function () {
 		it('converts a selection to an array', function () {
 			var array = [11, 22, 33, 44, 55];
 
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
 			expect(selection.toArray()).toEqual(array);
 		});
 
 		it('converts an empty selection to an empty array', function () {
-			var selection = new Selectionjs();
+			var selection = new _Selection.Selection();
 
 			expect(selection.toArray()).toEqual([]);
 		});
@@ -303,7 +325,7 @@ describe('Selection', function () {
 		it('gets the whole array when called with no arguments', function () {
 			var array = [11, 22, 33, 44, 55];
 
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
 			expect(selection.get()).toEqual(array);
 		});
@@ -311,7 +333,7 @@ describe('Selection', function () {
 		it('gets an element at a specific position', function () {
 			var array = [11, 22, 33, 44, 55];
 
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
 			expect(selection.get(1)).toEqual(22);
 		});
@@ -319,7 +341,7 @@ describe('Selection', function () {
 		it('gets an element at a specific position when called with a negative index', function () {
 			var array = [11, 22, 33, 44, 55];
 
-			var selection = new Selectionjs(array);
+			var selection = new _Selection.Selection(array);
 
 			expect(selection.get(-1)).toEqual(55);
 		});

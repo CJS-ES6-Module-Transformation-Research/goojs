@@ -1,5 +1,12 @@
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { shallowSelectiveClone as ObjectUtilsjs_shallowSelectiveClone } from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Grid = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 function Grid(xSegments, ySegments, width, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -16,12 +23,12 @@ function Grid(xSegments, ySegments, width, height) {
 	var attributeMap = MeshDatajs_defaultMap([MeshDatajs_POSITION]);
 	var vertsCount = 4 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
 	var idcsCount = 8 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
-	MeshDatajs.call(this, attributeMap, vertsCount, idcsCount);
+	_MeshData.MeshData.call(this, attributeMap, vertsCount, idcsCount);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
 
-Grid.prototype = Object.create(MeshDatajs.prototype);
+Grid.prototype = Object.create(_MeshData.MeshData.prototype);
 Grid.prototype.constructor = Grid;
 
 Grid.prototype.rebuild = function () {
@@ -31,29 +38,16 @@ Grid.prototype.rebuild = function () {
 	var indices = [];
 
 	// Outer lines
-	verts.push(
-		-xExtent, -yExtent, 0,
-		-xExtent, yExtent, 0,
-		xExtent, yExtent, 0,
-		xExtent, -yExtent, 0
-	);
+	verts.push(-xExtent, -yExtent, 0, -xExtent, yExtent, 0, xExtent, yExtent, 0, xExtent, -yExtent, 0);
 	// Connecting the corners
-	indices.push(
-		0, 1,
-		1, 2,
-		2, 3,
-		3, 0
-	);
+	indices.push(0, 1, 1, 2, 2, 3, 3, 0);
 
 	// X grid lines
 	var xPos;
 	var step = this.width / this.xSegments;
 	for (var i = 1; i < this.xSegments; i++) {
 		xPos = i * step - xExtent;
-		verts.push(
-			xPos, -yExtent, 0,
-			xPos, yExtent, 0
-		);
+		verts.push(xPos, -yExtent, 0, xPos, yExtent, 0);
 	}
 
 	// Y grid lines
@@ -61,10 +55,7 @@ Grid.prototype.rebuild = function () {
 	step = this.height / this.ySegments;
 	for (var i = 1; i < this.ySegments; i++) {
 		yPos = i * step - yExtent;
-		verts.push(
-			-xExtent, yPos, 0,
-			xExtent, yPos, 0
-		);
+		verts.push(-xExtent, yPos, 0, xExtent, yPos, 0);
 	}
 	for (var i = indices.length / 2; i < verts.length / 3; i += 2) {
 		indices.push(i, i + 1);
@@ -78,11 +69,10 @@ Grid.prototype.rebuild = function () {
  * @returns {Grid}
  */
 Grid.prototype.clone = function () {
-	var options = ObjectUtilsjs_shallowSelectiveClone(this, ['xSegments', 'ySegments', 'width', 'height']);
+	var options = (0, _ObjectUtils.shallowSelectiveClone)(this, ['xSegments', 'ySegments', 'width', 'height']);
 
 	return new Grid(options);
 };
-
 
 var exported_Grid = Grid;
 
@@ -95,4 +85,4 @@ var exported_Grid = Grid;
  * @param {number} [height=1] Total height of the Grid.
  * @example var meshData = new Grid( 10, 10, 10, 10);
  */
-export { exported_Grid as Grid };
+exports.Grid = exported_Grid;

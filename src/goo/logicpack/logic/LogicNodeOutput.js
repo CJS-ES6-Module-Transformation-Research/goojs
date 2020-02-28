@@ -1,41 +1,45 @@
-import { writeValueToLayerOutput as LogicLayerjs_writeValueToLayerOutput } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeOutput = undefined;
 
-import {
-    LogicInterface as LogicInterface_LogicInterfacejs,
-    createDynamicOutput as LogicInterfacejs_createDynamicOutput,
-} from "./LogicInterface";
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
 
 var LogicNodeOutput_inportOutput;
 var LogicNodeOutput_editorName;
 var LogicNodeOutput_logicInterface;
 function LogicNodeOutput() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	LogicNodeOutput_logicInterface = LogicNodeOutput_logicInterface;;
 	this.type = 'LogicNodeOutput';
 	this.realOutport = null;
 }
 
-LogicNodeOutput.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeOutput.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeOutput_editorName = "Output";;
 
 LogicNodeOutput.prototype.onInputChanged = function (instDesc, portID, value) {
-	LogicLayerjs_writeValueToLayerOutput(instDesc, this.realOutport, value);
+	(0, _LogicLayer.writeValueToLayerOutput)(instDesc, this.realOutport, value);
 };
 
-LogicNodeOutput.prototype.onEvent = function () { };
+LogicNodeOutput.prototype.onEvent = function () {};
 
 // Configure new output.
-LogicNode_LogicNodejs.prototype.onConfigure = function (newConfig) {
-	this.realOutport = LogicInterfacejs_createDynamicOutput(newConfig.Name);
+_LogicNode.LogicNode.prototype.onConfigure = function (newConfig) {
+	this.realOutport = (0, _LogicInterface.createDynamicOutput)(newConfig.Name);
 };
 
-LogicNodesjs_registerType('LogicNodeOutput', LogicNodeOutput);
+(0, _LogicNodes.registerType)('LogicNodeOutput', LogicNodeOutput);
 
-LogicNodeOutput_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeOutput_logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeOutput_inportOutput = LogicNodeOutput_logicInterface.addInputProperty("Output", "any");;
-LogicNodeOutput.logicInterface.addConfigEntry({ name: 'Name', type: 'string', label: 'Name'});
+LogicNodeOutput.logicInterface.addConfigEntry({ name: 'Name', type: 'string', label: 'Name' });
 
 var exported_LogicNodeOutput = LogicNodeOutput;
 
@@ -43,4 +47,4 @@ var exported_LogicNodeOutput = LogicNodeOutput;
  * Logic node to be used as layer output.
  * @private
  */
-export { exported_LogicNodeOutput as LogicNodeOutput };
+exports.LogicNodeOutput = exported_LogicNodeOutput;

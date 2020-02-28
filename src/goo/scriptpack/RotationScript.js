@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var RotationScript_externals;
 function RotationScript() {
 	var mouseState, actualState, entity;
@@ -18,7 +21,7 @@ function RotationScript() {
 		document.addEventListener('mousemove', onMouseMove);
 	}
 
-	function update(parameters/*, env*/) {
+	function update(parameters /*, env*/) {
 		actualState.x += (mouseState.x - actualState.x) * parameters.fraction;
 		actualState.y += (mouseState.y - actualState.y) * parameters.fraction;
 
@@ -30,7 +33,7 @@ function RotationScript() {
 		mouseState.y = e.y;
 	}
 
-	function cleanup(/*parameters, env*/) {
+	function cleanup() /*parameters, env*/{
 		document.removeEventListener('mousemove', onMouseMove);
 	}
 	return {
@@ -41,19 +44,19 @@ function RotationScript() {
 }
 
 RotationScript_externals = {
-    key: "RotationScript",
-    name: "Mouse Rotation",
-    description: "",
+	key: "RotationScript",
+	name: "Mouse Rotation",
+	description: "",
 
-    parameters: [{
-        key: "fraction",
-        name: "Speed",
-        "default": 0.01,
-        type: "float",
-        control: "slider",
-        min: 0.01,
-        max: 1
-    }]
+	parameters: [{
+		key: "fraction",
+		name: "Speed",
+		"default": 0.01,
+		type: "float",
+		control: "slider",
+		min: 0.01,
+		max: 1
+	}]
 };;
 
-export { RotationScript };
+exports.RotationScript = RotationScript;

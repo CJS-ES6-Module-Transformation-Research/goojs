@@ -1,32 +1,41 @@
-import {
-    Gizmo as Gizmo_Gizmojs,
-    registerHandle as Gizmojs_registerHandle,
-    buildMaterialForAxis as Gizmojs_buildMaterialForAxis,
-} from "../../util/gizmopack/Gizmo";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScaleGizmo = undefined;
 
-import { MeshData as MeshDatajs } from "../../renderer/MeshData";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
-import { Box as Boxjs } from "../../shapes/Box";
-import { Transform as Transformjs } from "../../math/Transform";
-import { Renderer as Rendererjs } from "../../renderer/Renderer";
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { Ray as Rayjs } from "../../math/Ray";
-import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
+var _Gizmo = require("../../util/gizmopack/Gizmo");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _Box = require("../../shapes/Box");
+
+var _Transform = require("../../math/Transform");
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Vector = require("../../math/Vector3");
+
+var _Ray = require("../../math/Ray");
+
+var _MathUtils = require("../../math/MathUtils");
+
 function ScaleGizmo(gizmoRenderSystem) {
-	Gizmo_Gizmojs.call(this, 'ScaleGizmo', gizmoRenderSystem);
+	_Gizmo.Gizmo.call(this, 'ScaleGizmo', gizmoRenderSystem);
 
-	this._transformScale = new Vector3js(1, 1, 1);
+	this._transformScale = new _Vector.Vector3(1, 1, 1);
 
 	this.compileRenderables();
 }
 
-ScaleGizmo.prototype = Object.create(Gizmo_Gizmojs.prototype);
+ScaleGizmo.prototype = Object.create(_Gizmo.Gizmo.prototype);
 ScaleGizmo.prototype.constructor = ScaleGizmo;
 
 var SCALE = 1;
 
 ScaleGizmo.prototype.activate = function (props) {
-	Gizmo_Gizmojs.prototype.activate.call(this, props);
+	_Gizmo.Gizmo.prototype.activate.call(this, props);
 	if (this._activeHandle.axis !== 3) {
 		this._setPlane();
 		this._setLine();
@@ -34,7 +43,7 @@ ScaleGizmo.prototype.activate = function (props) {
 };
 
 ScaleGizmo.prototype.copyTransform = function (transform) {
-	Gizmo_Gizmojs.prototype.copyTransform.call(this, transform);
+	_Gizmo.Gizmo.prototype.copyTransform.call(this, transform);
 	this._transformScale.copy(transform.scale);
 };
 
@@ -49,30 +58,27 @@ ScaleGizmo.prototype.process = function (mouseState, oldMouseState) {
 };
 
 ScaleGizmo.prototype._scaleUniform = function (mouseState, oldMouseState) {
-	var scale = Math.pow(
-		1 + mouseState.x + oldMouseState.y - oldMouseState.x - mouseState.y,
-		SCALE
-	);
+	var scale = Math.pow(1 + mouseState.x + oldMouseState.y - oldMouseState.x - mouseState.y, SCALE);
 
-	var cameraEntityDistance = Rendererjs.mainCamera.translation.distance(this.transform.translation);
-	scale += cameraEntityDistance / 200000 * MathUtilsjs.sign(scale - 1);
+	var cameraEntityDistance = _Renderer.Renderer.mainCamera.translation.distance(this.transform.translation);
+	scale += cameraEntityDistance / 200000 * _MathUtils.MathUtils.sign(scale - 1);
 
 	this._transformScale.scale(scale);
 };
 
 (function () {
-	var oldRay = new Rayjs();
-	var newRay = new Rayjs();
+	var oldRay = new _Ray.Ray();
+	var newRay = new _Ray.Ray();
 
-	var oldWorldPos = new Vector3js();
-	var worldPos = new Vector3js();
-	var result = new Vector3js();
+	var oldWorldPos = new _Vector.Vector3();
+	var worldPos = new _Vector.Vector3();
+	var result = new _Vector.Vector3();
 
 	var AXIS_FOR_ID = ['x', 'y', 'z'];
 
 	ScaleGizmo.prototype._scaleNonUniform = function (mouseState, oldMouseState) {
-		Rendererjs.mainCamera.getPickRay(oldMouseState.x, oldMouseState.y, 1, 1, oldRay);
-		Rendererjs.mainCamera.getPickRay(mouseState.x, mouseState.y, 1, 1, newRay);
+		_Renderer.Renderer.mainCamera.getPickRay(oldMouseState.x, oldMouseState.y, 1, 1, oldRay);
+		_Renderer.Renderer.mainCamera.getPickRay(mouseState.x, mouseState.y, 1, 1, newRay);
 
 		// Project mousemove to plane
 		this._plane.rayIntersect(oldRay, oldWorldPos);
@@ -90,7 +96,7 @@ ScaleGizmo.prototype._scaleUniform = function (mouseState, oldMouseState) {
 })();
 
 ScaleGizmo.prototype.compileRenderables = function () {
-	var boxMesh = new Boxjs(1.4, 1.4, 1.4);
+	var boxMesh = new _Box.Box(1.4, 1.4, 1.4);
 	var arrowMesh = buildArrowMesh();
 
 	this.addRenderable(buildBox(boxMesh));
@@ -102,14 +108,14 @@ ScaleGizmo.prototype.compileRenderables = function () {
 function buildBox(boxMesh) {
 	return {
 		meshData: boxMesh,
-		materials: [Gizmojs_buildMaterialForAxis(3)],
-		transform: new Transformjs(),
-		id: Gizmojs_registerHandle({ type: 'Scale', axis: 3 })
+		materials: [(0, _Gizmo.buildMaterialForAxis)(3)],
+		transform: new _Transform.Transform(),
+		id: (0, _Gizmo.registerHandle)({ type: 'Scale', axis: 3 })
 	};
 }
 
 function buildArrow(arrowMesh, dim) {
-	var transform = new Transformjs();
+	var transform = new _Transform.Transform();
 
 	if (dim === 0) {
 		transform.setRotationXYZ(0, Math.PI / 2, 0);
@@ -119,33 +125,33 @@ function buildArrow(arrowMesh, dim) {
 
 	return {
 		meshData: arrowMesh,
-		materials: [Gizmojs_buildMaterialForAxis(dim)],
+		materials: [(0, _Gizmo.buildMaterialForAxis)(dim)],
 		transform: transform,
-		id: Gizmojs_registerHandle({ type: 'Scale', axis: dim })
+		id: (0, _Gizmo.registerHandle)({ type: 'Scale', axis: dim })
 	};
 }
 
 function buildArrowMesh() {
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 
 	// Box
-	var mesh1Data = new Boxjs();
+	var mesh1Data = new _Box.Box();
 
 	// Line
-	var mesh2Data = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), 2, 2);
+	var mesh2Data = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), 2, 2);
 	mesh2Data.getAttributeBuffer(MeshDatajs_POSITION).set([0, 0, 0, 0, 0, 1]);
 	mesh2Data.getIndexBuffer().set([0, 1]);
 	mesh2Data.indexLengths = null;
 	mesh2Data.indexModes = ['Lines'];
 
 	// Box
-	var transform = new Transformjs();
+	var transform = new _Transform.Transform();
 	transform.translation.setDirect(0, 0, 8);
 	transform.update();
 	meshBuilder.addMeshData(mesh1Data, transform);
 
 	// Line
-	var transform = new Transformjs();
+	var transform = new _Transform.Transform();
 	transform.scale.setDirect(1, 1, 8);
 	transform.update();
 	meshBuilder.addMeshData(mesh2Data, transform);
@@ -162,4 +168,4 @@ var exported_ScaleGizmo = ScaleGizmo;
  * @extends Gizmo
  * @hidden
  */
-export { exported_ScaleGizmo as ScaleGizmo };
+exports.ScaleGizmo = exported_ScaleGizmo;

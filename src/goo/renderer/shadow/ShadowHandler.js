@@ -1,37 +1,46 @@
-import { Capabilities as Capabilitiesjs } from "../../renderer/Capabilities";
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { FullscreenPass as FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
-import { Camera as Camerajs } from "../../renderer/Camera";
-import { Material as Materialjs } from "../../renderer/Material";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ShadowHandler = undefined;
 
-import {
-    convolution as ShaderLibjs_convolution,
-    downsample as ShaderLibjs_downsample,
-    lightDepth as ShaderLibjs_lightDepth,
-} from "../../renderer/shaders/ShaderLib";
+var _Capabilities = require("../../renderer/Capabilities");
 
-import { RenderTarget as RenderTargetjs } from "../../renderer/pass/RenderTarget";
-import { Vector4 as Vector4js } from "../../math/Vector4";
-import { PointLight as PointLightjs } from "../../renderer/light/PointLight";
-import { SpotLight as SpotLightjs } from "../../renderer/light/SpotLight";
+var _Vector = require("../../math/Vector3");
+
+var _FullscreenPass = require("../../renderer/pass/FullscreenPass");
+
+var _Camera = require("../../renderer/Camera");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
+var _Vector2 = require("../../math/Vector4");
+
+var _PointLight = require("../../renderer/light/PointLight");
+
+var _SpotLight = require("../../renderer/light/SpotLight");
+
 function ShadowHandler() {
-	this.depthMaterial = new Materialjs(ShaderLibjs_lightDepth, 'depthMaterial');
+	this.depthMaterial = new _Material.Material(_ShaderLib.lightDepth, 'depthMaterial');
 	this.depthMaterial.cullState.cullFace = 'Back';
 	this.depthMaterial.fullOverride = true;
-	this.fullscreenPass = new FullscreenPassjs();
-	this.downsample = Materialjs.createShader(ShaderLibjs_downsample, 'downsample');
+	this.fullscreenPass = new _FullscreenPass.FullscreenPass();
+	this.downsample = _Material.Material.createShader(_ShaderLib.downsample, 'downsample');
 
 	var sigma = 2;
-	this.blurfilter = Materialjs.createShader(ShaderLibjs_convolution, 'blurfilter');
+	this.blurfilter = _Material.Material.createShader(_ShaderLib.convolution, 'blurfilter');
 	var kernelSize = 2 * Math.ceil(sigma * 3.0) + 1;
 	this.blurfilter.defines = {
 		KERNEL_SIZE_FLOAT: kernelSize.toFixed(1),
 		KERNEL_SIZE_INT: kernelSize.toFixed(0)
 	};
-	this.blurfilter.uniforms.cKernel = ShaderLibjs_convolution.buildKernel(sigma);
+	this.blurfilter.uniforms.cKernel = _ShaderLib.convolution.buildKernel(sigma);
 
-	this.oldClearColor = new Vector4js(0, 0, 0, 0);
-	this.shadowClearColor = new Vector4js(1, 1, 1, 1);
+	this.oldClearColor = new _Vector2.Vector4(0, 0, 0, 0);
+	this.shadowClearColor = new _Vector2.Vector4(1, 1, 1, 1);
 
 	this.renderList = [];
 	this.shadowList = [];
@@ -39,7 +48,7 @@ function ShadowHandler() {
 	this.first = true;
 }
 
-var tmpVec = new Vector3js();
+var tmpVec = new _Vector.Vector3();
 
 ShadowHandler.prototype._createShadowData = function (shadowSettings, renderer) {
 	var shadowX = shadowSettings.resolution[0];
@@ -63,19 +72,19 @@ ShadowHandler.prototype._createShadowData = function (shadowSettings, renderer) 
 		if (shadowSettings.shadowData.shadowTargetDown) {
 			renderer._deallocateRenderTarget(shadowSettings.shadowData.shadowTargetDown);
 		}
-		shadowSettings.shadowData.shadowTargetDown = new RenderTargetjs(shadowX / 2, shadowY / 2, type);
+		shadowSettings.shadowData.shadowTargetDown = new _RenderTarget.RenderTarget(shadowX / 2, shadowY / 2, type);
 		if (shadowSettings.shadowData.shadowBlurred) {
 			renderer._deallocateRenderTarget(shadowSettings.shadowData.shadowBlurred);
 		}
-		shadowSettings.shadowData.shadowBlurred = new RenderTargetjs(shadowX / 2, shadowY / 2, type);
+		shadowSettings.shadowData.shadowBlurred = new _RenderTarget.RenderTarget(shadowX / 2, shadowY / 2, type);
 
-		shadowSettings.shadowData.shadowTarget = new RenderTargetjs(shadowX, shadowY, {
+		shadowSettings.shadowData.shadowTarget = new _RenderTarget.RenderTarget(shadowX, shadowY, {
 			type: floatType,
 			magFilter: 'NearestNeighbor',
 			minFilter: 'NearestNeighborNoMipMaps'
 		});
 	} else {
-		shadowSettings.shadowData.shadowTarget = new RenderTargetjs(shadowX, shadowY, {
+		shadowSettings.shadowData.shadowTarget = new _RenderTarget.RenderTarget(shadowX, shadowY, {
 			magFilter: 'NearestNeighbor',
 			minFilter: 'NearestNeighborNoMipMaps'
 		});
@@ -102,7 +111,7 @@ ShadowHandler.prototype.checkShadowRendering = function (renderer, partitioner, 
 			if (!shadowSettings.shadowData) {
 				shadowSettings.shadowData = {};
 				shadowSettings.shadowRecord = {};
-				shadowSettings.shadowData.lightCamera = new Camerajs(55, 1, 1, 1000);
+				shadowSettings.shadowData.lightCamera = new _Camera.Camera(55, 1, 1, 1000);
 			}
 
 			var record = shadowSettings.shadowRecord;
@@ -118,24 +127,14 @@ ShadowHandler.prototype.checkShadowRendering = function (renderer, partitioner, 
 			}
 
 			// Update settings
-			if (!shadowSettings.shadowData.shadowTarget ||
-				record.angle !== light.angle ||
-				!record.resolution ||
-				record.resolution[0] !== shadowSettings.resolution[0] ||
-				record.resolution[1] !== shadowSettings.resolution[1] ||
-				record.near !== shadowSettings.near ||
-				record.far !== shadowSettings.far ||
-				record.size !== shadowSettings.size
-			) {
-				if (!record.resolution ||
-					record.resolution[0] !== shadowSettings.resolution[0] ||
-					record.resolution[1] !== shadowSettings.resolution[1]) {
+			if (!shadowSettings.shadowData.shadowTarget || record.angle !== light.angle || !record.resolution || record.resolution[0] !== shadowSettings.resolution[0] || record.resolution[1] !== shadowSettings.resolution[1] || record.near !== shadowSettings.near || record.far !== shadowSettings.far || record.size !== shadowSettings.size) {
+				if (!record.resolution || record.resolution[0] !== shadowSettings.resolution[0] || record.resolution[1] !== shadowSettings.resolution[1]) {
 					this._createShadowData(shadowSettings, renderer);
 				}
 
-				if (light instanceof SpotLightjs) {
+				if (light instanceof _SpotLight.SpotLight) {
 					lightCamera.setFrustumPerspective(light.angle, shadowSettings.resolution[0] / shadowSettings.resolution[1], shadowSettings.near, shadowSettings.far);
-				} else if (light instanceof PointLightjs) {
+				} else if (light instanceof _PointLight.PointLight) {
 					lightCamera.setFrustumPerspective(90, shadowSettings.resolution[0] / shadowSettings.resolution[1], shadowSettings.near, shadowSettings.far);
 				} else {
 					var radius = shadowSettings.size;
@@ -186,27 +185,27 @@ ShadowHandler.prototype.checkShadowRendering = function (renderer, partitioner, 
 				renderer.render(this.renderList, lightCamera, [], shadowSettings.shadowData.shadowTarget, true, this.depthMaterial);
 
 				switch (shadowSettings.shadowType) {
-				case 'VSM':
-					this.fullscreenPass.material.shader = this.downsample;
-					this.fullscreenPass.render(renderer, shadowSettings.shadowData.shadowTargetDown, shadowSettings.shadowData.shadowTarget);
+					case 'VSM':
+						this.fullscreenPass.material.shader = this.downsample;
+						this.fullscreenPass.render(renderer, shadowSettings.shadowData.shadowTargetDown, shadowSettings.shadowData.shadowTarget);
 
-					this.fullscreenPass.material.shader = this.blurfilter;
-					this.fullscreenPass.material.uniforms.uImageIncrement = [2 / shadowSettings.resolution[0], 0.0];
-					this.fullscreenPass.render(renderer, shadowSettings.shadowData.shadowBlurred, shadowSettings.shadowData.shadowTargetDown);
-					this.fullscreenPass.material.uniforms.uImageIncrement = [0.0, 2 / shadowSettings.resolution[1]];
-					this.fullscreenPass.render(renderer, shadowSettings.shadowData.shadowTargetDown, shadowSettings.shadowData.shadowBlurred);
+						this.fullscreenPass.material.shader = this.blurfilter;
+						this.fullscreenPass.material.uniforms.uImageIncrement = [2 / shadowSettings.resolution[0], 0.0];
+						this.fullscreenPass.render(renderer, shadowSettings.shadowData.shadowBlurred, shadowSettings.shadowData.shadowTargetDown);
+						this.fullscreenPass.material.uniforms.uImageIncrement = [0.0, 2 / shadowSettings.resolution[1]];
+						this.fullscreenPass.render(renderer, shadowSettings.shadowData.shadowTargetDown, shadowSettings.shadowData.shadowBlurred);
 
-					shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTargetDown;
-					break;
-				case 'PCF':
-					shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTarget;
-					break;
-				case 'Basic':
-					shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTarget;
-					break;
-				default:
-					shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTarget;
-					break;
+						shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTargetDown;
+						break;
+					case 'PCF':
+						shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTarget;
+						break;
+					case 'Basic':
+						shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTarget;
+						break;
+					default:
+						shadowSettings.shadowData.shadowResult = shadowSettings.shadowData.shadowTarget;
+						break;
 				}
 
 				renderer.setClearColor(this.oldClearColor.r, this.oldClearColor.g, this.oldClearColor.b, this.oldClearColor.a);
@@ -227,4 +226,4 @@ var exported_ShadowHandler = ShadowHandler;
 /**
  * Handles shadow techniques
  */
-export { exported_ShadowHandler as ShadowHandler };
+exports.ShadowHandler = exported_ShadowHandler;

@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function AnimationClipInstance() {
 	this._active = true;
 	this._loopCount = 0;
@@ -62,4 +65,4 @@ var exported_AnimationClipInstance = AnimationClipInstance;
  * Maintains state information about an instance of a specific animation clip, such as time scaling applied, active flag, start time of the
  *        instance, etc.
  */
-export { exported_AnimationClipInstance as AnimationClipInstance };
+exports.AnimationClipInstance = exported_AnimationClipInstance;

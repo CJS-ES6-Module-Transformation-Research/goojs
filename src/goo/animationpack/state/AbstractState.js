@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function AbstractState() {
 	this._globalStartTime = 0;
 	this.onFinished = null;
@@ -21,4 +24,4 @@ var exported_AbstractState = AbstractState;
  * Base class for a state in our animation system
  * @private
  */
-export { exported_AbstractState as AbstractState };
+exports.AbstractState = exported_AbstractState;

@@ -1,27 +1,33 @@
-import { Curve as Curve_Curvejs, numberToGLSL as Curvejs_numberToGLSL } from "../../../addons/particlepack/curves/Curve";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ConstantCurve = undefined;
+
+var _Curve = require('../../../addons/particlepack/curves/Curve');
+
 function ConstantCurve(options) {
 	options = options || {};
 
-	Curve_Curvejs.call(this, options);
+	_Curve.Curve.call(this, options);
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.value = options.value !== undefined ? options.value : 1;
 }
-ConstantCurve.prototype = Object.create(Curve_Curvejs.prototype);
+ConstantCurve.prototype = Object.create(_Curve.Curve.prototype);
 ConstantCurve.prototype.constructor = ConstantCurve;
 
-ConstantCurve.prototype.toGLSL = function (/*timeVariableName, lerpValueVariableName*/) {
-	return Curvejs_numberToGLSL(this.value);
+ConstantCurve.prototype.toGLSL = function () /*timeVariableName, lerpValueVariableName*/{
+	return (0, _Curve.numberToGLSL)(this.value);
 };
 
-ConstantCurve.prototype.integralToGLSL = function (timeVariableName/*, lerpValueVariableName*/) {
-	var value = Curvejs_numberToGLSL(this.value);
+ConstantCurve.prototype.integralToGLSL = function (timeVariableName /*, lerpValueVariableName*/) {
+	var value = (0, _Curve.numberToGLSL)(this.value);
 	return '(' + value + '*' + timeVariableName + ')';
 };
 
-ConstantCurve.prototype.getValueAt = function (/*t, lerpFactor*/) {
+ConstantCurve.prototype.getValueAt = function () /*t, lerpFactor*/{
 	return this.value;
 };
 
@@ -39,4 +45,4 @@ var exported_ConstantCurve = ConstantCurve;
  * @param {object} [options]
  * @param {number} [options.value=1]
  */
-export { exported_ConstantCurve as ConstantCurve };
+exports.ConstantCurve = exported_ConstantCurve;

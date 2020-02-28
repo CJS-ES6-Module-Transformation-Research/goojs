@@ -1,11 +1,17 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { getValue as FsmUtilsjs_getValue } from "../../../fsmpack/statemachine/FsmUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AddVariableAction = undefined;
 
-function AddVariableAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+function AddVariableAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-AddVariableAction.prototype = Object.create(Action_Actionjs.prototype);
+AddVariableAction.prototype = Object.create(_Action.Action.prototype);
 AddVariableAction.prototype.constructor = AddVariableAction;
 
 AddVariableAction.external = {
@@ -33,7 +39,7 @@ AddVariableAction.external = {
 
 AddVariableAction.prototype.add = function (fsm) {
 	fsm.applyOnVariable(this.variable, function (v) {
-		return v + FsmUtilsjs_getValue(this.amount, fsm);
+		return v + (0, _FsmUtils.getValue)(this.amount, fsm);
 	}.bind(this));
 };
 
@@ -50,4 +56,4 @@ AddVariableAction.prototype.update = function (fsm) {
 };
 
 var exported_AddVariableAction = AddVariableAction;
-export { exported_AddVariableAction as AddVariableAction };
+exports.AddVariableAction = exported_AddVariableAction;

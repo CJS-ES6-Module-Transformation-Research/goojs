@@ -1,24 +1,31 @@
-import {
-    ConfigHandler as ConfigHandler_ConfigHandlerjs,
-    _registerClass as ConfigHandlerjs__registerClass,
-} from "../../loaders/handlers/ConfigHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SkeletonHandler = undefined;
 
-import { Joint as Joint_Jointjs } from "../../animationpack/Joint";
-import { Skeleton as Skeletonjs } from "../../animationpack/Skeleton";
-import { SkeletonPose as SkeletonPosejs } from "../../animationpack/SkeletonPose";
-import { resolve as PromiseUtilsjs_resolve } from "../../util/PromiseUtils";
-import { forEach as ObjectUtilsjs_forEach } from "../../util/ObjectUtils";
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _Joint = require("../../animationpack/Joint");
+
+var _Skeleton = require("../../animationpack/Skeleton");
+
+var _SkeletonPose = require("../../animationpack/SkeletonPose");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function SkeletonHandler() {
-	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-SkeletonHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
+SkeletonHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 SkeletonHandler.prototype.constructor = SkeletonHandler;
-ConfigHandlerjs__registerClass('skeleton', SkeletonHandler);
+(0, _ConfigHandler._registerClass)('skeleton', SkeletonHandler);
 
 SkeletonHandler.prototype._create = function () {
-	var skeleton = new Skeletonjs('', []);
-	var pose = new SkeletonPosejs(skeleton);
+	var skeleton = new _Skeleton.Skeleton('', []);
+	var pose = new _SkeletonPose.SkeletonPose(skeleton);
 	return pose;
 };
 
@@ -31,13 +38,13 @@ SkeletonHandler.prototype._create = function () {
  * @returns {RSVP.Promise} Resolves with the updated entity or null if removed
  */
 SkeletonHandler.prototype._update = function (ref, config, options) {
-	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (pose) {
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (pose) {
 		if (!config) {
-			return PromiseUtilsjs_resolve();
+			return (0, _PromiseUtils.resolve)();
 		}
 		var joints = [];
-		ObjectUtilsjs_forEach(config.joints, function (jointConfig) {
-			var joint = new Joint_Jointjs(jointConfig.name);
+		(0, _ObjectUtils.forEach)(config.joints, function (jointConfig) {
+			var joint = new _Joint.Joint(jointConfig.name);
 			joint._index = jointConfig.index;
 			joint._parentIndex = jointConfig.parentIndex;
 			joint._inverseBindPose.matrix.data.set(jointConfig.inverseBindPose);
@@ -51,7 +58,7 @@ SkeletonHandler.prototype._update = function (ref, config, options) {
 		pose.allocateTransforms();
 		pose.setToBindPose();
 
-		return PromiseUtilsjs_resolve(pose);
+		return (0, _PromiseUtils.resolve)(pose);
 	});
 };
 
@@ -65,4 +72,4 @@ var exported_SkeletonHandler = SkeletonHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_SkeletonHandler as SkeletonHandler };
+exports.SkeletonHandler = exported_SkeletonHandler;

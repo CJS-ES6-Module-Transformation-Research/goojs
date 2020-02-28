@@ -1,6 +1,11 @@
-import { Camera as Camerajs } from "../renderer/Camera";
-function SimplePartitioner() {
-}
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SimplePartitioner = undefined;
+
+var _Camera = require("../renderer/Camera");
+
+function SimplePartitioner() {}
 
 SimplePartitioner.prototype.added = function () {
 	// needed for things like quadtrees etc
@@ -42,4 +47,4 @@ var exported_SimplePartitioner = SimplePartitioner;
 /**
  * Culls entities based on camera frustum and boundings
  */
-export { exported_SimplePartitioner as SimplePartitioner };
+exports.SimplePartitioner = exported_SimplePartitioner;

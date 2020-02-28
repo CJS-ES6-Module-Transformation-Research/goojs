@@ -1,28 +1,36 @@
-import { applyTimeline as ParticleUtilsjs_applyTimeline } from "../particles/ParticleUtils";
-import { Vector3 as Vector3js } from "../math/Vector3";
-import { Vector4 as Vector4js } from "../math/Vector4";
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Particle = undefined;
 
-var calcVec = new Vector3js();
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = require("../math/Vector4");
+
+var _MeshData = require("../renderer/MeshData");
+
+var calcVec = new _Vector.Vector3();
 
 function Particle(particleComponent, index) {
 	this.alive = false;
-	this.position = new Vector3js();
-	this.velocity = new Vector3js();
+	this.position = new _Vector.Vector3();
+	this.velocity = new _Vector.Vector3();
 	this.lifeSpan = 0;
 	this.parent = particleComponent;
 	this.age = 0;
 	this.index = index;
-	this.color = new Vector4js(1, 0, 0, 1);
+	this.color = new _Vector2.Vector4(1, 0, 0, 1);
 	this.size = 0.0;
 	this.spin = 0.0;
 	this.mass = 1.0;
 	this.emitter = null;
 	this.uvIndex = 0;
 	this.lastUVIndex = -1;
-	this.bbX = new Vector3js();
-	this.bbY = new Vector3js();
-	this.lastColor = new Vector4js();
+	this.bbX = new _Vector.Vector3();
+	this.bbY = new _Vector.Vector3();
+	this.lastColor = new _Vector2.Vector4();
 }
 
 /**
@@ -60,7 +68,7 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	this.position.addDirect(this.velocity.x * tpf, this.velocity.y * tpf, this.velocity.z * tpf);
 
 	// set values from component timeline
-	ParticleUtilsjs_applyTimeline(this, this.emitter && this.emitter.timeline ? this.emitter.timeline : this.parent.timeline);
+	(0, _ParticleUtils.applyTimeline)(this, this.emitter && this.emitter.timeline ? this.emitter.timeline : this.parent.timeline);
 
 	// apply current color to mesh
 	if (!this.lastColor.equals(this.color)) {
@@ -101,7 +109,9 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	} else {
 		var cA = Math.cos(this.spin) * this.size;
 		var sA = Math.sin(this.spin) * this.size;
-		var upX = this.bbY.x, upY = this.bbY.y, upZ = this.bbY.z;
+		var upX = this.bbY.x,
+		    upY = this.bbY.y,
+		    upZ = this.bbY.z;
 		this.bbY.set(this.bbX);
 		this.bbX.scale(cA).addDirect(upX * sA, upY * sA, upZ * sA);
 		this.bbY.scale(-sA).addDirect(upX * cA, upY * cA, upZ * cA);
@@ -138,8 +148,8 @@ Particle.prototype.update = function (tpf, particleEntity) {
 
 	if (this.lastUVIndex !== this.uvIndex) {
 		var uvBuffer = this.parent.meshData.getAttributeBuffer(MeshDatajs_TEXCOORD0);
-		var uIndex = (this.uvIndex % this.parent.uRange) / this.parent.uRange;
-		var vIndex = 1.0 - (Math.floor(this.uvIndex / this.parent.vRange) / this.parent.vRange);
+		var uIndex = this.uvIndex % this.parent.uRange / this.parent.uRange;
+		var vIndex = 1.0 - Math.floor(this.uvIndex / this.parent.vRange) / this.parent.vRange;
 		var uDelta = 1.0 / this.parent.uRange;
 		var vDelta = 1.0 / this.parent.vRange;
 
@@ -183,4 +193,4 @@ var exported_Particle = Particle;
 /**
  * Data object tracking a single particle in a particle component
  */
-export { exported_Particle as Particle };
+exports.Particle = exported_Particle;

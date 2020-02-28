@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function AbstractTimelineChannel(id) {
 	this.id = id;
 	this.enabled = true;
@@ -18,7 +21,9 @@ AbstractTimelineChannel.prototype._find = function (sortedArray, time) {
 	var end = sortedArray.length - 1;
 	var lastTime = sortedArray[sortedArray.length - 1].time;
 
-	if (time > lastTime) { return end; }
+	if (time > lastTime) {
+		return end;
+	}
 
 	while (end - start > 1) {
 		var mid = Math.floor((end + start) / 2);
@@ -48,4 +53,4 @@ AbstractTimelineChannel.prototype.sort = function () {
 };
 
 var exported_AbstractTimelineChannel = AbstractTimelineChannel;
-export { exported_AbstractTimelineChannel as AbstractTimelineChannel };
+exports.AbstractTimelineChannel = exported_AbstractTimelineChannel;

@@ -1,19 +1,24 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../../loaders/handlers/ComponentHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RigidBodyComponentHandler = undefined;
 
-import { RigidBodyComponent as RigidBodyComponentjs } from "../../../addons/physicspack/components/RigidBodyComponent";
-import { defaults as ObjectUtilsjs_defaults } from "../../../util/ObjectUtils";
-import { Vector3 as Vector3js } from "../../../math/Vector3";
+var _ComponentHandler = require("../../../loaders/handlers/ComponentHandler");
+
+var _RigidBodyComponent = require("../../../addons/physicspack/components/RigidBodyComponent");
+
+var _ObjectUtils = require("../../../util/ObjectUtils");
+
+var _Vector = require("../../../math/Vector3");
+
 function RigidBodyComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'RigidBodyComponent';
 }
 
-RigidBodyComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
+RigidBodyComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 RigidBodyComponentHandler.prototype.constructor = RigidBodyComponentHandler;
-ComponentHandlerjs__registerClass('rigidBody', RigidBodyComponentHandler);
+(0, _ComponentHandler._registerClass)('rigidBody', RigidBodyComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -22,7 +27,7 @@ ComponentHandlerjs__registerClass('rigidBody', RigidBodyComponentHandler);
  * @private
  */
 RigidBodyComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtilsjs_defaults(config, {
+	return (0, _ObjectUtils.defaults)(config, {
 		mass: 1,
 		isKinematic: false,
 		velocity: [0, 0, 0],
@@ -44,7 +49,7 @@ RigidBodyComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 RigidBodyComponentHandler.prototype._create = function () {
-	return new RigidBodyComponentjs();
+	return new _RigidBodyComponent.RigidBodyComponent();
 };
 
 /**
@@ -63,24 +68,19 @@ RigidBodyComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 RigidBodyComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		component.mass = config.mass;
 		component.isKinematic = config.isKinematic;
-		component.setVelocity(new Vector3js(config.velocity));
-		component.setAngularVelocity(new Vector3js(config.angularVelocity));
+		component.setVelocity(new _Vector.Vector3(config.velocity));
+		component.setAngularVelocity(new _Vector.Vector3(config.angularVelocity));
 		component.linearDamping = config.linearDrag;
 		component.angularDamping = config.angularDrag;
 
-		component.constraints = (
-			(config.freezePositionX ? RigidBodyComponentjs_FREEZE_POSITION_X : 0) |
-			(config.freezePositionY ? RigidBodyComponentjs_FREEZE_POSITION_Y : 0) |
-			(config.freezePositionZ ? RigidBodyComponentjs_FREEZE_POSITION_Z : 0) |
-			(config.freezeRotationX ? RigidBodyComponentjs_FREEZE_ROTATION_X : 0) |
-			(config.freezeRotationY ? RigidBodyComponentjs_FREEZE_ROTATION_Y : 0) |
-			(config.freezeRotationZ ? RigidBodyComponentjs_FREEZE_ROTATION_Z : 0)
-		);
+		component.constraints = (config.freezePositionX ? RigidBodyComponentjs_FREEZE_POSITION_X : 0) | (config.freezePositionY ? RigidBodyComponentjs_FREEZE_POSITION_Y : 0) | (config.freezePositionZ ? RigidBodyComponentjs_FREEZE_POSITION_Z : 0) | (config.freezeRotationX ? RigidBodyComponentjs_FREEZE_ROTATION_X : 0) | (config.freezeRotationY ? RigidBodyComponentjs_FREEZE_ROTATION_Y : 0) | (config.freezeRotationZ ? RigidBodyComponentjs_FREEZE_ROTATION_Z : 0);
 
 		return component;
 	});
@@ -93,4 +93,4 @@ var exported_RigidBodyComponentHandler = RigidBodyComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_RigidBodyComponentHandler as RigidBodyComponentHandler };
+exports.RigidBodyComponentHandler = exported_RigidBodyComponentHandler;

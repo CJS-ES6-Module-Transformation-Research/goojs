@@ -1,45 +1,48 @@
-import { Source as Source_Sourcejs } from "../../animationpack/blendtree/Source";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FrozenClipSource = undefined;
+
+var _Source = require("../../animationpack/blendtree/Source");
+
 function FrozenClipSource(source, frozenTime) {
-	Source_Sourcejs.call(this);
-	this._source = source;
-	this._time = frozenTime;
+  _Source.Source.call(this);
+  this._source = source;
+  this._time = frozenTime;
 }
 
-FrozenClipSource.prototype = Object.create(Source_Sourcejs.prototype);
+FrozenClipSource.prototype = Object.create(_Source.Source.prototype);
 FrozenClipSource.prototype.constructor = FrozenClipSource;
 
 /**
  * @returns a source data mapping for the channels in this clip source
  */
 FrozenClipSource.prototype.getSourceData = function () {
-	return this._source.getSourceData();
+  return this._source.getSourceData();
 };
 
 /**
  * Sets start time of clipinstance to 0, so frozenTime will calculate correctly
  */
 FrozenClipSource.prototype.resetClips = function () {
-	this._source.resetClips(0);
+  this._source.resetClips(0);
 };
 
 /**
  * This will be called by a {@link SteadyState}, but will not update the animation, and will return true, to indicate animation is still active
  */
 FrozenClipSource.prototype.setTime = function () {
-	this._source.setTime(this._time);
-	return true;
+  this._source.setTime(this._time);
+  return true;
 };
 
 /**
  * @returns {FrozenClipSource}
  */
 FrozenClipSource.prototype.clone = function () {
-	var cloned = new FrozenClipSource(
-		this._source.clone(),
-		this._time
-	);
+  var cloned = new FrozenClipSource(this._source.clone(), this._time);
 
-	return cloned;
+  return cloned;
 };
 
 var exported_FrozenClipSource = FrozenClipSource;
@@ -51,4 +54,4 @@ var exported_FrozenClipSource = FrozenClipSource;
  * @param {number} frozenTime The time we are frozen at.
  * @extends Source
  */
-export { exported_FrozenClipSource as FrozenClipSource };
+exports.FrozenClipSource = exported_FrozenClipSource;

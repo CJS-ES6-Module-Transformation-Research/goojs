@@ -1,4 +1,4 @@
-import { register as Scriptsjs_register } from "../scripts/Scripts";
+var _Scripts = require("../scripts/Scripts");
 
 var scripts = {
 	OrbitCamControlScript: OrbitCamControlScript_OrbitCamControlScriptjs,
@@ -14,5 +14,5 @@ var scripts = {
 };
 
 for (var key in scripts) {
-	Scriptsjs_register(scripts[key]);
+	(0, _Scripts.register)(scripts[key]);
 }

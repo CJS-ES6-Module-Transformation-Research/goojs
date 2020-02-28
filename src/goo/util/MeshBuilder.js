@@ -1,6 +1,14 @@
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { Capabilities as Capabilitiesjs } from "../renderer/Capabilities";
-import { Vector3 as Vector3js } from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshBuilder = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Capabilities = require("../renderer/Capabilities");
+
+var _Vector = require("../math/Vector3");
+
 function MeshBuilder() {
 	this.meshDatas = [];
 
@@ -27,7 +35,7 @@ MeshBuilder.prototype.addEntity = function (entity) {
 };
 
 // var normalMatrix = new Matrix3();
-var vert = new Vector3js();
+var vert = new _Vector.Vector3();
 /**
  * add MeshData to this MeshBuilder
  * @param {MeshData} meshData
@@ -126,7 +134,7 @@ MeshBuilder.prototype._generateMesh = function () {
 		attributeMap[key] = data.map;
 	}
 
-	var meshData = new MeshDatajs(attributeMap, this.vertexCounter, this.indexCounter);
+	var meshData = new _MeshData.MeshData(attributeMap, this.vertexCounter, this.indexCounter);
 	for (var key in this.vertexData) {
 		var data = this.vertexData[key].array;
 		meshData.getAttributeBuffer(key).set(data);
@@ -223,4 +231,4 @@ var exported_MeshBuilder = MeshBuilder;
  * goo.world.createEntity( meshData, new Material(ShaderLib.simpleLit)).addToWorld();
 
  */
-export { exported_MeshBuilder as MeshBuilder };
+exports.MeshBuilder = exported_MeshBuilder;

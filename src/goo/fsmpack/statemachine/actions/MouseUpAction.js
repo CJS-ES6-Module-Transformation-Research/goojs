@@ -1,10 +1,15 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MouseUpAction = undefined;
 
-function MouseUpAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function MouseUpAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-MouseUpAction.prototype = Object.create(Action_Actionjs.prototype);
+MouseUpAction.prototype = Object.create(_Action.Action.prototype);
 MouseUpAction.prototype.constructor = MouseUpAction;
 
 MouseUpAction.external = {
@@ -36,7 +41,7 @@ var labels = {
 	touchUp: 'On touch end'
 };
 
-MouseUpAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+MouseUpAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -45,11 +50,7 @@ MouseUpAction.prototype.enter = function (fsm) {
 		if (button === 'touch') {
 			fsm.send(this.transitions.touchUp);
 		} else {
-			fsm.send([
-				this.transitions.mouseLeftUp,
-				this.transitions.middleMouseUp,
-				this.transitions.rightMouseUp
-			][button]);
+			fsm.send([this.transitions.mouseLeftUp, this.transitions.middleMouseUp, this.transitions.rightMouseUp][button]);
 		}
 	}.bind(this);
 
@@ -71,4 +72,4 @@ MouseUpAction.prototype.exit = function () {
 };
 
 var exported_MouseUpAction = MouseUpAction;
-export { exported_MouseUpAction as MouseUpAction };
+exports.MouseUpAction = exported_MouseUpAction;

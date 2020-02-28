@@ -1,19 +1,19 @@
-import {
-    OrbitCamControlScript as OrbitCamControlScript_OrbitCamControlScriptjs,
-    externals as OrbitCamControlScriptjs_externals,
-} from "../scripts/OrbitCamControlScript";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.OrbitNPan = undefined;
 
-import {
-    PanCamScript as PanCamScript_PanCamScriptjs,
-    externals as PanCamScriptjs_externals,
-} from "../scriptpack/PanCamScript";
+var _OrbitCamControlScript = require("../scripts/OrbitCamControlScript");
 
-import { deepClone as ObjectUtilsjs_deepClone } from "../util/ObjectUtils";
+var _PanCamScript = require("../scriptpack/PanCamScript");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var OrbitNPanControlScript_externals;
 
 function OrbitNPan() {
-	var orbitScript = Scripts.create(OrbitCamControlScript_OrbitCamControlScriptjs);
-	var panScript = Scripts.create(PanCamScript_PanCamScriptjs);
+	var orbitScript = Scripts.create(_OrbitCamControlScript.OrbitCamControlScript);
+	var panScript = Scripts.create(_PanCamScript.PanCamScript);
 	function setup(parameters, environment, goo) {
 		parameters.touchMode = 'Double'; // should alaways be 2 touch mode for panning
 		orbitScript.setup(parameters, environment, goo);
@@ -40,11 +40,11 @@ function OrbitNPan() {
 	};
 }
 
-var orbitParams = OrbitCamControlScriptjs_externals.parameters;
-var panParams = PanCamScriptjs_externals.parameters;
+var orbitParams = _OrbitCamControlScript.externals.parameters;
+var panParams = _PanCamScript.externals.parameters;
 
 // Make sure we don't change parameters for the other scripts
-var params = ObjectUtilsjs_deepClone(orbitParams.concat(panParams.slice(1)));
+var params = (0, _ObjectUtils.deepClone)(orbitParams.concat(panParams.slice(1)));
 
 // Remove the panSpeed and touchMode parameters
 for (var i = params.length - 1; i >= 0; i--) {
@@ -73,10 +73,10 @@ for (var i = 0; i < params.length; i++) {
 }
 
 OrbitNPanControlScript_externals = {
-    key: "OrbitNPanControlScript",
-    name: "Orbit and Pan Control",
-    description: "This is a combo of orbitcamcontrolscript and pancamcontrolscript",
-    parameters: params
+	key: "OrbitNPanControlScript",
+	name: "Orbit and Pan Control",
+	description: "This is a combo of orbitcamcontrolscript and pancamcontrolscript",
+	parameters: params
 };;
 
-export { OrbitNPan };
+exports.OrbitNPan = OrbitNPan;

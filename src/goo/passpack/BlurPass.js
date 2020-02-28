@@ -1,9 +1,20 @@
-import { Material as Materialjs } from "../renderer/Material";
-import { camera as FullscreenUtilsjs_camera, quad as FullscreenUtilsjs_quad } from "../renderer/pass/FullscreenUtils";
-import { RenderTarget as RenderTargetjs } from "../renderer/pass/RenderTarget";
-import { deepClone as ObjectUtilsjs_deepClone } from "../util/ObjectUtils";
-import { copyPure as ShaderLibjs_copyPure, convolution as ShaderLibjs_convolution } from "../renderer/shaders/ShaderLib";
-import { Pass as Pass_Passjs } from "../renderer/pass/Pass";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BlurPass = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _FullscreenUtils = require("../renderer/pass/FullscreenUtils");
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _Pass = require("../renderer/pass/Pass");
+
 function BlurPass(settings) {
 	settings = settings || {};
 
@@ -26,29 +37,29 @@ function BlurPass(settings) {
 	});
 
 	this.renderable = {
-		meshData: FullscreenUtilsjs_quad,
+		meshData: _FullscreenUtils.quad,
 		materials: []
 	};
 
-	this.copyMaterial = new Materialjs(ShaderLibjs_copyPure);
+	this.copyMaterial = new _Material.Material(_ShaderLib.copyPure);
 	this.copyMaterial.uniforms.opacity = strength;
 	this.copyMaterial.blendState.blending = 'CustomBlending';
 
-	this.convolutionShader = ObjectUtilsjs_deepClone(ShaderLibjs_convolution);
+	this.convolutionShader = (0, _ObjectUtils.deepClone)(_ShaderLib.convolution);
 	this.convolutionShader.defines = {
 		'KERNEL_SIZE_FLOAT': kernelSize.toFixed(1),
 		'KERNEL_SIZE_INT': kernelSize.toFixed(0)
 	};
 	this.convolutionShader.uniforms.uImageIncrement = this.blurX;
 	this.convolutionShader.uniforms.cKernel = this.convolutionShader.buildKernel(sigma);
-	this.convolutionMaterial = new Materialjs(this.convolutionShader);
+	this.convolutionMaterial = new _Material.Material(this.convolutionShader);
 
 	this.enabled = true;
 	this.clear = false;
 	this.needsSwap = false;
 }
 
-BlurPass.prototype = Object.create(Pass_Passjs.prototype);
+BlurPass.prototype = Object.create(_Pass.Pass.prototype);
 BlurPass.prototype.constructor = BlurPass;
 
 BlurPass.prototype.destroy = function (renderer) {
@@ -79,8 +90,8 @@ BlurPass.prototype.updateSize = function (size, renderer) {
 	if (this.renderTargetY) {
 		renderer._deallocateRenderTarget(this.renderTargetY);
 	}
-	this.renderTargetX = new RenderTargetjs(sizeX, sizeY);
-	this.renderTargetY = new RenderTargetjs(sizeX, sizeY);
+	this.renderTargetX = new _RenderTarget.RenderTarget(sizeX, sizeY);
+	this.renderTargetY = new _RenderTarget.RenderTarget(sizeX, sizeY);
 };
 
 BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -89,20 +100,20 @@ BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionMaterial.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, _FullscreenUtils.camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionMaterial.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.renderTargetY, true);
+	renderer.render(this.renderable, _FullscreenUtils.camera, [], this.renderTargetY, true);
 
 	this.renderable.materials[0] = this.copyMaterial;
 	this.copyMaterial.setTexture('DIFFUSE_MAP', this.renderTargetY);
 
 	if (this.target !== null) {
-		renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.target, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.camera, [], this.target, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtilsjs_camera, [], readBuffer, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.camera, [], readBuffer, this.clear);
 	}
 };
 
@@ -119,4 +130,4 @@ var exported_BlurPass = BlurPass;
  * }
  * </pre>
  */
-export { exported_BlurPass as BlurPass };
+exports.BlurPass = exported_BlurPass;

@@ -1,27 +1,33 @@
-import { EntitySelection as EntitySelectionjs } from "../EntitySelection";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Component = exports.applyEntitySelectionAPI = undefined;
+
+var _EntitySelection = require('../EntitySelection');
+
 var Component_applyEntitySelectionAPI;
 var Component_applyOnEntity;
 function Component() {
-	/**
-	 * If the component should be processed for containing entities.
-	 * @type {boolean}
-	 */
-	this.enabled = true;
+  /**
+   * If the component should be processed for containing entities.
+   * @type {boolean}
+   */
+  this.enabled = true;
 
-	/**
-	 * The entity the component is added to.
-	 * @type {Entity|null}
-	 */
-	this.entity = null;
+  /**
+   * The entity the component is added to.
+   * @type {Entity|null}
+   */
+  this.entity = null;
 
-	this.installedAPI = new Set();
+  this.installedAPI = new Set();
 
-	/**
-	 * Debug level for the component. Can be 'none', 'normal' or 'full'.
-	 * None will prevent the rendering of any debug meshes for the component.
-	 * @type {string}
-	 */
-	this.debugLevel = 'normal';
+  /**
+   * Debug level for the component. Can be 'none', 'normal' or 'full'.
+   * None will prevent the rendering of any debug meshes for the component.
+   * @type {string}
+   */
+  this.debugLevel = 'normal';
 }
 
 /**
@@ -30,21 +36,21 @@ function Component() {
  * @param {Entity} entity
  * @returns {boolean} True if the data was used.
  */
-Component_applyOnEntity = function() /*argument, entity*/{
-    return false;
+Component_applyOnEntity = function Component_applyOnEntity() /*argument, entity*/{
+  return false;
 };;
 
 /**
  * Called when the component was added to an entity
  * @param {Entity} entity
  */
-Component.prototype.attached = function (/*entity*/) {};
+Component.prototype.attached = function () /*entity*/{};
 
 /**
  * Called when the component was removed from an entity
  * @param {Entity} entity
  */
-Component.prototype.detached = function (/*entity*/) {};
+Component.prototype.detached = function () /*entity*/{};
 
 /**
  * Injects public methods of this component into the host entity.
@@ -52,20 +58,20 @@ Component.prototype.detached = function (/*entity*/) {};
  * @private
  */
 Component.prototype.applyAPI = function (entity) {
-	var api = this.api;
-	if (!api) {
-		return;
-	}
-	var keys = Object.keys(api);
-	for (var i = 0; i < keys.length; i++) {
-		var key = keys[i];
-		if (typeof entity[key] === 'undefined') {
-			entity[key] = api[key];
-			this.installedAPI.add(key);
-		} else {
-			throw new Error('Could not install method ' + key + ' of ' + this.type + ' as it is already taken');
-		}
-	}
+  var api = this.api;
+  if (!api) {
+    return;
+  }
+  var keys = Object.keys(api);
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (typeof entity[key] === 'undefined') {
+      entity[key] = api[key];
+      this.installedAPI.add(key);
+    } else {
+      throw new Error('Could not install method ' + key + ' of ' + this.type + ' as it is already taken');
+    }
+  }
 };
 
 /**
@@ -74,33 +80,32 @@ Component.prototype.applyAPI = function (entity) {
  * @private
  */
 Component.prototype.removeAPI = function (entity) {
-	this.installedAPI.forEach(function (key) {
-		delete entity[key];
-	});
+  this.installedAPI.forEach(function (key) {
+    delete entity[key];
+  });
 };
 
-Component_applyEntitySelectionAPI = function(entitySelectionAPI, componentType) {
-    if (!entitySelectionAPI) {
-        return;
-    }
+exports.applyEntitySelectionAPI = Component_applyEntitySelectionAPI = function Component_applyEntitySelectionAPI(entitySelectionAPI, componentType) {
+  if (!entitySelectionAPI) {
+    return;
+  }
 
-    var keys = Object.keys(entitySelectionAPI);
-    for (var i = 0; i < keys.length; i++) {
-        var key = keys[i];
-        if (typeof EntitySelectionjs[key] === "undefined") {
-            EntitySelectionjs_installMethod(entitySelectionAPI[key], key, componentType);
-        } else {
-            throw new Error(
-                "Could not install method " + key + " on EntitySelection as it is already taken"
-            );
-        }
+  var keys = Object.keys(entitySelectionAPI);
+  for (var i = 0; i < keys.length; i++) {
+    var key = keys[i];
+    if (typeof _EntitySelection.EntitySelection[key] === "undefined") {
+      EntitySelectionjs_installMethod(entitySelectionAPI[key], key, componentType);
+    } else {
+      throw new Error("Could not install method " + key + " on EntitySelection as it is already taken");
     }
+  }
 };;
 
-export { Component_applyEntitySelectionAPI as applyEntitySelectionAPI };
+exports.applyEntitySelectionAPI = Component_applyEntitySelectionAPI;
+
 var exported_Component = Component;
 
 /**
  * Base class/module for all components. Should not be used directly.
  */
-export { exported_Component as Component };
+exports.Component = exported_Component;

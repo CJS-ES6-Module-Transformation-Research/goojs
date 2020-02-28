@@ -1,364 +1,541 @@
-import { Ajax as Ajax_Ajaxjs } from "./src/goo/util/Ajax";
-import { ArrayUtils as ArrayUtil_ArrayUtilsjs } from "./src/goo/util/ArrayUtil";
-import { ArrayUtils as ArrayUtils_ArrayUtilsjs } from "./src/goo/util/ArrayUtils";
-import { AtlasNode as AtlasNodejs } from "./src/goo/util/combine/AtlasNode";
-import { AudioContextjs as AudioContext_AudioContextjsjs } from "./src/goo/sound/AudioContext";
-import { BoundingBox as BoundingBoxjs } from "./src/goo/renderer/bounds/BoundingBox";
-import { BoundingPicker as BoundingPicker_BoundingPickerjs } from "./src/goo/renderer/bounds/BoundingPicker";
-import { BoundingSphere as BoundingSpherejs } from "./src/goo/renderer/bounds/BoundingSphere";
-import { BoundingTree as BoundingTreejs } from "./src/goo/picking/BoundingTree";
-import { BoundingUpdateSystem as BoundingUpdateSystemjs } from "./src/goo/entities/systems/BoundingUpdateSystem";
-import { BoundingVolume as BoundingVolume_BoundingVolumejs } from "./src/goo/renderer/bounds/BoundingVolume";
-import { Box as Boxjs } from "./src/goo/shapes/Box";
-import { BufferData as BufferDatajs } from "./src/goo/renderer/BufferData";
-import { BufferUtils as BufferUtils_BufferUtilsjs } from "./src/goo/renderer/BufferUtils";
-import { Bus as Bus_Busjs } from "./src/goo/entities/Bus";
-import { Camera as Camerajs } from "./src/goo/renderer/Camera";
-import { CameraComponent as CameraComponentjs } from "./src/goo/entities/components/CameraComponent";
-import { CameraComponentHandler as CameraComponentHandlerjs } from "./src/goo/loaders/handlers/CameraComponentHandler";
-import { CameraSystem as CameraSystemjs } from "./src/goo/entities/systems/CameraSystem";
-import { CanvasUtils as CanvasUtils_CanvasUtilsjs } from "./src/goo/util/CanvasUtils";
-import { Capabilities as Capabilitiesjs } from "./src/goo/renderer/Capabilities";
-import { Component as Component_Componentjs } from "./src/goo/entities/components/Component";
-import { ComponentHandler as ComponentHandler_ComponentHandlerjs } from "./src/goo/loaders/handlers/ComponentHandler";
-import { Composer as Composer_Composerjs } from "./src/goo/renderer/pass/Composer";
-import { Cone as Conejs } from "./src/goo/shapes/Cone";
-import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "./src/goo/loaders/handlers/ConfigHandler";
-import { CrunchLoader as CrunchLoader_CrunchLoaderjs } from "./src/goo/loaders/crunch/CrunchLoader";
-import { CssTransformComponent as CssTransformComponentjs } from "./src/goo/entities/components/CssTransformComponent";
-import { CssTransformSystem as CssTransformSystemjs } from "./src/goo/entities/systems/CssTransformSystem";
-import { Cylinder as Cylinderjs } from "./src/goo/shapes/Cylinder";
-import { DdsLoader as DdsLoader_DdsLoaderjs } from "./src/goo/loaders/dds/DdsLoader";
-import { DdsUtils as DdsUtils_DdsUtilsjs } from "./src/goo/loaders/dds/DdsUtils";
-import { DirectionalLight as DirectionalLightjs } from "./src/goo/renderer/light/DirectionalLight";
-import { Disk as Diskjs } from "./src/goo/shapes/Disk";
-import { Dom3dComponent as Dom3dComponentjs } from "./src/goo/entities/components/Dom3dComponent";
-import { Dom3dComponentHandler as Dom3dComponentHandlerjs } from "./src/goo/loaders/handlers/Dom3dComponentHandler";
-import { Dom3dSystem as Dom3dSystemjs } from "./src/goo/entities/systems/Dom3dSystem";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "./src/goo/loaders/DynamicLoader";
-import { Easing as Easing_Easingjs } from "./src/goo/util/Easing";
-import { Entity as Entityjs } from "./src/goo/entities/Entity";
-import { EntityCombiner as EntityCombiner_EntityCombinerjs } from "./src/goo/util/combine/EntityCombiner";
-import { EntityHandler as EntityHandlerjs } from "./src/goo/loaders/handlers/EntityHandler";
-import { EntityManager as EntityManager_EntityManagerjs } from "./src/goo/entities/managers/EntityManager";
-import { EntitySelection as EntitySelectionjs } from "./src/goo/entities/EntitySelection";
-import { EntityUtils as EntityUtils_EntityUtilsjs } from "./src/goo/entities/EntityUtils";
-import { EnvironmentHandler as EnvironmentHandlerjs } from "./src/goo/loaders/handlers/EnvironmentHandler";
-import { EventTarget as EventTarget_EventTargetjs } from "./src/goo/util/EventTarget";
-import { FullscreenPass as FullscreenPassjs } from "./src/goo/renderer/pass/FullscreenPass";
-import { FullscreenUtils as FullscreenUtil_FullscreenUtilsjs } from "./src/goo/renderer/pass/FullscreenUtil";
-import { FullscreenUtils as FullscreenUtils_FullscreenUtilsjs } from "./src/goo/renderer/pass/FullscreenUtils";
-import { GameUtils as GameUtils_GameUtilsjs } from "./src/goo/util/GameUtils";
-import { GooRunner as GooRunner_GooRunnerjs } from "./src/goo/entities/GooRunner";
-import { Grid as Gridjs } from "./src/goo/shapes/Grid";
-import { GridRenderSystem as GridRenderSystemjs } from "./src/goo/entities/systems/GridRenderSystem";
-import { HtmlComponent as HtmlComponentjs } from "./src/goo/entities/components/HtmlComponent";
-import { HtmlComponentHandler as HtmlComponentHandlerjs } from "./src/goo/loaders/handlers/HtmlComponentHandler";
-import { HtmlSystem as HtmlSystemjs } from "./src/goo/entities/systems/HtmlSystem";
-import { JsonHandler as JsonHandlerjs } from "./src/goo/loaders/handlers/JsonHandler";
-import { Light as Light_Lightjs } from "./src/goo/renderer/light/Light";
-import { LightComponent as LightComponentjs } from "./src/goo/entities/components/LightComponent";
-import { LightComponentHandler as LightComponentHandlerjs } from "./src/goo/loaders/handlers/LightComponentHandler";
-import { LightingSystem as LightingSystemjs } from "./src/goo/entities/systems/LightingSystem";
-import { Logo as Logo_Logojs } from "./src/goo/util/Logo";
-import { Manager as Manager_Managerjs } from "./src/goo/entities/managers/Manager";
-import { Material as Materialjs } from "./src/goo/renderer/Material";
-import { MaterialHandler as MaterialHandlerjs } from "./src/goo/loaders/handlers/MaterialHandler";
-import { MathUtils as MathUtilsjs } from "./src/goo/math/MathUtils";
-import { Matrix2 as Matrix2js } from "./src/goo/math/Matrix2";
-import { Matrix2x2 as Matrix2x2_Matrix2x2js } from "./src/goo/math/Matrix2x2";
-import { Matrix3 as Matrix3js } from "./src/goo/math/Matrix3";
-import { Matrix3x3 as Matrix3x3_Matrix3x3js } from "./src/goo/math/Matrix3x3";
-import { Matrix4 as Matrix4js } from "./src/goo/math/Matrix4";
-import { Matrix4x4 as Matrix4x4_Matrix4x4js } from "./src/goo/math/Matrix4x4";
-import { Matrix as Matrixjs } from "./src/goo/math/Matrix";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "./src/goo/util/MeshBuilder";
-import { MeshData as MeshDatajs } from "./src/goo/renderer/MeshData";
-import { MeshDataComponent as MeshDataComponentjs } from "./src/goo/entities/components/MeshDataComponent";
-import { MeshDataComponentHandler as MeshDataComponentHandlerjs } from "./src/goo/loaders/handlers/MeshDataComponentHandler";
-import { MeshDataHandler as MeshDataHandlerjs } from "./src/goo/loaders/handlers/MeshDataHandler";
-import { MeshRendererComponent as MeshRendererComponentjs } from "./src/goo/entities/components/MeshRendererComponent";
-import { MeshRendererComponentHandler as MeshRendererComponentHandlerjs } from "./src/goo/loaders/handlers/MeshRendererComponentHandler";
-import { MovementComponent as MovementComponentjs } from "./src/goo/entities/components/MovementComponent";
-import { MovementSystem as MovementSystemjs } from "./src/goo/entities/systems/MovementSystem";
-import { Noise as Noise_Noisejs } from "./src/goo/noise/Noise";
-import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "./src/goo/util/ObjectUtil";
-import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "./src/goo/util/ObjectUtils";
-import { OrbitCamControlScript as OrbitCamControlScript_OrbitCamControlScriptjs } from "./src/goo/scripts/OrbitCamControlScript";
-import { OscillatorSound as OscillatorSound_OscillatorSoundjs } from "./src/goo/sound/OscillatorSound";
-import { Particle as Particle_Particlejs } from "./src/goo/particles/Particle";
-import { ParticleComponent as ParticleComponentjs } from "./src/goo/entities/components/ParticleComponent";
-import { ParticleEmitter as ParticleEmitter_ParticleEmitterjs } from "./src/goo/particles/ParticleEmitter";
-import { ParticleInfluence as ParticleInfluence_ParticleInfluencejs } from "./src/goo/particles/ParticleInfluence";
-import { ParticleLib as ParticleLib_ParticleLibjs } from "./src/goo/particles/ParticleLib";
-import { ParticlesSystem as ParticlesSystemjs } from "./src/goo/entities/systems/ParticlesSystem";
-import { ParticleSystemUtils as ParticleSystemUtils_ParticleSystemUtilsjs } from "./src/goo/util/ParticleSystemUtils";
-import { ParticleUtils as ParticleUtils_ParticleUtilsjs } from "./src/goo/particles/ParticleUtils";
-import { Pass as Pass_Passjs } from "./src/goo/renderer/pass/Pass";
-import { PickingSystem as PickingSystemjs } from "./src/goo/entities/systems/PickingSystem";
-import { PipRenderSystem as PipRenderSystemjs } from "./src/goo/entities/systems/PipRenderSystem";
-import { Plane as Planejs } from "./src/goo/math/Plane";
-import { PointLight as PointLightjs } from "./src/goo/renderer/light/PointLight";
-import { PortalComponent as PortalComponentjs } from "./src/goo/entities/components/PortalComponent";
-import { PortalSystem as PortalSystemjs } from "./src/goo/entities/systems/PortalSystem";
-import { PrimitivePickLogic as PrimitivePickLogic_PrimitivePickLogicjs } from "./src/goo/picking/PrimitivePickLogic";
-import { ProjectHandler as ProjectHandlerjs } from "./src/goo/loaders/handlers/ProjectHandler";
-import { PromiseUtils as PromiseUtil_PromiseUtilsjs } from "./src/goo/util/PromiseUtil";
-import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "./src/goo/util/PromiseUtils";
-import { Quad as Quadjs } from "./src/goo/shapes/Quad";
-import { Quaternion as Quaternionjs } from "./src/goo/math/Quaternion";
-import { Ray as Rayjs } from "./src/goo/math/Ray";
-import { Rc4Random as Rc4Random_Rc4Randomjs } from "./src/goo/util/Rc4Random";
-import { Rectangle as Rectangle_Rectanglejs } from "./src/goo/util/combine/Rectangle";
-import { Renderer as Rendererjs } from "./src/goo/renderer/Renderer";
-import { RendererRecord as RendererRecord_RendererRecordjs } from "./src/goo/renderer/RendererRecord";
-import { RendererUtils as RendererUtils_RendererUtilsjs } from "./src/goo/renderer/RendererUtils";
-import { RenderInfo as RenderInfo_RenderInfojs } from "./src/goo/renderer/RenderInfo";
-import { RenderPass as RenderPassjs } from "./src/goo/renderer/pass/RenderPass";
-import { RenderQueue as RenderQueue_RenderQueuejs } from "./src/goo/renderer/RenderQueue";
-import { RenderStats as RenderStats_RenderStatsjs } from "./src/goo/renderer/RenderStats";
-import { RenderSystem as RenderSystemjs } from "./src/goo/entities/systems/RenderSystem";
-import { RenderTarget as RenderTargetjs } from "./src/goo/renderer/pass/RenderTarget";
-import { rsvpjs as rsvp_rsvpjsjs } from "./src/goo/util/rsvp";
-import { SceneHandler as SceneHandlerjs } from "./src/goo/loaders/handlers/SceneHandler";
-import { ScriptComponent as ScriptComponentjs } from "./src/goo/entities/components/ScriptComponent";
-import { Scripts as Scripts_Scriptsjs } from "./src/goo/scripts/Scripts";
-import { ScriptSystem as ScriptSystemjs } from "./src/goo/entities/systems/ScriptSystem";
-import { ScriptUtils as ScriptUtils_ScriptUtilsjs } from "./src/goo/scripts/ScriptUtils";
-import { Selection as Selectionjs } from "./src/goo/entities/Selection";
-import { Shader as Shaderjs } from "./src/goo/renderer/Shader";
-import { ShaderBuilder as ShaderBuilderjs } from "./src/goo/renderer/shaders/ShaderBuilder";
-import { ShaderCall as ShaderCall_ShaderCalljs } from "./src/goo/renderer/ShaderCall";
-import { ShaderFragment as ShaderFragment_ShaderFragmentjs } from "./src/goo/renderer/shaders/ShaderFragment";
-import { ShaderHandler as ShaderHandlerjs } from "./src/goo/loaders/handlers/ShaderHandler";
-import { ShaderLib as ShaderLib_ShaderLibjs } from "./src/goo/renderer/shaders/ShaderLib";
-import { ShadowHandler as ShadowHandler_ShadowHandlerjs } from "./src/goo/renderer/shadow/ShadowHandler";
-import { ShapeCreatorMemoized as ShapeCreatorMemoized_ShapeCreatorMemoizedjs } from "./src/goo/util/ShapeCreatorMemoized";
-import { SimpleBox as SimpleBoxjs } from "./src/goo/shapes/SimpleBox";
-import { SimplePartitioner as SimplePartitioner_SimplePartitionerjs } from "./src/goo/renderer/SimplePartitioner";
-import { Skybox as Skybox_Skyboxjs } from "./src/goo/util/Skybox";
-import { SkyboxHandler as SkyboxHandlerjs } from "./src/goo/loaders/handlers/SkyboxHandler";
-import { Snow as Snow_Snowjs } from "./src/goo/util/Snow";
-import { Sound as Sound_Soundjs } from "./src/goo/sound/Sound";
-import { SoundComponent as SoundComponentjs } from "./src/goo/entities/components/SoundComponent";
-import { SoundComponentHandler as SoundComponentHandlerjs } from "./src/goo/loaders/handlers/SoundComponentHandler";
-import { SoundCreator as SoundCreator_SoundCreatorjs } from "./src/goo/util/SoundCreator";
-import { SoundHandler as SoundHandlerjs } from "./src/goo/loaders/handlers/SoundHandler";
-import { SoundSystem as SoundSystemjs } from "./src/goo/entities/systems/SoundSystem";
-import { Sphere as Spherejs } from "./src/goo/shapes/Sphere";
-import { Spline as Spline_Splinejs } from "./src/goo/math/splines/Spline";
-import { SplineWalker as SplineWalker_SplineWalkerjs } from "./src/goo/math/splines/SplineWalker";
-import { SpotLight as SpotLightjs } from "./src/goo/renderer/light/SpotLight";
-import { Stats as Stats_Statsjs } from "./src/goo/util/Stats";
-import { StringUtils as StringUtil_StringUtilsjs } from "./src/goo/util/StringUtil";
-import { StringUtils as StringUtils_StringUtilsjs } from "./src/goo/util/StringUtils";
-import { System as System_Systemjs } from "./src/goo/entities/systems/System";
-import { SystemBusjs as SystemBus_SystemBusjsjs } from "./src/goo/entities/SystemBus";
-import { TangentGenerator as TangentGenerator_TangentGeneratorjs } from "./src/goo/util/TangentGenerator";
-import { TaskScheduler as TaskScheduler_TaskSchedulerjs } from "./src/goo/renderer/TaskScheduler";
-import { TextComponent as TextComponentjs } from "./src/goo/entities/components/TextComponent";
-import { TextSystem as TextSystemjs } from "./src/goo/entities/systems/TextSystem";
-import { Texture as Texturejs } from "./src/goo/renderer/Texture";
-import { TextureCreator as TextureCreator_TextureCreatorjs } from "./src/goo/renderer/TextureCreator";
-import { TextureGrid as TextureGridjs } from "./src/goo/shapes/TextureGrid";
-import { TextureHandler as TextureHandlerjs } from "./src/goo/loaders/handlers/TextureHandler";
-import { TgaLoader as TgaLoader_TgaLoaderjs } from "./src/goo/loaders/tga/TgaLoader";
-import { Torus as Torusjs } from "./src/goo/shapes/Torus";
-import { Transform as Transformjs } from "./src/goo/math/Transform";
-import { TransformComponent as TransformComponentjs } from "./src/goo/entities/components/TransformComponent";
-import { TransformComponentHandler as TransformComponentHandlerjs } from "./src/goo/loaders/handlers/TransformComponentHandler";
-import { TransformSystem as TransformSystemjs } from "./src/goo/entities/systems/TransformSystem";
-import { ValueNoise as ValueNoisejs } from "./src/goo/noise/ValueNoise";
-import { Vector2 as Vector2js } from "./src/goo/math/Vector2";
-import { Vector3 as Vector3js } from "./src/goo/math/Vector3";
-import { Vector4 as Vector4js } from "./src/goo/math/Vector4";
-import { Vector as Vectorjs } from "./src/goo/math/Vector";
-import { World as World_Worldjs } from "./src/goo/entities/World";
-import "./tools/MapSetPolyfill";
+var _Ajax = require("./src/goo/util/Ajax");
+
+var _ArrayUtil = require("./src/goo/util/ArrayUtil");
+
+var _ArrayUtils = require("./src/goo/util/ArrayUtils");
+
+var _AtlasNode = require("./src/goo/util/combine/AtlasNode");
+
+var _AudioContext = require("./src/goo/sound/AudioContext");
+
+var _BoundingBox = require("./src/goo/renderer/bounds/BoundingBox");
+
+var _BoundingPicker = require("./src/goo/renderer/bounds/BoundingPicker");
+
+var _BoundingSphere = require("./src/goo/renderer/bounds/BoundingSphere");
+
+var _BoundingTree = require("./src/goo/picking/BoundingTree");
+
+var _BoundingUpdateSystem = require("./src/goo/entities/systems/BoundingUpdateSystem");
+
+var _BoundingVolume = require("./src/goo/renderer/bounds/BoundingVolume");
+
+var _Box = require("./src/goo/shapes/Box");
+
+var _BufferData = require("./src/goo/renderer/BufferData");
+
+var _BufferUtils = require("./src/goo/renderer/BufferUtils");
+
+var _Bus = require("./src/goo/entities/Bus");
+
+var _Camera = require("./src/goo/renderer/Camera");
+
+var _CameraComponent = require("./src/goo/entities/components/CameraComponent");
+
+var _CameraComponentHandler = require("./src/goo/loaders/handlers/CameraComponentHandler");
+
+var _CameraSystem = require("./src/goo/entities/systems/CameraSystem");
+
+var _CanvasUtils = require("./src/goo/util/CanvasUtils");
+
+var _Capabilities = require("./src/goo/renderer/Capabilities");
+
+var _Component = require("./src/goo/entities/components/Component");
+
+var _ComponentHandler = require("./src/goo/loaders/handlers/ComponentHandler");
+
+var _Composer = require("./src/goo/renderer/pass/Composer");
+
+var _Cone = require("./src/goo/shapes/Cone");
+
+var _ConfigHandler = require("./src/goo/loaders/handlers/ConfigHandler");
+
+var _CrunchLoader = require("./src/goo/loaders/crunch/CrunchLoader");
+
+var _CssTransformComponent = require("./src/goo/entities/components/CssTransformComponent");
+
+var _CssTransformSystem = require("./src/goo/entities/systems/CssTransformSystem");
+
+var _Cylinder = require("./src/goo/shapes/Cylinder");
+
+var _DdsLoader = require("./src/goo/loaders/dds/DdsLoader");
+
+var _DdsUtils = require("./src/goo/loaders/dds/DdsUtils");
+
+var _DirectionalLight = require("./src/goo/renderer/light/DirectionalLight");
+
+var _Disk = require("./src/goo/shapes/Disk");
+
+var _Dom3dComponent = require("./src/goo/entities/components/Dom3dComponent");
+
+var _Dom3dComponentHandler = require("./src/goo/loaders/handlers/Dom3dComponentHandler");
+
+var _Dom3dSystem = require("./src/goo/entities/systems/Dom3dSystem");
+
+var _DynamicLoader = require("./src/goo/loaders/DynamicLoader");
+
+var _Easing = require("./src/goo/util/Easing");
+
+var _Entity = require("./src/goo/entities/Entity");
+
+var _EntityCombiner = require("./src/goo/util/combine/EntityCombiner");
+
+var _EntityHandler = require("./src/goo/loaders/handlers/EntityHandler");
+
+var _EntityManager = require("./src/goo/entities/managers/EntityManager");
+
+var _EntitySelection = require("./src/goo/entities/EntitySelection");
+
+var _EntityUtils = require("./src/goo/entities/EntityUtils");
+
+var _EnvironmentHandler = require("./src/goo/loaders/handlers/EnvironmentHandler");
+
+var _EventTarget = require("./src/goo/util/EventTarget");
+
+var _FullscreenPass = require("./src/goo/renderer/pass/FullscreenPass");
+
+var _FullscreenUtil = require("./src/goo/renderer/pass/FullscreenUtil");
+
+var _FullscreenUtils = require("./src/goo/renderer/pass/FullscreenUtils");
+
+var _GameUtils = require("./src/goo/util/GameUtils");
+
+var _GooRunner = require("./src/goo/entities/GooRunner");
+
+var _Grid = require("./src/goo/shapes/Grid");
+
+var _GridRenderSystem = require("./src/goo/entities/systems/GridRenderSystem");
+
+var _HtmlComponent = require("./src/goo/entities/components/HtmlComponent");
+
+var _HtmlComponentHandler = require("./src/goo/loaders/handlers/HtmlComponentHandler");
+
+var _HtmlSystem = require("./src/goo/entities/systems/HtmlSystem");
+
+var _JsonHandler = require("./src/goo/loaders/handlers/JsonHandler");
+
+var _Light = require("./src/goo/renderer/light/Light");
+
+var _LightComponent = require("./src/goo/entities/components/LightComponent");
+
+var _LightComponentHandler = require("./src/goo/loaders/handlers/LightComponentHandler");
+
+var _LightingSystem = require("./src/goo/entities/systems/LightingSystem");
+
+var _Logo = require("./src/goo/util/Logo");
+
+var _Manager = require("./src/goo/entities/managers/Manager");
+
+var _Material = require("./src/goo/renderer/Material");
+
+var _MaterialHandler = require("./src/goo/loaders/handlers/MaterialHandler");
+
+var _MathUtils = require("./src/goo/math/MathUtils");
+
+var _Matrix = require("./src/goo/math/Matrix2");
+
+var _Matrix2x = require("./src/goo/math/Matrix2x2");
+
+var _Matrix2 = require("./src/goo/math/Matrix3");
+
+var _Matrix3x = require("./src/goo/math/Matrix3x3");
+
+var _Matrix3 = require("./src/goo/math/Matrix4");
+
+var _Matrix4x = require("./src/goo/math/Matrix4x4");
+
+var _Matrix4 = require("./src/goo/math/Matrix");
+
+var _MeshBuilder = require("./src/goo/util/MeshBuilder");
+
+var _MeshData = require("./src/goo/renderer/MeshData");
+
+var _MeshDataComponent = require("./src/goo/entities/components/MeshDataComponent");
+
+var _MeshDataComponentHandler = require("./src/goo/loaders/handlers/MeshDataComponentHandler");
+
+var _MeshDataHandler = require("./src/goo/loaders/handlers/MeshDataHandler");
+
+var _MeshRendererComponent = require("./src/goo/entities/components/MeshRendererComponent");
+
+var _MeshRendererComponentHandler = require("./src/goo/loaders/handlers/MeshRendererComponentHandler");
+
+var _MovementComponent = require("./src/goo/entities/components/MovementComponent");
+
+var _MovementSystem = require("./src/goo/entities/systems/MovementSystem");
+
+var _Noise = require("./src/goo/noise/Noise");
+
+var _ObjectUtil = require("./src/goo/util/ObjectUtil");
+
+var _ObjectUtils = require("./src/goo/util/ObjectUtils");
+
+var _OrbitCamControlScript = require("./src/goo/scripts/OrbitCamControlScript");
+
+var _OscillatorSound = require("./src/goo/sound/OscillatorSound");
+
+var _Particle = require("./src/goo/particles/Particle");
+
+var _ParticleComponent = require("./src/goo/entities/components/ParticleComponent");
+
+var _ParticleEmitter = require("./src/goo/particles/ParticleEmitter");
+
+var _ParticleInfluence = require("./src/goo/particles/ParticleInfluence");
+
+var _ParticleLib = require("./src/goo/particles/ParticleLib");
+
+var _ParticlesSystem = require("./src/goo/entities/systems/ParticlesSystem");
+
+var _ParticleSystemUtils = require("./src/goo/util/ParticleSystemUtils");
+
+var _ParticleUtils = require("./src/goo/particles/ParticleUtils");
+
+var _Pass = require("./src/goo/renderer/pass/Pass");
+
+var _PickingSystem = require("./src/goo/entities/systems/PickingSystem");
+
+var _PipRenderSystem = require("./src/goo/entities/systems/PipRenderSystem");
+
+var _Plane = require("./src/goo/math/Plane");
+
+var _PointLight = require("./src/goo/renderer/light/PointLight");
+
+var _PortalComponent = require("./src/goo/entities/components/PortalComponent");
+
+var _PortalSystem = require("./src/goo/entities/systems/PortalSystem");
+
+var _PrimitivePickLogic = require("./src/goo/picking/PrimitivePickLogic");
+
+var _ProjectHandler = require("./src/goo/loaders/handlers/ProjectHandler");
+
+var _PromiseUtil = require("./src/goo/util/PromiseUtil");
+
+var _PromiseUtils = require("./src/goo/util/PromiseUtils");
+
+var _Quad = require("./src/goo/shapes/Quad");
+
+var _Quaternion = require("./src/goo/math/Quaternion");
+
+var _Ray = require("./src/goo/math/Ray");
+
+var _Rc4Random = require("./src/goo/util/Rc4Random");
+
+var _Rectangle = require("./src/goo/util/combine/Rectangle");
+
+var _Renderer = require("./src/goo/renderer/Renderer");
+
+var _RendererRecord = require("./src/goo/renderer/RendererRecord");
+
+var _RendererUtils = require("./src/goo/renderer/RendererUtils");
+
+var _RenderInfo = require("./src/goo/renderer/RenderInfo");
+
+var _RenderPass = require("./src/goo/renderer/pass/RenderPass");
+
+var _RenderQueue = require("./src/goo/renderer/RenderQueue");
+
+var _RenderStats = require("./src/goo/renderer/RenderStats");
+
+var _RenderSystem = require("./src/goo/entities/systems/RenderSystem");
+
+var _RenderTarget = require("./src/goo/renderer/pass/RenderTarget");
+
+var _rsvp = require("./src/goo/util/rsvp");
+
+var _SceneHandler = require("./src/goo/loaders/handlers/SceneHandler");
+
+var _ScriptComponent = require("./src/goo/entities/components/ScriptComponent");
+
+var _Scripts = require("./src/goo/scripts/Scripts");
+
+var _ScriptSystem = require("./src/goo/entities/systems/ScriptSystem");
+
+var _ScriptUtils = require("./src/goo/scripts/ScriptUtils");
+
+var _Selection = require("./src/goo/entities/Selection");
+
+var _Shader = require("./src/goo/renderer/Shader");
+
+var _ShaderBuilder = require("./src/goo/renderer/shaders/ShaderBuilder");
+
+var _ShaderCall = require("./src/goo/renderer/ShaderCall");
+
+var _ShaderFragment = require("./src/goo/renderer/shaders/ShaderFragment");
+
+var _ShaderHandler = require("./src/goo/loaders/handlers/ShaderHandler");
+
+var _ShaderLib = require("./src/goo/renderer/shaders/ShaderLib");
+
+var _ShadowHandler = require("./src/goo/renderer/shadow/ShadowHandler");
+
+var _ShapeCreatorMemoized = require("./src/goo/util/ShapeCreatorMemoized");
+
+var _SimpleBox = require("./src/goo/shapes/SimpleBox");
+
+var _SimplePartitioner = require("./src/goo/renderer/SimplePartitioner");
+
+var _Skybox = require("./src/goo/util/Skybox");
+
+var _SkyboxHandler = require("./src/goo/loaders/handlers/SkyboxHandler");
+
+var _Snow = require("./src/goo/util/Snow");
+
+var _Sound = require("./src/goo/sound/Sound");
+
+var _SoundComponent = require("./src/goo/entities/components/SoundComponent");
+
+var _SoundComponentHandler = require("./src/goo/loaders/handlers/SoundComponentHandler");
+
+var _SoundCreator = require("./src/goo/util/SoundCreator");
+
+var _SoundHandler = require("./src/goo/loaders/handlers/SoundHandler");
+
+var _SoundSystem = require("./src/goo/entities/systems/SoundSystem");
+
+var _Sphere = require("./src/goo/shapes/Sphere");
+
+var _Spline = require("./src/goo/math/splines/Spline");
+
+var _SplineWalker = require("./src/goo/math/splines/SplineWalker");
+
+var _SpotLight = require("./src/goo/renderer/light/SpotLight");
+
+var _Stats = require("./src/goo/util/Stats");
+
+var _StringUtil = require("./src/goo/util/StringUtil");
+
+var _StringUtils = require("./src/goo/util/StringUtils");
+
+var _System = require("./src/goo/entities/systems/System");
+
+var _SystemBus = require("./src/goo/entities/SystemBus");
+
+var _TangentGenerator = require("./src/goo/util/TangentGenerator");
+
+var _TaskScheduler = require("./src/goo/renderer/TaskScheduler");
+
+var _TextComponent = require("./src/goo/entities/components/TextComponent");
+
+var _TextSystem = require("./src/goo/entities/systems/TextSystem");
+
+var _Texture = require("./src/goo/renderer/Texture");
+
+var _TextureCreator = require("./src/goo/renderer/TextureCreator");
+
+var _TextureGrid = require("./src/goo/shapes/TextureGrid");
+
+var _TextureHandler = require("./src/goo/loaders/handlers/TextureHandler");
+
+var _TgaLoader = require("./src/goo/loaders/tga/TgaLoader");
+
+var _Torus = require("./src/goo/shapes/Torus");
+
+var _Transform = require("./src/goo/math/Transform");
+
+var _TransformComponent = require("./src/goo/entities/components/TransformComponent");
+
+var _TransformComponentHandler = require("./src/goo/loaders/handlers/TransformComponentHandler");
+
+var _TransformSystem = require("./src/goo/entities/systems/TransformSystem");
+
+var _ValueNoise = require("./src/goo/noise/ValueNoise");
+
+var _Vector = require("./src/goo/math/Vector2");
+
+var _Vector2 = require("./src/goo/math/Vector3");
+
+var _Vector3 = require("./src/goo/math/Vector4");
+
+var _Vector4 = require("./src/goo/math/Vector");
+
+var _World = require("./src/goo/entities/World");
+
+require("./tools/MapSetPolyfill");
+
 if (typeof window !== 'undefined') {
 	({});
 }
 
 module.exports = {
-	Ajax: Ajax_Ajaxjs,
-	ArrayUtil: ArrayUtil_ArrayUtilsjs,
-	ArrayUtils: ArrayUtils_ArrayUtilsjs,
-	AtlasNode: AtlasNodejs,
-	AudioContext: AudioContext_AudioContextjsjs,
-	BoundingBox: BoundingBoxjs,
-	BoundingPicker: BoundingPicker_BoundingPickerjs,
-	BoundingSphere: BoundingSpherejs,
-	BoundingTree: BoundingTreejs,
-	BoundingUpdateSystem: BoundingUpdateSystemjs,
-	BoundingVolume: BoundingVolume_BoundingVolumejs,
-	Box: Boxjs,
-	BufferData: BufferDatajs,
-	BufferUtils: BufferUtils_BufferUtilsjs,
-	Bus: Bus_Busjs,
-	Camera: Camerajs,
-	CameraComponent: CameraComponentjs,
-	CameraComponentHandler: CameraComponentHandlerjs,
-	CameraSystem: CameraSystemjs,
-	CanvasUtils: CanvasUtils_CanvasUtilsjs,
-	Capabilities: Capabilitiesjs,
-	Component: Component_Componentjs,
-	ComponentHandler: ComponentHandler_ComponentHandlerjs,
-	Composer: Composer_Composerjs,
-	Cone: Conejs,
-	ConfigHandler: ConfigHandler_ConfigHandlerjs,
+	Ajax: _Ajax.Ajax,
+	ArrayUtil: _ArrayUtil.ArrayUtils,
+	ArrayUtils: _ArrayUtils.ArrayUtils,
+	AtlasNode: _AtlasNode.AtlasNode,
+	AudioContext: _AudioContext.AudioContextjs,
+	BoundingBox: _BoundingBox.BoundingBox,
+	BoundingPicker: _BoundingPicker.BoundingPicker,
+	BoundingSphere: _BoundingSphere.BoundingSphere,
+	BoundingTree: _BoundingTree.BoundingTree,
+	BoundingUpdateSystem: _BoundingUpdateSystem.BoundingUpdateSystem,
+	BoundingVolume: _BoundingVolume.BoundingVolume,
+	Box: _Box.Box,
+	BufferData: _BufferData.BufferData,
+	BufferUtils: _BufferUtils.BufferUtils,
+	Bus: _Bus.Bus,
+	Camera: _Camera.Camera,
+	CameraComponent: _CameraComponent.CameraComponent,
+	CameraComponentHandler: _CameraComponentHandler.CameraComponentHandler,
+	CameraSystem: _CameraSystem.CameraSystem,
+	CanvasUtils: _CanvasUtils.CanvasUtils,
+	Capabilities: _Capabilities.Capabilities,
+	Component: _Component.Component,
+	ComponentHandler: _ComponentHandler.ComponentHandler,
+	Composer: _Composer.Composer,
+	Cone: _Cone.Cone,
+	ConfigHandler: _ConfigHandler.ConfigHandler,
 	ContextLost: {},
-	CrunchLoader: CrunchLoader_CrunchLoaderjs,
-	CssTransformComponent: CssTransformComponentjs,
-	CssTransformSystem: CssTransformSystemjs,
-	Cylinder: Cylinderjs,
-	DdsLoader: DdsLoader_DdsLoaderjs,
-	DdsUtils: DdsUtils_DdsUtilsjs,
-	DirectionalLight: DirectionalLightjs,
-	Disk: Diskjs,
-	Dom3dComponent: Dom3dComponentjs,
-	Dom3dComponentHandler: Dom3dComponentHandlerjs,
-	Dom3dSystem: Dom3dSystemjs,
-	DynamicLoader: DynamicLoader_DynamicLoaderjs,
-	Easing: Easing_Easingjs,
-	Entity: Entityjs,
-	EntityCombiner: EntityCombiner_EntityCombinerjs,
-	EntityHandler: EntityHandlerjs,
-	EntityManager: EntityManager_EntityManagerjs,
-	EntitySelection: EntitySelectionjs,
-	EntityUtils: EntityUtils_EntityUtilsjs,
-	EnvironmentHandler: EnvironmentHandlerjs,
-	EventTarget: EventTarget_EventTargetjs,
-	FullscreenPass: FullscreenPassjs,
-	FullscreenUtil: FullscreenUtil_FullscreenUtilsjs,
-	FullscreenUtils: FullscreenUtils_FullscreenUtilsjs,
-	GameUtils: GameUtils_GameUtilsjs,
-	GooRunner: GooRunner_GooRunnerjs,
-	Grid: Gridjs,
-	GridRenderSystem: GridRenderSystemjs,
-	HtmlComponent: HtmlComponentjs,
-	HtmlComponentHandler: HtmlComponentHandlerjs,
-	HtmlSystem: HtmlSystemjs,
-	JsonHandler: JsonHandlerjs,
-	Light: Light_Lightjs,
-	LightComponent: LightComponentjs,
-	LightComponentHandler: LightComponentHandlerjs,
-	LightingSystem: LightingSystemjs,
-	Logo: Logo_Logojs,
-	Manager: Manager_Managerjs,
-	Material: Materialjs,
-	MaterialHandler: MaterialHandlerjs,
+	CrunchLoader: _CrunchLoader.CrunchLoader,
+	CssTransformComponent: _CssTransformComponent.CssTransformComponent,
+	CssTransformSystem: _CssTransformSystem.CssTransformSystem,
+	Cylinder: _Cylinder.Cylinder,
+	DdsLoader: _DdsLoader.DdsLoader,
+	DdsUtils: _DdsUtils.DdsUtils,
+	DirectionalLight: _DirectionalLight.DirectionalLight,
+	Disk: _Disk.Disk,
+	Dom3dComponent: _Dom3dComponent.Dom3dComponent,
+	Dom3dComponentHandler: _Dom3dComponentHandler.Dom3dComponentHandler,
+	Dom3dSystem: _Dom3dSystem.Dom3dSystem,
+	DynamicLoader: _DynamicLoader.DynamicLoader,
+	Easing: _Easing.Easing,
+	Entity: _Entity.Entity,
+	EntityCombiner: _EntityCombiner.EntityCombiner,
+	EntityHandler: _EntityHandler.EntityHandler,
+	EntityManager: _EntityManager.EntityManager,
+	EntitySelection: _EntitySelection.EntitySelection,
+	EntityUtils: _EntityUtils.EntityUtils,
+	EnvironmentHandler: _EnvironmentHandler.EnvironmentHandler,
+	EventTarget: _EventTarget.EventTarget,
+	FullscreenPass: _FullscreenPass.FullscreenPass,
+	FullscreenUtil: _FullscreenUtil.FullscreenUtils,
+	FullscreenUtils: _FullscreenUtils.FullscreenUtils,
+	GameUtils: _GameUtils.GameUtils,
+	GooRunner: _GooRunner.GooRunner,
+	Grid: _Grid.Grid,
+	GridRenderSystem: _GridRenderSystem.GridRenderSystem,
+	HtmlComponent: _HtmlComponent.HtmlComponent,
+	HtmlComponentHandler: _HtmlComponentHandler.HtmlComponentHandler,
+	HtmlSystem: _HtmlSystem.HtmlSystem,
+	JsonHandler: _JsonHandler.JsonHandler,
+	Light: _Light.Light,
+	LightComponent: _LightComponent.LightComponent,
+	LightComponentHandler: _LightComponentHandler.LightComponentHandler,
+	LightingSystem: _LightingSystem.LightingSystem,
+	Logo: _Logo.Logo,
+	Manager: _Manager.Manager,
+	Material: _Material.Material,
+	MaterialHandler: _MaterialHandler.MaterialHandler,
 	MathUtils: MathUtils_MathUtilsjs,
-	Matrix2: Matrix2js,
-	Matrix2x2: Matrix2x2_Matrix2x2js,
-	Matrix3: Matrix3js,
-	Matrix3x3: Matrix3x3_Matrix3x3js,
-	Matrix4: Matrix4js,
-	Matrix4x4: Matrix4x4_Matrix4x4js,
-	Matrix: Matrixjs,
-	MeshBuilder: MeshBuilder_MeshBuilderjs,
-	MeshData: MeshDatajs,
-	MeshDataComponent: MeshDataComponentjs,
-	MeshDataComponentHandler: MeshDataComponentHandlerjs,
-	MeshDataHandler: MeshDataHandlerjs,
-	MeshRendererComponent: MeshRendererComponentjs,
-	MeshRendererComponentHandler: MeshRendererComponentHandlerjs,
-	MovementComponent: MovementComponentjs,
-	MovementSystem: MovementSystemjs,
-	Noise: Noise_Noisejs,
-	ObjectUtil: ObjectUtil_ObjectUtilsjs,
-	ObjectUtils: ObjectUtils_ObjectUtilsjs,
-	OrbitCamControlScript: OrbitCamControlScript_OrbitCamControlScriptjs,
-	OscillatorSound: OscillatorSound_OscillatorSoundjs,
-	Particle: Particle_Particlejs,
-	ParticleComponent: ParticleComponentjs,
-	ParticleEmitter: ParticleEmitter_ParticleEmitterjs,
-	ParticleInfluence: ParticleInfluence_ParticleInfluencejs,
-	ParticleLib: ParticleLib_ParticleLibjs,
-	ParticlesSystem: ParticlesSystemjs,
-	ParticleSystemUtils: ParticleSystemUtils_ParticleSystemUtilsjs,
-	ParticleUtils: ParticleUtils_ParticleUtilsjs,
-	Pass: Pass_Passjs,
-	PickingSystem: PickingSystemjs,
-	PipRenderSystem: PipRenderSystemjs,
-	Plane: Planejs,
-	PointLight: PointLightjs,
-	PortalComponent: PortalComponentjs,
-	PortalSystem: PortalSystemjs,
-	PrimitivePickLogic: PrimitivePickLogic_PrimitivePickLogicjs,
-	ProjectHandler: ProjectHandlerjs,
-	PromiseUtil: PromiseUtil_PromiseUtilsjs,
-	PromiseUtils: PromiseUtils_PromiseUtilsjs,
-	Quad: Quadjs,
-	Quaternion: Quaternionjs,
-	Ray: Rayjs,
-	Rc4Random: Rc4Random_Rc4Randomjs,
-	Rectangle: Rectangle_Rectanglejs,
+	Matrix2: _Matrix.Matrix2,
+	Matrix2x2: _Matrix2x.Matrix2x2,
+	Matrix3: _Matrix2.Matrix3,
+	Matrix3x3: _Matrix3x.Matrix3x3,
+	Matrix4: _Matrix3.Matrix4,
+	Matrix4x4: _Matrix4x.Matrix4x4,
+	Matrix: _Matrix4.Matrix,
+	MeshBuilder: _MeshBuilder.MeshBuilder,
+	MeshData: _MeshData.MeshData,
+	MeshDataComponent: _MeshDataComponent.MeshDataComponent,
+	MeshDataComponentHandler: _MeshDataComponentHandler.MeshDataComponentHandler,
+	MeshDataHandler: _MeshDataHandler.MeshDataHandler,
+	MeshRendererComponent: _MeshRendererComponent.MeshRendererComponent,
+	MeshRendererComponentHandler: _MeshRendererComponentHandler.MeshRendererComponentHandler,
+	MovementComponent: _MovementComponent.MovementComponent,
+	MovementSystem: _MovementSystem.MovementSystem,
+	Noise: _Noise.Noise,
+	ObjectUtil: _ObjectUtil.ObjectUtils,
+	ObjectUtils: _ObjectUtils.ObjectUtils,
+	OrbitCamControlScript: _OrbitCamControlScript.OrbitCamControlScript,
+	OscillatorSound: _OscillatorSound.OscillatorSound,
+	Particle: _Particle.Particle,
+	ParticleComponent: _ParticleComponent.ParticleComponent,
+	ParticleEmitter: _ParticleEmitter.ParticleEmitter,
+	ParticleInfluence: _ParticleInfluence.ParticleInfluence,
+	ParticleLib: _ParticleLib.ParticleLib,
+	ParticlesSystem: _ParticlesSystem.ParticlesSystem,
+	ParticleSystemUtils: _ParticleSystemUtils.ParticleSystemUtils,
+	ParticleUtils: _ParticleUtils.ParticleUtils,
+	Pass: _Pass.Pass,
+	PickingSystem: _PickingSystem.PickingSystem,
+	PipRenderSystem: _PipRenderSystem.PipRenderSystem,
+	Plane: _Plane.Plane,
+	PointLight: _PointLight.PointLight,
+	PortalComponent: _PortalComponent.PortalComponent,
+	PortalSystem: _PortalSystem.PortalSystem,
+	PrimitivePickLogic: _PrimitivePickLogic.PrimitivePickLogic,
+	ProjectHandler: _ProjectHandler.ProjectHandler,
+	PromiseUtil: _PromiseUtil.PromiseUtils,
+	PromiseUtils: _PromiseUtils.PromiseUtils,
+	Quad: _Quad.Quad,
+	Quaternion: _Quaternion.Quaternion,
+	Ray: _Ray.Ray,
+	Rc4Random: _Rc4Random.Rc4Random,
+	Rectangle: _Rectangle.Rectangle,
 	Renderer: Renderer_Rendererjs,
-	RendererRecord: RendererRecord_RendererRecordjs,
-	RendererUtils: RendererUtils_RendererUtilsjs,
-	RenderInfo: RenderInfo_RenderInfojs,
-	RenderPass: RenderPassjs,
-	RenderQueue: RenderQueue_RenderQueuejs,
-	RenderStats: RenderStats_RenderStatsjs,
-	RenderSystem: RenderSystemjs,
-	RenderTarget: RenderTargetjs,
-	rsvp: rsvp_rsvpjsjs,
-	SceneHandler: SceneHandlerjs,
-	ScriptComponent: ScriptComponentjs,
-	Scripts: Scripts_Scriptsjs,
-	ScriptSystem: ScriptSystemjs,
-	ScriptUtils: ScriptUtils_ScriptUtilsjs,
-	Selection: Selectionjs,
-	Shader: Shaderjs,
+	RendererRecord: _RendererRecord.RendererRecord,
+	RendererUtils: _RendererUtils.RendererUtils,
+	RenderInfo: _RenderInfo.RenderInfo,
+	RenderPass: _RenderPass.RenderPass,
+	RenderQueue: _RenderQueue.RenderQueue,
+	RenderStats: _RenderStats.RenderStats,
+	RenderSystem: _RenderSystem.RenderSystem,
+	RenderTarget: _RenderTarget.RenderTarget,
+	rsvp: _rsvp.rsvpjs,
+	SceneHandler: _SceneHandler.SceneHandler,
+	ScriptComponent: _ScriptComponent.ScriptComponent,
+	Scripts: _Scripts.Scripts,
+	ScriptSystem: _ScriptSystem.ScriptSystem,
+	ScriptUtils: _ScriptUtils.ScriptUtils,
+	Selection: _Selection.Selection,
+	Shader: _Shader.Shader,
 	ShaderBuilder: ShaderBuilder_ShaderBuilderjs,
-	ShaderCall: ShaderCall_ShaderCalljs,
-	ShaderFragment: ShaderFragment_ShaderFragmentjs,
-	ShaderHandler: ShaderHandlerjs,
-	ShaderLib: ShaderLib_ShaderLibjs,
-	ShadowHandler: ShadowHandler_ShadowHandlerjs,
-	ShapeCreatorMemoized: ShapeCreatorMemoized_ShapeCreatorMemoizedjs,
-	SimpleBox: SimpleBoxjs,
-	SimplePartitioner: SimplePartitioner_SimplePartitionerjs,
-	Skybox: Skybox_Skyboxjs,
-	SkyboxHandler: SkyboxHandlerjs,
-	Snow: Snow_Snowjs,
-	Sound: Sound_Soundjs,
-	SoundComponent: SoundComponentjs,
-	SoundComponentHandler: SoundComponentHandlerjs,
-	SoundCreator: SoundCreator_SoundCreatorjs,
-	SoundHandler: SoundHandlerjs,
-	SoundSystem: SoundSystemjs,
-	Sphere: Spherejs,
-	Spline: Spline_Splinejs,
-	SplineWalker: SplineWalker_SplineWalkerjs,
-	SpotLight: SpotLightjs,
-	Stats: Stats_Statsjs,
-	StringUtil: StringUtil_StringUtilsjs,
-	StringUtils: StringUtils_StringUtilsjs,
-	System: System_Systemjs,
-	SystemBus: SystemBus_SystemBusjsjs,
-	TangentGenerator: TangentGenerator_TangentGeneratorjs,
-	TaskScheduler: TaskScheduler_TaskSchedulerjs,
-	TextComponent: TextComponentjs,
-	TextSystem: TextSystemjs,
-	Texture: Texturejs,
-	TextureCreator: TextureCreator_TextureCreatorjs,
-	TextureGrid: TextureGridjs,
-	TextureHandler: TextureHandlerjs,
-	TgaLoader: TgaLoader_TgaLoaderjs,
-	Torus: Torusjs,
-	Transform: Transformjs,
-	TransformComponent: TransformComponentjs,
-	TransformComponentHandler: TransformComponentHandlerjs,
-	TransformSystem: TransformSystemjs,
-	ValueNoise: ValueNoisejs,
-	Vector2: Vector2js,
-	Vector3: Vector3js,
-	Vector4: Vector4js,
-	Vector: Vectorjs,
-	World: World_Worldjs
+	ShaderCall: _ShaderCall.ShaderCall,
+	ShaderFragment: _ShaderFragment.ShaderFragment,
+	ShaderHandler: _ShaderHandler.ShaderHandler,
+	ShaderLib: _ShaderLib.ShaderLib,
+	ShadowHandler: _ShadowHandler.ShadowHandler,
+	ShapeCreatorMemoized: _ShapeCreatorMemoized.ShapeCreatorMemoized,
+	SimpleBox: _SimpleBox.SimpleBox,
+	SimplePartitioner: _SimplePartitioner.SimplePartitioner,
+	Skybox: _Skybox.Skybox,
+	SkyboxHandler: _SkyboxHandler.SkyboxHandler,
+	Snow: _Snow.Snow,
+	Sound: _Sound.Sound,
+	SoundComponent: _SoundComponent.SoundComponent,
+	SoundComponentHandler: _SoundComponentHandler.SoundComponentHandler,
+	SoundCreator: _SoundCreator.SoundCreator,
+	SoundHandler: _SoundHandler.SoundHandler,
+	SoundSystem: _SoundSystem.SoundSystem,
+	Sphere: _Sphere.Sphere,
+	Spline: _Spline.Spline,
+	SplineWalker: _SplineWalker.SplineWalker,
+	SpotLight: _SpotLight.SpotLight,
+	Stats: _Stats.Stats,
+	StringUtil: _StringUtil.StringUtils,
+	StringUtils: _StringUtils.StringUtils,
+	System: _System.System,
+	SystemBus: _SystemBus.SystemBusjs,
+	TangentGenerator: _TangentGenerator.TangentGenerator,
+	TaskScheduler: _TaskScheduler.TaskScheduler,
+	TextComponent: _TextComponent.TextComponent,
+	TextSystem: _TextSystem.TextSystem,
+	Texture: _Texture.Texture,
+	TextureCreator: _TextureCreator.TextureCreator,
+	TextureGrid: _TextureGrid.TextureGrid,
+	TextureHandler: _TextureHandler.TextureHandler,
+	TgaLoader: _TgaLoader.TgaLoader,
+	Torus: _Torus.Torus,
+	Transform: _Transform.Transform,
+	TransformComponent: _TransformComponent.TransformComponent,
+	TransformComponentHandler: _TransformComponentHandler.TransformComponentHandler,
+	TransformSystem: _TransformSystem.TransformSystem,
+	ValueNoise: _ValueNoise.ValueNoise,
+	Vector2: _Vector.Vector2,
+	Vector3: _Vector2.Vector3,
+	Vector4: _Vector3.Vector4,
+	Vector: _Vector4.Vector,
+	World: _World.World
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	window.goo = module.exports;
 }

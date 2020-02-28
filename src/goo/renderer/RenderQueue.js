@@ -1,4 +1,10 @@
-import { Vector3 as Vector3js } from "../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderQueue = exports.TRANSPARENT = exports.OPAQUE = undefined;
+
+var _Vector = require("../math/Vector3");
+
 var RenderQueue_OVERLAY;
 var RenderQueue_TRANSPARENT;
 var RenderQueue_OPAQUE;
@@ -34,7 +40,7 @@ function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3js();
+var tmpVec = new _Vector.Vector3();
 
 /**
  * @param {Array<Entity>} renderList
@@ -106,13 +112,13 @@ RenderQueue_BACKGROUND = 0;;
  * @readonly
  * @default
  */
-RenderQueue_OPAQUE = 1000;;
+exports.OPAQUE = RenderQueue_OPAQUE = 1000;;
 /** For all alpha-blended objects. Rendered back to front
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue_TRANSPARENT = 2000;;
+exports.TRANSPARENT = RenderQueue_TRANSPARENT = 2000;;
 /** For overlay effects like lens-flares etc
  * @type {number}
  * @readonly
@@ -120,7 +126,9 @@ RenderQueue_TRANSPARENT = 2000;;
  */
 RenderQueue_OVERLAY = 3000;;
 
-export { RenderQueue_OPAQUE as OPAQUE, RenderQueue_TRANSPARENT as TRANSPARENT };
+exports.OPAQUE = RenderQueue_OPAQUE;
+exports.TRANSPARENT = RenderQueue_TRANSPARENT;
+
 var exported_RenderQueue = RenderQueue;
 
 /**
@@ -128,4 +136,4 @@ var exported_RenderQueue = RenderQueue;
  * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
  * back to front.
  */
-export { exported_RenderQueue as RenderQueue };
+exports.RenderQueue = exported_RenderQueue;

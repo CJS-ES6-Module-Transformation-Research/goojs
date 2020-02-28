@@ -1,8 +1,18 @@
-import { ParticleComponent as ParticleComponentjs } from "../entities/components/ParticleComponent";
-import { MeshRendererComponent as MeshRendererComponentjs } from "../entities/components/MeshRendererComponent";
-import { MeshDataComponent as MeshDataComponentjs } from "../entities/components/MeshDataComponent";
-import { Texture as Texturejs } from "../renderer/Texture";
-import { ParticleEmitter as ParticleEmitter_ParticleEmitterjs } from "../particles/ParticleEmitter";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.ParticleSystemUtils = exports.createSnowflakeTexture = exports.createPlanktonTexture = exports.createSplashTexture = exports.createFlareTexture = exports.createParticleSystemEntity = undefined;
+
+var _ParticleComponent = require("../entities/components/ParticleComponent");
+
+var _MeshRendererComponent = require("../entities/components/MeshRendererComponent");
+
+var _MeshDataComponent = require("../entities/components/MeshDataComponent");
+
+var _Texture = require("../renderer/Texture");
+
+var _ParticleEmitter = require("../particles/ParticleEmitter");
+
 var ParticleSystemUtils_createSnowflakeTexture;
 var ParticleSystemUtils_createPlanktonTexture;
 var ParticleSystemUtils_createSplashTexture;
@@ -23,24 +33,24 @@ function ParticleSystemUtils() {}
  * @example-link http://code.gooengine.com/latest/visual-test/goo/misc/ParticleLib/ParticleLib-vtest.html Working example
  * @returns {Entity}
  */
-ParticleSystemUtils_createParticleSystemEntity = function(world, particleParameters, material) {
+exports.createParticleSystemEntity = ParticleSystemUtils_createParticleSystemEntity = function ParticleSystemUtils_createParticleSystemEntity(world, particleParameters, material) {
     // Create the particle cloud entity
     var particleSystemEntity = world.createEntity();
 
     // Set particle component
-    var particleComponent = new ParticleComponentjs({
+    var particleComponent = new _ParticleComponent.ParticleComponent({
         particleCount: particleParameters.particleCount || 500
     });
 
-    particleComponent.emitters.push(new ParticleEmitter_ParticleEmitterjs(particleParameters));
+    particleComponent.emitters.push(new _ParticleEmitter.ParticleEmitter(particleParameters));
     particleSystemEntity.setComponent(particleComponent);
 
     // Create meshData component using particle data
-    var meshDataComponent = new MeshDataComponentjs(particleComponent.meshData);
+    var meshDataComponent = new _MeshDataComponent.MeshDataComponent(particleComponent.meshData);
     particleSystemEntity.setComponent(meshDataComponent);
 
     // Create meshRenderer component with material and shader
-    var meshRendererComponent = new MeshRendererComponentjs();
+    var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
     meshRendererComponent.materials.push(material);
     meshRendererComponent.cullMode = "Never";
     particleSystemEntity.setComponent(meshRendererComponent);
@@ -54,7 +64,7 @@ ParticleSystemUtils_createParticleSystemEntity = function(world, particleParamet
  * @param {Object} [options]
  * @returns {Texture}
  */
-ParticleSystemUtils_createFlareTexture = function(size, options) {
+exports.createFlareTexture = ParticleSystemUtils_createFlareTexture = function ParticleSystemUtils_createFlareTexture(size, options) {
     size = size || 64;
 
     //! AT: this modifies the original options object which is intrusive and bad
@@ -75,14 +85,7 @@ ParticleSystemUtils_createFlareTexture = function(size, options) {
     canvas.height = size;
     var con2d = canvas.getContext("2d");
 
-    var gradient = con2d.createRadialGradient(
-        size / 2,
-        size / 2,
-        options.startRadius,
-        size / 2,
-        size / 2,
-        options.endRadius
-    );
+    var gradient = con2d.createRadialGradient(size / 2, size / 2, options.startRadius, size / 2, size / 2, options.endRadius);
 
     for (var i = 0; i < options.steps.length; i++) {
         var step = options.steps[i];
@@ -95,7 +98,7 @@ ParticleSystemUtils_createFlareTexture = function(size, options) {
     var imageData = con2d.getImageData(0, 0, size, size).data;
     imageData = new Uint8Array(imageData);
 
-    var texture = new Texturejs(imageData, null, size, size);
+    var texture = new _Texture.Texture(imageData, null, size, size);
     return texture;
 };;
 
@@ -105,7 +108,7 @@ ParticleSystemUtils_createFlareTexture = function(size, options) {
  * @param {Object} [options]
  * @returns {Texture}
  */
-ParticleSystemUtils_createSplashTexture = function(size, options) {
+exports.createSplashTexture = ParticleSystemUtils_createSplashTexture = function ParticleSystemUtils_createSplashTexture(size, options) {
     size = size || 64;
 
     //! AT: this modifies the original options object which is intrusive and bad
@@ -143,32 +146,17 @@ ParticleSystemUtils_createSplashTexture = function(size, options) {
             var angle = Math.random() * Math.PI * 2;
             var innerRadius = Math.random() * 4 + minInnerRadius;
             var outerRadius = Math.random() * 4 - maxOuterRadius;
-            trail(
-                x + Math.cos(angle) * innerRadius,
-                y + Math.sin(angle) * innerRadius,
-                x + Math.cos(angle) * outerRadius,
-                y + Math.sin(angle) * outerRadius,
-                startTrailRadius,
-                endTrailRadius
-            );
+            trail(x + Math.cos(angle) * innerRadius, y + Math.sin(angle) * innerRadius, x + Math.cos(angle) * outerRadius, y + Math.sin(angle) * outerRadius, startTrailRadius, endTrailRadius);
         }
     }
     // ----
 
-    splash(
-        size / 2,
-        size / 2,
-        size / 2 / 10 * 1,
-        size / 2 / 10 * 9,
-        options.trailStartRadius,
-        options.trailEndRadius,
-        options.nTrails
-    );
+    splash(size / 2, size / 2, size / 2 / 10 * 1, size / 2 / 10 * 9, options.trailStartRadius, options.trailEndRadius, options.nTrails);
 
     var imageData = con2d.getImageData(0, 0, size, size).data;
     imageData = new Uint8Array(imageData);
 
-    var texture = new Texturejs(imageData, null, size, size);
+    var texture = new _Texture.Texture(imageData, null, size, size);
     return texture;
 };;
 
@@ -178,7 +166,7 @@ ParticleSystemUtils_createSplashTexture = function(size, options) {
  * @param {Object} [options]
  * @returns {Texture}
  */
-ParticleSystemUtils_createPlanktonTexture = function(size, options) {
+exports.createPlanktonTexture = ParticleSystemUtils_createPlanktonTexture = function ParticleSystemUtils_createPlanktonTexture(size, options) {
     size = size || 64;
 
     //! AT: this modifies the original options object which is intrusive and bad
@@ -205,11 +193,7 @@ ParticleSystemUtils_createPlanktonTexture = function(size, options) {
         for (var i = 0; i < n; i++) {
             var x = Math.random() * (size - options.maxRadius * 2) + options.maxRadius;
             var y = Math.random() * (size - options.maxRadius * 2) + options.maxRadius;
-            circle(
-                x,
-                y,
-                Math.random() * (options.maxRadius - options.minRadius) + options.minRadius
-            );
+            circle(x, y, Math.random() * (options.maxRadius - options.minRadius) + options.minRadius);
         }
     }
 
@@ -218,7 +202,7 @@ ParticleSystemUtils_createPlanktonTexture = function(size, options) {
     var imageData = con2d.getImageData(0, 0, size, size).data;
     imageData = new Uint8Array(imageData);
 
-    var texture = new Texturejs(imageData, null, size, size);
+    var texture = new _Texture.Texture(imageData, null, size, size);
     return texture;
 };;
 
@@ -228,7 +212,7 @@ ParticleSystemUtils_createPlanktonTexture = function(size, options) {
  * @param {Object} [options]
  * @returns {Texture}
  */
-ParticleSystemUtils_createSnowflakeTexture = function(size, options) {
+exports.createSnowflakeTexture = ParticleSystemUtils_createSnowflakeTexture = function ParticleSystemUtils_createSnowflakeTexture(size, options) {
     size = size || 64;
 
     //! AT: this modifies the original options object which is intrusive and bad
@@ -269,12 +253,16 @@ ParticleSystemUtils_createSnowflakeTexture = function(size, options) {
     con2d.scale(size / 100 / 2, size / 100 / 2);
     replicateRotated(7, subSnow1);
 
-
     var imageData = con2d.getImageData(0, 0, size, size).data;
     imageData = new Uint8Array(imageData);
 
-    var texture = new Texturejs(imageData, null, size, size);
+    var texture = new _Texture.Texture(imageData, null, size, size);
     return texture;
 };;
 
-export { ParticleSystemUtils_createParticleSystemEntity as createParticleSystemEntity, ParticleSystemUtils_createFlareTexture as createFlareTexture, ParticleSystemUtils_createSplashTexture as createSplashTexture, ParticleSystemUtils_createPlanktonTexture as createPlanktonTexture, ParticleSystemUtils_createSnowflakeTexture as createSnowflakeTexture, ParticleSystemUtils };
+exports.createParticleSystemEntity = ParticleSystemUtils_createParticleSystemEntity;
+exports.createFlareTexture = ParticleSystemUtils_createFlareTexture;
+exports.createSplashTexture = ParticleSystemUtils_createSplashTexture;
+exports.createPlanktonTexture = ParticleSystemUtils_createPlanktonTexture;
+exports.createSnowflakeTexture = ParticleSystemUtils_createSnowflakeTexture;
+exports.ParticleSystemUtils = ParticleSystemUtils;

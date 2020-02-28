@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var PickAndRotateScript_externals;
 function PickAndRotateScript() {
 	var gooRunner;
@@ -19,7 +22,9 @@ function PickAndRotateScript() {
 	}
 
 	function mouseDown(event) {
-		if (args.disable) { return; }
+		if (args.disable) {
+			return;
+		}
 
 		var pressedButton = getButton(event.domEvent);
 		if ((pressedButton === ctx.dragButton || ctx.dragButton === -1) && event.entity) {
@@ -65,7 +70,7 @@ function PickAndRotateScript() {
 		}
 	}
 
-	function updateRotation(){
+	function updateRotation() {
 		ctx.entity.transformComponent.transform.rotation.setIdentity();
 		ctx.entity.transformComponent.transform.rotation.rotateX(mouseState.ay / 300 * args.yMultiplier);
 		ctx.entity.transformComponent.transform.rotation.rotateY(mouseState.ax / 200 * args.xMultiplier);
@@ -108,7 +113,7 @@ function PickAndRotateScript() {
 		argsUpdated(_args, _ctx);
 	}
 
-	function update(/* args, ctx */) {}
+	function update() /* args, ctx */{}
 
 	function cleanup(args, ctx) {
 		ctx.domElement.removeEventListener('mousemove', mouseMove);
@@ -119,7 +124,6 @@ function PickAndRotateScript() {
 		gooRunner.removeEventListener('touchstart', mouseDown);
 	}
 
-
 	return {
 		setup: setup,
 		update: update,
@@ -129,39 +133,39 @@ function PickAndRotateScript() {
 }
 
 PickAndRotateScript_externals = {
-    key: "PickAndRotateScript",
-    name: "Pick and Rotate",
-    description: "Enables pick-drag-rotating entities",
+	key: "PickAndRotateScript",
+	name: "Pick and Rotate",
+	description: "Enables pick-drag-rotating entities",
 
-    parameters: [{
-        key: "disable",
-        description: "Prevent rotation. For preventing this script programmatically.",
-        type: "boolean",
-        "default": false
-    }, {
-        key: "dragButton",
-        description: "Button to enable dragging",
-        "default": "Any",
-        options: ["Any", "Left", "Middle", "Right"],
-        type: "string",
-        control: "select"
-    }, {
-        key: "xMultiplier",
-        description: "Horizontal rotation multiplier",
-        "default": 1,
-        type: "float",
-        control: "slider",
-        min: -4,
-        max: 4
-    }, {
-        key: "yMultiplier",
-        description: "Vertical rotation multiplier",
-        "default": 1,
-        type: "float",
-        control: "slider",
-        min: -4,
-        max: 4
-    }]
+	parameters: [{
+		key: "disable",
+		description: "Prevent rotation. For preventing this script programmatically.",
+		type: "boolean",
+		"default": false
+	}, {
+		key: "dragButton",
+		description: "Button to enable dragging",
+		"default": "Any",
+		options: ["Any", "Left", "Middle", "Right"],
+		type: "string",
+		control: "select"
+	}, {
+		key: "xMultiplier",
+		description: "Horizontal rotation multiplier",
+		"default": 1,
+		type: "float",
+		control: "slider",
+		min: -4,
+		max: 4
+	}, {
+		key: "yMultiplier",
+		description: "Vertical rotation multiplier",
+		"default": 1,
+		type: "float",
+		control: "slider",
+		min: -4,
+		max: 4
+	}]
 };;
 
-export { PickAndRotateScript };
+exports.PickAndRotateScript = PickAndRotateScript;

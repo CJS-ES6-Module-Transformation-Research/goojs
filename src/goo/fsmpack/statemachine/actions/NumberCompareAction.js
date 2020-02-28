@@ -1,11 +1,17 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { getValue as FsmUtilsjs_getValue } from "../../../fsmpack/statemachine/FsmUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.NumberCompareAction = undefined;
 
-function NumberCompareAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+function NumberCompareAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-NumberCompareAction.prototype = Object.create(Action_Actionjs.prototype);
+NumberCompareAction.prototype = Object.create(_Action.Action.prototype);
 NumberCompareAction.prototype.constructor = NumberCompareAction;
 
 NumberCompareAction.prototype.configure = function (settings) {
@@ -57,21 +63,27 @@ var labels = {
 	greater: 'On X > Y'
 };
 
-NumberCompareAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+NumberCompareAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
 NumberCompareAction.prototype.compare = function (fsm) {
-	var leftHand = FsmUtilsjs_getValue(this.leftHand, fsm);
-	var rightHand = FsmUtilsjs_getValue(this.rightHand, fsm);
+	var leftHand = (0, _FsmUtils.getValue)(this.leftHand, fsm);
+	var rightHand = (0, _FsmUtils.getValue)(this.rightHand, fsm);
 	var diff = rightHand - leftHand;
 
 	if (Math.abs(diff) <= this.tolerance) {
-		if (this.equalEvent.channel) { fsm.send(this.equalEvent.channel); }
+		if (this.equalEvent.channel) {
+			fsm.send(this.equalEvent.channel);
+		}
 	} else if (diff > 0) {
-		if (this.lessThanEvent.channel) { fsm.send(this.lessThanEvent.channel); }
+		if (this.lessThanEvent.channel) {
+			fsm.send(this.lessThanEvent.channel);
+		}
 	} else {
-		if (this.greaterThanEvent.channel) { fsm.send(this.greaterThanEvent.channel); }
+		if (this.greaterThanEvent.channel) {
+			fsm.send(this.greaterThanEvent.channel);
+		}
 	}
 };
 
@@ -88,4 +100,4 @@ NumberCompareAction.prototype.update = function (fsm) {
 };
 
 var exported_NumberCompareAction = NumberCompareAction;
-export { exported_NumberCompareAction as NumberCompareAction };
+exports.NumberCompareAction = exported_NumberCompareAction;

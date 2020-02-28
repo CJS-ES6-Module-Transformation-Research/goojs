@@ -62,22 +62,12 @@ function addBox(x, y) {
 }
 
 function addPolygon(x, y) {
-	var verts = [
-		0, 0, 0,
-		0.7, 0,0,
-		1, 0.5,0,
-		0.5, 1, 0,
-		-0.3, 0.5, 0];
+	var verts = [0, 0, 0, 0.7, 0, 0, 1, 0.5, 0, 0.5, 1, 0, -0.3, 0.5, 0];
 	var meshData = new FilledPolygon(verts);
 	var material = V.getColoredMaterial();
 	var entity = world.createEntity(meshData, material, [x, y, 0]);
 
-	var verts = [
-		0, 0,
-		0.7, 0,
-		1, 0.5,
-		0.5, 1,
-		-0.3, 0.5];
+	var verts = [0, 0, 0.7, 0, 1, 0.5, 0.5, 1, -0.3, 0.5];
 	var box2DComponent = new Box2DComponent({
 		shape: 'polygon',
 		vertices: verts
@@ -91,7 +81,7 @@ function createPipe(pipeY) {
 	var pipeScale = 200;
 	var meshData = new Cylinder(32, 1);
 	var material = V.getColoredMaterial();
-	var moveAroundScript = function(entity/*, tpf*/) {
+	var moveAroundScript = function moveAroundScript(entity /*, tpf*/) {
 		var oldY = entity.transformComponent.transform.translation.y;
 		entity.transformComponent.transform.translation.setDirect(Math.sin(world.time) * sceneWidth, oldY, 0);
 		entity.transformComponent.setUpdated();
@@ -100,29 +90,27 @@ function createPipe(pipeY) {
 	pipeEntity.transformComponent.transform.rotation.rotateX(Math.PI / 2);
 	pipeEntity.transformComponent.transform.scale.setDirect(1, 1, pipeScale);
 	pipeEntity.addToWorld();
-
 }
 
 function setupKeys(pipeY) {
-	document.addEventListener('keypress', function(e) {
+	document.addEventListener('keypress', function (e) {
 		switch (e.which) {
-			case 49: // add circle
+			case 49:
+				// add circle
 				console.log('add another circle');
 				addCircle(pipeEntity.transformComponent.transform.translation.x, pipeY);
 				break;
-			case 50: // add box
+			case 50:
+				// add box
 				console.log('add another box');
 				addBox(pipeEntity.transformComponent.transform.translation.x, pipeY);
 				break;
-			case 51: // add polygon
+			case 51:
+				// add polygon
 				addPolygon(pipeEntity.transformComponent.transform.translation.x, pipeY);
 				break;
 			default:
-				console.log(
-					'1 - add a random circle\n' +
-					'2 - add a random box\n' +
-					'3 - add a polygon'
-				);
+				console.log('1 - add a random circle\n' + '2 - add a random box\n' + '3 - add a polygon');
 		}
 	});
 
@@ -136,7 +124,6 @@ function setupKeys(pipeY) {
 		addPolygon(pipeEntity.transformComponent.transform.translation.x, pipeY);
 	});
 }
-
 
 var gooRunner = V.initGoo();
 var world = gooRunner.world;

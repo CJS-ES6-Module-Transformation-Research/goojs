@@ -1,8 +1,18 @@
-import { BoundingBox as BoundingBoxjs } from "../renderer/bounds/BoundingBox";
-import { BoundingSphere as BoundingSpherejs } from "../renderer/bounds/BoundingSphere";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../util/MeshBuilder";
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { Transform as Transformjs } from "../math/Transform";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BoundingVolumeMeshBuilder = exports.build = undefined;
+
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _BoundingSphere = require("../renderer/bounds/BoundingSphere");
+
+var _MeshBuilder = require("../util/MeshBuilder");
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Transform = require("../math/Transform");
+
 var BoundingVolumeMeshBuilder_build;
 var BoundingVolumeMeshBuilder_buildSphere;
 var BoundingVolumeMeshBuilder_buildBox;
@@ -13,35 +23,11 @@ var BoundingVolumeMeshBuilder_buildBox;
 function BoundingVolumeMeshBuilder() {}
 
 function buildBox(dx, dy, dz) {
-	var verts = [
-		dx,  dy,  dz,
-		dx,  dy, -dz,
-		dx, -dy,  dz,
-		dx, -dy, -dz,
-		-dx,  dy,  dz,
-		-dx,  dy, -dz,
-		-dx, -dy,  dz,
-		-dx, -dy, -dz
-	];
+	var verts = [dx, dy, dz, dx, dy, -dz, dx, -dy, dz, dx, -dy, -dz, -dx, dy, dz, -dx, dy, -dz, -dx, -dy, dz, -dx, -dy, -dz];
 
-	var indices = [
-		0, 1,
-		0, 2,
-		1, 3,
-		2, 3,
+	var indices = [0, 1, 0, 2, 1, 3, 2, 3, 4, 5, 4, 6, 5, 7, 6, 7, 0, 4, 1, 5, 2, 6, 3, 7];
 
-		4, 5,
-		4, 6,
-		5, 7,
-		6, 7,
-
-		0, 4,
-		1, 5,
-		2, 6,
-		3, 7
-	];
-
-	var meshData = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), verts.length / 3, indices.length);
+	var meshData = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), verts.length / 3, indices.length);
 
 	meshData.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
@@ -52,10 +38,10 @@ function buildBox(dx, dy, dz) {
 	return meshData;
 }
 
-BoundingVolumeMeshBuilder_buildBox = function(boundingBox) {
-    var boxMeshData = buildBox(boundingBox.xExtent, boundingBox.yExtent, boundingBox.zExtent);
-    // translate vertices to center
-    return boxMeshData;
+BoundingVolumeMeshBuilder_buildBox = function BoundingVolumeMeshBuilder_buildBox(boundingBox) {
+	var boxMeshData = buildBox(boundingBox.xExtent, boundingBox.yExtent, boundingBox.zExtent);
+	// translate vertices to center
+	return boxMeshData;
 };;
 
 function buildCircle(radius, nSegments) {
@@ -72,7 +58,7 @@ function buildCircle(radius, nSegments) {
 	}
 	indices[indices.length - 1] = 0;
 
-	var meshData = new MeshDatajs(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments, indices.length);
+	var meshData = new _MeshData.MeshData(MeshDatajs_defaultMap([MeshDatajs_POSITION]), nSegments, indices.length);
 
 	meshData.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
@@ -86,20 +72,20 @@ function buildCircle(radius, nSegments) {
 function buildSphere(radius) {
 	radius = radius || 1;
 
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 	var nSegments = 128;
 	var circle = buildCircle(radius, nSegments);
 	var transform;
 
-	transform = new Transformjs();
+	transform = new _Transform.Transform();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transformjs();
+	transform = new _Transform.Transform();
 	transform.rotation.fromAngles(0, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transformjs();
+	transform = new _Transform.Transform();
 	transform.rotation.fromAngles(Math.PI / 2, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
@@ -108,18 +94,19 @@ function buildSphere(radius) {
 	return meshDatas[0];
 }
 
-BoundingVolumeMeshBuilder_buildSphere = function(boundingSphere) {
-    var sphereMeshData = buildSphere(boundingSphere.radius);
-    // translate vertices to center
-    return sphereMeshData;
+BoundingVolumeMeshBuilder_buildSphere = function BoundingVolumeMeshBuilder_buildSphere(boundingSphere) {
+	var sphereMeshData = buildSphere(boundingSphere.radius);
+	// translate vertices to center
+	return sphereMeshData;
 };;
 
-BoundingVolumeMeshBuilder_build = function(boundingVolume) {
-    if (boundingVolume instanceof BoundingBoxjs) {
-        return BoundingVolumeMeshBuilder_buildBox(boundingVolume);
-    } else if (boundingVolume instanceof BoundingSpherejs) {
-        return BoundingVolumeMeshBuilder_buildSphere(boundingVolume);
-    }
+exports.build = BoundingVolumeMeshBuilder_build = function BoundingVolumeMeshBuilder_build(boundingVolume) {
+	if (boundingVolume instanceof _BoundingBox.BoundingBox) {
+		return BoundingVolumeMeshBuilder_buildBox(boundingVolume);
+	} else if (boundingVolume instanceof _BoundingSphere.BoundingSphere) {
+		return BoundingVolumeMeshBuilder_buildSphere(boundingVolume);
+	}
 };;
 
-export { BoundingVolumeMeshBuilder_build as build, BoundingVolumeMeshBuilder };
+exports.build = BoundingVolumeMeshBuilder_build;
+exports.BoundingVolumeMeshBuilder = BoundingVolumeMeshBuilder;

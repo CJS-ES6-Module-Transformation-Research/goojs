@@ -1,11 +1,17 @@
-import { Action as Action_Actionjs } from "./Action";
-import { Vector3 as Vector3js } from "../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ApplyTorqueAction = undefined;
 
-function ApplyTorqueAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("./Action");
+
+var _Vector = require("../../../math/Vector3");
+
+function ApplyTorqueAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-ApplyTorqueAction.prototype = Object.create(Action_Actionjs.prototype);
+ApplyTorqueAction.prototype = Object.create(_Action.Action.prototype);
 ApplyTorqueAction.prototype.constructor = ApplyTorqueAction;
 
 ApplyTorqueAction.external = {
@@ -32,11 +38,13 @@ ApplyTorqueAction.external = {
 	transitions: []
 };
 
-var torqueVector = new Vector3js();
+var torqueVector = new _Vector.Vector3();
 ApplyTorqueAction.prototype.enter = function (fsm) {
 	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
-		if (!entity || !entity.rigidBodyComponent) { return; }
+		if (!entity || !entity.rigidBodyComponent) {
+			return;
+		}
 
 		torqueVector.setArray(this.torque);
 		if (this.space === 'World') {
@@ -52,4 +60,4 @@ ApplyTorqueAction.prototype.exit = function () {
 };
 
 var exported_ApplyTorqueAction = ApplyTorqueAction;
-export { exported_ApplyTorqueAction as ApplyTorqueAction };
+exports.ApplyTorqueAction = exported_ApplyTorqueAction;
