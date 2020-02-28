@@ -1,17 +1,9 @@
-var System = require('../../entities/systems/System');
-
-//! AT: unused; should be removed
-/**
- * Processes all entities with movement components.
- * This system applies movement vectors for translation and rotation
- * to the transform of the entity which has it every frame.
- * @extends System
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
 function MovementSystem() {
-	System.call(this, 'MovementSystem', ['MovementComponent']);
+	System_Systemjs.call(this, 'MovementSystem', ['MovementComponent']);
 }
 
-MovementSystem.prototype = Object.create(System.prototype);
+MovementSystem.prototype = Object.create(System_Systemjs.prototype);
 MovementSystem.prototype.constructor = MovementSystem;
 
 MovementSystem.prototype.addVelocityToTransform = function (vel, transform, tpf) {
@@ -40,4 +32,13 @@ MovementSystem.prototype.process = function (entities) {
 	}
 };
 
-module.exports = MovementSystem;
+var exported_MovementSystem = MovementSystem;
+
+//! AT: unused; should be removed
+/**
+ * Processes all entities with movement components.
+ * This system applies movement vectors for translation and rotation
+ * to the transform of the entity which has it every frame.
+ * @extends System
+ */
+export { exported_MovementSystem as MovementSystem };

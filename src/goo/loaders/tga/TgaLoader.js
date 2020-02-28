@@ -1,6 +1,16 @@
-/**
- * @private
- */
+var TgaLoader_ORIGIN_UR;
+var TgaLoader_ORIGIN_UL;
+var TgaLoader_ORIGIN_BR;
+var TgaLoader_ORIGIN_BL;
+var TgaLoader_ORIGIN_SHIFT;
+var TgaLoader_ORIGIN_MASK;
+var TgaLoader_TYPE_RLE_GREY;
+var TgaLoader_TYPE_RLE_RGB;
+var TgaLoader_TYPE_RLE_INDEXED;
+var TgaLoader_TYPE_GREY;
+var TgaLoader_TYPE_RGB;
+var TgaLoader_TYPE_INDEXED;
+var TgaLoader_TYPE_NO_DATA;
 function TgaLoader() {
 	this.header = null;
 	this.offset = 0;
@@ -11,20 +21,20 @@ function TgaLoader() {
 }
 
 // TGA Constants
-TgaLoader.TYPE_NO_DATA = 0;
-TgaLoader.TYPE_INDEXED = 1;
-TgaLoader.TYPE_RGB = 2;
-TgaLoader.TYPE_GREY = 3;
-TgaLoader.TYPE_RLE_INDEXED = 9;
-TgaLoader.TYPE_RLE_RGB = 10;
-TgaLoader.TYPE_RLE_GREY = 11;
+TgaLoader_TYPE_NO_DATA = 0;;
+TgaLoader_TYPE_INDEXED = 1;;
+TgaLoader_TYPE_RGB = 2;;
+TgaLoader_TYPE_GREY = 3;;
+TgaLoader_TYPE_RLE_INDEXED = 9;;
+TgaLoader_TYPE_RLE_RGB = 10;;
+TgaLoader_TYPE_RLE_GREY = 11;;
 
-TgaLoader.ORIGIN_MASK = 0x30;
-TgaLoader.ORIGIN_SHIFT = 0x04;
-TgaLoader.ORIGIN_BL = 0x00;
-TgaLoader.ORIGIN_BR = 0x01;
-TgaLoader.ORIGIN_UL = 0x02;
-TgaLoader.ORIGIN_UR = 0x03;
+TgaLoader_ORIGIN_MASK = 0x30;;
+TgaLoader_ORIGIN_SHIFT = 0x04;;
+TgaLoader_ORIGIN_BL = 0x00;;
+TgaLoader_ORIGIN_BR = 0x01;;
+TgaLoader_ORIGIN_UL = 0x02;;
+TgaLoader_ORIGIN_UR = 0x03;;
 
 
 /**
@@ -80,24 +90,24 @@ TgaLoader.prototype.loadData = function (data) {
 
 	// Get some informations.
 	switch (this.header.image_type) {
-		case TgaLoader.TYPE_RLE_INDEXED:
+		case TgaLoader_TYPE_RLE_INDEXED:
 			this.use_rle = true;
 			break;
-		case TgaLoader.TYPE_INDEXED:
+		case TgaLoader_TYPE_INDEXED:
 			this.use_pal = true;
 			break;
 
-		case TgaLoader.TYPE_RLE_RGB:
+		case TgaLoader_TYPE_RLE_RGB:
 			this.use_rle = true;
 			break;
-		case TgaLoader.TYPE_RGB:
+		case TgaLoader_TYPE_RGB:
 			this.use_rgb = true;
 			break;
 
-		case TgaLoader.TYPE_RLE_GREY:
+		case TgaLoader_TYPE_RLE_GREY:
 			this.use_rle = true;
 			break;
-		case TgaLoader.TYPE_GREY:
+		case TgaLoader_TYPE_GREY:
 			this.use_grey = true;
 			break;
 	}
@@ -113,25 +123,25 @@ TgaLoader.prototype.loadData = function (data) {
 TgaLoader.prototype.checkHeader = function () {
 	switch (this.header.image_type) {
 		// Check indexed type
-		case TgaLoader.TYPE_INDEXED:
-		case TgaLoader.TYPE_RLE_INDEXED:
+		case TgaLoader_TYPE_INDEXED:
+		case TgaLoader_TYPE_RLE_INDEXED:
 			if (this.header.colormap_length > 256 || this.header.colormap_size !== 24 || this.header.colormap_type !== 1) {
 				throw new Error("Targa::checkHeader() - Invalid type colormap data for indexed type");
 			}
 			break;
 
 			// Check colormap type
-		case TgaLoader.TYPE_RGB:
-		case TgaLoader.TYPE_GREY:
-		case TgaLoader.TYPE_RLE_RGB:
-		case TgaLoader.TYPE_RLE_GREY:
+		case TgaLoader_TYPE_RGB:
+		case TgaLoader_TYPE_GREY:
+		case TgaLoader_TYPE_RLE_RGB:
+		case TgaLoader_TYPE_RLE_GREY:
 			if (this.header.colormap_type) {
 				throw new Error("Targa::checkHeader() - Invalid type colormap data for colormap type");
 			}
 			break;
 
 			// What the need of a file without data ?
-		case TgaLoader.TYPE_NO_DATA:
+		case TgaLoader_TYPE_NO_DATA:
 			throw new Error("Targa::checkHeader() - No data on this TGA file");
 
 			// Invalid type ?
@@ -251,9 +261,9 @@ TgaLoader.prototype.getImageData = function (imageData) {
 	};
 
 	// Check how we should write the pixels
-	switch ((this.header.flags & TgaLoader.ORIGIN_MASK) >> TgaLoader.ORIGIN_SHIFT) {
+	switch ((this.header.flags & TgaLoader_ORIGIN_MASK) >> TgaLoader_ORIGIN_SHIFT) {
 		default:
-		case TgaLoader.ORIGIN_UL:
+		case TgaLoader_ORIGIN_UL:
 			x_start = 0;
 			x_step = 1;
 			x_end = width;
@@ -262,7 +272,7 @@ TgaLoader.prototype.getImageData = function (imageData) {
 			y_end = height;
 			break;
 
-		case TgaLoader.ORIGIN_BL:
+		case TgaLoader_ORIGIN_BL:
 			x_start = 0;
 			x_step = 1;
 			x_end = width;
@@ -271,7 +281,7 @@ TgaLoader.prototype.getImageData = function (imageData) {
 			y_end = -1;
 			break;
 
-		case TgaLoader.ORIGIN_UR:
+		case TgaLoader_ORIGIN_UR:
 			x_start = width - 1;
 			x_step = -1;
 			x_end = -1;
@@ -280,7 +290,7 @@ TgaLoader.prototype.getImageData = function (imageData) {
 			y_end = height;
 			break;
 
-		case TgaLoader.ORIGIN_BR:
+		case TgaLoader_ORIGIN_BR:
 			x_start = width - 1;
 			x_step = -1;
 			x_end = -1;
@@ -517,4 +527,9 @@ TgaLoader.prototype.toString = function () {
 	return "TgaLoader";
 };
 
-module.exports = TgaLoader;
+var exported_TgaLoader = TgaLoader;
+
+/**
+ * @private
+ */
+export { exported_TgaLoader as TgaLoader };

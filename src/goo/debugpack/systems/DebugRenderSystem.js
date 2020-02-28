@@ -1,14 +1,7 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var DebugDrawHelper = require('../../debugpack/DebugDrawHelper');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
+import { getRenderablesFor as DebugDrawHelperjs_getRenderablesFor } from "../../debugpack/DebugDrawHelper";
 function DebugRenderSystem() {
-	System.call(this, 'DebugRenderSystem', ['TransformComponent']);
+	System_Systemjs.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
 	this._renderablesTree = {};
 	this.renderList = [];
@@ -41,12 +34,12 @@ function DebugRenderSystem() {
 		this.lights = lights;
 	}.bind(this);
 
-	this.selectionRenderable = DebugDrawHelper.getRenderablesFor({ type: 'MeshRendererComponent' });
+	this.selectionRenderable = DebugDrawHelperjs_getRenderablesFor({ type: 'MeshRendererComponent' });
 	this.selectionActive = false;
 	this.oldSelectionActive = false;
 }
 
-DebugRenderSystem.prototype = Object.create(System.prototype);
+DebugRenderSystem.prototype = Object.create(System_Systemjs.prototype);
 DebugRenderSystem.prototype.constructor = DebugRenderSystem;
 
 DebugRenderSystem.prototype.setup = function () {
@@ -82,7 +75,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 				if (tree[componentName] && ((tree[componentName].length === 2 && options.full) || (tree[componentName].length === 1 && !options.full))) {
 					renderables = tree[componentName];
 				} else {
-					renderables = DebugDrawHelper.getRenderablesFor(component, options);
+					renderables = DebugDrawHelperjs_getRenderablesFor(component, options);
 					for (var k = 0; k < renderables.length; k++) {
 						var renderable = renderables[k];
 						renderable.id = entity.id;
@@ -111,7 +104,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 			if (tree.skeleton) {
 				renderables = tree.skeleton;
 			} else {
-				renderables = DebugDrawHelper.getRenderablesFor(pose);
+				renderables = DebugDrawHelperjs_getRenderablesFor(pose);
 				for (var k = 0; k < renderables.length; k++) {
 					renderables[k].id = entity.id;
 				}
@@ -178,4 +171,11 @@ DebugRenderSystem.prototype.cleanup = function () {
 	SystemBus.removeListener('goo.setLights', this.lightsListener);
 };
 
-module.exports = DebugRenderSystem;
+var exported_DebugRenderSystem = DebugRenderSystem;
+
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_DebugRenderSystem as DebugRenderSystem };

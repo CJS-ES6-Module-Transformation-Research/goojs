@@ -1,9 +1,9 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+var MaterialConfigjs = {
 	material: function () {
 		var material = this.gooObject('material', 'Dummy');
-		_.extend(material, {
+		ObjectUtil_ObjectUtilsjs.extend(material, {
 			uniforms: {
 				materialAmbient: {
 					value: [0, 0, 0, 1],
@@ -37,7 +37,7 @@ module.exports = {
 	},
 	texture: function () {
 		var texture = this.gooObject('texture', 'Dummy');
-		_.extend(texture, {
+		ObjectUtil_ObjectUtilsjs.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
@@ -52,7 +52,7 @@ module.exports = {
 	},
 	textureSVG: function () {
 		var texture = this.gooObject('texture', 'Dummy');
-		_.extend(texture, {
+		ObjectUtil_ObjectUtilsjs.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
@@ -67,7 +67,7 @@ module.exports = {
 	},
 	shader: function () {
 		var shader = this.gooObject('shader', 'Dummy');
-		_.extend(shader, {
+		ObjectUtil_ObjectUtilsjs.extend(shader, {
 			attributes: {
 				vertexPoisition: 'POSITION',
 				vertexNormal: 'NORMAL',
@@ -100,3 +100,115 @@ module.exports = {
 		return ref;
 	}
 };
+
+var MaterialConfigjs_material = function() {
+    var material = this.gooObject("material", "Dummy");
+    ObjectUtil_ObjectUtilsjs.extend(material, {
+        uniforms: {
+            materialAmbient: {
+                value: [0, 0, 0, 1],
+                enabled: true
+            },
+
+            materialDiffuse: {
+                value: [1, 1, 1, 1],
+                enabled: true
+            }
+        },
+
+        texturesMapping: {},
+        shaderRef: this.shader().id,
+
+        blendState: {
+            blending: "NoBlending",
+            blendEquation: "AddEquation",
+            blendSrc: "SrcAlphaFactor",
+            blendDst: "OneMinusSrcAlhphaFactor"
+        },
+
+        cullState: {
+            enabled: true,
+            cullFace: "Back",
+            frontFace: "CCW"
+        },
+
+        depthState: {
+            enabled: true,
+            write: true
+        },
+
+        renderQueue: -1
+    });
+    return material;
+};
+
+var MaterialConfigjs_texture = function() {
+    var texture = this.gooObject("texture", "Dummy");
+    ObjectUtil_ObjectUtilsjs.extend(texture, {
+        magFilter: "Bilinear",
+        minFilter: "Trilinear",
+        offset: [0, 0],
+        repeat: [1, 1],
+        imageRef: (typeof window !== "undefined" && window.__karma__ ? "base/test/unit/loaders/res/" : "") + "checker.png",
+        wrapS: "Repeat",
+        wrapT: "Repeat",
+        anisotropy: 1,
+        flipY: true
+    });
+    return texture;
+};
+
+var MaterialConfigjs_textureSVG = function() {
+    var texture = this.gooObject("texture", "Dummy");
+    ObjectUtil_ObjectUtilsjs.extend(texture, {
+        magFilter: "Bilinear",
+        minFilter: "Trilinear",
+        offset: [0, 0],
+        repeat: [1, 1],
+        svgData: "<svg xmlns='http://www.w3.org/2000/svg' width='200' height='100'><rect x='0' y='0' width='200' height='100' fill='blue' /></svg>",
+        wrapS: "Repeat",
+        wrapT: "Repeat",
+        anisotropy: 1,
+        flipY: true
+    });
+    return texture;
+};
+
+var MaterialConfigjs_shader = function() {
+    var shader = this.gooObject("shader", "Dummy");
+    ObjectUtil_ObjectUtilsjs.extend(shader, {
+        attributes: {
+            vertexPoisition: "POSITION",
+            vertexNormal: "NORMAL",
+            vertexUV0: "TEXCOORD0"
+        },
+
+        uniforms: {
+            viewMatrix: "VIEW_MATRIX",
+            projectionMatrix: "PROJECTION_MATRIX",
+            worldMatrix: "WORLD_MATRIX",
+            cameraPosition: "CAMERA"
+        },
+
+        vshaderRef: this.vshader(),
+        fshaderRef: this.fshader(),
+        processors: ["uber"]
+    });
+    return shader;
+};
+
+var MaterialConfigjs_vshader = function() {
+    var ref = this.randomRef("vert");
+    var code = "void main() { gl_Position = vec4(1.0); }";
+    this.addToBundle(code, ref);
+    return ref;
+};
+
+var MaterialConfigjs_fshader = function() {
+    var ref = this.randomRef("frag");
+    var code = "void main() { gl_FragColor = vec4(1.0); }";
+    this.addToBundle(code, ref);
+    return ref;
+};
+
+export { MaterialConfigjs_material as material, MaterialConfigjs_texture as texture, MaterialConfigjs_textureSVG as textureSVG, MaterialConfigjs_shader as shader, MaterialConfigjs_vshader as vshader, MaterialConfigjs_fshader as fshader };

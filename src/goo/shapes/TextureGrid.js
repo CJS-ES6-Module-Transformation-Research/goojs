@@ -1,24 +1,17 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Meshdata for a grid; useful for displaying tiles
- * @extends MeshData
- * @param matrix
- * @param textureUnitsPerLine
- */
+import { MeshData as MeshDatajs } from "../renderer/MeshData";
+import { shallowSelectiveClone as ObjectUtilsjs_shallowSelectiveClone } from "../util/ObjectUtils";
 function TextureGrid(matrix, textureUnitsPerLine) {
 	this.matrix = matrix;
 	this.textureUnitsPerLine = textureUnitsPerLine || 8;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = MeshDatajs_defaultMap([MeshDatajs_POSITION, MeshDatajs_NORMAL, MeshDatajs_TEXCOORD0]);
 	var nCells = countCells(matrix);
-	MeshData.call(this, attributeMap, nCells * 4, nCells * 6);
+	MeshDatajs.call(this, attributeMap, nCells * 4, nCells * 6);
 
 	this.rebuild();
 }
 
-TextureGrid.prototype = Object.create(MeshData.prototype);
+TextureGrid.prototype = Object.create(MeshDatajs.prototype);
 TextureGrid.prototype.constructor = TextureGrid;
 
 function countCells(matrix) {
@@ -78,9 +71,9 @@ TextureGrid.prototype.rebuild = function () {
 		}
 	}
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshDatajs_POSITION).set(verts);
+	this.getAttributeBuffer(MeshDatajs_NORMAL).set(norms);
+	this.getAttributeBuffer(MeshDatajs_TEXCOORD0).set(tex);
 
 	this.getIndexBuffer().set(indices);
 
@@ -92,7 +85,7 @@ TextureGrid.prototype.rebuild = function () {
  * @returns {TextureGrid}
  */
 TextureGrid.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
+	var options = ObjectUtilsjs_shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
 
 	return new TextureGrid(options);
 };
@@ -114,4 +107,12 @@ TextureGrid.fromString = function (str) {
 	return new TextureGrid(stringToMatrix(str), 16);
 };
 
-module.exports = TextureGrid;
+var exported_TextureGrid = TextureGrid;
+
+/**
+ * Meshdata for a grid; useful for displaying tiles
+ * @extends MeshData
+ * @param matrix
+ * @param textureUnitsPerLine
+ */
+export { exported_TextureGrid as TextureGrid };

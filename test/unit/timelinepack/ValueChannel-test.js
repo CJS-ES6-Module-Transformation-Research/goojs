@@ -1,15 +1,15 @@
-var ValueChannel = require('../../../src/goo/timelinepack/ValueChannel');
-var TransformComponent = require('../../../src/goo/entities/components/TransformComponent');
-var MathUtils = require('../../../src/goo/math/MathUtils');
-var Matrix3 = require('../../../src/goo/math/Matrix3');
-var Entity = require('../../../src/goo/entities/Entity');
-var CustomMatchers = require('../../../test/unit/CustomMatchers');
+import { ValueChannel as ValueChanneljs } from "../../../src/goo/timelinepack/ValueChannel";
+import { TransformComponent as TransformComponentjs } from "../../../src/goo/entities/components/TransformComponent";
+import { MathUtils as MathUtilsjs } from "../../../src/goo/math/MathUtils";
+import { Matrix3 as Matrix3js } from "../../../src/goo/math/Matrix3";
+import { Entity as Entityjs } from "../../../src/goo/entities/Entity";
+import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../test/unit/CustomMatchers";
 
 describe('ValueChannel', function () {
 	var channel;
 	beforeEach(function () {
-		channel = new ValueChannel();
-		jasmine.addMatchers(CustomMatchers);
+		channel = new ValueChanneljs();
+		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
 	});
 
 	describe('addKeyframe', function () {
@@ -124,20 +124,20 @@ describe('tweener factories', function () {
 	var entity;
 	var resolver = function () { return entity; };
 	beforeEach(function () {
-		entity = new Entity();
-		entity.setComponent(new TransformComponent());
-		jasmine.addMatchers(CustomMatchers);
+		entity = new Entityjs();
+		entity.setComponent(new TransformComponentjs());
+		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
 	});
 
 	describe('getSimpleTransformTweener', function () {
 		it('gets a translation tweener that alters the translation of the resolved entity', function () {
-			var tweener = ValueChannel.getSimpleTransformTweener('translation', 'y', '', resolver);
+			var tweener = ValueChanneljs_getSimpleTransformTweener('translation', 'y', '', resolver);
 			tweener(0, 123);
 			expect(entity.transformComponent.transform.translation.y).toEqual(123);
 		});
 
 		it('gets a scale tweener that alters the scale of the resolved entity', function () {
-			var tweener = ValueChannel.getSimpleTransformTweener('scale', 'z', '', resolver);
+			var tweener = ValueChanneljs_getSimpleTransformTweener('scale', 'z', '', resolver);
 			tweener(0, 123);
 			expect(entity.transformComponent.transform.scale.z).toEqual(123);
 		});
@@ -145,9 +145,9 @@ describe('tweener factories', function () {
 
 	describe('getRotationTweener', function () {
 		it('gets a rotation tweener that alters the rotation of the resolved entity', function () {
-			var tweener = ValueChannel.getRotationTweener(0, '', resolver, [0, 0, 0]);
-			tweener(0, 123 * MathUtils.RAD_TO_DEG);
-			var expectedRotation = new Matrix3().fromAngles(123, 0, 0);
+			var tweener = ValueChanneljs_getRotationTweener(0, '', resolver, [0, 0, 0]);
+			tweener(0, 123 * MathUtilsjs.RAD_TO_DEG);
+			var expectedRotation = new Matrix3js().fromAngles(123, 0, 0);
 			expect(entity.transformComponent.transform.rotation).toBeCloseToMatrix(expectedRotation);
 		});
 	});

@@ -1,7 +1,7 @@
-var Matrix = require('../../src/goo/math/Matrix');
-var MathUtils = require('../../src/goo/math/MathUtils');
+import { Matrix as Matrixjs } from "../../src/goo/math/Matrix";
+import { MathUtils as MathUtilsjs } from "../../src/goo/math/MathUtils";
 
-function CustomMatchers(){}
+function CustomMatchers() {}
 
 var serializeArrayBuffer = function (array) {
 	return '[' + Array.prototype.join.call(array, ', ') + ']';
@@ -28,7 +28,7 @@ var arrayEq = function (array1, array2) {
 		var i = keys[ki];
 
 		if (!(isNaN(array1[i]) && isNaN(array2[i]))) {
-			if (!(Math.abs(array1[i] - array2[i]) <= MathUtils.EPSILON)) {
+			if (!(Math.abs(array1[i] - array2[i]) <= MathUtilsjs.EPSILON)) {
 				return false;
 			}
 		}
@@ -69,12 +69,12 @@ CustomMatchers.toBeCloseToMatrix = function (util, customEqualityTesters) {
 	return {
 		compare: function (actual, expected) {
 			var result = {};
-			result.pass = actual instanceof Matrix && arrayEq(actual.data, expected.data);
+			result.pass = actual instanceof Matrixjs && arrayEq(actual.data, expected.data);
 
 			if (result.pass) {
 				result.message = 'Expected matrices to be different';
 			} else {
-				if (!(actual instanceof Matrix)) {
+				if (!(actual instanceof Matrixjs)) {
 					result.message = 'Expected an instance of Matrix';
 				} else if (actual.rows !== expected.rows || actual.cols !== expected.cols) {
 					result.message = 'Expected a matrix of size (' + expected.rows + ', ' + expected.cols + ') '+
@@ -203,4 +203,5 @@ CustomMatchers.toBeCloned = function (util, customEqualityTesters) {
 	};
 };
 
-module.exports = CustomMatchers;
+var exported_CustomMatchers = CustomMatchers;
+export { exported_CustomMatchers as CustomMatchers };

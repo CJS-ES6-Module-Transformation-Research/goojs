@@ -1,21 +1,18 @@
-var Vector2 = require('../math/Vector2');
-var Vector3 = require('../math/Vector3');
-var Vector4 = require('../math/Vector4');
-var Matrix4 = require('../math/Matrix4');
-var Plane = require('../math/Plane');
-var MathUtils = require('../math/MathUtils');
-var Ray = require('../math/Ray');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var BoundingVolume = require('../renderer/bounds/BoundingVolume');
+import { Vector2 as Vector2js } from "../math/Vector2";
+import { Vector3 as Vector3js } from "../math/Vector3";
+import { Vector4 as Vector4js } from "../math/Vector4";
+import { Matrix4 as Matrix4js } from "../math/Matrix4";
+import { Plane as Planejs } from "../math/Plane";
+import { MathUtils as MathUtilsjs } from "../math/MathUtils";
+import { Ray as Rayjs } from "../math/Ray";
+import { BoundingBox as BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere as BoundingSpherejs } from "../renderer/bounds/BoundingSphere";
 
-/**
- * This class represents a view into a 3D scene and how that view should map to a 2D rendering surface.
- * @param {number} [fov=45] The full vertical angle of view, in degrees.
- * @param {number} [aspect=1] Aspect ratio of the 3D canvas used.
- * @param {number} [near=1] Near plane clip distance.
- * @param {number} [far=1000] Far plane clip distance.
- */
+import {
+    Outside as BoundingVolumejs_Outside,
+    Inside as BoundingVolumejs_Inside,
+    Intersects as BoundingVolumejs_Intersects,
+} from "../renderer/bounds/BoundingVolume";
 
 function Camera(fov, aspect, near, far) {
 	fov = typeof fov !== 'undefined' ? fov : 45;
@@ -24,10 +21,10 @@ function Camera(fov, aspect, near, far) {
 	far = typeof far !== 'undefined' ? far : 1000;
 
 	// These need an onFrameChange() after being modified
-	this.translation = new Vector3(0, 0, 0);
-	this._left = new Vector3(-1, 0, 0);
-	this._up = new Vector3(0, 1, 0);
-	this._direction = new Vector3(0, 0, -1);
+	this.translation = new Vector3js(0, 0, 0);
+	this._left = new Vector3js(-1, 0, 0);
+	this._up = new Vector3js(0, 1, 0);
+	this._direction = new Vector3js(0, 0, -1);
 
 	// These need an onFrustumChange() after being modified
 	this.size = 0.5; // hack
@@ -39,10 +36,10 @@ function Camera(fov, aspect, near, far) {
 	this._frustumBottom = this.bottom = -0.5;
 
 	// Used to speed up world-plane normal calculation in onFrameChange. Only calculated when frustum values are changed
-	this._coeffLeft = new Vector2();
-	this._coeffRight = new Vector2();
-	this._coeffBottom = new Vector2();
-	this._coeffTop = new Vector2();
+	this._coeffLeft = new Vector2js();
+	this._coeffRight = new Vector2js();
+	this._coeffBottom = new Vector2js();
+	this._coeffTop = new Vector2js();
 
 	// These need an onViewPortChange() after being modified
 	this._viewPortLeft = 0.0;
@@ -52,7 +49,7 @@ function Camera(fov, aspect, near, far) {
 
 	this._worldPlane = [];
 	for (var i = 0; i < Camera.FRUSTUM_PLANES; i++) {
-		this._worldPlane[i] = new Plane();
+		this._worldPlane[i] = new Planejs();
 	}
 
 	this.projectionMode = Camera.Perspective;
@@ -66,29 +63,29 @@ function Camera(fov, aspect, near, far) {
 	this._updateInverseMVPMatrix = true;
 
 	// NB: These matrices are column-major.
-	this.modelView = new Matrix4();
-	this.modelViewInverse = new Matrix4();
-	this.projection = new Matrix4();
-	this.modelViewProjection = new Matrix4();
-	this.modelViewProjectionInverse = new Matrix4();
+	this.modelView = new Matrix4js();
+	this.modelViewInverse = new Matrix4js();
+	this.projection = new Matrix4js();
+	this.modelViewProjection = new Matrix4js();
+	this.modelViewProjectionInverse = new Matrix4js();
 
 	//! AT: unused?
 	this._planeState = 0;
-	this._clipPlane = new Vector4();
-	this._qCalc = new Vector4();
+	this._clipPlane = new Vector4js();
+	this._qCalc = new Vector4js();
 
 	this._corners = [];
 	for (var i = 0; i < 8; i++) {
-		this._corners.push(new Vector3());
+		this._corners.push(new Vector3js());
 	}
-	this._extents = new Vector3();
+	this._extents = new Vector3js();
 
 	// Temp decl
-	this.vNearPlaneCenter = new Vector3();
-	this.vFarPlaneCenter = new Vector3();
+	this.vNearPlaneCenter = new Vector3js();
+	this.vFarPlaneCenter = new Vector3js();
 
-	this.calcLeft = new Vector3();
-	this.calcUp = new Vector3();
+	this.calcLeft = new Vector3js();
+	this.calcUp = new Vector3js();
 
 	this.changedProperties = true;
 
@@ -100,7 +97,7 @@ function Camera(fov, aspect, near, far) {
 	// @endif
 }
 
-var newDirection = new Vector3(); // tmp
+var newDirection = new Vector3js(); // tmp
 
 // Planes of the frustum
 Camera.LEFT_PLANE = 0;
@@ -179,7 +176,7 @@ Camera.prototype.setFrustumPerspective = function (fov, aspect, near, far) {
 	}
 
 	if (this.fov !== undefined) {
-		var h = Math.tan(this.fov * MathUtils.DEG_TO_RAD * 0.5) * this.near;
+		var h = Math.tan(this.fov * MathUtilsjs.DEG_TO_RAD * 0.5) * this.near;
 		var w = h * this.aspect;
 		this._frustumLeft = -w;
 		this._frustumRight = w;
@@ -189,8 +186,8 @@ Camera.prototype.setFrustumPerspective = function (fov, aspect, near, far) {
 		this._frustumFar = this.far;
 
 		// handle invalid frustum-far
-		if (this._frustumFar - this._frustumNear < MathUtils.EPSILON) {
-			this._frustumFar = this._frustumNear + MathUtils.EPSILON;
+		if (this._frustumFar - this._frustumNear < MathUtilsjs.EPSILON) {
+			this._frustumFar = this._frustumNear + MathUtilsjs.EPSILON;
 		}
 
 		this.onFrustumChange();
@@ -239,8 +236,8 @@ Camera.prototype.setFrustum = function (near, far, left, right, top, bottom, asp
 	this._frustumBottom = this.bottom;
 
 	// handle invalid frustum-far
-	if (this._frustumFar - this._frustumNear < MathUtils.EPSILON) {
-		this._frustumFar = this._frustumNear + MathUtils.EPSILON;
+	if (this._frustumFar - this._frustumNear < MathUtilsjs.EPSILON) {
+		this._frustumFar = this._frustumNear + MathUtilsjs.EPSILON;
 	}
 
 	this.onFrustumChange();
@@ -318,11 +315,11 @@ Camera.prototype.lookAt = function (pos, worldUpVector) {
 	this._direction.set(newDirection);
 
 	this._up.set(worldUpVector).normalize();
-	if (this._up.equals(Vector3.ZERO)) {
-		this._up.set(Vector3.UNIT_Y);
+	if (this._up.equals(Vector3js_ZERO)) {
+		this._up.set(Vector3js_UNIT_Y);
 	}
 	this._left.set(this._up).cross(this._direction).normalize();
-	if (this._left.equals(Vector3.ZERO)) {
+	if (this._left.equals(Vector3js_ZERO)) {
 		if (this._direction.x !== 0.0) {
 			this._left.setDirect(this._direction.y, -this._direction.x, 0);
 		} else {
@@ -359,11 +356,11 @@ Camera.prototype.contains = function (bound) {
 
 	for (var planeCounter = Camera.FRUSTUM_PLANES - 1; planeCounter >= 0; planeCounter--) {
 		switch (bound.whichSide(this._worldPlane[planeCounter])) {
-			case BoundingVolume.Inside:
+			case BoundingVolumejs_Inside:
 				return Camera.Outside;
-			case BoundingVolume.Outside:
+			case BoundingVolumejs_Outside:
 				break;
-			case BoundingVolume.Intersects:
+			case BoundingVolumejs_Intersects:
 				rVal = Camera.Intersects;
 				break;
 		}
@@ -574,7 +571,7 @@ Camera.prototype.updateModelViewMatrix = function () {
  */
 Camera.prototype.getPickRay = function (screenX, screenY, screenWidth, screenHeight, store) {
 	if (!store) {
-		store = new Ray();
+		store = new Rayjs();
 	}
 	this.getWorldCoordinates(screenX, screenY, screenWidth, screenHeight, 0, store.origin);
 	this.getWorldCoordinates(screenX, screenY, screenWidth, screenHeight, 0.3, store.direction).sub(store.origin).normalize();
@@ -599,7 +596,7 @@ Camera.prototype.getWorldPosition = function (screenX, screenY, screenWidth, scr
 		zDepth = ((zDepth - this.near) / (this.far - this.near));
 	} else {
 		// http://www.sjbaker.org/steve/omniv/love_your_z_buffer.html
-		zDepth = MathUtils.clamp(zDepth, this.near, this.far);
+		zDepth = MathUtilsjs.clamp(zDepth, this.near, this.far);
 		zDepth = (this.far / (this.far - this.near)) + ((this.far * this.near / (this.near - this.far)) / zDepth);
 	}
 	return this.getWorldCoordinates(screenX, screenY, screenWidth, screenHeight, zDepth, store);
@@ -619,10 +616,10 @@ Camera.prototype.getWorldPosition = function (screenX, screenY, screenWidth, scr
  */
 Camera.prototype.getWorldCoordinates = function (screenX, screenY, screenWidth, screenHeight, zDepth, store) {
 	if (!store) {
-		store = new Vector3();
+		store = new Vector3js();
 	}
 	this.checkInverseModelViewProjection();
-	var position = new Vector4();
+	var position = new Vector4js();
 
 	var x = (screenX / screenWidth - this._viewPortLeft) / (this._viewPortRight - this._viewPortLeft) * 2 - 1;
 	var y = ((screenHeight - screenY) / screenHeight - this._viewPortBottom) / (this._viewPortTop - this._viewPortBottom) * 2 - 1;
@@ -705,10 +702,10 @@ Camera.prototype.getFrustumCoordinates = function (worldPosition, store) {
  */
 Camera.prototype.getNormalizedDeviceCoordinates = function (worldPosition, store) {
 	if (!store) {
-		store = new Vector3();
+		store = new Vector3js();
 	}
 	this.checkModelViewProjection();
-	var position = new Vector4();
+	var position = new Vector4js();
 	position.setDirect(worldPosition.x, worldPosition.y, worldPosition.z, 1);
 	position.applyPost(this.modelViewProjection);
 	if (position.w !== 0.0) {
@@ -832,9 +829,9 @@ Camera.prototype.pack = function (sceneBounds) {
 		corners[i].set(center);
 	}
 
-	if (sceneBounds instanceof BoundingBox) {
+	if (sceneBounds instanceof BoundingBoxjs) {
 		extents.setDirect(sceneBounds.xExtent, sceneBounds.yExtent, sceneBounds.zExtent);
-	} else if (sceneBounds instanceof BoundingSphere) {
+	} else if (sceneBounds instanceof BoundingSpherejs) {
 		extents.setDirect(sceneBounds.radius, sceneBounds.radius, sceneBounds.radius);
 	}
 
@@ -850,7 +847,7 @@ Camera.prototype.pack = function (sceneBounds) {
 	var mvMatrix = this.getViewMatrix();
 	var optimalCameraNear = Number.MAX_VALUE;
 	var optimalCameraFar = -Number.MAX_VALUE;
-	var position = new Vector4();
+	var position = new Vector4js();
 	for (var i = 0; i < corners.length; i++) {
 		position.setDirect(corners[i].x, corners[i].y, corners[i].z, 1);
 		position.applyPre(mvMatrix);
@@ -937,8 +934,8 @@ Camera.prototype.setToObliqueMatrix = function (clipPlane) {
 	var projection = this.getProjectionMatrix();
 
 	this._qCalc.setDirect(
-		(MathUtils.sign(transformedClipPlane.x) + projection[8]) / projection[0],
-		(MathUtils.sign(transformedClipPlane.y) + projection[9]) / projection[5],
+		(MathUtilsjs.sign(transformedClipPlane.x) + projection[8]) / projection[0],
+		(MathUtilsjs.sign(transformedClipPlane.y) + projection[9]) / projection[5],
 		-1,
 		(1.0 + projection[10]) / projection[14]
 	);
@@ -960,4 +957,14 @@ Camera.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = Camera;
+var exported_Camera = Camera;
+
+/**
+ * This class represents a view into a 3D scene and how that view should map to a 2D rendering surface.
+ * @param {number} [fov=45] The full vertical angle of view, in degrees.
+ * @param {number} [aspect=1] Aspect ratio of the 3D canvas used.
+ * @param {number} [near=1] Near plane clip distance.
+ * @param {number} [far=1000] Far plane clip distance.
+ */
+
+export { exported_Camera as Camera };

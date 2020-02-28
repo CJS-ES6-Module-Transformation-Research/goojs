@@ -1,12 +1,20 @@
+import { FilledPolygon as FilledPolygon_FilledPolygonjs } from "./FilledPolygon";
+import { PolyLine as PolyLinejs } from "./PolyLine";
+import { RegularPolygon as RegularPolygon_RegularPolygonjs } from "./RegularPolygon";
+import { Surface as Surfacejs } from "./Surface";
+import { TextComponent as TextComponentjs } from "./text/TextComponent";
+import { TextComponentHandler as TextComponentHandlerjs } from "./text/TextComponentHandler";
+import { TextMeshGeneratorjs as TextMeshGenerator_TextMeshGeneratorjsjs } from "./text/TextMeshGenerator";
+import { Triangle as Trianglejs } from "./Triangle";
 module.exports = {
-	FilledPolygon: require('./FilledPolygon'),
-	PolyLine: require('./PolyLine'),
-	RegularPolygon: require('./RegularPolygon'),
-	Surface: require('./Surface'),
-	TextComponent: require('./text/TextComponent'),
-	TextComponentHandler: require('./text/TextComponentHandler'),
-	TextMeshGenerator: require('./text/TextMeshGenerator'),
-	Triangle: require('./Triangle')
+	FilledPolygon: FilledPolygon_FilledPolygonjs,
+	PolyLine: PolyLinejs,
+	RegularPolygon: RegularPolygon_RegularPolygonjs,
+	Surface: Surfacejs,
+	TextComponent: TextComponentjs,
+	TextComponentHandler: TextComponentHandlerjs,
+	TextMeshGenerator: TextMeshGenerator_TextMeshGeneratorjsjs,
+	Triangle: Trianglejs
 };
 if (typeof(window) !== 'undefined') {
 	for (var key in module.exports) {

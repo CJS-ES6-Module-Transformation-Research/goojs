@@ -1,13 +1,6 @@
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Post processing handler
- * @param {RenderTarget} renderTarget Data to wrap
- * @property {RenderTarget} renderTarget Data to wrap
- */
+import { RenderTarget as RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { FullscreenPass as FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
+import { copy as ShaderLibjs_copy } from "../../renderer/shaders/ShaderLib";
 function Composer(renderTarget) {
 	this._passedWriteBuffer = !!renderTarget;
 	this.writeBuffer = renderTarget;
@@ -16,14 +9,14 @@ function Composer(renderTarget) {
 		var width = window.innerWidth || 1;
 		var height = window.innerHeight || 1;
 
-		this.writeBuffer = new RenderTarget(width, height);
+		this.writeBuffer = new RenderTargetjs(width, height);
 	}
 
 	this.readBuffer = this.writeBuffer.clone();
 
 	this.passes = [];
 	this._clearColor = [0, 0, 0, 1];
-	this.copyPass = new FullscreenPass(ShaderLib.copy);
+	this.copyPass = new FullscreenPassjs(ShaderLibjs_copy);
 
 	this.size = null;
 	this.dirty = false;
@@ -102,7 +95,7 @@ Composer.prototype.updateSize = function (renderer) {
 
 	this.deallocateBuffers(renderer);
 
-	this.writeBuffer = new RenderTarget(width, height);
+	this.writeBuffer = new RenderTargetjs(width, height);
 	this.readBuffer = this.writeBuffer.clone();
 
 	for (var i = 0, il = this.passes.length; i < il; i++) {
@@ -143,4 +136,11 @@ Composer.prototype.render = function (renderer, delta, camera, lights) {
 	}
 };
 
-module.exports = Composer;
+var exported_Composer = Composer;
+
+/**
+ * Post processing handler
+ * @param {RenderTarget} renderTarget Data to wrap
+ * @property {RenderTarget} renderTarget Data to wrap
+ */
+export { exported_Composer as Composer };

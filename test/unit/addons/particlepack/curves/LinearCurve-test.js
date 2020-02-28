@@ -1,8 +1,8 @@
-var LinearCurve = require('../../../../../src/goo/addons/particlepack/curves/LinearCurve');
+import { LinearCurve as LinearCurvejs } from "../../../../../src/goo/addons/particlepack/curves/LinearCurve";
 
 describe('LinearCurve', function () {
 	it('.getValueAt', function () {
-		var curve = new LinearCurve({
+		var curve = new LinearCurvejs({
 			k: 1,
 			m: 0
 		});
@@ -17,7 +17,7 @@ describe('LinearCurve', function () {
 	});
 
 	it('.getIntegralValueAt', function () {
-		var curve = new LinearCurve({
+		var curve = new LinearCurvejs({
 			k: 1,
 			m: 0
 		});
@@ -32,7 +32,7 @@ describe('LinearCurve', function () {
 	});
 
 	it('.toGLSL', function () {
-		var curve = new LinearCurve({
+		var curve = new LinearCurvejs({
 			k: 1,
 			m: 0
 		});
@@ -40,7 +40,7 @@ describe('LinearCurve', function () {
 	});
 
 	it('.integralToGLSL', function () {
-		var curve = new LinearCurve({
+		var curve = new LinearCurvejs({
 			k: 1,
 			m: 0
 		});

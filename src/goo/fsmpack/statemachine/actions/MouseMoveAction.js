@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function MouseMoveAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function MouseMoveAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-MouseMoveAction.prototype = Object.create(Action.prototype);
+MouseMoveAction.prototype = Object.create(Action_Actionjs.prototype);
 MouseMoveAction.prototype.constructor = MouseMoveAction;
 
 MouseMoveAction.external = {
@@ -58,4 +58,5 @@ MouseMoveAction.prototype.exit = function () {
 	document.removeEventListener('touchmove', this.touchEventListener);
 };
 
-module.exports = MouseMoveAction;
+var exported_MouseMoveAction = MouseMoveAction;
+export { exported_MouseMoveAction as MouseMoveAction };

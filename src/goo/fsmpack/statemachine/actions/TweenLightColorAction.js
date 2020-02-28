@@ -1,16 +1,15 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3js } from "../../../math/Vector3";
 
-function TweenLightColorAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenLightColorAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
-	this.fromCol = new Vector3();
-	this.toCol = new Vector3();
+	this.fromCol = new Vector3js();
+	this.toCol = new Vector3js();
 	this.completed = false;
 }
 
-TweenLightColorAction.prototype = Object.create(Action.prototype);
+TweenLightColorAction.prototype = Object.create(Action_Actionjs.prototype);
 TweenLightColorAction.prototype.constructor = TweenLightColorAction;
 
 TweenLightColorAction.external = {
@@ -94,4 +93,5 @@ TweenLightColorAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenLightColorAction;
+var exported_TweenLightColorAction = TweenLightColorAction;
+export { exported_TweenLightColorAction as TweenLightColorAction };

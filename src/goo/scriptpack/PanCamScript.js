@@ -1,7 +1,7 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var SystemBus = require('../entities/SystemBus');
-var Camera = require('../renderer/Camera');
+import { Vector3 as Vector3js } from "../math/Vector3";
+import { Renderer as Rendererjs } from "../renderer/Renderer";
+import { Camera as Camerajs } from "../renderer/Camera";
+var PanCamScript_externals;
 
 function PanCamScript() {
 	var fwdVector, leftVector, calcVector, calcVector2;
@@ -32,10 +32,10 @@ function PanCamScript() {
 		argsUpdated(parameters, environment);
 
 		lookAtPoint = environment.goingToLookAt;
-		fwdVector = Vector3.UNIT_Y.clone();
-		leftVector = Vector3.UNIT_X.clone().negate();
-		calcVector = new Vector3();
-		calcVector2 = new Vector3();
+		fwdVector = Vector3js_UNIT_Y.clone();
+		leftVector = Vector3js_UNIT_X.clone().negate();
+		calcVector = new Vector3js();
+		calcVector2 = new Vector3js();
 		environment.translation = environment.entity.transformComponent.transform.translation.clone();
 
 		var renderer = environment.world.gooRunner.renderer;
@@ -154,7 +154,7 @@ function PanCamScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Renderer.mainCamera;
+		var mainCam = Rendererjs.mainCamera;
 
 		var entity = environment.entity;
 		var transform = entity.transformComponent.transform;
@@ -200,7 +200,7 @@ function PanCamScript() {
 			calcVector.applyPost(transform.rotation);
 			//if (!parameters.screenMove) {
 				// panSpeed should be 1 in the screenMove case, to make movement sync properly
-			if (camera.projectionMode === Camera.Perspective) {
+			if (camera.projectionMode === Camerajs_Perspective) {
 				// RB: I know, very arbitrary but looks ok
 				calcVector.scale(parameters.panSpeed * 20);
 			} else {
@@ -240,42 +240,43 @@ function PanCamScript() {
 	};
 }
 
-PanCamScript.externals = {
-	key: 'PanCamControlScript',
-	name: 'PanCamera Control',
-	description: 'Enables camera to pan around a point in 3D space using the mouse',
-	parameters: [{
-		key: 'whenUsed',
-		type: 'boolean',
-		name: 'When Camera Used',
-		description: 'Script only runs when the camera to which it is added is being used.',
-		'default': true
-	}, {
-		key: 'panButton',
-		name: 'Pan button',
-		description: 'Only pan with this button',
-		type: 'string',
-		control: 'select',
-		'default': 'Any',
-		options: ['Any', 'Left', 'Middle', 'Right']
-	}, {
-		key: 'touchMode',
-		description: 'Number of fingers needed to trigger panning.',
-		type: 'string',
-		control: 'select',
-		'default': 'Double',
-		options: ['Any', 'Single', 'Double']
-	}, {
-		key: 'panSpeed',
-		type: 'float',
-		'default': 1,
-		scale: 0.01
-	}/*, {
-		key: 'screenMove',
-		type: 'boolean',
-		'default': false,
-		description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
-	}*/]
-};
+PanCamScript_externals = {
+    key: "PanCamControlScript",
+    name: "PanCamera Control",
+    description: "Enables camera to pan around a point in 3D space using the mouse",
 
-module.exports = PanCamScript;
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        name: "When Camera Used",
+        description: "Script only runs when the camera to which it is added is being used.",
+        "default": true
+    }, {
+        key: "panButton",
+        name: "Pan button",
+        description: "Only pan with this button",
+        type: "string",
+        control: "select",
+        "default": "Any",
+        options: ["Any", "Left", "Middle", "Right"]
+    }, {
+        key: "touchMode",
+        description: "Number of fingers needed to trigger panning.",
+        type: "string",
+        control: "select",
+        "default": "Double",
+        options: ["Any", "Single", "Double"]
+    }, {
+        key: "panSpeed",
+        type: "float",
+        "default": 1,
+        scale: 0.01
+    }/*, {
+            key: 'screenMove',
+            type: 'boolean',
+            'default': false,
+            description: 'Syncs camera movement with mouse world position 1-1, needed for parallel camera.'
+        }*/]
+};;
+
+export { PanCamScript_externals as externals, PanCamScript };
