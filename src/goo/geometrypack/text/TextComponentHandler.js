@@ -1,19 +1,23 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../loaders/handlers/ComponentHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextComponentHandler = undefined;
 
-import { TextComponent as TextComponentjs } from "../../geometrypack/text/TextComponent";
-import { createPromise as PromiseUtilsjs_createPromise } from "../../util/PromiseUtils";
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _TextComponent = require("../../geometrypack/text/TextComponent");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 function TextComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'TextComponent';
 }
 
-TextComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
+TextComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 TextComponentHandler.prototype.constructor = TextComponentHandler;
 
-ComponentHandlerjs__registerClass('text', TextComponentHandler);
+(0, _ComponentHandler._registerClass)('text', TextComponentHandler);
 
 /**
  * Create a TextComponent object.
@@ -21,7 +25,7 @@ ComponentHandlerjs__registerClass('text', TextComponentHandler);
  * @private
  */
 TextComponentHandler.prototype._create = function () {
-	return new TextComponentjs();
+	return new _TextComponent.TextComponent();
 };
 
 /**
@@ -44,12 +48,14 @@ TextComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 TextComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		// load font
 
-		return PromiseUtilsjs_createPromise(function (resolve) {
+		return (0, _PromiseUtils.createPromise)(function (resolve) {
 			opentype.load(config.font.fontRef, function (err, font) {
 				if (err) {
 					console.error(err);
@@ -61,7 +67,7 @@ TextComponentHandler.prototype.update = function (entity, config, options) {
 
 				// smoothness is between 0 and 1
 				// with 0 looking rough and choppy and 1 looking as smooth as possible
-				var computeStepLength = function (fontSize, smoothness) {
+				var computeStepLength = function computeStepLength(fontSize, smoothness) {
 					return ((1 - smoothness) * 0.08 + 0.01) * fontSize;
 				};
 
@@ -89,4 +95,4 @@ var exported_TextComponentHandler = TextComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_TextComponentHandler as TextComponentHandler };
+exports.TextComponentHandler = exported_TextComponentHandler;

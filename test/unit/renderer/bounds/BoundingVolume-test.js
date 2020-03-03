@@ -1,16 +1,18 @@
-import { Vector3 as Vector3js } from "../../../../src/goo/math/Vector3";
-import { BoundingVolume as BoundingVolume_BoundingVolumejs } from "../../../../src/goo/renderer/bounds/BoundingVolume";
-import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../../test/unit/CustomMatchers";
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _BoundingVolume = require("../../../../src/goo/renderer/bounds/BoundingVolume");
+
+var _CustomMatchers = require("../../../../test/unit/CustomMatchers");
 
 describe('BoundingVolume', function () {
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
 	});
 
 	describe('copy', function () {
 		it('can copy everything from another bounding box', function () {
-			var original = new BoundingVolume_BoundingVolumejs(new Vector3js(1, 2, 3), 123, 234, 345);
-			var copy = new BoundingVolume_BoundingVolumejs();
+			var original = new _BoundingVolume.BoundingVolume(new _Vector.Vector3(1, 2, 3), 123, 234, 345);
+			var copy = new _BoundingVolume.BoundingVolume();
 			copy.copy(original);
 
 			expect(copy).toBeCloned(original);

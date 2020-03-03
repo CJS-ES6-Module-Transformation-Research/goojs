@@ -1,31 +1,40 @@
-import { writeValue as LogicLayerjs_writeValue } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
-import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeRandom = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicInterface = require("./LogicInterface");
+
+var _LogicNodes = require("./LogicNodes");
+
 var LogicNodeRandom_outPropRandom;
 var LogicNodeRandom_editorName;
 var LogicNodeRandom_logicInterface;
 function LogicNodeRandom() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.wantsProcessCall = true;
 	LogicNodeRandom_logicInterface = LogicNodeRandom_logicInterface;;
 	this.type = 'LogicNodeRandom';
 }
 
 // Logic interface set-up
-LogicNodeRandom.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeRandom.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeRandom_editorName = "Random";;
-LogicNodeRandom_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeRandom_logicInterface = new _LogicInterface.LogicInterface();
 
 // ports
 LogicNodeRandom_outPropRandom = LogicNodeRandom_logicInterface.addOutputProperty("Random0_1", "float");;
 
 // Process
 LogicNodeRandom.prototype.processLogic = function () {
-	LogicLayerjs_writeValue(this.logicInstance, LogicNodeRandom_outPropRandom, Math.random());
+	(0, _LogicLayer.writeValue)(this.logicInstance, LogicNodeRandom_outPropRandom, Math.random());
 };
 
-LogicNodesjs_registerType('LogicNodeRandom', LogicNodeRandom);
+(0, _LogicNodes.registerType)('LogicNodeRandom', LogicNodeRandom);
 
 var exported_LogicNodeRandom = LogicNodeRandom;
 
@@ -34,4 +43,4 @@ var exported_LogicNodeRandom = LogicNodeRandom;
  * to its output.
  * @private
  */
-export { exported_LogicNodeRandom as LogicNodeRandom };
+exports.LogicNodeRandom = exported_LogicNodeRandom;

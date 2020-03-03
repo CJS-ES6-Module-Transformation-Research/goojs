@@ -1,10 +1,16 @@
-import { Rectangle as Rectangle_Rectanglejs } from "../../util/combine/Rectangle";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AtlasNode = undefined;
+
+var _Rectangle = require("../../util/combine/Rectangle");
+
 function AtlasNode(w, h) {
 	this.isLeaf = true;
 	this.isSet = false;
 	this.children = [];
 	if (w !== undefined && h !== undefined) {
-		this.localRectangle = new Rectangle_Rectanglejs(0, 0, w, h);
+		this.localRectangle = new _Rectangle.Rectangle(0, 0, w, h);
 	} else {
 		this.localRectangle = null;
 	}
@@ -27,7 +33,7 @@ AtlasNode.prototype._getRectangles = function (list) {
 };
 
 AtlasNode.prototype.insert = function (w, h) {
-	return this._insert(new Rectangle_Rectanglejs(0, 0, w, h));
+	return this._insert(new _Rectangle.Rectangle(0, 0, w, h));
 };
 
 AtlasNode.prototype._insert = function (rectangle) {
@@ -61,11 +67,11 @@ AtlasNode.prototype._insert = function (rectangle) {
 		var dh = this.localRectangle.h - rectangle.h;
 
 		if (dw > dh) {
-			this.children[0].localRectangle = new Rectangle_Rectanglejs(this.localRectangle.x, this.localRectangle.y, rectangle.w, this.localRectangle.h);
-			this.children[1].localRectangle = new Rectangle_Rectanglejs(this.localRectangle.x + rectangle.w, this.localRectangle.y, dw, this.localRectangle.h);
+			this.children[0].localRectangle = new _Rectangle.Rectangle(this.localRectangle.x, this.localRectangle.y, rectangle.w, this.localRectangle.h);
+			this.children[1].localRectangle = new _Rectangle.Rectangle(this.localRectangle.x + rectangle.w, this.localRectangle.y, dw, this.localRectangle.h);
 		} else {
-			this.children[0].localRectangle = new Rectangle_Rectanglejs(this.localRectangle.x, this.localRectangle.y, this.localRectangle.w, rectangle.h);
-			this.children[1].localRectangle = new Rectangle_Rectanglejs(this.localRectangle.x, this.localRectangle.y + rectangle.h, this.localRectangle.w, dh);
+			this.children[0].localRectangle = new _Rectangle.Rectangle(this.localRectangle.x, this.localRectangle.y, this.localRectangle.w, rectangle.h);
+			this.children[1].localRectangle = new _Rectangle.Rectangle(this.localRectangle.x, this.localRectangle.y + rectangle.h, this.localRectangle.w, dh);
 		}
 
 		return this.children[0]._insert(rectangle);
@@ -80,4 +86,4 @@ var exported_AtlasNode = AtlasNode;
  * @param w
  * @param h
  */
-export { exported_AtlasNode as AtlasNode };
+exports.AtlasNode = exported_AtlasNode;

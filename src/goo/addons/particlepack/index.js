@@ -1,31 +1,43 @@
-import { ParticleSystemComponent as ParticleSystemComponentjs } from "./components/ParticleSystemComponent";
-import { ConstantCurve as ConstantCurvejs } from "./curves/ConstantCurve";
-import { Curve as Curve_Curvejs } from "./curves/Curve";
-import { LerpCurve as LerpCurvejs } from "./curves/LerpCurve";
-import { LinearCurve as LinearCurvejs } from "./curves/LinearCurve";
-import { PolyCurve as PolyCurvejs } from "./curves/PolyCurve";
-import { Vector3Curve as Vector3Curvejs } from "./curves/Vector3Curve";
-import { Vector4Curve as Vector4Curvejs } from "./curves/Vector4Curve";
-import { ParticleSystemComponentHandler as ParticleSystemComponentHandlerjs } from "./handlers/ParticleSystemComponentHandler";
-import { ParticleData as ParticleData_ParticleDatajs } from "./ParticleData";
-import { ParticleDebugRenderSystem as ParticleDebugRenderSystemjs } from "./systems/ParticleDebugRenderSystem";
-import { ParticleSystemSystem as ParticleSystemSystemjs } from "./systems/ParticleSystemSystem";
+var _ParticleSystemComponent = require("./components/ParticleSystemComponent");
+
+var _ConstantCurve = require("./curves/ConstantCurve");
+
+var _Curve = require("./curves/Curve");
+
+var _LerpCurve = require("./curves/LerpCurve");
+
+var _LinearCurve = require("./curves/LinearCurve");
+
+var _PolyCurve = require("./curves/PolyCurve");
+
+var _Vector3Curve = require("./curves/Vector3Curve");
+
+var _Vector4Curve = require("./curves/Vector4Curve");
+
+var _ParticleSystemComponentHandler = require("./handlers/ParticleSystemComponentHandler");
+
+var _ParticleData = require("./ParticleData");
+
+var _ParticleDebugRenderSystem = require("./systems/ParticleDebugRenderSystem");
+
+var _ParticleSystemSystem = require("./systems/ParticleSystemSystem");
+
 module.exports = {
-	ParticleSystemComponent: ParticleSystemComponentjs,
-	ConstantCurve: ConstantCurvejs,
-	Curve: Curve_Curvejs,
-	LerpCurve: LerpCurvejs,
-	LinearCurve: LinearCurvejs,
-	PolyCurve: PolyCurvejs,
-	Vector3Curve: Vector3Curvejs,
-	Vector4Curve: Vector4Curvejs,
-	ParticleSystemComponentHandler: ParticleSystemComponentHandlerjs,
-	ParticleData: ParticleData_ParticleDatajs,
-	ParticleDebugRenderSystem: ParticleDebugRenderSystemjs,
-	ParticleSystemSystem: ParticleSystemSystemjs
+	ParticleSystemComponent: _ParticleSystemComponent.ParticleSystemComponent,
+	ConstantCurve: _ConstantCurve.ConstantCurve,
+	Curve: _Curve.Curve,
+	LerpCurve: _LerpCurve.LerpCurve,
+	LinearCurve: _LinearCurve.LinearCurve,
+	PolyCurve: _PolyCurve.PolyCurve,
+	Vector3Curve: _Vector3Curve.Vector3Curve,
+	Vector4Curve: _Vector4Curve.Vector4Curve,
+	ParticleSystemComponentHandler: _ParticleSystemComponentHandler.ParticleSystemComponentHandler,
+	ParticleData: _ParticleData.ParticleData,
+	ParticleDebugRenderSystem: _ParticleDebugRenderSystem.ParticleDebugRenderSystem,
+	ParticleSystemSystem: _ParticleSystemSystem.ParticleSystemSystem
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

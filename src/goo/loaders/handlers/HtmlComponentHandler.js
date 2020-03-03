@@ -1,21 +1,27 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../loaders/handlers/ComponentHandler";
+"use strict";
 
-import { HtmlComponent as HtmlComponentjs } from "../../entities/components/HtmlComponent";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { resolve as PromiseUtilsjs_resolve } from "../../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HtmlComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _HtmlComponent = require("../../entities/components/HtmlComponent");
+
+var _rsvp = require("../../util/rsvp");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
 
 'use strict';
 
 function HtmlComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'HtmlComponent';
 }
 
-HtmlComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
-ComponentHandlerjs__registerClass('html', HtmlComponentHandler);
+HtmlComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
+(0, _ComponentHandler._registerClass)('html', HtmlComponentHandler);
 HtmlComponentHandler.prototype.constructor = HtmlComponentHandler;
 
 /**
@@ -24,7 +30,7 @@ HtmlComponentHandler.prototype.constructor = HtmlComponentHandler;
  * @returns {Object}
  * @private
  */
-HtmlComponentHandler.prototype._prepare = function (/*config*/) {};
+HtmlComponentHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Create camera component object.
@@ -33,7 +39,7 @@ HtmlComponentHandler.prototype._prepare = function (/*config*/) {};
  * @private
  */
 HtmlComponentHandler.prototype._create = function () {
-	return new HtmlComponentjs();
+	return new _HtmlComponent.HtmlComponent();
 };
 
 var regex = /\W/g;
@@ -51,8 +57,10 @@ function getSafeEntityId(id) {
  */
 HtmlComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var domElement = component.domElement;
 		if (!domElement) {
@@ -63,8 +71,7 @@ HtmlComponentHandler.prototype.update = function (entity, config, options) {
 		component.useTransformComponent = config.useTransformComponent !== false;
 		component.pixelPerfect = config.pixelPerfect !== undefined ? config.pixelPerfect : true;
 
-		return that._updateHtml(domElement, entity, config, options)
-		.then(function () {
+		return that._updateHtml(domElement, entity, config, options).then(function () {
 			that._updateAttributes(domElement, entity, config);
 			return component;
 		});
@@ -98,7 +105,7 @@ HtmlComponentHandler.prototype._createDomElement = function (entity) {
 };
 
 HtmlComponentHandler.prototype._addMouseListeners = function (domElement, entity) {
-	var mouseListener = function (domEvent) {
+	var mouseListener = function mouseListener(domEvent) {
 		var gooRunner = entity._world.gooRunner;
 		var evt = {
 			entity: entity,
@@ -117,7 +124,7 @@ HtmlComponentHandler.prototype._addMouseListeners = function (domElement, entity
 };
 
 HtmlComponentHandler.prototype._addTouchListeners = function (domElement, entity) {
-	var touchListener = function (domEvent) {
+	var touchListener = function touchListener(domEvent) {
 		var gooRunner = entity._world.gooRunner;
 		var domTarget = gooRunner.renderer.domElement;
 
@@ -172,7 +179,7 @@ HtmlComponentHandler.prototype._attachDomElement = function (domElement, entity)
  */
 HtmlComponentHandler.prototype._updateHtml = function (domElement, entity, config, options) {
 	if (config.innerHtml === domElement.prevInnerHtml) {
-		return PromiseUtilsjs_resolve();
+		return (0, _PromiseUtils.resolve)();
 	}
 
 	domElement.prevInnerHtml = config.innerHtml;
@@ -197,10 +204,11 @@ HtmlComponentHandler.prototype._loadImages = function (domElement, options) {
 
 	function loadImage(htmlImage) {
 		var imageRef = htmlImage.getAttribute('data-id');
-		if (!imageRef) { return PromiseUtilsjs_resolve(); }
+		if (!imageRef) {
+			return (0, _PromiseUtils.resolve)();
+		}
 
-		return that.loadObject(imageRef, options)
-		.then(function (image) {
+		return that.loadObject(imageRef, options).then(function (image) {
 			htmlImage.src = image.src;
 			return htmlImage;
 		}, function (e) {
@@ -211,7 +219,7 @@ HtmlComponentHandler.prototype._loadImages = function (domElement, options) {
 	}
 
 	var images = [].slice.apply(domElement.getElementsByTagName('IMG'));
-	return rsvp_rsvpjsjs.all(images.map(loadImage));
+	return _rsvp.rsvpjs.all(images.map(loadImage));
 };
 
 /**
@@ -270,7 +278,7 @@ HtmlComponentHandler.prototype._updateAttributes = function (domElement, entity,
 
 HtmlComponentHandler.prototype._remove = function (entity) {
 	var component = entity.htmlComponent;
-	ComponentHandler_ComponentHandlerjs.prototype._remove.call(this, entity);
+	_ComponentHandler.ComponentHandler.prototype._remove.call(this, entity);
 	if (component.domElement) {
 		component.domElement.parentNode.removeChild(component.domElement);
 	}
@@ -286,4 +294,4 @@ var exported_HtmlComponentHandler = HtmlComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_HtmlComponentHandler as HtmlComponentHandler };
+exports.HtmlComponentHandler = exported_HtmlComponentHandler;

@@ -1,8 +1,18 @@
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function Stats() {
-	var startTime = Date.now(), prevTime = startTime, prevTimeMs = startTime;
-	var ms = 0, msMin = Infinity, msMax = 0;
-	var fps = 0, fpsMin = Infinity, fpsMax = 0;
-	var frames = 0, mode = 0;
+	var startTime = Date.now(),
+	    prevTime = startTime,
+	    prevTimeMs = startTime;
+	var ms = 0,
+	    msMin = Infinity,
+	    msMax = 0;
+	var fps = 0,
+	    fpsMin = Infinity,
+	    fpsMax = 0;
+	var frames = 0,
+	    mode = 0;
 
 	var container = document.createElement('div');
 	container.id = 'stats';
@@ -10,13 +20,7 @@ function Stats() {
 		event.preventDefault();
 		setModeP(++mode % 2);
 	}, false);
-	container.style.cssText = 'width:80px;cursor:pointer;z-index:1000;' +
-		'-webkit-touch-callout: none;' +
-		'-webkit-user-select: none;' +
-		'-khtml-user-select: none;' +
-		'-moz-user-select: none;' +
-		'-ms-user-select: none;' +
-		'user-select: none;';
+	container.style.cssText = 'width:80px;cursor:pointer;z-index:1000;' + '-webkit-touch-callout: none;' + '-webkit-user-select: none;' + '-khtml-user-select: none;' + '-moz-user-select: none;' + '-ms-user-select: none;' + 'user-select: none;';
 
 	var fpsDiv = document.createElement('div');
 	fpsDiv.id = 'fps';
@@ -73,9 +77,9 @@ function Stats() {
 	infoText.innerHTML = 'INFO';
 	infoDiv.appendChild(infoText);
 
-	var setModeP = function (value) {
+	var setModeP = function setModeP(value) {
 		mode = value;
-		switch (mode){
+		switch (mode) {
 			case 0:
 				fpsDiv.style.display = 'block';
 				msDiv.style.display = 'none';
@@ -87,7 +91,7 @@ function Stats() {
 		}
 	};
 
-	var updateGraph = function (dom, value) {
+	var updateGraph = function updateGraph(dom, value) {
 		var child = dom.appendChild(dom.firstChild);
 		child.style.height = value + 'px';
 	};
@@ -107,7 +111,7 @@ function Stats() {
 			msMax = Math.max(msMax, ms);
 
 			msText.textContent = ms + ' MS (' + msMin + '-' + msMax + ')';
-			updateGraph(msGraph, Math.min(30, 30 - (ms / 200) * 30));
+			updateGraph(msGraph, Math.min(30, 30 - ms / 200 * 30));
 
 			prevTimeMs = time;
 
@@ -119,12 +123,12 @@ function Stats() {
 		frames++;
 
 		if (time > prevTime + 1000) {
-			fps = Math.round((frames * 1000) / (time - prevTime));
+			fps = Math.round(frames * 1000 / (time - prevTime));
 			fpsMin = Math.min(fpsMin, fps);
 			fpsMax = Math.max(fpsMax, fps);
 
 			fpsText.textContent = fps + ' FPS (' + fpsMin + '-' + fpsMax + ')';
-			updateGraph(fpsGraph, Math.min(30, 30 - (fps / (Math.min(500, fpsMax) + 10)) * 30));
+			updateGraph(fpsGraph, Math.min(30, 30 - fps / (Math.min(500, fpsMax) + 10) * 30));
 
 			prevTime = time;
 			frames = 0;
@@ -146,4 +150,4 @@ var exported_Stats = Stats;
  * this.stats = new Stats();
  * document.body.appendChild(this.stats.domElement);
  */
-export { exported_Stats as Stats };
+exports.Stats = exported_Stats;

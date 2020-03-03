@@ -1,16 +1,21 @@
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { SteadyState as SteadyStatejs } from "../../../../src/goo/animationpack/state/SteadyState";
-import { AnimationLayer as AnimationLayerjs } from "../../../../src/goo/animationpack/layer/AnimationLayer";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _SteadyState = require("../../../../src/goo/animationpack/state/SteadyState");
+
+var _AnimationLayer = require("../../../../src/goo/animationpack/layer/AnimationLayer");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('AnimationLayersHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -18,21 +23,21 @@ describe('AnimationLayersHandler', function () {
 	});
 
 	it('loads a collection of animation layers', function (done) {
-		var layersConfig = Configs_Configsjs.animation();
-		loader.preload(Configs_Configsjs.get());
+		var layersConfig = _Configs.Configs.animation();
+		loader.preload(_Configs.Configs.get());
 		loader.load(layersConfig.id).then(function (layers) {
 			expect(layers.length).toBe(Object.keys(layersConfig.layers).length);
 
 			var layer = layers[0];
-			expect(layer).toEqual(jasmine.any(AnimationLayerjs));
-			expect(layer._currentState).toEqual(jasmine.any(SteadyStatejs));
+			expect(layer).toEqual(jasmine.any(_AnimationLayer.AnimationLayer));
+			expect(layer._currentState).toEqual(jasmine.any(_SteadyState.SteadyState));
 			done();
 		});
 	});
 
 	it('sorts animation layers correctly', function (done) {
-		var layersConfig = Configs_Configsjs.animation();
-		loader.preload(Configs_Configsjs.get());
+		var layersConfig = _Configs.Configs.animation();
+		loader.preload(_Configs.Configs.get());
 		loader.load(layersConfig.id).then(function (layers) {
 			for (var i = 0; i < layers.length; i++) {
 				expect(layersConfig.layers[layers[i].id].sortValue).toBe(i);

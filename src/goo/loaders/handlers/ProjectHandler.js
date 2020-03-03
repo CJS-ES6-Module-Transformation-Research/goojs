@@ -1,24 +1,26 @@
-import {
-    ConfigHandler as ConfigHandler_ConfigHandlerjs,
-    _registerClass as ConfigHandlerjs__registerClass,
-} from "../../loaders/handlers/ConfigHandler";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ProjectHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
 
 function ProjectHandler() {
-	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
-	/**
-	this._skybox = null;
-	this._skyboxTexture = null;
-	this._skyboxGeographic = false;
-
-	this._composer = null;
-	this._passes = [];
-	this.weatherState = {};
-	*/
+  _ConfigHandler.ConfigHandler.apply(this, arguments);
+  /**
+  this._skybox = null;
+  this._skyboxTexture = null;
+  this._skyboxGeographic = false;
+  
+  this._composer = null;
+  this._passes = [];
+  this.weatherState = {};
+  */
 }
 
-ProjectHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
+ProjectHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 ProjectHandler.prototype.constructor = ProjectHandler;
-ConfigHandlerjs__registerClass('project', ProjectHandler);
+(0, _ConfigHandler._registerClass)('project', ProjectHandler);
 
 /**
  * Removes project from engine, i e removes mainScene, i e removes scene entities from world
@@ -26,10 +28,10 @@ ConfigHandlerjs__registerClass('project', ProjectHandler);
  * @param {Object} options
  */
 ProjectHandler.prototype._remove = function (ref, options) {
-	var project = this._objects.get(ref);
-	if (project) {
-		this.updateObject(project.mainScene.id, null, options);
-	}
+  var project = this._objects.get(ref);
+  if (project) {
+    this.updateObject(project.mainScene.id, null, options);
+  }
 };
 
 /**
@@ -38,9 +40,9 @@ ProjectHandler.prototype._remove = function (ref, options) {
  * @private
  */
 ProjectHandler.prototype._create = function () {
-	return {
-		mainScene: null
-	};
+  return {
+    mainScene: null
+  };
 };
 
 /**
@@ -51,22 +53,24 @@ ProjectHandler.prototype._create = function () {
  * @returns {RSVP.Promise} Resolves with the updated scene or null if removed
  */
 ProjectHandler.prototype._update = function (ref, config, options) {
-	var that = this;
-	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (project) {
-		if (!project) { return; }
-		function loadPromise() {
-			return that._load(config.mainSceneRef, options).then(function (scene) {
-				project.mainScene = scene;
-				return project;
-			});
-		}
+  var that = this;
+  return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (project) {
+    if (!project) {
+      return;
+    }
+    function loadPromise() {
+      return that._load(config.mainSceneRef, options).then(function (scene) {
+        project.mainScene = scene;
+        return project;
+      });
+    }
 
-		if (project.mainScene && config.mainSceneRef !== project.mainScene.id) {
-			return that.updateObject(project.mainScene.id, null, options).then(loadPromise);
-		} else {
-			return loadPromise();
-		}
-	});
+    if (project.mainScene && config.mainSceneRef !== project.mainScene.id) {
+      return that.updateObject(project.mainScene.id, null, options).then(loadPromise);
+    } else {
+      return loadPromise();
+    }
+  });
 };
 
 var exported_ProjectHandler = ProjectHandler;
@@ -79,4 +83,4 @@ var exported_ProjectHandler = ProjectHandler;
  * @param {Function} getConfig
  * @param {Function} updateObject
  */
-export { exported_ProjectHandler as ProjectHandler };
+exports.ProjectHandler = exported_ProjectHandler;

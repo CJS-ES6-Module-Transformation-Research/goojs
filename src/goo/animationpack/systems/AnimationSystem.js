@@ -1,9 +1,15 @@
-import { System as System_Systemjs } from "../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 function AnimationSystem() {
-	System_Systemjs.call(this, 'AnimationSystem', ['AnimationComponent']);
+	_System.System.call(this, 'AnimationSystem', ['AnimationComponent']);
 }
 
-AnimationSystem.prototype = Object.create(System_Systemjs.prototype);
+AnimationSystem.prototype = Object.create(_System.System.prototype);
 
 AnimationSystem.prototype.process = function () {
 	for (var i = 0; i < this._activeEntities.length; i++) {
@@ -46,4 +52,4 @@ var exported_AnimationSystem = AnimationSystem;
  * Processes all entities with animation components, updating the animations
  * @extends System
  */
-export { exported_AnimationSystem as AnimationSystem };
+exports.AnimationSystem = exported_AnimationSystem;

@@ -1,32 +1,37 @@
-import { Box as Boxjs } from "../../shapes/Box";
-import { Transform as Transformjs } from "../../math/Transform";
-import { NO_PARENT as Jointjs_NO_PARENT } from "../../animationpack/Joint";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
-import { MeshData as MeshDatajs } from "../../renderer/MeshData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SkeletonDebug = undefined;
+
+var _Box = require("../../shapes/Box");
+
+var _Transform = require("../../math/Transform");
+
+var _Joint = require("../../animationpack/Joint");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _MeshData = require("../../renderer/MeshData");
 
 function SkeletonDebug() {}
-var calcTrans = new Transformjs();
+var calcTrans = new _Transform.Transform();
 
 SkeletonDebug.prototype.getMesh = function (pose) {
 	var joints = pose._skeleton._joints;
-	return [
-		this._buildLines(joints),
-		this._buildBoxes(joints)
-	];
+	return [this._buildLines(joints), this._buildBoxes(joints)];
 };
 
 SkeletonDebug.prototype._buildBoxes = function (joints) {
-	var boxBuilder = new MeshBuilder_MeshBuilderjs();
+	var boxBuilder = new _MeshBuilder.MeshBuilder();
 
-	var box = new Boxjs(2, 2, 2);
-	box.attributeMap.WEIGHTS = MeshDatajs.createAttribute(4, 'Float');
-	box.attributeMap.JOINTIDS = MeshDatajs.createAttribute(4, 'Float');
+	var box = new _Box.Box(2, 2, 2);
+	box.attributeMap.WEIGHTS = _MeshData.MeshData.createAttribute(4, 'Float');
+	box.attributeMap.JOINTIDS = _MeshData.MeshData.createAttribute(4, 'Float');
 	box.rebuildData();
 	box.rebuild();
 
 	for (var i = 0; i < joints.length; i++) {
-		calcTrans.matrix.copy(joints[i]._inverseBindPose.matrix)
-			.invert();
+		calcTrans.matrix.copy(joints[i]._inverseBindPose.matrix).invert();
 		this._stuffBox(box, joints[i]);
 		boxBuilder.addMeshData(box, calcTrans);
 	}
@@ -38,12 +43,16 @@ SkeletonDebug.prototype._buildBoxes = function (joints) {
 };
 
 SkeletonDebug.prototype._buildLines = function (joints) {
-	var positions = [], weights = [], jointIds = [],
-		indices = [], count = 0, td = calcTrans.matrix.data;
+	var positions = [],
+	    weights = [],
+	    jointIds = [],
+	    indices = [],
+	    count = 0,
+	    td = calcTrans.matrix.data;
 
 	for (var i = 0; i < joints.length; i++) {
 		var joint = joints[i];
-		if (joint._parentIndex !== Jointjs_NO_PARENT) {
+		if (joint._parentIndex !== _Joint.NO_PARENT) {
 			var parentJoint = joints[joint._parentIndex];
 			weights.push(1, 0, 0, 0, 1, 0, 0, 0);
 			jointIds.push(joint._index, 0, 0, 0, parentJoint._index, 0, 0, 0);
@@ -57,16 +66,11 @@ SkeletonDebug.prototype._buildLines = function (joints) {
 		}
 	}
 	// Lines for bones
-	var line = new MeshDatajs(
-		MeshDatajs.defaultMap([
-			MeshDatajs.POSITION,
-			MeshDatajs.WEIGHTS,
-			MeshDatajs.JOINTIDS
-		]), positions.length / 3, indices.length);
+	var line = new _MeshData.MeshData(_MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.WEIGHTS, _MeshData.MeshData.JOINTIDS]), positions.length / 3, indices.length);
 	line.indexModes = ['Lines'];
-	line.getAttributeBuffer(MeshDatajs.POSITION).set(positions);
-	line.getAttributeBuffer(MeshDatajs.WEIGHTS).set(weights);
-	line.getAttributeBuffer(MeshDatajs.JOINTIDS).set(jointIds);
+	line.getAttributeBuffer(_MeshData.MeshData.POSITION).set(positions);
+	line.getAttributeBuffer(_MeshData.MeshData.WEIGHTS).set(weights);
+	line.getAttributeBuffer(_MeshData.MeshData.JOINTIDS).set(jointIds);
 	line.getIndexBuffer().set(indices);
 
 	this._buildPaletteMap(line, joints);
@@ -92,4 +96,4 @@ SkeletonDebug.prototype._buildPaletteMap = function (meshData, joints) {
 };
 
 var exported_SkeletonDebug = SkeletonDebug;
-export { exported_SkeletonDebug as SkeletonDebug };
+exports.SkeletonDebug = exported_SkeletonDebug;

@@ -1,97 +1,99 @@
-import { Vector3 as Vector3js } from "../../../../src/goo/math/Vector3";
-import { TransformSystem as TransformSystemjs } from "../../../../src/goo/entities/systems/TransformSystem";
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _TransformSystem = require("../../../../src/goo/entities/systems/TransformSystem");
+
+var _World = require("../../../../src/goo/entities/World");
 
 describe('TransformSystem', function () {
-	var world;
+		var world;
 
-	function createEntity(x, y, z) {
-		var entity = world.createEntity().addToWorld();
-		entity.setTranslation(new Vector3js(x || 0, y || 0, z || 0));
-		return entity;
-	}
+		function createEntity(x, y, z) {
+				var entity = world.createEntity().addToWorld();
+				entity.setTranslation(new _Vector.Vector3(x || 0, y || 0, z || 0));
+				return entity;
+		}
 
-	beforeEach(function () {
-		world = new World_Worldjs();
-		world.setSystem(new TransformSystemjs());
-	});
+		beforeEach(function () {
+				world = new _World.World();
+				world.setSystem(new _TransformSystem.TransformSystem());
+		});
 
-	it('updates the world transform of a single entity', function () {
-		var entity = createEntity(1, 2, 3);
-		world.process();
-		expect(entity.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-	});
+		it('updates the world transform of a single entity', function () {
+				var entity = createEntity(1, 2, 3);
+				world.process();
+				expect(entity.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+		});
 
-	it('updates the world transform of a parent-child structure and propagates correctly', function () {
-		var grandParent = createEntity(1, 2, 3);
-		var parent = createEntity(1, 2, 3);
-		var child = createEntity(1, 2, 3);
+		it('updates the world transform of a parent-child structure and propagates correctly', function () {
+				var grandParent = createEntity(1, 2, 3);
+				var parent = createEntity(1, 2, 3);
+				var child = createEntity(1, 2, 3);
 
-		grandParent.attachChild(parent);
-		parent.attachChild(child);
+				grandParent.attachChild(parent);
+				parent.attachChild(child);
 
-		world.process();
+				world.process();
 
-		expect(grandParent.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(parent.transformComponent.worldTransform.translation).toEqual(new Vector3js(2, 4, 6));
-		expect(child.transformComponent.worldTransform.translation).toEqual(new Vector3js(3, 6, 9));
+				expect(grandParent.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(parent.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(2, 4, 6));
+				expect(child.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(3, 6, 9));
 
-		parent.setTranslation(0, 0, 0);
+				parent.setTranslation(0, 0, 0);
 
-		world.process();
+				world.process();
 
-		expect(grandParent.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(parent.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(child.transformComponent.worldTransform.translation).toEqual(new Vector3js(2, 4, 6));
+				expect(grandParent.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(parent.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(child.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(2, 4, 6));
 
-		grandParent.setTranslation(0, 0, 0);
-		parent.setTranslation(1, 2, 3);
-		child.setTranslation(1, 2, 3);
+				grandParent.setTranslation(0, 0, 0);
+				parent.setTranslation(1, 2, 3);
+				child.setTranslation(1, 2, 3);
 
-		world.process();
+				world.process();
 
-		expect(grandParent.transformComponent.worldTransform.translation).toEqual(new Vector3js(0, 0, 0));
-		expect(parent.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(child.transformComponent.worldTransform.translation).toEqual(new Vector3js(2, 4, 6));
-	});
+				expect(grandParent.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(0, 0, 0));
+				expect(parent.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(child.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(2, 4, 6));
+		});
 
-	it('updates all children correctly in a chain', function () {
-		var entityA = createEntity();
-		var entityB = createEntity();
-		var entityC = createEntity(1, 2, 3);
-		var entityD = createEntity();
-		var entityE = createEntity();
+		it('updates all children correctly in a chain', function () {
+				var entityA = createEntity();
+				var entityB = createEntity();
+				var entityC = createEntity(1, 2, 3);
+				var entityD = createEntity();
+				var entityE = createEntity();
 
-		entityA.attachChild(entityB);
-		entityB.attachChild(entityC);
-		entityC.attachChild(entityD);
-		entityD.attachChild(entityE);
+				entityA.attachChild(entityB);
+				entityB.attachChild(entityC);
+				entityC.attachChild(entityD);
+				entityD.attachChild(entityE);
 
-		world.process();
+				world.process();
 
-		expect(entityA.transformComponent.worldTransform.translation).toEqual(new Vector3js(0, 0, 0));
-		expect(entityB.transformComponent.worldTransform.translation).toEqual(new Vector3js(0, 0, 0));
-		expect(entityD.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(entityE.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-	});
+				expect(entityA.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(0, 0, 0));
+				expect(entityB.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(0, 0, 0));
+				expect(entityD.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(entityE.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+		});
 
-	it('updates all children correctly in a chain', function () {
-		var entityE = createEntity();
-		var entityD = createEntity();
-		var entityC = createEntity(1, 2, 3);
-		var entityB = createEntity();
-		var entityA = createEntity(1, 2, 3);
+		it('updates all children correctly in a chain', function () {
+				var entityE = createEntity();
+				var entityD = createEntity();
+				var entityC = createEntity(1, 2, 3);
+				var entityB = createEntity();
+				var entityA = createEntity(1, 2, 3);
 
-		entityA.attachChild(entityB);
-		entityB.attachChild(entityC);
-		entityC.attachChild(entityD);
-		entityD.attachChild(entityE);
+				entityA.attachChild(entityB);
+				entityB.attachChild(entityC);
+				entityC.attachChild(entityD);
+				entityD.attachChild(entityE);
 
-		world.process();
+				world.process();
 
-		expect(entityA.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(entityB.transformComponent.worldTransform.translation).toEqual(new Vector3js(1, 2, 3));
-		expect(entityD.transformComponent.worldTransform.translation).toEqual(new Vector3js(2, 4, 6));
-		expect(entityE.transformComponent.worldTransform.translation).toEqual(new Vector3js(2, 4, 6));
-	});
+				expect(entityA.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(entityB.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(1, 2, 3));
+				expect(entityD.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(2, 4, 6));
+				expect(entityE.transformComponent.worldTransform.translation).toEqual(new _Vector.Vector3(2, 4, 6));
+		});
 });

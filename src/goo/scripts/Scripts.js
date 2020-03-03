@@ -1,26 +1,22 @@
-import {
-    fillDefaultValues as ScriptUtilsjs_fillDefaultValues,
-    fillDefaultNames as ScriptUtilsjs_fillDefaultNames,
-} from "../scripts/ScriptUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.register = undefined;
 
-import { extend as ObjectUtilsjs_extend, warnOnce as ObjectUtilsjs_warnOnce } from "../util/ObjectUtils";
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
 
 // the collection of scripts
 var _scripts = {};
 
-Scripts.addClass = ObjectUtilsjs_warnOnce(
-	'Scripts.addClass is deprecated; please consider using the global goo object instead',
-	function (/* name, klass */) {
-		// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
-	}
-);
+Scripts.addClass = (0, _ObjectUtils.warnOnce)('Scripts.addClass is deprecated; please consider using the global goo object instead', function () /* name, klass */{
+	// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
+});
 
-Scripts.getClasses = ObjectUtilsjs_warnOnce(
-	'Scripts.getClasses is deprecated; please consider using the global goo object instead',
-	function () {
-		return window.goo;
-	}
-);
+Scripts.getClasses = (0, _ObjectUtils.warnOnce)('Scripts.getClasses is deprecated; please consider using the global goo object instead', function () {
+	return window.goo;
+});
 
 Scripts.getScript = function (key) {
 	return _scripts[key];
@@ -43,12 +39,12 @@ Scripts.create = function (key, options) {
 	script.externals = factoryFunction.externals;
 
 	if (factoryFunction.externals) {
-		ScriptUtilsjs_fillDefaultNames(script.externals.parameters);
-		ScriptUtilsjs_fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
+		(0, _ScriptUtils.fillDefaultNames)(script.externals.parameters);
+		(0, _ScriptUtils.fillDefaultValues)(script.parameters, factoryFunction.externals.parameters);
 	}
 
 	if (options) {
-		ObjectUtilsjs_extend(script.parameters, options);
+		(0, _ObjectUtils.extend)(script.parameters, options);
 	}
 
 	return script;
@@ -65,15 +61,15 @@ Scripts.allScripts = function () {
 	return scripts;
 };
 
-var Scripts_register = function(factoryFunction) {
-    var key = factoryFunction.externals.key || factoryFunction.externals.name;
-    if (_scripts[key]) {
-        console.warn("Script already registered for key " + key);
-        return;
-    }
-    //! AT: this will modify the external object but that's ok
-    ScriptUtilsjs_fillDefaultNames(factoryFunction.externals.parameters);
-    _scripts[key] = factoryFunction;
+var Scripts_register = function Scripts_register(factoryFunction) {
+	var key = factoryFunction.externals.key || factoryFunction.externals.name;
+	if (_scripts[key]) {
+		console.warn("Script already registered for key " + key);
+		return;
+	}
+	//! AT: this will modify the external object but that's ok
+	(0, _ScriptUtils.fillDefaultNames)(factoryFunction.externals.parameters);
+	_scripts[key] = factoryFunction;
 };
 
-export { Scripts_register as register };
+exports.register = Scripts_register;

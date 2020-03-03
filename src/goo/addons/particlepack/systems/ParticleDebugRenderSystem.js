@@ -1,13 +1,26 @@
-import { EntitySelection as EntitySelectionjs } from "../../../entities/EntitySelection";
-import { System as System_Systemjs } from "../../../entities/systems/System";
-import { Transform as Transformjs } from "../../../math/Transform";
-import { Material as Materialjs } from "../../../renderer/Material";
-import { simpleColored as ShaderLibjs_simpleColored } from "../../../renderer/shaders/ShaderLib";
-import { Sphere as Spherejs } from "../../../shapes/Sphere";
-import { Box as Boxjs } from "../../../shapes/Box";
-import { Cylinder as Cylinderjs } from "../../../shapes/Cylinder";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleDebugRenderSystem = undefined;
+
+var _EntitySelection = require("../../../entities/EntitySelection");
+
+var _System = require("../../../entities/systems/System");
+
+var _Transform = require("../../../math/Transform");
+
+var _Material = require("../../../renderer/Material");
+
+var _ShaderLib = require("../../../renderer/shaders/ShaderLib");
+
+var _Sphere = require("../../../shapes/Sphere");
+
+var _Box = require("../../../shapes/Box");
+
+var _Cylinder = require("../../../shapes/Cylinder");
+
 function ParticleDebugRenderSystem() {
-	System_Systemjs.call(this, 'ParticleDebugRenderSystem', ['ParticleSystemComponent']);
+	_System.System.call(this, 'ParticleDebugRenderSystem', ['ParticleSystemComponent']);
 
 	this.priority = 3;
 
@@ -19,37 +32,37 @@ function ParticleDebugRenderSystem() {
 	}.bind(this));
 
 	/**
-	 * If set to true, all entities with a ParticleSystemComponent attached is rendered, and the selection is disregarded.
-	 * @type {boolean}
-	 */
+  * If set to true, all entities with a ParticleSystemComponent attached is rendered, and the selection is disregarded.
+  * @type {boolean}
+  */
 	this.renderAll = true;
 
 	/**
-	 * The selected entities to be rendered.
-	 * @type {EntitySelection}
-	 */
-	this.selection = new EntitySelectionjs();
+  * The selected entities to be rendered.
+  * @type {EntitySelection}
+  */
+	this.selection = new _EntitySelection.EntitySelection();
 
-	var material = new Materialjs(ShaderLibjs_simpleColored);
+	var material = new _Material.Material(_ShaderLib.simpleColored);
 	material.uniforms.color = [0, 1, 0];
 	this.sphereRenderable = {
 		materials: [material],
-		transform: new Transformjs(),
-		meshData: new Spherejs(12,12,1)
+		transform: new _Transform.Transform(),
+		meshData: new _Sphere.Sphere(12, 12, 1)
 	};
 	this.boxRenderable = {
 		materials: [material],
-		transform: new Transformjs(),
-		meshData: new Boxjs(1,1,1)
+		transform: new _Transform.Transform(),
+		meshData: new _Box.Box(1, 1, 1)
 	};
 	this.coneRenderable = {
 		materials: [material],
-		transform: new Transformjs(),
-		meshData: new Cylinderjs(16, 1, 1, 1)
+		transform: new _Transform.Transform(),
+		meshData: new _Cylinder.Cylinder(16, 1, 1, 1)
 	};
-	this.offsetTransform = new Transformjs();
+	this.offsetTransform = new _Transform.Transform();
 }
-ParticleDebugRenderSystem.prototype = Object.create(System_Systemjs.prototype);
+ParticleDebugRenderSystem.prototype = Object.create(_System.System.prototype);
 ParticleDebugRenderSystem.prototype.constructor = ParticleDebugRenderSystem;
 
 /**
@@ -57,7 +70,7 @@ ParticleDebugRenderSystem.prototype.constructor = ParticleDebugRenderSystem;
  * @param  {array} entities
  */
 ParticleDebugRenderSystem.prototype.process = function (entities) {
-	for (var i=0; i<entities.length; i++) {
+	for (var i = 0; i < entities.length; i++) {
 		var entity = entities[i];
 		var meshEntity = entity.particleSystemComponent.meshEntity;
 		if (meshEntity) {
@@ -96,29 +109,29 @@ ParticleDebugRenderSystem.prototype.render = function (renderer) {
 
 		var renderable;
 		switch (entity.particleSystemComponent.shapeType) {
-		case 'sphere':
-			renderable = this.sphereRenderable;
-			var radius = entity.particleSystemComponent.sphereRadius;
-			renderable.transform.scale.setDirect(radius,radius,radius);
-			this.offsetTransform.setIdentity();
-			break;
-		case 'box':
-			renderable = this.boxRenderable;
-			renderable.transform.scale.copy(entity.particleSystemComponent.boxExtents);
-			this.offsetTransform.setIdentity();
-			break;
-		case 'cone':
-			var coneRadius = entity.particleSystemComponent.coneRadius;
-			renderable = this.coneRenderable;
-			this.offsetTransform.setIdentity();
-			renderable.meshData.radiusTop = coneRadius + Math.tan(entity.particleSystemComponent.coneAngle) * entity.particleSystemComponent.coneLength;
-			renderable.meshData.radiusBottom = coneRadius;
-			renderable.meshData.height = entity.particleSystemComponent.coneLength;
-			renderable.meshData.rebuild();
-			renderable.meshData.setVertexDataUpdated();
-			this.offsetTransform.translation.set(0,0,entity.particleSystemComponent.coneLength * 0.5);
-			this.offsetTransform.rotation.rotateX(3 * Math.PI / 2);
-			break;
+			case 'sphere':
+				renderable = this.sphereRenderable;
+				var radius = entity.particleSystemComponent.sphereRadius;
+				renderable.transform.scale.setDirect(radius, radius, radius);
+				this.offsetTransform.setIdentity();
+				break;
+			case 'box':
+				renderable = this.boxRenderable;
+				renderable.transform.scale.copy(entity.particleSystemComponent.boxExtents);
+				this.offsetTransform.setIdentity();
+				break;
+			case 'cone':
+				var coneRadius = entity.particleSystemComponent.coneRadius;
+				renderable = this.coneRenderable;
+				this.offsetTransform.setIdentity();
+				renderable.meshData.radiusTop = coneRadius + Math.tan(entity.particleSystemComponent.coneAngle) * entity.particleSystemComponent.coneLength;
+				renderable.meshData.radiusBottom = coneRadius;
+				renderable.meshData.height = entity.particleSystemComponent.coneLength;
+				renderable.meshData.rebuild();
+				renderable.meshData.setVertexDataUpdated();
+				this.offsetTransform.translation.set(0, 0, entity.particleSystemComponent.coneLength * 0.5);
+				this.offsetTransform.rotation.rotateX(3 * Math.PI / 2);
+				break;
 		}
 
 		if (renderable) {
@@ -173,4 +186,4 @@ var exported_ParticleDebugRenderSystem = ParticleDebugRenderSystem;
  * Renders all ParticleSystemComponents in the scene.
  * @extends System
  */
-export { exported_ParticleDebugRenderSystem as ParticleDebugRenderSystem };
+exports.ParticleDebugRenderSystem = exported_ParticleDebugRenderSystem;

@@ -1,10 +1,15 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EmitAction = undefined;
 
-function EmitAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function EmitAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-EmitAction.prototype = Object.create(Action_Actionjs.prototype);
+EmitAction.prototype = Object.create(_Action.Action.prototype);
 EmitAction.prototype.constructor = EmitAction;
 
 EmitAction.external = {
@@ -22,9 +27,9 @@ EmitAction.external = {
 	transitions: []
 };
 
-EmitAction.prototype.enter = function (/*fsm*/) {
+EmitAction.prototype.enter = function () /*fsm*/{
 	SystemBus.emit(this.channel, this.data); // data is unused?
 };
 
 var exported_EmitAction = EmitAction;
-export { exported_EmitAction as EmitAction };
+exports.EmitAction = exported_EmitAction;

@@ -1,8 +1,15 @@
-import { Manager as Manager_Managerjs } from "../../entities/managers/Manager";
-import { EntitySelection as EntitySelectionjs } from "../../entities/EntitySelection";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EntityManager = undefined;
+
+var _Manager = require("../../entities/managers/Manager");
+
+var _EntitySelection = require("../../entities/EntitySelection");
+
 var EntityManager_api;
 function EntityManager() {
-	Manager_Managerjs.call(this);
+	_Manager.Manager.call(this);
 
 	this.type = 'EntityManager';
 
@@ -11,29 +18,29 @@ function EntityManager() {
 	this._entityCount = 0;
 
 	/** Entity selector. Its methods return an {@link EntitySelection}. Can select by id or name, see examples for usage.
-	 * <br><i>Injected into {@link World}.</i>
-	 * @member by
-	 * @memberOf EntityManager.prototype
-	 * @example
-	 * var byId = gooRunner.world.by.id("2b88941938444da8afab8205b1c80616.entity").first();
-	 * var byName = gooRunner.world.by.name("Box").first();
-	 */
+  * <br><i>Injected into {@link World}.</i>
+  * @member by
+  * @memberOf EntityManager.prototype
+  * @example
+  * var byId = gooRunner.world.by.id("2b88941938444da8afab8205b1c80616.entity").first();
+  * var byName = gooRunner.world.by.name("Box").first();
+  */
 	EntityManager_api = {
-        id: function() {
-            var ret = EntityManager.prototype.getEntityById.apply(this, arguments);
-            return new EntitySelectionjs(ret);
-        }.bind(this),
+		id: function () {
+			var ret = EntityManager.prototype.getEntityById.apply(this, arguments);
+			return new _EntitySelection.EntitySelection(ret);
+		}.bind(this),
 
-        name: function(name) {
-            var entities = this.getEntities();
-            return new EntitySelectionjs(entities.filter(function(entity) {
-                return entity.name === name;
-            }));
-        }.bind(this)
-    };;
+		name: function (name) {
+			var entities = this.getEntities();
+			return new _EntitySelection.EntitySelection(entities.filter(function (entity) {
+				return entity.name === name;
+			}));
+		}.bind(this)
+	};;
 }
 
-EntityManager.prototype = Object.create(Manager_Managerjs.prototype);
+EntityManager.prototype = Object.create(_Manager.Manager.prototype);
 
 EntityManager.prototype.added = function (entity) {
 	if (!this.containsEntity(entity)) {
@@ -91,7 +98,9 @@ EntityManager.prototype.getEntityByIndex = function (index) {
  * @returns Entity or undefined if not existing
  */
 EntityManager.prototype.getEntityByName = function (name) {
-	if (this._entityCount <= 0) { return; }
+	if (this._entityCount <= 0) {
+		return;
+	}
 
 	var foundEntity;
 	this._entitiesByIndex.forEach(function (entity) {
@@ -160,4 +169,4 @@ var exported_EntityManager = EntityManager;
  * Main handler of all entities in the world.
  * @extends Manager
  */
-export { exported_EntityManager as EntityManager };
+exports.EntityManager = exported_EntityManager;

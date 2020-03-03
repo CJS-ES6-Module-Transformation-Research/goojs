@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var FsmUtils_getValue;
 var FsmUtils_guid;
 var FsmUtils_keyForCode;
@@ -8,7 +11,7 @@ var FsmUtils_setTransitions;
 var FsmUtils_setParameters;
 function FsmUtils() {}
 
-FsmUtils_setParameters = function(settings, externalParameters) {
+exports.setParameters = FsmUtils_setParameters = function FsmUtils_setParameters(settings, externalParameters) {
     for (var i = 0; i < externalParameters.length; i++) {
         var externalParameter = externalParameters[i];
         var key = externalParameter.key;
@@ -21,7 +24,7 @@ FsmUtils_setParameters = function(settings, externalParameters) {
     }
 };;
 
-FsmUtils_setTransitions = function(settings, externalTransitions) {
+exports.setTransitions = FsmUtils_setTransitions = function FsmUtils_setTransitions(settings, externalTransitions) {
     for (var i = 0; i < externalTransitions.length; i++) {
         var externalTransition = externalTransitions[i];
         var key = externalTransition.key;
@@ -31,7 +34,7 @@ FsmUtils_setTransitions = function(settings, externalTransitions) {
     }
 };;
 
-FsmUtils_getKey = function(str) {
+exports.getKey = FsmUtils_getKey = function FsmUtils_getKey(str) {
     if (FsmUtils_keys[str]) {
         return FsmUtils_keys[str];
     } else {
@@ -158,37 +161,35 @@ FsmUtils_keys = {
 FsmUtils_keyInverse = [];;
 
 function buildKeyInverse(assoc) {
-	var inverseAssoc = [];
+    var inverseAssoc = [];
 
-	var keys = Object.keys(assoc);
-	for (var i = 0; i < keys.length; i++) {
-		inverseAssoc[assoc[keys[i]]] = keys[i];
-	}
+    var keys = Object.keys(assoc);
+    for (var i = 0; i < keys.length; i++) {
+        inverseAssoc[assoc[keys[i]]] = keys[i];
+    }
 
-	return inverseAssoc;
+    return inverseAssoc;
 }
 
 FsmUtils_keyInverse = buildKeyInverse(FsmUtils_keys);
 
-FsmUtils_keyForCode = function(code) {
+FsmUtils_keyForCode = function FsmUtils_keyForCode(code) {
     if (FsmUtils_keyInverse[code]) {
         return FsmUtils_keyInverse[code];
     }
     return "FsmUtils.keyForCode: key not found for code " + code;
 };;
 
-var s4 = function () {
-	return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
+var s4 = function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 };
 
 // Random unique id
-FsmUtils_guid = function() {
+FsmUtils_guid = function FsmUtils_guid() {
     return s4() + s4() + "-" + s4() + "-" + s4() + "-" + s4() + "-" + s4() + s4() + s4();
 };;
 
-FsmUtils_getValue = function(par, fsm) {
+exports.getValue = FsmUtils_getValue = function FsmUtils_getValue(par, fsm) {
     if (typeof par === "number") {
         return par;
     } else {
@@ -196,4 +197,8 @@ FsmUtils_getValue = function(par, fsm) {
     }
 };;
 
-export { FsmUtils_setParameters as setParameters, FsmUtils_setTransitions as setTransitions, FsmUtils_getKey as getKey, FsmUtils_getValue as getValue, FsmUtils };
+exports.setParameters = FsmUtils_setParameters;
+exports.setTransitions = FsmUtils_setTransitions;
+exports.getKey = FsmUtils_getKey;
+exports.getValue = FsmUtils_getValue;
+exports.FsmUtils = FsmUtils;

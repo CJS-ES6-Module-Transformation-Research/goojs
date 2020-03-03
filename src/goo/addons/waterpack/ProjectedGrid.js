@@ -1,52 +1,64 @@
-import { MeshData as MeshDatajs } from "../../renderer/MeshData";
-import { Vector2 as Vector2js } from "../../math/Vector2";
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { Vector4 as Vector4js } from "../../math/Vector4";
-import { Matrix4 as Matrix4js } from "../../math/Matrix4";
-import { Camera as Camerajs } from "../../renderer/Camera";
-import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ProjectedGrid = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Vector = require("../../math/Vector2");
+
+var _Vector2 = require("../../math/Vector3");
+
+var _Vector3 = require("../../math/Vector4");
+
+var _Matrix = require("../../math/Matrix4");
+
+var _Camera = require("../../renderer/Camera");
+
+var _MathUtils = require("../../math/MathUtils");
+
 function ProjectedGrid(densityX, densityY) {
 	this.densityX = densityX !== undefined ? densityX : 20;
 	this.densityY = densityY !== undefined ? densityY : 20;
 
-	this.projectorCamera = new Camerajs(45, 1, 0.1, 2000);
-	this.mainCamera = new Camerajs(45, 1, 0.1, 2000);
+	this.projectorCamera = new _Camera.Camera(45, 1, 0.1, 2000);
+	this.mainCamera = new _Camera.Camera(45, 1, 0.1, 2000);
 
 	this.freezeProjector = false;
 	this.upperBound = 20.0;
 
-	this.origin = new Vector4js();
-	this.direction = new Vector4js();
-	this.source = new Vector2js();
-	this.rangeMatrix = new Matrix4js();
+	this.origin = new _Vector3.Vector4();
+	this.direction = new _Vector3.Vector4();
+	this.source = new _Vector.Vector2();
+	this.rangeMatrix = new _Matrix.Matrix4();
 
-	this.intersectBottomLeft = new Vector4js();
-	this.intersectTopLeft = new Vector4js();
-	this.intersectTopRight = new Vector4js();
-	this.intersectBottomRight = new Vector4js();
+	this.intersectBottomLeft = new _Vector3.Vector4();
+	this.intersectTopLeft = new _Vector3.Vector4();
+	this.intersectTopRight = new _Vector3.Vector4();
+	this.intersectBottomRight = new _Vector3.Vector4();
 
-	this.planeIntersection = new Vector3js();
+	this.planeIntersection = new _Vector2.Vector3();
 
 	this.freezeProjector = false;
 
 	this.projectorMinHeight = 50.0;
 	this.intersections = [];
 	for (var i = 0; i < 24; i++) {
-		this.intersections.push(new Vector3js());
+		this.intersections.push(new _Vector2.Vector3());
 	}
 
 	this.connections = [0, 3, 1, 2, 0, 4, 1, 5, 2, 6, 3, 7, 4, 7, 5, 6];
 
 	// Create mesh data
 	var vertexCount = this.densityX * this.densityY;
-	var indexCount = ((this.densityX - 1) * (this.densityY - 1)) * 6;
-	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION, MeshDatajs.TEXCOORD0]);
-	MeshDatajs.call(this, attributeMap, vertexCount, indexCount);
+	var indexCount = (this.densityX - 1) * (this.densityY - 1) * 6;
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.TEXCOORD0]);
+	_MeshData.MeshData.call(this, attributeMap, vertexCount, indexCount);
 
 	this.rebuild();
 }
 
-ProjectedGrid.prototype = Object.create(MeshDatajs.prototype);
+ProjectedGrid.prototype = Object.create(_MeshData.MeshData.prototype);
 ProjectedGrid.prototype.constructor = ProjectedGrid;
 
 ProjectedGrid.prototype.update = function (camera) {
@@ -78,32 +90,25 @@ ProjectedGrid.prototype.update = function (camera) {
 
 	var mainCameraLocation = mainCamera.translation;
 	if (mainCameraLocation.y > 0.0 && mainCameraLocation.y < upperBound + mainCamera.near) {
-		mainCamera.translation.setDirect(mainCameraLocation.x, upperBound + mainCamera.near,
-			mainCameraLocation.z);
-	} else if (mainCameraLocation.y < 0.0
-		&& mainCameraLocation.y > -upperBound - mainCamera.near) {
-		mainCamera.translation.setDirect(mainCameraLocation.x, -upperBound - mainCamera.near,
-			mainCameraLocation.z);
+		mainCamera.translation.setDirect(mainCameraLocation.x, upperBound + mainCamera.near, mainCameraLocation.z);
+	} else if (mainCameraLocation.y < 0.0 && mainCameraLocation.y > -upperBound - mainCamera.near) {
+		mainCamera.translation.setDirect(mainCameraLocation.x, -upperBound - mainCamera.near, mainCameraLocation.z);
 	}
 	var corners = mainCamera.calculateFrustumCorners();
 
 	var nrPoints = 0;
 
 	// check intersections of frustum connections with upper and lower bound
-	var tmpStorage = new Vector3js();
+	var tmpStorage = new _Vector2.Vector3();
 	for (var i = 0; i < 8; i++) {
 		var source = this.connections[i * 2];
 		var destination = this.connections[i * 2 + 1];
 
-		if (corners[source].y > upperBound && corners[destination].y < upperBound
-			|| corners[source].y < upperBound && corners[destination].y > upperBound) {
-			this.getWorldIntersectionSimple(upperBound, corners[source], corners[destination], this.intersections[nrPoints++],
-				tmpStorage);
+		if (corners[source].y > upperBound && corners[destination].y < upperBound || corners[source].y < upperBound && corners[destination].y > upperBound) {
+			this.getWorldIntersectionSimple(upperBound, corners[source], corners[destination], this.intersections[nrPoints++], tmpStorage);
 		}
-		if (corners[source].y > -upperBound && corners[destination].y < -upperBound
-			|| corners[source].y < -upperBound && corners[destination].y > -upperBound) {
-			this.getWorldIntersectionSimple(-upperBound, corners[source], corners[destination], this.intersections[nrPoints++],
-				tmpStorage);
+		if (corners[source].y > -upperBound && corners[destination].y < -upperBound || corners[source].y < -upperBound && corners[destination].y > -upperBound) {
+			this.getWorldIntersectionSimple(-upperBound, corners[source], corners[destination], this.intersections[nrPoints++], tmpStorage);
 		}
 	}
 	// check if any of the frustums corner vertices lie between the upper and lower bound planes
@@ -123,11 +128,10 @@ ProjectedGrid.prototype.update = function (camera) {
 	projectorCamera.copy(mainCamera);
 
 	// force the projector to point at the plane
-	if (projectorCamera.translation.y > 0.0 && projectorCamera._direction.y > 0.0
-		|| projectorCamera.translation.y < 0.0 && projectorCamera._direction.y < 0.0) {
+	if (projectorCamera.translation.y > 0.0 && projectorCamera._direction.y > 0.0 || projectorCamera.translation.y < 0.0 && projectorCamera._direction.y < 0.0) {
 		projectorCamera._direction.y = -projectorCamera._direction.y;
 
-		var tmpVec = new Vector3js();
+		var tmpVec = new _Vector2.Vector3();
 		tmpVec.set(projectorCamera._direction).cross(projectorCamera._left).normalize();
 		projectorCamera._up.set(tmpVec);
 	}
@@ -144,13 +148,11 @@ ProjectedGrid.prototype.update = function (camera) {
 	if (cameraLocation.y > 0.0 && cameraLocation.y < this.projectorMinHeight * 2) {
 		var delta = (this.projectorMinHeight * 2 - cameraLocation.y) / (this.projectorMinHeight * 2);
 
-		projectorCamera.translation.setDirect(cameraLocation.x, this.projectorMinHeight * 2 - this.projectorMinHeight * delta,
-			cameraLocation.z);
+		projectorCamera.translation.setDirect(cameraLocation.x, this.projectorMinHeight * 2 - this.projectorMinHeight * delta, cameraLocation.z);
 	} else if (cameraLocation.y < 0.0 && cameraLocation.y > -this.projectorMinHeight * 2) {
 		var delta = (-this.projectorMinHeight * 2 - cameraLocation.y) / (-this.projectorMinHeight * 2);
 
-		projectorCamera.translation.setDirect(cameraLocation.x, -this.projectorMinHeight * 2 + this.projectorMinHeight * delta,
-			cameraLocation.z);
+		projectorCamera.translation.setDirect(cameraLocation.x, -this.projectorMinHeight * 2 + this.projectorMinHeight * delta, cameraLocation.z);
 	}
 
 	// restrict the intersection point to be a certain distance from the camera in plane coords
@@ -160,7 +162,7 @@ ProjectedGrid.prototype.update = function (camera) {
 	if (length > Math.abs(projectorCamera.translation.y)) {
 		planeIntersection.normalize();
 		planeIntersection.scale(Math.abs(projectorCamera.translation.y));
-	} else if (length < MathUtilsjs.EPSILON) {
+	} else if (length < _MathUtils.MathUtils.EPSILON) {
 		planeIntersection.add(projectorCamera._up);
 		planeIntersection.y = 0.0;
 		planeIntersection.normalize();
@@ -170,11 +172,11 @@ ProjectedGrid.prototype.update = function (camera) {
 	planeIntersection.y = 0.0;
 
 	// point projector at the new intersection point
-	projectorCamera.lookAt(planeIntersection, Vector3js.UNIT_Y);
+	projectorCamera.lookAt(planeIntersection, _Vector2.Vector3.UNIT_Y);
 
 	// transform points to projector space
 	var modelViewProjectionMatrix = projectorCamera.getViewProjectionMatrix();
-	var spaceTransformation = new Vector4js();
+	var spaceTransformation = new _Vector3.Vector4();
 	var intersections = this.intersections;
 	for (var i = 0; i < nrPoints; i++) {
 		var intersection = intersections[i];
@@ -242,7 +244,7 @@ ProjectedGrid.prototype.getWorldIntersectionSimple = function (planeHeight, sour
 	var origin = store.set(source);
 	var direction = tmpStorage.set(destination).sub(origin);
 
-	var t = (planeHeight - origin.y) / (direction.y);
+	var t = (planeHeight - origin.y) / direction.y;
 
 	direction.scale(t);
 	origin.add(direction);
@@ -264,7 +266,7 @@ ProjectedGrid.prototype.calculateIntersection = function (planeHeight, screenPos
 	// final double t = (planeHeight * this.origin.getW() - this.origin.y)
 	// / (direction.y - planeHeight * direction.getW());
 
-	if (Math.abs(this.direction.y) > MathUtilsjs.EPSILON) {
+	if (Math.abs(this.direction.y) > _MathUtils.MathUtils.EPSILON) {
 		var t = (planeHeight - this.origin.y) / this.direction.y;
 		this.direction.scale(t);
 	} else {
@@ -280,8 +282,8 @@ ProjectedGrid.prototype.calculateIntersection = function (planeHeight, screenPos
  * @returns {ProjectedGrid} Self for chaining.
  */
 ProjectedGrid.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshDatajs.POSITION);
-	var texs = this.getAttributeBuffer(MeshDatajs.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(_MeshData.MeshData.POSITION);
+	var texs = this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	var densityX = this.densityX;
@@ -289,20 +291,20 @@ ProjectedGrid.prototype.rebuild = function () {
 
 	for (var x = 0; x < densityX; x++) {
 		for (var y = 0; y < densityY; y++) {
-			vbuf[(x + (y * densityX)) * 3 + 0] = x;
-			vbuf[(x + (y * densityX)) * 3 + 1] = 0;
-			vbuf[(x + (y * densityX)) * 3 + 2] = y;
+			vbuf[(x + y * densityX) * 3 + 0] = x;
+			vbuf[(x + y * densityX) * 3 + 1] = 0;
+			vbuf[(x + y * densityX) * 3 + 2] = y;
 
-			texs[(x + (y * densityX)) * 2 + 0] = x / (densityX - 1);
-			texs[(x + (y * densityX)) * 2 + 1] = y / (densityY - 1);
+			texs[(x + y * densityX) * 2 + 0] = x / (densityX - 1);
+			texs[(x + y * densityX) * 2 + 1] = y / (densityY - 1);
 		}
 	}
 
 	// go through entire array up to the second to last column.
 	var index = 0;
-	for (var i = 0; i < (densityX * (densityY - 1)); i++) {
+	for (var i = 0; i < densityX * (densityY - 1); i++) {
 		// we want to skip the top row.
-		if (i % ((densityX * (Math.floor(i / densityX) + 1)) - 1) === 0 && i !== 0) {
+		if (i % (densityX * (Math.floor(i / densityX) + 1) - 1) === 0 && i !== 0) {
 			continue;
 		}
 
@@ -336,4 +338,4 @@ var exported_ProjectedGrid = ProjectedGrid;
  * @param {number} [densityX=20] Density in X of grid
  * @param {number} [densityY=20] Density in Y of grid
  */
-export { exported_ProjectedGrid as ProjectedGrid };
+exports.ProjectedGrid = exported_ProjectedGrid;

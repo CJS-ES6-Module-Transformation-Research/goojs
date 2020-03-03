@@ -1,17 +1,23 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3js } from "../../../math/Vector3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenMoveAction = undefined;
 
-function TweenMoveAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
 
-	this.fromPos = new Vector3js();
-	this.toPos = new Vector3js();
-	this.deltaPos = new Vector3js();
-	this.oldPos = new Vector3js();
+var _Vector = require("../../../math/Vector3");
+
+function TweenMoveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromPos = new _Vector.Vector3();
+	this.toPos = new _Vector.Vector3();
+	this.deltaPos = new _Vector.Vector3();
+	this.oldPos = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenMoveAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenMoveAction.prototype = Object.create(_Action.Action.prototype);
 TweenMoveAction.prototype.constructor = TweenMoveAction;
 
 TweenMoveAction.external = {
@@ -61,7 +67,7 @@ TweenMoveAction.external = {
 	}]
 };
 
-TweenMoveAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenMoveAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Move Complete' : undefined;
 };
 
@@ -105,4 +111,4 @@ TweenMoveAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenMoveAction = TweenMoveAction;
-export { exported_TweenMoveAction as TweenMoveAction };
+exports.TweenMoveAction = exported_TweenMoveAction;

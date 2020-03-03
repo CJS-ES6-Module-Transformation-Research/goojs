@@ -1,7 +1,7 @@
-import { Torus as Torusjs } from "../../../src/goo/shapes/Torus";
+var _Torus = require('../../../src/goo/shapes/Torus');
 
 describe('Torus', function () {
-	var a = new Torusjs(8, 4);
+	var a = new _Torus.Torus(8, 4);
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(45);

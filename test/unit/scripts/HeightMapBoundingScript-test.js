@@ -1,8 +1,8 @@
-import {     HeightMapBoundingScript as HeightMapBoundingScript_HeightMapBoundingScriptjs, } from "../../../src/goo/scriptpack/HeightMapBoundingScript";
+var _HeightMapBoundingScript = require('../../../src/goo/scriptpack/HeightMapBoundingScript');
 
 describe('Build a basic heightmap and check basic points', function () {
 	var heightMatrix = [[0, 0, 0, 0], [0, 0.5, 0.5, 0], [0.5, 1, 1, 0.5], [1, 1, 1, 1]];
-	var heightMapScript = new HeightMapBoundingScript_HeightMapBoundingScriptjs(heightMatrix);
+	var heightMapScript = new _HeightMapBoundingScript.HeightMapBoundingScript(heightMatrix);
 
 	it('finds values on the heightMap', function () {
 		var height = heightMapScript.getAt(0, 0);

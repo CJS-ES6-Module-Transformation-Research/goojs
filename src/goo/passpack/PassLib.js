@@ -1,34 +1,28 @@
-import {
-    sepia as ShaderLibExtrajs_sepia,
-    dotscreen as ShaderLibExtrajs_dotscreen,
-    vignette as ShaderLibExtrajs_vignette,
-    film as ShaderLibExtrajs_film,
-    noise as ShaderLibExtrajs_noise,
-    bleachbypass as ShaderLibExtrajs_bleachbypass,
-    colorify as ShaderLibExtrajs_colorify,
-    hatch as ShaderLibExtrajs_hatch,
-    rgbshift as ShaderLibExtrajs_rgbshift,
-    brightnesscontrast as ShaderLibExtrajs_brightnesscontrast,
-    hsb as ShaderLibExtrajs_hsb,
-    overlay as ShaderLibExtrajs_overlay,
-    levels as ShaderLibExtrajs_levels,
-    radial as ShaderLibExtrajs_radial,
-    antialias as ShaderLibExtrajs_antialias,
-} from "../passpack/ShaderLibExtra";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PassLibjs = undefined;
 
-import { FullscreenPass as FullscreenPassjs } from "../renderer/pass/FullscreenPass";
-import { BloomPass as BloomPassjs } from "../passpack/BloomPass";
-import { BlurPass as BlurPassjs } from "../passpack/BlurPass";
-import { DogPass as DogPassjs } from "../passpack/DogPass";
-import { MotionBlurPass as MotionBlurPassjs } from "../passpack/MotionBlurPass";
-import { deepClone as ObjectUtilsjs_deepClone } from "../util/ObjectUtils";
+var _ShaderLibExtra = require("../passpack/ShaderLibExtra");
+
+var _FullscreenPass = require("../renderer/pass/FullscreenPass");
+
+var _BloomPass = require("../passpack/BloomPass");
+
+var _BlurPass = require("../passpack/BlurPass");
+
+var _DogPass = require("../passpack/DogPass");
+
+var _MotionBlurPass = require("../passpack/MotionBlurPass");
+
+var _ObjectUtils = require("../util/ObjectUtils");
 
 function Bloom(id) {
-	BloomPassjs.call(this);
+	_BloomPass.BloomPass.call(this);
 	this.id = id;
 }
 
-Bloom.prototype = Object.create(BloomPassjs.prototype);
+Bloom.prototype = Object.create(_BloomPass.BloomPass.prototype);
 Bloom.prototype.constructor = Bloom;
 
 Bloom.prototype.update = function (config) {
@@ -50,53 +44,48 @@ Bloom.prototype.update = function (config) {
 	}
 };
 Bloom.label = 'Bloom';
-Bloom.options = [
-	{
-		key: 'opacity',
-		name: 'Opacity',
-		type: 'int',
-		control: 'slider',
-		min: 0,
-		max: 100,
-		'default': 100
-	},
-	{
-		key: 'size',
-		name: 'Size',
-		type: 'float',
-		control: 'slider',
-		min: 0,
-		max: 10,
-		decimals: 1,
-		'default': 2
-	},
-	{
-		key: 'brightness',
-		name: 'Gain',
-		type: 'int',
-		control: 'slider',
-		min: -100,
-		max: 100,
-		'default': 0
-	},
-	{
-		key: 'contrast',
-		name: 'Intensity',
-		type: 'int',
-		control: 'slider',
-		min: -100,
-		max: 100,
-		'default': 0
-	}
-];
+Bloom.options = [{
+	key: 'opacity',
+	name: 'Opacity',
+	type: 'int',
+	control: 'slider',
+	min: 0,
+	max: 100,
+	'default': 100
+}, {
+	key: 'size',
+	name: 'Size',
+	type: 'float',
+	control: 'slider',
+	min: 0,
+	max: 10,
+	decimals: 1,
+	'default': 2
+}, {
+	key: 'brightness',
+	name: 'Gain',
+	type: 'int',
+	control: 'slider',
+	min: -100,
+	max: 100,
+	'default': 0
+}, {
+	key: 'contrast',
+	name: 'Intensity',
+	type: 'int',
+	control: 'slider',
+	min: -100,
+	max: 100,
+	'default': 0
+}];
 
 function DiffOfGaussians(id) {
-	DogPassjs.call(this, arguments);
+	_DogPass.DogPass.call(this, arguments);
 	this.id = id;
 }
 
 //! AT: we use both "DiffOfGaussians" and "DoG"
-DiffOfGaussians.prototype = Object.create(DogPassjs.prototype);
+DiffOfGaussians.prototype = Object.create(_DogPass.DogPass.prototype);
 DiffOfGaussians.prototype.constructor = DiffOfGaussians;
 
 DiffOfGaussians.prototype.update = function (config) {
@@ -128,58 +117,52 @@ DiffOfGaussians.prototype.update = function (config) {
 };
 
 DiffOfGaussians.label = 'Edge detect';
-DiffOfGaussians.options = [
-	{
-		key: 'sigma',
-		name: 'Gauss Sigma',
-		type: 'float',
-		control: 'slider',
-		min: 0.01,
-		max: 1.7,
-		decimals: 2,
-		'default': 0.6
-	},
-	{
-		key: 'threshold',
-		name: 'Threshold',
-		type: 'float',
-		control: 'slider',
-		min: 0.00000000000001,
-		max: 0.11,
-		decimals: 20,
-		'default': 0.005
-	},
-	{
-		key: 'backgroundMix',
-		name: 'Background %',
-		type: 'float',
-		control: 'slider',
-		min: 0.0,
-		max: 1.0,
-		decimals: 2,
-		'default': 0.0
-	},
-	{
-		key: 'edgeColor',
-		name: 'Edge Color',
-		type: 'vec3',
-		control: 'color',
-		'default': [0.0, 1.0, 0.0]
-	},
-	{
-		key: 'backgroundColor',
-		name: 'Background Color',
-		type: 'vec3',
-		control: 'color',
-		'default': [0.0, 0.0, 0.0]
-	}
-];
+DiffOfGaussians.options = [{
+	key: 'sigma',
+	name: 'Gauss Sigma',
+	type: 'float',
+	control: 'slider',
+	min: 0.01,
+	max: 1.7,
+	decimals: 2,
+	'default': 0.6
+}, {
+	key: 'threshold',
+	name: 'Threshold',
+	type: 'float',
+	control: 'slider',
+	min: 0.00000000000001,
+	max: 0.11,
+	decimals: 20,
+	'default': 0.005
+}, {
+	key: 'backgroundMix',
+	name: 'Background %',
+	type: 'float',
+	control: 'slider',
+	min: 0.0,
+	max: 1.0,
+	decimals: 2,
+	'default': 0.0
+}, {
+	key: 'edgeColor',
+	name: 'Edge Color',
+	type: 'vec3',
+	control: 'color',
+	'default': [0.0, 1.0, 0.0]
+}, {
+	key: 'backgroundColor',
+	name: 'Background Color',
+	type: 'vec3',
+	control: 'color',
+	'default': [0.0, 0.0, 0.0]
+}];
 
 function Blur(id) {
-	BlurPassjs.call(this, arguments);
+	_BlurPass.BlurPass.call(this, arguments);
 	this.id = id;
 }
-Blur.prototype = Object.create(BlurPassjs.prototype);
+Blur.prototype = Object.create(_BlurPass.BlurPass.prototype);
 Blur.prototype.constructor = Blur;
 
 Blur.prototype.update = function (config) {
@@ -196,33 +179,30 @@ Blur.prototype.update = function (config) {
 	}
 };
 Blur.label = 'Blur';
-Blur.options = [
-	{
-		key: 'opacity',
-		name: 'Amount',
-		type: 'int',
-		control: 'slider',
-		min: 0,
-		max: 100,
-		'default': 100
-	},
-	{
-		key: 'size',
-		name: 'Size',
-		type: 'float',
-		control: 'slider',
-		min: 0.0,
-		max: 5,
-		decimals: 1,
-		'default': 1
-	}
-];
+Blur.options = [{
+	key: 'opacity',
+	name: 'Amount',
+	type: 'int',
+	control: 'slider',
+	min: 0,
+	max: 100,
+	'default': 100
+}, {
+	key: 'size',
+	name: 'Size',
+	type: 'float',
+	control: 'slider',
+	min: 0.0,
+	max: 5,
+	decimals: 1,
+	'default': 1
+}];
 
 function Vignette(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_vignette));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.vignette));
 	this.id = id;
 }
-Vignette.prototype = Object.create(FullscreenPassjs.prototype);
+Vignette.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Vignette.prototype.construcor = Vignette;
 
 Vignette.prototype.update = function (config) {
@@ -239,34 +219,31 @@ Vignette.prototype.update = function (config) {
 	}
 };
 Vignette.label = 'Vignette';
-Vignette.options = [
-	{
-		key: 'offset',
-		type: 'float',
-		control: 'slider',
-		name: 'Offset',
-		min: 0,
-		max: 10,
-		decimals: 1,
-		'default': 1
-	},
-	{
-		key: 'darkness',
-		type: 'float',
-		control: 'slider',
-		name: 'Darkness',
-		min: 0,
-		max: 2,
-		decimals: 2,
-		'default': 1.5
-	}
-];
+Vignette.options = [{
+	key: 'offset',
+	type: 'float',
+	control: 'slider',
+	name: 'Offset',
+	min: 0,
+	max: 10,
+	decimals: 1,
+	'default': 1
+}, {
+	key: 'darkness',
+	type: 'float',
+	control: 'slider',
+	name: 'Darkness',
+	min: 0,
+	max: 2,
+	decimals: 2,
+	'default': 1.5
+}];
 
 function Sepia(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_sepia));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.sepia));
 	this.id = id;
 }
-Sepia.prototype = Object.create(FullscreenPassjs.prototype);
+Sepia.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Sepia.prototype.constructor = Sepia;
 
 Sepia.prototype.update = function (config) {
@@ -279,23 +256,21 @@ Sepia.prototype.update = function (config) {
 	}
 };
 Sepia.label = 'Sepia';
-Sepia.options = [
-	{
-		key: 'amount',
-		name: 'Amount',
-		type: 'int',
-		control: 'slider',
-		min: 0,
-		max: 100,
-		'default': 100
-	}
-];
+Sepia.options = [{
+	key: 'amount',
+	name: 'Amount',
+	type: 'int',
+	control: 'slider',
+	min: 0,
+	max: 100,
+	'default': 100
+}];
 
 function Grain(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_film));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.film));
 	this.id = id;
 }
-Grain.prototype = Object.create(FullscreenPassjs.prototype);
+Grain.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Grain.prototype.constructor = Grain;
 
 Grain.prototype.update = function (config) {
@@ -342,10 +317,10 @@ Grain.options = [{
 }];
 
 function Noise(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_noise));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.noise));
 	this.id = id;
 }
-Noise.prototype = Object.create(FullscreenPassjs.prototype);
+Noise.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Noise.prototype.constructor = Noise;
 
 Noise.prototype.update = function (config) {
@@ -359,23 +334,21 @@ Noise.prototype.update = function (config) {
 	}
 };
 Noise.label = 'Noise';
-Noise.options = [
-	{
-		key: 'nIntensity',
-		type: 'int',
-		control: 'slider',
-		name: 'Noise',
-		min: 0,
-		max: 100,
-		'default': 50
-	}
-];
+Noise.options = [{
+	key: 'nIntensity',
+	type: 'int',
+	control: 'slider',
+	name: 'Noise',
+	min: 0,
+	max: 100,
+	'default': 50
+}];
 
 function RgbShift(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_rgbshift));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.rgbshift));
 	this.id = id;
 }
-RgbShift.prototype = Object.create(FullscreenPassjs.prototype);
+RgbShift.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 RgbShift.prototype.constructor = RgbShift;
 
 RgbShift.prototype.update = function (config) {
@@ -392,34 +365,31 @@ RgbShift.prototype.update = function (config) {
 	}
 };
 RgbShift.label = 'RgbShift';
-RgbShift.options = [
-	{
-		key: 'amount',
-		type: 'float',
-		control: 'slider',
-		name: 'Amount',
-		min: 0,
-		max: 0.05,
-		decimals: 3,
-		'default': 0.005
-	},
-	{
-		key: 'angle',
-		type: 'float',
-		control: 'slider',
-		name: 'Angle',
-		min: 0,
-		max: 6.28,
-		decimals: 1,
-		'default': 0
-	}
-];
+RgbShift.options = [{
+	key: 'amount',
+	type: 'float',
+	control: 'slider',
+	name: 'Amount',
+	min: 0,
+	max: 0.05,
+	decimals: 3,
+	'default': 0.005
+}, {
+	key: 'angle',
+	type: 'float',
+	control: 'slider',
+	name: 'Angle',
+	min: 0,
+	max: 6.28,
+	decimals: 1,
+	'default': 0
+}];
 
 function Bleach(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_bleachbypass));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.bleachbypass));
 	this.id = id;
 }
-Bleach.prototype = Object.create(FullscreenPassjs.prototype);
+Bleach.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Bleach.prototype.constructor = Bleach;
 
 Bleach.prototype.update = function (config) {
@@ -433,24 +403,22 @@ Bleach.prototype.update = function (config) {
 	}
 };
 Bleach.label = 'Bleach';
-Bleach.options = [
-	{
-		key: 'opacity',
-		type: 'float',
-		control: 'slider',
-		name: 'Opacity',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 1
-	}
-];
+Bleach.options = [{
+	key: 'opacity',
+	type: 'float',
+	control: 'slider',
+	name: 'Opacity',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 1
+}];
 
 function HSB(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_hsb));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.hsb));
 	this.id = id;
 }
-HSB.prototype = Object.create(FullscreenPassjs.prototype);
+HSB.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 HSB.prototype.constructor = HSB;
 
 HSB.prototype.update = function (config) {
@@ -470,44 +438,40 @@ HSB.prototype.update = function (config) {
 	}
 };
 HSB.label = 'HSB';
-HSB.options = [
-	{
-		key: 'hue',
-		type: 'float',
-		control: 'slider',
-		name: 'Hue',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	},
-	{
-		key: 'saturation',
-		type: 'float',
-		control: 'slider',
-		name: 'Saturation',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	},
-	{
-		key: 'brightness',
-		type: 'float',
-		control: 'slider',
-		name: 'Brightness',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	}
-];
+HSB.options = [{
+	key: 'hue',
+	type: 'float',
+	control: 'slider',
+	name: 'Hue',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}, {
+	key: 'saturation',
+	type: 'float',
+	control: 'slider',
+	name: 'Saturation',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}, {
+	key: 'brightness',
+	type: 'float',
+	control: 'slider',
+	name: 'Brightness',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}];
 
 function Colorify(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_colorify));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.colorify));
 	this.id = id;
 }
-Colorify.prototype = Object.create(FullscreenPassjs.prototype);
+Colorify.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Colorify.prototype.constructor = Colorify;
 
 Colorify.prototype.update = function (config) {
@@ -524,31 +488,28 @@ Colorify.prototype.update = function (config) {
 	}
 };
 Colorify.label = 'Tint';
-Colorify.options = [
-	{
-		key: 'color',
-		type: 'vec3',
-		control: 'color',
-		name: 'Color',
-		'default': [1.0, 1.0, 1.0]
-	},
-	{
-		key: 'amount',
-		type: 'float',
-		control: 'slider',
-		name: 'Amount',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 1
-	}
-];
+Colorify.options = [{
+	key: 'color',
+	type: 'vec3',
+	control: 'color',
+	name: 'Color',
+	'default': [1.0, 1.0, 1.0]
+}, {
+	key: 'amount',
+	type: 'float',
+	control: 'slider',
+	name: 'Amount',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 1
+}];
 
 function Hatch(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_hatch));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.hatch));
 	this.id = id;
 }
-Hatch.prototype = Object.create(FullscreenPassjs.prototype);
+Hatch.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Hatch.prototype.constructor = Hatch;
 
 Hatch.prototype.update = function (config) {
@@ -565,33 +526,30 @@ Hatch.prototype.update = function (config) {
 	}
 };
 Hatch.label = 'Hatch';
-Hatch.options = [
-	{
-		key: 'width',
-		type: 'float',
-		control: 'slider',
-		name: 'Width',
-		min: 0,
-		max: 10,
-		decimals: 1,
-		'default': 2
-	},
-	{
-		key: 'spread',
-		type: 'int',
-		control: 'slider',
-		name: 'Spread',
-		min: 1,
-		max: 50,
-		'default': 8
-	}
-];
+Hatch.options = [{
+	key: 'width',
+	type: 'float',
+	control: 'slider',
+	name: 'Width',
+	min: 0,
+	max: 10,
+	decimals: 1,
+	'default': 2
+}, {
+	key: 'spread',
+	type: 'int',
+	control: 'slider',
+	name: 'Spread',
+	min: 1,
+	max: 50,
+	'default': 8
+}];
 
 function Dot(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_dotscreen));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.dotscreen));
 	this.id = id;
 }
-Dot.prototype = Object.create(FullscreenPassjs.prototype);
+Dot.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Dot.prototype.constructor = Dot;
 
 Dot.prototype.update = function (config) {
@@ -615,52 +573,47 @@ Dot.prototype.update = function (config) {
 };
 
 Dot.label = 'Dot';
-Dot.options = [
-	{
-		key: 'angle',
-		type: 'float',
-		control: 'slider',
-		name: 'Angle',
-		min: 0,
-		max: 10,
-		decimals: 2,
-		'default': 1.57
-	},
-	{
-		key: 'scale',
-		type: 'float',
-		control: 'slider',
-		name: 'Scale',
-		min: 0,
-		max: 10,
-		decimals: 2,
-		'default': 1
-	},
-	{
-		key: 'sizex',
-		type: 'int',
-		control: 'slider',
-		name: 'SizeX',
-		min: 0,
-		max: 1024,
-		'default': 256
-	},
-	{
-		key: 'sizey',
-		type: 'int',
-		control: 'slider',
-		name: 'SizeY',
-		min: 0,
-		max: 1024,
-		'default': 256
-	}
-];
+Dot.options = [{
+	key: 'angle',
+	type: 'float',
+	control: 'slider',
+	name: 'Angle',
+	min: 0,
+	max: 10,
+	decimals: 2,
+	'default': 1.57
+}, {
+	key: 'scale',
+	type: 'float',
+	control: 'slider',
+	name: 'Scale',
+	min: 0,
+	max: 10,
+	decimals: 2,
+	'default': 1
+}, {
+	key: 'sizex',
+	type: 'int',
+	control: 'slider',
+	name: 'SizeX',
+	min: 0,
+	max: 1024,
+	'default': 256
+}, {
+	key: 'sizey',
+	type: 'int',
+	control: 'slider',
+	name: 'SizeY',
+	min: 0,
+	max: 1024,
+	'default': 256
+}];
 
 function Contrast(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_brightnesscontrast));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.brightnesscontrast));
 	this.id = id;
 }
-Contrast.prototype = Object.create(FullscreenPassjs.prototype);
+Contrast.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Contrast.prototype.constructor = Contrast;
 
 Contrast.prototype.update = function (config) {
@@ -681,43 +634,39 @@ Contrast.prototype.update = function (config) {
 };
 
 Contrast.label = 'Contrast';
-Contrast.options = [
-	{
-		key: 'brightness',
-		type: 'float',
-		control: 'slider',
-		name: 'Brightness',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	},
-	{
-		key: 'contrast',
-		type: 'float',
-		control: 'slider',
-		name: 'Contrast',
-		min: 0,
-		max: 1,
-		'default': 0
-	},
-	{
-		key: 'saturation',
-		type: 'float',
-		control: 'slider',
-		name: 'Saturation',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	}
-];
+Contrast.options = [{
+	key: 'brightness',
+	type: 'float',
+	control: 'slider',
+	name: 'Brightness',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}, {
+	key: 'contrast',
+	type: 'float',
+	control: 'slider',
+	name: 'Contrast',
+	min: 0,
+	max: 1,
+	'default': 0
+}, {
+	key: 'saturation',
+	type: 'float',
+	control: 'slider',
+	name: 'Saturation',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}];
 
 function MotionBlur(id) {
-	MotionBlurPassjs.call(this);
+	_MotionBlurPass.MotionBlurPass.call(this);
 	this.id = id;
 }
-MotionBlur.prototype = Object.create(MotionBlurPassjs.prototype);
+MotionBlur.prototype = Object.create(_MotionBlurPass.MotionBlurPass.prototype);
 MotionBlur.prototype.constructor = MotionBlur;
 
 MotionBlur.prototype.update = function (config) {
@@ -736,31 +685,28 @@ MotionBlur.prototype.update = function (config) {
 
 MotionBlur.label = 'Motion Blur';
 
-MotionBlur.options = [
-	{
-		key: 'blend',
-		type: 'float',
-		control: 'slider',
-		name: 'Amount',
-		min: 0,
-		max: 1,
-		'default': 0.5
-	},
-	{
-		key: 'scale',
-		type: 'float',
-		name: 'Scale',
-		min: 0.2,
-		'default': 1,
-		scale: 0.01
-	}
-];
+MotionBlur.options = [{
+	key: 'blend',
+	type: 'float',
+	control: 'slider',
+	name: 'Amount',
+	min: 0,
+	max: 1,
+	'default': 0.5
+}, {
+	key: 'scale',
+	type: 'float',
+	name: 'Scale',
+	min: 0.2,
+	'default': 1,
+	scale: 0.01
+}];
 
 function Antialias(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_antialias));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.antialias));
 	this.id = id;
 }
-Antialias.prototype = Object.create(FullscreenPassjs.prototype);
+Antialias.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Antialias.prototype.constructor = Antialias;
 
 Antialias.prototype.update = function (config) {
@@ -776,23 +722,21 @@ Antialias.prototype.update = function (config) {
 };
 
 Antialias.label = 'Antialias';
-Antialias.options = [
-	{
-		key: 'span',
-		type: 'int',
-		control: 'slider',
-		name: 'Span',
-		min: 0,
-		max: 16,
-		'default': 8
-	}
-];
+Antialias.options = [{
+	key: 'span',
+	type: 'int',
+	control: 'slider',
+	name: 'Span',
+	min: 0,
+	max: 16,
+	'default': 8
+}];
 
 function Radial(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_radial));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.radial));
 	this.id = id;
 }
-Radial.prototype = Object.create(FullscreenPassjs.prototype);
+Radial.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Radial.prototype.constructor = Radial;
 
 Radial.prototype.update = function (config) {
@@ -810,61 +754,34 @@ Radial.prototype.update = function (config) {
 };
 
 Radial.label = 'Radial';
-Radial.options = [
-	{
-		key: 'offset',
-		type: 'float',
-		control: 'slider',
-		name: 'Offset',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': -0.5
-	},
-	{
-		key: 'multiplier',
-		type: 'float',
-		control: 'slider',
-		name: 'Multiplier',
-		min: -1,
-		max: 1,
-		decimals: 2,
-		'default': 0.75
-	}
-];
+Radial.options = [{
+	key: 'offset',
+	type: 'float',
+	control: 'slider',
+	name: 'Offset',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': -0.5
+}, {
+	key: 'multiplier',
+	type: 'float',
+	control: 'slider',
+	name: 'Multiplier',
+	min: -1,
+	max: 1,
+	decimals: 2,
+	'default': 0.75
+}];
 
 function Overlay(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_overlay));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.overlay));
 	this.id = id;
 }
-Overlay.prototype = Object.create(FullscreenPassjs.prototype);
+Overlay.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Overlay.prototype.constructor = Overlay;
 
-Overlay.blendmodes = [
-	'Normal',
-	'Lighten',
-	'Darken',
-	'Multiply',
-	'Average',
-	'Add',
-	'Substract',
-	'Difference',
-	'Negation',
-	'Exclusion',
-	'Screen',
-	'Overlay',
-	'SoftLight',
-	'HardLight',
-	'ColorDodge',
-	'ColorBurn',
-	'LinearLight',
-	'VividLight',
-	'PinLight',
-	'HardMix',
-	'Reflect',
-	'Glow',
-	'Phoenix'
-];
+Overlay.blendmodes = ['Normal', 'Lighten', 'Darken', 'Multiply', 'Average', 'Add', 'Substract', 'Difference', 'Negation', 'Exclusion', 'Screen', 'Overlay', 'SoftLight', 'HardLight', 'ColorDodge', 'ColorBurn', 'LinearLight', 'VividLight', 'PinLight', 'HardMix', 'Reflect', 'Glow', 'Phoenix'];
 
 Overlay.prototype.update = function (config) {
 	var options = config.options;
@@ -896,38 +813,34 @@ Overlay.prototype.update = function (config) {
 };
 
 Overlay.label = 'Overlay';
-Overlay.options = [
-	{
-		key: 'url',
-		name: 'Texture',
-		type: 'texture',
-		'default': { enabled: true }
-	},
-	{
-		key: 'blendmode',
-		name: 'Blend Mode',
-		type: 'string',
-		control: 'select',
-		options: Overlay.blendmodes,
-		'default': 'Normal'
-	},
-	{
-		key: 'amount',
-		name: 'Amount',
-		type: 'float',
-		control: 'slider',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 1
-	}
-];
+Overlay.options = [{
+	key: 'url',
+	name: 'Texture',
+	type: 'texture',
+	'default': { enabled: true }
+}, {
+	key: 'blendmode',
+	name: 'Blend Mode',
+	type: 'string',
+	control: 'select',
+	options: Overlay.blendmodes,
+	'default': 'Normal'
+}, {
+	key: 'amount',
+	name: 'Amount',
+	type: 'float',
+	control: 'slider',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 1
+}];
 
 function Levels(id) {
-	FullscreenPassjs.call(this, ObjectUtilsjs_deepClone(ShaderLibExtrajs_levels));
+	_FullscreenPass.FullscreenPass.call(this, (0, _ObjectUtils.deepClone)(_ShaderLibExtra.levels));
 	this.id = id;
 }
-Levels.prototype = Object.create(FullscreenPassjs.prototype);
+Levels.prototype = Object.create(_FullscreenPass.FullscreenPass.prototype);
 Levels.prototype.constructor = Levels;
 
 Levels.prototype.update = function (config) {
@@ -957,58 +870,52 @@ Levels.prototype.update = function (config) {
 };
 
 Levels.label = 'Levels';
-Levels.options = [
-	{
-		key: 'gamma',
-		type: 'float',
-		control: 'slider',
-		name: 'Gamma',
-		min: 0,
-		max: 5,
-		decimals: 2,
-		'default': 1
-	},
-	{
-		key: 'minInput',
-		type: 'float',
-		control: 'slider',
-		name: 'Min Input',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	},
-	{
-		key: 'maxInput',
-		type: 'float',
-		control: 'slider',
-		name: 'Max Input',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 1
-	},
-	{
-		key: 'minOutput',
-		type: 'float',
-		control: 'slider',
-		name: 'Min Output',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 0
-	},
-	{
-		key: 'maxOutput',
-		type: 'float',
-		control: 'slider',
-		name: 'Max Output',
-		min: 0,
-		max: 1,
-		decimals: 2,
-		'default': 1
-	}
-];
+Levels.options = [{
+	key: 'gamma',
+	type: 'float',
+	control: 'slider',
+	name: 'Gamma',
+	min: 0,
+	max: 5,
+	decimals: 2,
+	'default': 1
+}, {
+	key: 'minInput',
+	type: 'float',
+	control: 'slider',
+	name: 'Min Input',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}, {
+	key: 'maxInput',
+	type: 'float',
+	control: 'slider',
+	name: 'Max Input',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 1
+}, {
+	key: 'minOutput',
+	type: 'float',
+	control: 'slider',
+	name: 'Min Output',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 0
+}, {
+	key: 'maxOutput',
+	type: 'float',
+	control: 'slider',
+	name: 'Max Output',
+	min: 0,
+	max: 1,
+	decimals: 2,
+	'default': 1
+}];
 
 var PassLibjs = {
 	Bloom: Bloom,
@@ -1032,4 +939,4 @@ var PassLibjs = {
 	Levels: Levels
 };
 
-export { PassLibjs };
+exports.PassLibjs = PassLibjs;

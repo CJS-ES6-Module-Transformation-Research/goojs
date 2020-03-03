@@ -1,13 +1,19 @@
-import { resolve as PromiseUtilsjs_resolve, reject as PromiseUtilsjs_reject } from "../../util/PromiseUtils";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ComponentHandler = exports._registerClass = exports.getHandler = undefined;
+
+var _PromiseUtils = require('../../util/PromiseUtils');
+
 var ComponentHandler__registerClass;
 var ComponentHandler_getHandler;
 var ComponentHandler_handlerClasses;
 function ComponentHandler(world, getConfig, updateObject, loadObject) {
-	//! schteppe: this._type seem to be assumed to be set by the subclass. Why not pass it as a parameter to this constructor?
-	this.world = world;
-	this.getConfig = getConfig;
-	this.updateObject = updateObject;
-	this.loadObject = loadObject;
+  //! schteppe: this._type seem to be assumed to be set by the subclass. Why not pass it as a parameter to this constructor?
+  this.world = world;
+  this.getConfig = getConfig;
+  this.updateObject = updateObject;
+  this.loadObject = loadObject;
 }
 
 /**
@@ -15,7 +21,7 @@ function ComponentHandler(world, getConfig, updateObject, loadObject) {
  * @param {Object} config
  * @private
  */
-ComponentHandler.prototype._prepare = function (/*config*/) {};
+ComponentHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Create engine component object based on the config. Should be overridden in subclasses.
@@ -25,7 +31,7 @@ ComponentHandler.prototype._prepare = function (/*config*/) {};
  * @abstract
  */
 ComponentHandler.prototype._create = function () {
-	throw new Error('ComponentHandler._create is abstract, use ComponentHandler.getHandler(type)');
+  throw new Error('ComponentHandler._create is abstract, use ComponentHandler.getHandler(type)');
 };
 
 /**
@@ -34,7 +40,7 @@ ComponentHandler.prototype._create = function () {
  * @private
  */
 ComponentHandler.prototype._remove = function (entity) {
-	entity.clearComponent(this._type);
+  entity.clearComponent(this._type);
 };
 
 /**
@@ -44,7 +50,7 @@ ComponentHandler.prototype._remove = function (entity) {
  * @private
  */
 ComponentHandler.prototype._load = function (ref, options) {
-	return this.loadObject(ref, options);
+  return this.loadObject(ref, options);
 };
 
 /**
@@ -55,24 +61,23 @@ ComponentHandler.prototype._load = function (ref, options) {
  * @param {Object} options
  * @returns {RSVP.Promise} promise that resolves with the created component when loading is done.
  */
-ComponentHandler.prototype.update = function (entity, config/*, options*/) {
-	if (!entity) {
-		return PromiseUtilsjs_reject('Entity is missing');
-	}
-	if (!config) {
-		this._remove(entity);
-		return PromiseUtilsjs_resolve();
-	}
-	var component = entity.getComponent(this._type);
-	if (!component) {
-		component = this._create();
-		entity.setComponent(component);
-	}
-	this._prepare(config);
+ComponentHandler.prototype.update = function (entity, config /*, options*/) {
+  if (!entity) {
+    return (0, _PromiseUtils.reject)('Entity is missing');
+  }
+  if (!config) {
+    this._remove(entity);
+    return (0, _PromiseUtils.resolve)();
+  }
+  var component = entity.getComponent(this._type);
+  if (!component) {
+    component = this._create();
+    entity.setComponent(component);
+  }
+  this._prepare(config);
 
-	return PromiseUtilsjs_resolve(component);
+  return (0, _PromiseUtils.resolve)(component);
 };
-
 
 ComponentHandler_handlerClasses = {};;
 
@@ -82,8 +87,8 @@ ComponentHandler_handlerClasses = {};;
  * @param {string} type
  * @returns {Class} A subclass of {ComponentHandler}, or null if no registered handler for the given type was found.
  */
-ComponentHandler_getHandler = function(type) {
-    return ComponentHandler_handlerClasses[type];
+exports.getHandler = ComponentHandler_getHandler = function ComponentHandler_getHandler(type) {
+  return ComponentHandler_handlerClasses[type];
 };;
 
 /**
@@ -91,11 +96,13 @@ ComponentHandler_getHandler = function(type) {
  * @param {string} type
  * @param {Class} klass the class to register for this component type
  */
-ComponentHandler__registerClass = function(type, klass) {
-    ComponentHandler_handlerClasses[type] = klass;
+exports._registerClass = ComponentHandler__registerClass = function ComponentHandler__registerClass(type, klass) {
+  ComponentHandler_handlerClasses[type] = klass;
 };;
 
-export { ComponentHandler_getHandler as getHandler, ComponentHandler__registerClass as _registerClass };
+exports.getHandler = ComponentHandler_getHandler;
+exports._registerClass = ComponentHandler__registerClass;
+
 var exported_ComponentHandler = ComponentHandler;
 
 /**
@@ -111,4 +118,4 @@ var exported_ComponentHandler = ComponentHandler;
  * @returns {ComponentHandler}
  * @hidden
  */
-export { exported_ComponentHandler as ComponentHandler };
+exports.ComponentHandler = exported_ComponentHandler;

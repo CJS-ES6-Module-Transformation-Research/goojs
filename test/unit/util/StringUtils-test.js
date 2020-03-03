@@ -1,9 +1,9 @@
-import { parseURL as StringUtilsjs_parseURL } from "../../../src/goo/util/StringUtils";
+var _StringUtils = require('../../../src/goo/util/StringUtils');
 
 describe('StringUtils', function () {
 	it('parses URLs', function () {
 		var url = 'http://example.com:1234/images/goo.png?param=1#fragment';
-		var parts = StringUtilsjs_parseURL(url);
+		var parts = (0, _StringUtils.parseURL)(url);
 		expect(parts.scheme).toEqual('http');
 		expect(parts.domain).toEqual('example.com');
 		expect(parts.user_info).toBeFalsy();

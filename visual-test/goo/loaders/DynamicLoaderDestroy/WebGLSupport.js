@@ -1,6 +1,4 @@
-define([
-], function(
-) {
+define([], function () {
 
 	goo.V.attachToGlobal();
 
@@ -22,12 +20,12 @@ define([
 		},
 
 		/*
-		* Checks for a present webgl rendering context and if webgl is
-		* disabled.
-		*
-		* The client's browser is checked and returned as well.
-		*/
-		check: function() {
+  * Checks for a present webgl rendering context and if webgl is
+  * disabled.
+  *
+  * The client's browser is checked and returned as well.
+  */
+		check: function check() {
 
 			var result = {
 				error: null,
@@ -47,13 +45,13 @@ define([
 			return result;
 		},
 
-		getBrowser: function() {
+		getBrowser: function getBrowser() {
 
 			var iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
 			var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 			var isChrome = !!window.chrome;
 			var isFirefox = typeof InstallTrigger !== 'undefined';
-			var isSafari =  navigator.userAgent.indexOf('Safari') >= 0;
+			var isSafari = navigator.userAgent.indexOf('Safari') >= 0;
 			var isIE = document.documentMode || false;
 			var isCocoonJS = navigator.appName === "Ludei CocoonJS";
 
@@ -92,8 +90,7 @@ define([
 
 		try {
 			gl = canvas.getContext('webgl');
-		}
-		catch (_error) {
+		} catch (_error) {
 			console.error(_error);
 			gl = null;
 		}
@@ -101,8 +98,7 @@ define([
 		if (gl === null) {
 			try {
 				gl = canvas.getContext('experimental-webgl');
-			}
-			catch (_error) {
+			} catch (_error) {
 				console.error(_error);
 				gl = null;
 			}

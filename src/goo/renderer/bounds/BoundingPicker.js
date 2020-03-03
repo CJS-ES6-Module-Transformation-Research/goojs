@@ -1,29 +1,28 @@
-import { Ray as Rayjs } from "../../math/Ray";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.BoundingPicker = exports.pick = undefined;
+
+var _Ray = require("../../math/Ray");
+
 var BoundingPicker_pickFromList;
 var BoundingPicker_pick;
 
 /**
  * BoundingPicker
  */
-function BoundingPicker() {
-}
+function BoundingPicker() {}
 
-var pickRay = new Rayjs();
+var pickRay = new _Ray.Ray();
 
-BoundingPicker_pick = function(world, camera, x, y) {
+exports.pick = BoundingPicker_pick = function BoundingPicker_pick(world, camera, x, y) {
     var entities = world.entityManager.getEntities();
     return BoundingPicker_pickFromList(world, entities, camera, x, y);
 };;
 
-BoundingPicker_pickFromList = function(world, entities, camera, x, y) {
+BoundingPicker_pickFromList = function BoundingPicker_pickFromList(world, entities, camera, x, y) {
     var renderer = world.gooRunner.renderer;
-    camera.getPickRay(
-        x,
-        y,
-        renderer.domElement.offsetWidth,
-        renderer.domElement.offsetHeight,
-        pickRay
-    );
+    camera.getPickRay(x, y, renderer.domElement.offsetWidth, renderer.domElement.offsetHeight, pickRay);
     // var dpx = renderer.devicePixelRatio;
     // camera.getPickRay(x * dpx, y * dpx, renderer.domElement.offsetWidth, renderer.domElement.offsetHeight, pickRay);
 
@@ -45,11 +44,12 @@ BoundingPicker_pickFromList = function(world, entities, camera, x, y) {
         }
     }
 
-    pickList.sort(function(a, b) {
+    pickList.sort(function (a, b) {
         return a.intersection.distances[0] - b.intersection.distances[0];
     });
 
     return pickList;
 };;
 
-export { BoundingPicker_pick as pick, BoundingPicker };
+exports.pick = BoundingPicker_pick;
+exports.BoundingPicker = BoundingPicker;

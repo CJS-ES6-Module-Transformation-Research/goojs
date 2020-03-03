@@ -1,18 +1,23 @@
-import {
-    ConfigHandler as ConfigHandler_ConfigHandlerjs,
-    _registerClass as ConfigHandlerjs__registerClass,
-} from "../../loaders/handlers/ConfigHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationLayersHandler = undefined;
 
-import { AnimationLayer as AnimationLayerjs } from "../../animationpack/layer/AnimationLayer";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { forEach as ObjectUtilsjs_forEach, deepClone as ObjectUtilsjs_deepClone } from "../../util/ObjectUtils";
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _AnimationLayer = require("../../animationpack/layer/AnimationLayer");
+
+var _rsvp = require("../../util/rsvp");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function AnimationLayersHandler() {
-	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-AnimationLayersHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
+AnimationLayersHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 AnimationLayersHandler.prototype.constructor = AnimationLayersHandler;
-ConfigHandlerjs__registerClass('animation', AnimationLayersHandler);
+(0, _ConfigHandler._registerClass)('animation', AnimationLayersHandler);
 
 /**
  * Creates an empty array to store animation layers
@@ -51,16 +56,18 @@ AnimationLayersHandler.prototype._setInitialState = function (layer, stateKey) {
  */
 AnimationLayersHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (object) {
-		if (!object) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+		if (!object) {
+			return;
+		}
 		var promises = [];
 
 		var i = 0;
-		ObjectUtilsjs_forEach(config.layers, function (layerCfg) {
+		(0, _ObjectUtils.forEach)(config.layers, function (layerCfg) {
 			promises.push(that._parseLayer(layerCfg, object[i++], options));
 		}, null, 'sortValue');
 
-		return rsvp_rsvpjsjs.all(promises).then(function (layers) {
+		return _rsvp.rsvpjs.all(promises).then(function (layers) {
 			object.length = layers.length;
 			for (var i = 0; i < layers.length; i++) {
 				object[i] = layers[i];
@@ -81,13 +88,13 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	var that = this;
 
 	if (!layer) {
-		layer = new AnimationLayerjs(layerConfig.name);
+		layer = new _AnimationLayer.AnimationLayer(layerConfig.name);
 	} else {
 		layer._name = layerConfig.name;
 	}
 
 	layer.id = layerConfig.id;
-	layer._transitions = ObjectUtilsjs_deepClone(layerConfig.transitions);
+	layer._transitions = (0, _ObjectUtils.deepClone)(layerConfig.transitions);
 
 	if (layer._layerBlender) {
 		if (layerConfig.blendWeight !== undefined) {
@@ -99,14 +106,14 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 
 	// Load all the stuff we need
 	var promises = [];
-	ObjectUtilsjs_forEach(layerConfig.states, function (stateCfg) {
+	(0, _ObjectUtils.forEach)(layerConfig.states, function (stateCfg) {
 		promises.push(that.loadObject(stateCfg.stateRef, options).then(function (state) {
 			layer.setState(state.id, state);
 		}));
 	}, null, 'sortValue');
 
 	// Populate layer
-	return rsvp_rsvpjsjs.all(promises).then(function () {
+	return _rsvp.rsvpjs.all(promises).then(function () {
 		that._setInitialState(layer, layerConfig.initialStateRef);
 		return layer;
 	});
@@ -122,4 +129,4 @@ var exported_AnimationLayersHandler = AnimationLayersHandler;
  * @extends ConfigHandler
  * @private
  */
-export { exported_AnimationLayersHandler as AnimationLayersHandler };
+exports.AnimationLayersHandler = exported_AnimationLayersHandler;

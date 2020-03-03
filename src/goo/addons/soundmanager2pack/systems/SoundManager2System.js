@@ -1,6 +1,12 @@
-import { System as System_Systemjs } from "../../../entities/systems/System";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundManager2System = undefined;
+
+var _System = require('../../../entities/systems/System');
+
 function SoundManager2System(settings) {
-	System_Systemjs.call(this, 'SoundManager2System', ['SoundManager2Component', 'TransformComponent']);
+	_System.System.call(this, 'SoundManager2System', ['SoundManager2Component', 'TransformComponent']);
 
 	settings = settings || {};
 
@@ -10,17 +16,17 @@ function SoundManager2System(settings) {
 	} else {
 		window.soundManager.bind(this).setup({
 			url: 'swf',
-			onready: function () {
+			onready: function onready() {
 				this.isReady = true;
 			},
-			ontimeout: function () {
+			ontimeout: function ontimeout() {
 				console.warn('Failed to load soundmanager');
 			}
 		});
 	}
 }
 
-SoundManager2System.prototype = Object.create(System_Systemjs.prototype);
+SoundManager2System.prototype = Object.create(_System.System.prototype);
 
 SoundManager2System.prototype.inserted = function (entity) {
 	var soundManagerComponent = entity.soundManager2Component;
@@ -32,20 +38,20 @@ SoundManager2System.prototype.inserted = function (entity) {
 	}
 };
 
-SoundManager2System.prototype.deleted = function (/*entity*/) {
+SoundManager2System.prototype.deleted = function () /*entity*/{
 	//var soundManagerComponent = entity.soundManager2Component;
 
 	// if (soundManagerComponent) {
-		// this.world.remove(cannonComponent.body);
+	// this.world.remove(cannonComponent.body);
 	// }
 };
 
-SoundManager2System.prototype.process = function (/*entities , tpf */) {
+SoundManager2System.prototype.process = function () /*entities , tpf */{
 	/*for (var i = 0; i < entities.length; i++) {
-		var entity = entities[i];
-		var soundManagerComponent = entity.soundManager2Component;
-
-	}*/
+ 	var entity = entities[i];
+ 	var soundManagerComponent = entity.soundManager2Component;
+ 
+ }*/
 };
 
 var exported_SoundManager2System = SoundManager2System;
@@ -57,4 +63,4 @@ var exported_SoundManager2System = SoundManager2System;
  * @extends System
  * @deprecated Deprecated since 0.10.x and scheduled for removal in 0.12.0
  */
-export { exported_SoundManager2System as SoundManager2System };
+exports.SoundManager2System = exported_SoundManager2System;

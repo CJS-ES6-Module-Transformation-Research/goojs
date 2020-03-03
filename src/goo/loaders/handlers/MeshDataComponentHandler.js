@@ -1,22 +1,30 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../loaders/handlers/ComponentHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshDataComponentHandler = undefined;
 
-import { MeshDataComponent as MeshDataComponentjs } from "../../entities/components/MeshDataComponent";
-import { BoundingBox as BoundingBoxjs } from "../../renderer/bounds/BoundingBox";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { defaults as ObjectUtilsjs_defaults } from "../../util/ObjectUtils";
-import { capitalize as StringUtilsjs_capitalize } from "../../util/StringUtils";
-import { Vector3 as Vector3js } from "../../math/Vector3";
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _rsvp = require("../../util/rsvp");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _StringUtils = require("../../util/StringUtils");
+
+var _Vector = require("../../math/Vector3");
+
 function MeshDataComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'MeshDataComponent';
 }
 
-MeshDataComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
+MeshDataComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 MeshDataComponentHandler.prototype.constructor = MeshDataComponentHandler;
-ComponentHandlerjs__registerClass('meshData', MeshDataComponentHandler);
+(0, _ComponentHandler._registerClass)('meshData', MeshDataComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -25,8 +33,7 @@ ComponentHandlerjs__registerClass('meshData', MeshDataComponentHandler);
  * @private
  */
 MeshDataComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtilsjs_defaults(config, {
-	});
+	return (0, _ObjectUtils.defaults)(config, {});
 };
 
 /**
@@ -35,7 +42,7 @@ MeshDataComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshDataComponentHandler.prototype._create = function () {
-	return new MeshDataComponentjs();
+	return new _MeshDataComponent.MeshDataComponent();
 };
 
 /**
@@ -59,14 +66,16 @@ MeshDataComponentHandler.prototype._remove = function (entity) {
  */
 MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		component.meshData = null;
 		component.currentPose = null;
 
 		if (config.shape) {
-			var shapeCreator = ShapeCreatorMemoized['create' + StringUtilsjs_capitalize(config.shape)];
+			var shapeCreator = ShapeCreatorMemoized['create' + (0, _StringUtils.capitalize)(config.shape)];
 			if (shapeCreator) {
 				component.meshData = shapeCreator(config.shapeOptions, component.meshData);
 				component.modelBoundDirty = true;
@@ -81,8 +90,8 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 					var min = meshData.boundingBox.min;
 					var max = meshData.boundingBox.max;
 					var size = [max[0] - min[0], max[1] - min[1], max[2] - min[2]];
-					var center = new Vector3js(max[0] + min[0], max[1] + min[1], max[2] + min[2]).scale(0.5);
-					var bounding = new BoundingBoxjs(center, size[0] / 2, size[1] / 2, size[2] / 2);
+					var center = new _Vector.Vector3(max[0] + min[0], max[1] + min[1], max[2] + min[2]).scale(0.5);
+					var bounding = new _BoundingBox.BoundingBox(center, size[0] / 2, size[1] / 2, size[2] / 2);
 					component.setModelBound(bounding, false);
 				}
 			}));
@@ -98,7 +107,7 @@ MeshDataComponentHandler.prototype.update = function (entity, config, options) {
 					});
 				}));
 			}
-			return rsvp_rsvpjsjs.all(promises).then(function () {
+			return _rsvp.rsvpjs.all(promises).then(function () {
 				return component;
 			});
 		} else {
@@ -118,4 +127,4 @@ var exported_MeshDataComponentHandler = MeshDataComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_MeshDataComponentHandler as MeshDataComponentHandler };
+exports.MeshDataComponentHandler = exported_MeshDataComponentHandler;

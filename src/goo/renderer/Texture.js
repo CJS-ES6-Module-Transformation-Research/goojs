@@ -1,12 +1,20 @@
-import { Vector2 as Vector2js } from "../math/Vector2";
-import { resolve as PromiseUtilsjs_resolve } from "../util/PromiseUtils";
-import { copyOptions as ObjectUtilsjs_copyOptions } from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Texture = undefined;
+
+var _Vector = require("../math/Vector2");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 function Texture(image, settings, width, height) {
 	this.glTexture = null;
 
 	settings = settings || {};
 
-	ObjectUtilsjs_copyOptions(this, settings, {
+	(0, _ObjectUtils.copyOptions)(this, settings, {
 		wrapS: 'Repeat',
 		wrapT: 'Repeat',
 		magFilter: 'Bilinear',
@@ -20,16 +28,16 @@ function Texture(image, settings, width, height) {
 	});
 
 	/**
-	 * The anisotropic filtering level.
-	 * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/texture/AnisotropicFiltering/Anisotropic-vtest.html Working example
-	 * @type {number}
-	 */
+  * The anisotropic filtering level.
+  * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/texture/AnisotropicFiltering/Anisotropic-vtest.html Working example
+  * @type {number}
+  */
 	this.anisotropy = settings.anisotropy !== undefined ? settings.anisotropy : 1;
 
 	this.variant = '2D'; // CUBE
 
-	this.offset = settings.offset ?	Vector2js.fromAny(settings.offset) : new Vector2js(0, 0);
-	this.repeat = settings.repeat ? Vector2js.fromAny(settings.repeat) : new Vector2js(1, 1);
+	this.offset = settings.offset ? _Vector.Vector2.fromAny(settings.offset) : new _Vector.Vector2(0, 0);
+	this.repeat = settings.repeat ? _Vector.Vector2.fromAny(settings.repeat) : new _Vector.Vector2(1, 1);
 
 	this.lodBias = 0.0;
 
@@ -49,10 +57,10 @@ function Texture(image, settings, width, height) {
 	}
 
 	/**
-	 * If the Texture was set to load lazily in the TextureHandler, then this method can be used to load the image at a later point. This function returns a promise that resolves when the image was loaded.
-	 * @type {Function}
-	 */
-	this.loadImage = PromiseUtilsjs_resolve.bind(null, this);
+  * If the Texture was set to load lazily in the TextureHandler, then this method can be used to load the image at a later point. This function returns a promise that resolves when the image was loaded.
+  * @type {Function}
+  */
+	this.loadImage = _PromiseUtils.resolve.bind(null, this);
 
 	this.textureRecord = {};
 
@@ -158,7 +166,9 @@ Texture.prototype.destroy = function (context) {
 Texture.prototype.getSizeInMemory = function () {
 	var size;
 
-	if (!this.image) { return 0; }
+	if (!this.image) {
+		return 0;
+	}
 	var width = this.image.width || this.image.length;
 	var height = this.image.height || 1;
 
@@ -281,4 +291,4 @@ var exported_Texture = Texture;
  * @param {number} width Width of the texture
  * @param {number} height Height of the texture
  */
-export { exported_Texture as Texture };
+exports.Texture = exported_Texture;

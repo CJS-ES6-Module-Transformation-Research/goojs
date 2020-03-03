@@ -1,10 +1,15 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetClearColorAction = undefined;
 
-function SetClearColorAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function SetClearColorAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetClearColorAction.prototype = Object.create(Action_Actionjs.prototype);
+SetClearColorAction.prototype = Object.create(_Action.Action.prototype);
 SetClearColorAction.prototype.constructor = SetClearColorAction;
 
 SetClearColorAction.external = {
@@ -29,4 +34,4 @@ SetClearColorAction.prototype.enter = function (fsm) {
 };
 
 var exported_SetClearColorAction = SetClearColorAction;
-export { exported_SetClearColorAction as SetClearColorAction };
+exports.SetClearColorAction = exported_SetClearColorAction;

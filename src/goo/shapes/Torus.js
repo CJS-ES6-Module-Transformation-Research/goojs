@@ -1,7 +1,16 @@
-import { MeshData as MeshDatajs } from "../renderer/MeshData";
-import { Vector3 as Vector3js } from "../math/Vector3";
-import { MathUtils as MathUtilsjs } from "../math/MathUtils";
-import { shallowSelectiveClone as ObjectUtilsjs_shallowSelectiveClone } from "../util/ObjectUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Torus = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Vector = require("../math/Vector3");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -16,20 +25,20 @@ function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	this.centerRadius = centerRadius !== undefined ? centerRadius : 2;
 
 	/** Inward-facing normals.
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.viewInside = false;
 
-	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION, MeshDatajs.NORMAL, MeshDatajs.TEXCOORD0]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
 	var vertices = (this.circleSamples + 1) * (this.radialSamples + 1);
 	var indices = 6 * this.circleSamples * this.radialSamples;
-	MeshDatajs.call(this, attributeMap, vertices, indices);
+	_MeshData.MeshData.call(this, attributeMap, vertices, indices);
 
 	this.rebuild();
 }
 
-Torus.prototype = Object.create(MeshDatajs.prototype);
+Torus.prototype = Object.create(_MeshData.MeshData.prototype);
 Torus.prototype.constructor = Torus;
 
 /**
@@ -37,9 +46,9 @@ Torus.prototype.constructor = Torus;
  * @returns {Torus} Self for chaining.
  */
 Torus.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshDatajs.POSITION);
-	var norms = this.getAttributeBuffer(MeshDatajs.NORMAL);
-	var texs = this.getAttributeBuffer(MeshDatajs.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(_MeshData.MeshData.POSITION);
+	var norms = this.getAttributeBuffer(_MeshData.MeshData.NORMAL);
+	var texs = this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	// generate geometry
@@ -47,11 +56,13 @@ Torus.prototype.rebuild = function () {
 	var inverseRadialSamples = 1.0 / this.radialSamples;
 	var i = 0;
 	// generate the cylinder itself
-	var radialAxis = new Vector3js(), torusMiddle = new Vector3js(), tempNormal = new Vector3js();
+	var radialAxis = new _Vector.Vector3(),
+	    torusMiddle = new _Vector.Vector3(),
+	    tempNormal = new _Vector.Vector3();
 	for (var circleCount = 0; circleCount < this.circleSamples; circleCount++) {
 		// compute center point on torus circle at specified angle
 		var circleFraction = circleCount * inverseCircleSamples;
-		var theta = MathUtilsjs.TWO_PI * circleFraction;
+		var theta = _MathUtils.MathUtils.TWO_PI * circleFraction;
 		var cosTheta = Math.cos(theta);
 		var sinTheta = Math.sin(theta);
 		radialAxis.setDirect(cosTheta, sinTheta, 0);
@@ -62,7 +73,7 @@ Torus.prototype.rebuild = function () {
 		for (var radialCount = 0; radialCount < this.radialSamples; radialCount++) {
 			var radialFraction = radialCount * inverseRadialSamples;
 			// in [0, 1)
-			var phi = MathUtilsjs.TWO_PI * radialFraction;
+			var phi = _MathUtils.MathUtils.TWO_PI * radialFraction;
 			var cosPhi = Math.cos(phi);
 			var sinPhi = Math.sin(phi);
 
@@ -157,8 +168,7 @@ function copyInternal2(buf, from, to) {
  * @returns {Torus}
  */
 Torus.prototype.clone = function () {
-	var options = ObjectUtilsjs_shallowSelectiveClone(this,
-		['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
+	var options = (0, _ObjectUtils.shallowSelectiveClone)(this, ['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
 
 	return new Torus(options);
 };
@@ -173,4 +183,4 @@ var exported_Torus = Torus;
  * @param {number} [tubeRadius=1] Radius of tube.
  * @param {number} [centerRadius=2] Radius from center.
  */
-export { exported_Torus as Torus };
+exports.Torus = exported_Torus;

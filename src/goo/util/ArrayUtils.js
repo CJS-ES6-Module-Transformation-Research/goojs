@@ -1,3 +1,6 @@
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
 var ArrayUtils_fromValues;
 var ArrayUtils_fromKeys;
 var ArrayUtils_find;
@@ -24,7 +27,7 @@ function ArrayUtils() {}
  *
  * @returns Typed array
  */
-ArrayUtils_getTypedArray = function(arrayBuffer, pointer) {
+exports.getTypedArray = ArrayUtils_getTypedArray = function ArrayUtils_getTypedArray(arrayBuffer, pointer) {
     var start = pointer[0];
     var length = pointer[1];
     var format = pointer[2];
@@ -42,7 +45,7 @@ ArrayUtils_getTypedArray = function(arrayBuffer, pointer) {
     }
 };;
 
-ArrayUtils_remove = function(array, value, equals) {
+exports.remove = ArrayUtils_remove = function ArrayUtils_remove(array, value, equals) {
     var idx = -1;
     if (typeof equals === "function") {
         for (var i = 0; i < array.length; i++) {
@@ -65,7 +68,7 @@ ArrayUtils_remove = function(array, value, equals) {
  * @param predicate
  * @returns {*}
  */
-ArrayUtils_find = function(array, predicate) {
+exports.find = ArrayUtils_find = function ArrayUtils_find(array, predicate) {
     for (var i = 0; i < array.length; i++) {
         if (predicate(array[i])) {
             return array[i];
@@ -79,10 +82,10 @@ ArrayUtils_find = function(array, predicate) {
  * @param {(Set|Map)} collection
  * @returns {Array}
  */
-ArrayUtils_fromKeys = function(collection) {
+exports.fromKeys = ArrayUtils_fromKeys = function ArrayUtils_fromKeys(collection) {
     var array = [];
 
-    collection.forEach(function(value, key) {
+    collection.forEach(function (value, key) {
         array.push(key);
     });
     //        var iterator = collection.keys();
@@ -99,10 +102,10 @@ ArrayUtils_fromKeys = function(collection) {
  * @param {(Set|Map)} collection
  * @returns {Array}
  */
-ArrayUtils_fromValues = function(collection) {
+exports.fromValues = ArrayUtils_fromValues = function ArrayUtils_fromValues(collection) {
     var array = [];
 
-    collection.forEach(function(value) {
+    collection.forEach(function (value) {
         array.push(value);
     });
     //        var iterator = collection.values();
@@ -114,4 +117,9 @@ ArrayUtils_fromValues = function(collection) {
     return array;
 };;
 
-export { ArrayUtils_getTypedArray as getTypedArray, ArrayUtils_remove as remove, ArrayUtils_find as find, ArrayUtils_fromKeys as fromKeys, ArrayUtils_fromValues as fromValues, ArrayUtils };
+exports.getTypedArray = ArrayUtils_getTypedArray;
+exports.remove = ArrayUtils_remove;
+exports.find = ArrayUtils_find;
+exports.fromKeys = ArrayUtils_fromKeys;
+exports.fromValues = ArrayUtils_fromValues;
+exports.ArrayUtils = ArrayUtils;

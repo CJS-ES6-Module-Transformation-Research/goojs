@@ -1,11 +1,18 @@
-import { System as System_Systemjs } from "../../entities/systems/System";
-import { Renderer as Rendererjs } from "../../renderer/Renderer";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _Renderer = require("../../renderer/Renderer");
+
 function CameraSystem() {
-	System_Systemjs.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
+	_System.System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
 	this.mainCamera = null; //! AT: what's up with this? is it unused?
 }
 
-CameraSystem.prototype = Object.create(System_Systemjs.prototype);
+CameraSystem.prototype = Object.create(_System.System.prototype);
 CameraSystem.prototype.constructor = CameraSystem;
 
 /**
@@ -23,7 +30,7 @@ CameraSystem.prototype.findMainCamera = function () {
 };
 
 CameraSystem.prototype.inserted = function (entity) {
-	if (!Rendererjs.mainCamera) {
+	if (!_Renderer.Renderer.mainCamera) {
 		SystemBus.emit('goo.setCurrentCamera', {
 			camera: entity.cameraComponent.camera,
 			entity: entity
@@ -56,4 +63,4 @@ var exported_CameraSystem = CameraSystem;
  * Updates cameras/cameracomponents with their transform component transforms
  * @extends System
  */
-export { exported_CameraSystem as CameraSystem };
+exports.CameraSystem = exported_CameraSystem;

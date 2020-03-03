@@ -1,27 +1,39 @@
 // jshint node:true
 'use strict';
 
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 var isWin = /^win/.test(process.platform);
 
 var PATH_SEPARATOR = isWin ? '\\' : '/';
 
-let exported_PATH_SEPARATOR = PATH_SEPARATOR;
+var exported_PATH_SEPARATOR = PATH_SEPARATOR;
 
 var regex = isWin ? /\\?(\w+)\.js$/ : /\/?(\w+)\.js$/;
 
-var getFileName = function (file) {
+var getFileName = function getFileName(file) {
 	return file.match(regex)[1];
 };
 
-var stringUntil = function (string, until) {
+var stringUntil = function stringUntil(string, until) {
 	return string.slice(0, string.indexOf(until));
 };
 
-var stringFrom = function (string, from) {
+var stringFrom = function stringFrom(string, from) {
 	return string.slice(string.indexOf(from) + 1);
 };
 
-var pipe = function (f, g) {
+var pipe = function pipe(f, g) {
 	return function () {
 		return g(f.apply(null, arguments));
 	};
@@ -29,10 +41,10 @@ var pipe = function (f, g) {
 
 // underscore doesn't have it
 // NB! this is not a general-purpose deepClone
-var deepClone = function (obj) {
+var deepClone = function deepClone(obj) {
 	if (obj instanceof Array) {
 		return obj.map(deepClone);
-	} else if (typeof obj === 'object') {
+	} else if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object') {
 		var clone = {};
 		Object.keys(obj).forEach(function (key) {
 			clone[key] = deepClone(obj[key]);
@@ -43,19 +55,19 @@ var deepClone = function (obj) {
 	}
 };
 
-var upperFirst = function (string) {
+var upperFirst = function upperFirst(string) {
 	return string[0].toUpperCase() + string.slice(1);
 };
 
-var lowerFirst = function (string) {
+var lowerFirst = function lowerFirst(string) {
 	return string[0].toLowerCase() + string.slice(1);
 };
 
-var tagToIdentifier = function (tagName) {
+var tagToIdentifier = function tagToIdentifier(tagName) {
 	return lowerFirst(tagName.slice(1).split('-').map(upperFirst).join(''));
 };
 
-var createIdGenerator = function (prefix) {
+var createIdGenerator = function createIdGenerator(prefix) {
 	var counter = 0;
 	return function (override) {
 		if (arguments.length) {
@@ -79,4 +91,4 @@ exported_PATH_SEPARATOR.lowerFirst = lowerFirst;
 
 exported_PATH_SEPARATOR.createIdGenerator = createIdGenerator;
 
-export { exported_PATH_SEPARATOR as PATH_SEPARATOR };
+exports.PATH_SEPARATOR = exported_PATH_SEPARATOR;

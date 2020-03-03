@@ -1,16 +1,26 @@
-import { Component as Component_Componentjs } from "../../entities/components/Component";
-import { AnimationLayer as AnimationLayerjs } from "../../animationpack/layer/AnimationLayer";
-import { JointData as JointDatajs } from "../../animationpack/clip/JointData";
-import { TransformData as TransformDatajs } from "../../animationpack/clip/TransformData";
-import { TriggerData as TriggerData_TriggerDatajs } from "../../animationpack/clip/TriggerData";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _AnimationLayer = require("../../animationpack/layer/AnimationLayer");
+
+var _JointData = require("../../animationpack/clip/JointData");
+
+var _TransformData = require("../../animationpack/clip/TransformData");
+
+var _TriggerData = require("../../animationpack/clip/TriggerData");
+
 function AnimationComponent(pose) {
-	Component_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'AnimationComponent';
 
 	/**
-	 * @type {Array<AnimationLayer>}
-	 */
+  * @type {Array<AnimationLayer>}
+  */
 	this.layers = [];
 	this.floats = {};
 
@@ -19,7 +29,7 @@ function AnimationComponent(pose) {
 	this._triggerCallbacks = {};
 
 	// Base layer
-	var layer = new AnimationLayerjs(AnimationLayerjs.BASE_LAYER_NAME);
+	var layer = new _AnimationLayer.AnimationLayer(_AnimationLayer.AnimationLayer.BASE_LAYER_NAME);
 	this.layers.push(layer);
 	this._skeletonPose = pose;
 
@@ -29,7 +39,7 @@ function AnimationComponent(pose) {
 
 AnimationComponent.type = 'AnimationComponent';
 
-AnimationComponent.prototype = Object.create(Component_Componentjs.prototype);
+AnimationComponent.prototype = Object.create(_Component.Component.prototype);
 AnimationComponent.prototype.constructor = AnimationComponent;
 
 /**
@@ -98,7 +108,9 @@ AnimationComponent.prototype.update = function (globalTime) {
  */
 AnimationComponent.prototype.apply = function (transformComponent) {
 	var data = this.getCurrentSourceData();
-	if (!data) { return; }
+	if (!data) {
+		return;
+	}
 
 	var pose = this._skeletonPose;
 
@@ -107,16 +119,16 @@ AnimationComponent.prototype.apply = function (transformComponent) {
 	for (var i = 0, l = keys.length; i < l; i++) {
 		var key = keys[i];
 		var value = data[key];
-		if (value instanceof JointDatajs) {
+		if (value instanceof _JointData.JointData) {
 			if (pose && value._jointIndex >= 0) {
 				value.applyTo(pose._localTransforms[value._jointIndex]);
 			}
-		} else if (value instanceof TransformDatajs) {
+		} else if (value instanceof _TransformData.TransformData) {
 			if (transformComponent) {
 				transformComponent.sync();
 				value.applyTo(transformComponent.transform);
 			}
-		} else if (value instanceof TriggerData_TriggerDatajs) {
+		} else if (value instanceof _TriggerData.TriggerData) {
 			if (value.armed) {
 				// pull callback(s) for the current trigger key, if exists, and call.
 				// TODO: Integrate with GameMaker somehow
@@ -238,4 +250,4 @@ var exported_AnimationComponent = AnimationComponent;
  * @extends Component
  * @param {SkeletonPose} pose pose
  */
-export { exported_AnimationComponent as AnimationComponent };
+exports.AnimationComponent = exported_AnimationComponent;

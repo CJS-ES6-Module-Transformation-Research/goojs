@@ -1,11 +1,16 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CopyJointTransformAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
 
 function CopyJointTransformAction() {
-	Action_Actionjs.apply(this, arguments);
+	_Action.Action.apply(this, arguments);
 	this.everyFrame = true;
 }
 
-CopyJointTransformAction.prototype = Object.create(Action_Actionjs.prototype);
+CopyJointTransformAction.prototype = Object.create(_Action.Action.prototype);
 CopyJointTransformAction.prototype.constructor = CopyJointTransformAction;
 
 CopyJointTransformAction.external = {
@@ -25,17 +30,25 @@ CopyJointTransformAction.external = {
 };
 
 CopyJointTransformAction.prototype.update = function (fsm) {
-	if (this.jointIndex === null) { return; }
+	if (this.jointIndex === null) {
+		return;
+	}
 
 	var entity = fsm.getOwnerEntity();
 	var parent = entity.transformComponent.parent;
-	if (!parent) { return; }
+	if (!parent) {
+		return;
+	}
 
 	parent = parent.entity;
-	if (!parent.animationComponent || !parent.animationComponent._skeletonPose) { return; }
+	if (!parent.animationComponent || !parent.animationComponent._skeletonPose) {
+		return;
+	}
 	var pose = parent.animationComponent._skeletonPose;
 	var jointTransform = pose._globalTransforms[this.jointIndex];
-	if (!jointTransform) { return; }
+	if (!jointTransform) {
+		return;
+	}
 
 	entity.transformComponent.transform.matrix.copy(jointTransform.matrix);
 	jointTransform.matrix.getTranslation(entity.transformComponent.transform.translation);
@@ -49,10 +62,7 @@ function updateWorldTransform(transformComponent) {
 	transformComponent.sync();
 	var entity = transformComponent.entity;
 	if (entity && entity.meshDataComponent && entity.meshRendererComponent) {
-		entity.meshRendererComponent.updateBounds(
-			entity.meshDataComponent.modelBound,
-			transformComponent.sync().worldTransform
-		);
+		entity.meshRendererComponent.updateBounds(entity.meshDataComponent.modelBound, transformComponent.sync().worldTransform);
 	}
 
 	for (var i = 0; i < transformComponent.children.length; i++) {
@@ -61,4 +71,4 @@ function updateWorldTransform(transformComponent) {
 }
 
 var exported_CopyJointTransformAction = CopyJointTransformAction;
-export { exported_CopyJointTransformAction as CopyJointTransformAction };
+exports.CopyJointTransformAction = exported_CopyJointTransformAction;

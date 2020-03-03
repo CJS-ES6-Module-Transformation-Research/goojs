@@ -1,16 +1,23 @@
-import { Vector3 as Vector3js } from "../../../math/Vector3";
-import { Collider as Colliderjs } from "../../../addons/physicspack/colliders/Collider";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BoxCollider = undefined;
+
+var _Vector = require("../../../math/Vector3");
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 function BoxCollider(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * @type {Vector3}
-	 */
-	this.halfExtents = settings.halfExtents ? new Vector3js(settings.halfExtents) : new Vector3js(0.5, 0.5, 0.5);
+  /**
+   * @type {Vector3}
+   */
+  this.halfExtents = settings.halfExtents ? new _Vector.Vector3(settings.halfExtents) : new _Vector.Vector3(0.5, 0.5, 0.5);
 
-	Colliderjs.call(this);
+  _Collider.Collider.call(this);
 }
-BoxCollider.prototype = Object.create(Colliderjs.prototype);
+BoxCollider.prototype = Object.create(_Collider.Collider.prototype);
 BoxCollider.prototype.constructor = BoxCollider;
 
 /**
@@ -19,7 +26,7 @@ BoxCollider.prototype.constructor = BoxCollider;
  * @param {Collider} targetCollider
  */
 BoxCollider.prototype.transform = function (transform, targetCollider) {
-	targetCollider.halfExtents.set(transform.scale).mul(this.halfExtents);
+  targetCollider.halfExtents.set(transform.scale).mul(this.halfExtents);
 };
 
 /**
@@ -27,9 +34,9 @@ BoxCollider.prototype.transform = function (transform, targetCollider) {
  * @returns {BoxCollider}
  */
 BoxCollider.prototype.clone = function () {
-	return new BoxCollider({
-		halfExtents: this.halfExtents
-	});
+  return new BoxCollider({
+    halfExtents: this.halfExtents
+  });
 };
 
 var exported_BoxCollider = BoxCollider;
@@ -40,4 +47,4 @@ var exported_BoxCollider = BoxCollider;
  * @param {Vector3} [settings.halfExtents] The half-extents of the box collider.
  * @extends Collider
  */
-export { exported_BoxCollider as BoxCollider };
+exports.BoxCollider = exported_BoxCollider;

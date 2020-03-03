@@ -1,15 +1,19 @@
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import { CameraComponent as CameraComponentjs } from "../../../../src/goo/entities/components/CameraComponent";
-import { Camera as Camerajs } from "../../../../src/goo/renderer/Camera";
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+var _CameraComponent = require("../../../../src/goo/entities/components/CameraComponent");
+
+var _Camera = require("../../../../src/goo/renderer/Camera");
 
 describe('CameraComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,18 +21,18 @@ describe('CameraComponentHandler', function () {
 	});
 
 	it('loads an entity with a cameraComponent', function (done) {
-		var config = Configs_Configsjs.entity(['camera']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['camera']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.cameraComponent).toEqual(jasmine.any(CameraComponentjs));
-			expect(entity.cameraComponent.camera).toEqual(jasmine.any(Camerajs));
+			expect(entity.cameraComponent).toEqual(jasmine.any(_CameraComponent.CameraComponent));
+			expect(entity.cameraComponent.camera).toEqual(jasmine.any(_Camera.Camera));
 			done();
 		});
 	});
 
 	it('loads the correct camera settings', function (done) {
-		var config = Configs_Configsjs.entity(['camera']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['camera']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
 			var camera = entity.cameraComponent.camera;
 			var cameraConfig = config.components.camera;

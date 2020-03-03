@@ -1,14 +1,22 @@
-import { System as System_Systemjs } from "../entities/systems/System";
-import { writeValue as LogicLayerjs_writeValue } from "./logic/LogicLayer";
-import { makePortDataName as LogicInterfacejs_makePortDataName } from "./logic/LogicInterface";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicSystem = undefined;
+
+var _System = require("../entities/systems/System");
+
+var _LogicLayer = require("./logic/LogicLayer");
+
+var _LogicInterface = require("./logic/LogicInterface");
+
 function LogicSystem() {
-	System_Systemjs.call(this, 'LogicSystem', null);
+	_System.System.call(this, 'LogicSystem', null);
 
 	this.passive = true;
 	this._entities = {};
 }
 
-LogicSystem.prototype = Object.create(System_Systemjs.prototype);
+LogicSystem.prototype = Object.create(_System.System.prototype);
 
 LogicSystem.prototype.inserted = function (entity) {
 	this._entities[entity.name] = {
@@ -64,14 +72,14 @@ LogicSystem.prototype.makeOutputWriteFn = function (sourceEntity, outPortDesc) {
 	this.forEachLogicObject(function (o) {
 		// Look for entities that point to this here.
 		if (o.type === 'LogicNodeEntityProxy' && o.entityRef === sourceEntity.name) {
-			matches.push([o.logicInstance, LogicInterfacejs_makePortDataName(outPortDesc)]);
+			matches.push([o.logicInstance, (0, _LogicInterface.makePortDataName)(outPortDesc)]);
 			// REVIEW: use objects instead of arrays when representing pairs ('0' and '1' are harder to read than some proper names)
 		}
 	});
 
 	return function (v) {
 		for (var i = 0; i < matches.length; i++) {
-			LogicLayerjs_writeValue(matches[i][0], matches[i][1], v);
+			(0, _LogicLayer.writeValue)(matches[i][0], matches[i][1], v);
 		}
 	};
 };
@@ -79,7 +87,8 @@ LogicSystem.prototype.makeOutputWriteFn = function (sourceEntity, outPortDesc) {
 LogicSystem.prototype.forEachLogicObject = function (f) {
 	for (var n in this._entities) {
 		var e = this._entities[n].entity;
-		if (e.logicComponent !== undefined) { // REVIEW: can this ever be undefined?
+		if (e.logicComponent !== undefined) {
+			// REVIEW: can this ever be undefined?
 			e.logicComponent.logicLayer.forEachLogicObject(f);
 		}
 	}
@@ -130,4 +139,4 @@ var exported_LogicSystem = LogicSystem;
  * Updates cameras/cameracomponents with ther transform component transforms
  * @private
  */
-export { exported_LogicSystem as LogicSystem };
+exports.LogicSystem = exported_LogicSystem;

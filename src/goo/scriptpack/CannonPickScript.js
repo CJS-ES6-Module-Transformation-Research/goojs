@@ -1,6 +1,14 @@
-import { Vector3 as Vector3js } from "../math/Vector3";
-import { Renderer as Rendererjs } from "../renderer/Renderer";
-import { Plane as Planejs } from "../math/Plane";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonPickScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _Plane = require("../math/Plane");
+
 var CannonPickScript_externals;
 
 /* global CANNON */
@@ -9,7 +17,7 @@ function CannonPickScript() {
 	var pickButton;
 	var mouseState;
 	var cannonSystem;
-	var plane = new Planejs();
+	var plane = new _Plane.Plane();
 
 	function getTouchCenter(touches) {
 		var x1 = touches[0].clientX;
@@ -45,7 +53,7 @@ function CannonPickScript() {
 			down: false
 		};
 		var listeners = env.listeners = {
-			mousedown: function (event) {
+			mousedown: function mousedown(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
 					var button = event.button;
 					if (button === 0) {
@@ -62,7 +70,7 @@ function CannonPickScript() {
 					}
 				}
 			},
-			mouseup: function (event) {
+			mouseup: function mouseup(event) {
 				var button = event.button;
 				if (button === 0) {
 					if (event.altKey) {
@@ -76,7 +84,7 @@ function CannonPickScript() {
 					mouseState.dx = mouseState.dy = 0;
 				}
 			},
-			mousemove: function (event) {
+			mousemove: function mousemove(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
 					if (mouseState.down) {
 						mouseState.x = event.clientX;
@@ -85,31 +93,35 @@ function CannonPickScript() {
 					}
 				}
 			},
-			mouseleave: function (/*event*/) {
+			mouseleave: function mouseleave() /*event*/{
 				mouseState.down = false;
 				mouseState.ox = mouseState.x;
 				mouseState.oy = mouseState.y;
 			},
-			touchstart: function (event) {
+			touchstart: function touchstart(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
-					mouseState.down = (event.targetTouches.length === 2);
-					if (!mouseState.down) { return; }
+					mouseState.down = event.targetTouches.length === 2;
+					if (!mouseState.down) {
+						return;
+					}
 
 					var center = getTouchCenter(event.targetTouches);
 					mouseState.ox = mouseState.x = center[0];
 					mouseState.oy = mouseState.y = center[1];
 				}
 			},
-			touchmove: function (event) {
+			touchmove: function touchmove(event) {
 				if (!parameters.whenUsed || env.entity === env.activeCameraEntity) {
-					if (!mouseState.down) { return; }
+					if (!mouseState.down) {
+						return;
+					}
 
 					var center = getTouchCenter(event.targetTouches);
 					mouseState.x = center[0];
 					mouseState.y = center[1];
 				}
 			},
-			touchend: function (/*event*/) {
+			touchend: function touchend() /*event*/{
 				mouseState.down = false;
 				mouseState.ox = mouseState.x;
 				mouseState.oy = mouseState.y;
@@ -128,7 +140,7 @@ function CannonPickScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Rendererjs.mainCamera;
+		var mainCam = _Renderer.Renderer.mainCamera;
 
 		if (mainCam && mouseState.down && !env.mouseConstraint) {
 			// Shoot cannon.js ray. Not included in Goo Engine yet, so let's use it directly
@@ -136,7 +148,8 @@ function CannonPickScript() {
 			var physicsEntities = env.world.by.system('CannonSystem').toArray();
 			for (var i = 0; i < physicsEntities.length; i++) {
 				var b = physicsEntities[i].cannonRigidbodyComponent.body;
-				if (b && b.shape instanceof CANNON.Box && b.motionstate === CANNON.Body.DYNAMIC) { // Cannon only supports convex with ray intersection
+				if (b && b.shape instanceof CANNON.Box && b.motionstate === CANNON.Body.DYNAMIC) {
+					// Cannon only supports convex with ray intersection
 					bodies.push(b);
 				}
 			}
@@ -153,9 +166,9 @@ function CannonPickScript() {
 			}
 		} else if (mainCam && mouseState.down && env.mouseConstraint && (mouseState.dx !== 0 || mouseState.dy !== 0)) {
 			// Get the current mouse point on the moving plane
-			var mainCam = Rendererjs.mainCamera;
+			var mainCam = _Renderer.Renderer.mainCamera;
 			var gooRay = mainCam.getPickRay(mouseState.x, mouseState.y, window.innerWidth, window.innerHeight);
-			var newPositionWorld = new Vector3js();
+			var newPositionWorld = new _Vector.Vector3();
 			plane.rayIntersect(gooRay, newPositionWorld, true);
 			moveJointToPoint(params, env, newPositionWorld);
 		} else if (!mouseState.down) {
@@ -192,7 +205,7 @@ function CannonPickScript() {
 		cannonSystem.world.addConstraint(env.mouseConstraint);
 
 		// Set plane distance from world origin by projecting world translation to plane normal
-		var worldCenter = new Vector3js(x, y, z);
+		var worldCenter = new _Vector.Vector3(x, y, z);
 		plane.constant = worldCenter.dot(normal);
 		plane.normal.set(normal);
 	}
@@ -218,33 +231,33 @@ function CannonPickScript() {
 }
 
 CannonPickScript_externals = {
-    key: "CannonPickScript",
-    name: "Cannon.js Body Pick",
-    description: "Enables the user to physically pick a Cannon.js physics body and drag it around.",
+	key: "CannonPickScript",
+	name: "Cannon.js Body Pick",
+	description: "Enables the user to physically pick a Cannon.js physics body and drag it around.",
 
-    parameters: [{
-        key: "whenUsed",
-        type: "boolean",
-        "default": true
-    }, {
-        key: "pickButton",
-        name: "Pan button",
-        description: "Pick with this button",
-        type: "string",
-        control: "select",
-        "default": "Any",
-        options: ["Any", "Left", "Middle", "Right"]
-    }, {
-        key: "useForceNormal",
-        name: "Use force normal",
-        type: "boolean",
-        "default": false
-    }, {
-        key: "forceNormal",
-        name: "Force normal",
-        "default": [0, 0, 1],
-        type: "vec3"
-    }]
+	parameters: [{
+		key: "whenUsed",
+		type: "boolean",
+		"default": true
+	}, {
+		key: "pickButton",
+		name: "Pan button",
+		description: "Pick with this button",
+		type: "string",
+		control: "select",
+		"default": "Any",
+		options: ["Any", "Left", "Middle", "Right"]
+	}, {
+		key: "useForceNormal",
+		name: "Use force normal",
+		type: "boolean",
+		"default": false
+	}, {
+		key: "forceNormal",
+		name: "Force normal",
+		"default": [0, 0, 1],
+		type: "vec3"
+	}]
 };;
 
-export { CannonPickScript };
+exports.CannonPickScript = CannonPickScript;

@@ -1,10 +1,15 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundFadeOutAction = undefined;
 
-function SoundFadeOutAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function SoundFadeOutAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SoundFadeOutAction.prototype = Object.create(Action_Actionjs.prototype);
+SoundFadeOutAction.prototype = Object.create(_Action.Action.prototype);
 SoundFadeOutAction.prototype.constructor = SoundFadeOutAction;
 
 SoundFadeOutAction.external = {
@@ -35,7 +40,7 @@ var labels = {
 	complete: 'On Sound Fade Out Complete'
 };
 
-SoundFadeOutAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+SoundFadeOutAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -52,4 +57,4 @@ SoundFadeOutAction.prototype.enter = function (fsm) {
 };
 
 var exported_SoundFadeOutAction = SoundFadeOutAction;
-export { exported_SoundFadeOutAction as SoundFadeOutAction };
+exports.SoundFadeOutAction = exported_SoundFadeOutAction;

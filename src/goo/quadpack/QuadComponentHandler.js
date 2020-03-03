@@ -1,17 +1,20 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../loaders/handlers/ComponentHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.QuadComponentHandler = undefined;
 
-import { QuadComponent as QuadComponentjs } from "../quadpack/QuadComponent";
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _QuadComponent = require("../quadpack/QuadComponent");
+
 function QuadComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'QuadComponent';
 }
 
-QuadComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
+QuadComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 QuadComponentHandler.prototype.constructor = QuadComponentHandler;
-ComponentHandlerjs__registerClass('quad', QuadComponentHandler);
+(0, _ComponentHandler._registerClass)('quad', QuadComponentHandler);
 
 /**
  * Create a quadcomponent object.
@@ -19,7 +22,7 @@ ComponentHandlerjs__registerClass('quad', QuadComponentHandler);
  * @private
  */
 QuadComponentHandler.prototype._create = function () {
-	return new QuadComponentjs();
+	return new _QuadComponent.QuadComponent();
 };
 
 /**
@@ -43,8 +46,10 @@ QuadComponentHandler.prototype._remove = function (entity) {
  */
 QuadComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		// Load material
 		return that._load(config.materialRef, options).then(function (material) {
@@ -78,4 +83,4 @@ var exported_QuadComponentHandler = QuadComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_QuadComponentHandler as QuadComponentHandler };
+exports.QuadComponentHandler = exported_QuadComponentHandler;

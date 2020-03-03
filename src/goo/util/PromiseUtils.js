@@ -1,4 +1,10 @@
-import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.PromiseUtils = exports.delay = exports.optimisticAll = exports.reject = exports.resolve = exports.createPromise = undefined;
+
+var _rsvp = require("../util/rsvp");
+
 var PromiseUtils_defer;
 var PromiseUtils_delay;
 var PromiseUtils_optimisticAll;
@@ -18,12 +24,12 @@ function PromiseUtils() {}
  * @param fun
  * @returns {RSVP.Promise}
  */
-PromiseUtils_createPromise = function(fun) {
-    var promise = new rsvp_rsvpjsjs.Promise();
+exports.createPromise = PromiseUtils_createPromise = function PromiseUtils_createPromise(fun) {
+    var promise = new _rsvp.rsvpjs.Promise();
 
-    fun(function(value) {
+    fun(function (value) {
         promise.resolve(value);
-    }, function(reason) {
+    }, function (reason) {
         promise.reject(reason);
     });
 
@@ -35,8 +41,8 @@ PromiseUtils_createPromise = function(fun) {
  * Creates a promise that resolves with the given argument.
  * @param value
  */
-PromiseUtils_resolve = function(value) {
-    var promise = new rsvp_rsvpjsjs.Promise();
+exports.resolve = PromiseUtils_resolve = function PromiseUtils_resolve(value) {
+    var promise = new _rsvp.rsvpjs.Promise();
     promise.resolve(value);
     return promise;
 };;
@@ -46,12 +52,11 @@ PromiseUtils_resolve = function(value) {
  * Creates a promise that resolves with the given argument.
  * @param reason
  */
-PromiseUtils_reject = function(reason) {
-    var promise = new rsvp_rsvpjsjs.Promise();
+exports.reject = PromiseUtils_reject = function PromiseUtils_reject(reason) {
+    var promise = new _rsvp.rsvpjs.Promise();
     promise.reject(reason);
     return promise;
 };;
-
 
 var createDummyPromiseWarn = false;
 /**
@@ -61,15 +66,13 @@ var createDummyPromiseWarn = false;
  * @param {any} error
  * @returns {RSVP.Promise}
  */
-PromiseUtils_createDummyPromise = function(arg, error) {
+PromiseUtils_createDummyPromise = function PromiseUtils_createDummyPromise(arg, error) {
     if (!createDummyPromiseWarn) {
         createDummyPromiseWarn = true;
-        console.warn(
-            "PromiseUtils.createDummyPromise is deprecated; please consider using PromiseUtils.resolve/reject instead"
-        );
+        console.warn("PromiseUtils.createDummyPromise is deprecated; please consider using PromiseUtils.resolve/reject instead");
     }
 
-    var promise = new rsvp_rsvpjsjs.Promise();
+    var promise = new _rsvp.rsvpjs.Promise();
     if (error) {
         promise.reject(error);
     } else {
@@ -77,7 +80,6 @@ PromiseUtils_createDummyPromise = function(arg, error) {
     }
     return promise;
 };;
-
 
 /**
  * Returns a promise that resolves when all given promises are resolved or rejected.
@@ -88,19 +90,22 @@ PromiseUtils_createDummyPromise = function(arg, error) {
  * promise fails, the result of that promise will be the error. But the returned
  * promise will always resolve with an array of objects.
  */
-PromiseUtils_optimisticAll = function(promises) {
-    var resolved = 0, len = promises.length, results = [], promise = new rsvp_rsvpjsjs.Promise();
+exports.optimisticAll = PromiseUtils_optimisticAll = function PromiseUtils_optimisticAll(promises) {
+    var resolved = 0,
+        len = promises.length,
+        results = [],
+        promise = new _rsvp.rsvpjs.Promise();
 
     if (len > 0) {
         for (var i = 0; i < len; i++) {
-            (function(i) {
-                promises[i].then(function(result) {
+            (function (i) {
+                promises[i].then(function (result) {
                     results[i] = result;
                     resolved++;
                     if (resolved === len) {
                         promise.resolve(results);
                     }
-                }, function(error) {
+                }, function (error) {
                     results[i] = error;
                     resolved++;
                     if (resolved === len) {
@@ -121,9 +126,9 @@ PromiseUtils_optimisticAll = function(promises) {
  * @param {number} time
  * @returns {Promise}
  */
-PromiseUtils_delay = function(value, time) {
-    var promise = new rsvp_rsvpjsjs.Promise();
-    setTimeout(function() {
+exports.delay = PromiseUtils_delay = function PromiseUtils_delay(value, time) {
+    var promise = new _rsvp.rsvpjs.Promise();
+    setTimeout(function () {
         promise.resolve(value);
     }, time);
     return promise;
@@ -137,24 +142,29 @@ PromiseUtils_delay = function(value, time) {
  * @param {number} delay in ms
  * @returns {RSVP.Promise}
  */
-PromiseUtils_defer = function(delay, arg) {
+PromiseUtils_defer = function PromiseUtils_defer(delay, arg) {
     var p1, p2, promise;
-    promise = new rsvp_rsvpjsjs.Promise();
+    promise = new _rsvp.rsvpjs.Promise();
     if (arg.apply) {
-        p1 = new rsvp_rsvpjsjs.Promise();
-        p2 = p1.then(function() {
+        p1 = new _rsvp.rsvpjs.Promise();
+        p2 = p1.then(function () {
             return arg();
         });
-        setTimeout(function() {
+        setTimeout(function () {
             p1.resolve();
         }, delay);
         return p2;
     } else {
-        setTimeout(function() {
+        setTimeout(function () {
             promise.resolve(arg);
         }, delay);
     }
     return promise;
 };;
 
-export { PromiseUtils_createPromise as createPromise, PromiseUtils_resolve as resolve, PromiseUtils_reject as reject, PromiseUtils_optimisticAll as optimisticAll, PromiseUtils_delay as delay, PromiseUtils };
+exports.createPromise = PromiseUtils_createPromise;
+exports.resolve = PromiseUtils_resolve;
+exports.reject = PromiseUtils_reject;
+exports.optimisticAll = PromiseUtils_optimisticAll;
+exports.delay = PromiseUtils_delay;
+exports.PromiseUtils = PromiseUtils;

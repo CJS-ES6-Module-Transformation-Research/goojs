@@ -1,35 +1,46 @@
-import { writeValue as LogicLayerjs_writeValue, readPort as LogicLayerjs_readPort } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { Matrix3 as Matrix3js } from "../../math/Matrix3";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeRotationMatrix = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
+var _Vector = require("../../math/Vector3");
+
+var _Matrix = require("../../math/Matrix3");
+
 var LogicNodeRotationMatrix_outportProduct;
 var LogicNodeRotationMatrix_inportX;
 var LogicNodeRotationMatrix_editorName;
 var LogicNodeRotationMatrix_logicInterface;
 function LogicNodeRotationMatrix() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	LogicNodeRotationMatrix_logicInterface = LogicNodeRotationMatrix_logicInterface;;
 	this.type = 'LogicNodeRotationMatrix';
-	this.vec = new Vector3js();
+	this.vec = new _Vector.Vector3();
 }
 
-LogicNodeRotationMatrix.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeRotationMatrix.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeRotationMatrix_editorName = "RotationMatrix";;
 
 LogicNodeRotationMatrix.prototype.onInputChanged = function (instDesc) {
-	var vec = LogicLayerjs_readPort(instDesc, LogicNodeRotationMatrix_inportX);
-	var mat = new Matrix3js();
+	var vec = (0, _LogicLayer.readPort)(instDesc, LogicNodeRotationMatrix_inportX);
+	var mat = new _Matrix.Matrix3();
 	mat.fromAngles(vec.x, vec.y, vec.z);
-	LogicLayerjs_writeValue(instDesc, LogicNodeRotationMatrix_outportProduct, mat);
+	(0, _LogicLayer.writeValue)(instDesc, LogicNodeRotationMatrix_outportProduct, mat);
 };
 
-LogicNodeRotationMatrix_logicInterface = new LogicInterface_LogicInterfacejs();
-LogicNodeRotationMatrix_inportX = LogicNodeRotationMatrix_logicInterface.addInputProperty("vec", "Vector3", new Vector3js());;
-LogicNodeRotationMatrix_outportProduct = LogicNodeRotationMatrix_logicInterface.addOutputProperty("mat", "Matrix3", new Matrix3js());;
+LogicNodeRotationMatrix_logicInterface = new _LogicInterface.LogicInterface();
+LogicNodeRotationMatrix_inportX = LogicNodeRotationMatrix_logicInterface.addInputProperty("vec", "Vector3", new _Vector.Vector3());;
+LogicNodeRotationMatrix_outportProduct = LogicNodeRotationMatrix_logicInterface.addOutputProperty("mat", "Matrix3", new _Matrix.Matrix3());;
 
-LogicNodesjs_registerType('LogicNodeRotationMatrix', LogicNodeRotationMatrix);
+(0, _LogicNodes.registerType)('LogicNodeRotationMatrix', LogicNodeRotationMatrix);
 
 var exported_LogicNodeRotationMatrix = LogicNodeRotationMatrix;
 
@@ -37,4 +48,4 @@ var exported_LogicNodeRotationMatrix = LogicNodeRotationMatrix;
  * Logic node that constructs a rotation matrix.
  * @private
  */
-export { exported_LogicNodeRotationMatrix as LogicNodeRotationMatrix };
+exports.LogicNodeRotationMatrix = exported_LogicNodeRotationMatrix;

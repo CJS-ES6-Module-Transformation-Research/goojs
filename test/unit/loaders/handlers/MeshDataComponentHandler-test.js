@@ -1,42 +1,50 @@
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
-import { MeshDataComponent as MeshDataComponentjs } from "../../../../src/goo/entities/components/MeshDataComponent";
-import { MeshData as MeshDatajs } from "../../../../src/goo/renderer/MeshData";
-import { SkeletonPose as SkeletonPosejs } from "../../../../src/goo/animationpack/SkeletonPose";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
-import "../../../../src/goo/loaders/handlers/MeshDataComponentHandler";
-import "../../../../src/goo/loaders/handlers/MeshDataHandler";
+var _World = require("../../../../src/goo/entities/World");
+
+var _MeshDataComponent = require("../../../../src/goo/entities/components/MeshDataComponent");
+
+var _MeshData = require("../../../../src/goo/renderer/MeshData");
+
+var _SkeletonPose = require("../../../../src/goo/animationpack/SkeletonPose");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
+
+require("../../../../src/goo/loaders/handlers/MeshDataComponentHandler");
+
+require("../../../../src/goo/loaders/handlers/MeshDataHandler");
 
 describe('MeshDataComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './'
 		});
 	});
 
 	it('loads an entity with a meshDataComponent', function (done) {
-		var config = Configs_Configsjs.entity(['meshData']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['meshData']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshDataComponent).toEqual(jasmine.any(MeshDataComponentjs));
-			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(MeshDatajs));
-			expect(entity.meshDataComponent.currentPose).toEqual(jasmine.any(SkeletonPosejs));
+			expect(entity.meshDataComponent).toEqual(jasmine.any(_MeshDataComponent.MeshDataComponent));
+			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(_MeshData.MeshData));
+			expect(entity.meshDataComponent.currentPose).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
 			done();
 		});
 	});
 
 	it('loads a meshDatacomponent with a shape', function (done) {
-		var config = Configs_Configsjs.entity();
-		config.components.meshData = Configs_Configsjs.component.meshData('Sphere');
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity();
+		config.components.meshData = _Configs.Configs.component.meshData('Sphere');
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshDataComponent).toEqual(jasmine.any(MeshDataComponentjs));
-			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(MeshDatajs));
+			expect(entity.meshDataComponent).toEqual(jasmine.any(_MeshDataComponent.MeshDataComponent));
+			expect(entity.meshDataComponent.meshData).toEqual(jasmine.any(_MeshData.MeshData));
 			done();
 		});
 	});

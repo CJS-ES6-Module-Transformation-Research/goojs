@@ -1,10 +1,4 @@
-define([
-	'goo/math/Vector',
-	'goo/math/Vector3'
-], function (
-	Vector,
-	Vector3
-) {
+define(['goo/math/Vector', 'goo/math/Vector3'], function (Vector, Vector3) {
 	'use strict';
 
 	responseTime('Vector.invert', 1000, function () {

@@ -1,30 +1,40 @@
-import { PolyCurve as PolyCurvejs } from "../../../../../src/goo/addons/particlepack/curves/PolyCurve";
-import { Vector3Curve as Vector3Curvejs } from "../../../../../src/goo/addons/particlepack/curves/Vector3Curve";
-import { Vector4Curve as Vector4Curvejs } from "../../../../../src/goo/addons/particlepack/curves/Vector4Curve";
-import { ConstantCurve as ConstantCurvejs } from "../../../../../src/goo/addons/particlepack/curves/ConstantCurve";
-import { ParticleSystemComponent as ParticleSystemComponentjs } from "../../../../../src/goo/addons/particlepack/components/ParticleSystemComponent";
-import { Vector3 as Vector3js } from "../../../../../src/goo/math/Vector3";
-import { World as World_Worldjs } from "../../../../../src/goo/entities/World";
-import { Configs as Configs_Configsjs } from "../../../../../test/unit/loaders/Configs";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../../src/goo/loaders/DynamicLoader";
-import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "../../../../../src/goo/util/ObjectUtil";
-import "../../../../../src/goo/addons/particlepack/handlers/ParticleSystemComponentHandler";
+var _PolyCurve = require("../../../../../src/goo/addons/particlepack/curves/PolyCurve");
+
+var _Vector3Curve = require("../../../../../src/goo/addons/particlepack/curves/Vector3Curve");
+
+var _Vector4Curve = require("../../../../../src/goo/addons/particlepack/curves/Vector4Curve");
+
+var _ConstantCurve = require("../../../../../src/goo/addons/particlepack/curves/ConstantCurve");
+
+var _ParticleSystemComponent = require("../../../../../src/goo/addons/particlepack/components/ParticleSystemComponent");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _Configs = require("../../../../../test/unit/loaders/Configs");
+
+var _DynamicLoader = require("../../../../../src/goo/loaders/DynamicLoader");
+
+var _ObjectUtil = require("../../../../../src/goo/util/ObjectUtil");
+
+require("../../../../../src/goo/addons/particlepack/handlers/ParticleSystemComponentHandler");
 
 describe('ParticleSystemComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
-			rootPath: typeof(window) !== 'undefined' && window.__karma__ ? './' : 'loaders/res'
+			rootPath: typeof window !== 'undefined' && window.__karma__ ? './' : 'loaders/res'
 		});
 	});
 
 	it('loads an entity with a ParticleSystemComponent', function (done) {
-		var config = Configs_Configsjs.entity(['transform', 'particleSystem']);
+		var config = _Configs.Configs.entity(['transform', 'particleSystem']);
 
-		function constantCurve(value){
+		function constantCurve(value) {
 			return [{
 				type: 'constant',
 				offset: 0,
@@ -32,7 +42,7 @@ describe('ParticleSystemComponentHandler', function () {
 			}];
 		}
 
-		ObjectUtil_ObjectUtilsjs.extend(config.components.particleSystem, {
+		_ObjectUtil.ObjectUtils.extend(config.components.particleSystem, {
 			seed: 123,
 			shapeType: 'sphere',
 			sphereRadius: 123,
@@ -43,23 +53,13 @@ describe('ParticleSystemComponentHandler', function () {
 			coneRadius: 123,
 			coneAngle: 12,
 			coneLength: 123,
-			startColor: [
-				constantCurve(0),
-				constantCurve(1),
-				constantCurve(0),
-				constantCurve(1)
-			],
-			colorOverLifetime: [
-				constantCurve(1),
-				constantCurve(0),
-				constantCurve(0),
-				constantCurve(1)
-			],
+			startColor: [constantCurve(0), constantCurve(1), constantCurve(0), constantCurve(1)],
+			colorOverLifetime: [constantCurve(1), constantCurve(0), constantCurve(0), constantCurve(1)],
 			duration: 123,
 			localSpace: true,
 			startSpeed: constantCurve(123),
-			localVelocityOverLifetime: [constantCurve(0),constantCurve(0),constantCurve(0)],
-			worldVelocityOverLifetime: [constantCurve(0),constantCurve(0),constantCurve(0)],
+			localVelocityOverLifetime: [constantCurve(0), constantCurve(0), constantCurve(0)],
+			worldVelocityOverLifetime: [constantCurve(0), constantCurve(0), constantCurve(0)],
 			maxParticles: 123,
 			emissionRate: constantCurve(123),
 			startLifetime: constantCurve(123),
@@ -82,23 +82,23 @@ describe('ParticleSystemComponentHandler', function () {
 			//textureRef: null
 		});
 
-		loader.preload(Configs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.particleSystemComponent).toEqual(jasmine.any(ParticleSystemComponentjs));
+			expect(entity.particleSystemComponent).toEqual(jasmine.any(_ParticleSystemComponent.ParticleSystemComponent));
 
-			function newConstantPolyCurve(value){
-				return new PolyCurvejs({ segments: [new ConstantCurvejs({ value: value })] });
+			function newConstantPolyCurve(value) {
+				return new _PolyCurve.PolyCurve({ segments: [new _ConstantCurve.ConstantCurve({ value: value })] });
 			}
-			function newVector4Curve(x,y,z,w){
-				return new Vector4Curvejs({
+			function newVector4Curve(x, y, z, w) {
+				return new _Vector4Curve.Vector4Curve({
 					x: newConstantPolyCurve(x),
 					y: newConstantPolyCurve(y),
 					z: newConstantPolyCurve(z),
 					w: newConstantPolyCurve(w)
 				});
 			}
-			function newVector3Curve(x,y,z){
-				return new Vector3Curvejs({
+			function newVector3Curve(x, y, z) {
+				return new _Vector3Curve.Vector3Curve({
 					x: newConstantPolyCurve(x),
 					y: newConstantPolyCurve(y),
 					z: newConstantPolyCurve(z)
@@ -111,17 +111,17 @@ describe('ParticleSystemComponentHandler', function () {
 			expect(c.sphereEmitFromShell).toEqual(true);
 			expect(c.randomDirection).toEqual(true);
 			expect(c.coneEmitFrom).toEqual('volume');
-			expect(c.boxExtents).toEqual(new Vector3js(1, 2, 3));
+			expect(c.boxExtents).toEqual(new _Vector.Vector3(1, 2, 3));
 			expect(c.coneRadius).toEqual(123);
 			expect(c.coneAngle.toFixed(4)).toEqual((12 * Math.PI / 180).toFixed(4));
 			expect(c.coneLength).toEqual(123);
-			expect(c.startColor).toEqual(newVector4Curve(0,1,0,1));
-			expect(c.colorOverLifetime).toEqual(newVector4Curve(1,0,0,1));
+			expect(c.startColor).toEqual(newVector4Curve(0, 1, 0, 1));
+			expect(c.colorOverLifetime).toEqual(newVector4Curve(1, 0, 0, 1));
 			expect(c.duration).toEqual(123);
 			expect(c.localSpace).toEqual(true);
 			expect(c.startSpeed).toEqual(newConstantPolyCurve(123));
-			expect(c.localVelocityOverLifetime).toEqual(newVector3Curve(0,0,0));
-			expect(c.worldVelocityOverLifetime).toEqual(newVector3Curve(0,0,0));
+			expect(c.localVelocityOverLifetime).toEqual(newVector3Curve(0, 0, 0));
+			expect(c.worldVelocityOverLifetime).toEqual(newVector3Curve(0, 0, 0));
 			expect(c.maxParticles).toEqual(123);
 			expect(c.emissionRate).toEqual(newConstantPolyCurve(123));
 			expect(c.startLifetime).toEqual(newConstantPolyCurve(123));
@@ -136,7 +136,7 @@ describe('ParticleSystemComponentHandler', function () {
 			expect(c.textureAnimationCycles).toEqual(123);
 			expect(c.textureFrameOverLifetime).toEqual(newConstantPolyCurve(0));
 			expect(c.startSize).toEqual(newConstantPolyCurve(123));
-			expect(c.sortMode).toEqual(ParticleSystemComponentjs.SORT_CAMERA_DISTANCE);
+			expect(c.sortMode).toEqual(_ParticleSystemComponent.ParticleSystemComponent.SORT_CAMERA_DISTANCE);
 			expect(c.billboard).toEqual(false);
 			expect(c.sizeOverLifetime).toEqual(newConstantPolyCurve(1));
 			expect(c.startAngle).toEqual(newConstantPolyCurve(0));

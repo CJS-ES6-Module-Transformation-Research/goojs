@@ -1,13 +1,13 @@
-import { TextureCreator as TextureCreator_TextureCreatorjs } from "../../../src/goo/renderer/TextureCreator";
+var _TextureCreator = require('../../../src/goo/renderer/TextureCreator');
 
 describe('TextureCreator', function () {
 	var textureCreator;
 	var callbacks;
 
 	beforeEach(function () {
-		textureCreator = new TextureCreator_TextureCreatorjs();
+		textureCreator = new _TextureCreator.TextureCreator();
 		callbacks = {
-			rejectCallback: function () {}
+			rejectCallback: function rejectCallback() {}
 		};
 		spyOn(callbacks, 'rejectCallback');
 	});
@@ -48,14 +48,9 @@ describe('TextureCreator', function () {
 		it('loads a texture with 6 data elements', function (done) {
 			var prefix = window.__karma__ ? 'base/test/unit/loaders/res/' : 'loaders/res/';
 
-			var images = [
-				'check.png',
-				'check-alt.png',
-				'check.png',
-				'check-alt.png',
-				'check.png',
-				'check-alt.png'
-			].map(function (path) { return prefix + path; });
+			var images = ['check.png', 'check-alt.png', 'check.png', 'check-alt.png', 'check.png', 'check-alt.png'].map(function (path) {
+				return prefix + path;
+			});
 
 			textureCreator.loadTextureCube(images, null).then(function (texture) {
 				expect(texture.image.data.length).toEqual(6);

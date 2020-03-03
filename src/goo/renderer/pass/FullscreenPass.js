@@ -1,15 +1,24 @@
-import { Material as Materialjs } from "../../renderer/Material";
-import { camera as FullscreenUtilsjs_camera, quad as FullscreenUtilsjs_quad } from "../../renderer/pass/FullscreenUtils";
-import { simple as ShaderLibjs_simple } from "../../renderer/shaders/ShaderLib";
-import { Pass as Pass_Passjs } from "../../renderer/pass/Pass";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.FullscreenPass = undefined;
+
+var _Material = require("../../renderer/Material");
+
+var _FullscreenUtils = require("../../renderer/pass/FullscreenUtils");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _Pass = require("../../renderer/pass/Pass");
+
 function FullscreenPass(shader) {
-	this.material = new Materialjs(shader || ShaderLibjs_simple);
+	this.material = new _Material.Material(shader || _ShaderLib.simple);
 	this.useReadBuffer = true;
 
 	this.renderToScreen = false;
 
 	this.renderable = {
-		meshData: FullscreenUtilsjs_quad,
+		meshData: _FullscreenUtils.quad,
 		materials: [this.material]
 	};
 
@@ -19,7 +28,7 @@ function FullscreenPass(shader) {
 	this.viewportSize = undefined;
 }
 
-FullscreenPass.prototype = Object.create(Pass_Passjs.prototype);
+FullscreenPass.prototype = Object.create(_Pass.Pass.prototype);
 FullscreenPass.prototype.constructor = FullscreenPass;
 
 FullscreenPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -28,13 +37,13 @@ FullscreenPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	}
 
 	if (this.renderToScreen) {
-		renderer.render(this.renderable, FullscreenUtilsjs_camera, [], null, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.camera, [], null, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtilsjs_camera, [], writeBuffer, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.camera, [], writeBuffer, this.clear);
 	}
 };
 
-FullscreenPass.prototype.destroy = function (/* renderer */) {
+FullscreenPass.prototype.destroy = function () /* renderer */{
 	this.material.shader.destroy();
 };
 
@@ -49,4 +58,4 @@ var exported_FullscreenPass = FullscreenPass;
  * Fullscreen pass
  * @param shader
  */
-export { exported_FullscreenPass as FullscreenPass };
+exports.FullscreenPass = exported_FullscreenPass;

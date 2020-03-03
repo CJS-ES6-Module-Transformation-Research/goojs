@@ -1,18 +1,23 @@
-import {
-    ComponentHandler as ComponentHandler_ComponentHandlerjs,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../loaders/handlers/ComponentHandler";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Dom3dComponentHandler = undefined;
 
-import { Dom3dComponent as Dom3dComponentjs } from "../../entities/components/Dom3dComponent";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { resolve as PromiseUtilsjs_resolve } from "../../util/PromiseUtils";
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _Dom3dComponent = require("../../entities/components/Dom3dComponent");
+
+var _rsvp = require("../../util/rsvp");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 function Dom3dComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'Dom3dComponent';
 }
 
-Dom3dComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
-ComponentHandlerjs__registerClass('dom3d', Dom3dComponentHandler);
+Dom3dComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
+(0, _ComponentHandler._registerClass)('dom3d', Dom3dComponentHandler);
 Dom3dComponentHandler.prototype.constructor = Dom3dComponentHandler;
 
 /**
@@ -21,7 +26,7 @@ Dom3dComponentHandler.prototype.constructor = Dom3dComponentHandler;
  * @returns {Object}
  * @private
  */
-Dom3dComponentHandler.prototype._prepare = function (/*config*/) {};
+Dom3dComponentHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Create camera component object.
@@ -30,7 +35,7 @@ Dom3dComponentHandler.prototype._prepare = function (/*config*/) {};
  * @private
  */
 Dom3dComponentHandler.prototype._create = function () {
-	return new Dom3dComponentjs();
+	return new _Dom3dComponent.Dom3dComponent();
 };
 
 var regex = /\W/g;
@@ -48,8 +53,10 @@ function getSafeEntityId(id) {
  */
 Dom3dComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		// ids and classes can contain '.' or start with digits in html but not in css selectors
 		// could have prefixed it with a simple '-' but that's sort of reserved for '-moz', '-webkit' and the like
@@ -76,7 +83,7 @@ Dom3dComponentHandler.prototype.update = function (entity, config, options) {
 			entity.setComponent(component.meshDataComponent);
 		}
 		if (!innerHtmlChanged && !styleChanged) {
-			return PromiseUtilsjs_resolve();
+			return (0, _PromiseUtils.resolve)();
 		}
 
 		var wrappedStyle = '';
@@ -99,8 +106,7 @@ Dom3dComponentHandler.prototype.update = function (entity, config, options) {
 		}
 
 		function loadImage(htmlImage, imageRef) {
-			return that.loadObject(imageRef, options)
-			.then(function (image) {
+			return that.loadObject(imageRef, options).then(function (image) {
 				htmlImage.src = image.src;
 				return htmlImage;
 			}, function (e) {
@@ -122,13 +128,13 @@ Dom3dComponentHandler.prototype.update = function (entity, config, options) {
 			}
 		}
 
-		return rsvp_rsvpjsjs.all(imagePromises);
+		return _rsvp.rsvpjs.all(imagePromises);
 	});
 };
 
 Dom3dComponentHandler.prototype._remove = function (entity) {
 	var component = entity.dom3dComponent;
-	ComponentHandler_ComponentHandlerjs.prototype._remove.call(this, entity);
+	_ComponentHandler.ComponentHandler.prototype._remove.call(this, entity);
 	if (component.domElement && component.domElement.parentNode) {
 		component.domElement.parentNode.removeChild(component.domElement);
 	}
@@ -150,4 +156,4 @@ var exported_Dom3dComponentHandler = Dom3dComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_Dom3dComponentHandler as Dom3dComponentHandler };
+exports.Dom3dComponentHandler = exported_Dom3dComponentHandler;

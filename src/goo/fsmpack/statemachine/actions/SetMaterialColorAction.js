@@ -1,10 +1,15 @@
-import { Action as Action_Actionjs } from "./Action";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetMaterialColorAction = undefined;
 
-function SetMaterialColorAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('./Action');
+
+function SetMaterialColorAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetMaterialColorAction.prototype = Object.create(Action_Actionjs.prototype);
+SetMaterialColorAction.prototype = Object.create(_Action.Action.prototype);
 SetMaterialColorAction.prototype.constructor = SetMaterialColorAction;
 
 SetMaterialColorAction.external = {
@@ -44,7 +49,7 @@ var MAPPING = {
 };
 
 SetMaterialColorAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	if (entity && entity.meshRendererComponent) {
 		var material = entity.meshRendererComponent.materials[0];
 		var typeName = MAPPING[this.type];
@@ -57,4 +62,4 @@ SetMaterialColorAction.prototype.enter = function (fsm) {
 };
 
 var exported_SetMaterialColorAction = SetMaterialColorAction;
-export { exported_SetMaterialColorAction as SetMaterialColorAction };
+exports.SetMaterialColorAction = exported_SetMaterialColorAction;

@@ -1,10 +1,11 @@
-import { Material as Materialjs } from "../../../src/goo/renderer/Material";
-import { simpleLit as ShaderLibjs_simpleLit } from "../../../src/goo/renderer/shaders/ShaderLib";
+var _Material = require("../../../src/goo/renderer/Material");
+
+var _ShaderLib = require("../../../src/goo/renderer/shaders/ShaderLib");
 
 describe('Material', function () {
 	describe('constructor', function () {
 		it('constructs a material given no parameters', function () {
-			var material = new Materialjs();
+			var material = new _Material.Material();
 
 			expect(material.name).toEqual('Default Material');
 			expect(material.shader).toBeNull();
@@ -12,14 +13,14 @@ describe('Material', function () {
 
 		it('constructs a material given a name only', function () {
 			var name = 'alabalaportocala';
-			var material = new Materialjs(name);
+			var material = new _Material.Material(name);
 
 			expect(material.name).toEqual(name);
 			expect(material.shader).toBeNull();
 		});
 
 		it('constructs a material given name shader definition only', function () {
-			var material = new Materialjs(ShaderLibjs_simpleLit);
+			var material = new _Material.Material(_ShaderLib.simpleLit);
 
 			expect(material.name).toEqual('Default Material');
 			expect(material.shader).not.toBeNull();
@@ -27,7 +28,7 @@ describe('Material', function () {
 
 		it('constructs a material given a name and a shader definition', function () {
 			var name = 'alabalaportocala';
-			var material = new Materialjs(name, ShaderLibjs_simpleLit);
+			var material = new _Material.Material(name, _ShaderLib.simpleLit);
 
 			expect(material.name).toEqual(name);
 			expect(material.shader).not.toBeNull();
@@ -35,7 +36,7 @@ describe('Material', function () {
 
 		it('constructs a material given a shader definition and a name', function () {
 			var name = 'alabalaportocala';
-			var material = new Materialjs(ShaderLibjs_simpleLit, name);
+			var material = new _Material.Material(_ShaderLib.simpleLit, name);
 
 			expect(material.name).toEqual(name);
 			expect(material.shader).not.toBeNull();
