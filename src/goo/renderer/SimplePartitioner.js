@@ -1,8 +1,4 @@
-var Camera = require('../renderer/Camera');
-
-/**
- * Culls entities based on camera frustum and boundings
- */
+import { Camera as Camerajs } from "../renderer/Camera";
 function SimplePartitioner() {
 }
 
@@ -30,7 +26,7 @@ SimplePartitioner.prototype.process = function (camera, entities, renderList) {
 		} else {
 			var bounds = entity.meshRendererComponent.worldBound;
 			var result = camera.contains(bounds);
-			if (result !== Camera.Outside) {
+			if (result !== Camerajs.Outside) {
 				renderList[index++] = entity;
 				entity.isVisible = true;
 			} else {
@@ -41,4 +37,9 @@ SimplePartitioner.prototype.process = function (camera, entities, renderList) {
 	renderList.length = index;
 };
 
-module.exports = SimplePartitioner;
+var exported_SimplePartitioner = SimplePartitioner;
+
+/**
+ * Culls entities based on camera frustum and boundings
+ */
+export { exported_SimplePartitioner as SimplePartitioner };

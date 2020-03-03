@@ -1,47 +1,52 @@
+var LogicNodes_getAllTypes;
+var LogicNodes_getClass;
+var LogicNodes_getInterfaceByName;
+var LogicNodes_registerType;
+var LogicNodes_types;
 /**
  * Base class/module for all logic boxes
  * @private
  */
 function LogicNodes() {}
 
-LogicNodes.types = {};
+LogicNodes_types = {};;
 
 /**
  * Register a new logic node. All logic nodes must call this to register themselves.
  * @private
  */
-LogicNodes.registerType = function (name, fn) {
-	LogicNodes.types[name] = {
-		fn: fn,
-		name: name,
-		editorName: fn.editorName
-	};
-};
+LogicNodes_registerType = function(name, fn) {
+    LogicNodes_types[name] = {
+        fn: fn,
+        name: name,
+        editorName: fn.editorName
+    };
+};;
 
-LogicNodes.getInterfaceByName = function (name) {
-	if (LogicNodes.types[name] !== undefined) {
-		return LogicNodes.types[name].fn.logicInterface;
-	}
-	return null;
-};
+LogicNodes_getInterfaceByName = function(name) {
+    if (LogicNodes_types[name] !== undefined) {
+        return LogicNodes_types[name].fn.logicInterface;
+    }
+    return null;
+};;
 
-LogicNodes.getClass = function (name) {
-	if (LogicNodes.types[name] === undefined) {
-		return function () {
-			console.error('LogicNode type [' + name + '] does not exist.');
-			return null;
-		};
-	}
+LogicNodes_getClass = function(name) {
+    if (LogicNodes_types[name] === undefined) {
+        return function() {
+            console.error("LogicNode type [" + name + "] does not exist.");
+            return null;
+        };
+    }
 
-	return LogicNodes.types[name].fn;
-};
+    return LogicNodes_types[name].fn;
+};;
 
-LogicNodes.getAllTypes = function () {
-	var out = [];
-	for (var n in LogicNodes.types) {
-		out.push(LogicNodes.types[n]);
-	}
-	return out;
-};
+LogicNodes_getAllTypes = function() {
+    var out = [];
+    for (var n in LogicNodes_types) {
+        out.push(LogicNodes_types[n]);
+    }
+    return out;
+};;
 
-module.exports = LogicNodes;
+export { LogicNodes_registerType as registerType, LogicNodes_getClass as getClass, LogicNodes };

@@ -1,18 +1,10 @@
-var MathUtils = require('../../math/MathUtils');
-var AnimationClipInstance = require('../../animationpack/clip/AnimationClipInstance');
-var Source = require('../../animationpack/blendtree/Source');
-
-/**
- * A blend tree leaf node that samples and returns values from the channels of an AnimationClip.
- * @param {AnimationClip} clip the clip to use.
- * @param {string} [filter] 'Exclude' or 'Include'
- * @param {Array<string>} [channelNames]
- * @extends Source
- */
+import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
+import { AnimationClipInstance as AnimationClipInstancejs } from "../../animationpack/clip/AnimationClipInstance";
+import { Source as Source_Sourcejs } from "../../animationpack/blendtree/Source";
 function ClipSource(clip, filter, channelNames) {
-	Source.call(this);
+	Source_Sourcejs.call(this);
 	this._clip = clip;
-	this._clipInstance = new AnimationClipInstance();
+	this._clipInstance = new AnimationClipInstancejs();
 
 	this._filterChannels = {};
 	this._filter = null;
@@ -24,7 +16,7 @@ function ClipSource(clip, filter, channelNames) {
 	this.currentLoop = 0;
 }
 
-ClipSource.prototype = Object.create(Source.prototype);
+ClipSource.prototype = Object.create(Source_Sourcejs.prototype);
 ClipSource.prototype.constructor = ClipSource;
 
 /**
@@ -97,7 +89,7 @@ ClipSource.prototype.setTime = function (globalTime) {
 			}
 
 			if (clockTime > maxTime || clockTime < minTime) {
-				clockTime = MathUtils.clamp(clockTime, minTime, maxTime);
+				clockTime = MathUtilsjs.clamp(clockTime, minTime, maxTime);
 				// deactivate this instance of the clip
 				instance._active = false;
 			}
@@ -183,4 +175,13 @@ ClipSource.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = ClipSource;
+var exported_ClipSource = ClipSource;
+
+/**
+ * A blend tree leaf node that samples and returns values from the channels of an AnimationClip.
+ * @param {AnimationClip} clip the clip to use.
+ * @param {string} [filter] 'Exclude' or 'Include'
+ * @param {Array<string>} [channelNames]
+ * @extends Source
+ */
+export { exported_ClipSource as ClipSource };

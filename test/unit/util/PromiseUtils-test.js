@@ -1,10 +1,10 @@
-var PromiseUtils = require('../../../src/goo/util/PromiseUtils');
+import { delay as PromiseUtilsjs_delay } from "../../../src/goo/util/PromiseUtils";
 
 describe('PromiseUtils', function () {
 	describe('delay', function () {
 		it('resolves asynchronously', function (done) {
 			var resolved = false;
-			PromiseUtils.delay('asd', 200).then(function () {
+			PromiseUtilsjs_delay('asd', 200).then(function () {
 				resolved = true;
 				done();
 			});

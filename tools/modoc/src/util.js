@@ -5,6 +5,8 @@ var isWin = /^win/.test(process.platform);
 
 var PATH_SEPARATOR = isWin ? '\\' : '/';
 
+let exported_PATH_SEPARATOR = PATH_SEPARATOR;
+
 var regex = isWin ? /\\?(\w+)\.js$/ : /\/?(\w+)\.js$/;
 
 var getFileName = function (file) {
@@ -65,16 +67,16 @@ var createIdGenerator = function (prefix) {
 	};
 };
 
-exports.getFileName = getFileName;
-exports.stringUntil = stringUntil;
-exports.stringFrom = stringFrom;
-exports.pipe = pipe;
-exports.deepClone = deepClone;
+exported_PATH_SEPARATOR.getFileName = getFileName;
+exported_PATH_SEPARATOR.stringUntil = stringUntil;
+exported_PATH_SEPARATOR.stringFrom = stringFrom;
+exported_PATH_SEPARATOR.pipe = pipe;
+exported_PATH_SEPARATOR.deepClone = deepClone;
 
-exports.tagToIdentifier = tagToIdentifier;
-exports.upperFirst = upperFirst;
-exports.lowerFirst = lowerFirst;
+exported_PATH_SEPARATOR.tagToIdentifier = tagToIdentifier;
+exported_PATH_SEPARATOR.upperFirst = upperFirst;
+exported_PATH_SEPARATOR.lowerFirst = lowerFirst;
 
-exports.createIdGenerator = createIdGenerator;
+exported_PATH_SEPARATOR.createIdGenerator = createIdGenerator;
 
-exports.PATH_SEPARATOR = PATH_SEPARATOR;
+export { exported_PATH_SEPARATOR as PATH_SEPARATOR };

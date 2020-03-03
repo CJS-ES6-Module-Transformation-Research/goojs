@@ -1,7 +1,7 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function PickAndExitAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function PickAndExitAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
 	this.eventListener = function (event) {
 		// To prevent touch + click event firing multiple times on touch devices
@@ -47,7 +47,7 @@ function PickAndExitAction(/*id, settings*/) {
 	}.bind(this);
 }
 
-PickAndExitAction.prototype = Object.create(Action.prototype);
+PickAndExitAction.prototype = Object.create(Action_Actionjs.prototype);
 PickAndExitAction.prototype.constructor = PickAndExitAction;
 
 PickAndExitAction.external = {
@@ -100,4 +100,5 @@ PickAndExitAction.prototype.exit = function () {
 	}
 };
 
-module.exports = PickAndExitAction;
+var exported_PickAndExitAction = PickAndExitAction;
+export { exported_PickAndExitAction as PickAndExitAction };

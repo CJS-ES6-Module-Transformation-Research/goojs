@@ -1,8 +1,6 @@
-var EntitySelection = require('../EntitySelection');
-
-/**
- * Base class/module for all components. Should not be used directly.
- */
+import { EntitySelection as EntitySelectionjs } from "../EntitySelection";
+var Component_applyEntitySelectionAPI;
+var Component_applyOnEntity;
 function Component() {
 	/**
 	 * If the component should be processed for containing entities.
@@ -32,9 +30,9 @@ function Component() {
  * @param {Entity} entity
  * @returns {boolean} True if the data was used.
  */
-Component.applyOnEntity = function (/*argument, entity*/) {
-	return false;
-};
+Component_applyOnEntity = function() /*argument, entity*/{
+    return false;
+};;
 
 /**
  * Called when the component was added to an entity
@@ -81,18 +79,28 @@ Component.prototype.removeAPI = function (entity) {
 	});
 };
 
-Component.applyEntitySelectionAPI = function (entitySelectionAPI, componentType) {
-	if (!entitySelectionAPI) { return; }
+Component_applyEntitySelectionAPI = function(entitySelectionAPI, componentType) {
+    if (!entitySelectionAPI) {
+        return;
+    }
 
-	var keys = Object.keys(entitySelectionAPI);
-	for (var i = 0; i < keys.length; i++) {
-		var key = keys[i];
-		if (typeof EntitySelection[key] === 'undefined') {
-			EntitySelection.installMethod(entitySelectionAPI[key], key, componentType);
-		} else {
-			throw new Error('Could not install method ' + key + ' on EntitySelection as it is already taken');
-		}
-	}
-};
+    var keys = Object.keys(entitySelectionAPI);
+    for (var i = 0; i < keys.length; i++) {
+        var key = keys[i];
+        if (typeof EntitySelectionjs[key] === "undefined") {
+            EntitySelectionjs.installMethod(entitySelectionAPI[key], key, componentType);
+        } else {
+            throw new Error(
+                "Could not install method " + key + " on EntitySelection as it is already taken"
+            );
+        }
+    }
+};;
 
-module.exports = Component;
+export { Component_applyEntitySelectionAPI as applyEntitySelectionAPI };
+var exported_Component = Component;
+
+/**
+ * Base class/module for all components. Should not be used directly.
+ */
+export { exported_Component as Component };

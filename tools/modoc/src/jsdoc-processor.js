@@ -1,12 +1,15 @@
+import _ from "underscore";
+import { extract as jsdocparser_extractjs } from "./jsdoc-parser";
+import { _parse as typeparser__parsejs } from "./type-expressions/type-parser";
+import { serialize as jsdocserializer_serializejs } from "./type-expressions/jsdoc-serializer";
+
+import {
+    getFileName as utiljs_getFileName,
+    tagToIdentifier as utiljs_tagToIdentifier,
+} from "./util";
+
 // jshint node:true
 'use strict';
-
-var _ = require('underscore');
-
-var jsdocParser = require('./jsdoc-parser');
-var typeParser = require('./type-expressions/type-parser');
-var jsdocSerializer = require('./type-expressions/jsdoc-serializer');
-var util = require('./util');
 
 // regex compilation for `[]()` links, `@link` and types (big mess)
 var typesRegex;
@@ -45,8 +48,8 @@ var expandIcons = function (string) {
 var translateType = function (closureType) {
 	if (closureType.trim().length > 0) {
 		try {
-			var parsed = typeParser.parse(closureType);
-			var jsdocType = jsdocSerializer.serialize(parsed);
+			var parsed = typeparser__parsejs.parse(closureType);
+			var jsdocType = jsdocserializer_serializejs(parsed);
 			return jsdocType;
 		} catch (e) {
 			console.warn(e);
@@ -83,6 +86,8 @@ var link = function (comment) {
 	}
 };
 
+let exported_link = link;
+
 var hasParamData = function (params) {
 	return params.some(function (param) {
 		return !!param.description || !!param.type;
@@ -92,7 +97,7 @@ var hasParamData = function (params) {
 var tagAndIdentifier = function (tag) {
 	return {
 		tag: tag,
-		identifier: util.tagToIdentifier(tag)
+		identifier: utiljs_tagToIdentifier(tag)
 	};
 };
 
@@ -121,7 +126,7 @@ var booleanTags = [
 
 var compileComment = function (rawComment) {
 	// parse the raw comment
-	var parsed = jsdocParser.extract(rawComment);
+	var parsed = jsdocparser_extractjs(rawComment);
 
 	var comment = {};
 	comment.description = parsed.description;
@@ -166,7 +171,7 @@ var inject = function (data) {
 
 var all = function (jsData, files) {
 	if (!typesRegex) {
-		var types = files.map(util.getFileName);
+		var types = files.map(utiljs_getFileName);
 		compileTypesRegex(types);
 	}
 
@@ -186,6 +191,6 @@ var all = function (jsData, files) {
 };
 
 
-exports.all = all;
-exports.compileComment = compileComment;
-exports.link = link;
+exported_link.all = all;
+exported_link.compileComment = compileComment;
+export { exported_link as link };

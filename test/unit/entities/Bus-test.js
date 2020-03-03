@@ -1,10 +1,10 @@
-var Bus = require('../../../src/goo/entities/Bus');
+import { Bus as Bus_Busjs } from "../../../src/goo/entities/Bus";
 
 describe('Bus', function () {
 	var bus;
 
 	beforeEach(function () {
-		bus = new Bus();
+		bus = new Bus_Busjs();
 	});
 
 	it('can add a listener, emit and capture a message', function () {
@@ -355,7 +355,7 @@ describe('Bus', function () {
 			bus.addListener('main', function (/*data*/) {});
 			bus.addListener('main.second', function (/*data*/) {});
 			bus.clear();
-			var newBus = new Bus();
+			var newBus = new Bus_Busjs();
 			bus._emitOnEachChildChannel = newBus._emitOnEachChildChannel = null; // this function is the only thing that differ in the following test
 			expect(bus).toEqual(newBus);
 		});

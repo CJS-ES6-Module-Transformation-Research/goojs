@@ -1,4 +1,7 @@
-var Capabilities = require('../renderer/Capabilities');
+import { Capabilities as Capabilitiesjs } from "../renderer/Capabilities";
+var BufferUtils_cloneTypedArray;
+var BufferUtils_browserType;
+var BufferUtils_createIndexBuffer;
 
 /**
  * Utility for creating index buffers of appropriate type
@@ -11,23 +14,27 @@ function BufferUtils() {}
  * @param {number} vertexCount Number of vertices
  * @returns {TypedArray} Index buffer
  */
-BufferUtils.createIndexBuffer = function (indexCount, vertexCount) {
-	var indices;
-	if (vertexCount <= 256) { // 2^8
-		if (BufferUtils.browserType === 'Trident') { // IE 11 case
-			indices = new Uint16Array(indexCount);
-		} else {
-			indices = new Uint8Array(indexCount);
-		}
-	} else if (vertexCount <= 65536) { // 2^16
-		indices = new Uint16Array(indexCount);
-	} else if (Capabilities.ElementIndexUInt) { // 2^32
-		indices = new Uint32Array(indexCount);
-	} else {
-		throw new Error('Maximum number of vertices is 65536. Got: ' + vertexCount);
-	}
-	return indices;
-};
+BufferUtils_createIndexBuffer = function(indexCount, vertexCount) {
+    var indices;
+    if (vertexCount <= 256) {
+        // 2^8
+        if (BufferUtils_browserType === "Trident") {
+            // IE 11 case
+            indices = new Uint16Array(indexCount);
+        } else {
+            indices = new Uint8Array(indexCount);
+        }
+    } else if (vertexCount <= 65536) {
+        // 2^16
+        indices = new Uint16Array(indexCount);
+    } else if (Capabilitiesjs.ElementIndexUInt) {
+        // 2^32
+        indices = new Uint32Array(indexCount);
+    } else {
+        throw new Error("Maximum number of vertices is 65536. Got: " + vertexCount);
+    }
+    return indices;
+};;
 
 function storeBrowserType() {
 	var aKeys = ['Trident', 'MSIE', 'Firefox', 'Safari', 'Chrome', 'Opera'],
@@ -36,7 +43,7 @@ function storeBrowserType() {
 	for (nIdx; nIdx > -1 && sUsrAg.indexOf(aKeys[nIdx]) === -1; nIdx--) {
 		// nothing
 	}
-	BufferUtils.browserType = aKeys[nIdx];
+	BufferUtils_browserType = aKeys[nIdx];;
 }
 
 storeBrowserType();
@@ -46,8 +53,8 @@ storeBrowserType();
  * @param {TypedArray} source
  * @returns {TypedArray}
  */
-BufferUtils.cloneTypedArray = function (source) {
-	return new source.constructor(source);
-};
+BufferUtils_cloneTypedArray = function(source) {
+    return new source.constructor(source);
+};;
 
-module.exports = BufferUtils;
+export { BufferUtils_createIndexBuffer as createIndexBuffer, BufferUtils_browserType as browserType, BufferUtils_cloneTypedArray as cloneTypedArray, BufferUtils };

@@ -1,11 +1,6 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-
-/**
- * @private
- * @extends Action
- */
-function WaitAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+function WaitAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
 	/**
 	 * Current time, in milliseconds.
@@ -22,7 +17,7 @@ function WaitAction(/*id, settings*/) {
 	this.completed = false;
 }
 
-WaitAction.prototype = Object.create(Action.prototype);
+WaitAction.prototype = Object.create(Action_Actionjs.prototype);
 WaitAction.prototype.constructor = WaitAction;
 
 WaitAction.external = {
@@ -68,4 +63,10 @@ WaitAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = WaitAction;
+var exported_WaitAction = WaitAction;
+
+/**
+ * @private
+ * @extends Action
+ */
+export { exported_WaitAction as WaitAction };

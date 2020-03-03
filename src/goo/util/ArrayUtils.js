@@ -1,3 +1,8 @@
+var ArrayUtils_fromValues;
+var ArrayUtils_fromKeys;
+var ArrayUtils_find;
+var ArrayUtils_remove;
+var ArrayUtils_getTypedArray;
 /**
  * Utilities for arrays and typed arrays
  */
@@ -19,45 +24,40 @@ function ArrayUtils() {}
  *
  * @returns Typed array
  */
-ArrayUtils.getTypedArray = function (arrayBuffer, pointer) {
-	var start = pointer[0];
-	var length = pointer[1];
-	var format = pointer[2];
+ArrayUtils_getTypedArray = function(arrayBuffer, pointer) {
+    var start = pointer[0];
+    var length = pointer[1];
+    var format = pointer[2];
 
-	if (format === 'float32') {
-		return new Float32Array(arrayBuffer, start, length);
-	}
-	else if (format === 'uint8') {
-		return new Uint8Array(arrayBuffer, start, length);
-	}
-	else if (format === 'uint16') {
-		return new Uint16Array(arrayBuffer, start, length);
-	}
-	else if (format === 'uint32') {
-		return new Uint32Array(arrayBuffer, start, length);
-	}
-	else {
-		throw new Error('Binary format ' + format + ' is not supported');
-	}
-};
+    if (format === "float32") {
+        return new Float32Array(arrayBuffer, start, length);
+    } else if (format === "uint8") {
+        return new Uint8Array(arrayBuffer, start, length);
+    } else if (format === "uint16") {
+        return new Uint16Array(arrayBuffer, start, length);
+    } else if (format === "uint32") {
+        return new Uint32Array(arrayBuffer, start, length);
+    } else {
+        throw new Error("Binary format " + format + " is not supported");
+    }
+};;
 
-ArrayUtils.remove = function (array, value, equals) {
-	var idx = -1;
-	if (typeof equals === 'function') {
-		for (var i = 0; i < array.length; i++) {
-			if (equals(array[i], value)) {
-				idx = i;
-				break;
-			}
-		}
-	}
-	else {
-		idx = array.indexOf(value);
-	}
-	if (idx > -1) {
-		array.splice(idx, 1);
-	}
-};
+ArrayUtils_remove = function(array, value, equals) {
+    var idx = -1;
+    if (typeof equals === "function") {
+        for (var i = 0; i < array.length; i++) {
+            if (equals(array[i], value)) {
+                idx = i;
+                break;
+            }
+        }
+    } else {
+        idx = array.indexOf(value);
+    }
+    if (idx > -1) {
+        array.splice(idx, 1);
+    }
+};;
 
 /**
  * Returns the first element in the supplied array for which the supplied predicate is true
@@ -65,53 +65,53 @@ ArrayUtils.remove = function (array, value, equals) {
  * @param predicate
  * @returns {*}
  */
-ArrayUtils.find = function (array, predicate) {
-	for (var i = 0; i < array.length; i++) {
-		if (predicate(array[i])) {
-			return array[i];
-		}
-	}
-	return null;
-};
+ArrayUtils_find = function(array, predicate) {
+    for (var i = 0; i < array.length; i++) {
+        if (predicate(array[i])) {
+            return array[i];
+        }
+    }
+    return null;
+};;
 
 /**
  * Returns an array of keys for the given Set or Map
  * @param {(Set|Map)} collection
  * @returns {Array}
  */
-ArrayUtils.fromKeys = function (collection) {
-	var array = [];
+ArrayUtils_fromKeys = function(collection) {
+    var array = [];
 
-	collection.forEach(function (value, key) {
-		array.push(key);
-	});
-//		var iterator = collection.keys();
-//		var entry = iterator.next();
-//		while (!entry.done) {
-//			array.push(entry.value);
-//			entry = iterator.next();
-//		}
-	return array;
-};
+    collection.forEach(function(value, key) {
+        array.push(key);
+    });
+    //        var iterator = collection.keys();
+    //        var entry = iterator.next();
+    //        while (!entry.done) {
+    //            array.push(entry.value);
+    //            entry = iterator.next();
+    //        }
+    return array;
+};;
 
 /**
  * Returns an array of values for the given Set or Map
  * @param {(Set|Map)} collection
  * @returns {Array}
  */
-ArrayUtils.fromValues = function (collection) {
-	var array = [];
+ArrayUtils_fromValues = function(collection) {
+    var array = [];
 
-	collection.forEach(function (value) {
-		array.push(value);
-	});
-//		var iterator = collection.values();
-//		var entry = iterator.next();
-//		while (!entry.done) {
-//			array.push(entry.value);
-//			entry = iterator.next();
-//		}
-	return array;
-};
+    collection.forEach(function(value) {
+        array.push(value);
+    });
+    //        var iterator = collection.values();
+    //        var entry = iterator.next();
+    //        while (!entry.done) {
+    //            array.push(entry.value);
+    //            entry = iterator.next();
+    //        }
+    return array;
+};;
 
-module.exports = ArrayUtils;
+export { ArrayUtils_getTypedArray as getTypedArray, ArrayUtils_remove as remove, ArrayUtils_find as find, ArrayUtils_fromKeys as fromKeys, ArrayUtils_fromValues as fromValues, ArrayUtils };

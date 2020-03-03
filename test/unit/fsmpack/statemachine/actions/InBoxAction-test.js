@@ -1,6 +1,6 @@
-var InBoxAction = require('../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction');
-var Vector3 = require('../../../../../src/goo/math/Vector3');
-var World = require('../../../../../src/goo/entities/World');
+import { InBoxAction as InBoxActionjs } from "../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction";
+import { Vector3 as Vector3js } from "../../../../../src/goo/math/Vector3";
+import { World as World_Worldjs } from "../../../../../src/goo/entities/World";
 
 describe('InBoxAction', function () {
 	describe('Check pos against boxes', function () {
@@ -14,7 +14,7 @@ describe('InBoxAction', function () {
 		var entity, world;
 
 		beforeEach(function () {
-			world = new World();
+			world = new World_Worldjs();
 			entity = world.createEntity([0,0,0]);
 			mockFsm.entity = entity;
 			mockFsm.getOwnerEntity = function () {
@@ -33,9 +33,9 @@ describe('InBoxAction', function () {
 
 			};
 
-			inBoxAction = new InBoxAction('testId', settings);
+			inBoxAction = new InBoxActionjs('testId', settings);
 
-			entity.transformComponent.setTranslation(new Vector3(1, 1, 1));
+			entity.transformComponent.setTranslation(new Vector3js(1, 1, 1));
 			spyOn(mockFsm, 'send');
 
 			inBoxAction.update(mockFsm);
@@ -53,9 +53,9 @@ describe('InBoxAction', function () {
 				}
 			};
 
-			inBoxAction = new InBoxAction('testId', settings);
+			inBoxAction = new InBoxActionjs('testId', settings);
 
-			entity.transformComponent.setTranslation(new Vector3(3, 3, 3));
+			entity.transformComponent.setTranslation(new Vector3js(3, 3, 3));
 			spyOn(mockFsm, 'send');
 			inBoxAction.update(mockFsm);
 			expect(mockFsm.send).toHaveBeenCalledWith(settings.transitions.outside);
@@ -71,9 +71,9 @@ describe('InBoxAction', function () {
 				}
 			};
 
-			inBoxAction = new InBoxAction('testId', settings);
+			inBoxAction = new InBoxActionjs('testId', settings);
 
-			entity.transformComponent.setTranslation(new Vector3(-100, 0, 0));
+			entity.transformComponent.setTranslation(new Vector3js(-100, 0, 0));
 			spyOn(mockFsm, 'send');
 			inBoxAction.update(mockFsm);
 			expect(mockFsm.send).toHaveBeenCalledWith(settings.transitions.inside);
