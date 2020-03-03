@@ -1,12 +1,6 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Processes all entities with script components, running the scripts where applicable
- * @extends System
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
 function ScriptSystem(world) {
-	System.call(this, 'ScriptSystem', ['ScriptComponent']);
+	System_Systemjs.call(this, 'ScriptSystem', ['ScriptComponent']);
 
 	//! AT: why this?
 	this._world = world;
@@ -39,7 +33,7 @@ function ScriptSystem(world) {
 	this.priority = 500;
 }
 
-ScriptSystem.prototype = Object.create(System.prototype);
+ScriptSystem.prototype = Object.create(System_Systemjs.prototype);
 ScriptSystem.prototype.constructor = ScriptSystem;
 
 /*
@@ -118,7 +112,13 @@ ScriptSystem.prototype.clear = function () {
 	this._world = null;
 	this.context = null;
 
-	System.prototype.clear.call(this);
+	System_Systemjs.prototype.clear.call(this);
 };
 
-module.exports = ScriptSystem;
+var exported_ScriptSystem = ScriptSystem;
+
+/**
+ * Processes all entities with script components, running the scripts where applicable
+ * @extends System
+ */
+export { exported_ScriptSystem as ScriptSystem };

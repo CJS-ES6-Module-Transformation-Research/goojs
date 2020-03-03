@@ -1,11 +1,18 @@
+import { Gizmo } from "./Gizmo";
+import { GizmoRenderSystem as GizmoRenderSystemjs } from "./GizmoRenderSystem";
+import { GlobalRotationGizmo as GlobalRotationGizmojs } from "./GlobalRotationGizmo";
+import { GlobalTranslationGizmo as GlobalTranslationGizmojs } from "./GlobalTranslationGizmo";
+import { RotationGizmo as RotationGizmojs } from "./RotationGizmo";
+import { ScaleGizmo as ScaleGizmojs } from "./ScaleGizmo";
+import { TranslationGizmo as TranslationGizmojs } from "./TranslationGizmo";
 module.exports = {
-	Gizmo: require('./Gizmo'),
-	GizmoRenderSystem: require('./GizmoRenderSystem'),
-	GlobalRotationGizmo: require('./GlobalRotationGizmo'),
-	GlobalTranslationGizmo: require('./GlobalTranslationGizmo'),
-	RotationGizmo: require('./RotationGizmo'),
-	ScaleGizmo: require('./ScaleGizmo'),
-	TranslationGizmo: require('./TranslationGizmo')
+	Gizmo: Gizmo_Gizmojs,
+	GizmoRenderSystem: GizmoRenderSystemjs,
+	GlobalRotationGizmo: GlobalRotationGizmojs,
+	GlobalTranslationGizmo: GlobalTranslationGizmojs,
+	RotationGizmo: RotationGizmojs,
+	ScaleGizmo: ScaleGizmojs,
+	TranslationGizmo: TranslationGizmojs
 };
 if (typeof(window) !== 'undefined') {
 	for (var key in module.exports) {

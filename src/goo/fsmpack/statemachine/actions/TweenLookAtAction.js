@@ -1,18 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var Easing = require('../../../util/Easing');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3js } from "../../../math/Vector3";
+import { Quaternion as Quaternionjs } from "../../../math/Quaternion";
 
-function TweenLookAtAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenLookAtAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
-	this.quatFrom = new Quaternion();
-	this.quatTo = new Quaternion();
-	this.quatFinal = new Quaternion();
+	this.quatFrom = new Quaternionjs();
+	this.quatTo = new Quaternionjs();
+	this.quatFinal = new Quaternionjs();
 	this.completed = false;
 }
 
-TweenLookAtAction.prototype = Object.create(Action.prototype);
+TweenLookAtAction.prototype = Object.create(Action_Actionjs.prototype);
 TweenLookAtAction.prototype.constructor = TweenLookAtAction;
 
 TweenLookAtAction.external = {
@@ -68,9 +67,9 @@ TweenLookAtAction.prototype.enter = function (fsm) {
 
 	this.quatFrom.fromRotationMatrix(transform.rotation);
 
-	var dir = Vector3.fromArray(this.to).sub(transform.translation);
+	var dir = Vector3js.fromArray(this.to).sub(transform.translation);
 	this.rot = transform.rotation.clone();
-	this.rot.lookAt(dir, Vector3.UNIT_Y);
+	this.rot.lookAt(dir, Vector3js.UNIT_Y);
 	this.quatTo.fromRotationMatrix(this.rot);
 
 	this.completed = false;
@@ -85,7 +84,7 @@ TweenLookAtAction.prototype.update = function (fsm) {
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = Easing[this.easing1][this.easing2](t);
-	Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
+	Quaternionjs.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
 
 	this.quatFinal.toRotationMatrix(transform.rotation);
 	entity.transformComponent.setUpdated();
@@ -96,4 +95,5 @@ TweenLookAtAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenLookAtAction;
+var exported_TweenLookAtAction = TweenLookAtAction;
+export { exported_TweenLookAtAction as TweenLookAtAction };

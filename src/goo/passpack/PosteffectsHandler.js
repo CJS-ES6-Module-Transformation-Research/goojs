@@ -1,34 +1,28 @@
-var ConfigHandler = require('../loaders/handlers/ConfigHandler');
-var ArrayUtils = require('../util/ArrayUtils');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var Composer = require('../renderer/pass/Composer');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var PassLib = require('../passpack/PassLib');
+import {
+    ConfigHandler as ConfigHandler_ConfigHandlerjs,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../loaders/handlers/ConfigHandler";
 
-/**
- * Handler for loading posteffects into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { remove as ArrayUtilsjs_remove } from "../util/ArrayUtils";
+import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
+import { forEach as ObjectUtilsjs_forEach, deepClone as ObjectUtilsjs_deepClone } from "../util/ObjectUtils";
+import { Composer as Composer_Composerjs } from "../renderer/pass/Composer";
+import { RenderPass as RenderPassjs } from "../renderer/pass/RenderPass";
+import { FullscreenPass as FullscreenPassjs } from "../renderer/pass/FullscreenPass";
+import { copy as ShaderLibjs_copy } from "../renderer/shaders/ShaderLib";
 function PosteffectsHandler() {
-	ConfigHandler.apply(this, arguments);
-	this._composer = new Composer();
+	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	this._composer = new Composer_Composerjs();
 	var renderSystem = this.world.getSystem('RenderSystem');
-	this._renderPass = new RenderPass(renderSystem.renderList);
-	this._outPass = new FullscreenPass(ObjectUtils.deepClone(ShaderLib.copy));
+	this._renderPass = new RenderPassjs(renderSystem.renderList);
+	this._outPass = new FullscreenPassjs(ObjectUtilsjs_deepClone(ShaderLibjs_copy));
 	this._outPass.renderToScreen = true;
 }
 
 
-PosteffectsHandler.prototype = Object.create(ConfigHandler.prototype);
+PosteffectsHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
 PosteffectsHandler.prototype.constructor = PosteffectsHandler;
-ConfigHandler._registerClass('posteffects', PosteffectsHandler);
+ConfigHandlerjs__registerClass('posteffects', PosteffectsHandler);
 
 /**
  * Removes the posteffects, i e removes the composer from rendersystem.
@@ -36,7 +30,7 @@ ConfigHandler._registerClass('posteffects', PosteffectsHandler);
  */
 PosteffectsHandler.prototype._remove = function (ref) {
 	var renderSystem = this.world.getSystem('RenderSystem');
-	ArrayUtils.remove(renderSystem.composers, this._composer);
+	ArrayUtilsjs_remove(renderSystem.composers, this._composer);
 
 	this._objects.delete(ref);
 
@@ -44,7 +38,7 @@ PosteffectsHandler.prototype._remove = function (ref) {
 		this._composer.destroy(this.world.gooRunner.renderer);
 	}
 
-	this._composer = new Composer();
+	this._composer = new Composer_Composerjs();
 };
 
 /**
@@ -65,16 +59,16 @@ PosteffectsHandler.prototype._create = function () {
  */
 PosteffectsHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (posteffects) {
+	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (posteffects) {
 		if (!posteffects) { return; }
 
 		var oldEffects = posteffects.slice();
 		var promises = [];
-		ObjectUtils.forEach(config.posteffects, function (effectConfig) {
+		ObjectUtilsjs_forEach(config.posteffects, function (effectConfig) {
 			promises.push(that._updateEffect(effectConfig, oldEffects, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (effects) {
+		return rsvp_rsvpjsjs.all(promises).then(function (effects) {
 			for (var i = 0; i < effects.length; i++) {
 				posteffects[i] = effects[i];
 			}
@@ -105,7 +99,7 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
 			}
 		} else {
 			// No posteffects, remove composer
-			ArrayUtils.remove(renderSystem.composers, that._composer);
+			ArrayUtilsjs_remove(renderSystem.composers, that._composer);
 		}
 
 		return posteffects;
@@ -122,7 +116,7 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
  */
 PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffects, options) {
 	// this gets mutated
-	var config = ObjectUtils.deepClone(originalConfig);
+	var config = ObjectUtilsjs_deepClone(originalConfig);
 
 	var that = this;
 	function loadConfig(key, id) {
@@ -168,10 +162,20 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 		}
 	}
 
-	return RSVP.all(promises).then(function () {
+	return rsvp_rsvpjsjs.all(promises).then(function () {
 		effect.update(config);
 		return effect;
 	});
 };
 
-module.exports = PosteffectsHandler;
+var exported_PosteffectsHandler = PosteffectsHandler;
+
+/**
+ * Handler for loading posteffects into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_PosteffectsHandler as PosteffectsHandler };

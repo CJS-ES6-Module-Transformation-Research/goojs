@@ -1,12 +1,8 @@
-var Ray = require('../../math/Ray');
-
-/**
- * BoundingPicker
- */
+import { Ray as Rayjs } from "../../math/Ray";
 function BoundingPicker() {
 }
 
-var pickRay = new Ray();
+var pickRay = new Rayjs();
 
 BoundingPicker.pick = function (world, camera, x, y) {
 	var entities = world.entityManager.getEntities();
@@ -44,4 +40,9 @@ BoundingPicker.pickFromList = function (world, entities, camera, x, y) {
 	return pickList;
 };
 
-module.exports = BoundingPicker;
+var exported_BoundingPicker = BoundingPicker;
+
+/**
+ * BoundingPicker
+ */
+export { exported_BoundingPicker as BoundingPicker };

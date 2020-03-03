@@ -1,7 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var SystemBus = require('../entities/SystemBus');
-var Camera = require('../renderer/Camera');
+import { Vector3 as Vector3js } from "../math/Vector3";
+import { Renderer as Rendererjs } from "../renderer/Renderer";
+import { Camera as Camerajs } from "../renderer/Camera";
 
 function PanCamScript() {
 	var fwdVector, leftVector, calcVector, calcVector2;
@@ -32,10 +31,10 @@ function PanCamScript() {
 		argsUpdated(parameters, environment);
 
 		lookAtPoint = environment.goingToLookAt;
-		fwdVector = Vector3.UNIT_Y.clone();
-		leftVector = Vector3.UNIT_X.clone().negate();
-		calcVector = new Vector3();
-		calcVector2 = new Vector3();
+		fwdVector = Vector3js.UNIT_Y.clone();
+		leftVector = Vector3js.UNIT_X.clone().negate();
+		calcVector = new Vector3js();
+		calcVector2 = new Vector3js();
 		environment.translation = environment.entity.transformComponent.transform.translation.clone();
 
 		var renderer = environment.world.gooRunner.renderer;
@@ -154,7 +153,7 @@ function PanCamScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Renderer.mainCamera;
+		var mainCam = Rendererjs.mainCamera;
 
 		var entity = environment.entity;
 		var transform = entity.transformComponent.transform;
@@ -200,7 +199,7 @@ function PanCamScript() {
 			calcVector.applyPost(transform.rotation);
 			//if (!parameters.screenMove) {
 				// panSpeed should be 1 in the screenMove case, to make movement sync properly
-			if (camera.projectionMode === Camera.Perspective) {
+			if (camera.projectionMode === Camerajs.Perspective) {
 				// RB: I know, very arbitrary but looks ok
 				calcVector.scale(parameters.panSpeed * 20);
 			} else {
@@ -278,4 +277,5 @@ PanCamScript.externals = {
 	}*/]
 };
 
-module.exports = PanCamScript;
+var exported_PanCamScript = PanCamScript;
+export { exported_PanCamScript as PanCamScript };

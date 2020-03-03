@@ -1,40 +1,54 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var ScriptComponent = require('../entities/components/ScriptComponent');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var SystemBus = require('../entities/SystemBus');
-var Scripts = require('../scripts/Scripts');
-var ScriptUtils = require('../scripts/ScriptUtils');
+import {
+    ComponentHandler as ComponentHandler_ComponentHandlerjs,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../loaders/handlers/ComponentHandler";
 
-/**
- * @hidden
- */
+import { ScriptComponent as ScriptComponentjs } from "../entities/components/ScriptComponent";
+import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
+
+import {
+    find as ObjectUtilsjs_find,
+    defaults as ObjectUtilsjs_defaults,
+    clone as ObjectUtilsjs_clone,
+    map as ObjectUtilsjs_map,
+    deepClone as ObjectUtilsjs_deepClone,
+    constant as ObjectUtilsjs_constant,
+} from "../util/ObjectUtils";
+
+import { resolve as PromiseUtilsjs_resolve } from "../util/PromiseUtils";
+
+import {
+    DEFAULTS_BY_TYPE as ScriptUtilsjs_DEFAULTS_BY_TYPE,
+    isRefType as ScriptUtilsjs_isRefType,
+    TYPE_VALIDATORS as ScriptUtilsjs_TYPE_VALIDATORS,
+    fillDefaultValues as ScriptUtilsjs_fillDefaultValues,
+} from "../scripts/ScriptUtils";
+
 function ScriptComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'ScriptComponent';
 }
 
-ScriptComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+ScriptComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
 ScriptComponentHandler.prototype.constructor = ScriptComponentHandler;
-ComponentHandler._registerClass('script', ScriptComponentHandler);
+ComponentHandlerjs__registerClass('script', ScriptComponentHandler);
 
 ScriptComponentHandler.ENGINE_SCRIPT_PREFIX = 'GOO_ENGINE_SCRIPTS/';
 
 ScriptComponentHandler.prototype._prepare = function (/*config*/) {};
 
 ScriptComponentHandler.prototype._create = function () {
-	return new ScriptComponent();
+	return new ScriptComponentjs();
 };
 
 ScriptComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options)
+	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options)
 	.then(function (component) {
 		if (!component) { return; }
 
-		return RSVP.all(ObjectUtils.map(config.scripts, function (instanceConfig) {
+		return rsvp_rsvpjsjs.all(ObjectUtilsjs_map(config.scripts, function (instanceConfig) {
 			return that._updateScriptInstance(component, instanceConfig, options);
 		}, null, 'sortValue'))
 		.then(function (scripts) {
@@ -51,11 +65,11 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 	.then(function (script) {
 		var newParameters = instanceConfig.options || {};
 		if (script.parameters) {
-			ObjectUtils.defaults(newParameters, script.parameters);
+			ObjectUtilsjs_defaults(newParameters, script.parameters);
 		}
 
 		if (script.externals && script.externals.parameters) {
-			ScriptUtils.fillDefaultValues(newParameters, script.externals.parameters);
+			ScriptUtilsjs_fillDefaultValues(newParameters, script.externals.parameters);
 		}
 
 		var newScript = null;
@@ -90,7 +104,7 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 				newScript.argsUpdated(newScript.parameters, newScript.context, window.goo);
 			}
 		})
-		.then(ObjectUtils.constant(newScript));
+		.then(ObjectUtilsjs_constant(newScript));
 	});
 };
 
@@ -134,7 +148,7 @@ ScriptComponentHandler.prototype._createOrLoadEngineScript = function (component
 	var prefix = ScriptComponentHandler.ENGINE_SCRIPT_PREFIX;
 
 	if (existingScript) {
-		return PromiseUtils.resolve(existingScript);
+		return PromiseUtilsjs_resolve(existingScript);
 	}
 
 	return this._createEngineScript(instanceConfig.scriptRef.slice(prefix.length));
@@ -180,7 +194,7 @@ ScriptComponentHandler.prototype._createOrLoadCustomScript = function (component
  * @private
  */
 ScriptComponentHandler.prototype._findScriptInstance = function (component, instanceId) {
-	return ObjectUtils.find(component.scripts, function (script) {
+	return ObjectUtilsjs_find(component.scripts, function (script) {
 		return script.instanceId === instanceId;
 	});
 };
@@ -211,7 +225,7 @@ ScriptComponentHandler.prototype._createEngineScript = function (scriptName) {
 		externals: script.externals
 	});
 
-	return PromiseUtils.resolve(script);
+	return PromiseUtilsjs_resolve(script);
 };
 
 /**
@@ -238,7 +252,7 @@ ScriptComponentHandler.prototype._setParameters = function (parameters, config, 
 
 	// is externals ever falsy?
 	if (!externals || !externals.parameters) {
-		return PromiseUtils.resolve();
+		return PromiseUtilsjs_resolve();
 	}
 
 	var promises = externals.parameters.map(function (external) {
@@ -247,7 +261,7 @@ ScriptComponentHandler.prototype._setParameters = function (parameters, config, 
 
 	parameters.enabled = config.enabled !== false;
 
-	return RSVP.all(promises);
+	return rsvp_rsvpjsjs.all(promises);
 };
 
 /**
@@ -275,14 +289,14 @@ ScriptComponentHandler.prototype._setParameter = function (parameters, config, e
 
 	function setParam(value) {
 		parameters[key] = value;
-		return PromiseUtils.resolve();
+		return PromiseUtilsjs_resolve();
 	}
 
 	function getInvalidParam() {
 		if (external.default === undefined) {
-			return ObjectUtils.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[type]);
+			return ObjectUtilsjs_deepClone(ScriptUtilsjs_DEFAULTS_BY_TYPE[type]);
 		} else {
-			return ObjectUtils.deepClone(external.default);
+			return ObjectUtilsjs_deepClone(external.default);
 		}
 	}
 
@@ -298,19 +312,24 @@ ScriptComponentHandler.prototype._setParameter = function (parameters, config, e
 		return that._load(ref, options).then(setParam);
 	}
 
-	if (!ScriptUtils.TYPE_VALIDATORS[type](config)) {
+	if (!ScriptUtilsjs_TYPE_VALIDATORS[type](config)) {
 		return setParam(getInvalidParam());
 	} else if (type === 'entity') {
 		// For entities, because they can depend on themselves, we don't
 		// wait for the load to be completed. It will eventually resolve
 		// and the parameter will be set.
 		setRefParam();
-		return PromiseUtils.resolve();
-	} else if (ScriptUtils.isRefType(type)) {
+		return PromiseUtilsjs_resolve();
+	} else if (ScriptUtilsjs_isRefType(type)) {
 		return setRefParam();
 	} else {
-		return setParam(ObjectUtils.clone(config));
+		return setParam(ObjectUtilsjs_clone(config));
 	}
 };
 
-module.exports = ScriptComponentHandler;
+var exported_ScriptComponentHandler = ScriptComponentHandler;
+
+/**
+ * @hidden
+ */
+export { exported_ScriptComponentHandler as ScriptComponentHandler };

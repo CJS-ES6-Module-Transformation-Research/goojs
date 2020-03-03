@@ -1,6 +1,3 @@
-/**
- * Provides string manipulation methods
- */
 function StringUtils() {}
 
 StringUtils.endsWith = function (str, suffix) {
@@ -232,4 +229,9 @@ StringUtils.parseURL = function (uri) {
 	};
 };
 
-module.exports = StringUtils;
+var exported_StringUtils = StringUtils;
+
+/**
+ * Provides string manipulation methods
+ */
+export { exported_StringUtils as StringUtils };

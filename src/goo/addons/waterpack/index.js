@@ -1,7 +1,10 @@
+import { FlatWaterRenderer } from "./FlatWaterRenderer";
+import { ProjectedGrid as ProjectedGridjs } from "./ProjectedGrid";
+import { ProjectedGridWaterRenderer } from "./ProjectedGridWaterRenderer";
 module.exports = {
-	FlatWaterRenderer: require('./FlatWaterRenderer'),
-	ProjectedGrid: require('./ProjectedGrid'),
-	ProjectedGridWaterRenderer: require('./ProjectedGridWaterRenderer')
+	FlatWaterRenderer: FlatWaterRenderer_FlatWaterRendererjs,
+	ProjectedGrid: ProjectedGridjs,
+	ProjectedGridWaterRenderer: ProjectedGridWaterRenderer_ProjectedGridWaterRendererjs
 };
 if (typeof(window) !== 'undefined') {
 	for (var key in module.exports) {

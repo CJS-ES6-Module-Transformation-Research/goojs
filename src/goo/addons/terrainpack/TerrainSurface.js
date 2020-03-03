@@ -1,13 +1,5 @@
-var MeshData = require('../../renderer/MeshData');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * A grid-like surface shape
- * @param {array} heightMatrix The height data by x and z axis.
- * @param {number} xWidth x axis size in units
- * @param {number} yHeight y axis size in units
- * @param {number} zWidth z axis size in units
- */
+import { MeshData as MeshDatajs } from "../../renderer/MeshData";
+import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
 function TerrainSurface(heightMatrix, xWidth, yHeight, zWidth) {
     var verts = [];
     for (var i = 0; i < heightMatrix.length; i++) {
@@ -18,23 +10,23 @@ function TerrainSurface(heightMatrix, xWidth, yHeight, zWidth) {
 	this.verts = verts;
 	this.vertsPerLine = heightMatrix[0].length;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION, MeshDatajs.NORMAL, MeshDatajs.TEXCOORD0]);
 
 	var nVerts = this.verts.length / 3;
 	var nLines = nVerts / this.vertsPerLine;
-	MeshData.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
+	MeshDatajs.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
 
 	this.rebuild();
 }
 
-TerrainSurface.prototype = Object.create(MeshData.prototype);
+TerrainSurface.prototype = Object.create(MeshDatajs.prototype);
 
 /**
  * Builds or rebuilds the mesh data
  * @returns {Surface} Self for chaining
  */
 TerrainSurface.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(MeshDatajs.POSITION).set(this.verts);
 
 	var indices = [];
 
@@ -53,7 +45,7 @@ TerrainSurface.prototype.rebuild = function () {
 
 			indices.push(downLeft, upLeft, upRight, downLeft, upRight, downRight);
 
-			normals = MathUtils.getTriangleNormal(
+			normals = MathUtilsjs.getTriangleNormal(
 				this.verts[upLeft * 3 + 0],
 				this.verts[upLeft * 3 + 1],
 				this.verts[upLeft * 3 + 2],
@@ -80,7 +72,7 @@ TerrainSurface.prototype.rebuild = function () {
 		var downLeft = (i + 1) * this.vertsPerLine + (j + 0);
 		var upRight = (i + 0) * this.vertsPerLine + (j + 1);
 
-		normals = MathUtils.getTriangleNormal(
+		normals = MathUtilsjs.getTriangleNormal(
 			this.verts[upLeft * 3 + 0],
 			this.verts[upLeft * 3 + 1],
 			this.verts[upLeft * 3 + 2],
@@ -100,7 +92,7 @@ TerrainSurface.prototype.rebuild = function () {
 
 	norms.push(normals[0], normals[1], normals[2]);
 
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(MeshDatajs.NORMAL).set(norms);
 	this.getIndexBuffer().set(indices);
 
 	// compute texture coordinates
@@ -114,9 +106,18 @@ TerrainSurface.prototype.rebuild = function () {
 		tex.push(x, z);
 	}
 
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshDatajs.TEXCOORD0).set(tex);
 
 	return this;
 };
 
-module.exports = TerrainSurface;
+var exported_TerrainSurface = TerrainSurface;
+
+/**
+ * A grid-like surface shape
+ * @param {array} heightMatrix The height data by x and z axis.
+ * @param {number} xWidth x axis size in units
+ * @param {number} yHeight y axis size in units
+ * @param {number} zWidth z axis size in units
+ */
+export { exported_TerrainSurface as TerrainSurface };

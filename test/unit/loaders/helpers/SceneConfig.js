@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+var SceneConfigjs = {
 	scene: function (complex) {
 		var entities = {};
 		var components = complex ? ['transform', 'meshRenderer', 'meshData', 'animation', 'camera', 'light'] : null;
@@ -53,7 +53,7 @@ module.exports = {
 	},
 	environment: function () {
 		var config = this.gooObject('environment', 'Dummy');
-		_.extend(config, {
+		ObjectUtil_ObjectUtilsjs.extend(config, {
 			backgroundColor: [1, 1, 1],
 			globalAmbient: [0.5, 0.5, 0.5],
 			skyboxRef: this.skybox().id,
@@ -75,3 +75,5 @@ module.exports = {
 		return config;
 	}
 };
+
+export { SceneConfigjs };

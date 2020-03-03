@@ -1,4 +1,4 @@
-var SystemBus = require('../entities/SystemBus');
+var ButtonScript_externals;
 
 /**
  * Attaches mouse events to an entity.
@@ -160,47 +160,48 @@ function ButtonScript() {
 	};
 }
 
-ButtonScript.externals = {
-	key: 'ButtonScript',
-	name: 'Button',
-	description: 'Enables an entity to be interacted with using click or touch.',
-	parameters: [{
-		key: 'whenUsed',
-		type: 'boolean',
-		'default': true
-	}, {
-		key: 'button',
-		name: 'button',
-		description: 'Only interact with this mouse button.',
-		type: 'string',
-		control: 'select',
-		'default': 'Any',
-		options: ['Any', 'Left', 'Middle', 'Right']
-	}, {
-		key: 'linkUrl',
-		name: 'linkUrl',
-		description: 'URL to open when clicking the entity. Leave this field empty to disable.',
-		type: 'string',
-		'default': ''
-	}, {
-		key: 'linkTarget',
-		name: 'linkTarget',
-		description: 'The window to open the link in.',
-		type: 'string',
-		'default': '_blank'
-	}, {
-		key: 'channel',
-		name: 'channel',
-		description: 'Event channel to emit to. Will emit channel.click, .mousedown, .mouseup, .mouseover, .mouseout, .dblclick, .touchstart, .touchend',
-		type: 'string',
-		'default': 'button'
-	}, {
-		key: 'enableOnMouseMove',
-		name: 'enableOnMouseMove',
-		description: 'Enables .mousemove, .mouseover, and .mouseout events. For larger scenes, this might be worth turning off, for better performance.',
-		type: 'boolean',
-		'default': true
-	}]
-};
+ButtonScript_externals = {
+    key: "ButtonScript",
+    name: "Button",
+    description: "Enables an entity to be interacted with using click or touch.",
 
-module.exports = ButtonScript;
+    parameters: [{
+        key: "whenUsed",
+        type: "boolean",
+        "default": true
+    }, {
+        key: "button",
+        name: "button",
+        description: "Only interact with this mouse button.",
+        type: "string",
+        control: "select",
+        "default": "Any",
+        options: ["Any", "Left", "Middle", "Right"]
+    }, {
+        key: "linkUrl",
+        name: "linkUrl",
+        description: "URL to open when clicking the entity. Leave this field empty to disable.",
+        type: "string",
+        "default": ""
+    }, {
+        key: "linkTarget",
+        name: "linkTarget",
+        description: "The window to open the link in.",
+        type: "string",
+        "default": "_blank"
+    }, {
+        key: "channel",
+        name: "channel",
+        description: "Event channel to emit to. Will emit channel.click, .mousedown, .mouseup, .mouseover, .mouseout, .dblclick, .touchstart, .touchend",
+        type: "string",
+        "default": "button"
+    }, {
+        key: "enableOnMouseMove",
+        name: "enableOnMouseMove",
+        description: "Enables .mousemove, .mouseover, and .mouseout events. For larger scenes, this might be worth turning off, for better performance.",
+        type: "boolean",
+        "default": true
+    }]
+};;
+
+export { ButtonScript };
