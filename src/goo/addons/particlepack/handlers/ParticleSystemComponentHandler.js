@@ -1,30 +1,25 @@
-var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
-var ParticleSystemComponent = require('../../../addons/particlepack/components/ParticleSystemComponent');
-var LinearCurve = require('../../../addons/particlepack/curves/LinearCurve');
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var PolyCurve = require('../../../addons/particlepack/curves/PolyCurve');
-var Vector3Curve = require('../../../addons/particlepack/curves/Vector3Curve');
-var Vector4Curve = require('../../../addons/particlepack/curves/Vector4Curve');
-var LerpCurve = require('../../../addons/particlepack/curves/LerpCurve');
-var RSVP = require('../../../util/rsvp');
-var ObjectUtils = require('../../../util/ObjectUtils');
-var Vector3 = require('../../../math/Vector3');
-var MathUtils = require('../../../math/MathUtils');
-var ParticleSystemUtils = require('../../../util/ParticleSystemUtils');
-
-/**
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler as ComponentHandlerjs } from "../../../loaders/handlers/ComponentHandler";
+import { ParticleSystemComponent as ParticleSystemComponentjs } from "../../../addons/particlepack/components/ParticleSystemComponent";
+import { LinearCurve as LinearCurvejs } from "../../../addons/particlepack/curves/LinearCurve";
+import { ConstantCurve as ConstantCurvejs } from "../../../addons/particlepack/curves/ConstantCurve";
+import { PolyCurve as PolyCurvejs } from "../../../addons/particlepack/curves/PolyCurve";
+import { Vector3Curve as Vector3Curvejs } from "../../../addons/particlepack/curves/Vector3Curve";
+import { Vector4Curve as Vector4Curvejs } from "../../../addons/particlepack/curves/Vector4Curve";
+import { LerpCurve as LerpCurvejs } from "../../../addons/particlepack/curves/LerpCurve";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../../util/rsvp";
+import { ObjectUtils as ObjectUtilsjs } from "../../../util/ObjectUtils";
+import { Vector3 as Vector3js } from "../../../math/Vector3";
+import { MathUtils as MathUtilsjs } from "../../../math/MathUtils";
+import { ParticleSystemUtils as ParticleSystemUtilsjs } from "../../../util/ParticleSystemUtils";
 function ParticleSystemComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandlerjs.apply(this, arguments);
 	this._cachedPresetTextures = {};
 	this._type = 'ParticleSystemComponent';
 }
 
-ParticleSystemComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+ParticleSystemComponentHandler.prototype = Object.create(ComponentHandlerjs.prototype);
 ParticleSystemComponentHandler.prototype.constructor = ParticleSystemComponentHandler;
-ComponentHandler._registerClass('particleSystem', ParticleSystemComponentHandler);
+ComponentHandlerjs._registerClass('particleSystem', ParticleSystemComponentHandler);
 
 function constantCurve(value) {
 	return [{
@@ -50,7 +45,7 @@ function linearCurve(k, m) {
  * @private
  */
 ParticleSystemComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
+	return ObjectUtilsjs.defaults(config, {
 		gravity: [0, 0, 0],
 		seed: -1,
 		shapeType: 'cone',
@@ -99,7 +94,7 @@ ParticleSystemComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 ParticleSystemComponentHandler.prototype._create = function () {
-	return new ParticleSystemComponent();
+	return new ParticleSystemComponentjs();
 };
 
 /**
@@ -113,26 +108,26 @@ ParticleSystemComponentHandler.prototype._remove = function (entity) {
 function createCurve(configs, multiplier) {
 	multiplier = multiplier !== undefined ? multiplier : 1;
 
-	var curve = new PolyCurve();
+	var curve = new PolyCurvejs();
 
 	for (var i = 0; i < configs.length; i++) {
 		var config = configs[i];
 		switch (config.type) {
 		case 'linear':
-			curve.addSegment(new LinearCurve({
+			curve.addSegment(new LinearCurvejs({
 				timeOffset: config.offset,
 				k: config.k * multiplier,
 				m: config.m * multiplier
 			}));
 			break;
 		case 'constant':
-			curve.addSegment(new ConstantCurve({
+			curve.addSegment(new ConstantCurvejs({
 				timeOffset: config.offset,
 				value: config.value * multiplier
 			}));
 			break;
 		case 'lerp':
-			curve.addSegment(new LerpCurve({
+			curve.addSegment(new LerpCurvejs({
 				timeOffset: config.offset,
 				curveA: createCurve(config.curveA, multiplier),
 				curveB: createCurve(config.curveB, multiplier)
@@ -145,7 +140,7 @@ function createCurve(configs, multiplier) {
 }
 
 function createVec3Curve(vector) {
-	return new Vector3Curve({
+	return new Vector3Curvejs({
 		x: createCurve(vector[0]),
 		y: createCurve(vector[1]),
 		z: createCurve(vector[2])
@@ -153,7 +148,7 @@ function createVec3Curve(vector) {
 }
 
 function createVec4Curve(vector) {
-	return new Vector4Curve({
+	return new Vector4Curvejs({
 		x: createCurve(vector[0]),
 		y: createCurve(vector[1]),
 		z: createCurve(vector[2]),
@@ -169,7 +164,7 @@ function createVec4Curve(vector) {
  */
 ParticleSystemComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		component.gravity.setArray(config.gravity);
@@ -179,9 +174,9 @@ ParticleSystemComponentHandler.prototype.update = function (entity, config, opti
 		component.sphereEmitFromShell = config.sphereEmitFromShell;
 		component.randomDirection = config.randomDirection;
 		component.coneEmitFrom = config.coneEmitFrom;
-		component.setBoxExtents(new Vector3(config.boxExtents));
+		component.setBoxExtents(new Vector3js(config.boxExtents));
 		component.coneRadius = config.coneRadius;
-		component.coneAngle = config.coneAngle * MathUtils.DEG_TO_RAD;
+		component.coneAngle = config.coneAngle * MathUtilsjs.DEG_TO_RAD;
 		component.coneLength = config.coneLength;
 		component.startColor = createVec4Curve(config.startColor);
 		component.colorOverLifetime = createVec4Curve(config.colorOverLifetime);
@@ -206,13 +201,13 @@ ParticleSystemComponentHandler.prototype.update = function (entity, config, opti
 		component.textureAnimationCycles = config.textureAnimationCycles;
 		component.startSize = createCurve(config.startSize);
 		component.sortMode = {
-			'none': ParticleSystemComponent.SORT_NONE,
-			'camera_distance': ParticleSystemComponent.SORT_CAMERA_DISTANCE
+			'none': ParticleSystemComponentjs.SORT_NONE,
+			'camera_distance': ParticleSystemComponentjs.SORT_CAMERA_DISTANCE
 		}[config.sortMode];
 		component.billboard = config.billboard;
 		component.sizeOverLifetime = createCurve(config.sizeOverLifetime);
-		component.startAngle = createCurve(config.startAngle, MathUtils.DEG_TO_RAD);
-		component.rotationSpeedOverLifetime = createCurve(config.rotationSpeedOverLifetime, MathUtils.DEG_TO_RAD);
+		component.startAngle = createCurve(config.startAngle, MathUtilsjs.DEG_TO_RAD);
+		component.rotationSpeedOverLifetime = createCurve(config.rotationSpeedOverLifetime, MathUtilsjs.DEG_TO_RAD);
 		component.autoPlay = config.autoPlay;
 
 		if (!component.paused) {
@@ -236,23 +231,23 @@ ParticleSystemComponentHandler.prototype.update = function (entity, config, opti
 				throw new Error('Error loading texture: ' + textureRef + ' - ' + err);
 			}));
 		} else if (config.texturePreset === 'Flare') {
-			cachedTextures.Flare = cachedTextures.Flare || ParticleSystemUtils.createFlareTexture(32);
+			cachedTextures.Flare = cachedTextures.Flare || ParticleSystemUtilsjs.createFlareTexture(32);
 			component.texture = cachedTextures.Flare;
 		} else if (config.texturePreset === 'Splash') {
-			cachedTextures.Splash = cachedTextures.Splash || ParticleSystemUtils.createSplashTexture(32);
+			cachedTextures.Splash = cachedTextures.Splash || ParticleSystemUtilsjs.createSplashTexture(32);
 			component.texture = cachedTextures.Splash;
 		} else if (config.texturePreset === 'Plankton') {
-			cachedTextures.Plankton = cachedTextures.Plankton || ParticleSystemUtils.createPlanktonTexture(32);
+			cachedTextures.Plankton = cachedTextures.Plankton || ParticleSystemUtilsjs.createPlanktonTexture(32);
 			component.texture = cachedTextures.Plankton;
 		} else if (config.texturePreset === 'Snowflake') {
-			cachedTextures.Snowflake = cachedTextures.Snowflake || ParticleSystemUtils.createSnowflakeTexture(32);
+			cachedTextures.Snowflake = cachedTextures.Snowflake || ParticleSystemUtilsjs.createSnowflakeTexture(32);
 			component.texture = cachedTextures.Snowflake;
 		} else {
 			component.texture = null;
 		}
 
 		if (promises.length) {
-			return RSVP.all(promises).then(function () {
+			return rsvp_rsvpjsjs.all(promises).then(function () {
 				return component;
 			});
 		} else {
@@ -261,4 +256,10 @@ ParticleSystemComponentHandler.prototype.update = function (entity, config, opti
 	});
 };
 
-module.exports = ParticleSystemComponentHandler;
+var exported_ParticleSystemComponentHandler = ParticleSystemComponentHandler;
+
+/**
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_ParticleSystemComponentHandler as ParticleSystemComponentHandler };

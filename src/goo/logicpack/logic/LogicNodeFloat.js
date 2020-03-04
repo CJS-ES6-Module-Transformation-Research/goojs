@@ -1,40 +1,44 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that provides a float value.
- * @private
- */
+import { LogicLayer as LogicLayerjs } from "./LogicLayer";
+import { LogicNode as LogicNodejs } from "./LogicNode";
+import { LogicNodes as LogicNodesjs } from "./LogicNodes";
+import { LogicInterface as LogicInterfacejs } from "./LogicInterface";
+var LogicNodeFloat_outportFloat;
+var LogicNodeFloat_editorName;
+var LogicNodeFloat_logicInterface;
 function LogicNodeFloat() {
-	LogicNode.call(this);
-	this.logicInterface = LogicNodeFloat.logicInterface;
+	LogicNodejs.call(this);
+	LogicNodeFloat_logicInterface = LogicNodeFloat_logicInterface;;
 	this.type = 'LogicNodeFloat';
 }
 
-LogicNodeFloat.prototype = Object.create(LogicNode.prototype);
-LogicNodeFloat.editorName = 'Float';
+LogicNodeFloat.prototype = Object.create(LogicNodejs.prototype);
+LogicNodeFloat_editorName = "Float";;
 
 LogicNodeFloat.prototype.onConfigure = function (newConfig) {
 	if (newConfig.value !== undefined) {
 		this.value = newConfig.value;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
+		LogicLayerjs.writeValue(this.logicInstance, LogicNodeFloat_outportFloat, this.value);
 	}
 };
 
 LogicNodeFloat.prototype.onSystemStarted = function () {
-	LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
+	LogicLayerjs.writeValue(this.logicInstance, LogicNodeFloat_outportFloat, this.value);
 };
 
-LogicNodes.registerType('LogicNodeFloat', LogicNodeFloat);
+LogicNodesjs.registerType('LogicNodeFloat', LogicNodeFloat);
 
-LogicNodeFloat.logicInterface = new LogicInterface();
-LogicNodeFloat.outportFloat = LogicNodeFloat.logicInterface.addOutputProperty('value', 'float');
+LogicNodeFloat_logicInterface = new LogicInterfacejs();
+LogicNodeFloat_outportFloat = LogicNodeFloat_logicInterface.addOutputProperty("value", "float");;
 LogicNodeFloat.logicInterface.addConfigEntry({
 	name: 'value',
 	type: 'float',
 	label: 'Value'
 });
 
-module.exports = LogicNodeFloat;
+var exported_LogicNodeFloat = LogicNodeFloat;
+
+/**
+ * Logic node that provides a float value.
+ * @private
+ */
+export { exported_LogicNodeFloat as LogicNodeFloat };

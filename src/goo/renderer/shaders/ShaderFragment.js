@@ -1,8 +1,3 @@
-/* eslint indent: "off" */
-
-/**
- * Collection of useful shader fragments
- */
 function ShaderFragment() {
 }
 
@@ -268,4 +263,11 @@ ShaderFragment.blendmodes = [
 	'#define LevelsControl(color, minInput, gamma, maxInput, minOutput, maxOutput)	LevelsControlOutputRange(LevelsControlInput(color, minInput, gamma, maxInput), minOutput, maxOutput)'
 ].join('\n');
 
-module.exports = ShaderFragment;
+var exported_ShaderFragment = ShaderFragment;
+
+/* eslint indent: "off" */
+
+/**
+ * Collection of useful shader fragments
+ */
+export { exported_ShaderFragment as ShaderFragment };

@@ -1,10 +1,9 @@
+import estraverse from "estraverse";
+import { getFileName as util_getFileNamejs } from "./util";
 // jshint node:true
 'use strict';
 
 var esprima = require('../lib/esprima');
-var estraverse = require('estraverse');
-
-var util = require('./util');
 
 
 var getFirstJSDoc = function (comments) {
@@ -204,7 +203,7 @@ var extract = function (source, file, options) {
 		return name[0] !== '_'; // skip 'private' methods
 	};
 
-	var fileName = util.getFileName(file);
+	var fileName = util_getFileNamejs(file);
 
 	var parseOptions = { attachComment: true };
 	var tree = esprima.parse(source, parseOptions);
@@ -212,4 +211,5 @@ var extract = function (source, file, options) {
 	return extractTree(tree, fileName, options);
 };
 
-exports.extract = extract;
+let exported_extract = extract;
+export { exported_extract as extract };

@@ -1,4 +1,4 @@
-var ArrayUtils = require('../../../src/goo/util/ArrayUtils');
+import { ArrayUtils as ArrayUtilsjs } from "../../../src/goo/util/ArrayUtils";
 
 describe('ArrayUtils', function () {
 	describe('fromKeys', function () {
@@ -6,8 +6,8 @@ describe('ArrayUtils', function () {
 			var set_ = new Set();
 			var map = new Map();
 
-			var setKeys = ArrayUtils.fromKeys(set_);
-			var mapKeys = ArrayUtils.fromKeys(map);
+			var setKeys = ArrayUtilsjs.fromKeys(set_);
+			var mapKeys = ArrayUtilsjs.fromKeys(map);
 
 			expect(setKeys).toEqual([]);
 			expect(mapKeys).toEqual([]);
@@ -24,8 +24,8 @@ describe('ArrayUtils', function () {
 			map.set('g', 'gg');
 			map.set('h', 'hh');
 
-			var setKeys = ArrayUtils.fromKeys(set_);
-			var mapKeys = ArrayUtils.fromKeys(map);
+			var setKeys = ArrayUtilsjs.fromKeys(set_);
+			var mapKeys = ArrayUtilsjs.fromKeys(map);
 
 			expect(setKeys).toEqual(['a', 's', 'd']);
 			expect(mapKeys).toEqual(['f', 'g', 'h']);
@@ -37,8 +37,8 @@ describe('ArrayUtils', function () {
 			var set_ = new Set();
 			var map = new Map();
 
-			var setKeys = ArrayUtils.fromValues(set_);
-			var mapKeys = ArrayUtils.fromValues(map);
+			var setKeys = ArrayUtilsjs.fromValues(set_);
+			var mapKeys = ArrayUtilsjs.fromValues(map);
 
 			expect(setKeys).toEqual([]);
 			expect(mapKeys).toEqual([]);
@@ -55,8 +55,8 @@ describe('ArrayUtils', function () {
 			map.set('g', 'gg');
 			map.set('h', 'hh');
 
-			var setKeys = ArrayUtils.fromValues(set_);
-			var mapKeys = ArrayUtils.fromValues(map);
+			var setKeys = ArrayUtilsjs.fromValues(set_);
+			var mapKeys = ArrayUtilsjs.fromValues(map);
 
 			expect(setKeys).toEqual(['a', 's', 'd']);
 			expect(mapKeys).toEqual(['ff', 'gg', 'hh']);

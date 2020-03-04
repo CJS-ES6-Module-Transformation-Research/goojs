@@ -1,12 +1,6 @@
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
-
-/**
- * Base class for physics systems.
- * @extends System
- */
+import { System as Systemjs } from "../../../entities/systems/System";
 function AbstractPhysicsSystem() {
-	System.apply(this, arguments);
+	Systemjs.apply(this, arguments);
 
 	this.priority = -1;
 
@@ -37,7 +31,7 @@ function AbstractPhysicsSystem() {
 	SystemBus.addListener('goo.collider.deleted', this._colliderDeletedListener);
 	SystemBus.addListener('goo.collider.deletedComponent', this._colliderDeletedComponentListener);
 }
-AbstractPhysicsSystem.prototype = Object.create(System.prototype);
+AbstractPhysicsSystem.prototype = Object.create(Systemjs.prototype);
 AbstractPhysicsSystem.prototype.constructor = AbstractPhysicsSystem;
 
 /**
@@ -124,4 +118,10 @@ AbstractPhysicsSystem.prototype._colliderInserted = function (/*entity*/) {};
 AbstractPhysicsSystem.prototype._colliderDeleted = function (/*entity*/) {};
 AbstractPhysicsSystem.prototype._colliderDeletedComponent = function (/*entity*/) {};
 
-module.exports = AbstractPhysicsSystem;
+var exported_AbstractPhysicsSystem = AbstractPhysicsSystem;
+
+/**
+ * Base class for physics systems.
+ * @extends System
+ */
+export { exported_AbstractPhysicsSystem as AbstractPhysicsSystem };

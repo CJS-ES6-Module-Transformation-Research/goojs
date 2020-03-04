@@ -1,11 +1,11 @@
-var TextureCreator = require('../../../src/goo/renderer/TextureCreator');
+import { TextureCreator as TextureCreatorjs } from "../../../src/goo/renderer/TextureCreator";
 
 describe('TextureCreator', function () {
 	var textureCreator;
 	var callbacks;
 
 	beforeEach(function () {
-		textureCreator = new TextureCreator();
+		textureCreator = new TextureCreatorjs();
 		callbacks = {
 			rejectCallback: function () {}
 		};

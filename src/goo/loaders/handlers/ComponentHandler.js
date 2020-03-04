@@ -1,18 +1,4 @@
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Base class for component handlers. All different types of components that an entity
- * can have need to have a registered component handler. To handle a new type of component,
- * create a class that inherits from this class, and override {_prepare}, {_create}, {update} and {remove}
- * as needed ({update} must be overridden). In your class, call <code>@_register('yourComponentType')</code> to _register
- * the handler with the loader.
- *
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
- * @returns {ComponentHandler}
- * @hidden
- */
+import { PromiseUtils as PromiseUtilsjs } from "../../util/PromiseUtils";
 function ComponentHandler(world, getConfig, updateObject, loadObject) {
 	//! schteppe: this._type seem to be assumed to be set by the subclass. Why not pass it as a parameter to this constructor?
 	this.world = world;
@@ -68,11 +54,11 @@ ComponentHandler.prototype._load = function (ref, options) {
  */
 ComponentHandler.prototype.update = function (entity, config/*, options*/) {
 	if (!entity) {
-		return PromiseUtils.reject('Entity is missing');
+		return PromiseUtilsjs.reject('Entity is missing');
 	}
 	if (!config) {
 		this._remove(entity);
-		return PromiseUtils.resolve();
+		return PromiseUtilsjs.resolve();
 	}
 	var component = entity.getComponent(this._type);
 	if (!component) {
@@ -81,7 +67,7 @@ ComponentHandler.prototype.update = function (entity, config/*, options*/) {
 	}
 	this._prepare(config);
 
-	return PromiseUtils.resolve(component);
+	return PromiseUtilsjs.resolve(component);
 };
 
 
@@ -106,4 +92,19 @@ ComponentHandler._registerClass = function (type, klass) {
 	ComponentHandler.handlerClasses[type] = klass;
 };
 
-module.exports = ComponentHandler;
+var exported_ComponentHandler = ComponentHandler;
+
+/**
+ * Base class for component handlers. All different types of components that an entity
+ * can have need to have a registered component handler. To handle a new type of component,
+ * create a class that inherits from this class, and override {_prepare}, {_create}, {update} and {remove}
+ * as needed ({update} must be overridden). In your class, call <code>@_register('yourComponentType')</code> to _register
+ * the handler with the loader.
+ *
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
+ * @returns {ComponentHandler}
+ * @hidden
+ */
+export { exported_ComponentHandler as ComponentHandler };

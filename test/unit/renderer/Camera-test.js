@@ -1,19 +1,19 @@
-var CustomMatchers = require('../../../test/unit/CustomMatchers');
-var Camera = require('../../../src/goo/renderer/Camera');
-var BoundingSphere = require('../../../src/goo/renderer/bounds/BoundingSphere');
-var BoundingBox = require('../../../src/goo/renderer/bounds/BoundingBox');
-var Vector3 = require('../../../src/goo/math/Vector3');
+import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../test/unit/CustomMatchers";
+import { Camera as Camerajs } from "../../../src/goo/renderer/Camera";
+import { BoundingSphere as BoundingSpherejs } from "../../../src/goo/renderer/bounds/BoundingSphere";
+import { BoundingBox as BoundingBoxjs } from "../../../src/goo/renderer/bounds/BoundingBox";
+import { Vector3 as Vector3js } from "../../../src/goo/math/Vector3";
 
 describe('Camera', function () {
 	var camera;
 
 	beforeEach(function () {
-		camera = new Camera(90, 1, 1, 100);
-		jasmine.addMatchers(CustomMatchers);
+		camera = new Camerajs(90, 1, 1, 100);
+		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
 	});
 
 	it('can pack frustum around bounds', function () {
-		var bound = new BoundingSphere();
+		var bound = new BoundingSpherejs();
 		bound.radius = 10.0;
 		bound.center.setDirect(0, 0, -20);
 
@@ -29,8 +29,8 @@ describe('Camera', function () {
 
 	it('can pick a ray', function () {
 		var ray = camera.getPickRay(50, 50, 100, 100);
-		expect(ray.origin).toBeCloseToVector(new Vector3(0, 0, -1)); // from nearplane (with negative z direction)
-		expect(ray.direction).toBeCloseToVector(new Vector3(0, 0, -1));
+		expect(ray.origin).toBeCloseToVector(new Vector3js(0, 0, -1)); // from nearplane (with negative z direction)
+		expect(ray.direction).toBeCloseToVector(new Vector3js(0, 0, -1));
 	});
 
 	it('can get the world position', function () {
@@ -44,30 +44,30 @@ describe('Camera', function () {
 	});
 
 	it('can lookAt', function () {
-		camera.lookAt(new Vector3(-1, 0, 0), Vector3.UNIT_Y);
-		expect(camera.translation).toBeCloseToVector(new Vector3(0, 0, 0)); // from nearplane (with negative z direction)
-		expect(camera._left).toBeCloseToVector(new Vector3(0, 0, 1)); // from nearplane (with negative z direction)
-		expect(camera._up).toBeCloseToVector(new Vector3(0, 1, 0)); // from nearplane (with negative z direction)
-		expect(camera._direction).toBeCloseToVector(new Vector3(-1, 0, 0)); // from nearplane (with negative z direction)
+		camera.lookAt(new Vector3js(-1, 0, 0), Vector3js.UNIT_Y);
+		expect(camera.translation).toBeCloseToVector(new Vector3js(0, 0, 0)); // from nearplane (with negative z direction)
+		expect(camera._left).toBeCloseToVector(new Vector3js(0, 0, 1)); // from nearplane (with negative z direction)
+		expect(camera._up).toBeCloseToVector(new Vector3js(0, 1, 0)); // from nearplane (with negative z direction)
+		expect(camera._direction).toBeCloseToVector(new Vector3js(-1, 0, 0)); // from nearplane (with negative z direction)
 	});
 
 	it('does correct intersection calculations against boundingbox and boundingsphere', function () {
 		var tests = [
-			[-10, 0, -10, Camera.Intersects], // place to intersect with left plane
-			[10, 0, -10, Camera.Intersects], // place to intersect with right plane
-			[0, 10, -10, Camera.Intersects], // place to intersect with top plane
-			[0, -10, -10, Camera.Intersects], // place to intersect with bottom plane
-			[0, 0, -1, Camera.Intersects], // place to intersect with near plane
-			[0, 0, -100, Camera.Intersects], // place to intersect with far plane
+			[-10, 0, -10, Camerajs.Intersects], // place to intersect with left plane
+			[10, 0, -10, Camerajs.Intersects], // place to intersect with right plane
+			[0, 10, -10, Camerajs.Intersects], // place to intersect with top plane
+			[0, -10, -10, Camerajs.Intersects], // place to intersect with bottom plane
+			[0, 0, -1, Camerajs.Intersects], // place to intersect with near plane
+			[0, 0, -100, Camerajs.Intersects], // place to intersect with far plane
 
-			[0, 0, -10, Camera.Inside], // place to be inside
+			[0, 0, -10, Camerajs.Inside], // place to be inside
 
-			[-100, 0, -10, Camera.Outside], // place to be outside left plane
-			[100, 0, -10, Camera.Outside], // place to be outside right plane
-			[0, 100, -10, Camera.Outside], // place to be outside top plane
-			[0, -100, -10, Camera.Outside], // place to be outside bottom plane
-			[0, 0, 10, Camera.Outside], // place to be outside near plane
-			[0, 0, -1000, Camera.Outside] // place to be outside far plane
+			[-100, 0, -10, Camerajs.Outside], // place to be outside left plane
+			[100, 0, -10, Camerajs.Outside], // place to be outside right plane
+			[0, 100, -10, Camerajs.Outside], // place to be outside top plane
+			[0, -100, -10, Camerajs.Outside], // place to be outside bottom plane
+			[0, 0, 10, Camerajs.Outside], // place to be outside near plane
+			[0, 0, -1000, Camerajs.Outside] // place to be outside far plane
 		];
 		var testBounds = function (bounding, testdata) {
 			for (var i = 0; i < testdata.length; i++) {
@@ -76,20 +76,20 @@ describe('Camera', function () {
 				expect(camera.contains(bounding)).toBe(data[3]);
 			}
 		};
-		testBounds(new BoundingBox(), tests);
-		testBounds(new BoundingSphere(), tests);
+		testBounds(new BoundingBoxjs(), tests);
+		testBounds(new BoundingSpherejs(), tests);
 	});
 
 	it('can calculate corners of frustum', function () {
 		var corners = camera.calculateFrustumCorners();
-		expect(corners[0]).toBeCloseToVector(new Vector3(1, -1, -1));
-		expect(corners[1]).toBeCloseToVector(new Vector3(-1, -1, -1));
-		expect(corners[2]).toBeCloseToVector(new Vector3(-1, 1, -1));
-		expect(corners[3]).toBeCloseToVector(new Vector3(1, 1, -1));
-		expect(corners[4]).toBeCloseToVector(new Vector3(100, -100, -100));
-		expect(corners[5]).toBeCloseToVector(new Vector3(-100, -100, -100));
-		expect(corners[6]).toBeCloseToVector(new Vector3(-100, 100, -100));
-		expect(corners[7]).toBeCloseToVector(new Vector3(100, 100, -100));
+		expect(corners[0]).toBeCloseToVector(new Vector3js(1, -1, -1));
+		expect(corners[1]).toBeCloseToVector(new Vector3js(-1, -1, -1));
+		expect(corners[2]).toBeCloseToVector(new Vector3js(-1, 1, -1));
+		expect(corners[3]).toBeCloseToVector(new Vector3js(1, 1, -1));
+		expect(corners[4]).toBeCloseToVector(new Vector3js(100, -100, -100));
+		expect(corners[5]).toBeCloseToVector(new Vector3js(-100, -100, -100));
+		expect(corners[6]).toBeCloseToVector(new Vector3js(-100, 100, -100));
+		expect(corners[7]).toBeCloseToVector(new Vector3js(100, 100, -100));
 	});
 
 	describe('setFrustumPerspective', function () {
@@ -128,8 +128,8 @@ describe('Camera', function () {
 
 	describe('copy', function () {
 		it('can copy everything from another camera', function () {
-			var original = new Camera(50, 2, 2, 2000);
-			var copy = new Camera();
+			var original = new Camerajs(50, 2, 2, 2000);
+			var copy = new Camerajs();
 			copy.copy(original);
 
 			expect(copy).toBeCloned(original);
@@ -138,7 +138,7 @@ describe('Camera', function () {
 
 	describe('clone', function () {
 		it('clones a camera', function () {
-			var original = new Camera(50, 2, 2, 2000);
+			var original = new Camerajs(50, 2, 2, 2000);
 			var clone = original.clone();
 
 			expect(clone).toBeCloned(original);

@@ -1,15 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Vector3 = require('../../math/Vector3');
-var Camera = require('../../renderer/Camera');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Holds a camera.
- * @param {Camera} camera Camera to contain in this component.
- * @extends Component
- */
+import { Component as Componentjs } from "../../entities/components/Component";
+import { Vector3 as Vector3js } from "../../math/Vector3";
+import { Camera as Camerajs } from "../../renderer/Camera";
 function CameraComponent(camera) {
-	Component.apply(this, arguments);
+	Componentjs.apply(this, arguments);
 
 	this.type = 'CameraComponent';
 
@@ -24,21 +17,21 @@ function CameraComponent(camera) {
 	 * @type {Vector3}
 	 * @default (-1, 0, 0)
 	 */
-	this.leftVec = new Vector3(-1, 0, 0);
+	this.leftVec = new Vector3js(-1, 0, 0);
 
 	/**
 	 * Up vector.
 	 * @type {Vector3}
 	 * @default (0, 1, 0)
 	 */
-	this.upVec = new Vector3(0, 1, 0);
+	this.upVec = new Vector3js(0, 1, 0);
 
 	/**
 	 * Direction vector.
 	 * @type {Vector3}
 	 * @default (0, 0, -1)
 	 */
-	this.dirVec = new Vector3(0, 0, -1);
+	this.dirVec = new Vector3js(0, 0, -1);
 
 	this._transformUpdatedListener = null;
 	this._transformDirty = true;
@@ -50,7 +43,7 @@ function CameraComponent(camera) {
 
 CameraComponent.type = 'CameraComponent';
 
-CameraComponent.prototype = Object.create(Component.prototype);
+CameraComponent.prototype = Object.create(Componentjs.prototype);
 CameraComponent.prototype.constructor = CameraComponent;
 
 CameraComponent.prototype.api = {
@@ -139,11 +132,18 @@ CameraComponent.prototype.clone = function () {
 };
 
 CameraComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Camera) {
+	if (obj instanceof Camerajs) {
 		var cameraComponent = new CameraComponent(obj);
 		entity.setComponent(cameraComponent);
 		return true;
 	}
 };
 
-module.exports = CameraComponent;
+var exported_CameraComponent = CameraComponent;
+
+/**
+ * Holds a camera.
+ * @param {Camera} camera Camera to contain in this component.
+ * @extends Component
+ */
+export { exported_CameraComponent as CameraComponent };

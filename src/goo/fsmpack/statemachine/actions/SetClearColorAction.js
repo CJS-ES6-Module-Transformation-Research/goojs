@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function SetClearColorAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetClearColorAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-SetClearColorAction.prototype = Object.create(Action.prototype);
+SetClearColorAction.prototype = Object.create(Actionjs.prototype);
 SetClearColorAction.prototype.constructor = SetClearColorAction;
 
 SetClearColorAction.external = {
@@ -28,4 +28,5 @@ SetClearColorAction.prototype.enter = function (fsm) {
 	entity._world.gooRunner.renderer.setClearColor(color[0], color[1], color[2], color[3]);
 };
 
-module.exports = SetClearColorAction;
+var exported_SetClearColorAction = SetClearColorAction;
+export { exported_SetClearColorAction as SetClearColorAction };

@@ -1,18 +1,22 @@
-var Scripts = require('../scripts/Scripts');
+import { register as Scriptsjs_register } from "../scripts/Scripts";
+import { OrbitCamControlScript as OrbitCamControlScriptjs } from "../scripts/OrbitCamControlScript";
+import { PanCamScript as PanCamScriptjs } from "./PanCamScript";
+import { MouseLookControlScript as MouseLookControlScriptjs } from "./MouseLookControlScript";
+import { WasdControlScript as WasdControlScriptjs } from "./WasdControlScript";
 
 var scripts = {
-	OrbitCamControlScript: require('../scripts/OrbitCamControlScript'),
-	OrbitNPanControlScript: require('./OrbitNPanControlScript'),
-	FlyControlScript: require('./FlyControlScript'),
-	AxisAlignedCamControlScript: require('./AxisAlignedCamControlScript'),
-	PanCamScript: require('./PanCamScript'),
-	MouseLookControlScript: require('./MouseLookControlScript'),
-	WasdControlScript: require('./WasdControlScript'),
-	ButtonScript: require('./ButtonScript'),
-	PickAndRotateScript: require('./PickAndRotateScript'),
-	LensFlareScript: require('./LensFlareScript')
+	OrbitCamControlScript: OrbitCamControlScript_OrbitCamControlScriptjs,
+	OrbitNPanControlScript: OrbitNPanControlScript_OrbitNPanjs,
+	FlyControlScript: FlyControlScript_FlyControlScriptjs,
+	AxisAlignedCamControlScript: AxisAlignedCamControlScript_AxisAlignedCamControlScriptjs,
+	PanCamScript: PanCamScript_PanCamScriptjs,
+	MouseLookControlScript: MouseLookControlScript_MouseLookControlScriptjs,
+	WasdControlScript: WasdControlScript_WasdControlScriptjs,
+	ButtonScript: ButtonScript_ButtonScriptjs,
+	PickAndRotateScript: PickAndRotateScript_PickAndRotateScriptjs,
+	LensFlareScript: LensFlareScript_LensFlareScriptjs
 };
 
 for (var key in scripts) {
-	Scripts.register(scripts[key]);
+	Scriptsjs_register(scripts[key]);
 }

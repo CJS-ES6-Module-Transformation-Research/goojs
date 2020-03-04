@@ -1,38 +1,36 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node to be used as Layer input.
- * @private
- */
+import { LogicLayer as LogicLayerjs } from "./LogicLayer";
+import { LogicNode as LogicNodejs } from "./LogicNode";
+import { LogicNodes as LogicNodesjs } from "./LogicNodes";
+import { LogicInterface as LogicInterfacejs } from "./LogicInterface";
+var LogicNodeInput_outportInput;
+var LogicNodeInput_editorName;
+var LogicNodeInput_logicInterface;
 function LogicNodeInput() {
-	LogicNode.call(this);
-	this.logicInterface = LogicNodeInput.logicInterface;
+	LogicNodejs.call(this);
+	LogicNodeInput_logicInterface = LogicNodeInput_logicInterface;;
 	this.type = 'LogicNodeInput';
 	this.dummyInport = null;
 }
 
-LogicNodeInput.prototype = Object.create(LogicNode.prototype);
-LogicNodeInput.editorName = 'Input';
+LogicNodeInput.prototype = Object.create(LogicNodejs.prototype);
+LogicNodeInput_editorName = "Input";;
 
 // Configure new input.
 LogicNodeInput.prototype.onConfigure = function (newConfig) {
-	this.dummyInport = LogicInterface.createDynamicInput(newConfig.Name);
+	this.dummyInport = LogicInterfacejs.createDynamicInput(newConfig.Name);
 };
 
 LogicNodeInput.prototype.onInputChanged = function (instDesc, portID, value) {
 	// this will be the dummy inport getting values written.
-	LogicLayer.writeValue(this.logicInstance, LogicNodeInput.outportInput, value);
+	LogicLayerjs.writeValue(this.logicInstance, LogicNodeInput_outportInput, value);
 };
 
-LogicNodes.registerType('LogicNodeInput', LogicNodeInput);
+LogicNodesjs.registerType('LogicNodeInput', LogicNodeInput);
 
-LogicNodeInput.logicInterface = new LogicInterface();
+LogicNodeInput_logicInterface = new LogicInterfacejs();
 
 // TODO: This should be a both, not property/event.
-LogicNodeInput.outportInput = LogicNodeInput.logicInterface.addOutputProperty('Input', 'any');
+LogicNodeInput_outportInput = LogicNodeInput_logicInterface.addOutputProperty("Input", "any");;
 
 LogicNodeInput.logicInterface.addConfigEntry({
 	name: 'Name',
@@ -40,4 +38,10 @@ LogicNodeInput.logicInterface.addConfigEntry({
 	label: 'Name'
 });
 
-module.exports = LogicNodeInput;
+var exported_LogicNodeInput = LogicNodeInput;
+
+/**
+ * Logic node to be used as Layer input.
+ * @private
+ */
+export { exported_LogicNodeInput as LogicNodeInput };

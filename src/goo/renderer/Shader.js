@@ -1,30 +1,9 @@
-var ShaderCall = require('../renderer/ShaderCall');
-var Matrix3 = require('../math/Matrix3');
-var Matrix4 = require('../math/Matrix4');
-var World = require('../entities/World');
-var RenderQueue = require('../renderer/RenderQueue');
-var ObjectUtils = require('../util/ObjectUtils');
-var SystemBus = require('../entities/SystemBus');
-
-/* global WebGLRenderingContext */
-
-/**
- * Defines vertex and fragment shader and uniforms to shader callbacks
- * @param {string} name Shader name (mostly for debug/tool use)
- * @param {ShaderDefinition} shaderDefinition Shader data
- *
- * <code>
- * {
- *    vshader: [required] vertex shader source
- *    fshader: [required] fragment shader source
- *    defines : shader definitions (becomes #define)
- *    attributes : attribute bindings
- *       attribute bindings need to map to an attribute in the meshdata being rendered
- *    uniforms : uniform bindings
- *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
- * }
- * </code>
- */
+import { ShaderCall as ShaderCall_ShaderCalljs } from "../renderer/ShaderCall";
+import { Matrix3 as Matrix3js } from "../math/Matrix3";
+import { Matrix4 as Matrix4js } from "../math/Matrix4";
+import { World as Worldjs } from "../entities/World";
+import { RenderQueue as RenderQueuejs } from "../renderer/RenderQueue";
+import { ObjectUtils as ObjectUtilsjs } from "../util/ObjectUtils";
 function Shader(name, shaderDefinition) {
 	if (!shaderDefinition.vshader || !shaderDefinition.fshader) {
 		throw new Error('Missing shader sources for shader: ' + name);
@@ -110,7 +89,7 @@ function Shader(name, shaderDefinition) {
 	 * By default materials use the render queue of the shader. See {@link RenderQueue} for more info
 	 * @type {number}
 	 */
-	this.renderQueue = RenderQueue.OPAQUE;
+	this.renderQueue = RenderQueuejs.OPAQUE;
 
 	// this._id = Shader.id++;
 	if (Shader.cache.has(shaderDefinition)) {
@@ -135,7 +114,7 @@ function Shader(name, shaderDefinition) {
 Shader.cache = new Map();
 
 Shader.prototype.clone = function () {
-	return new Shader(this.name, ObjectUtils.deepClone({
+	return new Shader(this.name, ObjectUtilsjs.deepClone({
 		precision: this.precision,
 		processors: this.processors,
 		builder: this.builder,
@@ -519,7 +498,7 @@ Shader.prototype.compile = function (renderer) {
 			continue;
 		}
 
-		this.uniformCallMapping[key] = new ShaderCall(context, uniform, this.uniformMapping[key].format);
+		this.uniformCallMapping[key] = new ShaderCall_ShaderCalljs(context, uniform, this.uniformMapping[key].format);
 	}
 
 	if (this.attributes) {
@@ -633,12 +612,12 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 	defaultCallbacks[Shader.WORLD_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : Matrix4.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : Matrix4js.IDENTITY;
 		uniformCall.uniformMatrix4fv(matrix);
 	};
 	defaultCallbacks[Shader.NORMAL_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : Matrix3.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : Matrix3js.IDENTITY;
 		uniformCall.uniformMatrix3fv(matrix);
 	};
 
@@ -727,10 +706,10 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 
 	defaultCallbacks[Shader.TIME] = function (uniformCall) {
-		uniformCall.uniform1f(World.time);
+		uniformCall.uniform1f(Worldjs.time);
 	};
 	defaultCallbacks[Shader.TPF] = function (uniformCall) {
-		uniformCall.uniform1f(World.tpf);
+		uniformCall.uniform1f(Worldjs.tpf);
 	};
 
 	defaultCallbacks[Shader.RESOLUTION] = function (uniformCall, shaderInfo) {
@@ -811,4 +790,25 @@ Shader.DEFAULT_SHININESS = 64.0;
 Shader.prototype.defaultCallbacks = {};
 setupDefaultCallbacks(Shader.prototype.defaultCallbacks);
 
-module.exports = Shader;
+var exported_Shader = Shader;
+
+/* global WebGLRenderingContext */
+
+/**
+ * Defines vertex and fragment shader and uniforms to shader callbacks
+ * @param {string} name Shader name (mostly for debug/tool use)
+ * @param {ShaderDefinition} shaderDefinition Shader data
+ *
+ * <code>
+ * {
+ *    vshader: [required] vertex shader source
+ *    fshader: [required] fragment shader source
+ *    defines : shader definitions (becomes #define)
+ *    attributes : attribute bindings
+ *       attribute bindings need to map to an attribute in the meshdata being rendered
+ *    uniforms : uniform bindings
+ *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
+ * }
+ * </code>
+ */
+export { exported_Shader as Shader };

@@ -1,10 +1,10 @@
-var Scripts = require('../scripts/Scripts');
-var WasdControlScript = require('../scriptpack/WasdControlScript');
-var MouseLookControlScript = require('../scriptpack/MouseLookControlScript');
+import { WasdControlScript as WasdControlScriptjs } from "../scriptpack/WasdControlScript";
+import { MouseLookControlScript as MouseLookControlScriptjs } from "../scriptpack/MouseLookControlScript";
+var FlyControlScript_externals;
 
 function FlyControlScript() {
-	var wasdScript = Scripts.create(WasdControlScript);
-	var lookScript = Scripts.create(MouseLookControlScript);
+	var wasdScript = Scripts.create(WasdControlScriptjs);
+	var lookScript = Scripts.create(MouseLookControlScriptjs);
 
 	function setup(parameters, environment) {
 		lookScript.setup(parameters, environment);
@@ -28,15 +28,15 @@ function FlyControlScript() {
 	};
 }
 
-var wasdParams = WasdControlScript.externals.parameters;
-var mouseLookParams = MouseLookControlScript.externals.parameters;
+var wasdParams = WasdControlScriptjs.externals.parameters;
+var mouseLookParams = MouseLookControlScriptjs.externals.parameters;
 var params = wasdParams.concat(mouseLookParams.slice(1));
 
-FlyControlScript.externals = {
-	key: 'FlyControlScript',
-	name: 'Fly Control',
-	description: 'This is a combo of the Wasd script and the MouseLook script',
-	parameters: params
-};
+FlyControlScript_externals = {
+    key: "FlyControlScript",
+    name: "Fly Control",
+    description: "This is a combo of the Wasd script and the MouseLook script",
+    parameters: params
+};;
 
-module.exports = FlyControlScript;
+export { FlyControlScript };

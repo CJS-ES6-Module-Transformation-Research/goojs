@@ -1,11 +1,5 @@
-var MathUtils = require('./MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Matrix with RxC components.
- * @param {number} rows Number of rows.
- * @param {number} cols Number of columns.
- */
+import { MathUtils as MathUtilsjs } from "./MathUtils";
+import { ObjectUtils as ObjectUtilsjs } from "../util/ObjectUtils";
 function Matrix(rows, cols) {
 	this.rows = rows || 0;
 	this.cols = cols || 0;
@@ -109,7 +103,7 @@ Matrix.addPostChecks = function (object, methodNames) {
  * @returns {Matrix} A new matrix if the target matrix is omitted, else the target matrix.
  * @deprecated
  */
-Matrix.add = ObjectUtils.warnOnce(
+Matrix.add = ObjectUtilsjs.warnOnce(
 	'Matrix.add is deprecated. Use Matrix3.prototype.add, Matrix2.prototype.add or Matrix4.prototype.add instead.',
 	function (lhs, rhs, target) {
 		var rows = lhs.rows;
@@ -139,7 +133,7 @@ Matrix.add = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.add = ObjectUtils.warnOnce(
+Matrix.prototype.add = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.add is deprecated. Use Matrix3.prototype.add, Matrix2.prototype.add or Matrix4.prototype.add instead.',
 	function (rhs) {
 		return Matrix.add(this, rhs, this);
@@ -157,7 +151,7 @@ Matrix.prototype.add = ObjectUtils.warnOnce(
  * @deprecated
  */
 
-Matrix.sub = ObjectUtils.warnOnce(
+Matrix.sub = ObjectUtilsjs.warnOnce(
 	'Matrix.sub is deprecated. Use Matrix3.prototype.sub, Matrix2.prototype.sub or Matrix4.prototype.sub instead.',
 	function (lhs, rhs, target) {
 		var rows = lhs.rows;
@@ -187,7 +181,7 @@ Matrix.sub = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.sub = ObjectUtils.warnOnce(
+Matrix.prototype.sub = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.sub is deprecated. Use Matrix3.prototype.sub, Matrix2.prototype.sub or Matrix4.prototype.sub instead.',
 	function (rhs) {
 		return Matrix.sub(this, rhs, this);
@@ -204,7 +198,7 @@ Matrix.prototype.sub = ObjectUtils.warnOnce(
  * @returns {Matrix} A new matrix if the target matrix is omitted, else the target matrix.
  * @deprecated
  */
-Matrix.mul = ObjectUtils.warnOnce(
+Matrix.mul = ObjectUtilsjs.warnOnce(
 	'Matrix.mul is deprecated. Use Matrix3.prototype.mul, Matrix2.prototype.mul or Matrix4.prototype.mul instead.',
 	function (lhs, rhs, target) {
 		var rows = lhs.rows;
@@ -234,7 +228,7 @@ Matrix.mul = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.mul = ObjectUtils.warnOnce(
+Matrix.prototype.mul = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.mul is deprecated. Use Matrix3.prototype.mul, Matrix2.prototype.mul or Matrix4.prototype.mul instead.',
 	function (rhs) {
 		return Matrix.mul(this, rhs, this);
@@ -251,7 +245,7 @@ Matrix.prototype.mul = ObjectUtils.warnOnce(
  * @returns {Matrix} A new matrix if the target matrix is omitted, else the target matrix.
  * @deprecated
  */
-Matrix.div = ObjectUtils.warnOnce(
+Matrix.div = ObjectUtilsjs.warnOnce(
 	'Matrix.div is deprecated. Use Matrix3.prototype.div, Matrix2.prototype.div or Matrix4.prototype.div instead.',
 	function (lhs, rhs, target) {
 		var rows = lhs.rows;
@@ -283,7 +277,7 @@ Matrix.div = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.div = ObjectUtils.warnOnce(
+Matrix.prototype.div = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.div is deprecated. Use Matrix3.prototype.div, Matrix2.prototype.div or Matrix4.prototype.div instead.',
 	function (rhs) {
 		return Matrix.div(this, rhs, this);
@@ -300,7 +294,7 @@ Matrix.prototype.div = ObjectUtils.warnOnce(
  * @returns {Matrix} A new matrix if the target matrix is omitted, else the target matrix.
  * @deprecated
  */
-Matrix.combine = ObjectUtils.warnOnce(
+Matrix.combine = ObjectUtilsjs.warnOnce(
 	'Matrix.combine is deprecated. Use Matrix2/3/4.prototype.mul or Matrix2/3/4.prototype.mul2 instead.',
 	function (lhs, rhs, target) {
 		var rows = lhs.rows;
@@ -339,7 +333,7 @@ Matrix.combine = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.combine = ObjectUtils.warnOnce(
+Matrix.prototype.combine = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.combine is deprecated. Use Matrix2/3/4.prototype.mul or Matrix2/3/4.prototype.mul2 instead.',
 	function (rhs) {
 		return Matrix.combine(this, rhs, this);
@@ -355,7 +349,7 @@ Matrix.prototype.combine = ObjectUtils.warnOnce(
  * @returns {Matrix} A new matrix if the target matrix is omitted, else the target matrix.
  * @deprecated
  */
-Matrix.transpose = ObjectUtils.warnOnce(
+Matrix.transpose = ObjectUtilsjs.warnOnce(
 	'Matrix.transpose is deprecated. Use Matrix2/3/4.prototype.transpose instead.',
 	function (source, target) {
 		var rows = source.cols;
@@ -386,7 +380,7 @@ Matrix.transpose = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.transpose = ObjectUtils.warnOnce(
+Matrix.prototype.transpose = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.transpose is deprecated. Use Matrix2/3/4.prototype.transpose instead.',
 	function () {
 		return Matrix.transpose(this, this);
@@ -402,7 +396,7 @@ Matrix.prototype.transpose = ObjectUtils.warnOnce(
  * @returns {Matrix} A new matrix if the target matrix is omitted, else the target matrix.
  * @deprecated
  */
-Matrix.copy = ObjectUtils.warnOnce(
+Matrix.copy = ObjectUtilsjs.warnOnce(
 	'Matrix.copy is deprecated. Use Matrix2/3/4.prototype.copy instead.',
 	function (source, target) {
 		var rows = source.rows;
@@ -424,7 +418,7 @@ Matrix.copy = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.copy = ObjectUtils.warnOnce(
+Matrix.prototype.copy = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.copy is deprecated. Use Matrix2/3/4.prototype.copy instead.',
 	function (source) {
 		return Matrix.copy(source, this);
@@ -440,7 +434,7 @@ Matrix.prototype.copy = ObjectUtils.warnOnce(
  * @returns {boolean} True if equal.
  * @deprecated
  */
-Matrix.equals = ObjectUtils.warnOnce(
+Matrix.equals = ObjectUtilsjs.warnOnce(
 	'Matrix.equals is deprecated. Use Matrix2/3/4.prototype.equals instead.',
 	function (lhs, rhs) {
 		if (lhs.rows !== rhs.rows || lhs.cols !== rhs.cols) {
@@ -452,7 +446,7 @@ Matrix.equals = ObjectUtils.warnOnce(
 			// then Math.abs(NaN) is NaN which is neither bigger or smaller than EPSILON
 			// which never satisfies the condition
 			// NaN is not close to NaN and we want to preserve that for matrices as well
-			if (!(Math.abs(lhs.data[i] - rhs.data[i]) <= MathUtils.EPSILON)) {
+			if (!(Math.abs(lhs.data[i] - rhs.data[i]) <= MathUtilsjs.EPSILON)) {
 				return false;
 			}
 		}
@@ -467,7 +461,7 @@ Matrix.equals = ObjectUtils.warnOnce(
  * @returns {boolean} True if equal.
  * @deprecated
  */
-Matrix.prototype.equals = ObjectUtils.warnOnce(
+Matrix.prototype.equals = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.equals is deprecated. Use Matrix2/3/4.prototype.equals instead.',
 	function (rhs) {
 		return Matrix.equals(this, rhs);
@@ -481,7 +475,7 @@ Matrix.prototype.equals = ObjectUtils.warnOnce(
  * @returns {boolean} True if orthogonal.
  * @deprecated
  */
-Matrix.prototype.isOrthogonal = ObjectUtils.warnOnce(
+Matrix.prototype.isOrthogonal = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.isOrthogonal is deprecated. Use Matrix2/3/4.prototype.isOrthogonal instead.',
 	function () {
 		for (var ca = 0; ca < this.cols; ca++) {
@@ -494,7 +488,7 @@ Matrix.prototype.isOrthogonal = ObjectUtils.warnOnce(
 					sum += this.data[oa + r] * this.data[ob + r];
 				}
 
-				if (Math.abs(sum) > MathUtils.EPSILON) {
+				if (Math.abs(sum) > MathUtilsjs.EPSILON) {
 					return false;
 				}
 			}
@@ -511,7 +505,7 @@ Matrix.prototype.isOrthogonal = ObjectUtils.warnOnce(
  * @returns {boolean} True if normal.
  * @deprecated
  */
-Matrix.prototype.isNormal = ObjectUtils.warnOnce(
+Matrix.prototype.isNormal = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.isNormal is deprecated. Use Matrix2/3/4.prototype.isNormal instead.',
 	function () {
 		for (var c = 0; c < this.cols; c++) {
@@ -522,7 +516,7 @@ Matrix.prototype.isNormal = ObjectUtils.warnOnce(
 				sum += this.data[o + r] * this.data[o + r];
 			}
 
-			if (Math.abs(sum - 1.0) > MathUtils.EPSILON) {
+			if (Math.abs(sum - 1.0) > MathUtilsjs.EPSILON) {
 				return false;
 			}
 		}
@@ -538,7 +532,7 @@ Matrix.prototype.isNormal = ObjectUtils.warnOnce(
  * @returns {boolean} True if orthonormal.
  * @deprecated
  */
-Matrix.prototype.isOrthonormal = ObjectUtils.warnOnce(
+Matrix.prototype.isOrthonormal = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.isOrthonormal is deprecated. Use Matrix2/3/4.prototype.isOrthonormal instead.',
 	function () {
 		return this.isOrthogonal() && this.isNormal();
@@ -552,7 +546,7 @@ Matrix.prototype.isOrthonormal = ObjectUtils.warnOnce(
  * @returns {Matrix} Clone of self.
  * @deprecated
  */
-Matrix.prototype.clone = ObjectUtils.warnOnce(
+Matrix.prototype.clone = ObjectUtilsjs.warnOnce(
 	'Matrix.prorotype.clone is deprecated. Use Matrix2/3/4.prototype.clone instead.',
 	function () {
 		return Matrix.copy(this);
@@ -567,7 +561,7 @@ Matrix.prototype.clone = ObjectUtils.warnOnce(
  * @returns {Matrix} Self for chaining.
  * @deprecated
  */
-Matrix.prototype.set = ObjectUtils.warnOnce(
+Matrix.prototype.set = ObjectUtilsjs.warnOnce(
 	'Matrix.prototype.set is deprecated. Use Matrix2/3/4.prototype.set instead.',
 	function () {
 		if (arguments.length === 1 && typeof arguments[0] === 'object') {
@@ -593,7 +587,7 @@ Matrix.prototype.set = ObjectUtils.warnOnce(
  * @returns {string} String of component values.
  * @deprecated
  */
-Matrix.prototype.toString = ObjectUtils.warnOnce(
+Matrix.prototype.toString = ObjectUtilsjs.warnOnce(
 	'Matrix.prorotype.toString is deprecated.',
 	function () {
 		var string = '';
@@ -614,6 +608,11 @@ Matrix.prototype.toString = ObjectUtils.warnOnce(
 		return string;
 	}
 );
-// SHIM END
+var exported_Matrix = Matrix;
 
-module.exports = Matrix;
+/**
+ * Matrix with RxC components.
+ * @param {number} rows Number of rows.
+ * @param {number} cols Number of columns.
+ */
+export { exported_Matrix as Matrix };

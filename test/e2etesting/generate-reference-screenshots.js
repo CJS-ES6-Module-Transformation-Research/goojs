@@ -1,9 +1,11 @@
-var path = require('path');
-var program = require('commander');
+import { filterList as filterList_moduleObject } from "./filterList";
+import path from "path";
+import program from "commander";
+import { ScreenShooter as ScreenShooter_ScreenShooterjs } from "./ScreenShooter";
+import child_process_moduleObject from "child_process";
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var ScreenShooter = require('./ScreenShooter');
-var exec = require('child_process').exec;
-var filterList = require('./filterList').filterList;
+var exec = child_process_moduleObject.exec;
+var filterList = filterList_moduleObject.filterList;
 
 program
 	.version('0.0.0')
@@ -17,8 +19,8 @@ var gooRootPath = path.join(__dirname, '..', '..');
 
 console.log('Using test URL: ' + program.url);
 
-var shooter = new ScreenShooter({
-	script : ScreenShooter.removeGooStuffScript
+var shooter = new ScreenShooter_ScreenShooterjs({
+	script : ScreenShooter_ScreenShooterjs.removeGooStuffScript
 });
 
 if (typeof program.wait !== 'undefined') {

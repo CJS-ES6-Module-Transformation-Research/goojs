@@ -1,17 +1,17 @@
-var GooRunner = require('../../../../src/goo/entities/GooRunner');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var Texture = require('../../../../src/goo/renderer/Texture');
-var Configs = require('../../../../test/unit/loaders/Configs');
+import { GooRunner as GooRunner_GooRunnerjs } from "../../../../src/goo/entities/GooRunner";
+import { DynamicLoader as DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
+import { Texture as Texturejs } from "../../../../src/goo/renderer/Texture";
+import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
 
 describe('TextureHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new GooRunner({
+		gooRunner = new GooRunner_GooRunnerjs({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new DynamicLoader({
+		loader = new DynamicLoaderjs({
 			world: gooRunner.world,
 			rootPath: typeof(window) !== 'undefined' && window.__karma__ ? './' : 'loaders/res/'
 		});
@@ -22,27 +22,27 @@ describe('TextureHandler', function () {
 	});
 
 	it('loads a texture with an image', function (done) {
-		var config = Configs.texture();
-		loader.preload(Configs.get());
+		var config = Configs_Configsjs.texture();
+		loader.preload(Configs_Configsjs.get());
 		loader.load(config.id).then(function (texture) {
-			expect(texture).toEqual(jasmine.any(Texture));
+			expect(texture).toEqual(jasmine.any(Texturejs));
 			expect(texture.image).toEqual(jasmine.any(Image));
 			done();
 		});
 	});
 
 	it('loads a texture with an SVG', function (done) {
-		var config = Configs.textureSVG();
-		loader.preload(Configs.get());
+		var config = Configs_Configsjs.textureSVG();
+		loader.preload(Configs_Configsjs.get());
 		loader.load(config.id).then(function (texture) {
-			expect(texture).toEqual(jasmine.any(Texture));
+			expect(texture).toEqual(jasmine.any(Texturejs));
 			done();
 		});
 	});
 
 	it('clears a texture from the context', function (done) {
-		var config = Configs.texture();
-		loader.preload(Configs.get());
+		var config = Configs_Configsjs.texture();
+		loader.preload(Configs_Configsjs.get());
 		var t;
 		loader.load(config.id).then(function (texture) {
 			t = texture;

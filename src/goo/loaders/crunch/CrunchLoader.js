@@ -1,39 +1,15 @@
-/*
- * Copyright (c) 2012 Brandon Jones
- *
- * This software is provided 'as-is', without any express or implied
- * warranty. In no event will the authors be held liable for any damages
- * arising from the use of this software.
- *
- * Permission is granted to anyone to use this software for any purpose,
- * including commercial applications, and to alter it and redistribute it
- * freely, subject to the following restrictions:
- *
- *    1. The origin of this software must not be misrepresented; you must not
- *    claim that you wrote the original software. If you use this software
- *    in a product, an acknowledgment in the product documentation would be
- *    appreciated but is not required.
- *
- *    2. Altered source versions must be plainly marked as such, and must not
- *    be misrepresented as being the original software.
- *
- *    3. This notice may not be removed or altered from any source
- *    distribution.
- */
-
-require('../../loaders/dds/DdsLoader'); // needed?
-var DdsUtils = require('../../loaders/dds/DdsUtils');
-var Capabilities = require('../../renderer/Capabilities');
-
-/**
- * @private
- */
+import { DdsUtils as DdsUtilsjs } from "../../loaders/dds/DdsUtils";
+import { Capabilities as Capabilitiesjs } from "../../renderer/Capabilities";
+import "../../loaders/dds/DdsLoader";
+var CrunchLoader_cCRNFmtDXT5;
+var CrunchLoader_cCRNFmtDXT3;
+var CrunchLoader_cCRNFmtDXT1;
 function CrunchLoader() {
 }
 
-CrunchLoader.cCRNFmtDXT1 = 0;
-CrunchLoader.cCRNFmtDXT3 = 1;
-CrunchLoader.cCRNFmtDXT5 = 2;
+CrunchLoader_cCRNFmtDXT1 = 0;;
+CrunchLoader_cCRNFmtDXT3 = 1;;
+CrunchLoader_cCRNFmtDXT5 = 2;;
 
 CrunchLoader.prototype.arrayBufferCopy = function (src, dst, dstByteOffset, numBytes) {
 	var dst32Offset = dstByteOffset / 4,
@@ -70,15 +46,15 @@ CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped/*, arrayBy
 
 	var bpp;
 	switch (format) {
-		case CrunchLoader.cCRNFmtDXT1:
+		case CrunchLoader_cCRNFmtDXT1:
 			texture.format = 'PrecompressedDXT1A';
 			bpp = 4;
 			break;
-		case CrunchLoader.cCRNFmtDXT3:
+		case CrunchLoader_cCRNFmtDXT3:
 			texture.format = 'PrecompressedDXT3';
 			bpp = 8;
 			break;
-		case CrunchLoader.cCRNFmtDXT5:
+		case CrunchLoader_cCRNFmtDXT5:
 			texture.format = 'PrecompressedDXT5';
 			bpp = 8;
 			break;
@@ -112,7 +88,7 @@ CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped/*, arrayBy
 		CrunchModule._crn_decompress(src, srcSize, dst, dstSize, i);
 		dxtData = new Uint8Array(CrunchModule.HEAPU8.buffer, dst, dstSize);
 		if (flipped) {
-			dxtData = DdsUtils.flipDXT(dxtData, width, height, texture.format);
+			dxtData = DdsUtilsjs.flipDXT(dxtData, width, height, texture.format);
 		}
 
 		imageData.push(dxtData);
@@ -224,11 +200,16 @@ CrunchLoader.prototype.dxtToRgb565 = function (src, src16Offset, width, height) 
 };
 
 CrunchLoader.prototype.isSupported = function () {
-	return !!Capabilities.CompressedTextureS3TC;
+	return !!Capabilitiesjs.CompressedTextureS3TC;
 };
 
 CrunchLoader.prototype.toString = function () {
 	return 'CrunchLoader';
 };
 
-module.exports = CrunchLoader;
+var exported_CrunchLoader = CrunchLoader;
+
+/**
+ * @private
+ */
+export { exported_CrunchLoader as CrunchLoader };

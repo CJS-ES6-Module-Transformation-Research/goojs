@@ -1,12 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function TriggerEnterAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TriggerEnterAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerEnterAction.prototype = Object.create(Action.prototype);
+TriggerEnterAction.prototype = Object.create(Actionjs.prototype);
 TriggerEnterAction.prototype.constructor = TriggerEnterAction;
 
 TriggerEnterAction.external = {
@@ -44,4 +43,5 @@ TriggerEnterAction.prototype.exit = function (/*fsm*/) {
 	this.entity = null;
 };
 
-module.exports = TriggerEnterAction;
+var exported_TriggerEnterAction = TriggerEnterAction;
+export { exported_TriggerEnterAction as TriggerEnterAction };

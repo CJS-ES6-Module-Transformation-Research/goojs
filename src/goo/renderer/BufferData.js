@@ -1,12 +1,4 @@
-var BufferUtils = require('../renderer/BufferUtils');
-
-/**
- * The purpose of this class is to hold additional information regarding a typedarray buffer, like vbo 'usage' flags
- * @param {ArrayBuffer} data Data to wrap
- * @param {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
- * @property {ArrayBuffer} data Data to wrap
- * @property {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
- */
+import { BufferUtils as BufferUtilsjs } from "../renderer/BufferUtils";
 function BufferData(data, target) {
 	this.data = data;
 	this.target = target;
@@ -78,7 +70,7 @@ BufferData.prototype.clone = function () {
 	if (this.data instanceof ArrayBuffer) {
 		clonedData = this.data.slice(0);
 	} else { // TypedArray
-		clonedData = BufferUtils.cloneTypedArray(this.data);
+		clonedData = BufferUtilsjs.cloneTypedArray(this.data);
 	}
 
 	var clone = new BufferData(clonedData, this.target);
@@ -87,4 +79,13 @@ BufferData.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = BufferData;
+var exported_BufferData = BufferData;
+
+/**
+ * The purpose of this class is to hold additional information regarding a typedarray buffer, like vbo 'usage' flags
+ * @param {ArrayBuffer} data Data to wrap
+ * @param {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
+ * @property {ArrayBuffer} data Data to wrap
+ * @property {string} target Type of data ('ArrayBuffer'/'ElementArrayBuffer')
+ */
+export { exported_BufferData as BufferData };

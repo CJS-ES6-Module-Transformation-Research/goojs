@@ -1,19 +1,13 @@
-var MeshData = require('../../../renderer/MeshData');
-
-/**
- * A wireframe mesh indicating the position and orientation of a CylinderCollider.
- * @param {number} [numSegments=32]
- * @extends MeshData
- */
+import { MeshData as MeshDatajs } from "../../../renderer/MeshData";
 function PhysicsCylinderDebugShape(numSegments) {
 	numSegments = numSegments || 32;
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION]);
 	this.numSegments = numSegments;
-	MeshData.call(this, attributeMap, 2 * 3 * numSegments + 3 * 8, 2 * 2 * numSegments + 2 * 8);
+	MeshDatajs.call(this, attributeMap, 2 * 3 * numSegments + 3 * 8, 2 * 2 * numSegments + 2 * 8);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsCylinderDebugShape.prototype = Object.create(MeshData.prototype);
+PhysicsCylinderDebugShape.prototype = Object.create(MeshDatajs.prototype);
 PhysicsCylinderDebugShape.prototype.constructor = PhysicsCylinderDebugShape;
 
 /**
@@ -61,10 +55,17 @@ PhysicsCylinderDebugShape.prototype.rebuild = function () {
 		2 * numSegments + 6, 2 * numSegments + 7
 	);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshDatajs.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 
 	return this;
 };
 
-module.exports = PhysicsCylinderDebugShape;
+var exported_PhysicsCylinderDebugShape = PhysicsCylinderDebugShape;
+
+/**
+ * A wireframe mesh indicating the position and orientation of a CylinderCollider.
+ * @param {number} [numSegments=32]
+ * @extends MeshData
+ */
+export { exported_PhysicsCylinderDebugShape as PhysicsCylinderDebugShape };

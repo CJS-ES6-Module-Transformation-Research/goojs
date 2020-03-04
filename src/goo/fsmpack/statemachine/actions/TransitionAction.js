@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function TransitionAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TransitionAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-TransitionAction.prototype = Object.create(Action.prototype);
+TransitionAction.prototype = Object.create(Actionjs.prototype);
 TransitionAction.prototype.constructor = TransitionAction;
 
 TransitionAction.external = {
@@ -32,4 +32,5 @@ TransitionAction.prototype.enter = function (fsm) {
 	fsm.send(this.transitions.transition);
 };
 
-module.exports = TransitionAction;
+var exported_TransitionAction = TransitionAction;
+export { exported_TransitionAction as TransitionAction };
