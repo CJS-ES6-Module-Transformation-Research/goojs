@@ -339,4 +339,5 @@ ObjectUtils.getExtension = function (value) {
 	return '';
 };
 
-module.exports = ObjectUtils;
+var exported_ObjectUtils = ObjectUtils;
+export { exported_ObjectUtils as ObjectUtils };

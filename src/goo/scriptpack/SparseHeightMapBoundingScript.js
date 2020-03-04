@@ -1,7 +1,3 @@
-/**
- * Bounds the host entity to a height map computed from a set of terrain points
- * @param {Array<Number>} elevationData The array of height points given as a flat array
- */
 function SparseHeightMapBoundingScript(elevationData) {
 	this.elevationData = elevationData;
 }
@@ -34,4 +30,10 @@ SparseHeightMapBoundingScript.prototype.run = function (entity) {
 	translation.y -= diff * 0.1;
 };
 
-module.exports = SparseHeightMapBoundingScript;
+var exported_SparseHeightMapBoundingScript = SparseHeightMapBoundingScript;
+
+/**
+ * Bounds the host entity to a height map computed from a set of terrain points
+ * @param {Array<Number>} elevationData The array of height points given as a flat array
+ */
+export { exported_SparseHeightMapBoundingScript as SparseHeightMapBoundingScript };

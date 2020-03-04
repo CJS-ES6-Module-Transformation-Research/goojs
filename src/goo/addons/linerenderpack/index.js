@@ -1,6 +1,8 @@
+import { LineRenderer as LineRenderer_LineRendererjs } from "./LineRenderer";
+import { LineRenderSystem as LineRenderSystemjs } from "./LineRenderSystem";
 module.exports = {
-	LineRenderer: require('./LineRenderer'),
-	LineRenderSystem: require('./LineRenderSystem')
+	LineRenderer: LineRenderer_LineRendererjs,
+	LineRenderSystem: LineRenderSystemjs
 };
 
 if (typeof(window) !== 'undefined') {

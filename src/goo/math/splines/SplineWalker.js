@@ -1,12 +1,4 @@
-var Spline = require('./Spline');
-
-/**
- * Provides a way to interpolate on a spline with constant speed
- * @param {Spline} spline Spline to interpolate across
- * @param {number} [substepSize=0.01] substepSize The size of the substep used to approximate movement across the spline.
- * Small values of this parameter lead to more substeps and better precision (at the cost of more computations).
- * @example-link http://code.gooengine.com/latest/visual-test/./SplineWalker/SplineWalker-vtest.html Comparison or normal interpolation vs using the SplineWalker
- */
+import { cubicInterpolation as Splinejs_cubicInterpolation } from "./Spline";
 function SplineWalker(spline, substepSize) {
 	this.substepSize = substepSize || 0.01;
 	this._spline = spline;
@@ -25,7 +17,7 @@ SplineWalker.prototype._localInterpolation = function (store) {
 	var p1 = this._spline.controlPoints[this._segment * 3 + 1];
 	var p2 = this._spline.controlPoints[this._segment * 3 + 2];
 	var p3 = this._spline.controlPoints[this._segment * 3 + 3];
-	Spline.cubicInterpolation(p0, p1, p2, p3, this._localT, store);
+	Splinejs_cubicInterpolation(p0, p1, p2, p3, this._localT, store);
 };
 
 /**
@@ -72,4 +64,13 @@ SplineWalker.prototype.canWalk = function () {
 	return this._segment < this._spline.segments;
 };
 
-module.exports = SplineWalker;
+var exported_SplineWalker = SplineWalker;
+
+/**
+ * Provides a way to interpolate on a spline with constant speed
+ * @param {Spline} spline Spline to interpolate across
+ * @param {number} [substepSize=0.01] substepSize The size of the substep used to approximate movement across the spline.
+ * Small values of this parameter lead to more substeps and better precision (at the cost of more computations).
+ * @example-link http://code.gooengine.com/latest/visual-test/./SplineWalker/SplineWalker-vtest.html Comparison or normal interpolation vs using the SplineWalker
+ */
+export { exported_SplineWalker as SplineWalker };

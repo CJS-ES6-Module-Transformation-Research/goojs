@@ -1,12 +1,11 @@
-var Action = require('./Action');
-var Vector3 = require('../../../math/Vector3');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action as Action_Actionjs } from "./Action";
+import { Vector3 as Vector3js } from "../../../math/Vector3";
 
-function ApplyTorqueAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ApplyTorqueAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-ApplyTorqueAction.prototype = Object.create(Action.prototype);
+ApplyTorqueAction.prototype = Object.create(Action_Actionjs.prototype);
 ApplyTorqueAction.prototype.constructor = ApplyTorqueAction;
 
 ApplyTorqueAction.external = {
@@ -33,7 +32,7 @@ ApplyTorqueAction.external = {
 	transitions: []
 };
 
-var torqueVector = new Vector3();
+var torqueVector = new Vector3js();
 ApplyTorqueAction.prototype.enter = function (fsm) {
 	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
@@ -52,4 +51,5 @@ ApplyTorqueAction.prototype.exit = function () {
 	SystemBus.removeListener('goo.physics.substep', this.substepListener);
 };
 
-module.exports = ApplyTorqueAction;
+var exported_ApplyTorqueAction = ApplyTorqueAction;
+export { exported_ApplyTorqueAction as ApplyTorqueAction };

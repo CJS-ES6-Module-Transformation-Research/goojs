@@ -1,26 +1,6 @@
-var System = require('../../entities/systems/System');
-
-
-/*global Ammo */
-
-/**
- * Handles integration with Ammo.js.
- * Depends on the global Ammo object,
- * so load ammo.small.js using a script tag before using this system.
- * Direct access to the ammoWorld is available like this: myAmmoSystem.ammoWorld
- * See also {@link AmmoComponent}
- * @deprecated Deprecated as of v0.11.x and scheduled for removal in v0.13.0; consider using the Cannon system/component instead.
- * @extends System
- * @param {Object} settings The settings object can contain the following properties:
- * @param {number} settings.gravity (defaults to -9.81)
- * @param {number} settings.maxSubSteps (defaults to 5)
- * @param {number} settings.stepFrequency (defaults to 60)
- * @example
- * var ammoSystem = new AmmoSystem({stepFrequency: 60});
- * goo.world.setSystem(ammoSystem);
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
 function AmmoSystem(settings) {
-	System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
+	System_Systemjs.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
 	this.settings = settings || {};
 	this.fixedTime = 1 / (this.settings.stepFrequency || 60);
 	this.maxSubSteps = this.settings.maxSubSteps || 5;
@@ -36,7 +16,7 @@ function AmmoSystem(settings) {
 	this.ammoWorld.setGravity(new Ammo.btVector3(0, gravity, 0));
 }
 
-AmmoSystem.prototype = Object.create(System.prototype);
+AmmoSystem.prototype = Object.create(System_Systemjs.prototype);
 
 AmmoSystem.prototype.inserted = function (entity) {
 	if (entity.ammoComponent) {
@@ -64,4 +44,24 @@ AmmoSystem.prototype.process = function (entities, tpf) {
 	}
 };
 
-module.exports = AmmoSystem;
+var exported_AmmoSystem = AmmoSystem;
+
+/*global Ammo */
+
+/**
+ * Handles integration with Ammo.js.
+ * Depends on the global Ammo object,
+ * so load ammo.small.js using a script tag before using this system.
+ * Direct access to the ammoWorld is available like this: myAmmoSystem.ammoWorld
+ * See also {@link AmmoComponent}
+ * @deprecated Deprecated as of v0.11.x and scheduled for removal in v0.13.0; consider using the Cannon system/component instead.
+ * @extends System
+ * @param {Object} settings The settings object can contain the following properties:
+ * @param {number} settings.gravity (defaults to -9.81)
+ * @param {number} settings.maxSubSteps (defaults to 5)
+ * @param {number} settings.stepFrequency (defaults to 60)
+ * @example
+ * var ammoSystem = new AmmoSystem({stepFrequency: 60});
+ * goo.world.setSystem(ammoSystem);
+ */
+export { exported_AmmoSystem as AmmoSystem };

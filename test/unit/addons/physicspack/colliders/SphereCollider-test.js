@@ -1,10 +1,12 @@
+import { SphereCollider as SphereColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
+import { Transform as Transformjs } from "../../../../../src/goo/math/Transform";
 describe('SphereCollider', function () {
 
-	var SphereCollider = require('../../../../../src/goo/addons/physicspack/colliders/SphereCollider');
-	var Transform = require('../../../../../src/goo/math/Transform');
+	var SphereCollider = SphereColliderjs;
+	var Transform = Transformjs;
 
 	it('can clone', function () {
-		var collider = new SphereCollider({
+		var collider = new SphereColliderjs({
 			radius: 2
 		});
 		var clone = collider.clone();
@@ -12,10 +14,10 @@ describe('SphereCollider', function () {
 	});
 
 	it('can transform', function () {
-		var collider = new SphereCollider({
+		var collider = new SphereColliderjs({
 			radius: 2
 		});
-		var transform = new Transform();
+		var transform = new Transformjs();
 		transform.scale.setDirect(1, 2, 3);
 		collider.transform(transform, collider);
 		expect(collider.radius).toEqual(6);

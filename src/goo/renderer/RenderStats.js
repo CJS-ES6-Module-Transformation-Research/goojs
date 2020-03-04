@@ -14,4 +14,5 @@ RenderStats.prototype.toString = function () {
 		'<br/>Indices: ' + this.indices;
 };
 
-module.exports = RenderStats;
+var exported_RenderStats = RenderStats;
+export { exported_RenderStats as RenderStats };

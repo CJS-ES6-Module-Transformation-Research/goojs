@@ -284,10 +284,12 @@ function configure(name, value) {
 	config[name] = value;
 }
 
-module.exports = {
+var rsvpjs = {
 	Promise: Promise,
 	Event: Event,
 	EventTarget: EventTarget,
 	all: all,
 	configure: configure
 };
+
+export { rsvpjs };

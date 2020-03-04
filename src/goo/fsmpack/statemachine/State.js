@@ -1,5 +1,4 @@
-var ArrayUtils = require('../../util/ArrayUtils');
-var SystemBus = require('../../entities/SystemBus');
+import { remove as ArrayUtilsjs_remove } from "../../util/ArrayUtils";
 
 function State(uuid) {
 	this.uuid = uuid;
@@ -285,7 +284,7 @@ State.prototype.removeAction = function (action) {
 		action.onDestroy(this.proxy);
 	}
 
-	ArrayUtils.remove(this._actions, action);
+	ArrayUtilsjs_remove(this._actions, action);
 };
 
 State.prototype.addMachine = function (machine) {
@@ -299,7 +298,8 @@ State.prototype.addMachine = function (machine) {
 
 State.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);
+	ArrayUtilsjs_remove(this._machines, machine);
 };
 
-module.exports = State;
+var exported_State = State;
+export { exported_State as State };

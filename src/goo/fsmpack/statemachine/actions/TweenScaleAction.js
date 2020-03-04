@@ -1,16 +1,15 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3js } from "../../../math/Vector3";
 
-function TweenScaleAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenScaleAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
-	this.fromScale = new Vector3();
-	this.toScale = new Vector3();
+	this.fromScale = new Vector3js();
+	this.toScale = new Vector3js();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(Action.prototype);
+TweenScaleAction.prototype = Object.create(Action_Actionjs.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -95,4 +94,5 @@ TweenScaleAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenScaleAction;
+var exported_TweenScaleAction = TweenScaleAction;
+export { exported_TweenScaleAction as TweenScaleAction };

@@ -1,21 +1,10 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
-
-/**
-* Difference of Gaussian Filter pass.
-* Usable for edge detection.
-*
-* A lower sigma will create thinner edgelines, tune to get the sweetspot.
-* Maximum sigma is 2.5.
-*
-* http://en.wikipedia.org/wiki/Difference_of_Gaussians
-* http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
-*/
+import { Material as Materialjs } from "../renderer/Material";
+import { camera as FullscreenUtilsjs_camera, quad as FullscreenUtilsjs_quad } from "../renderer/pass/FullscreenUtils";
+import { RenderTarget as RenderTargetjs } from "../renderer/pass/RenderTarget";
+import { deepClone as ObjectUtilsjs_deepClone } from "../util/ObjectUtils";
+import { convolution as ShaderLibjs_convolution } from "../renderer/shaders/ShaderLib";
+import { differenceOfGaussians as ShaderLibExtrajs_differenceOfGaussians } from "../passpack/ShaderLibExtra";
+import { Pass as Pass_Passjs } from "../renderer/pass/Pass";
 function DogPass(settings) {
 	settings = settings || {};
 
@@ -33,16 +22,16 @@ function DogPass(settings) {
 	this.updateSize({ width: width, height: height });
 
 	this.renderable = {
-		meshData: FullscreenUtils.quad,
+		meshData: FullscreenUtilsjs_quad,
 		materials: []
 	};
 
-	this.convolutionShader1 = ObjectUtils.deepClone(ShaderLib.convolution);
-	this.convolutionShader2 = ObjectUtils.deepClone(ShaderLib.convolution);
+	this.convolutionShader1 = ObjectUtilsjs_deepClone(ShaderLibjs_convolution);
+	this.convolutionShader2 = ObjectUtilsjs_deepClone(ShaderLibjs_convolution);
 
-	this.differenceShader = ObjectUtils.deepClone(ShaderLibExtra.differenceOfGaussians);
+	this.differenceShader = ObjectUtilsjs_deepClone(ShaderLibExtrajs_differenceOfGaussians);
 	this.differenceShader.uniforms.threshold = threshold;
-	this.differenceMaterial = new Material(this.differenceShader);
+	this.differenceMaterial = new Materialjs(this.differenceShader);
 
 	this.updateSigma(sigma);
 
@@ -51,7 +40,7 @@ function DogPass(settings) {
 	this.needsSwap = true;
 }
 
-DogPass.prototype = Object.create(Pass.prototype);
+DogPass.prototype = Object.create(Pass_Passjs.prototype);
 DogPass.prototype.constructor = DogPass;
 
 DogPass.prototype.destroy = function (renderer) {
@@ -96,9 +85,9 @@ DogPass.prototype.updateBackgroundMix = function (amount) {
 DogPass.prototype.updateSize = function (size) {
 	var sizeX = size.width / this.downsampleAmount;
 	var sizeY = size.height / this.downsampleAmount;
-	this.renderTargetX = new RenderTarget(sizeX, sizeY);
-	this.gaussian1 = new RenderTarget(sizeX, sizeY);
-	this.gaussian2 = new RenderTarget(sizeX, sizeY);
+	this.renderTargetX = new RenderTargetjs(sizeX, sizeY);
+	this.gaussian1 = new RenderTargetjs(sizeX, sizeY);
+	this.gaussian2 = new RenderTargetjs(sizeX, sizeY);
 
 	this.blurX = [0.5 / sizeX, 0.0];
 	this.blurY = [0.0, 0.5 / sizeY];
@@ -127,8 +116,8 @@ DogPass.prototype.updateSigma = function (sigma) {
 	this.convolutionShader1.uniforms.cKernel = kernel1;
 	this.convolutionShader2.uniforms.cKernel = kernel2;
 
-	this.convolutionMaterial1 = new Material(this.convolutionShader1);
-	this.convolutionMaterial2 = new Material(this.convolutionShader2);
+	this.convolutionMaterial1 = new Materialjs(this.convolutionShader1);
+	this.convolutionMaterial2 = new Materialjs(this.convolutionShader2);
 };
 
 DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -138,12 +127,12 @@ DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial1.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionShader1.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial1.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionShader1.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.gaussian1, true);
+	renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.gaussian1, true);
 
 	// Gaussian sigma2
 	this.renderable.materials[0] = this.convolutionMaterial2;
@@ -151,12 +140,12 @@ DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial2.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionShader2.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial2.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionShader2.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.gaussian2, true);
+	renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.gaussian2, true);
 
 	// OUT
 	this.renderable.materials[0] = this.differenceMaterial;
@@ -166,9 +155,9 @@ DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.differenceMaterial.setTexture('ORIGINAL', readBuffer);
 
 	if (this.target !== null) {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], this.target, this.clear);
+		renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.target, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], writeBuffer, this.clear);
+		renderer.render(this.renderable, FullscreenUtilsjs_camera, [], writeBuffer, this.clear);
 	}
 };
 
@@ -183,4 +172,16 @@ DogPass.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateRenderTarget(this.gaussian2);
 };
 
-module.exports = DogPass;
+var exported_DogPass = DogPass;
+
+/**
+* Difference of Gaussian Filter pass.
+* Usable for edge detection.
+*
+* A lower sigma will create thinner edgelines, tune to get the sweetspot.
+* Maximum sigma is 2.5.
+*
+* http://en.wikipedia.org/wiki/Difference_of_Gaussians
+* http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
+*/
+export { exported_DogPass as DogPass };

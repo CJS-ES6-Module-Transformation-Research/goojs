@@ -1,37 +1,35 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-var Vector3 = require('../../math/Vector3');
-
-/**
- * Logic node to provide a const Vec3
- * @private
- */
+import { writeValue as LogicLayerjs_writeValue } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+import { Vector3 as Vector3js } from "../../math/Vector3";
+var LogicNodeConstVec3_outportVec;
+var LogicNodeConstVec3_editorName;
+var LogicNodeConstVec3_logicInterface;
 function LogicNodeConstVec3() {
-	LogicNode.call(this);
-	this.logicInterface = LogicNodeConstVec3.logicInterface;
+	LogicNode_LogicNodejs.call(this);
+	LogicNodeConstVec3_logicInterface = LogicNodeConstVec3_logicInterface;;
 	this.type = 'LogicNodeConstVec3';
 }
 
-LogicNodeConstVec3.prototype = Object.create(LogicNode.prototype);
-LogicNodeConstVec3.editorName = 'ConstVec3';
+LogicNodeConstVec3.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeConstVec3_editorName = "ConstVec3";;
 
 LogicNodeConstVec3.prototype.onConfigure = function (newConfig) {
 	if (newConfig.value !== undefined) {
 		this.value = newConfig.value;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeConstVec3.outportVec, new Vector3(this.x, this.y, this.z));
+		LogicLayerjs_writeValue(this.logicInstance, LogicNodeConstVec3_outportVec, new Vector3js(this.x, this.y, this.z));
 	}
 };
 
 LogicNodeConstVec3.prototype.onSystemStarted = function () {
-	LogicLayer.writeValue(this.logicInstance, LogicNodeConstVec3.outportVec, new Vector3(this.x, this.y, this.z));
+	LogicLayerjs_writeValue(this.logicInstance, LogicNodeConstVec3_outportVec, new Vector3js(this.x, this.y, this.z));
 };
 
-LogicNodes.registerType('LogicNodeConstVec3', LogicNodeConstVec3);
+LogicNodesjs_registerType('LogicNodeConstVec3', LogicNodeConstVec3);
 
-LogicNodeConstVec3.logicInterface = new LogicInterface();
-LogicNodeConstVec3.outportVec = LogicNodeConstVec3.logicInterface.addOutputProperty('xyz', 'Vector3');
+LogicNodeConstVec3_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeConstVec3_outportVec = LogicNodeConstVec3_logicInterface.addOutputProperty("xyz", "Vector3");;
 
 LogicNodeConstVec3.logicInterface.addConfigEntry({
 	name: 'x',
@@ -51,4 +49,10 @@ LogicNodeConstVec3.logicInterface.addConfigEntry({
 	label: 'Z'
 });
 
-module.exports = LogicNodeConstVec3;
+var exported_LogicNodeConstVec3 = LogicNodeConstVec3;
+
+/**
+ * Logic node to provide a const Vec3
+ * @private
+ */
+export { exported_LogicNodeConstVec3 as LogicNodeConstVec3 };

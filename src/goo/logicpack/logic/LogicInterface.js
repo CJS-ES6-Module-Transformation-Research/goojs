@@ -1,8 +1,3 @@
-/**
- * @private
- * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that
- *        implements logic.
- */
 function LogicInterface(name) {
 	this.ports = [];
 	this.configOpts = [];
@@ -140,4 +135,11 @@ LogicInterface.assignPortDataName = function (port, dataname) {
  */
 LogicInterface._portID = 0;
 
-module.exports = LogicInterface;
+var exported_LogicInterface = LogicInterface;
+
+/**
+ * @private
+ * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that
+ *        implements logic.
+ */
+export { exported_LogicInterface as LogicInterface };
