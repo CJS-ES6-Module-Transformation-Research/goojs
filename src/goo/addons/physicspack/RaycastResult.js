@@ -1,13 +1,4 @@
-var Vector3 = require('../../math/Vector3');
-
-/**
- * Structure used to get information back from a raycast.
- * @param {Object} [settings]
- * @param {Vector3} [settings.normal]
- * @param {Vector3} [settings.point]
- * @param {Entity} [settings.entity]
- * @param {number} [settings.distance]
- */
+import { Vector3 as Vector3js } from "../../math/Vector3";
 function RaycastResult(settings) {
 	settings = settings || {};
 
@@ -15,13 +6,13 @@ function RaycastResult(settings) {
 	 * The impact point in world space where the ray hit the collider.
 	 * @type {Vector3}
 	 */
-	this.point = settings.point ? new Vector3(settings.point) : new Vector3();
+	this.point = settings.point ? new Vector3js(settings.point) : new Vector3js();
 
 	/**
 	 * The normal of the surface the ray hit.
 	 * @type {Vector3}
 	 */
-	this.normal = settings.normal ? new Vector3(settings.normal) : new Vector3();
+	this.normal = settings.normal ? new Vector3js(settings.normal) : new Vector3js();
 
 	/**
 	 * The Collider that was hit.
@@ -42,4 +33,14 @@ RaycastResult.prototype.reset = function () {
 	this.distance = -1;
 };
 
-module.exports = RaycastResult;
+var exported_RaycastResult = RaycastResult;
+
+/**
+ * Structure used to get information back from a raycast.
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.normal]
+ * @param {Vector3} [settings.point]
+ * @param {Entity} [settings.entity]
+ * @param {number} [settings.distance]
+ */
+export { exported_RaycastResult as RaycastResult };

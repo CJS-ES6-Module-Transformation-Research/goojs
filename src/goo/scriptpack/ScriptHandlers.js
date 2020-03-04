@@ -1,2 +1,2 @@
-require('./ScriptHandler');
-require('./ScriptComponentHandler');
+import "./ScriptHandler";
+import "./ScriptComponentHandler";

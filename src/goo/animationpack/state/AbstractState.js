@@ -1,7 +1,3 @@
-/**
- * Base class for a state in our animation system
- * @private
- */
 function AbstractState() {
 	this._globalStartTime = 0;
 	this.onFinished = null;
@@ -19,4 +15,10 @@ AbstractState.prototype.shiftClipTime = function (shiftTime) {
 	this._globalStartTime += shiftTime;
 };
 
-module.exports = AbstractState;
+var exported_AbstractState = AbstractState;
+
+/**
+ * Base class for a state in our animation system
+ * @private
+ */
+export { exported_AbstractState as AbstractState };

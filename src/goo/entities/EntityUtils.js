@@ -1,11 +1,12 @@
-var Scripts = require('../scripts/Scripts');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var ObjectUtils = require('../util/ObjectUtils');
+import { BoundingBox as BoundingBoxjs } from "../renderer/bounds/BoundingBox";
 
-/**
- * Utilities for entity creation etc
- * Only used to define the class. Should never be instantiated.
- */
+import {
+    deepClone as ObjectUtilsjs_deepClone,
+    cloneMap as ObjectUtilsjs_cloneMap,
+    cloneSet as ObjectUtilsjs_cloneSet,
+    warnOnce as ObjectUtilsjs_warnOnce,
+} from "../util/ObjectUtils";
+
 function EntityUtils() {}
 
 /**
@@ -38,8 +39,8 @@ function cloneEntity(world, entity, settings) {
 	// settings is also used to store stuff on it, like animation skeletons
 	var newEntity = world.createEntity(entity.name);
 
-	newEntity._tags = ObjectUtils.cloneSet(entity._tags);
-	newEntity._attributes = ObjectUtils.cloneMap(entity._attributes);
+	newEntity._tags = ObjectUtilsjs_cloneSet(entity._tags);
+	newEntity._attributes = ObjectUtilsjs_cloneMap(entity._attributes);
 	newEntity._hidden = entity._hidden;
 	newEntity.static = entity.static;
 
@@ -71,7 +72,7 @@ function cloneEntity(world, entity, settings) {
 						name: (script.name || '') + '_clone',
 						enabled: !!script.enabled
 					};
-					if (script.parameters) { newScript.parameters = ObjectUtils.deepClone(script.parameters); }
+					if (script.parameters) { newScript.parameters = ObjectUtilsjs_deepClone(script.parameters); }
 
 					if (script.setup) { newScript.setup = script.setup; }
 					if (script.update) { newScript.update = script.update; }
@@ -161,7 +162,7 @@ EntityUtils.getRoot = function (entity) {
 /**
  * @deprecated Deprecated with warning on 2016-04-06
  */
-EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
+EntityUtils.updateWorldTransform = ObjectUtilsjs_warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
 	transformComponent.updateWorldTransform();
 
 	for (var i = 0; i < transformComponent.children.length; i++) {
@@ -174,13 +175,13 @@ EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorld
  * @param entity
  */
 EntityUtils.getTotalBoundingBox = function (entity) {
-	var mergedWorldBound = new BoundingBox();
+	var mergedWorldBound = new BoundingBoxjs();
 	var first = true;
 	entity.traverse(function (entity) {
 		if (entity.meshRendererComponent) {
 			if (first) {
 				var boundingVolume = entity.meshRendererComponent.worldBound;
-				if (boundingVolume instanceof BoundingBox) {
+				if (boundingVolume instanceof BoundingBoxjs) {
 					mergedWorldBound.copy(boundingVolume);
 				} else {
 					mergedWorldBound.center.set(boundingVolume.center);
@@ -197,10 +198,16 @@ EntityUtils.getTotalBoundingBox = function (entity) {
 	// a tiny bounding box centered around the coordinates of the parent
 	if (first) {
 		var translation = entity.transformComponent.worldTransform.translation;
-		mergedWorldBound = new BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
+		mergedWorldBound = new BoundingBoxjs(translation.clone(), 0.001, 0.001, 0.001);
 	}
 
 	return mergedWorldBound;
 };
 
-module.exports = EntityUtils;
+var exported_EntityUtils = EntityUtils;
+
+/**
+ * Utilities for entity creation etc
+ * Only used to define the class. Should never be instantiated.
+ */
+export { exported_EntityUtils as EntityUtils };

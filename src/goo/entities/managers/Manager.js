@@ -1,6 +1,3 @@
-/**
- * Base class for managers.
- */
 function Manager() {
 	this.installedAPI = {};
 }
@@ -17,4 +14,9 @@ Manager.prototype.applyAPI = function (worldBy) {
 	}
 };
 
-module.exports = Manager;
+var exported_Manager = Manager;
+
+/**
+ * Base class for managers.
+ */
+export { exported_Manager as Manager };

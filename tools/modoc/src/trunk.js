@@ -1,13 +1,17 @@
+import fs from "fs";
+import glob from "glob";
+import _ from "underscore";
+import { extract as extractor_extractjs } from "./extractor";
+
+import {
+    link as jsdocprocessorjs_link,
+    compileComment as jsdocprocessorjs_compileComment,
+    all as jsdocprocessorjs_all,
+} from "./jsdoc-processor";
+
+import { getFileName as util_getFileNamejs } from "./util";
 // jshint node:true
 'use strict';
-
-var fs = require('fs');
-var glob = require('glob');
-var _ = require('underscore');
-
-var extractor = require('./extractor');
-var jsdocProcessor = require('./jsdoc-processor');
-var util = require('./util');
 
 
 function getFiles(sourcePath, ignore) {
@@ -44,16 +48,16 @@ function compileDoc(files) {
 
 	// extract information from classes
 	files.forEach(function (file) {
-		console.log('compiling doc for ' + util.getFileName(file));
+		console.log('compiling doc for ' + util_getFileNamejs(file));
 
 		var source = fs.readFileSync(file, { encoding: 'utf8' });
 
-		var class_ = extractor.extract(source, file);
+		var class_ = extractor_extractjs(source, file);
 
 		Array.prototype.push.apply(extraComments, class_.extraComments);
 
 		if (class_.constructor) {
-			jsdocProcessor.all(class_, files);
+			jsdocprocessorjs_all(class_, files);
 
 			filterPrivates(class_);
 
@@ -65,7 +69,7 @@ function compileDoc(files) {
 
 	// --- should stay elsewhere
 	var constructorFromComment = function (comment) {
-		jsdocProcessor.link(comment);
+		jsdocprocessorjs_link(comment);
 		return {
 			name: comment.targetClass.itemName,
 			params: _.pluck(comment.param, 'name'),
@@ -74,7 +78,7 @@ function compileDoc(files) {
 	};
 
 	var memberFromComment = function (comment) {
-		jsdocProcessor.link(comment);
+		jsdocprocessorjs_link(comment);
 		return {
 			name: comment.targetClass.itemName,
 			comment: comment
@@ -88,7 +92,7 @@ function compileDoc(files) {
 
 	// copy over the extra info from other classes
 	// adding extras mentioned in @target-class
-	extraComments.map(jsdocProcessor.compileComment)
+	extraComments.map(jsdocprocessorjs_compileComment)
 		.forEach(function (extraComment) {
 			var targetClassName = extraComment.targetClass.className;
 			var targetClass = classes[targetClassName];
@@ -129,6 +133,9 @@ function compileDoc(files) {
 	return classes;
 }
 
-exports.getFiles = getFiles;
-exports.filterPrivates = filterPrivates;
-exports.compileDoc = compileDoc;
+var exported_getFiles = getFiles;
+export { exported_getFiles as getFiles };
+var exported_filterPrivates = filterPrivates;
+export { exported_filterPrivates as filterPrivates };
+var exported_compileDoc = compileDoc;
+export { exported_compileDoc as compileDoc };

@@ -1,22 +1,24 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var SimplePartitioner = require('../../renderer/SimplePartitioner');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ObjectUtils = require('../../util/ObjectUtils');
+import { System as System_Systemjs } from "../../entities/systems/System";
+import { SimplePartitioner as SimplePartitioner_SimplePartitionerjs } from "../../renderer/SimplePartitioner";
+import { Material as Materialjs } from "../../renderer/Material";
 
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import {
+    uber as ShaderLibjs_uber,
+    simple as ShaderLibjs_simple,
+    simpleColored as ShaderLibjs_simpleColored,
+    simpleLit as ShaderLibjs_simpleLit,
+    textured as ShaderLibjs_textured,
+    showNormals as ShaderLibjs_showNormals,
+} from "../../renderer/shaders/ShaderLib";
+
+import { deepClone as ObjectUtilsjs_deepClone } from "../../util/ObjectUtils";
 function RenderSystem() {
-	System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
+	System_Systemjs.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
 	this.entities = [];
 	this.renderList = [];
 	this.postRenderables = [];
-	this.partitioner = new SimplePartitioner();
+	this.partitioner = new SimplePartitioner_SimplePartitionerjs();
 	this.preRenderers = [];
 	this.composers = [];
 	this._composersActive = true;
@@ -50,7 +52,7 @@ function RenderSystem() {
 	};
 }
 
-RenderSystem.prototype = Object.create(System.prototype);
+RenderSystem.prototype = Object.create(System_Systemjs.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 
 RenderSystem.prototype.pick = function (x, y, callback, skipUpdateBuffer) {
@@ -126,25 +128,25 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 	switch (key) {
 		case 'wireframe':
 		case 'color':
-			fshader = ObjectUtils.deepClone(ShaderLib.simpleColored.fshader);
+			fshader = ObjectUtilsjs_deepClone(ShaderLibjs_simpleColored.fshader);
 			break;
 		case 'lit':
-			fshader = ObjectUtils.deepClone(ShaderLib.simpleLit.fshader);
+			fshader = ObjectUtilsjs_deepClone(ShaderLibjs_simpleLit.fshader);
 			break;
 		case 'texture':
-			fshader = ObjectUtils.deepClone(ShaderLib.textured.fshader);
+			fshader = ObjectUtilsjs_deepClone(ShaderLibjs_textured.fshader);
 			break;
 		case 'normals':
-			fshader = ObjectUtils.deepClone(ShaderLib.showNormals.fshader);
+			fshader = ObjectUtilsjs_deepClone(ShaderLibjs_showNormals.fshader);
 			break;
 		case 'simple':
-			fshader = ObjectUtils.deepClone(ShaderLib.simple.fshader);
+			fshader = ObjectUtilsjs_deepClone(ShaderLibjs_simple.fshader);
 			break;
 	}
-	var shaderDef = ObjectUtils.deepClone(ShaderLib.uber);
+	var shaderDef = ObjectUtilsjs_deepClone(ShaderLibjs_uber);
 	shaderDef.fshader = fshader;
 	if (key !== 'flat') {
-		this._debugMaterials[key] = new Material(shaderDef, key);
+		this._debugMaterials[key] = new Materialjs(shaderDef, key);
 		if (key === 'wireframe') {
 			this._debugMaterials[key].wireframe = true;
 		}
@@ -160,7 +162,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 			};
 		}
 	} else {
-		this._debugMaterials[key] = Material.createEmptyMaterial(null, key);
+		this._debugMaterials[key] = Materialjs.createEmptyMaterial(null, key);
 		this._debugMaterials[key].flat = true;
 	}
 };
@@ -205,4 +207,11 @@ RenderSystem.prototype.invalidateHandles = function (renderer) {
 	renderer.rendererRecord = null; // might hold on to stuff
 };
 
-module.exports = RenderSystem;
+var exported_RenderSystem = RenderSystem;
+
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_RenderSystem as RenderSystem };

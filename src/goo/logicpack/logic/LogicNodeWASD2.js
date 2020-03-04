@@ -1,15 +1,13 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node handling WASD input.
- * @private
- */
+import { writeValue as LogicLayerjs_writeValue } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+var LogicNodeWASD2_downKeys;
+var LogicNodeWASD2_editorName;
+var LogicNodeWASD2_logicInterface;
 function LogicNodeWASD2() {
-	LogicNode.call(this);
-	this.logicInterface = LogicNodeWASD2.logicInterface;
+	LogicNode_LogicNodejs.call(this);
+	LogicNodeWASD2_logicInterface = LogicNodeWASD2_logicInterface;;
 	this.type = 'LogicNodeWASD2';
 
 	var preventRepeat = {};
@@ -18,10 +16,10 @@ function LogicNodeWASD2() {
 		if (preventRepeat[character]) {
 			return;
 		}
-		var keyEvent = LogicNodeWASD2.downKeys[character];
+		var keyEvent = LogicNodeWASD2_downKeys[character];
 		if (keyEvent) {
 			preventRepeat[character] = true;
-			LogicLayer.writeValue(this.logicInstance, keyEvent.port, keyEvent.value);
+			LogicLayerjs_writeValue(this.logicInstance, keyEvent.port, keyEvent.value);
 		}
 	}.bind(this);
 	this.eventListenerUp = function (event) {
@@ -29,15 +27,15 @@ function LogicNodeWASD2() {
 		if (preventRepeat[character]) {
 			preventRepeat[character] = false;
 		}
-		var keyEvent = LogicNodeWASD2.downKeys[character];
+		var keyEvent = LogicNodeWASD2_downKeys[character];
 		if (keyEvent) {
-			LogicLayer.writeValue(this.logicInstance, keyEvent.port, 0);
+			LogicLayerjs_writeValue(this.logicInstance, keyEvent.port, 0);
 		}
 	}.bind(this);
 }
 
-LogicNodeWASD2.prototype = Object.create(LogicNode.prototype);
-LogicNodeWASD2.editorName = 'WASD2';
+LogicNodeWASD2.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeWASD2_editorName = "WASD2";;
 
 LogicNodeWASD2.prototype.onSystemStarted = function () {
 	document.addEventListener('keydown', this.eventListenerDown);
@@ -49,26 +47,35 @@ LogicNodeWASD2.prototype.onSystemStopped = function () {
 	document.removeEventListener('keyup', this.eventListenerUp);
 };
 
-LogicNodeWASD2.logicInterface = new LogicInterface();
-LogicNodeWASD2.downKeys = {
-	'w': {
-		port: LogicNodeWASD2.logicInterface.addOutputProperty('W', 'float', 0),
-		value: 1
-	},
-	'a': {
-		port: LogicNodeWASD2.logicInterface.addOutputProperty('A', 'float', 0),
-		value: 1
-	},
-	's': {
-		port: LogicNodeWASD2.logicInterface.addOutputProperty('S', 'float', 0),
-		value: -1
-	},
-	'd': {
-		port: LogicNodeWASD2.logicInterface.addOutputProperty('D', 'float', 0),
-		value: -1
-	}
-};
+LogicNodeWASD2_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeWASD2_downKeys = {
+    "w": {
+        port: LogicNodeWASD2_logicInterface.addOutputProperty("W", "float", 0),
+        value: 1
+    },
 
-LogicNodes.registerType('LogicNodeWASD2', LogicNodeWASD2);
+    "a": {
+        port: LogicNodeWASD2_logicInterface.addOutputProperty("A", "float", 0),
+        value: 1
+    },
 
-module.exports = LogicNodeWASD2;
+    "s": {
+        port: LogicNodeWASD2_logicInterface.addOutputProperty("S", "float", 0),
+        value: -1
+    },
+
+    "d": {
+        port: LogicNodeWASD2_logicInterface.addOutputProperty("D", "float", 0),
+        value: -1
+    }
+};;
+
+LogicNodesjs_registerType('LogicNodeWASD2', LogicNodeWASD2);
+
+var exported_LogicNodeWASD2 = LogicNodeWASD2;
+
+/**
+ * Logic node handling WASD input.
+ * @private
+ */
+export { exported_LogicNodeWASD2 as LogicNodeWASD2 };

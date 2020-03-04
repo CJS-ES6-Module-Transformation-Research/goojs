@@ -1,8 +1,3 @@
-/**
- * @param {Object} [settings]
- * @param {number} [settings.friction=0.3]
- * @param {number} [settings.restitution=0]
- */
 function PhysicsMaterial(settings) {
 	settings = settings || {};
 
@@ -19,4 +14,11 @@ function PhysicsMaterial(settings) {
 	this.restitution = settings.restitution !== undefined ? settings.restitution : 0;
 }
 
-module.exports = PhysicsMaterial;
+var exported_PhysicsMaterial = PhysicsMaterial;
+
+/**
+ * @param {Object} [settings]
+ * @param {number} [settings.friction=0.3]
+ * @param {number} [settings.restitution=0]
+ */
+export { exported_PhysicsMaterial as PhysicsMaterial };

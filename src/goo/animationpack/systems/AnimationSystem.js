@@ -1,15 +1,9 @@
-var System = require('../../entities/systems/System');
-var World = require('../../entities/World');
-
-/**
- * Processes all entities with animation components, updating the animations
- * @extends System
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
 function AnimationSystem() {
-	System.call(this, 'AnimationSystem', ['AnimationComponent']);
+	System_Systemjs.call(this, 'AnimationSystem', ['AnimationComponent']);
 }
 
-AnimationSystem.prototype = Object.create(System.prototype);
+AnimationSystem.prototype = Object.create(System_Systemjs.prototype);
 
 AnimationSystem.prototype.process = function () {
 	for (var i = 0; i < this._activeEntities.length; i++) {
@@ -46,4 +40,10 @@ AnimationSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = AnimationSystem;
+var exported_AnimationSystem = AnimationSystem;
+
+/**
+ * Processes all entities with animation components, updating the animations
+ * @extends System
+ */
+export { exported_AnimationSystem as AnimationSystem };

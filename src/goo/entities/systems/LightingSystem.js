@@ -1,14 +1,7 @@
-var Capabilities = require('../../renderer/Capabilities');
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Processes all entities with a light component making sure that lights are placed according to its transforms<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @extends System
- */
+import { Capabilities as Capabilitiesjs } from "../../renderer/Capabilities";
+import { System as System_Systemjs } from "../../entities/systems/System";
 function LightingSystem() {
-	System.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
+	System_Systemjs.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
 
 	this.overrideLights = null;
 
@@ -17,7 +10,7 @@ function LightingSystem() {
 	this._needsUpdate = true;
 }
 
-LightingSystem.prototype = Object.create(System.prototype);
+LightingSystem.prototype = Object.create(System_Systemjs.prototype);
 LightingSystem.prototype.constructor = LightingSystem;
 
 /**
@@ -61,7 +54,7 @@ LightingSystem.prototype.process = function (entities) {
 
 			if (!lightComponent.hidden) {
 				var light = lightComponent.light;
-				light.shadowCaster = light.shadowCaster && Capabilities.TextureFloat; // Needs float texture for shadows (for now)
+				light.shadowCaster = light.shadowCaster && Capabilitiesjs.TextureFloat; // Needs float texture for shadows (for now)
 				this.lights.push(light);
 			}
 		}
@@ -76,4 +69,11 @@ LightingSystem.prototype.invalidateHandles = function (renderer) {
 	});
 };
 
-module.exports = LightingSystem;
+var exported_LightingSystem = LightingSystem;
+
+/**
+ * Processes all entities with a light component making sure that lights are placed according to its transforms<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @extends System
+ */
+export { exported_LightingSystem as LightingSystem };

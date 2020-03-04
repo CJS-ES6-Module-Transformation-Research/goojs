@@ -1,15 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var Vector3 = require('../math/Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A 3D object representing a cylinder.
- * @extends MeshData
- * @param {number} [radialSamples=8] Number of slices
- * @param {number} [radiusTop=0.5] Radius of the cylinder at the top.
- * @param {number} [radiusBottom=radiusTop] Radius of the cylinder at the bottom. Defaults to radiusTop.
- * @param {number} [height=1] Height
- */
+import { MeshData as MeshDatajs } from "../renderer/MeshData";
+import { Vector3 as Vector3js } from "../math/Vector3";
+import { shallowSelectiveClone as ObjectUtilsjs_shallowSelectiveClone } from "../util/ObjectUtils";
 function Cylinder(radialSamples, radiusTop, radiusBottom, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -23,8 +14,8 @@ function Cylinder(radialSamples, radiusTop, radiusBottom, height) {
 	this.radiusBottom = typeof radiusBottom === 'undefined' ? this.radiusTop : radiusBottom;
 	this.height = typeof height === 'undefined' ? 1 : height;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.radialSamples * 4 + 2 + 2, (this.radialSamples * 3) * 4);
+	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION, MeshDatajs.NORMAL, MeshDatajs.TEXCOORD0]);
+	MeshDatajs.call(this, attributeMap, this.radialSamples * 4 + 2 + 2, (this.radialSamples * 3) * 4);
 
 	// could be done better with 2 triangle fans and a triangle strip
 	this.indexModes = ['Triangles'];
@@ -32,7 +23,7 @@ function Cylinder(radialSamples, radiusTop, radiusBottom, height) {
 	this.rebuild();
 }
 
-Cylinder.prototype = Object.create(MeshData.prototype);
+Cylinder.prototype = Object.create(MeshDatajs.prototype);
 Cylinder.prototype.constructor = Cylinder;
 
 /**
@@ -54,7 +45,7 @@ Cylinder.prototype.rebuild = function () {
 	var at = 1 / radialSamples;
 
 	var lastIndex = radialSamples * 4 + 2 + 2 - 1;
-	var normal = new Vector3();
+	var normal = new Vector3js();
 
 	var tan = 0;
 	if (height) {
@@ -142,9 +133,9 @@ Cylinder.prototype.rebuild = function () {
 		0.25, 0.75
 	);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshDatajs.POSITION).set(verts);
+	this.getAttributeBuffer(MeshDatajs.NORMAL).set(norms);
+	this.getAttributeBuffer(MeshDatajs.TEXCOORD0).set(tex);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -155,9 +146,19 @@ Cylinder.prototype.rebuild = function () {
  * @returns {Cylinder}
  */
 Cylinder.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['radialSamples', 'radiusTop', 'radiusBottom', 'height']);
+	var options = ObjectUtilsjs_shallowSelectiveClone(this, ['radialSamples', 'radiusTop', 'radiusBottom', 'height']);
 
 	return new Cylinder(options);
 };
 
-module.exports = Cylinder;
+var exported_Cylinder = Cylinder;
+
+/**
+ * A 3D object representing a cylinder.
+ * @extends MeshData
+ * @param {number} [radialSamples=8] Number of slices
+ * @param {number} [radiusTop=0.5] Radius of the cylinder at the top.
+ * @param {number} [radiusBottom=radiusTop] Radius of the cylinder at the bottom. Defaults to radiusTop.
+ * @param {number} [height=1] Height
+ */
+export { exported_Cylinder as Cylinder };

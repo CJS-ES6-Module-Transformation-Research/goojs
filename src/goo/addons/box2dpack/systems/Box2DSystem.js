@@ -1,15 +1,6 @@
-var System = require('../../../entities/systems/System');
-
-/* global Box2D */
-
-/**
- * Physics simulation using Box2D.
- * Depends on the global Box2D object. Load box2d.js using a &lt;script&gt; tag before using this system
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
- */
+import { System as System_Systemjs } from "../../../entities/systems/System";
 function Box2DSystem() {
-	System.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
+	System_Systemjs.call(this, 'Box2DSystem', ['Box2DComponent', 'MeshDataComponent']);
 
 	this.SCALE = 0.5;
 	this.physicsWorld = new Box2D.b2World(new Box2D.b2Vec2(0.0, -9.81));
@@ -34,7 +25,7 @@ function createPolygonShape(vertices) {
 	return shape;
 }
 
-Box2DSystem.prototype = Object.create(System.prototype);
+Box2DSystem.prototype = Object.create(System_Systemjs.prototype);
 Box2DSystem.prototype.constructor = Box2DSystem;
 
 Box2DSystem.prototype.inserted = function (entity) {
@@ -145,4 +136,14 @@ Box2DSystem.prototype.process = function (entities, tpf) {
 	}
 };
 
-module.exports = Box2DSystem;
+var exported_Box2DSystem = Box2DSystem;
+
+/* global Box2D */
+
+/**
+ * Physics simulation using Box2D.
+ * Depends on the global Box2D object. Load box2d.js using a &lt;script&gt; tag before using this system
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/components/Box2DComponent/Box2DComponent-vtest.html Working example
+ */
+export { exported_Box2DSystem as Box2DSystem };

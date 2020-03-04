@@ -1,4 +1,14 @@
-var ObjectUtils = require('../util/ObjectUtils');
+import {
+    contains as ObjectUtilsjs_contains,
+    clone as ObjectUtilsjs_clone,
+    deepClone as ObjectUtilsjs_deepClone,
+    isArray as ObjectUtilsjs_isArray,
+    isString as ObjectUtilsjs_isString,
+    isBoolean as ObjectUtilsjs_isBoolean,
+    isNumber as ObjectUtilsjs_isNumber,
+    isInteger as ObjectUtilsjs_isInteger,
+    getExtension as ObjectUtilsjs_getExtension,
+} from "../util/ObjectUtils";
 
 function ScriptUtils() {}
 
@@ -33,7 +43,7 @@ ScriptUtils.REF_TYPES = [
 ];
 
 ScriptUtils.isRefType = function (type) {
-	return ObjectUtils.contains(ScriptUtils.REF_TYPES, type);
+	return ObjectUtilsjs_contains(ScriptUtils.REF_TYPES, type);
 };
 
 ScriptUtils.TYPE_VALIDATORS = (function () {
@@ -45,7 +55,7 @@ ScriptUtils.TYPE_VALIDATORS = (function () {
 
 	var isRef = function (type) {
 		function isDirectRef(data) {
-			return ObjectUtils.isString(data) && ObjectUtils.getExtension(data) === type;
+			return ObjectUtilsjs_isString(data) && ObjectUtilsjs_getExtension(data) === type;
 		}
 
 		// Checks for references passed like:
@@ -63,12 +73,12 @@ ScriptUtils.TYPE_VALIDATORS = (function () {
 	};
 
 	return {
-		'array': ObjectUtils.isArray,
-		'float': ObjectUtils.isNumber,
-		'number': ObjectUtils.isNumber,
-		'string': ObjectUtils.isString,
-		'boolean': ObjectUtils.isBoolean,
-		'int': ObjectUtils.isInteger,
+		'array': ObjectUtilsjs_isArray,
+		'float': ObjectUtilsjs_isNumber,
+		'number': ObjectUtilsjs_isNumber,
+		'string': ObjectUtilsjs_isString,
+		'boolean': ObjectUtilsjs_isBoolean,
+		'int': ObjectUtilsjs_isInteger,
 		'vec2': isVec(2),
 		'vec3': isVec(3),
 		'vec4': isVec(4),
@@ -179,12 +189,12 @@ ScriptUtils.fillDefaultValues = function (parameters, specs) {
 		}
 
 		if (spec.default === null || spec.default === undefined) {
-			spec.default = ObjectUtils.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[spec.type]);
+			spec.default = ObjectUtilsjs_deepClone(ScriptUtils.DEFAULTS_BY_TYPE[spec.type]);
 		}
 
 		keys.push(spec.key);
 		if (typeof parameters[spec.key] === 'undefined') {
-			parameters[spec.key] = ObjectUtils.clone(spec.default);
+			parameters[spec.key] = ObjectUtilsjs_clone(spec.default);
 		}
 	});
 
@@ -359,4 +369,5 @@ ScriptUtils.keyForCode = function (code) {
 	return ScriptUtils._keyInverse[code];
 };
 
-module.exports = ScriptUtils;
+var exported_ScriptUtils = ScriptUtils;
+export { exported_ScriptUtils as ScriptUtils };

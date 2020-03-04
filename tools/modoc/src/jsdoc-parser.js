@@ -1,7 +1,6 @@
+import { stringUntil as utiljs_stringUntil, stringFrom as utiljs_stringFrom } from "./util";
 // jshint node:true
 'use strict';
-
-var util = require('./util');
 
 var SUPPORTED_TAGS = [
 	'description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type',
@@ -32,8 +31,8 @@ var partition = function (doc) {
 
 			var indexOfSpace = line.indexOf(' ');
 			if (indexOfSpace > -1) {
-				currentTag = util.stringUntil(line, ' ');
-				partial = [util.stringFrom(line, ' ')];
+				currentTag = utiljs_stringUntil(line, ' ');
+				partial = [utiljs_stringFrom(line, ' ')];
 			} else {
 				currentTag = line;
 				partial = [];
@@ -57,6 +56,8 @@ var partition = function (doc) {
 
 	return tags;
 };
+
+let exported_partition = partition;
 
 var warnOnRogueTags = function (tags) {
 	for (var i = 0; i < tags.length; i++) {
@@ -327,13 +328,13 @@ var extract = function (doc) {
 	return tags;
 };
 
-exports._partition = partition;
-exports._extractType = extractType;
-exports._extractName = extractName;
-exports._extractDescription = extractDescription;
-exports._extractTagParam = extractTagParam;
-exports._extractTagReturn = extractTagReturn;
-exports._extractTagType = extractTagType;
-exports._extractTagExtends = extractTagExtends;
-exports._extractTagTargetClass = extractTagTargetClass;
-exports.extract = extract;
+exported_partition._extractType = extractType;
+exported_partition._extractName = extractName;
+exported_partition._extractDescription = extractDescription;
+exported_partition._extractTagParam = extractTagParam;
+exported_partition._extractTagReturn = extractTagReturn;
+exported_partition._extractTagType = extractTagType;
+exported_partition._extractTagExtends = extractTagExtends;
+exported_partition._extractTagTargetClass = extractTagTargetClass;
+exported_partition.extract = extract;
+export { exported_partition as partition };

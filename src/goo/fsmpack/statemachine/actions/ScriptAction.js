@@ -1,10 +1,10 @@
-var Action = require('./Action');
+import { Action as Action_Actionjs } from "./Action";
 
 function ScriptAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Actionjs.apply(this, arguments);
 }
 
-ScriptAction.prototype = Object.create(Action.prototype);
+ScriptAction.prototype = Object.create(Action_Actionjs.prototype);
 ScriptAction.prototype.constructor = ScriptAction;
 
 ScriptAction.external = {

@@ -1,9 +1,15 @@
-var Vector3 = require('../math/Vector3');
-var ParticleSystemUtils = require('../util/ParticleSystemUtils');
-var Material = require('../renderer/Material');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Quad = require('../shapes/Quad');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
+import { Vector3 as Vector3js } from "../math/Vector3";
+
+import {
+    createFlareTexture as ParticleSystemUtilsjs_createFlareTexture,
+    createSplashTexture as ParticleSystemUtilsjs_createSplashTexture,
+} from "../util/ParticleSystemUtils";
+
+import { Material as Materialjs } from "../renderer/Material";
+import { uber as ShaderLibjs_uber } from "../renderer/shaders/ShaderLib";
+import { Quad as Quadjs } from "../shapes/Quad";
+import { BoundingSphere as BoundingSpherejs } from "../renderer/bounds/BoundingSphere";
+var LensFlareScript_externals;
 
 /**
  * This script makes an entity shine with some lensflare effect.
@@ -52,11 +58,11 @@ function LensFlareScript() {
 
 	function generateTextures(txSize) {
 		textures.size = txSize;
-		textures.splash = ParticleSystemUtils.createSplashTexture(512, { trailStartRadius: 25, trailEndRadius: 0 });
-		textures.ring = ParticleSystemUtils.createFlareTexture(txSize, { steps: textureShapes.ring, startRadius: txSize / 4, endRadius: txSize / 2 });
-		textures.dot = ParticleSystemUtils.createFlareTexture(txSize, { steps: textureShapes.dot, startRadius: 0, endRadius: txSize / 2 });
-		textures.bell = ParticleSystemUtils.createFlareTexture(txSize, { steps: textureShapes.bell, startRadius: 0, endRadius: txSize / 2 });
-		textures['default'] = ParticleSystemUtils.createFlareTexture(txSize, { steps: textureShapes.none, startRadius: 0, endRadius: txSize / 2 });
+		textures.splash = ParticleSystemUtilsjs_createSplashTexture(512, { trailStartRadius: 25, trailEndRadius: 0 });
+		textures.ring = ParticleSystemUtilsjs_createFlareTexture(txSize, { steps: textureShapes.ring, startRadius: txSize / 4, endRadius: txSize / 2 });
+		textures.dot = ParticleSystemUtilsjs_createFlareTexture(txSize, { steps: textureShapes.dot, startRadius: 0, endRadius: txSize / 2 });
+		textures.bell = ParticleSystemUtilsjs_createFlareTexture(txSize, { steps: textureShapes.bell, startRadius: 0, endRadius: txSize / 2 });
+		textures['default'] = ParticleSystemUtilsjs_createFlareTexture(txSize, { steps: textureShapes.none, startRadius: 0, endRadius: txSize / 2 });
 	}
 
 	function createFlareQuads(quads, lightColor, systemScale, edgeDampen, edgeScaling) {
@@ -119,7 +125,7 @@ function LensFlareScript() {
 			{ size: 1.30, tx: 'ring', intensity: 0.05, displace: -1.5 }
 		];
 
-		ctx.bounds = new BoundingSphere(ctx.entity.transformComponent.sync().worldTransform.translation, 0);
+		ctx.bounds = new BoundingSpherejs(ctx.entity.transformComponent.sync().worldTransform.translation, 0);
 	}
 
 	function cleanup(/*args, ctx*/) {
@@ -156,87 +162,85 @@ function LensFlareScript() {
 	};
 }
 
-LensFlareScript.externals = {
-	key: 'LensFlareScript',
-	name: 'Lens Flare Script',
-	description: 'Makes an entity shine with some lensflare effect.',
-	parameters: [{
-		key: 'scale',
-		name: 'Scale',
-		type: 'float',
-		description: 'Scale of flare quads',
-		control: 'slider',
-		'default': 1,
-		min: 0.01,
-		max: 2
-	}, {
-		key: 'intensity',
-		name: 'Intensity',
-		type: 'float',
-		description: 'Intensity of Effect',
-		control: 'slider',
-		'default': 1,
-		min: 0.01,
-		// REVIEW: why 2 for so many of these params? can they be normalized
-		//! AT: [0, 1] might be the normal domain but the upper allowed bound is 2 because it allows for superbright/superfancy lens flares
-		max: 2
-	}, {
-		key: 'edgeRelevance',
-		name: 'Edge Relevance',
-		type: 'float',
-		description: 'How much the effect cares about being centered or not',
-		control: 'slider',
-		'default': 0,
-		min: 0,
-		max: 2
-	}, {
-		key: 'edgeDampen',
-		name: 'Edge Dampening',
-		type: 'float',
-		description: 'Intensity adjustment by distance from center',
-		control: 'slider',
-		'default': 0.2,
-		min: 0,
-		max: 1
-	}, {
-		key: 'edgeScaling',
-		name: 'Edge Scaling',
-		type: 'float',
-		description: 'Scale adjustment by distance from center',
-		control: 'slider',
-		'default': 0,
-		min: -2,
-		max: 2
-	}, {
-		key: 'color',
-		name: 'Color',
-		type: 'vec3',
-		description: 'Effect Color',
-		control: 'color',
-		'default': [
-			0.8,
-			0.75,
-			0.7
-		]
-	}, {
-		key: 'highRes',
-		name: 'High Resolution',
-		type: 'boolean',
-		description: 'Intensity of Effect',
-		control: 'checkbox',
-		'default': false
-	}]
-};
+LensFlareScript_externals = {
+    key: "LensFlareScript",
+    name: "Lens Flare Script",
+    description: "Makes an entity shine with some lensflare effect.",
+
+    parameters: [{
+        key: "scale",
+        name: "Scale",
+        type: "float",
+        description: "Scale of flare quads",
+        control: "slider",
+        "default": 1,
+        min: 0.01,
+        max: 2
+    }, {
+        key: "intensity",
+        name: "Intensity",
+        type: "float",
+        description: "Intensity of Effect",
+        control: "slider",
+        "default": 1,
+        min: 0.01,
+
+        // REVIEW: why 2 for so many of these params? can they be normalized
+        //! AT: [0, 1] might be the normal domain but the upper allowed bound is 2 because it allows for superbright/superfancy lens flares
+        max: 2
+    }, {
+        key: "edgeRelevance",
+        name: "Edge Relevance",
+        type: "float",
+        description: "How much the effect cares about being centered or not",
+        control: "slider",
+        "default": 0,
+        min: 0,
+        max: 2
+    }, {
+        key: "edgeDampen",
+        name: "Edge Dampening",
+        type: "float",
+        description: "Intensity adjustment by distance from center",
+        control: "slider",
+        "default": 0.2,
+        min: 0,
+        max: 1
+    }, {
+        key: "edgeScaling",
+        name: "Edge Scaling",
+        type: "float",
+        description: "Scale adjustment by distance from center",
+        control: "slider",
+        "default": 0,
+        min: -2,
+        max: 2
+    }, {
+        key: "color",
+        name: "Color",
+        type: "vec3",
+        description: "Effect Color",
+        control: "color",
+        "default": [0.8, 0.75, 0.7]
+    }, {
+        key: "highRes",
+        name: "High Resolution",
+        type: "boolean",
+        description: "Intensity of Effect",
+        control: "checkbox",
+        "default": false
+    }]
+};;
 
 function FlareGeometry(edgeRelevance) {
 	this.camRot = null;
 	this.distance = 0;
 	this.offset = 0;
 	this.centerRatio = 0;
-	this.positionVector = new Vector3();
-	this.distanceVector = new Vector3();
-	this.centerVector = new Vector3();
-	this.displacementVector = new Vector3();
+	this.positionVector = new Vector3js();
+	this.distanceVector = new Vector3js();
+	this.centerVector = new Vector3js();
+	this.displacementVector = new Vector3js();
 	this.edgeRelevance = edgeRelevance;
 }
 
@@ -263,16 +267,16 @@ FlareGeometry.prototype.updateFrameGeometry = function (lightEntity, cameraEntit
 };
 
 function FlareQuad(lightColor, tx, displace, size, intensity, systemScale, edgeDampen, edgeScaling, textures, world) {
-	this.sizeVector = new Vector3(size, size, size);
+	this.sizeVector = new Vector3js(size, size, size);
 	this.sizeVector.scale(systemScale);
-	this.positionVector = new Vector3();
-	this.flareVector = new Vector3();
+	this.positionVector = new Vector3js();
+	this.flareVector = new Vector3js();
 	this.intensity = intensity;
 	this.displace = displace;
 	this.color = [lightColor[0] * intensity, lightColor[1] * intensity, lightColor[2] * intensity, 1];
 	this.edgeDampen = edgeDampen;
 	this.edgeScaling = edgeScaling;
-	var material = new Material(ShaderLib.uber, 'flareShader');
+	var material = new Materialjs(ShaderLibjs_uber, 'flareShader');
 
 	material.uniforms.materialEmissive = this.color;
 	material.uniforms.materialDiffuse = [0, 0, 0, 1];
@@ -291,7 +295,7 @@ function FlareQuad(lightColor, tx, displace, size, intensity, systemScale, edgeD
 	material.depthState.write = false;
 	material.cullState.enabled = false;
 
-	var meshData = new Quad(1, 1);
+	var meshData = new Quadjs(1, 1);
 	var entity = world.createEntity(meshData, material);
 	entity.meshRendererComponent.cullMode = 'Never';
 	entity.addToWorld();
@@ -324,4 +328,4 @@ FlareQuad.prototype.updatePosition = function (flareGeometry) {
 	this.quad.transformComponent.setUpdated();
 };
 
-module.exports = LensFlareScript;
+export { LensFlareScript };
