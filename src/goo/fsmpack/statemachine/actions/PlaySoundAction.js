@@ -1,11 +1,19 @@
-import { Action as Actionjs } from "./Action";
-import { PromiseUtils as PromiseUtil_PromiseUtilsjs } from "./../../../util/PromiseUtil";
+"use strict";
 
-function PlaySoundAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PlaySoundAction = undefined;
+
+var _Action = require("./Action");
+
+var _PromiseUtil = require("./../../../util/PromiseUtil");
+
+function PlaySoundAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-PlaySoundAction.prototype = Object.create(Actionjs.prototype);
+PlaySoundAction.prototype = Object.create(_Action.Action.prototype);
 PlaySoundAction.prototype.constructor = PlaySoundAction;
 
 PlaySoundAction.external = {
@@ -30,24 +38,28 @@ var labels = {
 	complete: 'On Sound End'
 };
 
-PlaySoundAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+PlaySoundAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
 PlaySoundAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('SoundComponent')) { return; }
+	if (!entity.hasComponent('SoundComponent')) {
+		return;
+	}
 
 	var sound = entity.soundComponent.getSoundById(this.sound);
-	if (!sound) { return; }
+	if (!sound) {
+		return;
+	}
 
 	var endPromise;
 	try {
 		endPromise = sound.play();
 	} catch (e) {
 		console.warn('Could not play sound: ' + e);
-		endPromise = PromiseUtil_PromiseUtilsjs.resolve();
+		endPromise = _PromiseUtil.PromiseUtils.resolve();
 	}
 
 	endPromise.then(function () {
@@ -56,4 +68,4 @@ PlaySoundAction.prototype.enter = function (fsm) {
 };
 
 var exported_PlaySoundAction = PlaySoundAction;
-export { exported_PlaySoundAction as PlaySoundAction };
+exports.PlaySoundAction = exported_PlaySoundAction;

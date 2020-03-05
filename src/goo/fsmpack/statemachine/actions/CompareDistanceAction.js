@@ -1,10 +1,18 @@
-import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Renderer as Rendererjs } from "../../../renderer/Renderer";
+"use strict";
 
-function CompareDistanceAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CompareDistanceAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Renderer = require("../../../renderer/Renderer");
+
+function CompareDistanceAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-CompareDistanceAction.prototype = Object.create(Actionjs.prototype);
+CompareDistanceAction.prototype = Object.create(_Action.Action.prototype);
 CompareDistanceAction.prototype.constructor = CompareDistanceAction;
 
 CompareDistanceAction.external = {
@@ -69,7 +77,7 @@ var labels = {
 	greater: 'On camera distance > X'
 };
 
-CompareDistanceAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+CompareDistanceAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -79,7 +87,7 @@ CompareDistanceAction.prototype.compare = function (fsm) {
 	var delta;
 
 	if (this.camera) {
-		delta = translation.clone().sub(Rendererjs.mainCamera.translation);
+		delta = translation.clone().sub(_Renderer.Renderer.mainCamera.translation);
 	} else {
 		delta = translation.clone().subDirect(this.position[0], this.position[1], this.position[2]);
 	}
@@ -114,4 +122,4 @@ CompareDistanceAction.prototype.update = function (fsm) {
 };
 
 var exported_CompareDistanceAction = CompareDistanceAction;
-export { exported_CompareDistanceAction as CompareDistanceAction };
+exports.CompareDistanceAction = exported_CompareDistanceAction;

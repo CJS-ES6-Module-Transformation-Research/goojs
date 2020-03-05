@@ -1,13 +1,23 @@
-import { ConfigHandler as ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { ObjectUtils as ObjectUtilsjs } from "../../util/ObjectUtils";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SceneHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _rsvp = require("../../util/rsvp");
+
 function SceneHandler() {
-	ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-SceneHandler.prototype = Object.create(ConfigHandlerjs.prototype);
+SceneHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 SceneHandler.prototype.constructor = SceneHandler;
-ConfigHandlerjs._registerClass('scene', SceneHandler);
+_ConfigHandler.ConfigHandler._registerClass('scene', SceneHandler);
 
 /**
  * Removes the scene, i e removes all entities in scene from engine world
@@ -51,8 +61,10 @@ SceneHandler.prototype._create = function () {
  */
 SceneHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (scene) {
-		if (!scene) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
+		if (!scene) {
+			return;
+		}
 		scene.id = ref;
 		var promises = [];
 		promises.push(that._handleEntities(config, scene, options));
@@ -75,7 +87,7 @@ SceneHandler.prototype._update = function (ref, config, options) {
 				}));
 			}
 		}
-		return rsvp_rsvpjsjs.all(promises).then(function () {
+		return _rsvp.rsvpjs.all(promises).then(function () {
 			return scene;
 		});
 	});
@@ -94,12 +106,8 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 		return !config.entities[id];
 	});
 
-	return rsvp_rsvpjsjs.all([
-		this._loadEntities(Object.keys(config.entities)),
-		this._loadEntities(removedEntityIds)
-	])
-	.then(function (result) {
-		that._addEntities(scene, result[0])
+	return _rsvp.rsvpjs.all([this._loadEntities(Object.keys(config.entities)), this._loadEntities(removedEntityIds)]).then(function (result) {
+		that._addEntities(scene, result[0]);
 		that._removeEntities(scene, result[1]);
 	});
 };
@@ -107,7 +115,7 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 SceneHandler.prototype._loadEntities = function (ids, options) {
 	var that = this;
 
-	return rsvp_rsvpjsjs.all(ids.map(function (id) {
+	return _rsvp.rsvpjs.all(ids.map(function (id) {
 		return that._load(id, options);
 	}));
 };
@@ -158,4 +166,4 @@ var exported_SceneHandler = SceneHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_SceneHandler as SceneHandler };
+exports.SceneHandler = exported_SceneHandler;

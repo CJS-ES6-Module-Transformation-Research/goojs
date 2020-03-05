@@ -1,6 +1,14 @@
-import { System as Systemjs } from "../../entities/systems/System";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PortalSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 function PortalSystem(renderer, renderSystem) {
-	Systemjs.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
+	_System.System.call(this, 'PortalSystem', ['MeshRendererComponent', 'MeshDataComponent', 'PortalComponent']);
 
 	this.renderer = renderer;
 	this.renderSystem = renderSystem;
@@ -8,7 +16,7 @@ function PortalSystem(renderer, renderSystem) {
 	this.renderList = [];
 }
 
-PortalSystem.prototype = Object.create(Systemjs.prototype);
+PortalSystem.prototype = Object.create(_System.System.prototype);
 PortalSystem.prototype.constructor = PortalSystem;
 
 PortalSystem.prototype.process = function (entities) {
@@ -60,4 +68,4 @@ var exported_PortalSystem = PortalSystem;
  * @param {Renderer} renderer
  * @param {RenderSystem} renderSystem
  */
-export { exported_PortalSystem as PortalSystem };
+exports.PortalSystem = exported_PortalSystem;

@@ -1,12 +1,21 @@
-import { System as Systemjs } from "../../entities/systems/System";
-import { BoundingBox as BoundingBoxjs } from "../../renderer/bounds/BoundingBox";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BoundingUpdateSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
 function BoundingUpdateSystem() {
-	Systemjs.call(this, 'BoundingUpdateSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent']);
-	this._worldBound = new BoundingBoxjs();
+	_System.System.call(this, 'BoundingUpdateSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent']);
+	this._worldBound = new _BoundingBox.BoundingBox();
 	this._computeWorldBound = null;
 }
 
-BoundingUpdateSystem.prototype = Object.create(Systemjs.prototype);
+BoundingUpdateSystem.prototype = Object.create(_System.System.prototype);
 BoundingUpdateSystem.prototype.constructor = BoundingUpdateSystem;
 
 BoundingUpdateSystem.prototype.process = function (entities) {
@@ -61,7 +70,7 @@ BoundingUpdateSystem.prototype.getWorldBound = function (callback) {
 
 BoundingUpdateSystem.prototype.deleted = function (entity) {
 	if (entity.meshRendererComponent) {
-		entity.meshRendererComponent.worldBound = new BoundingBoxjs();
+		entity.meshRendererComponent.worldBound = new _BoundingBox.BoundingBox();
 	}
 };
 
@@ -71,4 +80,4 @@ var exported_BoundingUpdateSystem = BoundingUpdateSystem;
  * Calculates and updates all boundings on entities with both transform, meshrenderer and meshdata components
  * @extends System
  */
-export { exported_BoundingUpdateSystem as BoundingUpdateSystem };
+exports.BoundingUpdateSystem = exported_BoundingUpdateSystem;

@@ -1,18 +1,25 @@
-import { TransformComponent as TransformComponentjs } from "../../../../src/goo/entities/components/TransformComponent";
-import { DynamicLoader as DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { World as Worldjs } from "../../../../src/goo/entities/World";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import { Vector3 as Vector3js } from "../../../../src/goo/math/Vector3";
-import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../../test/unit/CustomMatchers";
+"use strict";
+
+var _TransformComponent = require("../../../../src/goo/entities/components/TransformComponent");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+var _Vector = require("../../../../src/goo/math/Vector3");
+
+var _CustomMatchers = require("../../../../test/unit/CustomMatchers");
 
 describe('TransformComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
 
-		var world = new Worldjs();
-		loader = new DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -20,56 +27,56 @@ describe('TransformComponentHandler', function () {
 	});
 
 	it('loads an entity with a transformComponent', function (done) {
-		var config = Configs_Configsjs.entity(['transform']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['transform']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.transformComponent).toEqual(jasmine.any(TransformComponentjs));
+			expect(entity.transformComponent).toEqual(jasmine.any(_TransformComponent.TransformComponent));
 			done();
 		});
 	});
 
 	it('loads the correct transform', function (done) {
-		var config = Configs_Configsjs.entity(['transform']);
+		var config = _Configs.Configs.entity(['transform']);
 		config.components.transform.translation = [1, 2, 3];
 		config.components.transform.rotation = [4, 5, 6];
 		config.components.transform.scale = [7, 8, 9];
 
-		loader.preload(Configs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
 			var t = entity.transformComponent.transform;
 			var ct = config.components.transform;
-			expect(t.translation).toBeCloseToVector(Vector3js.fromArray(ct.translation));
-			expect(t.scale).toBeCloseToVector(Vector3js.fromArray(ct.scale));
+			expect(t.translation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.translation));
+			expect(t.scale).toBeCloseToVector(_Vector.Vector3.fromArray(ct.scale));
 			var rotation = t.rotation.toAngles();
 			rotation.scale(180 / Math.PI);
-			expect(rotation).toBeCloseToVector(Vector3js.fromArray(ct.rotation));
+			expect(rotation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.rotation));
 			done();
 		});
 	});
 
 	it('updates existing transformcomponent', function (done) {
 		//var component;
-		var config = Configs_Configsjs.entity(['transform']);
+		var config = _Configs.Configs.entity(['transform']);
 
-		var newConfig = Configs_Configsjs.entity(['transform']);
+		var newConfig = _Configs.Configs.entity(['transform']);
 		newConfig.components.transform.translation = [1, 2, 3];
 		newConfig.id = config.id;
 
-		loader.preload(Configs_Configsjs.get());
-		loader.load(config.id).then(function (/*entity*/) {
+		loader.preload(_Configs.Configs.get());
+		loader.load(config.id).then(function () /*entity*/{
 			//component = entity.transformComponent;
 
 			return loader.update(config.id, newConfig);
 		}).then(function (entity) {
-//				expect(entity.transformComponent).toEqual(component);
+			//				expect(entity.transformComponent).toEqual(component);
 
 			var t = entity.transformComponent.transform;
 			var ct = newConfig.components.transform;
-			expect(t.translation).toBeCloseToVector(Vector3js.fromArray(ct.translation));
-			expect(t.scale).toBeCloseToVector(Vector3js.fromArray(ct.scale));
+			expect(t.translation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.translation));
+			expect(t.scale).toBeCloseToVector(_Vector.Vector3.fromArray(ct.scale));
 			var rotation = t.rotation.toAngles();
 			rotation.scale(180 / Math.PI);
-			expect(rotation).toBeCloseToVector(Vector3js.fromArray(ct.rotation));
+			expect(rotation).toBeCloseToVector(_Vector.Vector3.fromArray(ct.rotation));
 			done();
 		});
 	});
@@ -89,18 +96,18 @@ describe('TransformComponentHandler', function () {
 	}
 
 	xit('adds hierarchy correctly outside of scene', function (done) {
-		var parentConfig = Configs_Configsjs.entity(['transform']);
-		var childConfig = Configs_Configsjs.entity(['transform']);
-		Configs_Configsjs.attachChild(parentConfig, childConfig);
+		var parentConfig = _Configs.Configs.entity(['transform']);
+		var childConfig = _Configs.Configs.entity(['transform']);
+		_Configs.Configs.attachChild(parentConfig, childConfig);
 
-		loader.preload(Configs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 
 		loader.load(parentConfig.id).then(function (entity) {
 			loader._world.process();
 			expect(entity.transformComponent.children.length).toBeGreaterThan(0);
 
 			var child = entity.transformComponent.children[0];
-			expect(child).toEqual(jasmine.any(TransformComponentjs));
+			expect(child).toEqual(jasmine.any(_TransformComponent.TransformComponent));
 			expect(child.entity.id).toBe(childConfig.id);
 			expect(child.parent).toBe(entity.transformComponent);
 			expect(inScene(parentConfig.id)).toBeFalsy();
@@ -110,13 +117,13 @@ describe('TransformComponentHandler', function () {
 	});
 
 	it('adds hierarchy correctly inside of scene', function (done) {
-		var sceneConfig = Configs_Configsjs.scene();
-		var childConfig = Configs_Configsjs.entity();
+		var sceneConfig = _Configs.Configs.scene();
+		var childConfig = _Configs.Configs.entity();
 		var parentId = Object.keys(sceneConfig.entities)[0];
-		var parentConfig = Configs_Configsjs.get()[parentId];
+		var parentConfig = _Configs.Configs.get()[parentId];
 
-		Configs_Configsjs.attachChild(parentConfig, childConfig);
-		loader.preload(Configs_Configsjs.get());
+		_Configs.Configs.attachChild(parentConfig, childConfig);
+		loader.preload(_Configs.Configs.get());
 		loader.load(sceneConfig.id).then(function () {
 			loader._world.process();
 			expect(inScene(childConfig.id)).toBeTruthy();

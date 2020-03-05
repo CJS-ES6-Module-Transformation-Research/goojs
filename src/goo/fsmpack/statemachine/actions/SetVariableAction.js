@@ -1,11 +1,19 @@
-import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { FsmUtils as FsmUtilsjs } from "../../../fsmpack/statemachine/FsmUtils";
+"use strict";
 
-function SetVariableAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetVariableAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+function SetVariableAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetVariableAction.prototype = Object.create(Actionjs.prototype);
+SetVariableAction.prototype = Object.create(_Action.Action.prototype);
 SetVariableAction.prototype.constructor = SetVariableAction;
 
 SetVariableAction.external = {
@@ -34,10 +42,10 @@ SetVariableAction.external = {
 SetVariableAction.prototype.enter = function (fsm) {
 	if (this.variable) {
 		fsm.applyOnVariable(this.variable, function () {
-			return FsmUtilsjs.getValue(this.amount, fsm);
+			return _FsmUtils.FsmUtils.getValue(this.amount, fsm);
 		}.bind(this));
 	}
 };
 
 var exported_SetVariableAction = SetVariableAction;
-export { exported_SetVariableAction as SetVariableAction };
+exports.SetVariableAction = exported_SetVariableAction;

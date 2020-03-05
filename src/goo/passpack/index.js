@@ -1,26 +1,38 @@
-import { BloomPass as BloomPassjs } from "./BloomPass";
-import { BlurPass as BlurPassjs } from "./BlurPass";
-import { DepthPass as DepthPassjs } from "./DepthPass";
-import { DofPass as DofPassjs } from "./DofPass";
-import { DogPass as DogPassjs } from "./DogPass";
-import { MotionBlurPass as MotionBlurPassjs } from "./MotionBlurPass";
-import { PassLibjs as PassLib_PassLibjsjs } from "./PassLib";
-import { PosteffectsHandler as PosteffectsHandlerjs } from "./PosteffectsHandler";
-import { ShaderLibExtra as ShaderLibExtrajs } from "./ShaderLibExtra";
-import { SsaoPass as SsaoPassjs } from "./SsaoPass";
+"use strict";
+
+var _BloomPass = require("./BloomPass");
+
+var _BlurPass = require("./BlurPass");
+
+var _DepthPass = require("./DepthPass");
+
+var _DofPass = require("./DofPass");
+
+var _DogPass = require("./DogPass");
+
+var _MotionBlurPass = require("./MotionBlurPass");
+
+var _PassLib = require("./PassLib");
+
+var _PosteffectsHandler = require("./PosteffectsHandler");
+
+var _ShaderLibExtra = require("./ShaderLibExtra");
+
+var _SsaoPass = require("./SsaoPass");
+
 module.exports = {
-	BloomPass: BloomPassjs,
-	BlurPass: BlurPassjs,
-	DepthPass: DepthPassjs,
-	DofPass: DofPassjs,
-	DogPass: DogPassjs,
-	MotionBlurPass: MotionBlurPassjs,
-	PassLib: PassLib_PassLibjsjs,
-	PosteffectsHandler: PosteffectsHandlerjs,
+	BloomPass: _BloomPass.BloomPass,
+	BlurPass: _BlurPass.BlurPass,
+	DepthPass: _DepthPass.DepthPass,
+	DofPass: _DofPass.DofPass,
+	DogPass: _DogPass.DogPass,
+	MotionBlurPass: _MotionBlurPass.MotionBlurPass,
+	PassLib: _PassLib.PassLibjs,
+	PosteffectsHandler: _PosteffectsHandler.PosteffectsHandler,
 	ShaderLibExtra: ShaderLibExtra_ShaderLibExtrajs,
-	SsaoPass: SsaoPassjs
+	SsaoPass: _SsaoPass.SsaoPass
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

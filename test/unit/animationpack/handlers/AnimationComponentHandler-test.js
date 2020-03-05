@@ -1,17 +1,25 @@
-import { DynamicLoader as DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { World as Worldjs } from "../../../../src/goo/entities/World";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import { AnimationComponent as AnimationComponentjs } from "../../../../src/goo/animationpack/components/AnimationComponent";
-import { AnimationLayer as AnimationLayerjs } from "../../../../src/goo/animationpack/layer/AnimationLayer";
-import { SkeletonPose as SkeletonPosejs } from "../../../../src/goo/animationpack/SkeletonPose";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+"use strict";
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+var _AnimationComponent = require("../../../../src/goo/animationpack/components/AnimationComponent");
+
+var _AnimationLayer = require("../../../../src/goo/animationpack/layer/AnimationLayer");
+
+var _SkeletonPose = require("../../../../src/goo/animationpack/SkeletonPose");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('AnimationComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new Worldjs();
-		loader = new DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -19,21 +27,21 @@ describe('AnimationComponentHandler', function () {
 	});
 
 	it('loads an entity with animation component', function (done) {
-		var config = Configs_Configsjs.entity(['animation']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['animation']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.animationComponent).toEqual(jasmine.any(AnimationComponentjs));
+			expect(entity.animationComponent).toEqual(jasmine.any(_AnimationComponent.AnimationComponent));
 			done();
 		});
 	});
 
 	it('loads component with layers and skeletonpose', function (done) {
-		var config = Configs_Configsjs.entity(['animation']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['animation']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
 			var component = entity.animationComponent;
-			expect(component._skeletonPose).toEqual(jasmine.any(SkeletonPosejs));
-			expect(component.layers[0]).toEqual(jasmine.any(AnimationLayerjs));
+			expect(component._skeletonPose).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
+			expect(component.layers[0]).toEqual(jasmine.any(_AnimationLayer.AnimationLayer));
 			done();
 		});
 	});

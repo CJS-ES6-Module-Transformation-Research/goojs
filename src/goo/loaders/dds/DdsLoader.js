@@ -1,19 +1,28 @@
-import { DdsUtils as DdsUtilsjs } from "../../loaders/dds/DdsUtils";
-import { Capabilities as Capabilitiesjs } from "../../renderer/Capabilities";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.DdsLoader = undefined;
+
+var _DdsUtils = require("../../loaders/dds/DdsUtils");
+
+var _Capabilities = require("../../renderer/Capabilities");
+
 var DdsLoader_populate;
 var DdsLoader_readUncompressed;
 var DdsLoader_readDXT;
 var DdsLoader_updateDepth;
 
 function DdsPixelFormat() {
-	this.dwSize = 0;
-	this.dwFlags = 0;
-	this.dwFourCC = 0;
-	this.dwRGBBitCount = 0;
-	this.dwRBitMask = 0;
-	this.dwGBitMask = 0;
-	this.dwBBitMask = 0;
-	this.dwABitMask = 0;
+    this.dwSize = 0;
+    this.dwFlags = 0;
+    this.dwFourCC = 0;
+    this.dwRGBBitCount = 0;
+    this.dwRBitMask = 0;
+    this.dwGBitMask = 0;
+    this.dwBBitMask = 0;
+    this.dwABitMask = 0;
 }
 
 DdsPixelFormat.HEADER_OFFSET = 19;
@@ -38,38 +47,39 @@ DdsPixelFormat.DDPF_YUV = 0x200;
 DdsPixelFormat.DDPF_LUMINANCE = 0x20000;
 // ---- /end VALUES USED IN dwFlags ----
 
-DdsPixelFormat.read = function (data) { // Int32Array
-	var format = new DdsPixelFormat();
-	format.dwSize = data[DdsPixelFormat.HEADER_OFFSET + 0];
-	if (format.dwSize !== 32) {
-		throw new Error('invalid pixel format size: ' + format.dwSize);
-	}
-	format.dwFlags = data[DdsPixelFormat.HEADER_OFFSET + 1];
-	format.dwFourCC = data[DdsPixelFormat.HEADER_OFFSET + 2];
-	format.dwRGBBitCount = data[DdsPixelFormat.HEADER_OFFSET + 3];
-	format.dwRBitMask = data[DdsPixelFormat.HEADER_OFFSET + 4];
-	format.dwGBitMask = data[DdsPixelFormat.HEADER_OFFSET + 5];
-	format.dwBBitMask = data[DdsPixelFormat.HEADER_OFFSET + 6];
-	format.dwABitMask = data[DdsPixelFormat.HEADER_OFFSET + 7];
-	return format;
+DdsPixelFormat.read = function (data) {
+    // Int32Array
+    var format = new DdsPixelFormat();
+    format.dwSize = data[DdsPixelFormat.HEADER_OFFSET + 0];
+    if (format.dwSize !== 32) {
+        throw new Error('invalid pixel format size: ' + format.dwSize);
+    }
+    format.dwFlags = data[DdsPixelFormat.HEADER_OFFSET + 1];
+    format.dwFourCC = data[DdsPixelFormat.HEADER_OFFSET + 2];
+    format.dwRGBBitCount = data[DdsPixelFormat.HEADER_OFFSET + 3];
+    format.dwRBitMask = data[DdsPixelFormat.HEADER_OFFSET + 4];
+    format.dwGBitMask = data[DdsPixelFormat.HEADER_OFFSET + 5];
+    format.dwBBitMask = data[DdsPixelFormat.HEADER_OFFSET + 6];
+    format.dwABitMask = data[DdsPixelFormat.HEADER_OFFSET + 7];
+    return format;
 };
 
 function DdsHeader() {
-	this.dwSize = 0;
-	this.dwFlags = 0;
-	this.dwHeight = 0;
-	this.dwWidth = 0;
-	this.dwLinearSize = 0;
-	this.dwDepth = 0;
-	this.dwMipMapCount = 0;
-	this.dwAlphaBitDepth = 0;
-	this.dwReserved1 = [];
-	this.ddpf = null;
-	this.dwCaps = 0;
-	this.dwCaps2 = 0;
-	this.dwCaps3 = 0;
-	this.dwCaps4 = 0;
-	this.dwTextureStage = 0;
+    this.dwSize = 0;
+    this.dwFlags = 0;
+    this.dwHeight = 0;
+    this.dwWidth = 0;
+    this.dwLinearSize = 0;
+    this.dwDepth = 0;
+    this.dwMipMapCount = 0;
+    this.dwAlphaBitDepth = 0;
+    this.dwReserved1 = [];
+    this.ddpf = null;
+    this.dwCaps = 0;
+    this.dwCaps2 = 0;
+    this.dwCaps3 = 0;
+    this.dwCaps4 = 0;
+    this.dwTextureStage = 0;
 }
 
 // Required caps flag.
@@ -119,87 +129,87 @@ DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEZ = 0x8000;
 DdsHeader.DDSCAPS2_VOLUME = 0x200000;
 // ---- /end VALUES USED IN dwCaps2 ----
 
-DdsHeader.read = function (data) { // Int32Array
-	var header = new DdsHeader();
-	header.dwSize = data[1];
-	if (header.dwSize !== 124) {
-		throw new Error('invalid dds header size: ' + header.dwSize);
-	}
-	header.dwFlags = data[2];
-	header.dwHeight = data[3];
-	header.dwWidth = data[4];
-	header.dwLinearSize = data[5];
-	header.dwDepth = data[6];
-	header.dwMipMapCount = data[7];
-	header.dwAlphaBitDepth = data[8];
-	for (var i = 0; i < header.dwReserved1.length; i++) {
-		header.dwReserved1[i] = data[9 + i];
-	}
-	header.ddpf = DdsPixelFormat.read(data);
-	header.dwCaps = data[27];
-	header.dwCaps2 = data[28];
-	header.dwCaps3 = data[29];
-	header.dwCaps4 = data[30];
-	header.dwTextureStage = data[31];
+DdsHeader.read = function (data) {
+    // Int32Array
+    var header = new DdsHeader();
+    header.dwSize = data[1];
+    if (header.dwSize !== 124) {
+        throw new Error('invalid dds header size: ' + header.dwSize);
+    }
+    header.dwFlags = data[2];
+    header.dwHeight = data[3];
+    header.dwWidth = data[4];
+    header.dwLinearSize = data[5];
+    header.dwDepth = data[6];
+    header.dwMipMapCount = data[7];
+    header.dwAlphaBitDepth = data[8];
+    for (var i = 0; i < header.dwReserved1.length; i++) {
+        header.dwReserved1[i] = data[9 + i];
+    }
+    header.ddpf = DdsPixelFormat.read(data);
+    header.dwCaps = data[27];
+    header.dwCaps2 = data[28];
+    header.dwCaps3 = data[29];
+    header.dwCaps4 = data[30];
+    header.dwTextureStage = data[31];
 
-	var expectedMipmaps = 1 + Math.ceil(Math.log(Math.max(header.dwHeight, header.dwWidth)) / Math.log(2));
+    var expectedMipmaps = 1 + Math.ceil(Math.log(Math.max(header.dwHeight, header.dwWidth)) / Math.log(2));
 
-	if (DdsUtilsjs.isSet(header.dwCaps, DdsHeader.DDSCAPS_MIPMAP)) {
-		if (!DdsUtilsjs.isSet(header.dwFlags, DdsHeader.DDSD_MIPMAPCOUNT)) {
-			header.dwMipMapCount = expectedMipmaps;
-		} else if (header.dwMipMapCount !== expectedMipmaps) {
-			console.warn('Got ' + header.dwMipMapCount + ' mipmaps, expected ' + expectedMipmaps);
-		}
-	} else {
-		header.dwMipMapCount = 1;
-	}
+    if (_DdsUtils.DdsUtils.isSet(header.dwCaps, DdsHeader.DDSCAPS_MIPMAP)) {
+        if (!_DdsUtils.DdsUtils.isSet(header.dwFlags, DdsHeader.DDSD_MIPMAPCOUNT)) {
+            header.dwMipMapCount = expectedMipmaps;
+        } else if (header.dwMipMapCount !== expectedMipmaps) {
+            console.warn('Got ' + header.dwMipMapCount + ' mipmaps, expected ' + expectedMipmaps);
+        }
+    } else {
+        header.dwMipMapCount = 1;
+    }
 
-	return header;
+    return header;
 };
 
 function DdsImageInfo() {
-	this.flipVertically = false;
-	this.bpp = 0;
-	this.header = null;
-	this.headerDX10 = null;
-	this.mipmapByteSizes = [];
+    this.flipVertically = false;
+    this.bpp = 0;
+    this.header = null;
+    this.headerDX10 = null;
+    this.mipmapByteSizes = [];
 }
 
 DdsImageInfo.prototype.calcMipmapSizes = function (compressed) {
-	var width = this.header.dwWidth;
-	var height = this.header.dwHeight;
-	var size = 0;
+    var width = this.header.dwWidth;
+    var height = this.header.dwHeight;
+    var size = 0;
 
-	for (var i = 0; i < this.header.dwMipMapCount; i++) {
-		size = compressed ? ~~((width + 3) / 4) * ~~((height + 3) / 4) * this.bpp * 2 : ~~(width * height * this.bpp / 8);
-		this.mipmapByteSizes.push(~~((size + 3) / 4) * 4);
-		width = ~~(width / 2) > 1 ? ~~(width / 2) : 1;
-		height = ~~(height / 2) > 1 ? ~~(height / 2) : 1;
-	}
+    for (var i = 0; i < this.header.dwMipMapCount; i++) {
+        size = compressed ? ~~((width + 3) / 4) * ~~((height + 3) / 4) * this.bpp * 2 : ~~(width * height * this.bpp / 8);
+        this.mipmapByteSizes.push(~~((size + 3) / 4) * 4);
+        width = ~~(width / 2) > 1 ? ~~(width / 2) : 1;
+        height = ~~(height / 2) > 1 ? ~~(height / 2) : 1;
+    }
 };
 
-function DdsLoader() {
-}
+function DdsLoader() {}
 
-DdsLoader_updateDepth = function(image, info) {
-    if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP)) {
+DdsLoader_updateDepth = function DdsLoader_updateDepth(image, info) {
+    if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP)) {
         var depth = 0;
-        if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_POSITIVEX)) {
+        if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_POSITIVEX)) {
             depth++;
         }
-        if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEX)) {
+        if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEX)) {
             depth++;
         }
-        if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_POSITIVEY)) {
+        if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_POSITIVEY)) {
             depth++;
         }
-        if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEY)) {
+        if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEY)) {
             depth++;
         }
-        if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_POSITIVEZ)) {
+        if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_POSITIVEZ)) {
             depth++;
         }
-        if (DdsUtilsjs.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEZ)) {
+        if (_DdsUtils.DdsUtils.isSet(info.header.dwCaps2, DdsHeader.DDSCAPS2_CUBEMAP_NEGATIVEZ)) {
             depth++;
         }
 
@@ -214,7 +224,7 @@ DdsLoader_updateDepth = function(image, info) {
     }
 };;
 
-DdsLoader_readDXT = function(imgData, totalSize, info, texture) {
+DdsLoader_readDXT = function DdsLoader_readDXT(imgData, totalSize, info, texture) {
     texture.image.isCompressed = true;
 
     if (!info.flipVertically) {
@@ -231,7 +241,7 @@ DdsLoader_readDXT = function(imgData, totalSize, info, texture) {
     for (var mip = 0; mip < info.header.dwMipMapCount; mip++) {
         var data = imgData.subarray(offset, offset + info.mipmapByteSizes[mip]);
 
-        var flipped = DdsUtilsjs.flipDXT(data, mipWidth, mipHeight, texture.format);
+        var flipped = _DdsUtils.DdsUtils.flipDXT(data, mipWidth, mipHeight, texture.format);
         rVal.set(flipped, offset);
         offset += flipped.length;
 
@@ -241,29 +251,21 @@ DdsLoader_readDXT = function(imgData, totalSize, info, texture) {
     return rVal;
 };;
 
-DdsLoader_readUncompressed = function(
-    imgData,
-    totalSize,
-    useRgb,
-    useLum,
-    useAlpha,
-    useAlphaPixels,
-    info,
-    texture
-) {
-    var redLumShift = DdsUtilsjs.shiftCount(info.header.ddpf.dwRBitMask);
-    var greenShift = DdsUtilsjs.shiftCount(info.header.ddpf.dwGBitMask);
-    var blueShift = DdsUtilsjs.shiftCount(info.header.ddpf.dwBBitMask);
-    var alphaShift = DdsUtilsjs.shiftCount(info.header.ddpf.dwABitMask);
+DdsLoader_readUncompressed = function DdsLoader_readUncompressed(imgData, totalSize, useRgb, useLum, useAlpha, useAlphaPixels, info, texture) {
+    var redLumShift = _DdsUtils.DdsUtils.shiftCount(info.header.ddpf.dwRBitMask);
+    var greenShift = _DdsUtils.DdsUtils.shiftCount(info.header.ddpf.dwGBitMask);
+    var blueShift = _DdsUtils.DdsUtils.shiftCount(info.header.ddpf.dwBBitMask);
+    var alphaShift = _DdsUtils.DdsUtils.shiftCount(info.header.ddpf.dwABitMask);
 
     var sourcebytesPP = ~~(info.header.ddpf.dwRGBBitCount / 8);
-    var targetBytesPP = DdsUtilsjs.getComponents(texture.format) * 1; // 1 byte per unsignedbyte store
+    var targetBytesPP = _DdsUtils.DdsUtils.getComponents(texture.format) * 1; // 1 byte per unsignedbyte store
 
     var rVal = new Uint8Array(totalSize);
 
     var mipWidth = info.header.dwWidth;
     var mipHeight = info.header.dwHeight;
-    var dstOffset = 0, srcOffset = 0;
+    var dstOffset = 0,
+        srcOffset = 0;
     var i = 0;
     var b = [];
     for (i = 0; i < sourcebytesPP; i++) {
@@ -277,7 +279,7 @@ DdsLoader_readUncompressed = function(
                     b[i] = imgData[srcOffset++];
                 }
 
-                i = DdsUtilsjs.getIntFromBytes(b);
+                i = _DdsUtils.DdsUtils.getIntFromBytes(b);
 
                 var redLum = (i & info.header.ddpf.dwRBitMask) >> redLumShift;
                 var green = (i & info.header.ddpf.dwGBitMask) >> greenShift;
@@ -316,20 +318,20 @@ DdsLoader_readUncompressed = function(
     return rVal;
 };;
 
-DdsLoader_populate = function(texture, info, data) {
+DdsLoader_populate = function DdsLoader_populate(texture, info, data) {
     var flags = info.header.ddpf.dwFlags;
 
-    var compressedFormat = DdsUtilsjs.isSet(flags, DdsPixelFormat.DDPF_FOURCC);
-    var rgb = DdsUtilsjs.isSet(flags, DdsPixelFormat.DDPF_RGB);
-    var alphaPixels = DdsUtilsjs.isSet(flags, DdsPixelFormat.DDPF_ALPHAPIXELS);
-    var lum = DdsUtilsjs.isSet(flags, DdsPixelFormat.DDPF_LUMINANCE);
-    var alpha = DdsUtilsjs.isSet(flags, DdsPixelFormat.DDPF_ALPHA);
+    var compressedFormat = _DdsUtils.DdsUtils.isSet(flags, DdsPixelFormat.DDPF_FOURCC);
+    var rgb = _DdsUtils.DdsUtils.isSet(flags, DdsPixelFormat.DDPF_RGB);
+    var alphaPixels = _DdsUtils.DdsUtils.isSet(flags, DdsPixelFormat.DDPF_ALPHAPIXELS);
+    var lum = _DdsUtils.DdsUtils.isSet(flags, DdsPixelFormat.DDPF_LUMINANCE);
+    var alpha = _DdsUtils.DdsUtils.isSet(flags, DdsPixelFormat.DDPF_ALPHA);
     texture.type = "UnsignedByte";
 
     if (compressedFormat) {
         var fourCC = info.header.ddpf.dwFourCC;
         // DXT1 format
-        if (fourCC === DdsUtilsjs.getIntFromString("DXT1")) {
+        if (fourCC === _DdsUtils.DdsUtils.getIntFromString("DXT1")) {
             info.bpp = 4;
             // if (isSet(flags, DdsPixelFormat.DDPF_ALPHAPIXELS)) {
             // XXX: many authoring tools do not set alphapixels, so we'll error on the side of alpha
@@ -342,93 +344,91 @@ DdsLoader_populate = function(texture, info, data) {
         }
 
         // DXT3 format
-        else if (fourCC === DdsUtilsjs.getIntFromString("DXT3")) {
-            //                console.info('DDS format: DXT3');
-            info.bpp = 8;
-            texture.format = "PrecompressedDXT3";
-        }
+        else if (fourCC === _DdsUtils.DdsUtils.getIntFromString("DXT3")) {
+                //                console.info('DDS format: DXT3');
+                info.bpp = 8;
+                texture.format = "PrecompressedDXT3";
+            }
 
-        // DXT5 format
-        else if (fourCC === DdsUtilsjs.getIntFromString("DXT5")) {
-            //                console.info('DDS format: DXT5');
-            info.bpp = 8;
-            texture.format = "PrecompressedDXT5";
-        }
+            // DXT5 format
+            else if (fourCC === _DdsUtils.DdsUtils.getIntFromString("DXT5")) {
+                    //                console.info('DDS format: DXT5');
+                    info.bpp = 8;
+                    texture.format = "PrecompressedDXT5";
+                }
 
-        // DXT10 info present...
-        else if (fourCC === DdsUtilsjs.getIntFromString("DX10")) {
-            // switch (info.headerDX10.dxgiFormat) {
-            // case DXGI_FORMAT_BC4_UNORM:
-            // console.info('DXGI format: BC4_UNORM');
-            // info.bpp = 4;
-            // texture.setDataFormat(ImageDataFormat.PrecompressedLATC_L);
-            // break;
-            // case DXGI_FORMAT_BC5_UNORM:
-            // console.info('DXGI format: BC5_UNORM');
-            // info.bpp = 8;
-            // texture.setDataFormat(ImageDataFormat.PrecompressedLATC_LA);
-            // break;
-            // default:
-            // throw new Error('dxgiFormat not supported: ' + info.headerDX10.dxgiFormat);
-            // }
-            throw new Error(
-                "dxt10 LATC formats not supported currently: " + info.headerDX10.dxgiFormat
-            );
-        }
+                // DXT10 info present...
+                else if (fourCC === _DdsUtils.DdsUtils.getIntFromString("DX10")) {
+                        // switch (info.headerDX10.dxgiFormat) {
+                        // case DXGI_FORMAT_BC4_UNORM:
+                        // console.info('DXGI format: BC4_UNORM');
+                        // info.bpp = 4;
+                        // texture.setDataFormat(ImageDataFormat.PrecompressedLATC_L);
+                        // break;
+                        // case DXGI_FORMAT_BC5_UNORM:
+                        // console.info('DXGI format: BC5_UNORM');
+                        // info.bpp = 8;
+                        // texture.setDataFormat(ImageDataFormat.PrecompressedLATC_LA);
+                        // break;
+                        // default:
+                        // throw new Error('dxgiFormat not supported: ' + info.headerDX10.dxgiFormat);
+                        // }
+                        throw new Error("dxt10 LATC formats not supported currently: " + info.headerDX10.dxgiFormat);
+                    }
 
-        // DXT2 format - unsupported
-        else if (fourCC === DdsUtilsjs.getIntFromString("DXT2")) {
-            throw new Error("DXT2 is not supported.");
-        }
+                    // DXT2 format - unsupported
+                    else if (fourCC === _DdsUtils.DdsUtils.getIntFromString("DXT2")) {
+                            throw new Error("DXT2 is not supported.");
+                        }
 
-        // DXT4 format - unsupported
-        else if (fourCC === DdsUtilsjs.getIntFromString("DXT4")) {
-            throw new Error("DXT4 is not supported.");
-        }
+                        // DXT4 format - unsupported
+                        else if (fourCC === _DdsUtils.DdsUtils.getIntFromString("DXT4")) {
+                                throw new Error("DXT4 is not supported.");
+                            }
 
-        // Unsupported compressed type.
-        else {
-            throw new Error("unsupported compressed dds format found (" + fourCC + ")");
-        }
+                            // Unsupported compressed type.
+                            else {
+                                    throw new Error("unsupported compressed dds format found (" + fourCC + ")");
+                                }
     }
 
     // not a compressed format
     else {
-        // TODO: more use of bit masks?
-        // TODO: Use bit size instead of hardcoded 8 bytes? (need to also implement in readUncompressed)
+            // TODO: more use of bit masks?
+            // TODO: Use bit size instead of hardcoded 8 bytes? (need to also implement in readUncompressed)
 
-        info.bpp = info.header.ddpf.dwRGBBitCount;
+            info.bpp = info.header.ddpf.dwRGBBitCount;
 
-        // One of the RGB formats?
-        if (rgb) {
-            if (alphaPixels) {
-                //                    console.info('DDS format: uncompressed rgba');
-                texture.format = "RGBA";
-            } else {
-                //                    console.info('DDS format: uncompressed rgb ');
-                texture.format = "RGB";
+            // One of the RGB formats?
+            if (rgb) {
+                if (alphaPixels) {
+                    //                    console.info('DDS format: uncompressed rgba');
+                    texture.format = "RGBA";
+                } else {
+                    //                    console.info('DDS format: uncompressed rgb ');
+                    texture.format = "RGB";
+                }
             }
-        }
 
-        // A luminance or alpha format
-        else if (lum || alphaPixels) {
-            if (lum && alphaPixels) {
-                //                    console.info('DDS format: uncompressed LumAlpha');
-                texture.format = "LuminanceAlpha";
-            } else if (lum) {
-                //                    console.info('DDS format: uncompressed Lum');
-                texture.format = "Luminance";
-            } else if (alpha) {
-                //                    console.info('DDS format: uncompressed Alpha');
-                texture.format = "Alpha";
-            }
-        } // end luminance/alpha type
+            // A luminance or alpha format
+            else if (lum || alphaPixels) {
+                    if (lum && alphaPixels) {
+                        //                    console.info('DDS format: uncompressed LumAlpha');
+                        texture.format = "LuminanceAlpha";
+                    } else if (lum) {
+                        //                    console.info('DDS format: uncompressed Lum');
+                        texture.format = "Luminance";
+                    } else if (alpha) {
+                        //                    console.info('DDS format: uncompressed Alpha');
+                        texture.format = "Alpha";
+                    }
+                } // end luminance/alpha type
 
-        // Unsupported type.
-        else {
-            throw new Error("unsupported uncompressed dds format found.");
+                // Unsupported type.
+                else {
+                        throw new Error("unsupported uncompressed dds format found.");
+                    }
         }
-    }
 
     info.calcMipmapSizes(compressedFormat);
     texture.image.mipmapSizes = info.mipmapByteSizes;
@@ -449,10 +449,8 @@ DdsLoader_populate = function(texture, info, data) {
 
         // read in uncompressed data
         else if (rgb || lum || alpha) {
-            imageData.push(
-                DdsLoader_readUncompressed(data, totalSize, rgb, lum, alpha, alphaPixels, info, texture)
-            );
-        }
+                imageData.push(DdsLoader_readUncompressed(data, totalSize, rgb, lum, alpha, alphaPixels, info, texture));
+            }
     }
 
     // set on image
@@ -461,59 +459,58 @@ DdsLoader_populate = function(texture, info, data) {
 };;
 
 DdsLoader.prototype.load = function (buffer, tex, flipped, arrayByteOffset, arrayByteLength) {
-	var header = new Int32Array(buffer, arrayByteOffset + 0, 32);
+    var header = new Int32Array(buffer, arrayByteOffset + 0, 32);
 
-	// Read and check magic word...
-	var dwMagic = header[0];
-	if (dwMagic !== DdsUtilsjs.getIntFromString('DDS ')) {
-		throw new Error('Not a dds file.');
-	}
-//		console.info('Reading DDS file.');
+    // Read and check magic word...
+    var dwMagic = header[0];
+    if (dwMagic !== _DdsUtils.DdsUtils.getIntFromString('DDS ')) {
+        throw new Error('Not a dds file.');
+    }
+    //		console.info('Reading DDS file.');
 
-	// Create our data store;
-	var info = new DdsImageInfo();
+    // Create our data store;
+    var info = new DdsImageInfo();
 
-	info.flipVertically = flipped;
+    info.flipVertically = flipped;
 
-	// Read standard dds header
-	info.header = DdsHeader.read(header);
+    // Read standard dds header
+    info.header = DdsHeader.read(header);
 
-	// if applicable, read DX10 header
-	info.headerDX10 = info.header.ddpf.dwFourCC === DdsUtilsjs.getIntFromString('DX10') ? DdsHeader.read(Int32Array.create(buffer,
-		arrayByteOffset + 128, 5)) : null;
+    // if applicable, read DX10 header
+    info.headerDX10 = info.header.ddpf.dwFourCC === _DdsUtils.DdsUtils.getIntFromString('DX10') ? DdsHeader.read(Int32Array.create(buffer, arrayByteOffset + 128, 5)) : null;
 
-	// Create our new image
-	var image = tex.image;
-	if (typeof image === 'undefined' || image === null) {
-		image = {};
-		tex.image = image;
-	}
-	image.width = info.header.dwWidth;
-	image.height = info.header.dwHeight;
+    // Create our new image
+    var image = tex.image;
+    if (typeof image === 'undefined' || image === null) {
+        image = {};
+        tex.image = image;
+    }
+    image.width = info.header.dwWidth;
+    image.height = info.header.dwHeight;
 
-	// update depth based on flags / header
-	DdsLoader_updateDepth(image, info);
+    // update depth based on flags / header
+    DdsLoader_updateDepth(image, info);
 
-	// add our format and image data.
-	var contentOffset = 128 + (info.headerDX10 ? 20 : 0);
-	DdsLoader_populate(tex, info, new Uint8Array(buffer, arrayByteOffset + contentOffset, arrayByteLength - contentOffset));
+    // add our format and image data.
+    var contentOffset = 128 + (info.headerDX10 ? 20 : 0);
+    DdsLoader_populate(tex, info, new Uint8Array(buffer, arrayByteOffset + contentOffset, arrayByteLength - contentOffset));
 
-	if (!info.mipmapByteSizes || info.mipmapByteSizes.length < 2) {
-		tex.minFilter = 'BilinearNoMipMaps';
-	}
+    if (!info.mipmapByteSizes || info.mipmapByteSizes.length < 2) {
+        tex.minFilter = 'BilinearNoMipMaps';
+    }
 
-	image.bpp = info.bpp;
-	image.dataReady = true;
-	image.isData = true;
-	tex.needsUpdate = true;
+    image.bpp = info.bpp;
+    image.dataReady = true;
+    image.isData = true;
+    tex.needsUpdate = true;
 };
 
 DdsLoader.prototype.isSupported = function () {
-	return !!Capabilitiesjs.CompressedTextureS3TC;
+    return !!_Capabilities.Capabilities.CompressedTextureS3TC;
 };
 
 DdsLoader.prototype.toString = function () {
-	return 'DdsLoader';
+    return 'DdsLoader';
 };
 
 var exported_DdsLoader = DdsLoader;
@@ -522,4 +519,4 @@ var exported_DdsLoader = DdsLoader;
  * Loads dds format images into a format usable by Goo.
  * @private
  */
-export { exported_DdsLoader as DdsLoader };
+exports.DdsLoader = exported_DdsLoader;

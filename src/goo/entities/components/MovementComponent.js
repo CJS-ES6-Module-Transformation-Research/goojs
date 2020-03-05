@@ -1,20 +1,29 @@
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { Component as Componentjs } from "../../entities/components/Component";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MovementComponent = undefined;
+
+var _Vector = require("../../math/Vector3");
+
+var _Component = require("../../entities/components/Component");
+
 function MovementComponent() {
-	Componentjs.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	this.type = 'MovementComponent';
-	this.velocity = new Vector3js();
-	this.rotationVelocity = new Vector3js();
+  this.type = 'MovementComponent';
+  this.velocity = new _Vector.Vector3();
+  this.rotationVelocity = new _Vector.Vector3();
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 MovementComponent.type = 'MovementComponent';
 
-MovementComponent.prototype = Object.create(Componentjs.prototype);
+MovementComponent.prototype = Object.create(_Component.Component.prototype);
 MovementComponent.prototype.constructor = MovementComponent;
 
 /**
@@ -22,7 +31,7 @@ MovementComponent.prototype.constructor = MovementComponent;
  * @param {Vector3} vec3 velocity impulse vector.
  */
 MovementComponent.prototype.addVelocity = function (vec3) {
-	this.velocity.add(vec3);
+  this.velocity.add(vec3);
 };
 
 /**
@@ -31,7 +40,7 @@ MovementComponent.prototype.addVelocity = function (vec3) {
  */
 
 MovementComponent.prototype.setVelocity = function (vec3) {
-	this.velocity.set(vec3);
+  this.velocity.set(vec3);
 };
 
 /**
@@ -40,7 +49,7 @@ MovementComponent.prototype.setVelocity = function (vec3) {
  */
 
 MovementComponent.prototype.getVelocity = function () {
-	return this.velocity;
+  return this.velocity;
 };
 
 /**
@@ -49,7 +58,7 @@ MovementComponent.prototype.getVelocity = function () {
  */
 
 MovementComponent.prototype.addRotationVelocity = function (vec3) {
-	this.rotationVelocity.add(vec3);
+  this.rotationVelocity.add(vec3);
 };
 /**
  * Sets rotational velocity of the movement.
@@ -57,7 +66,7 @@ MovementComponent.prototype.addRotationVelocity = function (vec3) {
  */
 
 MovementComponent.prototype.setRotationVelocity = function (vec3) {
-	this.rotationVelocity.set(vec3);
+  this.rotationVelocity.set(vec3);
 };
 
 /**
@@ -66,7 +75,7 @@ MovementComponent.prototype.setRotationVelocity = function (vec3) {
  */
 
 MovementComponent.prototype.getRotationVelocity = function () {
-	return this.rotationVelocity;
+  return this.rotationVelocity;
 };
 
 var exported_MovementComponent = MovementComponent;
@@ -77,4 +86,4 @@ var exported_MovementComponent = MovementComponent;
  * rotation.
  * @extends Component
  */
-export { exported_MovementComponent as MovementComponent };
+exports.MovementComponent = exported_MovementComponent;

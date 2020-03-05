@@ -1,8 +1,14 @@
-import { register as Scriptsjs_register } from "../scripts/Scripts";
-import { OrbitCamControlScript as OrbitCamControlScriptjs } from "../scripts/OrbitCamControlScript";
-import { PanCamScript as PanCamScriptjs } from "./PanCamScript";
-import { MouseLookControlScript as MouseLookControlScriptjs } from "./MouseLookControlScript";
-import { WasdControlScript as WasdControlScriptjs } from "./WasdControlScript";
+"use strict";
+
+var _Scripts = require("../scripts/Scripts");
+
+var _OrbitCamControlScript = require("../scripts/OrbitCamControlScript");
+
+var _PanCamScript = require("./PanCamScript");
+
+var _MouseLookControlScript = require("./MouseLookControlScript");
+
+var _WasdControlScript = require("./WasdControlScript");
 
 var scripts = {
 	OrbitCamControlScript: OrbitCamControlScript_OrbitCamControlScriptjs,
@@ -18,5 +24,5 @@ var scripts = {
 };
 
 for (var key in scripts) {
-	Scriptsjs_register(scripts[key]);
+	(0, _Scripts.register)(scripts[key]);
 }

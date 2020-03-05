@@ -1,9 +1,17 @@
-import { AbstractTransitionState as AbstractTransitionStatejs } from "../../animationpack/state/AbstractTransitionState";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.FadeTransitionState = undefined;
+
+var _AbstractTransitionState = require("../../animationpack/state/AbstractTransitionState");
+
 function FadeTransitionState() {
-	AbstractTransitionStatejs.call(this);
+	_AbstractTransitionState.AbstractTransitionState.call(this);
 }
 
-FadeTransitionState.prototype = Object.create(AbstractTransitionStatejs.prototype);
+FadeTransitionState.prototype = Object.create(_AbstractTransitionState.AbstractTransitionState.prototype);
 FadeTransitionState.prototype.constructor = FadeTransitionState;
 
 /**
@@ -12,7 +20,7 @@ FadeTransitionState.prototype.constructor = FadeTransitionState;
  * @param layer the layer this state belongs to.
  */
 FadeTransitionState.prototype.update = function (globalTime) {
-	AbstractTransitionStatejs.prototype.update.call(this, globalTime);
+	_AbstractTransitionState.AbstractTransitionState.prototype.update.call(this, globalTime);
 
 	// update both of our states
 	if (this._sourceState) {
@@ -44,14 +52,14 @@ FadeTransitionState.prototype.postUpdate = function () {
 };
 
 FadeTransitionState.prototype.resetClips = function (globalTime) {
-	AbstractTransitionStatejs.prototype.resetClips.call(this, globalTime);
+	_AbstractTransitionState.AbstractTransitionState.prototype.resetClips.call(this, globalTime);
 	if (this._targetState) {
 		this._targetState.resetClips(globalTime);
 	}
 };
 
 FadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractTransitionStatejs.prototype.shiftClipTime.call(this, shiftTime);
+	_AbstractTransitionState.AbstractTransitionState.prototype.shiftClipTime.call(this, shiftTime);
 	if (this._targetState) {
 		this._targetState.shiftClipTime(shiftTime);
 	}
@@ -66,4 +74,4 @@ var exported_FadeTransitionState = FadeTransitionState;
  * A transition that blends over a given time from one animation state to another, beginning the target clip from local time 0 at the start of the transition. This is best used with two clips that have similar motions.
  * @extends AbstractTransitionState
  */
-export { exported_FadeTransitionState as FadeTransitionState };
+exports.FadeTransitionState = exported_FadeTransitionState;

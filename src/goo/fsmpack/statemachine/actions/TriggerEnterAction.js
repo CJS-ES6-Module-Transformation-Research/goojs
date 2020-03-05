@@ -1,11 +1,18 @@
-import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function TriggerEnterAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerEnterAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function TriggerEnterAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerEnterAction.prototype = Object.create(Actionjs.prototype);
+TriggerEnterAction.prototype = Object.create(_Action.Action.prototype);
 TriggerEnterAction.prototype.constructor = TriggerEnterAction;
 
 TriggerEnterAction.external = {
@@ -21,7 +28,7 @@ TriggerEnterAction.external = {
 	}]
 };
 
-TriggerEnterAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TriggerEnterAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'enter' ? 'On Trigger Enter' : undefined;
 };
 
@@ -38,10 +45,10 @@ TriggerEnterAction.prototype.enter = function (fsm) {
 	SystemBus.addListener('goo.physics.triggerEnter', this.listener);
 };
 
-TriggerEnterAction.prototype.exit = function (/*fsm*/) {
+TriggerEnterAction.prototype.exit = function () /*fsm*/{
 	SystemBus.removeListener('goo.physics.triggerEnter', this.listener);
 	this.entity = null;
 };
 
 var exported_TriggerEnterAction = TriggerEnterAction;
-export { exported_TriggerEnterAction as TriggerEnterAction };
+exports.TriggerEnterAction = exported_TriggerEnterAction;

@@ -1,21 +1,30 @@
-import { Vector3 as Vector3js } from "../../math/Vector3";
-import { Light as Lightjs } from "../../renderer/light/Light";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DirectionalLight = undefined;
+
+var _Vector = require("../../math/Vector3");
+
+var _Light = require("../../renderer/light/Light");
+
 function DirectionalLight(color) {
-	Lightjs.call(this, color);
+	_Light.Light.call(this, color);
 
 	/**
-	 * The direction vector of the light
-	 * @readonly
-	 * @type {Vector3}
-	 */
-	this.direction = new Vector3js();
+  * The direction vector of the light
+  * @readonly
+  * @type {Vector3}
+  */
+	this.direction = new _Vector.Vector3();
 
 	// @ifdef DEBUG
 	Object.seal(this);
 	// @endif
 }
 
-DirectionalLight.prototype = Object.create(Lightjs.prototype);
+DirectionalLight.prototype = Object.create(_Light.Light.prototype);
 DirectionalLight.prototype.constructor = DirectionalLight;
 
 /**
@@ -30,7 +39,7 @@ DirectionalLight.prototype.update = function (transform) {
 };
 
 DirectionalLight.prototype.copy = function (source) {
-	Lightjs.prototype.copy.call(this, source);
+	_Light.Light.prototype.copy.call(this, source);
 
 	this.direction.copy(source.direction);
 
@@ -51,4 +60,4 @@ var exported_DirectionalLight = DirectionalLight;
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export { exported_DirectionalLight as DirectionalLight };
+exports.DirectionalLight = exported_DirectionalLight;

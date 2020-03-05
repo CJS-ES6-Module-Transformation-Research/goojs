@@ -1,20 +1,29 @@
-import { Gizmo as Gizmojs } from "./Gizmo";
-import { GizmoRenderSystem as GizmoRenderSystemjs } from "./GizmoRenderSystem";
-import { GlobalRotationGizmo as GlobalRotationGizmojs } from "./GlobalRotationGizmo";
-import { GlobalTranslationGizmo as GlobalTranslationGizmojs } from "./GlobalTranslationGizmo";
-import { RotationGizmo as RotationGizmojs } from "./RotationGizmo";
-import { ScaleGizmo as ScaleGizmojs } from "./ScaleGizmo";
-import { TranslationGizmo as TranslationGizmojs } from "./TranslationGizmo";
+"use strict";
+
+var _Gizmo = require("./Gizmo");
+
+var _GizmoRenderSystem = require("./GizmoRenderSystem");
+
+var _GlobalRotationGizmo = require("./GlobalRotationGizmo");
+
+var _GlobalTranslationGizmo = require("./GlobalTranslationGizmo");
+
+var _RotationGizmo = require("./RotationGizmo");
+
+var _ScaleGizmo = require("./ScaleGizmo");
+
+var _TranslationGizmo = require("./TranslationGizmo");
+
 module.exports = {
 	Gizmo: Gizmo_Gizmojs,
-	GizmoRenderSystem: GizmoRenderSystemjs,
-	GlobalRotationGizmo: GlobalRotationGizmojs,
-	GlobalTranslationGizmo: GlobalTranslationGizmojs,
-	RotationGizmo: RotationGizmojs,
-	ScaleGizmo: ScaleGizmojs,
-	TranslationGizmo: TranslationGizmojs
+	GizmoRenderSystem: _GizmoRenderSystem.GizmoRenderSystem,
+	GlobalRotationGizmo: _GlobalRotationGizmo.GlobalRotationGizmo,
+	GlobalTranslationGizmo: _GlobalTranslationGizmo.GlobalTranslationGizmo,
+	RotationGizmo: _RotationGizmo.RotationGizmo,
+	ScaleGizmo: _ScaleGizmo.ScaleGizmo,
+	TranslationGizmo: _TranslationGizmo.TranslationGizmo
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

@@ -1,7 +1,16 @@
-import { Component as Componentjs } from "../../entities/components/Component";
-import { Light as Lightjs } from "../../renderer/light/Light";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LightComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Light = require("../../renderer/light/Light");
+
 function LightComponent(light) {
-	Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'LightComponent';
 
@@ -11,9 +20,9 @@ function LightComponent(light) {
 	this.light = light;
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.hidden = false;
 
 	this._transformDirty = true;
@@ -26,7 +35,7 @@ function LightComponent(light) {
 
 LightComponent.type = 'LightComponent';
 
-LightComponent.prototype = Object.create(Componentjs.prototype);
+LightComponent.prototype = Object.create(_Component.Component.prototype);
 LightComponent.prototype.constructor = LightComponent;
 
 LightComponent.prototype.attached = function () {
@@ -64,7 +73,7 @@ LightComponent.prototype.clone = function () {
 };
 
 LightComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Lightjs) {
+	if (obj instanceof _Light.Light) {
 		var lightComponent = new LightComponent(obj);
 		entity.setComponent(lightComponent);
 		return true;
@@ -79,4 +88,4 @@ var exported_LightComponent = LightComponent;
  * @param {Light} light Light to contain in this component (directional, spot, point)
  * @extends Component
  */
-export { exported_LightComponent as LightComponent };
+exports.LightComponent = exported_LightComponent;

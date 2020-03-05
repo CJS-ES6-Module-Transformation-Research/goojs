@@ -1,10 +1,13 @@
+'use strict';
+
 // based on es6-collections by Andrea Giammarchi, @WebReflection
 // Object.is shim from the MDN
+
 (function (global) {
 	'use strict';
 
 	if (!Object.is) {
-		Object.is = function(v1, v2) {
+		Object.is = function (v1, v2) {
 			if (v1 === 0 && v2 === 0) {
 				return 1 / v1 === 1 / v2;
 			}
@@ -18,7 +21,8 @@
 	//shared pointer
 	var i;
 	//shortcuts
-	var defineProperty = Object.defineProperty, is = Object.is;
+	var defineProperty = Object.defineProperty,
+	    is = Object.is;
 
 	if (!global.Set) {
 		global.Map = createCollection({
@@ -58,11 +62,11 @@
 	}
 
 	/**
-	 * ES6 collection constructor
-	 * @return {Function} a collection class
-	 */
-	function createCollection(proto, objectOnly){
-		function Collection(a){
+  * ES6 collection constructor
+  * @return {Function} a collection class
+  */
+	function createCollection(proto, objectOnly) {
+		function Collection(a) {
 			if (!this || this.constructor !== Collection) return new Collection(a);
 			this._keys = [];
 			this._values = [];
@@ -86,17 +90,15 @@
 		return Collection;
 	}
 
-
 	/** parse initial iterable argument passed */
-	function init(a){
+	function init(a) {
 		//init Set argument, like `[1,2,3,{}]`
-		if (this.add)
-			a.forEach(this.add, this);
+		if (this.add) a.forEach(this.add, this);
 		//init Map argument like `[[1,2], [{}, 4]]`
-		else
-			a.forEach(function(a){this.set(a[0],a[1])}, this);
+		else a.forEach(function (a) {
+				this.set(a[0], a[1]);
+			}, this);
 	}
-
 
 	/** delete */
 	function sharedDelete(key) {
@@ -113,11 +115,9 @@
 	}
 
 	function has(list, key) {
-		if (this.objectOnly && key !== Object(key))
-			throw new TypeError("Invalid value used as weak collection key");
+		if (this.objectOnly && key !== Object(key)) throw new TypeError("Invalid value used as weak collection key");
 		//NaN or 0 passed
-		if (key != key || key === 0) for (i = list.length; i-- && !is(list[i], key););
-		else i = list.indexOf(key);
+		if (key != key || key === 0) for (i = list.length; i-- && !is(list[i], key);) {} else i = list.indexOf(key);
 		return -1 < i;
 	}
 
@@ -131,11 +131,7 @@
 
 	/** @chainable */
 	function sharedSet(key, value) {
-		this.has(key) ?
-			this._values[i] = value
-			:
-			this._values[this._keys.push(key) - 1] = value
-		;
+		this.has(key) ? this._values[i] = value : this._values[this._keys.push(key) - 1] = value;
 		return this;
 	}
 
@@ -176,4 +172,4 @@
 			callback.call(context, value, value, self);
 		});
 	}
-})(typeof(window) !== 'undefined' && window || this);
+})(typeof window !== 'undefined' && window || undefined);

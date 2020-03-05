@@ -1,4 +1,6 @@
-import { Ajax as Ajaxjs } from "../../../src/goo/util/Ajax";
+'use strict';
+
+var _Ajax = require('../../../src/goo/util/Ajax');
 
 var TestResponses = {
 	'good-url': {
@@ -12,9 +14,7 @@ var TestResponses = {
 };
 
 function createMockXhr(mockResponses) {
-	function MockXHR() {
-
-	}
+	function MockXHR() {}
 
 	MockXHR.prototype.open = function (method, url) {
 		this.url = url;
@@ -46,7 +46,7 @@ function createMockXhr(mockResponses) {
 		this.onreadystatechange = callback;
 	};
 
-	MockXHR.prototype.removeEventListener = function (/*eventName, callback*/) {
+	MockXHR.prototype.removeEventListener = function () /*eventName, callback*/{
 		// does nothing!
 	};
 
@@ -68,14 +68,13 @@ describe('Ajax', function () {
 			async: true
 		};
 
-		var a = new Ajaxjs().get(ajaxSettings).then(function (data) {
+		var a = new _Ajax.Ajax().get(ajaxSettings).then(function (data) {
 			expect(data.responseText).toEqual('Successful response.');
 			done();
 		});
 
 		spyOn(a, 'resolve').and.callThrough();
 	});
-
 
 	it('resolves with the request as argument when the request is unsuccessful', function (done) {
 		var ajaxSettings = {
@@ -84,7 +83,7 @@ describe('Ajax', function () {
 			async: true
 		};
 
-		var a = new Ajaxjs().get(ajaxSettings).then(null, function (reason) {
+		var a = new _Ajax.Ajax().get(ajaxSettings).then(null, function (reason) {
 			expect(reason).toEqual('Couldn\'t find a fake response: ' + ajaxSettings.url);
 			done();
 		});

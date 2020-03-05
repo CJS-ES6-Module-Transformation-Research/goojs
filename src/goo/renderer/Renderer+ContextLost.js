@@ -1,11 +1,14 @@
-import { Renderer as Rendererjs } from "../renderer/Renderer";
-import { RendererRecord as RendererRecord_RendererRecordjs } from "../renderer/RendererRecord";
+"use strict";
 
-Rendererjs.prototype.invalidateBuffer = function (buffer) {
+var _Renderer = require("../renderer/Renderer");
+
+var _RendererRecord = require("../renderer/RendererRecord");
+
+_Renderer.Renderer.prototype.invalidateBuffer = function (buffer) {
 	buffer.glBuffer = null;
 };
 
-Rendererjs.prototype.invalidateMeshData = function (meshData) {
+_Renderer.Renderer.prototype.invalidateMeshData = function (meshData) {
 	this.invalidateBuffer(meshData.vertexData);
 	if (meshData.indexData) {
 		this.invalidateBuffer(meshData.indexData);
@@ -18,18 +21,18 @@ Rendererjs.prototype.invalidateMeshData = function (meshData) {
 	}
 };
 
-Rendererjs.prototype.invalidateTexture = function (texture) {
+_Renderer.Renderer.prototype.invalidateTexture = function (texture) {
 	texture.glTexture = null;
 	texture.textureRecord = {};
 };
 
-Rendererjs.prototype.invalidateShader = function (shader) {
+_Renderer.Renderer.prototype.invalidateShader = function (shader) {
 	shader.shaderProgram = null;
 	shader.vertexShader = null;
 	shader.fragmentShader = null;
 };
 
-Rendererjs.prototype.invalidateMaterial = function (material) {
+_Renderer.Renderer.prototype.invalidateMaterial = function (material) {
 	var keys = Object.keys(material._textureMaps);
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
@@ -40,14 +43,14 @@ Rendererjs.prototype.invalidateMaterial = function (material) {
 	this.invalidateShader(material.shader);
 };
 
-Rendererjs.prototype.invalidateRenderTarget = function (renderTarget) {
+_Renderer.Renderer.prototype.invalidateRenderTarget = function (renderTarget) {
 	renderTarget.glTexture = null;
 	renderTarget._glRenderBuffer = null;
 	renderTarget._glFrameBuffer = null;
 	delete renderTarget.textureRecord;
 };
 
-Rendererjs.prototype.invalidateComposer = function (composer) {
+_Renderer.Renderer.prototype.invalidateComposer = function (composer) {
 	if (composer.writeBuffer && !composer._passedWriteBuffer) {
 		this.invalidateRenderTarget(composer.writeBuffer);
 	}
@@ -64,7 +67,7 @@ Rendererjs.prototype.invalidateComposer = function (composer) {
 	}
 };
 
-Rendererjs.prototype.invalidatePicking = function () {
+_Renderer.Renderer.prototype.invalidatePicking = function () {
 	if (this.hardwarePicking) {
 		if (this.hardwarePicking.pickingTarget) {
 			this.invalidateRenderTarget(this.hardwarePicking.pickingTarget);
@@ -73,15 +76,10 @@ Rendererjs.prototype.invalidatePicking = function () {
 	}
 };
 
-Rendererjs.prototype._restoreContext = function () {
+_Renderer.Renderer.prototype._restoreContext = function () {
 	this.establishContext();
 
-	this.rendererRecord = new RendererRecord_RendererRecordjs();
+	this.rendererRecord = new _RendererRecord.RendererRecord();
 
-	this.context.clearColor(
-		this._clearColor.x,
-		this._clearColor.y,
-		this._clearColor.z,
-		this._clearColor.w
-	);
+	this.context.clearColor(this._clearColor.x, this._clearColor.y, this._clearColor.z, this._clearColor.w);
 };

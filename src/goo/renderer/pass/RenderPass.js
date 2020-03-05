@@ -1,12 +1,22 @@
-import { Renderer as Rendererjs } from "../../renderer/Renderer";
-import { Pass as Passjs } from "../../renderer/pass/Pass";
-import { Vector4 as Vector4js } from "../../math/Vector4";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderPass = undefined;
+
+var _Renderer = require("../../renderer/Renderer");
+
+var _Pass = require("../../renderer/pass/Pass");
+
+var _Vector = require("../../math/Vector4");
+
 function RenderPass(renderList, filter) {
 	this.renderList = renderList;
 	this.filter = filter;
 
-	this.clearColor = new Vector4js(0.0, 0.0, 0.0, 0.0);
-	this.oldClearColor = new Vector4js();
+	this.clearColor = new _Vector.Vector4(0.0, 0.0, 0.0, 0.0);
+	this.oldClearColor = new _Vector.Vector4();
 	this.renderToScreen = false;
 
 	this.overrideMaterial = null;
@@ -17,12 +27,12 @@ function RenderPass(renderList, filter) {
 	this.viewportSize = undefined;
 }
 
-RenderPass.prototype = Object.create(Passjs.prototype);
+RenderPass.prototype = Object.create(_Pass.Pass.prototype);
 RenderPass.prototype.constructor = RenderPass;
 
 // RenderPasses may have a fourth additional parameter called delta
 RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta, maskActive, camera, lights, clearColor) {
-	camera = camera || Rendererjs.mainCamera;
+	camera = camera || _Renderer.Renderer.mainCamera;
 
 	if (!camera) {
 		return;
@@ -56,4 +66,4 @@ var exported_RenderPass = RenderPass;
 /**
  * A pass that renders provided renderlist to the rendertarget or screen
  */
-export { exported_RenderPass as RenderPass };
+exports.RenderPass = exported_RenderPass;

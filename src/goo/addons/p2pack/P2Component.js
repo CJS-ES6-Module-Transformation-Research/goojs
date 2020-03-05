@@ -1,26 +1,35 @@
-import { Component as Componentjs } from "../../entities/components/Component";
-import { ObjectUtils as ObjectUtil_ObjectUtilsjs } from "../../util/ObjectUtil";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.P2Component = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ObjectUtil = require("../../util/ObjectUtil");
+
 function P2Component(options) {
-	Componentjs.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	this.type = 'P2Component';
+  this.type = 'P2Component';
 
-	ObjectUtil_ObjectUtilsjs.copyOptions(this, options, {
-		mass: 0,
-		linearDamping: 0,
-		angularDamping: 0,
-		shapes: [],
-		scale: 1,
-		offsetX: 0,
-		offsetY: 0,
-		offsetZ: 0,
-		offsetAngleX: 0,
-		offsetAngleY: 0,
-		offsetAngleZ: 0
-	});
+  _ObjectUtil.ObjectUtils.copyOptions(this, options, {
+    mass: 0,
+    linearDamping: 0,
+    angularDamping: 0,
+    shapes: [],
+    scale: 1,
+    offsetX: 0,
+    offsetY: 0,
+    offsetZ: 0,
+    offsetAngleX: 0,
+    offsetAngleY: 0,
+    offsetAngleZ: 0
+  });
 }
 
-P2Component.prototype = Object.create(Componentjs.prototype);
+P2Component.prototype = Object.create(_Component.Component.prototype);
 P2Component.prototype.constructor = P2Component;
 
 var exported_P2Component = P2Component;
@@ -53,4 +62,4 @@ var exported_P2Component = P2Component;
  * });
  * entity.setComponent(p2comp);
  */
-export { exported_P2Component as P2Component };
+exports.P2Component = exported_P2Component;

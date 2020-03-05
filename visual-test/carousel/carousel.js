@@ -1,3 +1,5 @@
+'use strict';
+
 (function () {
 	'use strict';
 
@@ -17,12 +19,12 @@
 	var currentIndex = 0;
 
 	/*
-	function getUrls() {
-		nl = document.getElementsByTagName('a');
-		ar = Array.prototype.slice.call(nl);
-		ar.map(function(n) { return n.href; });
-	}
-	*/
+ function getUrls() {
+ 	nl = document.getElementsByTagName('a');
+ 	ar = Array.prototype.slice.call(nl);
+ 	ar.map(function(n) { return n.href; });
+ }
+ */
 
 	var excludedTerms = ['Howler', 'occlusion'];
 	function doUrls(listName) {
@@ -44,20 +46,24 @@
 	}
 
 	function start() {
-		if (running) { return; }
+		if (running) {
+			return;
+		}
 
 		running = true;
 		statusSpan.innerText = 'running';
 		loop();
 
-		function loop () {
+		function loop() {
 			nextPage();
 			lastTimeout = setTimeout(loop, duration);
 		}
 	}
 
 	function pause() {
-		if (!running) { return; }
+		if (!running) {
+			return;
+		}
 
 		running = false;
 		statusSpan.innerText = 'paused';

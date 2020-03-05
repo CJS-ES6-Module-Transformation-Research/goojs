@@ -1,11 +1,14 @@
-import { ConstantCurve as ConstantCurvejs } from "../../../../../src/goo/addons/particlepack/curves/ConstantCurve";
-import { LerpCurve as LerpCurvejs } from "../../../../../src/goo/addons/particlepack/curves/LerpCurve";
+"use strict";
+
+var _ConstantCurve = require("../../../../../src/goo/addons/particlepack/curves/ConstantCurve");
+
+var _LerpCurve = require("../../../../../src/goo/addons/particlepack/curves/LerpCurve");
 
 describe('LerpCurve', function () {
 	it('.getValueAt', function () {
-		var curve = new LerpCurvejs({
-			curveA: new ConstantCurvejs({ value: 1 }),
-			curveB: new ConstantCurvejs({ value: 2 })
+		var curve = new _LerpCurve.LerpCurve({
+			curveA: new _ConstantCurve.ConstantCurve({ value: 1 }),
+			curveB: new _ConstantCurve.ConstantCurve({ value: 2 })
 		});
 
 		expect(curve.getValueAt(0, 0.5)).toBe(1.5);
@@ -14,9 +17,9 @@ describe('LerpCurve', function () {
 	});
 
 	it('.getVec4IntegralValueAt', function () {
-		var curve = new LerpCurvejs({
-			curveA: new ConstantCurvejs({ value: 1 }),
-			curveB: new ConstantCurvejs({ value: 2 })
+		var curve = new _LerpCurve.LerpCurve({
+			curveA: new _ConstantCurve.ConstantCurve({ value: 1 }),
+			curveB: new _ConstantCurve.ConstantCurve({ value: 2 })
 		});
 
 		expect(curve.getIntegralValueAt(0, 0.5)).toBe(0);
@@ -25,18 +28,18 @@ describe('LerpCurve', function () {
 	});
 
 	it('.toGLSL', function () {
-		var curve = new LerpCurvejs({
-			curveA: new ConstantCurvejs({ value: 1 }),
-			curveB: new ConstantCurvejs({ value: 2 })
+		var curve = new _LerpCurve.LerpCurve({
+			curveA: new _ConstantCurve.ConstantCurve({ value: 1 }),
+			curveB: new _ConstantCurve.ConstantCurve({ value: 2 })
 		});
 		expect(curve.toGLSL('t', 'a')).toBe('mix(1.0,2.0,a)');
 	});
 
 	it('.integralToGLSL', function () {
-		var curve = new LerpCurvejs({
-			curveA: new ConstantCurvejs({ value: 1 }),
-			curveB: new ConstantCurvejs({ value: 2 })
+		var curve = new _LerpCurve.LerpCurve({
+			curveA: new _ConstantCurve.ConstantCurve({ value: 1 }),
+			curveB: new _ConstantCurve.ConstantCurve({ value: 2 })
 		});
-		expect(curve.integralToGLSL('t','a')).toBe('mix((1.0*t),(2.0*t),a)');
+		expect(curve.integralToGLSL('t', 'a')).toBe('mix((1.0*t),(2.0*t),a)');
 	});
 });

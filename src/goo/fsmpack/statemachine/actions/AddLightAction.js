@@ -1,14 +1,25 @@
-import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { LightComponent as LightComponentjs } from "../../../entities/components/LightComponent";
-import { PointLight as PointLightjs } from "../../../renderer/light/PointLight";
-import { DirectionalLight as DirectionalLightjs } from "../../../renderer/light/DirectionalLight";
-import { SpotLight as SpotLightjs } from "../../../renderer/light/SpotLight";
+"use strict";
 
-function AddLightAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AddLightAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _LightComponent = require("../../../entities/components/LightComponent");
+
+var _PointLight = require("../../../renderer/light/PointLight");
+
+var _DirectionalLight = require("../../../renderer/light/DirectionalLight");
+
+var _SpotLight = require("../../../renderer/light/SpotLight");
+
+function AddLightAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-AddLightAction.prototype = Object.create(Actionjs.prototype);
+AddLightAction.prototype = Object.create(_Action.Action.prototype);
 AddLightAction.prototype.constructor = AddLightAction;
 
 AddLightAction.external = {
@@ -71,24 +82,26 @@ AddLightAction.prototype.enter = function (fsm) {
 
 	var light;
 	if (this.type === 'Directional') {
-		light = new DirectionalLightjs();
+		light = new _DirectionalLight.DirectionalLight();
 	} else if (this.type === 'Spot') {
-		light = new SpotLightjs();
+		light = new _SpotLight.SpotLight();
 		light.range = +this.range;
 		light.angle = +this.angle;
 		light.penumbra = +this.penumbra;
 	} else {
-		light = new PointLightjs();
+		light = new _PointLight.PointLight();
 		light.range = +this.range;
 	}
 
 	light.color.setDirect(this.color[0], this.color[1], this.color[2]);
 
-	entity.setComponent(new LightComponentjs(light));
+	entity.setComponent(new _LightComponent.LightComponent(light));
 };
 
 AddLightAction.prototype.cleanup = function (fsm) {
-	if (this._untouched) { return; }
+	if (this._untouched) {
+		return;
+	}
 
 	var entity = fsm.getOwnerEntity();
 	if (entity) {
@@ -97,4 +110,4 @@ AddLightAction.prototype.cleanup = function (fsm) {
 };
 
 var exported_AddLightAction = AddLightAction;
-export { exported_AddLightAction as AddLightAction };
+exports.AddLightAction = exported_AddLightAction;

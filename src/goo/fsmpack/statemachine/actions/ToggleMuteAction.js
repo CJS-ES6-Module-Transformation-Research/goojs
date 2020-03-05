@@ -1,9 +1,16 @@
-import { Action as Actionjs } from "./Action";
+'use strict';
 
-function ToggleMuteAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ToggleMuteAction = undefined;
+
+var _Action = require('./Action');
+
+function ToggleMuteAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-ToggleMuteAction.prototype = Object.create(Actionjs.prototype);
+ToggleMuteAction.prototype = Object.create(_Action.Action.prototype);
 ToggleMuteAction.prototype.constructor = ToggleMuteAction;
 
 ToggleMuteAction.external = {
@@ -18,7 +25,9 @@ ToggleMuteAction.external = {
 
 ToggleMuteAction.prototype.enter = function (fsm) {
 	var world = fsm.getWorld();
-	if (!world) { return; }
+	if (!world) {
+		return;
+	}
 
 	var soundSystem = world.getSystem('SoundSystem');
 	if (soundSystem) {
@@ -31,4 +40,4 @@ ToggleMuteAction.prototype.enter = function (fsm) {
 };
 
 var exported_ToggleMuteAction = ToggleMuteAction;
-export { exported_ToggleMuteAction as ToggleMuteAction };
+exports.ToggleMuteAction = exported_ToggleMuteAction;

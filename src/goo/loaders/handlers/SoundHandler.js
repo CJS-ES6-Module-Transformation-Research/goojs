@@ -1,35 +1,45 @@
-import { ConfigHandler as ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { AudioContextjs as AudioContext_AudioContextjsjs } from "../../sound/AudioContext";
-import { Sound as Sound_Soundjs } from "../../sound/Sound";
-import { PromiseUtils as PromiseUtilsjs } from "../../util/PromiseUtils";
-import { ObjectUtils as ObjectUtilsjs } from "../../util/ObjectUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var _Sound = require("../../sound/Sound");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function SoundHandler() {
-	ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 	this._audioCache = {};
 
 	if (window.Audio !== undefined) {
 		var audioTest = new Audio();
 
-		this._codecs = [
-			{
-				type: 'mp3',
-				enabled: !!audioTest.canPlayType('audio/mpeg;')
-			}, {
-				type: 'ogg',
-				enabled: !!audioTest.canPlayType('audio/ogg; codecs="vorbis"')
-			}, {
-				type: 'wav',
-				enabled: !!audioTest.canPlayType('audio/wav; codecs="1"')
-			}
-		];
+		this._codecs = [{
+			type: 'mp3',
+			enabled: !!audioTest.canPlayType('audio/mpeg;')
+		}, {
+			type: 'ogg',
+			enabled: !!audioTest.canPlayType('audio/ogg; codecs="vorbis"')
+		}, {
+			type: 'wav',
+			enabled: !!audioTest.canPlayType('audio/wav; codecs="1"')
+		}];
 	} else {
 		this._codecs = [];
 	}
 }
 
-SoundHandler.prototype = Object.create(ConfigHandlerjs.prototype);
+SoundHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 SoundHandler.prototype.constructor = SoundHandler;
-ConfigHandlerjs._registerClass('sound', SoundHandler);
+_ConfigHandler.ConfigHandler._registerClass('sound', SoundHandler);
 
 /**
  * Removes a sound
@@ -38,7 +48,9 @@ ConfigHandlerjs._registerClass('sound', SoundHandler);
  */
 SoundHandler.prototype._remove = function (ref) {
 	var sound = this._objects.get(ref);
-	if (!sound) { return; }
+	if (!sound) {
+		return;
+	}
 
 	sound.stop();
 	this._objects.delete(ref);
@@ -50,7 +62,7 @@ SoundHandler.prototype._remove = function (ref) {
  * @private
  */
 SoundHandler.prototype._prepare = function (config) {
-	ObjectUtilsjs.defaults(config, {
+	_ObjectUtils.ObjectUtils.defaults(config, {
 		loop: false,
 		audioRefs: {},
 		volume: 1.0,
@@ -66,7 +78,7 @@ SoundHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundHandler.prototype._create = function () {
-	return new Sound_Soundjs();
+	return new _Sound.Sound();
 };
 
 /**
@@ -77,12 +89,14 @@ SoundHandler.prototype._create = function () {
  * @returns {RSVP.Promise} Resolves with the updated sound or null if removed
  */
 SoundHandler.prototype._update = function (ref, config, options) {
-	if (!AudioContext_AudioContextjsjs.isSupported()) {
-		return PromiseUtilsjs.resolve();
+	if (!_AudioContext.AudioContextjs.isSupported()) {
+		return _PromiseUtils.PromiseUtils.resolve();
 	}
 	var that = this;
-	return ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (sound) {
-		if (!sound) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (sound) {
+		if (!sound) {
+			return;
+		}
 		sound.update(config);
 		for (var i = 0; i < that._codecs.length; i++) {
 			var codec = that._codecs[i];
@@ -94,10 +108,10 @@ SoundHandler.prototype._update = function (ref, config, options) {
 					return sound;
 				} else {
 					return that.loadObject(ref).then(function (buffer) {
-						return PromiseUtilsjs.createPromise(function (resolve) {
-							AudioContext_AudioContextjsjs.getContext().decodeAudioData(buffer, function (audioBuffer) {
+						return _PromiseUtils.PromiseUtils.createPromise(function (resolve) {
+							_AudioContext.AudioContextjs.getContext().decodeAudioData(buffer, function (audioBuffer) {
 								resolve(audioBuffer);
-							}, function (/*err*/) {
+							}, function () /*err*/{
 								console.error('Could not decode audio ' + ref);
 								// shouldn't this just reject?
 								resolve(null);
@@ -128,4 +142,4 @@ var exported_SoundHandler = SoundHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_SoundHandler as SoundHandler };
+exports.SoundHandler = exported_SoundHandler;

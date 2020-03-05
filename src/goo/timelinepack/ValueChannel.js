@@ -1,8 +1,16 @@
-import { AbstractTimelineChannel as AbstractTimelineChanneljs } from "../timelinepack/AbstractTimelineChannel";
-import { MathUtils as MathUtilsjs } from "../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ValueChannel = undefined;
+
+var _AbstractTimelineChannel = require("../timelinepack/AbstractTimelineChannel");
+
+var _MathUtils = require("../math/MathUtils");
 
 function ValueChannel(id, options) {
-	AbstractTimelineChanneljs.call(this, id);
+	_AbstractTimelineChannel.AbstractTimelineChannel.call(this, id);
 
 	this.value = 0;
 
@@ -11,7 +19,7 @@ function ValueChannel(id, options) {
 	this.callbackEnd = options.callbackEnd;
 }
 
-ValueChannel.prototype = Object.create(AbstractTimelineChanneljs.prototype);
+ValueChannel.prototype = Object.create(_AbstractTimelineChannel.AbstractTimelineChannel.prototype);
 ValueChannel.prototype.constructor = ValueChannel;
 
 /**
@@ -47,8 +55,12 @@ ValueChannel.prototype.addKeyframe = function (id, time, value, easingFunction) 
  * @param time
  */
 ValueChannel.prototype.update = function (time) {
-	if (!this.enabled) { return this.value; }
-	if (!this.keyframes.length) { return this.value; }
+	if (!this.enabled) {
+		return this.value;
+	}
+	if (!this.keyframes.length) {
+		return this.value;
+	}
 
 	var newValue;
 	var newEntryIndex;
@@ -64,7 +76,7 @@ ValueChannel.prototype.update = function (time) {
 		var progressInEntry = (time - newEntry.time) / (nextEntry.time - newEntry.time);
 		var progressValue = newEntry.easingFunction(progressInEntry);
 
-		newValue = MathUtilsjs.lerp(progressValue, newEntry.value, nextEntry.value);
+		newValue = _MathUtils.MathUtils.lerp(progressValue, newEntry.value, nextEntry.value);
 	}
 
 	//! AT: comparing floats with === is ok here
@@ -83,7 +95,9 @@ ValueChannel.prototype.setTime = ValueChannel.prototype.update;
 ValueChannel.getSimpleTransformTweener = function (type, vectorComponent, entityId, resolver) {
 	var entity;
 	return function (time, value) {
-		if (!entity) { entity = resolver(entityId); }
+		if (!entity) {
+			entity = resolver(entityId);
+		}
 
 		//
 		// REVIEW:
@@ -104,12 +118,14 @@ ValueChannel.getSimpleTransformTweener = function (type, vectorComponent, entity
 
 ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rotation) {
 	var entity;
-	var func = function (time, value) {
-		if (!entity) { entity = resolver(entityId); }
+	var func = function func(time, value) {
+		if (!entity) {
+			entity = resolver(entityId);
+		}
 		//! AT: same here as above; a tmp fix
 		if (entity) {
 			var rotation = func.rotation;
-			rotation[angleIndex] = value * MathUtilsjs.DEG_TO_RAD;
+			rotation[angleIndex] = value * _MathUtils.MathUtils.DEG_TO_RAD;
 			entity.transformComponent.transform.rotation.fromAngles(rotation[0], rotation[1], rotation[2]);
 			entity.transformComponent.setUpdated();
 		}
@@ -119,4 +135,4 @@ ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rota
 };
 
 var exported_ValueChannel = ValueChannel;
-export { exported_ValueChannel as ValueChannel };
+exports.ValueChannel = exported_ValueChannel;

@@ -1,19 +1,55 @@
-import * as EntityConfig from "./helpers/EntityConfig";
-import * as AnimationConfig from "./helpers/AnimationConfig";
-import * as MaterialConfig from "./helpers/MaterialConfig";
-import * as MeshConfig from "./helpers/MeshConfig";
-import * as SceneConfig from "./helpers/SceneConfig";
-import * as PosteffectsConfig from "./helpers/PosteffectsConfig";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Configs = undefined;
+
+var _EntityConfig = require("./helpers/EntityConfig");
+
+var EntityConfig = _interopRequireWildcard(_EntityConfig);
+
+var _AnimationConfig = require("./helpers/AnimationConfig");
+
+var AnimationConfig = _interopRequireWildcard(_AnimationConfig);
+
+var _MaterialConfig = require("./helpers/MaterialConfig");
+
+var MaterialConfig = _interopRequireWildcard(_MaterialConfig);
+
+var _MeshConfig = require("./helpers/MeshConfig");
+
+var MeshConfig = _interopRequireWildcard(_MeshConfig);
+
+var _SceneConfig = require("./helpers/SceneConfig");
+
+var SceneConfig = _interopRequireWildcard(_SceneConfig);
+
+var _PosteffectsConfig = require("./helpers/PosteffectsConfig");
+
+var PosteffectsConfig = _interopRequireWildcard(_PosteffectsConfig);
+
+function _interopRequireWildcard(obj) {
+	if (obj && obj.__esModule) {
+		return obj;
+	} else {
+		var newObj = {};if (obj != null) {
+			for (var key in obj) {
+				if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+			}
+		}newObj.default = obj;return newObj;
+	}
+}
 
 var bundle = {};
 var Configs = {
-	randomRef: function (type) {
-		var hash = 'aaaabbbbaaaabbbbaaaabbbbaaaabbbb'.replace(/[ab]/g, function(a) {
-			return ((Math.random() * 16) % 16 | 0).toString(16);
+	randomRef: function randomRef(type) {
+		var hash = 'aaaabbbbaaaabbbbaaaabbbbaaaabbbb'.replace(/[ab]/g, function (a) {
+			return (Math.random() * 16 % 16 | 0).toString(16);
 		});
 		return hash + '.' + (type || '');
 	},
-	gooObject: function (type, name) {
+	gooObject: function gooObject(type, name) {
 		var config = {
 			id: Configs.randomRef(type),
 			name: name,
@@ -34,13 +70,13 @@ var Configs = {
 		this.addToBundle(config);
 		return config;
 	},
-	addToBundle: function (config, ref) {
+	addToBundle: function addToBundle(config, ref) {
 		ref = ref || config.id;
 		if (ref) {
 			bundle[ref] = config;
 		}
 	},
-	binary: function (size) {
+	binary: function binary(size) {
 		var arr = new Float32Array(size);
 		for (var i = 0; i < size; i++) {
 			arr[i] = i / size;
@@ -49,12 +85,12 @@ var Configs = {
 		Configs.addToBundle(arr.buffer, ref);
 		return ref;
 	},
-	get: function () {
+	get: function get() {
 		return bundle;
 	}
 };
 
-let exported_Configs = Configs;
+var exported_Configs = Configs;
 
 function attach(attachee, attacher) {
 	for (var key in attacher) {
@@ -75,4 +111,4 @@ attach(Configs, MaterialConfigjs);
 attach(Configs, MeshConfigjs);
 attach(Configs, SceneConfigjs);
 attach(Configs, PosteffectsConfigjs);
-export { exported_Configs as Configs };
+exports.Configs = exported_Configs;

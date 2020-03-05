@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function ParticleLib() {}
 
 /**
@@ -8,15 +13,14 @@ ParticleLib.getSmoke = function (options) {
 	options.scale = typeof options.scale !== 'undefined' ? options.scale : 1;
 	options.spread = typeof options.spread !== 'undefined' ? options.spread : 2;
 	options.rate = typeof options.spread !== 'undefined' ? options.rate : 25;
-	options.velocity = typeof options.velocity !== 'undefined' ? options.velocity :
-		function (particle/*, particleEntity*/) {
-			// not nice, will end up a square
-			var vec3 = particle.velocity;
-			vec3.x = (Math.random() - 0.5) * 2 * options.spread * options.scale;
-			vec3.y = (Math.random() + 4.0) * 2 * options.scale;
-			vec3.z = (Math.random() - 0.5) * 2 * options.spread * options.scale;
-			return vec3;
-		};
+	options.velocity = typeof options.velocity !== 'undefined' ? options.velocity : function (particle /*, particleEntity*/) {
+		// not nice, will end up a square
+		var vec3 = particle.velocity;
+		vec3.x = (Math.random() - 0.5) * 2 * options.spread * options.scale;
+		vec3.y = (Math.random() + 4.0) * 2 * options.scale;
+		vec3.z = (Math.random() - 0.5) * 2 * options.spread * options.scale;
+		return vec3;
+	};
 	options.color = options.color || [0, 0, 0];
 
 	return {
@@ -55,7 +59,7 @@ ParticleLib.getFire = function (options) {
 		releaseRatePerSecond: 30,
 		minLifetime: 0.5,
 		maxLifetime: 2.0,
-		getEmissionVelocity: function (particle/*, particleEntity*/) {
+		getEmissionVelocity: function getEmissionVelocity(particle /*, particleEntity*/) {
 			// not nice, will end up a square
 			var vec3 = particle.velocity;
 			vec3.x = (Math.random() - 0.5) * 2 * options.spread * options.scale;
@@ -99,12 +103,12 @@ ParticleLib.getSnow = function (options) {
 		releaseRatePerSecond: 50,
 		minLifetime: 15.0,
 		maxLifetime: 25.0,
-		getEmissionPoint: function (particle/*, particleEntity*/) {
+		getEmissionPoint: function getEmissionPoint(particle /*, particleEntity*/) {
 			var vec3 = particle.position;
 			options.getEmissionPoint(vec3);
 			return vec3;
 		},
-		getEmissionVelocity: function (particle/*, particleEntity*/) {
+		getEmissionVelocity: function getEmissionVelocity(particle /*, particleEntity*/) {
 			var vec3 = particle.velocity;
 			options.getEmissionVelocity(vec3);
 			return vec3;
@@ -136,4 +140,4 @@ var exported_ParticleLib = ParticleLib;
  * Library of particles
  * @example-link http://code.gooengine.com/latest/visual-test/goo/misc/ParticleLib/ParticleLib-vtest.html Working example
  */
-export { exported_ParticleLib as ParticleLib };
+exports.ParticleLib = exported_ParticleLib;

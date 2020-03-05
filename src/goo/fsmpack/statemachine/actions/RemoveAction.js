@@ -1,10 +1,17 @@
-import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function RemoveAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RemoveAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function RemoveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-RemoveAction.prototype = Object.create(Actionjs.prototype);
+RemoveAction.prototype = Object.create(_Action.Action.prototype);
 RemoveAction.prototype.constructor = RemoveAction;
 
 RemoveAction.external = {
@@ -28,4 +35,4 @@ RemoveAction.prototype.enter = function (fsm) {
 };
 
 var exported_RemoveAction = RemoveAction;
-export { exported_RemoveAction as RemoveAction };
+exports.RemoveAction = exported_RemoveAction;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function RendererRecord() {
 	this.currentBuffer = {
 		'ArrayBuffer': {
@@ -50,4 +55,4 @@ var exported_RendererRecord = RendererRecord;
  * Holds the renderer's state
  * @hidden
  */
-export { exported_RendererRecord as RendererRecord };
+exports.RendererRecord = exported_RendererRecord;

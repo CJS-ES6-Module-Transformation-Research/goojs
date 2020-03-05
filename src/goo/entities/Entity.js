@@ -1,61 +1,71 @@
-import { Component as Componentjs } from "../entities/components/Component";
-import { StringUtils as StringUtilsjs } from "../util/StringUtils";
-import { EventTarget as EventTargetjs } from "../util/EventTarget";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Entity = undefined;
+
+var _Component = require("../entities/components/Component");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _EventTarget = require("../util/EventTarget");
+
 function Entity(world, name, id) {
-	EventTargetjs.apply(this);
+  _EventTarget.EventTarget.apply(this);
 
-	this._world = world;
-	this._components = [];
-	this.id = id !== undefined ? id : StringUtilsjs.createUniqueId('entity');
-	this._index = Entity.entityCount;
+  this._world = world;
+  this._components = [];
+  this.id = id !== undefined ? id : _StringUtils.StringUtils.createUniqueId('entity');
+  this._index = Entity.entityCount;
 
-	this._tags = new Set();
-	this._attributes = new Map();
+  this._tags = new Set();
+  this._attributes = new Map();
 
-	/*Object.defineProperty(this, 'id', {
-		value : Entity.entityCount++,
-		writable : false
-	});*/
-	this.name = name !== undefined ? name : 'Entity_' + this._index;
+  /*Object.defineProperty(this, 'id', {
+  	value : Entity.entityCount++,
+  	writable : false
+  });*/
+  this.name = name !== undefined ? name : 'Entity_' + this._index;
 
-	// (move to meshrenderercomponent)
-	/** Set to true to skip all processing (rendering, script updating, et cetera) of the entity.
-	 * @type {boolean}
-	 * @default false
-	 */
-	this.skip = false;
+  // (move to meshrenderercomponent)
+  /** Set to true to skip all processing (rendering, script updating, et cetera) of the entity.
+   * @type {boolean}
+   * @default false
+   */
+  this.skip = false;
 
-	/** Holds the hidden status of the entity. The hidden status will not however propagate to components or child entities.
-	 * @deprecated The usage of this flag changed. Please use entity.hide/show() instead to change the hidden status of the entity and entity.isHidden/isVisiblyHidden() to query the status
-	 * @type {boolean}
-	 * @default false
-	 */
-	this.hidden = false;
-	//! AT: users are always confused about this - I'll have to hide it
+  /** Holds the hidden status of the entity. The hidden status will not however propagate to components or child entities.
+   * @deprecated The usage of this flag changed. Please use entity.hide/show() instead to change the hidden status of the entity and entity.isHidden/isVisiblyHidden() to query the status
+   * @type {boolean}
+   * @default false
+   */
+  this.hidden = false;
+  //! AT: users are always confused about this - I'll have to hide it
 
-	/**
-	 * Has the same function as the `hidden` property, except it's now private.
-	 * @type {boolean}
-	 * @private
-	 */
-	this._hidden = false;
+  /**
+   * Has the same function as the `hidden` property, except it's now private.
+   * @type {boolean}
+   * @private
+   */
+  this._hidden = false;
 
-	/**
-	 * True if the entity is within the frustum
-	 * @type {boolean}
-	 */
-	this.isVisible = false;
+  /**
+   * True if the entity is within the frustum
+   * @type {boolean}
+   */
+  this.isVisible = false;
 
-	/** Mark entity as static.
-	 * Non static entities become roots in the tree of combined ones so one can have statics under a moving node that combines but you can still move the parent node.
-	 * @type {boolean}
-	 * @default false
-	 */
-	this.static = false;
+  /** Mark entity as static.
+   * Non static entities become roots in the tree of combined ones so one can have statics under a moving node that combines but you can still move the parent node.
+   * @type {boolean}
+   * @default false
+   */
+  this.static = false;
 
-	Entity.entityCount++;
+  Entity.entityCount++;
 }
-Entity.prototype = Object.create(EventTargetjs.prototype);
+Entity.prototype = Object.create(_EventTarget.EventTarget.prototype);
 Entity.prototype.constructor = Entity;
 
 //! AT: not sure if 'add' is a better name - need to search for something short and compatible with the other 'set' methods
@@ -71,26 +81,28 @@ Entity.prototype.constructor = Entity;
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.set = function () {
-	for (var i = 0; i < arguments.length; i++) {
-		var argument = arguments[i];
-		if (argument instanceof Componentjs) {
-			this.setComponent(argument);
-		} else {
-			// ask all components if they are compatible with the given data
-			if (!this._world) { return this; }
-			var components = this._world._components;
-			for (var j = 0; j < components.length; j++) {
-				var component = components[j];
-				var applied = component.applyOnEntity(argument, this);
-				if (applied) {
-					break;
-				}
-			}
-		}
-	}
+  for (var i = 0; i < arguments.length; i++) {
+    var argument = arguments[i];
+    if (argument instanceof _Component.Component) {
+      this.setComponent(argument);
+    } else {
+      // ask all components if they are compatible with the given data
+      if (!this._world) {
+        return this;
+      }
+      var components = this._world._components;
+      for (var j = 0; j < components.length; j++) {
+        var component = components[j];
+        var applied = component.applyOnEntity(argument, this);
+        if (applied) {
+          break;
+        }
+      }
+    }
+  }
 
-	// allow chaining
-	return this;
+  // allow chaining
+  return this;
 };
 
 /**
@@ -99,8 +111,8 @@ Entity.prototype.set = function () {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.addToWorld = function (recursive) {
-	this._world.addEntity(this, recursive);
-	return this;
+  this._world.addEntity(this, recursive);
+  return this;
 };
 
 /**
@@ -109,8 +121,8 @@ Entity.prototype.addToWorld = function (recursive) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.removeFromWorld = function (recursive) {
-	this._world.removeEntity(this, recursive);
-	return this;
+  this._world.removeEntity(this, recursive);
+  return this;
 };
 
 /**
@@ -120,7 +132,7 @@ Entity.prototype.removeFromWorld = function (recursive) {
  * @private
  */
 function getTypeAttributeName(type) {
-	return type.charAt(0).toLowerCase() + type.substr(1);
+  return type.charAt(0).toLowerCase() + type.substr(1);
 }
 
 /**
@@ -130,25 +142,25 @@ function getTypeAttributeName(type) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.setComponent = function (component) {
-	if (this.hasComponent(component.type)) {
-		return this;
-	} else {
-		this._components.push(component);
-	}
-	this[getTypeAttributeName(component.type)] = component;
+  if (this.hasComponent(component.type)) {
+    return this;
+  } else {
+    this._components.push(component);
+  }
+  this[getTypeAttributeName(component.type)] = component;
 
-	component.entity = this;
+  component.entity = this;
 
-	// inform the component it's being attached to an entity
-	component.attached(this);
+  // inform the component it's being attached to an entity
+  component.attached(this);
 
-	component.applyAPI(this);
+  component.applyAPI(this);
 
-	if (this._world && this._world.entityManager.containsEntity(this)) {
-		this._world.changedEntity(this, component, 'addedComponent');
-	}
+  if (this._world && this._world.entityManager.containsEntity(this)) {
+    this._world.changedEntity(this, component, 'addedComponent');
+  }
 
-	return this;
+  return this;
 };
 
 /**
@@ -158,8 +170,8 @@ Entity.prototype.setComponent = function (component) {
  * @returns {boolean}
  */
 Entity.prototype.hasComponent = function (type) {
-	var typeAttributeName = getTypeAttributeName(type);
-	return !!this[typeAttributeName];
+  var typeAttributeName = getTypeAttributeName(type);
+  return !!this[typeAttributeName];
 };
 
 /**
@@ -169,8 +181,8 @@ Entity.prototype.hasComponent = function (type) {
  * @returns {Component} Component with requested type or undefined if not present.
  */
 Entity.prototype.getComponent = function (type) {
-	var typeAttributeName = getTypeAttributeName(type);
-	return this[typeAttributeName];
+  var typeAttributeName = getTypeAttributeName(type);
+  return this[typeAttributeName];
 };
 
 /**
@@ -180,32 +192,32 @@ Entity.prototype.getComponent = function (type) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.clearComponent = function (type) {
-	var typeAttributeName = getTypeAttributeName(type);
-	var component = this[typeAttributeName];
+  var typeAttributeName = getTypeAttributeName(type);
+  var component = this[typeAttributeName];
 
-	if (!!component && this._components.indexOf(component) > -1) {
-		// inform the component it's being detached from the entity
-		component.detached(this);
+  if (!!component && this._components.indexOf(component) > -1) {
+    // inform the component it's being detached from the entity
+    component.detached(this);
 
-		component.entity = null;
+    component.entity = null;
 
-		// removing API
-		component.removeAPI(this);
+    // removing API
+    component.removeAPI(this);
 
-		// removing from dense array
-		var index = this._components.indexOf(component);
-		this._components.splice(index, 1);
+    // removing from dense array
+    var index = this._components.indexOf(component);
+    this._components.splice(index, 1);
 
-		// removing from entity
-		delete this[typeAttributeName];
+    // removing from entity
+    delete this[typeAttributeName];
 
-		// notifying the world of the change
-		if (this._world && this._world.entityManager.containsEntity(this)) {
-			this._world.changedEntity(this, component, 'removedComponent');
-		}
-	}
+    // notifying the world of the change
+    if (this._world && this._world.entityManager.containsEntity(this)) {
+      this._world.changedEntity(this, component, 'removedComponent');
+    }
+  }
 
-	return this;
+  return this;
 };
 
 /**
@@ -217,8 +229,8 @@ Entity.prototype.clearComponent = function (type) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.setTag = function (tag) {
-	this._tags.add(tag);
-	return this;
+  this._tags.add(tag);
+  return this;
 };
 
 /**
@@ -232,7 +244,7 @@ Entity.prototype.setTag = function (tag) {
  * @returns {boolean}.
  */
 Entity.prototype.hasTag = function (tag) {
-	return this._tags.has(tag);
+  return this._tags.has(tag);
 };
 
 /**
@@ -247,8 +259,8 @@ Entity.prototype.hasTag = function (tag) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.clearTag = function (tag) {
-	this._tags.delete(tag);
-	return this;
+  this._tags.delete(tag);
+  return this;
 };
 
 /**
@@ -269,8 +281,8 @@ Entity.prototype.clearTag = function (tag) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.setAttribute = function (attribute, value) {
-	this._attributes.set(attribute, value);
-	return this;
+  this._attributes.set(attribute, value);
+  return this;
 };
 
 /**
@@ -279,7 +291,7 @@ Entity.prototype.setAttribute = function (attribute, value) {
  * @returns {boolean}
  */
 Entity.prototype.hasAttribute = function (attribute) {
-	return this._attributes.has(attribute);
+  return this._attributes.has(attribute);
 };
 
 /**
@@ -294,7 +306,7 @@ Entity.prototype.hasAttribute = function (attribute) {
  * @returns {*}
  */
 Entity.prototype.getAttribute = function (attribute) {
-	return this._attributes.get(attribute);
+  return this._attributes.get(attribute);
 };
 
 /**
@@ -303,16 +315,16 @@ Entity.prototype.getAttribute = function (attribute) {
  * @returns {Entity} Returns self to allow chaining.
  */
 Entity.prototype.clearAttribute = function (attribute) {
-	this._attributes.delete(attribute);
-	return this;
+  this._attributes.delete(attribute);
+  return this;
 };
 
 /**
  * @returns {string} Name of entity.
  */
 Entity.prototype.toString = function () {
-	//! AT: should also return a list of its components or something more descriptive than just the name
-	return this.name;
+  //! AT: should also return a list of its components or something more descriptive than just the name
+  return this.name;
 };
 
 Entity.entityCount = 0;
@@ -329,4 +341,4 @@ var exported_Entity = Entity;
  * @param {string} [name] Entity name.
  * @param {number} [id] Entity id.
  */
-export { exported_Entity as Entity };
+exports.Entity = exported_Entity;

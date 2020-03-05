@@ -1,11 +1,14 @@
-import { Action as Actionjs } from "./Action";
-import { FsmUtils as FsmUtilsjs } from "../FsmUtils";
+"use strict";
 
-function CopyVariableAction(/*id, settings*/) {
-	Actionjs.apply(this, arguments);
+var _Action = require("./Action");
+
+var _FsmUtils = require("../FsmUtils");
+
+function CopyVariableAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-CopyVariableAction.prototype = Object.create(Actionjs.prototype);
+CopyVariableAction.prototype = Object.create(_Action.Action.prototype);
 CopyVariableAction.prototype.constructor = CopyVariableAction;
 
 CopyVariableAction.external = {
@@ -53,9 +56,9 @@ CopyVariableAction.prototype.copy = function (fsm) {
 		try {
 			var val;
 			if (this.variableSource) {
-				val = FsmUtilsjs.getValue(this.variableSource, fsm);
+				val = _FsmUtils.FsmUtils.getValue(this.variableSource, fsm);
 			} else {
-				val = FsmUtilsjs.getValue(this.value, fsm);
+				val = _FsmUtils.FsmUtils.getValue(this.value, fsm);
 			}
 			ownerEntity[this.variableTarget] = val;
 		} catch (err) {

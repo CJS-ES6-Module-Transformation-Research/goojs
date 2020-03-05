@@ -1,9 +1,10 @@
+'use strict';
 
-	goo.V.attachToGlobal();
+goo.V.attachToGlobal();
 
-	//! schteppe: Already covered in other tests. Delete?
+//! schteppe: Already covered in other tests. Delete?
 
-	function WasdControlScriptDemo() {
+function WasdControlScriptDemo() {
 		var gooRunner = V.initGoo();
 
 		V.addLights();
@@ -17,7 +18,7 @@
 		// camera control set up
 		var scripts = new ScriptComponent();
 		var wasdScript = Scripts.create('WASD', {
-			domElement: gooRunner.renderer.domElement
+				domElement: gooRunner.renderer.domElement
 		});
 
 		// WASD control script to move around
@@ -25,11 +26,11 @@
 
 		// the FPCam script itself that locks the pointer and moves the camera
 		var fpScript = Scripts.create('MouseLookScript', {
-			domElement: gooRunner.renderer.domElement
+				domElement: gooRunner.renderer.domElement
 		});
 		scripts.scripts.push(fpScript);
 
 		cameraEntity.setComponent(scripts);
-	}
+}
 
-	WasdControlScriptDemo();
+WasdControlScriptDemo();

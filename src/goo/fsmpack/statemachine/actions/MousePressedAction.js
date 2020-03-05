@@ -1,10 +1,17 @@
-import { Action as Actionjs } from "./Action";
+'use strict';
 
-function MousePressedAction/*id, settings*/() {
-	Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MousePressedAction = undefined;
+
+var _Action = require('./Action');
+
+function MousePressedAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-MousePressedAction.prototype = Object.create(Actionjs.prototype);
+MousePressedAction.prototype = Object.create(_Action.Action.prototype);
 MousePressedAction.prototype.constructor = MousePressedAction;
 
 MousePressedAction.external = {
@@ -32,7 +39,7 @@ var labels = {
 	mousedown: 'Mouse Button Pressed'
 };
 
-MousePressedAction.getTransitionLabel = function (transitionKey, actionConfig){
+MousePressedAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	if (labels[transitionKey]) {
 		return 'On ' + actionConfig.options.button + ' ' + labels[transitionKey];
 	}
@@ -51,4 +58,4 @@ MousePressedAction.prototype.update = function (fsm) {
 };
 
 var exported_MousePressedAction = MousePressedAction;
-export { exported_MousePressedAction as MousePressedAction };
+exports.MousePressedAction = exported_MousePressedAction;
