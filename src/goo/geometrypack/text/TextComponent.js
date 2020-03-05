@@ -1,13 +1,7 @@
-var Component = require('../../entities/components/Component');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var TextMeshGenerator = require('./TextMeshGenerator');
-
-/**
- * Stores a font and handles the text mesh on an entity
- * Depends on opentype.js
- */
+import { Component as Componentjs } from "../../entities/components/Component";
+import { MeshDataComponent as MeshDataComponentjs } from "../../entities/components/MeshDataComponent";
 function TextComponent() {
-	Component.apply(this, arguments);
+	Componentjs.apply(this, arguments);
 
 	this.type = 'TextComponent';
 
@@ -16,7 +10,7 @@ function TextComponent() {
 	this._entity = null;
 }
 
-TextComponent.prototype = Object.create(Component.prototype);
+TextComponent.prototype = Object.create(Componentjs.prototype);
 TextComponent.prototype.constructor = TextComponent;
 
 TextComponent.type = 'TextComponent';
@@ -55,10 +49,16 @@ TextComponent.prototype.setText = function (text, options) {
 	// only short texts that can fit in one mesh for now
 	var meshData = TextMeshGenerator.meshesForText(text, this._font, options)[0];
 
-	var meshDataComponent = new MeshDataComponent(meshData);
+	var meshDataComponent = new MeshDataComponentjs(meshData);
 	this._entity.setComponent(meshDataComponent);
 
 	return this;
 };
 
-module.exports = TextComponent;
+var exported_TextComponent = TextComponent;
+
+/**
+ * Stores a font and handles the text mesh on an entity
+ * Depends on opentype.js
+ */
+export { exported_TextComponent as TextComponent };

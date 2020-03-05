@@ -1,23 +1,14 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var AnimationComponent = require('../../animationpack/components/AnimationComponent');
-var RSVP = require('../../util/rsvp');
-
-/**
- * For handling loading of animation components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler as ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
+import { AnimationComponent as AnimationComponentjs } from "../../animationpack/components/AnimationComponent";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
 function AnimationComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandlerjs.apply(this, arguments);
 	this._type = 'AnimationComponent';
 }
 
-AnimationComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+AnimationComponentHandler.prototype = Object.create(ComponentHandlerjs.prototype);
 AnimationComponentHandler.prototype.constructor = AnimationComponentHandler;
-ComponentHandler._registerClass('animation', AnimationComponentHandler);
+ComponentHandlerjs._registerClass('animation', AnimationComponentHandler);
 
 /**
  * Create animation component.
@@ -25,7 +16,7 @@ ComponentHandler._registerClass('animation', AnimationComponentHandler);
  * @private
  */
 AnimationComponentHandler.prototype._create = function () {
-	return new AnimationComponent();
+	return new AnimationComponentjs();
 };
 
 /**
@@ -38,7 +29,7 @@ AnimationComponentHandler.prototype._create = function () {
 AnimationComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		var promises = [];
@@ -60,10 +51,20 @@ AnimationComponentHandler.prototype.update = function (entity, config, options) 
 			});
 			promises.push(p);
 		}
-		return RSVP.all(promises).then(function () {
+		return rsvp_rsvpjsjs.all(promises).then(function () {
 			return component;
 		});
 	});
 };
 
-module.exports = AnimationComponentHandler;
+var exported_AnimationComponentHandler = AnimationComponentHandler;
+
+/**
+ * For handling loading of animation components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_AnimationComponentHandler as AnimationComponentHandler };

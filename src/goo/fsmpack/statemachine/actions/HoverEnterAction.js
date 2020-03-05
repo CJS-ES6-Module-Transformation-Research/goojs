@@ -1,14 +1,14 @@
-var Action = require('./Action');
-var BoundingPicker = require('./../../../renderer/bounds/BoundingPicker');
+import { Action as Actionjs } from "./Action";
+import { BoundingPicker as BoundingPickerjs } from "./../../../renderer/bounds/BoundingPicker";
 
-function HoverEnterAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function HoverEnterAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverEnterAction.prototype = Object.create(Action.prototype);
+HoverEnterAction.prototype = Object.create(Actionjs.prototype);
 HoverEnterAction.prototype.constructor = HoverEnterAction;
 
 HoverEnterAction.types = {
@@ -87,7 +87,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 			var pickingStore = that.goo.pickSync(x, y);
 			pickedEntity = that.goo.world.entityManager.getEntityByIndex(pickingStore.id);
 		} else {
-			var pickList = BoundingPicker.pick(that.goo.world, camera, x, y);
+			var pickList = BoundingPickerjs.pick(that.goo.world, camera, x, y);
 			if (pickList.length > 0) {
 				pickedEntity = pickList[0].entity;
 			}
@@ -111,4 +111,5 @@ HoverEnterAction.prototype.exit = function () {
 	document.removeEventListener('touchmove', this.moveListener);
 };
 
-module.exports = HoverEnterAction;
+var exported_HoverEnterAction = HoverEnterAction;
+export { exported_HoverEnterAction as HoverEnterAction };

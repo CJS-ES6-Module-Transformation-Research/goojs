@@ -1,17 +1,8 @@
-var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
-var TransformData = require('../../animationpack/clip/TransformData');
-var Quaternion = require('../../math/Quaternion');
-
-/**
- * An animation channel consisting of a series of transforms interpolated over time.
- * @param channelName our name.
- * @param {Array} times our time offset values.
- * @param {Array} rotations the rotations to set on this channel at each time offset.
- * @param {Array} translations the translations to set on this channel at each time offset.
- * @param {Array} scales the scales to set on this channel at each time offset.
- */
+import { AbstractAnimationChannel as AbstractAnimationChanneljs } from "../../animationpack/clip/AbstractAnimationChannel";
+import { TransformData as TransformDatajs } from "../../animationpack/clip/TransformData";
+import { Quaternion as Quaternionjs } from "../../math/Quaternion";
 function TransformChannel(channelName, times, rotations, translations, scales, blendType) {
-	AbstractAnimationChannel.call(this, channelName, times, blendType);
+	AbstractAnimationChanneljs.call(this, channelName, times, blendType);
 
 	if (rotations.length / 4 !== times.length || translations.length / 3 !== times.length || scales.length / 3 !== times.length) {
 		throw new Error('All provided arrays must be the same length (accounting for type)! Channel: ' + channelName);
@@ -22,17 +13,17 @@ function TransformChannel(channelName, times, rotations, translations, scales, b
 	this._scales = new Float32Array(scales);
 }
 
-var tmpQuat = new Quaternion();
-var tmpQuat2 = new Quaternion();
+var tmpQuat = new Quaternionjs();
+var tmpQuat2 = new Quaternionjs();
 
-TransformChannel.prototype = Object.create(AbstractAnimationChannel.prototype);
+TransformChannel.prototype = Object.create(AbstractAnimationChanneljs.prototype);
 
 /*
  * Creates a data item for this type of channel
  * @returns {TransformData}
  */
 TransformChannel.prototype.createStateDataObject = function () {
-	return new TransformData();
+	return new TransformDatajs();
 };
 
 /*
@@ -90,7 +81,7 @@ TransformChannel.prototype.setCurrentSample = function (sampleIndex, fraction, a
 	tmpQuat.w = this._rotations[index4B + 3];
 
 	if (!transformData._rotation.equals(tmpQuat)) {
-		Quaternion.slerp(transformData._rotation, tmpQuat, fraction, tmpQuat2);
+		Quaternionjs.slerp(transformData._rotation, tmpQuat, fraction, tmpQuat2);
 		transformData._rotation.set(tmpQuat2);
 	}
 
@@ -114,9 +105,19 @@ TransformChannel.prototype.setCurrentSample = function (sampleIndex, fraction, a
  * @returns {TransformData} our resulting TransformData.
  */
 TransformChannel.prototype.getData = function (index, store) {
-	var rVal = store ? store : new TransformData();
+	var rVal = store ? store : new TransformDatajs();
 	this.setCurrentSample(index, 0.0, rVal);
 	return rVal;
 };
 
-module.exports = TransformChannel;
+var exported_TransformChannel = TransformChannel;
+
+/**
+ * An animation channel consisting of a series of transforms interpolated over time.
+ * @param channelName our name.
+ * @param {Array} times our time offset values.
+ * @param {Array} rotations the rotations to set on this channel at each time offset.
+ * @param {Array} translations the translations to set on this channel at each time offset.
+ * @param {Array} scales the scales to set on this channel at each time offset.
+ */
+export { exported_TransformChannel as TransformChannel };

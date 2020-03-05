@@ -1,11 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { FsmUtils as FsmUtilsjs } from "../../../fsmpack/statemachine/FsmUtils";
 
-function MultiplyVariableAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function MultiplyVariableAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-MultiplyVariableAction.prototype = Object.create(Action.prototype);
+MultiplyVariableAction.prototype = Object.create(Actionjs.prototype);
 MultiplyVariableAction.prototype.constructor = MultiplyVariableAction;
 
 MultiplyVariableAction.external = {
@@ -33,8 +33,9 @@ MultiplyVariableAction.external = {
 
 MultiplyVariableAction.prototype.update = function (fsm) {
 	fsm.applyOnVariable(this.variable, function (v) {
-		return v * FsmUtils.getValue(this.amount, fsm);
+		return v * FsmUtilsjs.getValue(this.amount, fsm);
 	}.bind(this));
 };
 
-module.exports = MultiplyVariableAction;
+var exported_MultiplyVariableAction = MultiplyVariableAction;
+export { exported_MultiplyVariableAction as MultiplyVariableAction };

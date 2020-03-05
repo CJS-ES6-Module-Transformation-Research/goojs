@@ -1,35 +1,31 @@
-var Capabilities = require('../../renderer/Capabilities');
-var Vector3 = require('../../math/Vector3');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var Camera = require('../../renderer/Camera');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Vector4 = require('../../math/Vector4');
-var PointLight = require('../../renderer/light/PointLight');
-var SpotLight = require('../../renderer/light/SpotLight');
-
-/**
- * Handles shadow techniques
- */
+import { Capabilities as Capabilitiesjs } from "../../renderer/Capabilities";
+import { Vector3 as Vector3js } from "../../math/Vector3";
+import { FullscreenPass as FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
+import { Camera as Camerajs } from "../../renderer/Camera";
+import { Material as Materialjs } from "../../renderer/Material";
+import { ShaderLib as ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { RenderTarget as RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { Vector4 as Vector4js } from "../../math/Vector4";
+import { PointLight as PointLightjs } from "../../renderer/light/PointLight";
+import { SpotLight as SpotLightjs } from "../../renderer/light/SpotLight";
 function ShadowHandler() {
-	this.depthMaterial = new Material(ShaderLib.lightDepth, 'depthMaterial');
+	this.depthMaterial = new Materialjs(ShaderLibjs.lightDepth, 'depthMaterial');
 	this.depthMaterial.cullState.cullFace = 'Back';
 	this.depthMaterial.fullOverride = true;
-	this.fullscreenPass = new FullscreenPass();
-	this.downsample = Material.createShader(ShaderLib.downsample, 'downsample');
+	this.fullscreenPass = new FullscreenPassjs();
+	this.downsample = Materialjs.createShader(ShaderLibjs.downsample, 'downsample');
 
 	var sigma = 2;
-	this.blurfilter = Material.createShader(ShaderLib.convolution, 'blurfilter');
+	this.blurfilter = Materialjs.createShader(ShaderLibjs.convolution, 'blurfilter');
 	var kernelSize = 2 * Math.ceil(sigma * 3.0) + 1;
 	this.blurfilter.defines = {
 		KERNEL_SIZE_FLOAT: kernelSize.toFixed(1),
 		KERNEL_SIZE_INT: kernelSize.toFixed(0)
 	};
-	this.blurfilter.uniforms.cKernel = ShaderLib.convolution.buildKernel(sigma);
+	this.blurfilter.uniforms.cKernel = ShaderLibjs.convolution.buildKernel(sigma);
 
-	this.oldClearColor = new Vector4(0, 0, 0, 0);
-	this.shadowClearColor = new Vector4(1, 1, 1, 1);
+	this.oldClearColor = new Vector4js(0, 0, 0, 0);
+	this.shadowClearColor = new Vector4js(1, 1, 1, 1);
 
 	this.renderList = [];
 	this.shadowList = [];
@@ -37,20 +33,20 @@ function ShadowHandler() {
 	this.first = true;
 }
 
-var tmpVec = new Vector3();
+var tmpVec = new Vector3js();
 
 ShadowHandler.prototype._createShadowData = function (shadowSettings, renderer) {
 	var shadowX = shadowSettings.resolution[0];
 	var shadowY = shadowSettings.resolution[1];
 
-	var linearFloat = !!Capabilities.TextureFloatLinear;
+	var linearFloat = !!Capabilitiesjs.TextureFloatLinear;
 
 	if (shadowSettings.shadowData.shadowTarget) {
 		renderer._deallocateRenderTarget(shadowSettings.shadowData.shadowTarget);
 	}
 
 	if (shadowSettings.shadowType === 'VSM') {
-		var floatType = Capabilities.TextureHalfFloat ? 'HalfFloat' : 'Float';
+		var floatType = Capabilitiesjs.TextureHalfFloat ? 'HalfFloat' : 'Float';
 		var type = {
 			type: floatType
 		};
@@ -61,19 +57,19 @@ ShadowHandler.prototype._createShadowData = function (shadowSettings, renderer) 
 		if (shadowSettings.shadowData.shadowTargetDown) {
 			renderer._deallocateRenderTarget(shadowSettings.shadowData.shadowTargetDown);
 		}
-		shadowSettings.shadowData.shadowTargetDown = new RenderTarget(shadowX / 2, shadowY / 2, type);
+		shadowSettings.shadowData.shadowTargetDown = new RenderTargetjs(shadowX / 2, shadowY / 2, type);
 		if (shadowSettings.shadowData.shadowBlurred) {
 			renderer._deallocateRenderTarget(shadowSettings.shadowData.shadowBlurred);
 		}
-		shadowSettings.shadowData.shadowBlurred = new RenderTarget(shadowX / 2, shadowY / 2, type);
+		shadowSettings.shadowData.shadowBlurred = new RenderTargetjs(shadowX / 2, shadowY / 2, type);
 
-		shadowSettings.shadowData.shadowTarget = new RenderTarget(shadowX, shadowY, {
+		shadowSettings.shadowData.shadowTarget = new RenderTargetjs(shadowX, shadowY, {
 			type: floatType,
 			magFilter: 'NearestNeighbor',
 			minFilter: 'NearestNeighborNoMipMaps'
 		});
 	} else {
-		shadowSettings.shadowData.shadowTarget = new RenderTarget(shadowX, shadowY, {
+		shadowSettings.shadowData.shadowTarget = new RenderTargetjs(shadowX, shadowY, {
 			magFilter: 'NearestNeighbor',
 			minFilter: 'NearestNeighborNoMipMaps'
 		});
@@ -100,7 +96,7 @@ ShadowHandler.prototype.checkShadowRendering = function (renderer, partitioner, 
 			if (!shadowSettings.shadowData) {
 				shadowSettings.shadowData = {};
 				shadowSettings.shadowRecord = {};
-				shadowSettings.shadowData.lightCamera = new Camera(55, 1, 1, 1000);
+				shadowSettings.shadowData.lightCamera = new Camerajs(55, 1, 1, 1000);
 			}
 
 			var record = shadowSettings.shadowRecord;
@@ -112,7 +108,7 @@ ShadowHandler.prototype.checkShadowRendering = function (renderer, partitioner, 
 				tmpVec.set(light.translation).add(light.direction);
 				lightCamera.lookAt(tmpVec, shadowSettings.upVector);
 			} else {
-				lightCamera.lookAt(Vector3.ZERO, shadowSettings.upVector);
+				lightCamera.lookAt(Vector3js.ZERO, shadowSettings.upVector);
 			}
 
 			// Update settings
@@ -131,14 +127,14 @@ ShadowHandler.prototype.checkShadowRendering = function (renderer, partitioner, 
 					this._createShadowData(shadowSettings, renderer);
 				}
 
-				if (light instanceof SpotLight) {
+				if (light instanceof SpotLightjs) {
 					lightCamera.setFrustumPerspective(light.angle, shadowSettings.resolution[0] / shadowSettings.resolution[1], shadowSettings.near, shadowSettings.far);
-				} else if (light instanceof PointLight) {
+				} else if (light instanceof PointLightjs) {
 					lightCamera.setFrustumPerspective(90, shadowSettings.resolution[0] / shadowSettings.resolution[1], shadowSettings.near, shadowSettings.far);
 				} else {
 					var radius = shadowSettings.size;
 					lightCamera.setFrustum(shadowSettings.near, shadowSettings.far, -radius, radius, radius, -radius);
-					lightCamera.projectionMode = Camera.Parallel;
+					lightCamera.projectionMode = Camerajs.Parallel;
 				}
 
 				lightCamera.update();
@@ -220,4 +216,9 @@ ShadowHandler.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateShader(this.blurfilter);
 };
 
-module.exports = ShadowHandler;
+var exported_ShadowHandler = ShadowHandler;
+
+/**
+ * Handles shadow techniques
+ */
+export { exported_ShadowHandler as ShadowHandler };

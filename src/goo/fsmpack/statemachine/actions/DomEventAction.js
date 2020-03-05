@@ -1,12 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function DomEventAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function DomEventAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 
 	this.domElements = null;
 }
 
-DomEventAction.prototype = Object.create(Action.prototype);
+DomEventAction.prototype = Object.create(Actionjs.prototype);
 DomEventAction.prototype.constructor = DomEventAction;
 
 DomEventAction.external = {
@@ -60,4 +60,5 @@ DomEventAction.prototype.exit = function () {
 	this.domElements = null;
 };
 
-module.exports = DomEventAction;
+var exported_DomEventAction = DomEventAction;
+export { exported_DomEventAction as DomEventAction };

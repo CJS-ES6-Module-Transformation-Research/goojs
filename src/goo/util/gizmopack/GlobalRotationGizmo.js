@@ -1,53 +1,48 @@
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var RotationGizmo = require('../../util/gizmopack/RotationGizmo');
-var Vector3 = require('../../math/Vector3');
-var Matrix3 = require('../../math/Matrix3');
-var Transform = require('../../math/Transform');
-var Renderer = require('../../renderer/Renderer');
-var Ray = require('../../math/Ray');
-
-/**
- * @extends Gizmo
- * @hidden
- */
+import { Gizmo as Gizmojs } from "../../util/gizmopack/Gizmo";
+import { RotationGizmo as RotationGizmojs } from "../../util/gizmopack/RotationGizmo";
+import { Vector3 as Vector3js } from "../../math/Vector3";
+import { Matrix3 as Matrix3js } from "../../math/Matrix3";
+import { Transform as Transformjs } from "../../math/Transform";
+import { Renderer as Rendererjs } from "../../renderer/Renderer";
+import { Ray as Rayjs } from "../../math/Ray";
 function GlobalRotationGizmo() {
-	Gizmo.call(this, 'GlobalRotationGizmo');
+	Gizmojs.call(this, 'GlobalRotationGizmo');
 
-	this._rotation = new Matrix3();
-	this._direction = new Vector3();
+	this._rotation = new Matrix3js();
+	this._direction = new Vector3js();
 
 	//TODO: create a function that does this sort of thing
 	this.snap = false;
-	this._accumulatedRotation = new Vector3();
-	this._oldAngle = new Vector3();
+	this._accumulatedRotation = new Vector3js();
+	this._oldAngle = new Vector3js();
 
 	this.compileRenderables();
 }
 
-GlobalRotationGizmo.prototype = Object.create(Gizmo.prototype);
+GlobalRotationGizmo.prototype = Object.create(Gizmojs.prototype);
 GlobalRotationGizmo.prototype.constructor = GlobalRotationGizmo;
 
 (function () {
-	var worldCenter = new Vector3();
-	var pickedPoint = new Vector3();
-	var rotationDirection = new Vector3();
-	var axis = new Vector3();
-	var ray = new Ray();
-	var crossResult = new Vector3();
+	var worldCenter = new Vector3js();
+	var pickedPoint = new Vector3js();
+	var rotationDirection = new Vector3js();
+	var axis = new Vector3js();
+	var ray = new Rayjs();
+	var crossResult = new Vector3js();
 
 	GlobalRotationGizmo.prototype.activate = function (props) {
-		Gizmo.prototype.activate.call(this, props);
+		Gizmojs.prototype.activate.call(this, props);
 
 		if (this._activeHandle.axis < 3) {
 			// Get rotation axis
-			axis.copy([Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z][this._activeHandle.axis]);
+			axis.copy([Vector3js.UNIT_X, Vector3js.UNIT_Y, Vector3js.UNIT_Z][this._activeHandle.axis]);
 
 			// Get rotation center
-			worldCenter.copy(Vector3.ZERO);
+			worldCenter.copy(Vector3js.ZERO);
 			worldCenter.applyPostPoint(this.transform.matrix);
 
 			// Get picked point in world space (sort of)
-			Renderer.mainCamera.getPickRay(
+			Rendererjs.mainCamera.getPickRay(
 				props.x,
 				props.y,
 				1,
@@ -65,7 +60,7 @@ GlobalRotationGizmo.prototype.constructor = GlobalRotationGizmo;
 			rotationDirection.copy(crossResult);
 
 			rotationDirection.add(pickedPoint);
-			Renderer.mainCamera.getScreenCoordinates(
+			Rendererjs.mainCamera.getScreenCoordinates(
 				rotationDirection,
 				1,
 				1,
@@ -79,9 +74,9 @@ GlobalRotationGizmo.prototype.constructor = GlobalRotationGizmo;
 	};
 })();
 
-GlobalRotationGizmo.prototype.process = RotationGizmo.prototype.process;
+GlobalRotationGizmo.prototype.process = RotationGizmojs.prototype.process;
 
-GlobalRotationGizmo.prototype._rotateOnScreen = RotationGizmo.prototype._rotateOnScreen;
+GlobalRotationGizmo.prototype._rotateOnScreen = RotationGizmojs.prototype._rotateOnScreen;
 
 GlobalRotationGizmo.prototype._applyRotation = function () {
 	this.transform.rotation.mul2(
@@ -90,10 +85,10 @@ GlobalRotationGizmo.prototype._applyRotation = function () {
 	);
 };
 
-GlobalRotationGizmo.prototype._rotateOnAxis = RotationGizmo.prototype._rotateOnAxis;
+GlobalRotationGizmo.prototype._rotateOnAxis = RotationGizmojs.prototype._rotateOnAxis;
 
 (function () {
-	var transform = new Transform();
+	var transform = new Transformjs();
 
 	/**
 	 * Update the transform of the provided renderable.
@@ -111,6 +106,12 @@ GlobalRotationGizmo.prototype._rotateOnAxis = RotationGizmo.prototype._rotateOnA
 	};
 })();
 
-GlobalRotationGizmo.prototype.compileRenderables = RotationGizmo.prototype.compileRenderables;
+GlobalRotationGizmo.prototype.compileRenderables = RotationGizmojs.prototype.compileRenderables;
 
-module.exports = GlobalRotationGizmo;
+var exported_GlobalRotationGizmo = GlobalRotationGizmo;
+
+/**
+ * @extends Gizmo
+ * @hidden
+ */
+export { exported_GlobalRotationGizmo as GlobalRotationGizmo };

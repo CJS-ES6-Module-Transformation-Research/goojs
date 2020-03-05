@@ -1,7 +1,3 @@
-/**
- * Base class/module for all logic boxes
- * @private
- */
 function LogicNodes() {}
 
 LogicNodes.types = {};
@@ -44,4 +40,10 @@ LogicNodes.getAllTypes = function () {
 	return out;
 };
 
-module.exports = LogicNodes;
+var exported_LogicNodes = LogicNodes;
+
+/**
+ * Base class/module for all logic boxes
+ * @private
+ */
+export { exported_LogicNodes as LogicNodes };

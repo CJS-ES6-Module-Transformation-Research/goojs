@@ -1,20 +1,19 @@
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that writes output to the console.
- * @private
- */
+import { LogicNode as LogicNodejs } from "./LogicNode";
+import { LogicNodes as LogicNodesjs } from "./LogicNodes";
+import { LogicInterface as LogicInterfacejs } from "./LogicInterface";
+var LogicNodeDebug_inportFloat;
+var LogicNodeDebug_inportEvent;
+var LogicNodeDebug_editorName;
+var LogicNodeDebug_logicInterface;
 function LogicNodeDebug() {
-	LogicNode.call(this);
-	this.logicInterface = LogicNodeDebug.logicInterface;
+	LogicNodejs.call(this);
+	LogicNodeDebug_logicInterface = LogicNodeDebug_logicInterface;;
 	this.type = 'LogicNodeDebug';
 	this._time = 0;
 }
 
-LogicNodeDebug.prototype = Object.create(LogicNode.prototype);
-LogicNodeDebug.editorName = 'Debug';
+LogicNodeDebug.prototype = Object.create(LogicNodejs.prototype);
+LogicNodeDebug_editorName = "Debug";;
 
 LogicNodeDebug.prototype.onInputChanged = function (instDesc, portID, value) {
 	console.log('LogicNodeDebug (' + this.logicInstance.name + ') value port ' + portID + ' = [' + value + ']');
@@ -24,10 +23,16 @@ LogicNodeDebug.prototype.onEvent = function (instDesc, portID) {
 	console.log('LogicNodeDebug (' + this.logicInstance.name + ') event on port ' + portID);
 };
 
-LogicNodeDebug.logicInterface = new LogicInterface();
-LogicNodeDebug.inportEvent = LogicNodeDebug.logicInterface.addInputEvent('Event');
-LogicNodeDebug.inportFloat = LogicNodeDebug.logicInterface.addInputProperty('FloatValue', 'float', 0);
+LogicNodeDebug_logicInterface = new LogicInterfacejs();
+LogicNodeDebug_inportEvent = LogicNodeDebug_logicInterface.addInputEvent("Event");;
+LogicNodeDebug_inportFloat = LogicNodeDebug_logicInterface.addInputProperty("FloatValue", "float", 0);;
 
-LogicNodes.registerType('LogicNodeDebug', LogicNodeDebug);
+LogicNodesjs.registerType('LogicNodeDebug', LogicNodeDebug);
 
-module.exports = LogicNodeDebug;
+var exported_LogicNodeDebug = LogicNodeDebug;
+
+/**
+ * Logic node that writes output to the console.
+ * @private
+ */
+export { exported_LogicNodeDebug as LogicNodeDebug };

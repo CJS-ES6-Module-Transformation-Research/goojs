@@ -1,11 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var ProximityComponent = require('../../../fsmpack/proximity/ProximityComponent');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { ProximityComponent as ProximityComponentjs } from "../../../fsmpack/proximity/ProximityComponent";
 
-function TagAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TagAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-TagAction.prototype = Object.create(Action.prototype);
+TagAction.prototype = Object.create(Actionjs.prototype);
 TagAction.prototype.constructor = TagAction;
 
 TagAction.external = {
@@ -30,10 +30,10 @@ TagAction.prototype.enter = function (fsm) {
 	if (entity.proximityComponent) {
 		if (entity.proximityComponent.tag !== this.tag) {
 			entity.clearComponent('ProximityComponent');
-			entity.setComponent(new ProximityComponent(this.tag));
+			entity.setComponent(new ProximityComponentjs(this.tag));
 		}
 	} else {
-		entity.setComponent(new ProximityComponent(this.tag));
+		entity.setComponent(new ProximityComponentjs(this.tag));
 	}
 };
 
@@ -44,4 +44,5 @@ TagAction.prototype.cleanup = function (fsm) {
 	}
 };
 
-module.exports = TagAction;
+var exported_TagAction = TagAction;
+export { exported_TagAction as TagAction };

@@ -1,24 +1,24 @@
-var Material = require('../../renderer/Material');
-var Vector3 = require('../../math/Vector3');
-var Transform = require('../../math/Transform');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var MeshBuilder = require('../../util/MeshBuilder');
-var DynamicLoader = require('../../loaders/DynamicLoader');
-var EntityUtils = require('../../entities/EntityUtils');
-var EntityCombiner = require('../../util/combine/EntityCombiner');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var MathUtils = require('../../math/MathUtils');
-var RSVP = require('../../util/rsvp');
+import { Material as Materialjs } from "../../renderer/Material";
+import { Vector3 as Vector3js } from "../../math/Vector3";
+import { Transform as Transformjs } from "../../math/Transform";
+import { MeshData as MeshDatajs } from "../../renderer/MeshData";
+import { Shader as Shaderjs } from "../../renderer/Shader";
+import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
+import { DynamicLoader as DynamicLoaderjs } from "../../loaders/DynamicLoader";
+import { EntityUtils as EntityUtilsjs } from "../../entities/EntityUtils";
+import { EntityCombiner as EntityCombiner_EntityCombinerjs } from "../../util/combine/EntityCombiner";
+import { MeshDataComponent as MeshDataComponentjs } from "../../entities/components/MeshDataComponent";
+import { ShaderBuilder as ShaderBuilderjs } from "../../renderer/shaders/ShaderBuilder";
+import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
 
 function Forrest() {
-	this.calcVec = new Vector3();
+	this.calcVec = new Vector3js();
 	this.initDone = false;
 }
 
 var chainBundleLoading = function (world, promise, bundle) {
-	var loader = new DynamicLoader({
+	var loader = new DynamicLoaderjs({
 		world: world,
 		preloadBinaries: true,
 		rootPath: 'res/trees2'
@@ -41,7 +41,7 @@ var chainBundleLoading = function (world, promise, bundle) {
 };
 
 Forrest.prototype.init = function (world, terrainQuery, forrestAtlasTexture, forrestAtlasNormals, forrestTypes, entityMap) {
-	var p = new RSVP.Promise();
+	var p = new rsvp_rsvpjsjs.Promise();
 
 	var bundlesToLoad = ['fish'];
 	for (var i = 0; i < bundlesToLoad.length; i++) {
@@ -72,7 +72,7 @@ Forrest.prototype.loadLODTrees = function (world, terrainQuery, forrestAtlasText
 		this.vegetationList[type] = meshData;
 	}
 
-	var material = new Material(vegetationShader, 'vegetation');
+	var material = new Materialjs(vegetationShader, 'vegetation');
 	material.setTexture('DIFFUSE_MAP', forrestAtlasTexture);
 	material.setTexture('NORMAL_MAP', forrestAtlasNormals);
 	material.uniforms.discardThreshold = 0.6;
@@ -102,7 +102,7 @@ Forrest.prototype.loadLODTrees = function (world, terrainQuery, forrestAtlasText
 		this.gridState[x] = [];
 		for (var z = 0; z < this.gridSize; z++) {
 			var entity = world.createEntity(this.material);
-			var meshDataComponent = new MeshDataComponent(dummyMesh);
+			var meshDataComponent = new MeshDataComponentjs(dummyMesh);
 			meshDataComponent.modelBound.xExtent = this.patchSize;
 			meshDataComponent.modelBound.yExtent = 500;
 			meshDataComponent.modelBound.zExtent = this.patchSize;
@@ -165,8 +165,8 @@ Forrest.prototype.update = function (x, z) {
 
 			patchX -= this.gridSizeHalf;
 			patchZ -= this.gridSizeHalf;
-			var modX = MathUtils.moduloPositive(patchX, this.gridSize);
-			var modZ = MathUtils.moduloPositive(patchZ, this.gridSize);
+			var modX = MathUtilsjs.moduloPositive(patchX, this.gridSize);
+			var modZ = MathUtilsjs.moduloPositive(patchZ, this.gridSize);
 			var entity = this.grid[modX][modZ];
 			var state = this.gridState[modX][modZ];
 
@@ -210,14 +210,14 @@ Forrest.prototype.update = function (x, z) {
 Forrest.prototype.determineVegTypeAtPos = function (pos) {
 	var norm = this.terrainQuery.getNormalAt(pos);
 	if (norm === null) {
-		norm = Vector3.UNIT_Y;
+		norm = Vector3js.UNIT_Y;
 	}
-	var slope = norm.dot(Vector3.UNIT_Y);
-	return this.terrainQuery.getForrestType(pos[0], pos[2], slope, MathUtils.fastRandom());
+	var slope = norm.dot(Vector3js.UNIT_Y);
+	return this.terrainQuery.getForrestType(pos[0], pos[2], slope, MathUtilsjs.fastRandom());
 };
 
 Forrest.prototype.fetchTreeMesh = function (vegetationType) {
-    return EntityUtils.clone(this.world, this.entityMap[vegetationType]);
+    return EntityUtilsjs.clone(this.world, this.entityMap[vegetationType]);
 };
 
 Forrest.prototype.fetchTreeBillboard = function (vegetationType, size) {
@@ -236,8 +236,8 @@ Forrest.prototype.fetchTreeBillboard = function (vegetationType, size) {
 
 Forrest.prototype.getPointInPatch = function (x, z, patchX, patchZ, patchSpacing) {
 	var pos = [0, 0, 0];
-	pos[0] = patchX + (x + MathUtils.fastRandom() * 0.75) * patchSpacing;
-	pos[2] = 0.5 + patchZ + (z + MathUtils.fastRandom() * 0.75) * patchSpacing;
+	pos[0] = patchX + (x + MathUtilsjs.fastRandom() * 0.75) * patchSpacing;
+	pos[2] = 0.5 + patchZ + (z + MathUtilsjs.fastRandom() * 0.75) * patchSpacing;
 
 	pos[1] = this.terrainQuery.getHeightAt(pos);
 	if (pos[1] === null) {
@@ -247,8 +247,8 @@ Forrest.prototype.getPointInPatch = function (x, z, patchX, patchZ, patchSpacing
 };
 
 Forrest.prototype.addVegMeshToPatch = function (vegetationType, pos, meshBuilder, levelOfDetail, gridEntity) {
-	var transform = new Transform();
-	var size = (MathUtils.fastRandom() * 0.5 + 0.75);
+	var transform = new Transformjs();
+	var size = (MathUtilsjs.fastRandom() * 0.5 + 0.75);
 	transform.translation.set(pos);
 	transform.update();
 	// var meshData;
@@ -271,7 +271,7 @@ Forrest.prototype.addVegMeshToPatch = function (vegetationType, pos, meshBuilder
 
 
 Forrest.prototype.createForrestPatch = function (patchX, patchZ, levelOfDetail, gridEntity) {
-	var meshBuilder = new MeshBuilder();
+	var meshBuilder = new MeshBuilder_MeshBuilderjs();
 	var patchDensity = this.patchDensity;
 	var patchSpacing = this.patchSpacing;
 
@@ -284,7 +284,7 @@ Forrest.prototype.createForrestPatch = function (patchX, patchZ, levelOfDetail, 
 		});
 	}
 
-	MathUtils.randomSeed = patchX * 10000 + patchZ;
+	MathUtilsjs.randomSeed = patchX * 10000 + patchZ;
 	for (var x = 0; x < patchDensity; x++) {
 		for (var z = 0; z < patchDensity; z++) {
 
@@ -299,25 +299,25 @@ Forrest.prototype.createForrestPatch = function (patchX, patchZ, levelOfDetail, 
 
 	var meshDatas = meshBuilder.build();
 	if (levelOfDetail === 2) {
-		new EntityCombiner(this.world, 1, true, true)._combineList(gridEntity);
+		new EntityCombiner_EntityCombinerjs(this.world, 1, true, true)._combineList(gridEntity);
 	}
 
 	return meshDatas[0]; // Don't create patches bigger than 65k
 };
 
 Forrest.prototype.createBase = function (type) {
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.TEXCOORD0]);
-	attributeMap.BASE = MeshData.createAttribute(1, 'Float');
-	attributeMap.OFFSET = MeshData.createAttribute(2, 'Float');
-	var meshData = new MeshData(attributeMap, 4, 6);
+	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION, MeshDatajs.TEXCOORD0]);
+	attributeMap.BASE = MeshDatajs.createAttribute(1, 'Float');
+	attributeMap.OFFSET = MeshDatajs.createAttribute(2, 'Float');
+	var meshData = new MeshDatajs(attributeMap, 4, 6);
 
-	meshData.getAttributeBuffer(MeshData.POSITION).set([
+	meshData.getAttributeBuffer(MeshDatajs.POSITION).set([
 		0, -type.h * 0.1, 0,
 		0, -type.h * 0.1, 0,
 		0, -type.h * 0.1, 0,
 		0, -type.h * 0.1, 0
 	]);
-	meshData.getAttributeBuffer(MeshData.TEXCOORD0).set([
+	meshData.getAttributeBuffer(MeshDatajs.TEXCOORD0).set([
 		type.tx, type.ty,
 		type.tx, type.ty + type.th,
 		type.tx + type.tw, type.ty + type.th,
@@ -340,39 +340,39 @@ Forrest.prototype.createBase = function (type) {
 
 var vegetationShader = {
 	processors: [
-		ShaderBuilder.light.processor,
+		ShaderBuilderjs.light.processor,
 		function (shader) {
-			if (ShaderBuilder.USE_FOG) {
+			if (ShaderBuilderjs.USE_FOG) {
 				shader.setDefine('FOG', true);
-				shader.uniforms.fogSettings = ShaderBuilder.FOG_SETTINGS;
-				shader.uniforms.fogColor = ShaderBuilder.FOG_COLOR;
+				shader.uniforms.fogSettings = ShaderBuilderjs.FOG_SETTINGS;
+				shader.uniforms.fogColor = ShaderBuilderjs.FOG_COLOR;
 			} else {
 				shader.removeDefine('FOG');
 			}
 		}
 	],
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0,
+		vertexPosition: MeshDatajs.POSITION,
+		vertexUV0: MeshDatajs.TEXCOORD0,
 		base: 'BASE',
 		offset: 'OFFSET'
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		cameraPosition: Shader.CAMERA,
-		diffuseMap: Shader.DIFFUSE_MAP,
-		normalMap: Shader.NORMAL_MAP,
+		viewProjectionMatrix: Shaderjs.VIEW_PROJECTION_MATRIX,
+		cameraPosition: Shaderjs.CAMERA,
+		diffuseMap: Shaderjs.DIFFUSE_MAP,
+		normalMap: Shaderjs.NORMAL_MAP,
 		discardThreshold: -0.01,
 		fogSettings: function () {
-			return ShaderBuilder.FOG_SETTINGS;
+			return ShaderBuilderjs.FOG_SETTINGS;
 		},
 		fogColor: function () {
-			return ShaderBuilder.FOG_COLOR;
+			return ShaderBuilderjs.FOG_COLOR;
 		},
-		time: Shader.TIME
+		time: Shaderjs.TIME
 	},
 	builder: function (shader, shaderInfo) {
-		ShaderBuilder.light.builder(shader, shaderInfo);
+		ShaderBuilderjs.light.builder(shader, shaderInfo);
 	},
 	vshader: function () {
 		return [
@@ -385,7 +385,7 @@ var vegetationShader = {
 	'uniform vec3 cameraPosition;',
 	'uniform float time;',
 
-	ShaderBuilder.light.prevertex,
+	ShaderBuilderjs.light.prevertex,
 
 	'varying vec3 normal;',
 	'varying vec3 binormal;',
@@ -411,7 +411,7 @@ var vegetationShader = {
 	'	vWorldPos = worldPos.xyz;',
 	'	gl_Position = viewProjectionMatrix * worldPos;',
 
-		ShaderBuilder.light.vertex,
+		ShaderBuilderjs.light.vertex,
 
 	'	texCoord0 = vertexUV0;',
 	'	viewPosition = cameraPosition - worldPos.xyz;',
@@ -426,7 +426,7 @@ var vegetationShader = {
 	'uniform vec2 fogSettings;',
 	'uniform vec3 fogColor;',
 
-	ShaderBuilder.light.prefragment,
+	ShaderBuilderjs.light.prefragment,
 
 	'varying vec3 normal;',
 	'varying vec3 binormal;',
@@ -447,7 +447,7 @@ var vegetationShader = {
 		'vec3 N = normalize(worldNormal);',
 
 		// 'final_color = vec4(N, 1.0);',
-		ShaderBuilder.light.fragment,
+		ShaderBuilderjs.light.fragment,
 
 		'#ifdef FOG',
 		'float d = pow(smoothstep(fogSettings.x, fogSettings.y, length(viewPosition)), 1.0);',
@@ -460,4 +460,5 @@ var vegetationShader = {
 	}
 };
 
-module.exports = Forrest;
+var exported_Forrest = Forrest;
+export { exported_Forrest as Forrest };

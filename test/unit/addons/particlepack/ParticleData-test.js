@@ -1,23 +1,23 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var CustomMatchers = require('../../../../test/unit/CustomMatchers');
-var World = require('../../../../src/goo/entities/World');
-var TransformComponent = require('../../../../src/goo/entities/components/TransformComponent');
-var ParticleSystemComponent = require('../../../../src/goo/addons/particlepack/components/ParticleSystemComponent');
+import { Vector3 as Vector3js } from "../../../../src/goo/math/Vector3";
+import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../../test/unit/CustomMatchers";
+import { World as Worldjs } from "../../../../src/goo/entities/World";
+import { TransformComponent as TransformComponentjs } from "../../../../src/goo/entities/components/TransformComponent";
+import { ParticleSystemComponent as ParticleSystemComponentjs } from "../../../../src/goo/addons/particlepack/components/ParticleSystemComponent";
 
 describe('ParticleData', function () {
 	var world;
 
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers);
-		world = new World();
-		world.registerComponent(TransformComponent);
-		world.registerComponent(ParticleSystemComponent);
+		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
+		world = new Worldjs();
+		world.registerComponent(TransformComponentjs);
+		world.registerComponent(ParticleSystemComponentjs);
 	});
 
 	it('can get world position', function () {
-		var component = new ParticleSystemComponent();
+		var component = new ParticleSystemComponentjs();
 		world.createEntity([0, 0, 0], component).addToWorld();
-		var store = new Vector3();
+		var store = new Vector3js();
 		component.particles[0].getWorldPosition(store);
 	});
 });

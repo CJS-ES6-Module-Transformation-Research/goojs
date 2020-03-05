@@ -1,24 +1,15 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var StateMachineComponent = require('../fsmpack/statemachine/StateMachineComponent');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * For handling loading of state machine components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import { ComponentHandler as ComponentHandlerjs } from "../loaders/handlers/ComponentHandler";
+import { StateMachineComponent as StateMachineComponent_StateMachineComponentjs } from "../fsmpack/statemachine/StateMachineComponent";
+import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
+import { ObjectUtils as ObjectUtilsjs } from "../util/ObjectUtils";
 function StateMachineComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandlerjs.apply(this, arguments);
 	this._type = 'StateMachineComponent';
 }
 
-StateMachineComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+StateMachineComponentHandler.prototype = Object.create(ComponentHandlerjs.prototype);
 StateMachineComponentHandler.prototype.constructor = StateMachineComponentHandler;
-ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
+ComponentHandlerjs._registerClass('stateMachine', StateMachineComponentHandler);
 
 /**
  * Create statemachine component
@@ -26,7 +17,7 @@ ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
  * @hidden
  */
 StateMachineComponentHandler.prototype._create = function () {
-	return new StateMachineComponent();
+	return new StateMachineComponent_StateMachineComponentjs();
 };
 
 StateMachineComponentHandler.prototype._remove = function (entity) {
@@ -57,15 +48,15 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 	options.reload = true;
 	options.instantiate = true;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		var promises = [];
-		ObjectUtils.forEach(config.machines, function (machineConfig) {
+		ObjectUtilsjs.forEach(config.machines, function (machineConfig) {
 			promises.push(that._load(machineConfig.machineRef, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (machines) {
+		return rsvp_rsvpjsjs.all(promises).then(function (machines) {
 			// Adding new machines
 			for (var i = 0; i < machines.length; i++) {
 				if (component._machines.indexOf(machines[i]) === -1) {
@@ -83,4 +74,14 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 	});
 };
 
-module.exports = StateMachineComponentHandler;
+var exported_StateMachineComponentHandler = StateMachineComponentHandler;
+
+/**
+ * For handling loading of state machine components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_StateMachineComponentHandler as StateMachineComponentHandler };

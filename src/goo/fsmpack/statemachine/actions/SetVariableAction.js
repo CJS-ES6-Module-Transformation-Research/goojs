@@ -1,11 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { FsmUtils as FsmUtilsjs } from "../../../fsmpack/statemachine/FsmUtils";
 
-function SetVariableAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetVariableAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-SetVariableAction.prototype = Object.create(Action.prototype);
+SetVariableAction.prototype = Object.create(Actionjs.prototype);
 SetVariableAction.prototype.constructor = SetVariableAction;
 
 SetVariableAction.external = {
@@ -34,9 +34,10 @@ SetVariableAction.external = {
 SetVariableAction.prototype.enter = function (fsm) {
 	if (this.variable) {
 		fsm.applyOnVariable(this.variable, function () {
-			return FsmUtils.getValue(this.amount, fsm);
+			return FsmUtilsjs.getValue(this.amount, fsm);
 		}.bind(this));
 	}
 };
 
-module.exports = SetVariableAction;
+var exported_SetVariableAction = SetVariableAction;
+export { exported_SetVariableAction as SetVariableAction };

@@ -1,8 +1,4 @@
-var Capabilities = require('../renderer/Capabilities');
-
-/**
- * Utility for creating index buffers of appropriate type
- */
+import { Capabilities as Capabilitiesjs } from "../renderer/Capabilities";
 function BufferUtils() {}
 
 /**
@@ -21,7 +17,7 @@ BufferUtils.createIndexBuffer = function (indexCount, vertexCount) {
 		}
 	} else if (vertexCount <= 65536) { // 2^16
 		indices = new Uint16Array(indexCount);
-	} else if (Capabilities.ElementIndexUInt) { // 2^32
+	} else if (Capabilitiesjs.ElementIndexUInt) { // 2^32
 		indices = new Uint32Array(indexCount);
 	} else {
 		throw new Error('Maximum number of vertices is 65536. Got: ' + vertexCount);
@@ -50,4 +46,9 @@ BufferUtils.cloneTypedArray = function (source) {
 	return new source.constructor(source);
 };
 
-module.exports = BufferUtils;
+var exported_BufferUtils = BufferUtils;
+
+/**
+ * Utility for creating index buffers of appropriate type
+ */
+export { exported_BufferUtils as BufferUtils };

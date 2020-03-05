@@ -1,21 +1,15 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var LineRenderer = require('../../addons/linerenderpack/LineRenderer');
-var Vector3 = require('../../math/Vector3');
-
-/**
- * Updates all of it's LineRenderers and exposes methods for drawing primitive line shapes.
- * @param {World} world the world this system exists in.
- */
+import { System as Systemjs } from "../../entities/systems/System";
+import { LineRenderer as LineRenderer_LineRendererjs } from "../../addons/linerenderpack/LineRenderer";
+import { Vector3 as Vector3js } from "../../math/Vector3";
 function LineRenderSystem(world) {
-	System.call(this, 'LineRenderSystem', []);
+	Systemjs.call(this, 'LineRenderSystem', []);
 
 	this._lineRenderers = [];
 
 	this.world = world;
 
 	//adds a new LineRenderer to the list
-	this._lineRenderers.push(new LineRenderer(this.world));
+	this._lineRenderers.push(new LineRenderer_LineRendererjs(this.world));
 
 	this.camera = null;
 
@@ -31,24 +25,24 @@ function LineRenderSystem(world) {
 	}.bind(this));
 }
 
-LineRenderSystem.prototype = Object.create(System.prototype);
+LineRenderSystem.prototype = Object.create(Systemjs.prototype);
 LineRenderSystem.prototype.constructor = LineRenderSystem;
 
-var tmpVec1 = new Vector3();
-var tmpVec2 = new Vector3();
-var tmpVec3 = new Vector3();
+var tmpVec1 = new Vector3js();
+var tmpVec2 = new Vector3js();
+var tmpVec3 = new Vector3js();
 
 LineRenderSystem.axis = ['x', 'y', 'z'];
 
 //setup a preset of colors
-LineRenderSystem.prototype.WHITE = new Vector3(1, 1, 1);
-LineRenderSystem.prototype.RED = new Vector3(1, 0, 0);
-LineRenderSystem.prototype.GREEN = new Vector3(0, 1, 0);
-LineRenderSystem.prototype.BLUE = new Vector3(0, 0, 1);
-LineRenderSystem.prototype.AQUA = new Vector3(0, 1, 1);
-LineRenderSystem.prototype.MAGENTA = new Vector3(1, 0, 1);
-LineRenderSystem.prototype.YELLOW = new Vector3(1, 1, 0);
-LineRenderSystem.prototype.BLACK = new Vector3(0, 0, 0);
+LineRenderSystem.prototype.WHITE = new Vector3js(1, 1, 1);
+LineRenderSystem.prototype.RED = new Vector3js(1, 0, 0);
+LineRenderSystem.prototype.GREEN = new Vector3js(0, 1, 0);
+LineRenderSystem.prototype.BLUE = new Vector3js(0, 0, 1);
+LineRenderSystem.prototype.AQUA = new Vector3js(0, 1, 1);
+LineRenderSystem.prototype.MAGENTA = new Vector3js(1, 0, 1);
+LineRenderSystem.prototype.YELLOW = new Vector3js(1, 1, 0);
+LineRenderSystem.prototype.BLACK = new Vector3js(0, 0, 0);
 
 /**
  * Draws a line between two {@link Vector3}'s with the specified color.
@@ -165,4 +159,10 @@ LineRenderSystem.prototype.clear = function () {
 	this.world.gooRunner.renderer.clearShaderCache();
 };
 
-module.exports = LineRenderSystem;
+var exported_LineRenderSystem = LineRenderSystem;
+
+/**
+ * Updates all of it's LineRenderers and exposes methods for drawing primitive line shapes.
+ * @param {World} world the world this system exists in.
+ */
+export { exported_LineRenderSystem as LineRenderSystem };

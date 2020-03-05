@@ -1,11 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { FsmUtils as FsmUtilsjs } from "../../../fsmpack/statemachine/FsmUtils";
 
-function KeyUpAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function KeyUpAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-KeyUpAction.prototype = Object.create(Action.prototype);
+KeyUpAction.prototype = Object.create(Actionjs.prototype);
 KeyUpAction.prototype.constructor = KeyUpAction;
 
 KeyUpAction.external = {
@@ -33,7 +33,7 @@ KeyUpAction.getTransitionLabel = function (transitionKey, actionConfig){
 };
 
 KeyUpAction.prototype.configure = function (settings) {
-	this.key = settings.key ? FsmUtils.getKey(settings.key) : null;
+	this.key = settings.key ? FsmUtilsjs.getKey(settings.key) : null;
 	this.transitions = { keyup: settings.transitions.keyup };
 };
 
@@ -50,4 +50,5 @@ KeyUpAction.prototype.exit = function () {
 	document.removeEventListener('keyup', this.eventListener);
 };
 
-module.exports = KeyUpAction;
+var exported_KeyUpAction = KeyUpAction;
+export { exported_KeyUpAction as KeyUpAction };

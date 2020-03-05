@@ -1,7 +1,3 @@
-/**
- * Base class/module for all logic boxes
- * @private
- */
 function LogicNode() {
 	// Generated the same way as entities are, except different naming.
 	Object.defineProperty(this, 'id', {
@@ -85,4 +81,10 @@ LogicNode.prototype.onInputChanged = function () {};
 
 LogicNode._instanceCount = 0;
 
-module.exports = LogicNode;
+var exported_LogicNode = LogicNode;
+
+/**
+ * Base class/module for all logic boxes
+ * @private
+ */
+export { exported_LogicNode as LogicNode };

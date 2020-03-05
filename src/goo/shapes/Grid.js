@@ -1,15 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * MeshData for a Grid.
- * @extends MeshData
- * @param {number} [xSegments=10] Number of columns.
- * @param {number} [ySegments=10] Number of rows.
- * @param {number} [width=1] Total width of the Grid.
- * @param {number} [height=1] Total height of the Grid.
- * @example var meshData = new Grid( 10, 10, 10, 10);
- */
+import { MeshData as MeshDatajs } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtilsjs } from "../util/ObjectUtils";
 function Grid(xSegments, ySegments, width, height) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -23,15 +13,15 @@ function Grid(xSegments, ySegments, width, height) {
 	this.width = width || 1;
 	this.height = height || 1;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = MeshDatajs.defaultMap([MeshDatajs.POSITION]);
 	var vertsCount = 4 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
 	var idcsCount = 8 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
-	MeshData.call(this, attributeMap, vertsCount, idcsCount);
+	MeshDatajs.call(this, attributeMap, vertsCount, idcsCount);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
 
-Grid.prototype = Object.create(MeshData.prototype);
+Grid.prototype = Object.create(MeshDatajs.prototype);
 Grid.prototype.constructor = Grid;
 
 Grid.prototype.rebuild = function () {
@@ -79,7 +69,7 @@ Grid.prototype.rebuild = function () {
 	for (var i = indices.length / 2; i < verts.length / 3; i += 2) {
 		indices.push(i, i + 1);
 	}
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshDatajs.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 };
 
@@ -88,10 +78,21 @@ Grid.prototype.rebuild = function () {
  * @returns {Grid}
  */
 Grid.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['xSegments', 'ySegments', 'width', 'height']);
+	var options = ObjectUtilsjs.shallowSelectiveClone(this, ['xSegments', 'ySegments', 'width', 'height']);
 
 	return new Grid(options);
 };
 
 
-module.exports = Grid;
+var exported_Grid = Grid;
+
+/**
+ * MeshData for a Grid.
+ * @extends MeshData
+ * @param {number} [xSegments=10] Number of columns.
+ * @param {number} [ySegments=10] Number of rows.
+ * @param {number} [width=1] Total width of the Grid.
+ * @param {number} [height=1] Total height of the Grid.
+ * @example var meshData = new Grid( 10, 10, 10, 10);
+ */
+export { exported_Grid as Grid };

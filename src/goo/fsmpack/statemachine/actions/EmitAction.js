@@ -1,11 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function EmitAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function EmitAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-EmitAction.prototype = Object.create(Action.prototype);
+EmitAction.prototype = Object.create(Actionjs.prototype);
 EmitAction.prototype.constructor = EmitAction;
 
 EmitAction.external = {
@@ -27,4 +26,5 @@ EmitAction.prototype.enter = function (/*fsm*/) {
 	SystemBus.emit(this.channel, this.data); // data is unused?
 };
 
-module.exports = EmitAction;
+var exported_EmitAction = EmitAction;
+export { exported_EmitAction as EmitAction };

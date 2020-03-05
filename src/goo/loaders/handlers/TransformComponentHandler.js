@@ -1,25 +1,16 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var TransformComponent = require('../../entities/components/TransformComponent');
-var MathUtils = require('../../math/MathUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var RSVP = require('../../util/rsvp');
-
-/**
- * For handling loading of transform component
- * @extends ComponentHandler
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @hidden
- */
+import { ComponentHandler as ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
+import { TransformComponent as TransformComponentjs } from "../../entities/components/TransformComponent";
+import { MathUtils as MathUtilsjs } from "../../math/MathUtils";
+import { ObjectUtils as ObjectUtilsjs } from "../../util/ObjectUtils";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
 function TransformComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandlerjs.apply(this, arguments);
 	this._type = 'TransformComponent';
 }
 
-TransformComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+TransformComponentHandler.prototype = Object.create(ComponentHandlerjs.prototype);
 TransformComponentHandler.prototype.constructor = TransformComponentHandler;
-ComponentHandler._registerClass('transform', TransformComponentHandler);
+ComponentHandlerjs._registerClass('transform', TransformComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -27,7 +18,7 @@ ComponentHandler._registerClass('transform', TransformComponentHandler);
  * @private
  */
 TransformComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
+	return ObjectUtilsjs.defaults(config, {
 		translation: [0, 0, 0],
 		rotation: [0, 0, 0],
 		scale: [1, 1, 1]
@@ -41,7 +32,7 @@ TransformComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 TransformComponentHandler.prototype._create = function () {
-	return new TransformComponent();
+	return new TransformComponentjs();
 };
 
 /**
@@ -95,7 +86,7 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		});
 	}
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) {
 			// Component was removed
 			return;
@@ -105,9 +96,9 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		component.transform.translation.setDirect(config.translation[0], config.translation[1], config.translation[2]);
 		// Rotation
 		component.transform.setRotationXYZ(
-			MathUtils.DEG_TO_RAD * config.rotation[0],
-			MathUtils.DEG_TO_RAD * config.rotation[1],
-			MathUtils.DEG_TO_RAD * config.rotation[2]
+			MathUtilsjs.DEG_TO_RAD * config.rotation[0],
+			MathUtilsjs.DEG_TO_RAD * config.rotation[1],
+			MathUtilsjs.DEG_TO_RAD * config.rotation[2]
 		);
 		// Scale
 		component.transform.scale.setDirect(config.scale[0], config.scale[1], config.scale[2]);
@@ -138,11 +129,21 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		}
 
 		// When all children are attached, return component
-		return RSVP.all(promises).then(function () {
+		return rsvp_rsvpjsjs.all(promises).then(function () {
 			component.setUpdated();
 			return component;
 		});
 	});
 };
 
-module.exports = TransformComponentHandler;
+var exported_TransformComponentHandler = TransformComponentHandler;
+
+/**
+ * For handling loading of transform component
+ * @extends ComponentHandler
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @hidden
+ */
+export { exported_TransformComponentHandler as TransformComponentHandler };

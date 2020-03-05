@@ -1,10 +1,10 @@
-var Action = require('./Action');
+import { Action as Actionjs } from "./Action";
 
-function SetLightPropertiesAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetLightPropertiesAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-SetLightPropertiesAction.prototype = Object.create(Action.prototype);
+SetLightPropertiesAction.prototype = Object.create(Actionjs.prototype);
 SetLightPropertiesAction.prototype.constructor = SetLightPropertiesAction;
 
 SetLightPropertiesAction.external = {
@@ -57,4 +57,5 @@ SetLightPropertiesAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetLightPropertiesAction;
+var exported_SetLightPropertiesAction = SetLightPropertiesAction;
+export { exported_SetLightPropertiesAction as SetLightPropertiesAction };

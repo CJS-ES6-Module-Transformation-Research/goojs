@@ -1,14 +1,14 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var PortalComponent = require('../../../entities/components/PortalComponent');
-var PortalSystem = require('../../../entities/systems/PortalSystem');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
+import { Action as Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { PortalComponent as PortalComponentjs } from "../../../entities/components/PortalComponent";
+import { PortalSystem as PortalSystemjs } from "../../../entities/systems/PortalSystem";
+import { Material as Materialjs } from "../../../renderer/Material";
+import { ShaderLib as ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
 
-function SetRenderTargetAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetRenderTargetAction/*id, settings*/() {
+	Actionjs.apply(this, arguments);
 }
 
-SetRenderTargetAction.prototype = Object.create(Action.prototype);
+SetRenderTargetAction.prototype = Object.create(Actionjs.prototype);
 SetRenderTargetAction.prototype.constructor = SetRenderTargetAction;
 
 SetRenderTargetAction.external = {
@@ -32,7 +32,7 @@ SetRenderTargetAction.prototype.ready = function (fsm) {
 	if (!world.getSystem('PortalSystem')) {
 		var renderSystem = world.getSystem('RenderSystem');
 		var renderer = world.gooRunner.renderer;
-		world.setSystem(new PortalSystem(renderer, renderSystem));
+		world.setSystem(new PortalSystemjs(renderer, renderSystem));
 	}
 };
 
@@ -45,13 +45,13 @@ SetRenderTargetAction.prototype.enter = function (fsm) {
 	if (!cameraEntity || !cameraEntity.cameraComponent || !cameraEntity.cameraComponent.camera) { return; }
 	var camera = cameraEntity.cameraComponent.camera;
 
-	var portalMaterial = new Material(ShaderLib.textured);
+	var portalMaterial = new Materialjs(ShaderLibjs.textured);
 
 	if (!entity.meshRendererComponent) { return; }
 	this.oldMaterials = entity.meshRendererComponent.materials;
 	entity.meshRendererComponent.materials = [portalMaterial];
 
-	var portalComponent = new PortalComponent(camera, 500, { preciseRecursion: true });
+	var portalComponent = new PortalComponentjs(camera, 500, { preciseRecursion: true });
 	entity.setComponent(portalComponent);
 };
 
@@ -69,4 +69,5 @@ SetRenderTargetAction.prototype.cleanup = function (fsm) {
 	// would remove the entire system, but the engine does not support that
 };
 
-module.exports = SetRenderTargetAction;
+var exported_SetRenderTargetAction = SetRenderTargetAction;
+export { exported_SetRenderTargetAction as SetRenderTargetAction };

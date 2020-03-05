@@ -1,15 +1,15 @@
-var World = require('../../../../src/goo/entities/World');
-var Entity = require('../../../../src/goo/entities/Entity');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var Configs = require('../../../../test/unit/loaders/Configs');
-require('../../../../src/goo/animationpack/handlers/AnimationHandlers');
+import { World as Worldjs } from "../../../../src/goo/entities/World";
+import { Entity as Entityjs } from "../../../../src/goo/entities/Entity";
+import { DynamicLoader as DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
+import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
+import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
 
 describe('ProjectHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new Worldjs();
+		loader = new DynamicLoaderjs({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,8 +17,8 @@ describe('ProjectHandler', function () {
 	});
 
 	it('loads a project with scene', function (done) {
-		var config = Configs.project();
-		loader.preload(Configs.get());
+		var config = Configs_Configsjs.project();
+		loader.preload(Configs_Configsjs.get());
 		loader.load(config.id).then(function (project) {
 			expect(project.mainScene).toBeDefined();
 			expect(project.mainScene.entities).toEqual(jasmine.any(Object));
@@ -27,15 +27,15 @@ describe('ProjectHandler', function () {
 	});
 
 	it('loads a slightly more complex project', function (done) {
-		var config = Configs.project(true);
-		loader.preload(Configs.get());
+		var config = Configs_Configsjs.project(true);
+		loader.preload(Configs_Configsjs.get());
 		loader.load(config.id).then(function (project) {
 			expect(project.mainScene).toBeDefined();
 			var entity;
 			for (var key in project.mainScene.entities) {
 				entity = project.mainScene.entities[key];
 			}
-			expect(entity).toEqual(jasmine.any(Entity));
+			expect(entity).toEqual(jasmine.any(Entityjs));
 			done();
 		});
 	});

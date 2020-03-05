@@ -1,13 +1,9 @@
-var BoundingTree = require('../picking/BoundingTree');
-var Ray = require('../math/Ray');
-var Matrix4 = require('../math/Matrix4');
-
-/**
- * Primitive pick logic
- */
+import { BoundingTree as BoundingTreejs } from "../picking/BoundingTree";
+import { Ray as Rayjs } from "../math/Ray";
+import { Matrix4 as Matrix4js } from "../math/Matrix4";
 function PrimitivePickLogic() {
-	this.invRay = new Ray();
-	this.invMatrix = new Matrix4();
+	this.invRay = new Rayjs();
+	this.invMatrix = new Matrix4js();
 }
 
 PrimitivePickLogic.prototype.getPickResult = function (pickRay, entity) {
@@ -61,10 +57,15 @@ PrimitivePickLogic.prototype.isConstructed = function (entity) {
 
 PrimitivePickLogic.prototype.rebuild = function (entity) {
 	// build bounding tree
-	entity.meshDataComponent.meshData.__boundingTree = new BoundingTree();
+	entity.meshDataComponent.meshData.__boundingTree = new BoundingTreejs();
 
 	// calculate bounding tree.
 	entity.meshDataComponent.meshData.__boundingTree.construct(entity);
 };
 
-module.exports = PrimitivePickLogic;
+var exported_PrimitivePickLogic = PrimitivePickLogic;
+
+/**
+ * Primitive pick logic
+ */
+export { exported_PrimitivePickLogic as PrimitivePickLogic };
