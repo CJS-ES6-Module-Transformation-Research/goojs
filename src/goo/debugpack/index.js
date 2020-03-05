@@ -1,15 +1,26 @@
+import {     BoundingVolumeMeshBuilder as BoundingVolumeMeshBuilder_BoundingVolumeMeshBuilderjs, } from "./BoundingVolumeMeshBuilder";
+import { MarkerComponent as MarkerComponent_MarkerComponentjs } from "./components/MarkerComponent";
+import { DebugDrawHelper as DebugDrawHelper_DebugDrawHelperjs } from "./DebugDrawHelper";
+import { Debugger as Debugger_Debuggerjs } from "./Debugger";
+import { EntityCounter as EntityCounter_EntityCounterjs } from "./EntityCounter";
+import { CameraDebug as CameraDebug_CameraDebugjs } from "./shapes/CameraDebug";
+import { LightDebug as LightDebug_LightDebugjs } from "./shapes/LightDebug";
+import { MeshRendererDebug as MeshRendererDebug_MeshRendererDebugjs } from "./shapes/MeshRendererDebug";
+import { SkeletonDebug as SkeletonDebug_SkeletonDebugjs } from "./shapes/SkeletonDebug";
+import { DebugRenderSystem as DebugRenderSystem_DebugRenderSystemjs } from "./systems/DebugRenderSystem";
+import { MarkerSystem as MarkerSystem_MarkerSystemjs } from "./systems/MarkerSystem";
 module.exports = {
-	BoundingVolumeMeshBuilder: require('./BoundingVolumeMeshBuilder'),
-	MarkerComponent: require('./components/MarkerComponent'),
-	DebugDrawHelper: require('./DebugDrawHelper'),
-	Debugger: require('./Debugger'),
-	EntityCounter: require('./EntityCounter'),
-	CameraDebug: require('./shapes/CameraDebug'),
-	LightDebug: require('./shapes/LightDebug'),
-	MeshRendererDebug: require('./shapes/MeshRendererDebug'),
-	SkeletonDebug: require('./shapes/SkeletonDebug'),
-	DebugRenderSystem: require('./systems/DebugRenderSystem'),
-	MarkerSystem: require('./systems/MarkerSystem')
+	BoundingVolumeMeshBuilder: BoundingVolumeMeshBuilder_BoundingVolumeMeshBuilderjs,
+	MarkerComponent: MarkerComponent_MarkerComponentjs,
+	DebugDrawHelper: DebugDrawHelper_DebugDrawHelperjs,
+	Debugger: Debugger_Debuggerjs,
+	EntityCounter: EntityCounter_EntityCounterjs,
+	CameraDebug: CameraDebug_CameraDebugjs,
+	LightDebug: LightDebug_LightDebugjs,
+	MeshRendererDebug: MeshRendererDebug_MeshRendererDebugjs,
+	SkeletonDebug: SkeletonDebug_SkeletonDebugjs,
+	DebugRenderSystem: DebugRenderSystem_DebugRenderSystemjs,
+	MarkerSystem: MarkerSystem_MarkerSystemjs
 };
 if (typeof(window) !== 'undefined') {
 	for (var key in module.exports) {

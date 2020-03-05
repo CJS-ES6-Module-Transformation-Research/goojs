@@ -1,25 +1,15 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Texture = require('../../renderer/Texture');
-var DdsLoader = require('../../loaders/dds/DdsLoader');
-var CrunchLoader = require('../../loaders/crunch/CrunchLoader');
-var TgaLoader = require('../../loaders/tga/TgaLoader');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var CanvasUtils = require('../../util/CanvasUtils');
-var StringUtils = require('../../util/StringUtils');
-var SystemBus = require('../../entities/SystemBus');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Handler for loading materials into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { Texture as Texture_Texturejs } from "../../renderer/Texture";
+import { DdsLoader as DdsLoader_DdsLoaderjs } from "../../loaders/dds/DdsLoader";
+import { CrunchLoader as CrunchLoader_CrunchLoaderjs } from "../../loaders/crunch/CrunchLoader";
+import { TgaLoader as TgaLoader_TgaLoaderjs } from "../../loaders/tga/TgaLoader";
+import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+import { CanvasUtils as CanvasUtils_CanvasUtilsjs } from "../../util/CanvasUtils";
+import { StringUtils as StringUtils_StringUtilsjs } from "../../util/StringUtils";
+import { MathUtils as MathUtils_MathUtilsjs } from "../../math/MathUtils";
 function TextureHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
 	SystemBus.addListener('playStateChanged', function (playState) {
 		this._objects.forEach(function (texture) {
 			if (texture.image && texture.image.play && texture.image.pause) {
@@ -37,9 +27,9 @@ function TextureHandler() {
 	}.bind(this));
 }
 
-TextureHandler.prototype = Object.create(ConfigHandler.prototype);
+TextureHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
 TextureHandler.prototype.constructor = TextureHandler;
-ConfigHandler._registerClass('texture', TextureHandler);
+ConfigHandler_ConfigHandlerjs._registerClass('texture', TextureHandler);
 
 TextureHandler.minFilters = [
 	'NearestNeighborNoMipMaps',
@@ -65,9 +55,9 @@ TextureHandler.noMipMapAlternatives = {
 };
 
 TextureHandler.loaders = {
-	dds: DdsLoader,
-	crn: CrunchLoader, // TODO: not working atm.
-	tga: TgaLoader
+	dds: DdsLoader_DdsLoaderjs,
+	crn: CrunchLoader_CrunchLoaderjs, // TODO: not working atm.
+	tga: TgaLoader_TgaLoaderjs
 };
 
 // Dummy textures to use while loading image
@@ -80,7 +70,7 @@ TextureHandler.BLACK = new Uint8Array([0, 0, 0, 255]);
  * @private
  */
 TextureHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	ObjectUtils_ObjectUtilsjs.defaults(config, {
 		wrapS: 'Repeat',
 		wrapT: 'Repeat',
 		magFilter: 'Bilinear',
@@ -113,7 +103,7 @@ TextureHandler.prototype._remove = function (ref) {
  * @private
  */
 TextureHandler.prototype._create = function () {
-	return new Texture();
+	return new Texture_Texturejs();
 };
 
 
@@ -133,7 +123,7 @@ TextureHandler.prototype._loadSpecialImage = function (texture, config, type/*, 
 	return this.loadObject(imageRef)
 	.then(function (data) {
 		if (data && data.preloaded) {
-			ObjectUtils.extend(texture.image, data.image);
+			ObjectUtils_ObjectUtilsjs.extend(texture.image, data.image);
 			texture.format = data.format;
 			texture.setNeedsUpdate();
 			return texture;
@@ -151,7 +141,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 		video.height = video.videoHeight;
 		video.loop = config.loop !== undefined ? config.loop : true;
 
-		if (!(MathUtils.isPowerOfTwo(video.width) && MathUtils.isPowerOfTwo(video.height))) {
+		if (!(MathUtils_MathUtilsjs.isPowerOfTwo(video.width) && MathUtils_MathUtilsjs.isPowerOfTwo(video.height))) {
 			texture.generateMipmaps = false;
 			texture.minFilter = 'BilinearNoMipMaps';
 		}
@@ -172,7 +162,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 
 TextureHandler.prototype._loadImage = function (texture, config, options) {
 	var imageRef = config.imageRef;
-	var path = StringUtils.parseURL(imageRef).path;
+	var path = StringUtils_StringUtilsjs.parseURL(imageRef).path;
 	var type = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 	if (TextureHandler.loaders[type]) {
 		return this._loadSpecialImage(texture, config, type, options);
@@ -184,7 +174,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
 		return this._loadVideo(texture, config, options);
 	}
 
-	return PromiseUtils.reject(new Error('Unknown image type: ' + type));
+	return PromiseUtils_PromiseUtilsjs.reject(new Error('Unknown image type: ' + type));
 };
 
 /**
@@ -196,7 +186,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
  */
 TextureHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
+	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (texture) {
 		if (!texture) { return; }
 		var ret;
 
@@ -246,8 +236,8 @@ TextureHandler.prototype._update = function (ref, config, options) {
 			}
 		} else if (config.svgData) {
 			// Load SVG data
-			ret = PromiseUtils.createPromise(function (resolve, reject) {
-				CanvasUtils.renderSvgToCanvas(config.svgData, {}, function (canvas) {
+			ret = PromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
+				CanvasUtils_CanvasUtilsjs.renderSvgToCanvas(config.svgData, {}, function (canvas) {
 					if (canvas) {
 						texture.setImage(canvas);
 						resolve(texture);
@@ -270,4 +260,14 @@ TextureHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = TextureHandler;
+var exported_TextureHandler = TextureHandler;
+
+/**
+ * Handler for loading materials into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_TextureHandler as TextureHandler };

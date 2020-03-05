@@ -1,18 +1,18 @@
-var Material = require('../../renderer/Material');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Transform = require('../../math/Transform');
-
-/**
- * Used internally to render a batch of lines all with the same color.
- * @param {World} world The world lines are rendered in.
- */
+import { Material as Material_Materialjs } from "../../renderer/Material";
+import { MeshData as MeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as Shader_Shaderjs } from "../../renderer/Shader";
+import { Transform as Transform_Transformjs } from "../../math/Transform";
+var LineRenderer_MAX_NUM_LINES;
+var LineRenderer_COLORED_LINE_SHADER;
+var LineRenderer_ATTRIBUTE_MAP;
+var LineRenderer__meshData;
+var LineRenderer__material;
 function LineRenderer(world) {
 	this.world = world;
 
-	this._material = new Material(LineRenderer.COLORED_LINE_SHADER);
+	LineRenderer__material = new Material_Materialjs(LineRenderer_COLORED_LINE_SHADER);;
 
-	this._meshData = new MeshData(LineRenderer.ATTRIBUTE_MAP, LineRenderer.MAX_NUM_LINES * 2);
+	LineRenderer__meshData = new MeshData_MeshDatajs(LineRenderer_ATTRIBUTE_MAP, LineRenderer_MAX_NUM_LINES * 2);;
 	this._meshData.indexModes = ['Lines'];
 
 	this._positions = this._meshData.getAttributeBuffer('POSITION');
@@ -20,7 +20,7 @@ function LineRenderer(world) {
 
 	this._renderObject = {
 		meshData: this._meshData,
-		transform: new Transform(),
+		transform: new Transform_Transformjs(),
 		materials: [this._material]
 	};
 
@@ -32,50 +32,49 @@ function LineRenderer(world) {
 	this._meshData.vertexData.setDataUsage('DynamicDraw');
 }
 
-LineRenderer.ATTRIBUTE_MAP = {
-	POSITION: MeshData.createAttribute(3, 'Float'),
-	RGB_COLOR: MeshData.createAttribute(3, 'Float')
-};
+LineRenderer_ATTRIBUTE_MAP = {
+    POSITION: MeshData_MeshDatajs.createAttribute(3, "Float"),
+    RGB_COLOR: MeshData_MeshDatajs.createAttribute(3, "Float")
+};;
 
-LineRenderer.COLORED_LINE_SHADER = {
-	attributes: {
-		vertexPosition: 'POSITION',
-		vertexColor: 'RGB_COLOR'
-	},
-	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX
-	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'attribute vec3 vertexColor;',
+LineRenderer_COLORED_LINE_SHADER = {
+    attributes: {
+        vertexPosition: "POSITION",
+        vertexColor: "RGB_COLOR"
+    },
 
-		'uniform mat4 viewProjectionMatrix;',
+    uniforms: {
+        viewProjectionMatrix: Shader_Shaderjs.VIEW_PROJECTION_MATRIX
+    },
 
-		'varying vec3 color;',
+    vshader: [
+        "attribute vec3 vertexPosition;",
+        "attribute vec3 vertexColor;",
+        "uniform mat4 viewProjectionMatrix;",
+        "varying vec3 color;",
+        "void main(void) {",
+        "gl_Position = viewProjectionMatrix * vec4(vertexPosition, 1.0);",
+        "color = vertexColor;",
+        "}"
+    ].join("\n"),
 
-		'void main(void) {',
-		'gl_Position = viewProjectionMatrix * vec4(vertexPosition, 1.0);',
-		'color = vertexColor;',
-		'}'
-	].join('\n'),
-	fshader: [
-		'varying vec3 color;',
+    fshader: [
+        "varying vec3 color;",
+        "void main(void)",
+        "{",
+        "gl_FragColor = vec4(color, 1.0);",
+        "}"
+    ].join("\n")
+};;
 
-		'void main(void)',
-		'{',
-		'gl_FragColor = vec4(color, 1.0);',
-		'}'
-	].join('\n')
-};
-
-LineRenderer.MAX_NUM_LINES = 65536;
+LineRenderer_MAX_NUM_LINES = 65536;;
 
 /**
  * Used internally to update the vertexData in meshData.
  */
 LineRenderer.prototype._updateVertexData = function () {
 	if (this._numRenderingLines !== 0 || this._meshData.vertexCount !== 0) {
-		this._meshData.vertexCount = Math.min(this._numRenderingLines, LineRenderer.MAX_NUM_LINES) * 2;
+		this._meshData.vertexCount = Math.min(this._numRenderingLines, LineRenderer_MAX_NUM_LINES) * 2;
 
 		this._meshData.setAttributeDataUpdated('POSITION');
 		this._meshData.setAttributeDataUpdated('RGB_COLOR');
@@ -119,7 +118,7 @@ LineRenderer.prototype._remove = function () {
  */
 LineRenderer.prototype._addLine = function (start, end, color) {
 	//We can not continue if there is no more space in the buffers.
-	if (this._numRenderingLines >= LineRenderer.MAX_NUM_LINES) {
+	if (this._numRenderingLines >= LineRenderer_MAX_NUM_LINES) {
 		console.warn('MAX_NUM_LINES has been exceeded in the LineRenderer.');
 		return;
 	}
@@ -140,4 +139,10 @@ LineRenderer.prototype._addLine = function (start, end, color) {
 	this._numRenderingLines++;
 };
 
-module.exports = LineRenderer;
+var exported_LineRenderer = LineRenderer;
+
+/**
+ * Used internally to render a batch of lines all with the same color.
+ * @param {World} world The world lines are rendered in.
+ */
+export { exported_LineRenderer as LineRenderer };

@@ -1,17 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
-var ParticleLib = require('../../../particles/ParticleLib');
-var ParticleSystemUtils = require('../../../util/ParticleSystemUtils');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Material as Material_Materialjs } from "../../../renderer/Material";
+import { ShaderLib as ShaderLib_ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
+import { ParticleLib as ParticleLib_ParticleLibjs } from "../../../particles/ParticleLib";
+import { ParticleSystemUtils as ParticleSystemUtils_ParticleSystemUtilsjs } from "../../../util/ParticleSystemUtils";
 
-function SmokeAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SmokeAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 	this.smokeEntity = null;
 }
 
 SmokeAction.material = null;
 
-SmokeAction.prototype = Object.create(Action.prototype);
+SmokeAction.prototype = Object.create(Action_Actionjs.prototype);
 SmokeAction.prototype.constructor = SmokeAction;
 
 SmokeAction.external = {
@@ -39,8 +39,8 @@ SmokeAction.prototype.enter = function (fsm) {
 	var gooRunner = entity._world.gooRunner;
 
 	if (!SmokeAction.material) {
-		SmokeAction.material = new Material(ShaderLib.particles);
-		var texture = ParticleSystemUtils.createFlareTexture();
+		SmokeAction.material = new Material_Materialjs(ShaderLib_ShaderLibjs.particles);
+		var texture = ParticleSystemUtils_ParticleSystemUtilsjs.createFlareTexture();
 		texture.generateMipmaps = true;
 		SmokeAction.material.setTexture('DIFFUSE_MAP', texture);
 		SmokeAction.material.blendState.blending = 'TransparencyBlending';
@@ -51,9 +51,9 @@ SmokeAction.prototype.enter = function (fsm) {
 
 	var entityScale = entity.transformComponent.sync().worldTransform.scale;
 	var scale = (entityScale.x + entityScale.y + entityScale.z) / 3;
-	this.smokeEntity = ParticleSystemUtils.createParticleSystemEntity(
+	this.smokeEntity = ParticleSystemUtils_ParticleSystemUtilsjs.createParticleSystemEntity(
 		gooRunner.world,
-		ParticleLib.getSmoke({
+		ParticleLib_ParticleLibjs.getSmoke({
 			scale: scale,
 			color: this.color
 		}),
@@ -75,4 +75,5 @@ SmokeAction.prototype.cleanup = function (/*fsm*/) {
 	}
 };
 
-module.exports = SmokeAction;
+var exported_SmokeAction = SmokeAction;
+export { exported_SmokeAction as SmokeAction };

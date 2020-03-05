@@ -1,10 +1,10 @@
-var Action = require('./Action');
+import { Action as Action_Actionjs } from "./Action";
 
-function NextFrameAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function NextFrameAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-NextFrameAction.prototype = Object.create(Action.prototype);
+NextFrameAction.prototype = Object.create(Action_Actionjs.prototype);
 NextFrameAction.prototype.constructor = NextFrameAction;
 
 NextFrameAction.external = {
@@ -33,4 +33,5 @@ NextFrameAction.prototype.update = function (fsm) {
 	fsm.send(this.transitions.transition);
 };
 
-module.exports = NextFrameAction;
+var exported_NextFrameAction = NextFrameAction;
+export { exported_NextFrameAction as NextFrameAction };

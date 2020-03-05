@@ -1,16 +1,15 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector2 = require('../../../math/Vector2');
-var Easing = require('../../../util/Easing');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector2 as Vector2_Vector2js } from "../../../math/Vector2";
 
-function TweenTextureOffsetAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenTextureOffsetAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
-	this.fromOffset = new Vector2();
-	this.toOffset = new Vector2();
+	this.fromOffset = new Vector2_Vector2js();
+	this.toOffset = new Vector2_Vector2js();
 	this.completed = false;
 }
 
-TweenTextureOffsetAction.prototype = Object.create(Action.prototype);
+TweenTextureOffsetAction.prototype = Object.create(Action_Actionjs.prototype);
 TweenTextureOffsetAction.prototype.constructor = TweenTextureOffsetAction;
 
 TweenTextureOffsetAction.external = {
@@ -106,4 +105,5 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenTextureOffsetAction;
+var exported_TweenTextureOffsetAction = TweenTextureOffsetAction;
+export { exported_TweenTextureOffsetAction as TweenTextureOffsetAction };

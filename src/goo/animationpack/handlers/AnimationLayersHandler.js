@@ -1,23 +1,14 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AnimationLayer = require('../../animationpack/layer/AnimationLayer');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Handler for loading animation layers
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @extends ConfigHandler
- * @private
- */
+import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { AnimationLayer as AnimationLayer_AnimationLayerjs } from "../../animationpack/layer/AnimationLayer";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
+import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
 function AnimationLayersHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
 }
 
-AnimationLayersHandler.prototype = Object.create(ConfigHandler.prototype);
+AnimationLayersHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
 AnimationLayersHandler.prototype.constructor = AnimationLayersHandler;
-ConfigHandler._registerClass('animation', AnimationLayersHandler);
+ConfigHandler_ConfigHandlerjs._registerClass('animation', AnimationLayersHandler);
 
 /**
  * Creates an empty array to store animation layers
@@ -56,16 +47,16 @@ AnimationLayersHandler.prototype._setInitialState = function (layer, stateKey) {
  */
 AnimationLayersHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (object) {
 		if (!object) { return; }
 		var promises = [];
 
 		var i = 0;
-		ObjectUtils.forEach(config.layers, function (layerCfg) {
+		ObjectUtils_ObjectUtilsjs.forEach(config.layers, function (layerCfg) {
 			promises.push(that._parseLayer(layerCfg, object[i++], options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (layers) {
+		return rsvp_rsvpjsjs.all(promises).then(function (layers) {
 			object.length = layers.length;
 			for (var i = 0; i < layers.length; i++) {
 				object[i] = layers[i];
@@ -86,13 +77,13 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	var that = this;
 
 	if (!layer) {
-		layer = new AnimationLayer(layerConfig.name);
+		layer = new AnimationLayer_AnimationLayerjs(layerConfig.name);
 	} else {
 		layer._name = layerConfig.name;
 	}
 
 	layer.id = layerConfig.id;
-	layer._transitions = ObjectUtils.deepClone(layerConfig.transitions);
+	layer._transitions = ObjectUtils_ObjectUtilsjs.deepClone(layerConfig.transitions);
 
 	if (layer._layerBlender) {
 		if (layerConfig.blendWeight !== undefined) {
@@ -104,17 +95,27 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 
 	// Load all the stuff we need
 	var promises = [];
-	ObjectUtils.forEach(layerConfig.states, function (stateCfg) {
+	ObjectUtils_ObjectUtilsjs.forEach(layerConfig.states, function (stateCfg) {
 		promises.push(that.loadObject(stateCfg.stateRef, options).then(function (state) {
 			layer.setState(state.id, state);
 		}));
 	}, null, 'sortValue');
 
 	// Populate layer
-	return RSVP.all(promises).then(function () {
+	return rsvp_rsvpjsjs.all(promises).then(function () {
 		that._setInitialState(layer, layerConfig.initialStateRef);
 		return layer;
 	});
 };
 
-module.exports = AnimationLayersHandler;
+var exported_AnimationLayersHandler = AnimationLayersHandler;
+
+/**
+ * Handler for loading animation layers
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @extends ConfigHandler
+ * @private
+ */
+export { exported_AnimationLayersHandler as AnimationLayersHandler };

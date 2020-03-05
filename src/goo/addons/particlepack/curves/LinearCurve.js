@@ -1,17 +1,8 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
-
-/**
- * @class
- * @constructor
- * @extends Curve
- * @param {object} [options]
- * @param {number} [options.k]
- * @param {number} [options.m]
- */
+import { Curve as Curve_Curvejs } from "../../../addons/particlepack/curves/Curve";
 function LinearCurve(options) {
 	options = options || {};
 
-	Curve.call(this, options);
+	Curve_Curvejs.call(this, options);
 
 	/**
 	 * Slope of the line.
@@ -25,7 +16,7 @@ function LinearCurve(options) {
 	 */
 	this.m = options.m || 0;
 }
-LinearCurve.prototype = Object.create(Curve.prototype);
+LinearCurve.prototype = Object.create(Curve_Curvejs.prototype);
 LinearCurve.prototype.constructor = LinearCurve;
 
 /**
@@ -39,12 +30,12 @@ LinearCurve.prototype.fromStartEnd = function (startValue, endValue) {
 };
 
 LinearCurve.prototype.toGLSL = function (timeVariableName/*, lerpValueVariableName*/) {
-	return '(' + Curve.numberToGLSL(this.k) + '*' + timeVariableName + '+' + Curve.numberToGLSL(this.m) + ')';
+	return '(' + Curve_Curvejs.numberToGLSL(this.k) + '*' + timeVariableName + '+' + Curve_Curvejs.numberToGLSL(this.m) + ')';
 };
 
 LinearCurve.prototype.integralToGLSL = function (timeVariableName/*, lerpValueVariableName*/) {
-	var k = Curve.numberToGLSL(this.k);
-	var m = Curve.numberToGLSL(this.m);
+	var k = Curve_Curvejs.numberToGLSL(this.k);
+	var m = Curve_Curvejs.numberToGLSL(this.m);
 	return '(' + k + '*' + timeVariableName + '*' + timeVariableName + '*0.5+' + m + '*' + timeVariableName + ')';
 };
 
@@ -59,4 +50,14 @@ LinearCurve.prototype.getIntegralValueAt = function (t/*, lerpValue*/) {
 	return 0.5 * k * x * x + m * x;
 };
 
-module.exports = LinearCurve;
+var exported_LinearCurve = LinearCurve;
+
+/**
+ * @class
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {number} [options.k]
+ * @param {number} [options.m]
+ */
+export { exported_LinearCurve as LinearCurve };

@@ -1,21 +1,17 @@
+import fs from "fs";
+import _ from "underscore";
+
+import {
+    PATH_SEPARATOR as utiljs_PATH_SEPARATOR,
+    createIdGenerator as utiljs_createIdGenerator,
+} from "./util";
+
+import { getFiles as trunkjs_getFiles, compileDoc as trunkjs_compileDoc } from "./trunk";
+import { _parse as typeparser__parsejs } from "./type-expressions/type-parser";
+import { _serialize as ternserializer__serializejs } from "./type-expressions/tern-serializer";
+import {     defaultterndefinitionsjs as defaultterndefinitions_defaultterndefinitionsjsjs, } from "./default-tern-definitions";
 // jshint node:true
 'use strict';
-
-/*
- tern definition generator - shared a lot of code with modoc
- will have to refactor the common parts out
- */
-
-var fs = require('fs');
-var _ = require('underscore');
-
-var util = require('./util');
-var trunk = require('./trunk');
-
-var typeParser = require('./type-expressions/type-parser');
-var ternSerializer = require('./type-expressions/tern-serializer');
-
-var defaultTernDefinitions = require('./default-tern-definitions');
 
 
 function processArguments() {
@@ -65,7 +61,7 @@ function compileTypelessFunction(parameters) {
  * @returns {{definitions: *, parameters: *}}
  */
 var compileOptions = (function () {
-	var generateId = util.createIdGenerator('_options_');
+	var generateId = utiljs_createIdGenerator('_options_');
 
 	function insert(node, key, data) {
 		key.split('.').forEach(function (part) {
@@ -267,8 +263,8 @@ function makeConverter(classNames) {
 	var typesRegex = new RegExp(typesRegexStr, 'g');
 
 	return function (closureType) {
-		var parsed = typeParser.parse(closureType);
-		var ternType = ternSerializer.serialize(parsed);
+		var parsed = typeparser__parsejs.parse(closureType);
+		var ternType = ternserializer__serializejs.serialize(parsed);
 
 		// perform the substitutions after the conversion as this inflates the string with `goo.` prefixes
 		// should this prefixing be done on the expression in parsed form instead? why?
@@ -293,8 +289,8 @@ function buildClasses(classes) {
 	var ternDefinitions = {
 		'!name': 'goo',
 		'!define': additionalDefinitions,
-		'Context': defaultTernDefinitions['Context'],
-		'Arguments': defaultTernDefinitions['Arguments']
+		'Context': defaultterndefinitions_defaultterndefinitionsjsjs['Context'],
+		'Arguments': defaultterndefinitions_defaultterndefinitionsjsjs['Arguments']
 	};
 
 	convert = makeConverter(Object.keys(classes));
@@ -307,7 +303,7 @@ function buildClasses(classes) {
 
 	var result = JSON.stringify(ternDefinitions, null, '\t');
 
-	fs.writeFileSync(args.outPath + util.PATH_SEPARATOR + 'tern-defs.json', result);
+	fs.writeFileSync(args.outPath + utiljs_PATH_SEPARATOR + 'tern-defs.json', result);
 }
 
 
@@ -316,9 +312,9 @@ var args = processArguments();
 var IGNORE_FILES = ['goo.js', 'pack.js', 'logicpack', 'soundmanager', '+'];
 
 (function () {
-	var files = trunk.getFiles(args.sourcePath, IGNORE_FILES);
+	var files = trunkjs_getFiles(args.sourcePath, IGNORE_FILES);
 
-	var classes = trunk.compileDoc(files);
+	var classes = trunkjs_compileDoc(files);
 
 	buildClasses(classes);
 

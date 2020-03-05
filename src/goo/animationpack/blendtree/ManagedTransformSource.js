@@ -1,21 +1,14 @@
-var TransformData = require('../../animationpack/clip/TransformData');
-var Vector3 = require('../../math/Vector3');
-var Quaternion = require('../../math/Quaternion');
-var Source = require('../../animationpack/blendtree/Source');
-
-/**
- * This tree source maintains its own source data, which can be modified directly using instance functions. This source is meant to be used for
- *        controlling a particular joint or set of joints programatically.
- * @param {string} [sourceName] Name of source we were initialized from, if given.
- * @extends Source
- */
+import { TransformData as TransformData_TransformDatajs } from "../../animationpack/clip/TransformData";
+import { Vector3 as Vector3_Vector3js } from "../../math/Vector3";
+import { Quaternion as Quaternion_Quaternionjs } from "../../math/Quaternion";
+import { Source as Source_Sourcejs } from "../../animationpack/blendtree/Source";
 function ManagedTransformSource(sourceName) {
-	Source.call(this);
+	Source_Sourcejs.call(this);
 	this._sourceName = sourceName ? sourceName : null;
 	this._data = {};
 }
 
-ManagedTransformSource.prototype = Object.create(Source.prototype);
+ManagedTransformSource.prototype = Object.create(Source_Sourcejs.prototype);
 ManagedTransformSource.prototype.constructor = ManagedTransformSource;
 
 /**
@@ -25,7 +18,7 @@ ManagedTransformSource.prototype.constructor = ManagedTransformSource;
  */
 ManagedTransformSource.prototype.setTranslation = function (channelName, translation) {
 	var channel = this._data[channelName];
-	if (channel instanceof TransformData) {
+	if (channel instanceof TransformData_TransformDatajs) {
 		channel._translation.set(translation);
 	}
 };
@@ -38,8 +31,8 @@ ManagedTransformSource.prototype.setTranslation = function (channelName, transla
  */
 ManagedTransformSource.prototype.getTranslation = function (channelName, store) {
 	var channel = this._data[channelName];
-	if (channel instanceof TransformData) {
-		store = store || new Vector3();
+	if (channel instanceof TransformData_TransformDatajs) {
+		store = store || new Vector3_Vector3js();
 		store.set(channel._translation);
 	}
 	return store;
@@ -52,7 +45,7 @@ ManagedTransformSource.prototype.getTranslation = function (channelName, store) 
  */
 ManagedTransformSource.prototype.setScale = function (channelName, scale) {
 	var channel = this._data[channelName];
-	if (channel instanceof TransformData) {
+	if (channel instanceof TransformData_TransformDatajs) {
 		channel._scale.set(scale);
 	}
 };
@@ -65,8 +58,8 @@ ManagedTransformSource.prototype.setScale = function (channelName, scale) {
  */
 ManagedTransformSource.prototype.getScale = function (channelName, store) {
 	var channel = this._data[channelName];
-	if (channel instanceof TransformData) {
-		store = store || new Vector3();
+	if (channel instanceof TransformData_TransformDatajs) {
+		store = store || new Vector3_Vector3js();
 		store.set(channel._scale);
 	}
 	return store;
@@ -79,7 +72,7 @@ ManagedTransformSource.prototype.getScale = function (channelName, store) {
  */
 ManagedTransformSource.prototype.setRotation = function (channelName, rotation) {
 	var channel = this._data[channelName];
-	if (channel instanceof TransformData) {
+	if (channel instanceof TransformData_TransformDatajs) {
 		channel._rotation.set(rotation);
 	}
 };
@@ -91,8 +84,8 @@ ManagedTransformSource.prototype.setRotation = function (channelName, rotation) 
  */
 ManagedTransformSource.prototype.getRotation = function (channelName, store) {
 	var channel = this._data[channelName];
-	if (channel instanceof TransformData) {
-		store = store || new Quaternion();
+	if (channel instanceof TransformData_TransformDatajs) {
+		store = store || new Quaternion_Quaternionjs();
 		store.set(channel._rotation);
 	}
 	return store;
@@ -155,4 +148,12 @@ ManagedTransformSource.prototype.clone = function () {
 	return new ManagedTransformSource(this._sourceName, clonedData);
 };
 
-module.exports = ManagedTransformSource;
+var exported_ManagedTransformSource = ManagedTransformSource;
+
+/**
+ * This tree source maintains its own source data, which can be modified directly using instance functions. This source is meant to be used for
+ *        controlling a particular joint or set of joints programatically.
+ * @param {string} [sourceName] Name of source we were initialized from, if given.
+ * @extends Source
+ */
+export { exported_ManagedTransformSource as ManagedTransformSource };

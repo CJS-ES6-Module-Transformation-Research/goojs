@@ -1,7 +1,7 @@
-var Disk = require('../../../src/goo/shapes/Disk');
+import { Disk as Disk_Diskjs } from "../../../src/goo/shapes/Disk";
 
 describe('Disk', function () {
-	var a = new Disk(8, 1);
+	var a = new Disk_Diskjs(8, 1);
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(9);

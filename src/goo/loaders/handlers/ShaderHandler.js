@@ -1,24 +1,15 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Material = require('../../renderer/Material');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Handler for loading shaders into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { Material as Material_Materialjs } from "../../renderer/Material";
+import { ShaderBuilder as ShaderBuilder_ShaderBuilderjs } from "../../renderer/shaders/ShaderBuilder";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
+import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
 function ShaderHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
 }
 
-ShaderHandler.prototype = Object.create(ConfigHandler.prototype);
+ShaderHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
 ShaderHandler.prototype.constructor = ShaderHandler;
-ConfigHandler._registerClass('shader', ShaderHandler);
+ConfigHandler_ConfigHandlerjs._registerClass('shader', ShaderHandler);
 
 /**
  * Removes a shader
@@ -44,13 +35,13 @@ ShaderHandler.prototype._remove = function (ref) {
 ShaderHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref);
-		return PromiseUtils.resolve();
+		return PromiseUtils_PromiseUtilsjs.resolve();
 	}
 	if (!config.vshaderRef) {
-		return PromiseUtils.reject('Shader error, missing vertex shader ref');
+		return PromiseUtils_PromiseUtilsjs.reject('Shader error, missing vertex shader ref');
 	}
 	if (!config.fshaderRef) {
-		return PromiseUtils.reject('Shader error, missing fragment shader ref');
+		return PromiseUtils_PromiseUtilsjs.reject('Shader error, missing fragment shader ref');
 	}
 
 	var promises = [
@@ -58,15 +49,15 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 		this.loadObject(config.fshaderRef, options)
 	];
 
-	return RSVP.all(promises).then(function (shaders) {
+	return rsvp_rsvpjsjs.all(promises).then(function (shaders) {
 		var vshader = shaders[0];
 		var fshader = shaders[1];
 
 		if (!vshader) {
-			return PromiseUtils.reject('Vertex shader' + config.vshaderRef + 'in shader' + ref + 'not found');
+			return PromiseUtils_PromiseUtilsjs.reject('Vertex shader' + config.vshaderRef + 'in shader' + ref + 'not found');
 		}
 		if (!fshader) {
-			return PromiseUtils.reject('Fragment shader' + config.fshaderRef + 'in shader' + ref + 'not found');
+			return PromiseUtils_PromiseUtilsjs.reject('Fragment shader' + config.fshaderRef + 'in shader' + ref + 'not found');
 		}
 
 		var shaderDefinition = {
@@ -81,15 +72,15 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 			shaderDefinition.processors = [];
 			for (var i = 0; i < config.processors.length; i++) {
 				var processor = config.processors[i];
-				if (ShaderBuilder[processor]) {
-					shaderDefinition.processors.push(ShaderBuilder[processor].processor);
+				if (ShaderBuilder_ShaderBuilderjs[processor]) {
+					shaderDefinition.processors.push(ShaderBuilder_ShaderBuilderjs[processor].processor);
 				} else {
 					console.error('Unknown processor ' + processor);
 				}
 			}
 		}
 
-		var shader = Material.createShader(shaderDefinition, ref);
+		var shader = Material_Materialjs.createShader(shaderDefinition, ref);
 
 		this._objects.set(ref, shader);
 
@@ -97,4 +88,14 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 	}.bind(this));
 };
 
-module.exports = ShaderHandler;
+var exported_ShaderHandler = ShaderHandler;
+
+/**
+ * Handler for loading shaders into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { exported_ShaderHandler as ShaderHandler };

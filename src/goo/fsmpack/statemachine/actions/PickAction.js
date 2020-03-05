@@ -1,11 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function PickAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function PickAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-PickAction.prototype = Object.create(Action.prototype);
+PickAction.prototype = Object.create(Action_Actionjs.prototype);
 PickAction.prototype.constructor = PickAction;
 
 PickAction.external = {
@@ -77,4 +76,5 @@ PickAction.prototype.exit = function () {
 	SystemBus.removeListener('goo.trigger.touchstart', this.eventListener);
 };
 
-module.exports = PickAction;
+var exported_PickAction = PickAction;
+export { exported_PickAction as PickAction };

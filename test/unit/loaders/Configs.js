@@ -1,9 +1,9 @@
-var EntityConfig = require('./helpers/EntityConfig');
-var AnimationConfig = require('./helpers/AnimationConfig');
-var MaterialConfig = require('./helpers/MaterialConfig');
-var MeshConfig = require('./helpers/MeshConfig');
-var SceneConfig = require('./helpers/SceneConfig');
-var PosteffectsConfig = require('./helpers/PosteffectsConfig');
+import * as EntityConfigjs from "./helpers/EntityConfig";
+import * as AnimationConfigjs from "./helpers/AnimationConfig";
+import * as MaterialConfigjs from "./helpers/MaterialConfig";
+import * as MeshConfigjs from "./helpers/MeshConfig";
+import * as SceneConfigjs from "./helpers/SceneConfig";
+import * as PosteffectsConfigjs from "./helpers/PosteffectsConfig";
 
 var bundle = {};
 var Configs = {
@@ -54,6 +54,8 @@ var Configs = {
 	}
 };
 
+let exported_Configs = Configs;
+
 function attach(attachee, attacher) {
 	for (var key in attacher) {
 		if (attacher[key] instanceof Function) {
@@ -67,14 +69,10 @@ function attach(attachee, attacher) {
 	}
 }
 
-attach(Configs, EntityConfig);
-attach(Configs, AnimationConfig);
-attach(Configs, MaterialConfig);
-attach(Configs, MeshConfig);
-attach(Configs, SceneConfig);
-attach(Configs, PosteffectsConfig);
-// for (var i = 0; i < arguments.length; i++) {
-// 	attach(Configs, arguments[i]);
-// }
-
-module.exports = Configs;
+attach(Configs, EntityConfigjs);
+attach(Configs, AnimationConfigjs);
+attach(Configs, MaterialConfigjs);
+attach(Configs, MeshConfigjs);
+attach(Configs, SceneConfigjs);
+attach(Configs, PosteffectsConfigjs);
+export { exported_Configs as Configs };

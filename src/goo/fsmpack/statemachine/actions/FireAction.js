@@ -1,17 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
-var ParticleLib = require('../../../particles/ParticleLib');
-var ParticleSystemUtils = require('../../../util/ParticleSystemUtils');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Material as Material_Materialjs } from "../../../renderer/Material";
+import { ShaderLib as ShaderLib_ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
+import { ParticleLib as ParticleLib_ParticleLibjs } from "../../../particles/ParticleLib";
+import { ParticleSystemUtils as ParticleSystemUtils_ParticleSystemUtilsjs } from "../../../util/ParticleSystemUtils";
 
-function FireAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function FireAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 	this.fireEntity = null;
 }
 
 FireAction.material = null;
 
-FireAction.prototype = Object.create(Action.prototype);
+FireAction.prototype = Object.create(Action_Actionjs.prototype);
 FireAction.prototype.constructor = FireAction;
 
 FireAction.external = {
@@ -46,8 +46,8 @@ FireAction.prototype.enter = function (fsm) {
 	var gooRunner = entity._world.gooRunner;
 
 	if (!FireAction.material) {
-		FireAction.material = new Material(ShaderLib.particles);
-		var texture = ParticleSystemUtils.createFlareTexture();
+		FireAction.material = new Material_Materialjs(ShaderLib_ShaderLibjs.particles);
+		var texture = ParticleSystemUtils_ParticleSystemUtilsjs.createFlareTexture();
 		texture.generateMipmaps = true;
 		FireAction.material.setTexture('DIFFUSE_MAP', texture);
 		FireAction.material.blendState.blending = 'AdditiveBlending';
@@ -58,9 +58,9 @@ FireAction.prototype.enter = function (fsm) {
 
 	var entityScale = entity.transformComponent.sync().worldTransform.scale;
 	var scale = (entityScale.x + entityScale.y + entityScale.z) / 3;
-	this.fireEntity = ParticleSystemUtils.createParticleSystemEntity(
+	this.fireEntity = ParticleSystemUtils_ParticleSystemUtilsjs.createParticleSystemEntity(
 		gooRunner.world,
-		ParticleLib.getFire({
+		ParticleLib_ParticleLibjs.getFire({
 			scale: scale,
 			startColor: this.startColor,
 			endColor: this.endColor
@@ -83,4 +83,5 @@ FireAction.prototype.cleanup = function (/*fsm*/) {
 	}
 };
 
-module.exports = FireAction;
+var exported_FireAction = FireAction;
+export { exported_FireAction as FireAction };

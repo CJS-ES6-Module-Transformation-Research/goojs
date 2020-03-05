@@ -1,32 +1,26 @@
-var Box = require('../shapes/Box');
-var Sphere = require('../shapes/Sphere');
-var MeshData = require('../renderer/MeshData');
-var Material = require('../renderer/Material');
-var Shader = require('../renderer/Shader');
-var TextureCreator = require('../renderer/TextureCreator');
-var Transform = require('../math/Transform');
-
-/**
- * Skybox
- * @param type
- * @param images
- * @param textureMode
- * @param yRotation
- */
+import { Box as Box_Boxjs } from "../shapes/Box";
+import { Sphere as Sphere_Spherejs } from "../shapes/Sphere";
+import { MeshData as MeshData_MeshDatajs } from "../renderer/MeshData";
+import { Material as Material_Materialjs } from "../renderer/Material";
+import { Shader as Shader_Shaderjs } from "../renderer/Shader";
+import { TextureCreator as TextureCreator_TextureCreatorjs } from "../renderer/TextureCreator";
+import { Transform as Transform_Transformjs } from "../math/Transform";
+var Skybox_BOX;
+var Skybox_SPHERE;
 function Skybox(type, images, textureMode, yRotation) {
 	var promise;
 	if (type === Skybox.SPHERE) {
-		this.meshData = new Sphere(16, 32, 1, textureMode || Sphere.TextureModes.Projected);
+		this.meshData = new Sphere_Spherejs(16, 32, 1, textureMode || Sphere_Spherejs.TextureModes.Projected);
 		if (images instanceof Array) {
 			images = images[0];
 		}
 		if (images) {
-			promise = new TextureCreator().loadTexture2D(images);
+			promise = new TextureCreator_TextureCreatorjs().loadTexture2D(images);
 		}
 	} else if (type === Skybox.BOX) {
-		this.meshData = new Box(1, 1, 1);
+		this.meshData = new Box_Boxjs(1, 1, 1);
 		if (images.length) {
-			promise = new TextureCreator().loadTextureCube(images, {
+			promise = new TextureCreator_TextureCreatorjs().loadTextureCube(images, {
 				flipY: false,
 				wrapS: 'EdgeClamp',
 				wrapT: 'EdgeClamp'
@@ -36,19 +30,19 @@ function Skybox(type, images, textureMode, yRotation) {
 		throw new Error('Unknown geometry type');
 	}
 
-	var material = new Material(shaders[type], 'Skybox material');
+	var material = new Material_Materialjs(shaders[type], 'Skybox material');
 	material.cullState.cullFace = 'Front';
 	material.depthState.enabled = false;
 	material.renderQueue = 1;
 	if (promise) {
 		promise.then(function (texture) {
-			material.setTexture(Shader.DIFFUSE_MAP, texture);
+			material.setTexture(Shader_Shaderjs.DIFFUSE_MAP, texture);
 		});
 	}
 
 	this.materials = [material];
 
-	this.transform = new Transform();
+	this.transform = new Transform_Transformjs();
 	var xAngle = (type === Skybox.SPHERE) ? Math.PI / 2 : 0;
 	this.transform.rotation.fromAngles(xAngle, yRotation, 0);
 	this.transform.update();
@@ -56,20 +50,20 @@ function Skybox(type, images, textureMode, yRotation) {
 	this.active = true;
 }
 
-Skybox.SPHERE = 'sphere';
-Skybox.BOX = 'box';
+Skybox_SPHERE = "sphere";;
+Skybox_BOX = "box";;
 
 var shaders = {};
 shaders.box = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: MeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		normalMatrix: Shader.NORMAL_MATRIX,
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		near: Shader.NEAR_PLANE,
-		diffuseMap: Shader.DIFFUSE_MAP
+		normalMatrix: Shader_Shaderjs.NORMAL_MATRIX,
+		viewMatrix: Shader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: Shader_Shaderjs.PROJECTION_MATRIX,
+		near: Shader_Shaderjs.NEAR_PLANE,
+		diffuseMap: Shader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -101,15 +95,15 @@ shaders.box = {
 };
 shaders.sphere = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: MeshData_MeshDatajs.POSITION,
+		vertexUV0: MeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		normalMatrix: Shader.NORMAL_MATRIX,
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		near: Shader.NEAR_PLANE,
-		diffuseMap: Shader.DIFFUSE_MAP
+		normalMatrix: Shader_Shaderjs.NORMAL_MATRIX,
+		viewMatrix: Shader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: Shader_Shaderjs.PROJECTION_MATRIX,
+		near: Shader_Shaderjs.NEAR_PLANE,
+		diffuseMap: Shader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -145,4 +139,13 @@ shaders.sphere = {
 	].join('\n')
 };
 
-module.exports = Skybox;
+var exported_Skybox = Skybox;
+
+/**
+ * Skybox
+ * @param type
+ * @param images
+ * @param textureMode
+ * @param yRotation
+ */
+export { exported_Skybox as Skybox };

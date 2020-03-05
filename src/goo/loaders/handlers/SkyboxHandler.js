@@ -1,48 +1,47 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var EnvironmentHandler = require('../../loaders/handlers/EnvironmentHandler');
-var Texture = require('../../renderer/Texture');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var Skybox = require('../../util/Skybox');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var SystemBus = require('../../entities/SystemBus');
+import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { EnvironmentHandler as EnvironmentHandler_EnvironmentHandlerjs } from "../../loaders/handlers/EnvironmentHandler";
+import { Texture as Texture_Texturejs } from "../../renderer/Texture";
+import { ShaderBuilder as ShaderBuilder_ShaderBuilderjs } from "../../renderer/shaders/ShaderBuilder";
+import { Skybox as Skybox_Skyboxjs } from "../../util/Skybox";
+import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
+import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
 
 function SkyboxHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
 
 	this._activeSkyboxRef = null;
 
 	// Skybox entity
-	var skybox = new Skybox('box', [], null, 0);
+	var skybox = new Skybox_Skyboxjs('box', [], null, 0);
 	this._skybox = this.world.createEntity(skybox.meshData, skybox.materials[0], skybox.transform);
 	this._skybox.transformComponent.sync();
 	this._skybox.isSkybox = true;
 	this._skybox.name = 'Skybox_box';
 
 	// Skybox texture
-	this._skyboxTexture = new Texture(null, { flipY: false });
+	this._skyboxTexture = new Texture_Texturejs(null, { flipY: false });
 	this._skyboxTexture.variant = 'CUBE';
 	this._skyboxTexture.wrapS = 'EdgeClamp';
 	this._skyboxTexture.wrapT = 'EdgeClamp';
 	this._skybox.meshRendererComponent.materials[0].setTexture('DIFFUSE_MAP', this._skyboxTexture);
 
 	// Skysphere entity
-	var skysphere = new Skybox('sphere', [], null, 0);
+	var skysphere = new Skybox_Skyboxjs('sphere', [], null, 0);
 	this._skysphere = this.world.createEntity(skysphere.meshData, skysphere.materials[0], skysphere.transform);
 	this._skysphere.transformComponent.sync();
 	this._skysphere.isSkybox = true;
 	this._skysphere.name = 'Skybox_sphere';
 
 	// Skysphere texture
-	this._skysphereTexture = new Texture(null, { flipY: false, wrapS: 'EdgeClamp', wrapT: 'EdgeClamp' });
+	this._skysphereTexture = new Texture_Texturejs(null, { flipY: false, wrapS: 'EdgeClamp', wrapT: 'EdgeClamp' });
 	this._skysphere.meshRendererComponent.materials[0].setTexture('DIFFUSE_MAP', this._skysphereTexture);
 
 	this._activeSkyshape = null;
 }
 
-SkyboxHandler.prototype = Object.create(ConfigHandler.prototype);
+SkyboxHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
 SkyboxHandler.prototype.constructor = SkyboxHandler;
-ConfigHandler._registerClass('skybox', SkyboxHandler);
+ConfigHandler_ConfigHandlerjs._registerClass('skybox', SkyboxHandler);
 
 SkyboxHandler.prototype._remove = function (ref) {
 	this._objects.delete(ref);
@@ -55,8 +54,8 @@ SkyboxHandler.prototype._remove = function (ref) {
 		this._hide(this._skysphere);
 		this._skyboxTexture.setImage(null);
 		this._activeSkyshape = null;
-		ShaderBuilder.SKYBOX = null;
-		ShaderBuilder.SKYSPHERE = null;
+		ShaderBuilder_ShaderBuilderjs.SKYBOX = null;
+		ShaderBuilder_ShaderBuilderjs.SKYSPHERE = null;
 		this._activeSkyboxRef = null;
 	}
 };
@@ -70,9 +69,9 @@ SkyboxHandler.prototype._create = function () {
 
 SkyboxHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (skybox) {
+	return ConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (skybox) {
 		if (!skybox) {
-			return PromiseUtils.resolve([]);
+			return PromiseUtils_PromiseUtilsjs.resolve([]);
 		}
 
 		var promises = [];
@@ -83,7 +82,7 @@ SkyboxHandler.prototype._update = function (ref, config, options) {
 			promises.push(that._updateSphere(ref, config.sphere, options, skybox));
 		}
 
-		return RSVP.all(promises).then(function (skyboxes) {
+		return rsvp_rsvpjsjs.all(promises).then(function (skyboxes) {
 			if (config.box || config.sphere) {
 				that._activeSkyboxRef = ref;
 			}
@@ -112,7 +111,7 @@ SkyboxHandler.prototype._updateSphere = function (ref, config, options, skybox) 
 				return that._skysphere;
 			}
 
-			if (ref === EnvironmentHandler.currentSkyboxRef && config.enabled) {
+			if (ref === EnvironmentHandler_EnvironmentHandlerjs.currentSkyboxRef && config.enabled) {
 				var skyTex = that._skysphereTexture;
 				skybox.textures = [texture];
 				skyTex.setImage(texture.image);
@@ -127,7 +126,7 @@ SkyboxHandler.prototype._updateSphere = function (ref, config, options, skybox) 
 		that._skysphereTexture.setImage(null);
 		that._hide(that._skysphere);
 	}
-	return PromiseUtils.resolve(that._skysphere);
+	return PromiseUtils_PromiseUtilsjs.resolve(that._skysphere);
 };
 
 var sides = ['rightRef', 'leftRef', 'topRef', 'bottomRef', 'frontRef', 'backRef'];
@@ -151,11 +150,11 @@ SkyboxHandler.prototype._updateBox = function (ref, config, options, skybox) {
 	var that = this;
 
 	var promises = sides.map(function (side) {
-		return config[side] ? that._load(config[side], options) : PromiseUtils.resolve();
+		return config[side] ? that._load(config[side], options) : PromiseUtils_PromiseUtilsjs.resolve();
 	});
 
 	// Load all textures
-	return RSVP.all(promises).then(function (textures) {
+	return rsvp_rsvpjsjs.all(promises).then(function (textures) {
 		// Check if skybox is the same
 		if (isEqual(textures, skybox.textures) && that._activeSkyshape === that._skybox) {
 			return that._skybox;
@@ -180,7 +179,7 @@ SkyboxHandler.prototype._updateBox = function (ref, config, options, skybox) {
 			}
 		}
 
-		if (ref === EnvironmentHandler.currentSkyboxRef && config.enabled) {
+		if (ref === EnvironmentHandler_EnvironmentHandlerjs.currentSkyboxRef && config.enabled) {
 			skybox.textures = textures;
 			var skyTex = that._skyboxTexture;
 			skyTex.setImage(images);
@@ -202,9 +201,9 @@ SkyboxHandler.prototype._hide = function (skyshape) {
 	var renderSystem = this.world.getSystem('RenderSystem');
 	renderSystem.removed(skyshape);
 	if (skyshape === this._skybox) {
-		ShaderBuilder.SKYBOX = null;
+		ShaderBuilder_ShaderBuilderjs.SKYBOX = null;
 	} else if (skyshape === this._skysphere) {
-		ShaderBuilder.SKYSPHERE = null;
+		ShaderBuilder_ShaderBuilderjs.SKYSPHERE = null;
 	}
 };
 
@@ -215,8 +214,9 @@ SkyboxHandler.prototype._show = function (skyshape) {
 	}
 	renderSystem.added(skyshape);
 	this._activeSkyshape = skyshape;
-	ShaderBuilder.SKYBOX = skyshape === this._skybox ? this._skyboxTexture : null;
-	ShaderBuilder.SKYSPHERE = skyshape === this._skysphere ? this._skysphereTexture : null;
+	ShaderBuilder_ShaderBuilderjs.SKYBOX = skyshape === this._skybox ? this._skyboxTexture : null;
+	ShaderBuilder_ShaderBuilderjs.SKYSPHERE = skyshape === this._skysphere ? this._skysphereTexture : null;
 };
 
-module.exports = SkyboxHandler;
+var exported_SkyboxHandler = SkyboxHandler;
+export { exported_SkyboxHandler as SkyboxHandler };

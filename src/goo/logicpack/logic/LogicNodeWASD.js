@@ -1,15 +1,14 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node handling WASD input.
- * @private
- */
+import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+var LogicNodeWASD_upKeys;
+var LogicNodeWASD_downKeys;
+var LogicNodeWASD_editorName;
+var LogicNodeWASD_logicInterface;
 function LogicNodeWASD() {
-	LogicNode.call(this);
-	this.logicInterface = LogicNodeWASD.logicInterface;
+	LogicNode_LogicNodejs.call(this);
+	LogicNodeWASD_logicInterface = LogicNodeWASD_logicInterface;;
 	this.type = 'LogicNodeWASD';
 
 	var preventRepeat = {};
@@ -18,10 +17,10 @@ function LogicNodeWASD() {
 		if (preventRepeat[character]) {
 			return;
 		}
-		var keyEvent = LogicNodeWASD.downKeys[character];
+		var keyEvent = LogicNodeWASD_downKeys[character];
 		if (keyEvent) {
 			preventRepeat[character] = true;
-			LogicLayer.fireEvent(this.logicInstance, keyEvent);
+			LogicLayer_LogicLayerjs.fireEvent(this.logicInstance, keyEvent);
 		}
 	}.bind(this);
 	this.eventListenerUp = function (event) {
@@ -29,15 +28,15 @@ function LogicNodeWASD() {
 		if (preventRepeat[character]) {
 			preventRepeat[character] = false;
 		}
-		var keyEvent = LogicNodeWASD.upKeys[character];
+		var keyEvent = LogicNodeWASD_upKeys[character];
 		if (keyEvent) {
-			LogicLayer.fireEvent(this.logicInstance, keyEvent);
+			LogicLayer_LogicLayerjs.fireEvent(this.logicInstance, keyEvent);
 		}
 	}.bind(this);
 }
 
-LogicNodeWASD.prototype = Object.create(LogicNode.prototype);
-LogicNodeWASD.editorName = 'WASD';
+LogicNodeWASD.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeWASD_editorName = "WASD";;
 
 LogicNodeWASD.prototype.onSystemStarted = function () {
 	document.addEventListener('keydown', this.eventListenerDown);
@@ -49,20 +48,26 @@ LogicNodeWASD.prototype.onSystemStopped = function () {
 	document.removeEventListener('keyup', this.eventListenerUp);
 };
 
-LogicNodeWASD.logicInterface = new LogicInterface();
-LogicNodeWASD.downKeys = {
-	'w': LogicNodeWASD.logicInterface.addOutputEvent('W-down'),
-	'a': LogicNodeWASD.logicInterface.addOutputEvent('A-down'),
-	's': LogicNodeWASD.logicInterface.addOutputEvent('S-down'),
-	'd': LogicNodeWASD.logicInterface.addOutputEvent('D-down')
-};
-LogicNodeWASD.upKeys = {
-	'w': LogicNodeWASD.logicInterface.addOutputEvent('W-up'),
-	'a': LogicNodeWASD.logicInterface.addOutputEvent('A-up'),
-	's': LogicNodeWASD.logicInterface.addOutputEvent('S-up'),
-	'd': LogicNodeWASD.logicInterface.addOutputEvent('D-up')
-};
+LogicNodeWASD_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeWASD_downKeys = {
+    "w": LogicNodeWASD_logicInterface.addOutputEvent("W-down"),
+    "a": LogicNodeWASD_logicInterface.addOutputEvent("A-down"),
+    "s": LogicNodeWASD_logicInterface.addOutputEvent("S-down"),
+    "d": LogicNodeWASD_logicInterface.addOutputEvent("D-down")
+};;
+LogicNodeWASD_upKeys = {
+    "w": LogicNodeWASD_logicInterface.addOutputEvent("W-up"),
+    "a": LogicNodeWASD_logicInterface.addOutputEvent("A-up"),
+    "s": LogicNodeWASD_logicInterface.addOutputEvent("S-up"),
+    "d": LogicNodeWASD_logicInterface.addOutputEvent("D-up")
+};;
 
-LogicNodes.registerType('LogicNodeWASD', LogicNodeWASD);
+LogicNodes_LogicNodesjs.registerType('LogicNodeWASD', LogicNodeWASD);
 
-module.exports = LogicNodeWASD;
+var exported_LogicNodeWASD = LogicNodeWASD;
+
+/**
+ * Logic node handling WASD input.
+ * @private
+ */
+export { exported_LogicNodeWASD as LogicNodeWASD };

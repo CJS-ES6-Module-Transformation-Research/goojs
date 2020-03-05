@@ -1,17 +1,9 @@
-var Vector3 = require('../../math/Vector3');
-var MathUtils = require('../../math/MathUtils');
-var BoundingVolume = require('../../renderer/bounds/BoundingVolume');
-var MeshData = require('../../renderer/MeshData');
-
-/**
- * <code>BoundingSphere</code> defines a sphere that defines a container for a group of vertices of a particular piece of geometry. This
- *        sphere defines a radius and a center. <br>
- *        <br>
- *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
- *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
- */
+import { Vector3 as Vector3_Vector3js } from "../../math/Vector3";
+import { MathUtils as MathUtils_MathUtilsjs } from "../../math/MathUtils";
+import { BoundingVolume as BoundingVolume_BoundingVolumejs } from "../../renderer/bounds/BoundingVolume";
+import { MeshData as MeshData_MeshDatajs } from "../../renderer/MeshData";
 function BoundingSphere(center, radius) {
-	BoundingVolume.call(this, center);
+	BoundingVolume_BoundingVolumejs.call(this, center);
 	this.radius = radius !== undefined ? radius : 1;
 
 	// @ifdef DEBUG
@@ -19,14 +11,14 @@ function BoundingSphere(center, radius) {
 	// @endif
 }
 
-var tmpVec = new Vector3();
+var tmpVec = new Vector3_Vector3js();
 
-BoundingSphere.prototype = Object.create(BoundingVolume.prototype);
+BoundingSphere.prototype = Object.create(BoundingVolume_BoundingVolumejs.prototype);
 BoundingSphere.prototype.constructor = BoundingSphere;
 
 BoundingSphere.prototype.reset = function () {
 	this.radius = 1;
-	BoundingVolume.prototype.reset.call(this);
+	BoundingVolume_BoundingVolumejs.prototype.reset.call(this);
 };
 
 BoundingSphere.prototype.computeFromPoints = function (verts) {
@@ -68,7 +60,7 @@ BoundingSphere.prototype.computeFromPoints = function (verts) {
 };
 
 (function () {
-	var relativePoint = new Vector3();
+	var relativePoint = new Vector3_Vector3js();
 
 	/**
 	 * Method to test whether a point is inside the bounding box or not
@@ -87,13 +79,13 @@ BoundingSphere.prototype.computeFromPrimitives = function (data, section, indice
 
 	var vertList = [];
 	var store = [];
-	var vertsPerPrimitive = MeshData.getVertexCount(data.indexModes[section]);
+	var vertsPerPrimitive = MeshData_MeshDatajs.getVertexCount(data.indexModes[section]);
 
 	var count = 0;
 	for (var i = start; i < end; i++) {
 		store = data.getPrimitiveVertices(indices[i], section, store);
 		for (var j = 0; j < vertsPerPrimitive; j++) {
-			vertList[count++] = new Vector3().set(store[j]);
+			vertList[count++] = new Vector3_Vector3js().set(store[j]);
 		}
 	}
 
@@ -141,11 +133,11 @@ BoundingSphere.prototype.whichSide = function (plane) {
 	var distance = planeData.x * pointData.x + planeData.y * pointData.y + planeData.z * pointData.z - plane.constant;
 
 	if (distance < -this.radius) {
-		return BoundingVolume.Inside;
+		return BoundingVolume_BoundingVolumejs.Inside;
 	} else if (distance > this.radius) {
-		return BoundingVolume.Outside;
+		return BoundingVolume_BoundingVolumejs.Outside;
 	} else {
-		return BoundingVolume.Intersects;
+		return BoundingVolume_BoundingVolumejs.Intersects;
 	}
 };
 
@@ -232,7 +224,7 @@ BoundingSphere.prototype.intersectsRay = function (ray) {
 };
 
 BoundingSphere.prototype.intersectsRayWhere = function (ray) {
-	var diff = new Vector3().copy(ray.origin).sub(this.center);
+	var diff = new Vector3_Vector3js().copy(ray.origin).sub(this.center);
 	var a = diff.dot(diff) - this.radius * this.radius;
 	var a1, discr, root;
 	if (a <= 0.0) {
@@ -241,7 +233,7 @@ BoundingSphere.prototype.intersectsRayWhere = function (ray) {
 		discr = a1 * a1 - a;
 		root = Math.sqrt(discr);
 		var distances = [root - a1];
-		var points = [new Vector3().copy(ray.direction).scale(distances[0]).add(ray.origin)];
+		var points = [new Vector3_Vector3js().copy(ray.direction).scale(distances[0]).add(ray.origin)];
 		return {
 			distances: distances,
 			points: points
@@ -260,8 +252,8 @@ BoundingSphere.prototype.intersectsRayWhere = function (ray) {
 	} else if (discr >= 0.00001) {
 		root = Math.sqrt(discr);
 		var distances = [-a1 - root, -a1 + root];
-		var points = [new Vector3().copy(ray.direction).scale(distances[0]).add(ray.origin),
-			new Vector3().copy(ray.direction).scale(distances[1]).add(ray.origin)];
+		var points = [new Vector3_Vector3js().copy(ray.direction).scale(distances[0]).add(ray.origin),
+			new Vector3_Vector3js().copy(ray.direction).scale(distances[1]).add(ray.origin)];
 		return {
 			distances: distances,
 			points: points
@@ -269,7 +261,7 @@ BoundingSphere.prototype.intersectsRayWhere = function (ray) {
 	}
 
 	var distances = [-a1];
-	var points = [new Vector3().copy(ray.direction).scale(distances[0]).add(ray.origin)];
+	var points = [new Vector3_Vector3js().copy(ray.direction).scale(distances[0]).add(ray.origin)];
 	return {
 		distances: distances,
 		points: points
@@ -318,7 +310,7 @@ BoundingSphere.prototype.mergeSphere = function (center, radius, store) {
 	var rCenter = store.center;
 
 	// if our centers are at least a tiny amount apart from each other...
-	if (length > MathUtils.EPSILON) {
+	if (length > MathUtils_MathUtilsjs.EPSILON) {
 		// place us between the two centers, weighted by radii
 		var coeff = (length + radiusDiff) / (2.0 * length);
 		rCenter.add(diff.scale(coeff));
@@ -336,7 +328,7 @@ BoundingSphere.prototype.mergeSphere = function (center, radius, store) {
  * @returns {BoundingSphere} Returns self to allow chaining
  */
 BoundingSphere.prototype.copy = function (source) {
-	BoundingVolume.prototype.copy.call(this, source);
+	BoundingVolume_BoundingVolumejs.prototype.copy.call(this, source);
 	this.radius = source.radius;
 	return this;
 };
@@ -361,4 +353,13 @@ BoundingSphere.prototype.clone = function () {
 	return new BoundingSphere(this.center, this.radius);
 };
 
-module.exports = BoundingSphere;
+var exported_BoundingSphere = BoundingSphere;
+
+/**
+ * <code>BoundingSphere</code> defines a sphere that defines a container for a group of vertices of a particular piece of geometry. This
+ *        sphere defines a radius and a center. <br>
+ *        <br>
+ *        A typical usage is to allow the class define the center and radius by calling either <code>containAABB</code> or
+ *        <code>averagePoints</code>. A call to <code>computeFramePoint</code> in turn calls <code>containAABB</code>.
+ */
+export { exported_BoundingSphere as BoundingSphere };

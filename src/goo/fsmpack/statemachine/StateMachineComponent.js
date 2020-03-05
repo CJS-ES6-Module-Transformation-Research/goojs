@@ -1,13 +1,10 @@
-var Component = require('../../entities/components/Component');
-var ArrayUtils = require('../../util/ArrayUtils');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * StateMachineComponent
- * @private
- */
+import { Component as Component_Componentjs } from "../../entities/components/Component";
+import { ArrayUtils as ArrayUtils_ArrayUtilsjs } from "../../util/ArrayUtils";
+var StateMachineComponent_applyOnVariable;
+var StateMachineComponent_getVariable;
+var StateMachineComponent_vars;
 function StateMachineComponent() {
-	Component.apply(this, arguments);
+	Component_Componentjs.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -22,31 +19,31 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component.prototype);
+StateMachineComponent.prototype = Object.create(Component_Componentjs.prototype);
 
-StateMachineComponent.vars = {};
+StateMachineComponent_vars = {};;
 
-StateMachineComponent.getVariable = function (name) {
-	return StateMachineComponent.vars[name];
-};
+StateMachineComponent_getVariable = function(name) {
+    return StateMachineComponent_vars[name];
+};;
 
 StateMachineComponent.prototype.getVariable = function (name) {
 	if (this.vars[name] !== undefined) {
 		return this.vars[name];
 	} else {
-		return StateMachineComponent.getVariable(name);
+		return StateMachineComponent_getVariable(name);
 	}
 };
 
-StateMachineComponent.applyOnVariable = function (name, fun) {
-	StateMachineComponent.vars[name] = fun(StateMachineComponent.vars[name]);
-};
+StateMachineComponent_applyOnVariable = function(name, fun) {
+    StateMachineComponent_vars[name] = fun(StateMachineComponent_vars[name]);
+};;
 
 StateMachineComponent.prototype.applyOnVariable = function (name, fun) {
 	if (this.vars[name] !== undefined) {
 		this.vars[name] = fun(this.vars[name]);
 	} else {
-		StateMachineComponent.applyOnVariable(name, fun);
+		StateMachineComponent_applyOnVariable(name, fun);
 	}
 };
 
@@ -58,11 +55,11 @@ StateMachineComponent.prototype.removeVariable = function (name) {
 	delete this.vars[name];
 };
 
-StateMachineComponent.applyOnVariable = function (name, fun) {
+StateMachineComponent_applyOnVariable = function (name, fun) {
 	if (this.vars[name]) {
 		this.vars[name] = fun(this.vars[name]);
-	} else if (StateMachineComponent.vars[name]) {
-		StateMachineComponent.applyOnVariable(name, fun);
+	} else if (StateMachineComponent_vars[name]) {
+		StateMachineComponent_applyOnVariable(name, fun);
 	}
 };
 
@@ -75,7 +72,7 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);
+	ArrayUtils_ArrayUtilsjs.remove(this._machines, machine);
 	delete this._machinesById[machine.id];
 };
 
@@ -160,4 +157,10 @@ StateMachineComponent.prototype.play = function () {
 	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
 
-module.exports = StateMachineComponent;
+var exported_StateMachineComponent = StateMachineComponent;
+
+/**
+ * StateMachineComponent
+ * @private
+ */
+export { exported_StateMachineComponent as StateMachineComponent };

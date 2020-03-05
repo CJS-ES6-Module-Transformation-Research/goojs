@@ -1,21 +1,21 @@
-var Matrix3 = require('../../../src/goo/math/Matrix3');
-var Vector3 = require('../../../src/goo/math/Vector3');
-var Matrix4 = require('../../../src/goo/math/Matrix4');
-var CustomMatchers = require('../../../test/unit/CustomMatchers');
+import { Matrix3 as Matrix3_Matrix3js } from "../../../src/goo/math/Matrix3";
+import { Vector3 as Vector3_Vector3js } from "../../../src/goo/math/Vector3";
+import { Matrix4 as Matrix4_Matrix4js } from "../../../src/goo/math/Matrix4";
+import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../test/unit/CustomMatchers";
 
 describe('Vector3', function () {
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers);
+		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
 	});
 
 	describe('constructor', function () {
 		it('creates a zero vector when given no parameters', function () {
-			expect(new Vector3()).toBeCloseToVector(Vector3.ZERO);
+			expect(new Vector3_Vector3js()).toBeCloseToVector(Vector3_Vector3js.ZERO);
 		});
 
 		it('creates a vector when given 3 parameters', function () {
-			var vector = new Vector3(11, 22, 33);
-			var expected = new Vector3();
+			var vector = new Vector3_Vector3js(11, 22, 33);
+			var expected = new Vector3_Vector3js();
 
 			expected.x = 11;
 			expected.y = 22;
@@ -25,16 +25,16 @@ describe('Vector3', function () {
 		});
 
 		it('creates a vector when given an array', function () {
-			var vector = new Vector3([1, 2, 3]);
-			var expected = new Vector3(1, 2, 3);
+			var vector = new Vector3_Vector3js([1, 2, 3]);
+			var expected = new Vector3_Vector3js(1, 2, 3);
 
 			expect(vector).toBeCloseToVector(expected);
 		});
 
 		it('creates a vector when given a vector', function () {
-			var original = new Vector3(1, 2, 3);
-			var vector = new Vector3(original);
-			var expected = new Vector3(1, 2, 3);
+			var original = new Vector3_Vector3js(1, 2, 3);
+			var vector = new Vector3_Vector3js(original);
+			var expected = new Vector3_Vector3js(1, 2, 3);
 
 			expect(vector).toBeCloseToVector(expected);
 		});
@@ -42,7 +42,7 @@ describe('Vector3', function () {
 
 	describe('indices', function () {
 		it('can be accessed through indices (debug only)', function () {
-			var a = new Vector3(11, 22, 33);
+			var a = new Vector3_Vector3js(11, 22, 33);
 
 			expect(function () { a[0]; })
 				.toThrow(new Error('Vector component access through indices is not supported anymore'));
@@ -53,7 +53,7 @@ describe('Vector3', function () {
 		});
 
 		it('can be modified through indices (debug only)', function () {
-			var a = new Vector3();
+			var a = new Vector3_Vector3js();
 
 			expect(function () { a[0] = 11; })
 				.toThrow(new Error('Vector component access through indices is not supported anymore'));
@@ -66,7 +66,7 @@ describe('Vector3', function () {
 
 	describe('aliases', function () {
 		it('can be accessed through aliases', function () {
-			var vector = new Vector3(11, 22, 33);
+			var vector = new Vector3_Vector3js(11, 22, 33);
 
 			expect(vector.x).toBeCloseTo(11);
 			expect(vector.y).toBeCloseTo(22);
@@ -82,124 +82,124 @@ describe('Vector3', function () {
 		});
 
 		it('can be modified through aliases', function () {
-			var vector = new Vector3();
+			var vector = new Vector3_Vector3js();
 
 			vector.x = 11;
 			vector.y = 22;
 			vector.z = 33;
 
-			expect(vector).toBeCloseToVector(new Vector3(11, 22, 33));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11, 22, 33));
 
 			vector.u = 22;
 			vector.v = 33;
 			vector.w = 44;
 
-			expect(vector).toBeCloseToVector(new Vector3(22, 33, 44));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(22, 33, 44));
 
 			vector.r = 33;
 			vector.g = 44;
 			vector.b = 55;
 
-			expect(vector).toBeCloseToVector(new Vector3(33, 44, 55));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(33, 44, 55));
 		});
 	});
 
 	describe('set', function () {
 		it('can set a vector', function () {
-			var vector = new Vector3(11, 22, 33);
-			vector.set(new Vector3(55, 66, 77));
-			expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+			var vector = new Vector3_Vector3js(11, 22, 33);
+			vector.set(new Vector3_Vector3js(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 		});
 	});
 
 	describe('setDirect', function () {
 		it('can set a vector', function () {
-			var vector = new Vector3(11, 22, 33);
+			var vector = new Vector3_Vector3js(11, 22, 33);
 			vector.setDirect(55, 66, 77);
-			expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 		});
 	});
 
 	describe('setArray', function () {
 		it('can set a vector', function () {
-			var vector = new Vector3(11, 22, 33);
+			var vector = new Vector3_Vector3js(11, 22, 33);
 			vector.setArray([55, 66, 77]);
-			expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 		});
 	});
 
 	describe('add', function () {
 		it('can add to a vector', function () {
-			var vector = new Vector3(11, 22, 33);
-			vector.add(new Vector3(55, 66, 77));
-			expect(vector).toBeCloseToVector(new Vector3(11 + 55, 22 + 66, 33 + 77));
+			var vector = new Vector3_Vector3js(11, 22, 33);
+			vector.add(new Vector3_Vector3js(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 + 55, 22 + 66, 33 + 77));
 		});
 	});
 
 	describe('addDirect', function () {
 		it('can add to a vector', function () {
-			var vector = new Vector3(11, 22, 33);
+			var vector = new Vector3_Vector3js(11, 22, 33);
 			vector.addDirect(55, 66, 77);
-			expect(vector).toBeCloseToVector(new Vector3(11 + 55, 22 + 66, 33 + 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 + 55, 22 + 66, 33 + 77));
 		});
 	});
 
 
 	describe('sub', function () {
 		it('can subtract from a vector', function () {
-			var vector = new Vector3(11, 22, 33);
-			vector.sub(new Vector3(55, 66, 77));
-			expect(vector).toBeCloseToVector(new Vector3(11 - 55, 22 - 66, 33 - 77));
+			var vector = new Vector3_Vector3js(11, 22, 33);
+			vector.sub(new Vector3_Vector3js(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 - 55, 22 - 66, 33 - 77));
 		});
 	});
 
 	describe('subDirect', function () {
 		it('can subtract from a vector', function () {
-			var vector = new Vector3(11, 22, 33);
+			var vector = new Vector3_Vector3js(11, 22, 33);
 			vector.subDirect(55, 66, 77);
-			expect(vector).toBeCloseToVector(new Vector3(11 - 55, 22 - 66, 33 - 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 - 55, 22 - 66, 33 - 77));
 		});
 	});
 
 
 	describe('negate', function () {
 		it('negates a vector', function () {
-			var vector = new Vector3(123, 345, -567);
+			var vector = new Vector3_Vector3js(123, 345, -567);
 			vector.negate();
-			expect(vector).toBeCloseToVector(new Vector3(-123, -345, 567));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(-123, -345, 567));
 		});
 	});
 
 
 	describe('mul', function () {
 		it('can multiply with a vector', function () {
-			var vector = new Vector3(11, 22, 33);
-			vector.mul(new Vector3(55, 66, 77));
-			expect(vector).toBeCloseToVector(new Vector3(11 * 55, 22 * 66, 33 * 77));
+			var vector = new Vector3_Vector3js(11, 22, 33);
+			vector.mul(new Vector3_Vector3js(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 * 55, 22 * 66, 33 * 77));
 		});
 	});
 
 	describe('mulDirect', function () {
 		it('can multiply with 3 numbers', function () {
-			var vector = new Vector3(11, 22, 33);
+			var vector = new Vector3_Vector3js(11, 22, 33);
 			vector.mulDirect(55, 66, 77);
-			expect(vector).toBeCloseToVector(new Vector3(11 * 55, 22 * 66, 33 * 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 * 55, 22 * 66, 33 * 77));
 		});
 	});
 
 
 	describe('scale', function () {
 		it('scales a vector', function () {
-			var vector = new Vector3(1, 2, 3);
+			var vector = new Vector3_Vector3js(1, 2, 3);
 			vector.scale(123);
-			expect(vector).toBeCloseToVector(new Vector3(1 * 123, 2 * 123, 3 * 123));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(1 * 123, 2 * 123, 3 * 123));
 		});
 	});
 
 	describe('dot', function () {
 		it('can calculate dot products', function () {
-			var a = new Vector3(1, 2, 0);
-			var b = new Vector3(1, 2, 0);
+			var a = new Vector3_Vector3js(1, 2, 0);
+			var b = new Vector3_Vector3js(1, 2, 0);
 
 			expect(a.dot(b)).toEqual(5);
 		});
@@ -207,28 +207,28 @@ describe('Vector3', function () {
 
 	describe('cross', function () {
 		it('can calculate cross products', function () {
-			var a = new Vector3(3, 2, 1);
-			var b = new Vector3(1, 2, 3);
+			var a = new Vector3_Vector3js(3, 2, 1);
+			var b = new Vector3_Vector3js(1, 2, 3);
 
 			a.cross(b);
 
-			expect(a).toBeCloseToVector(new Vector3(4, -8, 4));
+			expect(a).toBeCloseToVector(new Vector3_Vector3js(4, -8, 4));
 		});
 	});
 
 	describe('reflect', function () {
 		it('can reflect a vector', function () {
-			var plane = new Vector3(-1, 0, 1).normalize();
-			var original = new Vector3(1, 0, 0);
+			var plane = new Vector3_Vector3js(-1, 0, 1).normalize();
+			var original = new Vector3_Vector3js(1, 0, 0);
 			var reflection = original.clone().reflect(plane);
 
-			expect(reflection).toBeCloseToVector(new Vector3(0, 0, 1));
+			expect(reflection).toBeCloseToVector(new Vector3_Vector3js(0, 0, 1));
 		});
 	});
 
 	it('can calculate the distance', function () {
-		var a = new Vector3(3, 2, 1);
-		var b = new Vector3(1, 2, 3);
+		var a = new Vector3_Vector3js(3, 2, 1);
+		var b = new Vector3_Vector3js(1, 2, 3);
 
 		var dist = a.distanceSquared(b);
 
@@ -237,21 +237,21 @@ describe('Vector3', function () {
 
 	describe('normalize', function () {
 		it('can be normalized', function () {
-			var v1 = new Vector3(0, 0, 0);
+			var v1 = new Vector3_Vector3js(0, 0, 0);
 			v1.normalize();
-			expect(v1).toBeCloseToVector(new Vector3(0, 0, 0));
+			expect(v1).toBeCloseToVector(new Vector3_Vector3js(0, 0, 0));
 
-			var v2 = new Vector3(1, 1, 1);
+			var v2 = new Vector3_Vector3js(1, 1, 1);
 			v2.normalize();
-			expect(v2).toBeCloseToVector(new Vector3(
+			expect(v2).toBeCloseToVector(new Vector3_Vector3js(
 				1 / Math.sqrt(3),
 				1 / Math.sqrt(3),
 				1 / Math.sqrt(3)
 			));
 
-			var v3 = new Vector3(12, 34, 56);
+			var v3 = new Vector3_Vector3js(12, 34, 56);
 			v3.normalize();
-			expect(v3).toBeCloseToVector(new Vector3(
+			expect(v3).toBeCloseToVector(new Vector3_Vector3js(
 				12 / Math.sqrt(12 * 12 + 34 * 34 + 56 * 56),
 				34 / Math.sqrt(12 * 12 + 34 * 34 + 56 * 56),
 				56 / Math.sqrt(12 * 12 + 34 * 34 + 56 * 56)
@@ -261,42 +261,42 @@ describe('Vector3', function () {
 
 	describe('applyPost', function () {
 		it('can transformed by a Matrix3', function () {
-			var vector = new Vector3(1, 2, 3);
-			var matrix = new Matrix3(1, 2, 3, 4, 5, 6, 7, 8, 9);
+			var vector = new Vector3_Vector3js(1, 2, 3);
+			var matrix = new Matrix3_Matrix3js(1, 2, 3, 4, 5, 6, 7, 8, 9);
 
-			expect(vector.applyPost(matrix)).toBeCloseToVector(new Vector3(30, 36, 42));
+			expect(vector.applyPost(matrix)).toBeCloseToVector(new Vector3_Vector3js(30, 36, 42));
 		});
 	});
 
 	describe('applyPostPoint', function () {
 		it('can transform three-dimensional vectors', function () {
-			var vector = new Vector3(1, 2, 3);
-			var matrix = new Matrix4(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+			var vector = new Vector3_Vector3js(1, 2, 3);
+			var matrix = new Matrix4_Matrix4js(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 
-			expect(vector.applyPostPoint(matrix)).toBeCloseToVector(new Vector3(51, 58, 65));
+			expect(vector.applyPostPoint(matrix)).toBeCloseToVector(new Vector3_Vector3js(51, 58, 65));
 		});
 	});
 
 	describe('applyPostVector', function () {
 		it('can transform three-dimensional normals', function () {
-			var vector = new Vector3(1, 2, 3);
-			var matrix = new Matrix4(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
+			var vector = new Vector3_Vector3js(1, 2, 3);
+			var matrix = new Matrix4_Matrix4js(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16);
 
-			expect(vector.applyPostVector(matrix)).toBeCloseToVector(new Vector3(38, 44, 50));
+			expect(vector.applyPostVector(matrix)).toBeCloseToVector(new Vector3_Vector3js(38, 44, 50));
 		});
 	});
 
 	describe('copy', function () {
 		it('can copy values from a vector', function () {
-			var vector = new Vector3(11, 22, 33);
-			vector.set(new Vector3(55, 66, 77));
-			expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+			var vector = new Vector3_Vector3js(11, 22, 33);
+			vector.set(new Vector3_Vector3js(55, 66, 77));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 		});
 	});
 
 	describe('clone', function () {
 		it('clones a vector', function () {
-			var original = new Vector3(11, 22, 33);
+			var original = new Vector3_Vector3js(11, 22, 33);
 			var clone = original.clone();
 
 			expect(original).toBeCloseToVector(clone);
@@ -306,7 +306,7 @@ describe('Vector3', function () {
 
 	describe('NaN checks (only in dev)', function () {
 		it('throws an exception when trying to set a vector component to NaN', function () {
-			var vector1 = new Vector3();
+			var vector1 = new Vector3_Vector3js();
 			expect(function () { vector1.z = NaN; })
 				.toThrow(new Error('Tried setting NaN to vector component z'));
 
@@ -316,21 +316,21 @@ describe('Vector3', function () {
 		});
 
 		it('throws an exception when trying to corrupt a vector by using methods', function () {
-			var vector1 = new Vector3();
+			var vector1 = new Vector3_Vector3js();
 			expect(function () { vector1.add(NaN); })
 				.toThrow(new Error('Tried setting NaN to vector component x'));
 
-			var vector2 = new Vector3();
+			var vector2 = new Vector3_Vector3js();
 			expect(function () { vector2.addDirect(); })
 				.toThrow(new Error('Tried setting NaN to vector component x'));
 
-			var vector3 = new Vector3();
+			var vector3 = new Vector3_Vector3js();
 			expect(function () { vector3.scale(); })
 				.toThrow(new Error('Tried setting NaN to vector component x'));
 		});
 
 		it('throws an exception when a corrupt vector would return NaN', function () {
-			var vector = new Vector3();
+			var vector = new Vector3_Vector3js();
 			// manually corrupting this vector
 			// this is the only non-traceable way
 			vector._x = NaN;
@@ -341,30 +341,30 @@ describe('Vector3', function () {
 
 	describe('fromArray', function () {
 		it('creates a Vector3 from an array', function () {
-			expect(Vector3.fromArray([11, 22, 33]))
-				.toBeCloseToVector(new Vector3(11, 22, 33));
+			expect(Vector3_Vector3js.fromArray([11, 22, 33]))
+				.toBeCloseToVector(new Vector3_Vector3js(11, 22, 33));
 		});
 	});
 
 	describe('fromAny', function () {
 		it('creates a Vector3 from 3 numbers', function () {
-			expect(Vector3.fromAny(11, 22, 33))
-				.toBeCloseToVector(new Vector3(11, 22, 33));
+			expect(Vector3_Vector3js.fromAny(11, 22, 33))
+				.toBeCloseToVector(new Vector3_Vector3js(11, 22, 33));
 		});
 
 		it('creates a Vector3 from an array of 3 numbers', function () {
-			expect(Vector3.fromAny([11, 22, 33]))
-				.toBeCloseToVector(new Vector3(11, 22, 33));
+			expect(Vector3_Vector3js.fromAny([11, 22, 33]))
+				.toBeCloseToVector(new Vector3_Vector3js(11, 22, 33));
 		});
 
 		it('creates a Vector3 from an { x, y, z } object', function () {
-			expect(Vector3.fromAny({ x: 11, y: 22, z: 33 }))
-				.toBeCloseToVector(new Vector3(11, 22, 33));
+			expect(Vector3_Vector3js.fromAny({ x: 11, y: 22, z: 33 }))
+				.toBeCloseToVector(new Vector3_Vector3js(11, 22, 33));
 		});
 
 		it('clones a Vector3', function () {
-			var original = new Vector3(11, 22, 33);
-			var clone = Vector3.fromAny(original);
+			var original = new Vector3_Vector3js(11, 22, 33);
+			var clone = Vector3_Vector3js.fromAny(original);
 
 			expect(clone).toBeCloseToVector(original);
 			expect(clone).not.toBe(original);
@@ -373,21 +373,21 @@ describe('Vector3', function () {
 
 	describe('toArray', function () {
 		it('converts to array', function () {
-			expect(Vector3.fromArray([1, 2, 3]).toArray()).toEqual([1, 2, 3]);
+			expect(Vector3_Vector3js.fromArray([1, 2, 3]).toArray()).toEqual([1, 2, 3]);
 		});
 	});
 
 	describe('deprecated shim added 2015-10-07 (v1.0)', function () {
 		describe('.data', function () {
 			it('has working getters', function () {
-				var v = new Vector3(1, 2, 3);
+				var v = new Vector3_Vector3js(1, 2, 3);
 				expect(v.data[0]).toEqual(1);
 				expect(v.data[1]).toEqual(2);
 				expect(v.data[2]).toEqual(3);
 			});
 
 			it('has working setters', function () {
-				var v = new Vector3();
+				var v = new Vector3_Vector3js();
 				v.data[0] = 1;
 				v.data[1] = 2;
 				v.data[2] = 3;
@@ -397,8 +397,8 @@ describe('Vector3', function () {
 			});
 
 			it('distinguishes vectors', function () {
-				var u = new Vector3(1, 2, 3);
-				var v = new Vector3(4, 5, 6);
+				var u = new Vector3_Vector3js(1, 2, 3);
+				var v = new Vector3_Vector3js(4, 5, 6);
 				expect(u.data[0]).toEqual(1);
 				expect(v.data[0]).toEqual(4);
 			});
@@ -406,110 +406,110 @@ describe('Vector3', function () {
 
 		describe('add', function () {
 			it('can perform addition', function () {
-				var a = new Vector3(1, 2, 3);
-				var b = new Vector3(1, 2, 3);
+				var a = new Vector3_Vector3js(1, 2, 3);
+				var b = new Vector3_Vector3js(1, 2, 3);
 
 				a.add(a);
 
-				expect(a).toBeCloseToVector(new Vector3(2, 4, 6));
-				expect(Vector3.add(b, b)).toBeCloseToVector(new Vector3(2, 4, 6));
+				expect(a).toBeCloseToVector(new Vector3_Vector3js(2, 4, 6));
+				expect(Vector3_Vector3js.add(b, b)).toBeCloseToVector(new Vector3_Vector3js(2, 4, 6));
 
-				expect(Vector3.add(b, 1)).toBeCloseToVector(new Vector3(2, 3, 4));
-				expect(Vector3.add(1, b)).toBeCloseToVector(new Vector3(2, 3, 4));
+				expect(Vector3_Vector3js.add(b, 1)).toBeCloseToVector(new Vector3_Vector3js(2, 3, 4));
+				expect(Vector3_Vector3js.add(1, b)).toBeCloseToVector(new Vector3_Vector3js(2, 3, 4));
 
-				expect(Vector3.add(b, [1, 2, 3])).toBeCloseToVector(new Vector3(2, 4, 6));
-				expect(Vector3.add([1, 2, 3], b)).toBeCloseToVector(new Vector3(2, 4, 6));
+				expect(Vector3_Vector3js.add(b, [1, 2, 3])).toBeCloseToVector(new Vector3_Vector3js(2, 4, 6));
+				expect(Vector3_Vector3js.add([1, 2, 3], b)).toBeCloseToVector(new Vector3_Vector3js(2, 4, 6));
 			});
 		});
 
 		describe('sub', function () {
 			it('can perform subtraction', function () {
-				var a = new Vector3(1, 2, 3);
-				var b = new Vector3(1, 2, 3);
+				var a = new Vector3_Vector3js(1, 2, 3);
+				var b = new Vector3_Vector3js(1, 2, 3);
 
 				a.sub(a);
 
-				expect(a).toBeCloseToVector(new Vector3(0, 0, 0));
-				expect(Vector3.sub(b, b)).toBeCloseToVector(new Vector3(0, 0, 0));
+				expect(a).toBeCloseToVector(new Vector3_Vector3js(0, 0, 0));
+				expect(Vector3_Vector3js.sub(b, b)).toBeCloseToVector(new Vector3_Vector3js(0, 0, 0));
 
-				expect(Vector3.sub(b, 1)).toBeCloseToVector(new Vector3(0, 1, 2));
-				expect(Vector3.sub(1, b)).toBeCloseToVector(new Vector3(0, -1, -2));
+				expect(Vector3_Vector3js.sub(b, 1)).toBeCloseToVector(new Vector3_Vector3js(0, 1, 2));
+				expect(Vector3_Vector3js.sub(1, b)).toBeCloseToVector(new Vector3_Vector3js(0, -1, -2));
 
-				expect(Vector3.sub(b, [1, 2, 3])).toBeCloseToVector(new Vector3(0, 0, 0));
-				expect(Vector3.sub([1, 2, 3], b)).toBeCloseToVector(new Vector3(0, 0, 0));
+				expect(Vector3_Vector3js.sub(b, [1, 2, 3])).toBeCloseToVector(new Vector3_Vector3js(0, 0, 0));
+				expect(Vector3_Vector3js.sub([1, 2, 3], b)).toBeCloseToVector(new Vector3_Vector3js(0, 0, 0));
 			});
 		});
 
 		it('can be negated', function () {
-			var vector = new Vector3(123, 345, -567);
+			var vector = new Vector3_Vector3js(123, 345, -567);
 
 			vector.invert();
 
-			expect(vector).toBeCloseToVector(new Vector3(-123, -345, 567));
+			expect(vector).toBeCloseToVector(new Vector3_Vector3js(-123, -345, 567));
 		});
 
 		describe('mul', function () {
 			it('can perform multiplication', function () {
-				var a = new Vector3(1, 2, 3);
-				var b = new Vector3(1, 2, 3);
+				var a = new Vector3_Vector3js(1, 2, 3);
+				var b = new Vector3_Vector3js(1, 2, 3);
 
 				a.mul(a);
 
-				expect(a).toBeCloseToVector(new Vector3(1, 4, 9));
-				expect(Vector3.mul(b, b)).toBeCloseToVector(new Vector3(1, 4, 9));
+				expect(a).toBeCloseToVector(new Vector3_Vector3js(1, 4, 9));
+				expect(Vector3_Vector3js.mul(b, b)).toBeCloseToVector(new Vector3_Vector3js(1, 4, 9));
 
-				expect(Vector3.mul(b, 1)).toBeCloseToVector(new Vector3(1, 2, 3));
-				expect(Vector3.mul(1, b)).toBeCloseToVector(new Vector3(1, 2, 3));
+				expect(Vector3_Vector3js.mul(b, 1)).toBeCloseToVector(new Vector3_Vector3js(1, 2, 3));
+				expect(Vector3_Vector3js.mul(1, b)).toBeCloseToVector(new Vector3_Vector3js(1, 2, 3));
 
-				expect(Vector3.mul(b, [1, 2, 3])).toBeCloseToVector(new Vector3(1, 4, 9));
-				expect(Vector3.mul([1, 2, 3], b)).toBeCloseToVector(new Vector3(1, 4, 9));
+				expect(Vector3_Vector3js.mul(b, [1, 2, 3])).toBeCloseToVector(new Vector3_Vector3js(1, 4, 9));
+				expect(Vector3_Vector3js.mul([1, 2, 3], b)).toBeCloseToVector(new Vector3_Vector3js(1, 4, 9));
 			});
 		});
 
 		describe('scale', function () {
 			it('scales a vector', function () {
-				var vector = new Vector3(1, 2, 3);
+				var vector = new Vector3_Vector3js(1, 2, 3);
 				vector.scale(123);
-				expect(vector).toBeCloseToVector(new Vector3(1 * 123, 2 * 123, 3 * 123));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(1 * 123, 2 * 123, 3 * 123));
 			});
 		});
 
 		describe('div', function () {
 			it('can perform division', function () {
-				var a = new Vector3(1, 2, 3);
-				var b = new Vector3(1, 2, 3);
+				var a = new Vector3_Vector3js(1, 2, 3);
+				var b = new Vector3_Vector3js(1, 2, 3);
 
 				a.div(a);
 
-				expect(a).toBeCloseToVector(new Vector3(1, 1, 1));
-				expect(Vector3.div(b, b)).toBeCloseToVector(new Vector3(1, 1, 1));
+				expect(a).toBeCloseToVector(new Vector3_Vector3js(1, 1, 1));
+				expect(Vector3_Vector3js.div(b, b)).toBeCloseToVector(new Vector3_Vector3js(1, 1, 1));
 
-				expect(Vector3.div(b, 1)).toBeCloseToVector(new Vector3(1, 2, 3));
-				expect(Vector3.div(1, b)).toBeCloseToVector(new Vector3(1, 1/2, 1/3));
+				expect(Vector3_Vector3js.div(b, 1)).toBeCloseToVector(new Vector3_Vector3js(1, 2, 3));
+				expect(Vector3_Vector3js.div(1, b)).toBeCloseToVector(new Vector3_Vector3js(1, 1/2, 1/3));
 
-				expect(Vector3.div(b, [1, 2, 3])).toBeCloseToVector(new Vector3(1, 1, 1));
-				expect(Vector3.div([1, 2, 3], b)).toBeCloseToVector(new Vector3(1, 1, 1));
+				expect(Vector3_Vector3js.div(b, [1, 2, 3])).toBeCloseToVector(new Vector3_Vector3js(1, 1, 1));
+				expect(Vector3_Vector3js.div([1, 2, 3], b)).toBeCloseToVector(new Vector3_Vector3js(1, 1, 1));
 			});
 		});
 
 		describe('dot', function () {
 			it('can calculate dot products', function () {
-				var a = new Vector3(1, 2, 0);
-				var b = new Vector3(1, 2, 0);
+				var a = new Vector3_Vector3js(1, 2, 0);
+				var b = new Vector3_Vector3js(1, 2, 0);
 
 				expect(a.dot(b)).toEqual(5);
-				expect(Vector3.dot(a, b)).toEqual(5);
+				expect(Vector3_Vector3js.dot(a, b)).toEqual(5);
 			});
 
 			it('returns garbage if supplied with garbage', function () {
-				expect(Vector3.dot([1, 2], [5])).toEqual(NaN);
+				expect(Vector3_Vector3js.dot([1, 2], [5])).toEqual(NaN);
 			});
 		});
 
 		describe('dotVector', function () {
 			it('can calculate dot products', function () {
-				var a = new Vector3(1, 2, 0);
-				var b = new Vector3(1, 2, 0);
+				var a = new Vector3_Vector3js(1, 2, 0);
+				var b = new Vector3_Vector3js(1, 2, 0);
 
 				expect(a.dotVector(b)).toEqual(5);
 			});
@@ -517,34 +517,34 @@ describe('Vector3', function () {
 
 		describe('cross', function () {
 			it('can calculate cross products', function () {
-				var a = new Vector3(3, 2, 1);
-				var b = new Vector3(3, 2, 1);
-				var c = new Vector3(1, 2, 3);
+				var a = new Vector3_Vector3js(3, 2, 1);
+				var b = new Vector3_Vector3js(3, 2, 1);
+				var c = new Vector3_Vector3js(1, 2, 3);
 
 				a.cross(c);
 
-				expect(a).toBeCloseToVector(new Vector3(4, -8, 4));
-				expect(Vector3.cross(b, c)).toBeCloseToVector(new Vector3(4, -8, 4));
+				expect(a).toBeCloseToVector(new Vector3_Vector3js(4, -8, 4));
+				expect(Vector3_Vector3js.cross(b, c)).toBeCloseToVector(new Vector3_Vector3js(4, -8, 4));
 			});
 
 			it('can calculate cross products of two vectors given as arrays', function () {
-				expect(Vector3.cross([3, 2, 1], [1, 2, 3])).toBeCloseToVector(new Vector3(4, -8, 4));
+				expect(Vector3_Vector3js.cross([3, 2, 1], [1, 2, 3])).toBeCloseToVector(new Vector3_Vector3js(4, -8, 4));
 			});
 		});
 
 		describe('reflect', function () {
 			it('can reflect a vector', function () {
-				var plane = new Vector3(-1, 0, 1).normalize();
-				var original = new Vector3(1, 0, 0);
+				var plane = new Vector3_Vector3js(-1, 0, 1).normalize();
+				var original = new Vector3_Vector3js(1, 0, 0);
 				var reflection = original.clone().reflect(plane);
 
-				expect(reflection).toBeCloseToVector(new Vector3(0, 0, 1));
+				expect(reflection).toBeCloseToVector(new Vector3_Vector3js(0, 0, 1));
 			});
 		});
 
 		it('can calculate the distance', function () {
-			var a = new Vector3(3, 2, 1);
-			var b = new Vector3(1, 2, 3);
+			var a = new Vector3_Vector3js(3, 2, 1);
+			var b = new Vector3_Vector3js(1, 2, 3);
 
 			var dist = a.distanceSquared(b);
 
@@ -552,7 +552,7 @@ describe('Vector3', function () {
 		});
 
 		it('can be normalized', function () {
-			var a = new Vector3();
+			var a = new Vector3_Vector3js();
 
 			a.set(0, 0, 0).normalize();
 			expect(a.x).toBeCloseTo(0);
@@ -572,15 +572,15 @@ describe('Vector3', function () {
 
 		describe('copy', function () {
 			it('can copy values from a vector', function () {
-				var vector = new Vector3(11, 22, 33);
-				vector.setVector(new Vector3(55, 66, 77));
-				expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+				var vector = new Vector3_Vector3js(11, 22, 33);
+				vector.setVector(new Vector3_Vector3js(55, 66, 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 			});
 		});
 
 		describe('clone', function () {
 			it('clones a vector', function () {
-				var original = new Vector3(11, 22, 33);
+				var original = new Vector3_Vector3js(11, 22, 33);
 				var clone = original.clone();
 
 				expect(original).toBeCloseToVector(clone);
@@ -590,65 +590,65 @@ describe('Vector3', function () {
 
 		describe('setDirect', function () {
 			it('can set a vector', function () {
-				var vector = new Vector3(11, 22, 33);
+				var vector = new Vector3_Vector3js(11, 22, 33);
 				vector.setDirect(55, 66, 77);
-				expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 			});
 		});
 
 		describe('setVector', function () {
 			it('can set a vector', function () {
-				var vector = new Vector3(11, 22, 33);
-				vector.setVector(new Vector3(55, 66, 77));
-				expect(vector).toBeCloseToVector(new Vector3(55, 66, 77));
+				var vector = new Vector3_Vector3js(11, 22, 33);
+				vector.setVector(new Vector3_Vector3js(55, 66, 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(55, 66, 77));
 			});
 		});
 
 		describe('addDirect', function () {
 			it('can add to a vector', function () {
-				var vector = new Vector3(11, 22, 33);
+				var vector = new Vector3_Vector3js(11, 22, 33);
 				vector.addDirect(55, 66, 77);
-				expect(vector).toBeCloseToVector(new Vector3(11 + 55, 22 + 66, 33 + 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 + 55, 22 + 66, 33 + 77));
 			});
 		});
 
 		describe('addVector', function () {
 			it('can add to a vector', function () {
-				var vector = new Vector3(11, 22, 33);
-				vector.addVector(new Vector3(55, 66, 77));
-				expect(vector).toBeCloseToVector(new Vector3(11 + 55, 22 + 66, 33 + 77));
+				var vector = new Vector3_Vector3js(11, 22, 33);
+				vector.addVector(new Vector3_Vector3js(55, 66, 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 + 55, 22 + 66, 33 + 77));
 			});
 		});
 
 		describe('mulDirect', function () {
 			it('can multiply with 3 numbers', function () {
-				var vector = new Vector3(11, 22, 33);
+				var vector = new Vector3_Vector3js(11, 22, 33);
 				vector.mulDirect(55, 66, 77);
-				expect(vector).toBeCloseToVector(new Vector3(11 * 55, 22 * 66, 33 * 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 * 55, 22 * 66, 33 * 77));
 			});
 		});
 
 		describe('mulVector', function () {
 			it('can multiply with a vector', function () {
-				var vector = new Vector3(11, 22, 33);
-				vector.mulVector(new Vector3(55, 66, 77));
-				expect(vector).toBeCloseToVector(new Vector3(11 * 55, 22 * 66, 33 * 77));
+				var vector = new Vector3_Vector3js(11, 22, 33);
+				vector.mulVector(new Vector3_Vector3js(55, 66, 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 * 55, 22 * 66, 33 * 77));
 			});
 		});
 
 		describe('subDirect', function () {
 			it('can subtract from a vector', function () {
-				var vector = new Vector3(11, 22, 33);
+				var vector = new Vector3_Vector3js(11, 22, 33);
 				vector.subDirect(55, 66, 77);
-				expect(vector).toBeCloseToVector(new Vector3(11 - 55, 22 - 66, 33 - 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 - 55, 22 - 66, 33 - 77));
 			});
 		});
 
 		describe('subVector', function () {
 			it('can subtract from a vector', function () {
-				var vector = new Vector3(11, 22, 33);
-				vector.subVector(new Vector3(55, 66, 77));
-				expect(vector).toBeCloseToVector(new Vector3(11 - 55, 22 - 66, 33 - 77));
+				var vector = new Vector3_Vector3js(11, 22, 33);
+				vector.subVector(new Vector3_Vector3js(55, 66, 77));
+				expect(vector).toBeCloseToVector(new Vector3_Vector3js(11 - 55, 22 - 66, 33 - 77));
 			});
 		});
 	});

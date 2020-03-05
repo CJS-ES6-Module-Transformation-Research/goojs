@@ -1,23 +1,16 @@
-var MeshData = require('../renderer/MeshData');
-var MathUtils = require('../math/MathUtils');
-
-/**
- * A polygon shape
- * @example-link http://code.gooengine.com/latest/visual-test/goo/geometrypack/FilledPolygon/FilledPolygon-vtest.html Working example
- * @param {Array} verts Array of vertices
- * @param {Array} indices Array of indices
- */
+import { MeshData as MeshData_MeshDatajs } from "../renderer/MeshData";
+import { MathUtils as MathUtils_MathUtilsjs } from "../math/MathUtils";
 function FilledPolygon(verts, indices) {
 	this.verts = verts;
 	this.indices = indices ? indices : getTriangulation(verts);
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.verts.length / 3, this.indices.length);
+	var attributeMap = MeshData_MeshDatajs.defaultMap([MeshData_MeshDatajs.POSITION, MeshData_MeshDatajs.NORMAL, MeshData_MeshDatajs.TEXCOORD0]);
+	MeshData_MeshDatajs.call(this, attributeMap, this.verts.length / 3, this.indices.length);
 
 	this.rebuild();
 }
 
-FilledPolygon.prototype = Object.create(MeshData.prototype);
+FilledPolygon.prototype = Object.create(MeshData_MeshDatajs.prototype);
 
 function getTriangulation(p) {
 	var n = p.length / 3;
@@ -90,11 +83,11 @@ function convex(ax, ay, bx, by, cx, cy) {
  * @returns {FilledPolygon} Self for chaining.
  */
 FilledPolygon.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(MeshData_MeshDatajs.POSITION).set(this.verts);
 
 	var norms = [];
 	for (var i = 0; i < this.indices.length; i += 3) {
-		var normal = MathUtils.getTriangleNormal(
+		var normal = MathUtils_MathUtilsjs.getTriangleNormal(
 			this.verts[this.indices[i + 0] * 3 + 0],
 			this.verts[this.indices[i + 0] * 3 + 1],
 			this.verts[this.indices[i + 0] * 3 + 2],
@@ -117,7 +110,7 @@ FilledPolygon.prototype.rebuild = function () {
 		norms[this.indices[i + 2] * 3 + 2] = normal[2];
 	}
 
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(MeshData_MeshDatajs.NORMAL).set(norms);
 
 	this.getIndexBuffer().set(this.indices);
 
@@ -133,7 +126,7 @@ FilledPolygon.prototype.rebuild = function () {
 		tex.push(x, y);
 	}
 
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshData_MeshDatajs.TEXCOORD0).set(tex);
 
 	return this;
 };
@@ -159,4 +152,12 @@ function getBounds(verts) {
 	};
 }
 
-module.exports = FilledPolygon;
+var exported_FilledPolygon = FilledPolygon;
+
+/**
+ * A polygon shape
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/geometrypack/FilledPolygon/FilledPolygon-vtest.html Working example
+ * @param {Array} verts Array of vertices
+ * @param {Array} indices Array of indices
+ */
+export { exported_FilledPolygon as FilledPolygon };

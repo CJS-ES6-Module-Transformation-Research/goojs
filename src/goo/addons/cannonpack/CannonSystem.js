@@ -1,32 +1,14 @@
-var System = require('../../entities/systems/System');
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/* global CANNON, performance */
-
-/**
- * Cannon.js physics system. Depends on the global CANNON object, so load cannon.js using a script tag before using this system. See also {@link CannonRigidbodyComponent}.
- * @extends System
- * @param {Object} [settings]
- * @param {number} [settings.stepFrequency=60]
- * @param {Vector3} [settings.gravity] The gravity to use in the scene. Default is (0, -10, 0)
- * @param {string} [settings.broadphase='naive'] One of: 'naive' (NaiveBroadphase), 'sap' (SAPBroadphase)
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
- * @example
- * var cannonSystem = new CannonSystem({
- *     stepFrequency: 60,
- *     gravity: new Vector3(0, -10, 0)
- * });
- * goo.world.setSystem(cannonSystem);
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
+import { Quaternion as Quaternion_Quaternionjs } from "../../math/Quaternion";
+import { Vector3 as Vector3_Vector3js } from "../../math/Vector3";
+import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
 function CannonSystem(settings) {
-	System.call(this, 'CannonSystem', ['CannonRigidbodyComponent', 'TransformComponent']);
+	System_Systemjs.call(this, 'CannonSystem', ['CannonRigidbodyComponent', 'TransformComponent']);
 
 	settings = settings || {};
 
-	ObjectUtils.defaults(settings, {
-		gravity: new Vector3(0, -10, 0),
+	ObjectUtils_ObjectUtilsjs.defaults(settings, {
+		gravity: new Vector3_Vector3js(0, -10, 0),
 		stepFrequency: 60,
 		broadphase: 'naive'
 	});
@@ -41,9 +23,9 @@ function CannonSystem(settings) {
 	this.stepFrequency = settings.stepFrequency;
 	this.maxSubSteps = settings.maxSubSteps || 0;
 }
-var tmpQuat = new Quaternion();
+var tmpQuat = new Quaternion_Quaternionjs();
 
-CannonSystem.prototype = Object.create(System.prototype);
+CannonSystem.prototype = Object.create(System_Systemjs.prototype);
 CannonSystem.prototype.constructor = CannonSystem;
 
 CannonSystem.prototype.reset = function () {
@@ -53,7 +35,7 @@ CannonSystem.prototype.reset = function () {
 		if (entity.cannonRigidbodyComponent.added) {
 			var body = entity.cannonRigidbodyComponent.body;
 			var p = entity.transformComponent.sync().worldTransform.translation;
-			var q = new Quaternion();
+			var q = new Quaternion_Quaternionjs();
 			q.fromRotationMatrix(entity.transformComponent.worldTransform.rotation);
 			body.position.set(p.x, p.y, p.z);
 			body.quaternion.set(q.x, q.y, q.z, q.w);
@@ -79,7 +61,7 @@ CannonSystem.prototype.deleted = function (entity) {
 	}
 };
 
-var tmpVec = new Vector3();
+var tmpVec = new Vector3_Vector3js();
 CannonSystem.prototype.process = function (entities) {
 	var world = this.physicsWorld;
 
@@ -179,4 +161,23 @@ CannonSystem.prototype.setBroadphaseAlgorithm = function (algorithm) {
 	}
 };
 
-module.exports = CannonSystem;
+var exported_CannonSystem = CannonSystem;
+
+/* global CANNON, performance */
+
+/**
+ * Cannon.js physics system. Depends on the global CANNON object, so load cannon.js using a script tag before using this system. See also {@link CannonRigidbodyComponent}.
+ * @extends System
+ * @param {Object} [settings]
+ * @param {number} [settings.stepFrequency=60]
+ * @param {Vector3} [settings.gravity] The gravity to use in the scene. Default is (0, -10, 0)
+ * @param {string} [settings.broadphase='naive'] One of: 'naive' (NaiveBroadphase), 'sap' (SAPBroadphase)
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @example
+ * var cannonSystem = new CannonSystem({
+ *     stepFrequency: 60,
+ *     gravity: new Vector3(0, -10, 0)
+ * });
+ * goo.world.setSystem(cannonSystem);
+ */
+export { exported_CannonSystem as CannonSystem };

@@ -1,37 +1,22 @@
-var Capabilities = require('../renderer/Capabilities');
-var RendererRecord = require('../renderer/RendererRecord');
-var RendererUtils = require('../renderer/RendererUtils');
-var TextureCreator = require('../renderer/TextureCreator');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var Vector4 = require('../math/Vector4');
-var Texture = require('../renderer/Texture');
-require('../loaders/dds/DdsLoader'); // todo: unused?
-var Material = require('../renderer/Material');
-var RenderQueue = require('../renderer/RenderQueue');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShadowHandler = require('../renderer/shadow/ShadowHandler');
-var RenderStats = require('../renderer/RenderStats');
-var SystemBus = require('../entities/SystemBus');
-var TaskScheduler = require('../renderer/TaskScheduler');
-var RenderInfo = require('../renderer/RenderInfo');
-var MathUtils = require('../math/MathUtils');
+import { Capabilities as Capabilities_Capabilitiesjs } from "../renderer/Capabilities";
+import { RendererRecord as RendererRecord_RendererRecordjs } from "../renderer/RendererRecord";
+import { RendererUtils as RendererUtils_RendererUtilsjs } from "../renderer/RendererUtils";
+import { TextureCreator as TextureCreator_TextureCreatorjs } from "../renderer/TextureCreator";
+import { RenderTarget as RenderTarget_RenderTargetjs } from "../renderer/pass/RenderTarget";
+import { Vector4 as Vector4_Vector4js } from "../math/Vector4";
+import { Texture as Texture_Texturejs } from "../renderer/Texture";
+import { Material as Material_Materialjs } from "../renderer/Material";
+import { RenderQueue as RenderQueue_RenderQueuejs } from "../renderer/RenderQueue";
+import { ShaderLib as ShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
+import { ShadowHandler as ShadowHandler_ShadowHandlerjs } from "../renderer/shadow/ShadowHandler";
+import { RenderStats as RenderStats_RenderStatsjs } from "../renderer/RenderStats";
+import { TaskScheduler as TaskScheduler_TaskSchedulerjs } from "../renderer/TaskScheduler";
+import { RenderInfo as RenderInfo_RenderInfojs } from "../renderer/RenderInfo";
+import { MathUtils as MathUtils_MathUtilsjs } from "../math/MathUtils";
+import "../loaders/dds/DdsLoader";
 
 var STUB_METHOD = function () {};
 
-/**
- * The renderer handles displaying of graphics data to a render context.
- * It accepts an object containing the settings for the renderer.
- *
- * @param {Object} parameters Renderer settings.
- * @param {boolean} [parameters.alpha=false] Enables the possibility to render non-opaque pixels.
- * @param {boolean} [parameters.premultipliedAlpha=true] Whether the colors are premultiplied with the alpha channel.
- * @param {boolean} [parameters.antialias=true] Enables antialiasing.
- * @param {boolean} [parameters.stencil=false] Enables the stencil buffer.
- * @param {boolean} [parameters.preserveDrawingBuffer=false]
- * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc).
- * @param {canvas} [parameters.canvas] If not supplied, Renderer will create a new canvas.
- * @param {function (string)} [parameters.onError] Called with message when error occurs.
- */
 function Renderer(parameters) {
 	parameters = parameters || {};
 
@@ -71,19 +56,19 @@ function Renderer(parameters) {
 	}
 
 	/** @type {RendererRecord} */
-	this.rendererRecord = new RendererRecord();
+	this.rendererRecord = new RendererRecord_RendererRecordjs();
 
-	this.maxTextureSize = !isNaN(parameters.maxTextureSize) ? Math.min(parameters.maxTextureSize, Capabilities.maxTexureSize) : Capabilities.maxTexureSize;
-	this.maxCubemapSize = !isNaN(parameters.maxTextureSize) ? Math.min(parameters.maxTextureSize, Capabilities.maxCubemapSize) : Capabilities.maxCubemapSize;
+	this.maxTextureSize = !isNaN(parameters.maxTextureSize) ? Math.min(parameters.maxTextureSize, Capabilities_Capabilitiesjs.maxTexureSize) : Capabilities_Capabilitiesjs.maxTexureSize;
+	this.maxCubemapSize = !isNaN(parameters.maxTextureSize) ? Math.min(parameters.maxTextureSize, Capabilities_Capabilitiesjs.maxCubemapSize) : Capabilities_Capabilitiesjs.maxCubemapSize;
 
 	/** Can be one of: <ul><li>lowp</li><li>mediump</li><li>highp</li></ul>
 	 * If the shader doesn't specify a precision, a string declaring this precision will be added.
 	 * @type {string}
 	 */
 	this.shaderPrecision = parameters.shaderPrecision || 'highp';
-	if (this.shaderPrecision === 'highp' && Capabilities.vertexShaderHighpFloat.precision > 0 && Capabilities.fragmentShaderHighpFloat.precision > 0) {
+	if (this.shaderPrecision === 'highp' && Capabilities_Capabilitiesjs.vertexShaderHighpFloat.precision > 0 && Capabilities_Capabilitiesjs.fragmentShaderHighpFloat.precision > 0) {
 		this.shaderPrecision = 'highp';
-	} else if (this.shaderPrecision !== 'lowp' && Capabilities.vertexShaderMediumpFloat.precision > 0 && Capabilities.fragmentShaderMediumpFloat.precision > 0) {
+	} else if (this.shaderPrecision !== 'lowp' && Capabilities_Capabilitiesjs.vertexShaderMediumpFloat.precision > 0 && Capabilities_Capabilitiesjs.fragmentShaderMediumpFloat.precision > 0) {
 		this.shaderPrecision = 'mediump';
 	} else {
 		this.shaderPrecision = 'lowp';
@@ -102,9 +87,9 @@ function Renderer(parameters) {
 	 * @type {Vector4}
 	 * @readonly
 	 */
-	this.clearColor = new Vector4();
+	this.clearColor = new Vector4_Vector4js();
 	// You need 64 bits for number equality
-	this._clearColor = new Vector4();
+	this._clearColor = new Vector4_Vector4js();
 	this.setClearColor(0.3, 0.3, 0.3, 1.0);
 
 
@@ -128,13 +113,13 @@ function Renderer(parameters) {
 
 	//this.overrideMaterial = null;
 	this._overrideMaterials = [];
-	this._mergedMaterial = new Material('Merged Material');
+	this._mergedMaterial = new Material_Materialjs('Merged Material');
 
-	this.renderQueue = new RenderQueue();
+	this.renderQueue = new RenderQueue_RenderQueuejs();
 
-	this.info = new RenderStats();
+	this.info = new RenderStats_RenderStatsjs();
 
-	this.shadowHandler = new ShadowHandler();
+	this.shadowHandler = new ShadowHandler_ShadowHandlerjs();
 
 	// Hardware picking
 	this.hardwarePicking = null;
@@ -252,7 +237,7 @@ Renderer.prototype.establishContext = function () {
 		};
 	}
 
-	Capabilities.init(this.context);
+	Capabilities_Capabilitiesjs.init(this.context);
 };
 
 /**
@@ -457,7 +442,7 @@ Renderer.prototype.bindData = function (bufferData) {
 	if (glBuffer !== null) {
 		this.setBoundBuffer(glBuffer, bufferData.target);
 		if (bufferData._dataNeedsRefresh) {
-			context.bufferSubData(RendererUtils.getGLBufferTarget(context, bufferData.target), 0, bufferData.data);
+			context.bufferSubData(RendererUtils_RendererUtilsjs.getGLBufferTarget(context, bufferData.target), 0, bufferData.data);
 			bufferData._dataNeedsRefresh = false;
 		}
 	} else {
@@ -466,7 +451,7 @@ Renderer.prototype.bindData = function (bufferData) {
 
 		this.rendererRecord.invalidateBuffer(bufferData.target);
 		this.setBoundBuffer(glBuffer, bufferData.target);
-		context.bufferData(RendererUtils.getGLBufferTarget(context, bufferData.target), bufferData.data, RendererUtils.getGLBufferUsage(context, bufferData._dataUsage));
+		context.bufferData(RendererUtils_RendererUtilsjs.getGLBufferTarget(context, bufferData.target), bufferData.data, RendererUtils_RendererUtilsjs.getGLBufferUsage(context, bufferData._dataUsage));
 	}
 };
 
@@ -511,7 +496,7 @@ Renderer.prototype.preloadTexture = function (context, texture) {
 	// context.activeTexture(context.TEXTURE0 + unit); // do I need this?
 
 	//! schteppe: What if the .glTexture is not allocated yet?
-	context.bindTexture(RendererUtils.getGLType(context, texture.variant), texture.glTexture);
+	context.bindTexture(RendererUtils_RendererUtilsjs.getGLType(context, texture.variant), texture.glTexture);
 
 	// set alignment to support images with width % 4 !== 0, as
 	// images are not aligned
@@ -530,8 +515,8 @@ Renderer.prototype.preloadTexture = function (context, texture) {
 	var image = texture.image;
 	if (texture.variant === '2D') {
 		if (!image) {
-			context.texImage2D(context.TEXTURE_2D, 0, RendererUtils.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
-				RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), null);
+			context.texImage2D(context.TEXTURE_2D, 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
+				RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), null);
 		} else {
 			if (!image.isCompressed && (texture.generateMipmaps || image.width > this.maxTextureSize || image.height > this.maxTextureSize)) {
 				this.checkRescale(texture, image, image.width, image.height, this.maxTextureSize);
@@ -542,11 +527,11 @@ Renderer.prototype.preloadTexture = function (context, texture) {
 				if (image.isCompressed) {
 					this.loadCompressedTexture(context, context.TEXTURE_2D, texture, image.data);
 				} else {
-					context.texImage2D(context.TEXTURE_2D, 0, RendererUtils.getGLInternalFormat(context, texture.format), image.width,
-						image.height, texture.hasBorder ? 1 : 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image.data);
+					context.texImage2D(context.TEXTURE_2D, 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), image.width,
+						image.height, texture.hasBorder ? 1 : 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image.data);
 				}
 			} else {
-				context.texImage2D(context.TEXTURE_2D, 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image);
+				context.texImage2D(context.TEXTURE_2D, 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image);
 			}
 
 			if (texture.generateMipmaps && !image.isCompressed) {
@@ -555,35 +540,35 @@ Renderer.prototype.preloadTexture = function (context, texture) {
 		}
 	} else if (texture.variant === 'CUBE') {
 		if (image && !image.isData && (texture.generateMipmaps || image.width > this.maxCubemapSize || image.height > this.maxCubemapSize)) {
-			for (var i = 0; i < Texture.CUBE_FACES.length; i++) {
+			for (var i = 0; i < Texture_Texturejs.CUBE_FACES.length; i++) {
 				if (image.data[i] && !image.data[i].buffer ) {
-					RendererUtils.scaleImage(texture, image.data[i], image.width, image.height, this.maxCubemapSize, i);
+					RendererUtils_RendererUtilsjs.scaleImage(texture, image.data[i], image.width, image.height, this.maxCubemapSize, i);
 				} else {
 					// REVIEW: Hard coded background color that should be determined by Create?
-					RendererUtils.getBlankImage(texture, [0.3, 0.3, 0.3, 0], image.width, image.height, this.maxCubemapSize, i);
+					RendererUtils_RendererUtilsjs.getBlankImage(texture, [0.3, 0.3, 0.3, 0], image.width, image.height, this.maxCubemapSize, i);
 				}
 			}
-			texture.image.width = Math.min(this.maxCubemapSize, MathUtils.nearestPowerOfTwo(texture.image.width));
-			texture.image.height = Math.min(this.maxCubemapSize, MathUtils.nearestPowerOfTwo(texture.image.height));
+			texture.image.width = Math.min(this.maxCubemapSize, MathUtils_MathUtilsjs.nearestPowerOfTwo(texture.image.width));
+			texture.image.height = Math.min(this.maxCubemapSize, MathUtils_MathUtilsjs.nearestPowerOfTwo(texture.image.height));
 			image = texture.image;
 		}
 
-		for (var faceIndex = 0; faceIndex < Texture.CUBE_FACES.length; faceIndex++) {
-			var face = Texture.CUBE_FACES[faceIndex];
+		for (var faceIndex = 0; faceIndex < Texture_Texturejs.CUBE_FACES.length; faceIndex++) {
+			var face = Texture_Texturejs.CUBE_FACES[faceIndex];
 
 			if (!image) {
-				context.texImage2D(RendererUtils.getGLCubeMapFace(context, face), 0, RendererUtils.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
-					RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), null);
+				context.texImage2D(RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
+					RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), null);
 			} else {
 				if (image.isData === true) {
 					if (image.isCompressed) {
-						this.loadCompressedTexture(context, RendererUtils.getGLCubeMapFace(context, face), texture, image.data[faceIndex]);
+						this.loadCompressedTexture(context, RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), texture, image.data[faceIndex]);
 					} else {
-						context.texImage2D(RendererUtils.getGLCubeMapFace(context, face), 0, RendererUtils.getGLInternalFormat(context, texture.format), image.width,
-							image.height, texture.hasBorder ? 1 : 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image.data[faceIndex]);
+						context.texImage2D(RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), image.width,
+							image.height, texture.hasBorder ? 1 : 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image.data[faceIndex]);
 					}
 				} else {
-					context.texImage2D(RendererUtils.getGLCubeMapFace(context, face), 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image.data[faceIndex]);
+					context.texImage2D(RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image.data[faceIndex]);
 				}
 			}
 		}
@@ -624,13 +609,13 @@ Renderer.prototype.preloadTextures = function (material, queue) {
 		textureList.forEach(function (texture) {
 			if (!texture) { return; }
 			queue.push(function () {
-				if (texture instanceof RenderTarget === false &&
+				if (texture instanceof RenderTarget_RenderTargetjs === false &&
 					(texture.image === undefined || texture.checkDataReady() === false)
 				) {
 					if (texture.variant === '2D') {
-						texture = TextureCreator.DEFAULT_TEXTURE_2D;
+						texture = TextureCreator_TextureCreatorjs.DEFAULT_TEXTURE_2D;
 					} else if (texture.variant === 'CUBE') {
-						texture = TextureCreator.DEFAULT_TEXTURE_CUBE;
+						texture = TextureCreator_TextureCreatorjs.DEFAULT_TEXTURE_CUBE;
 					}
 				}
 
@@ -638,7 +623,7 @@ Renderer.prototype.preloadTextures = function (material, queue) {
 					texture.glTexture = context.createTexture();
 					this.preloadTexture(context, texture);
 					texture.needsUpdate = false;
-				} else if (texture instanceof Texture && texture.checkNeedsUpdate()) {
+				} else if (texture instanceof Texture_Texturejs && texture.checkNeedsUpdate()) {
 					this.preloadTexture(context, texture);
 					texture.needsUpdate = false;
 				}
@@ -647,7 +632,7 @@ Renderer.prototype.preloadTextures = function (material, queue) {
 	}, this);
 };
 
-var preloadMaterialsRenderInfo = new RenderInfo();
+var preloadMaterialsRenderInfo = new RenderInfo_RenderInfojs();
 
 /**
  * Preloads textures that come with the materials on the supplied "renderables".
@@ -682,7 +667,7 @@ Renderer.prototype.preloadMaterials = function (renderList) {
 		}
 	}
 
-	return TaskScheduler.each(queue);
+	return TaskScheduler_TaskSchedulerjs.each(queue);
 };
 
 /**
@@ -715,7 +700,7 @@ Renderer.prototype.clearShaderCache = function () {
  * @param {Array<Light>} lights
  */
 Renderer.prototype.precompileShaders = function (renderList, lights) {
-	var renderInfo = new RenderInfo();
+	var renderInfo = new RenderInfo_RenderInfojs();
 
 	if (lights) {
 		renderInfo.lights = lights;
@@ -744,7 +729,7 @@ Renderer.prototype.precompileShaders = function (renderList, lights) {
 		}
 	}
 
-	return TaskScheduler.each(queue);
+	return TaskScheduler_TaskSchedulerjs.each(queue);
 };
 
 //! MF: This method appears to be unused, and it's way of using renderInfo.fill might be questionable.
@@ -755,7 +740,7 @@ Renderer.prototype.precompileShaders = function (renderList, lights) {
  * @param {Array} renderList An array of "renderables".
  */
 Renderer.prototype.preloadBuffers = function (renderList) {
-	var renderInfo = new RenderInfo();
+	var renderInfo = new RenderInfo_RenderInfojs();
 
 	if (Array.isArray(renderList)) {
 		for (var i = 0; i < renderList.length; i++) {
@@ -857,7 +842,7 @@ Renderer.prototype.preloadBuffer = function (renderables, material, renderInfo) 
 	}
 };
 
-var renderRenderInfo = new RenderInfo();
+var renderRenderInfo = new RenderInfo_RenderInfojs();
 
 var startEachShaderFrame = function (shader) {
 	shader.startFrame();
@@ -922,8 +907,8 @@ Renderer.prototype.render = function (renderList, camera, lights, renderTarget, 
 	if (
 		renderTarget &&
 		renderTarget.generateMipmaps &&
-		MathUtils.isPowerOfTwo(renderTarget.width) &&
-		MathUtils.isPowerOfTwo(renderTarget.height)
+		MathUtils_MathUtilsjs.isPowerOfTwo(renderTarget.width) &&
+		MathUtils_MathUtilsjs.isPowerOfTwo(renderTarget.height)
 	) {
 		this.updateRenderTargetMipmap(renderTarget);
 	}
@@ -1278,12 +1263,12 @@ Renderer.prototype.readTexturePixels = function (texture, x, y, width, height, s
 Renderer.prototype.drawElementsVBO = function (indices, indexModes, indexLengths) {
 	var offset = 0;
 	var indexModeCounter = 0;
-	var type = indices.type = indices.type || RendererUtils.getGLArrayType(this.context, indices);
-	var byteSize = RendererUtils.getGLByteSize(indices);
+	var type = indices.type = indices.type || RendererUtils_RendererUtilsjs.getGLArrayType(this.context, indices);
+	var byteSize = RendererUtils_RendererUtilsjs.getGLByteSize(indices);
 
 	for (var i = 0; i < indexLengths.length; i++) {
 		var count = indexLengths[i];
-		var glIndexMode = RendererUtils.getGLIndexMode(this.context, indexModes[indexModeCounter]);
+		var glIndexMode = RendererUtils_RendererUtilsjs.getGLIndexMode(this.context, indexModes[indexModeCounter]);
 
 		this.context.drawElements(glIndexMode, count, type, offset * byteSize);
 
@@ -1307,7 +1292,7 @@ Renderer.prototype.drawArraysVBO = function (indexModes, indexLengths) {
 
 	for (var i = 0; i < indexLengths.length; i++) {
 		var count = indexLengths[i];
-		var glIndexMode = RendererUtils.getGLIndexMode(this.context, indexModes[indexModeCounter]);
+		var glIndexMode = RendererUtils_RendererUtilsjs.getGLIndexMode(this.context, indexModes[indexModeCounter]);
 
 		this.context.drawArrays(glIndexMode, offset, count);
 
@@ -1338,7 +1323,7 @@ Renderer.prototype.renderToPick = function (renderList, camera, clear, skipUpdat
 	}
 	var pickingResolutionDivider = 4;
 	if (this.hardwarePicking === null) {
-		var pickingMaterial = Material.createEmptyMaterial(ShaderLib.pickingShader, 'pickingMaterial');
+		var pickingMaterial = Material_Materialjs.createEmptyMaterial(ShaderLib_ShaderLibjs.pickingShader, 'pickingMaterial');
 		pickingMaterial.blendState = {
 			blending: 'NoBlending',
 			blendEquation: 'AddEquation',
@@ -1348,17 +1333,17 @@ Renderer.prototype.renderToPick = function (renderList, camera, clear, skipUpdat
 		pickingMaterial.wireframe = false;
 
 		this.hardwarePicking = {
-			pickingTarget: new RenderTarget(this.viewportWidth / pickingResolutionDivider, this.viewportHeight / pickingResolutionDivider, {
+			pickingTarget: new RenderTarget_RenderTargetjs(this.viewportWidth / pickingResolutionDivider, this.viewportHeight / pickingResolutionDivider, {
 				minFilter: 'NearestNeighborNoMipMaps',
 				magFilter: 'NearestNeighbor'
 			}),
 			pickingMaterial: pickingMaterial,
 			pickingBuffer: new Uint8Array(4),
-			clearColorStore: new Vector4()
+			clearColorStore: new Vector4_Vector4js()
 		};
 		skipUpdateBuffer = false;
 	} else if (this.hardwarePicking.pickingTarget === null) {
-		this.hardwarePicking.pickingTarget = new RenderTarget(this.viewportWidth / pickingResolutionDivider, this.viewportHeight / pickingResolutionDivider, {
+		this.hardwarePicking.pickingTarget = new RenderTarget_RenderTargetjs(this.viewportWidth / pickingResolutionDivider, this.viewportHeight / pickingResolutionDivider, {
 				minFilter: 'NearestNeighborNoMipMaps',
 				magFilter: 'NearestNeighbor'
 			});
@@ -1467,7 +1452,7 @@ Renderer.prototype.updateDepthTest = function (material) {
 		record.write = depthState.write;
 	}
 	if (record.depthFunc !== depthState.depthFunc) {
-		this.context.depthFunc(RendererUtils.getGLDepthFunc(this.context, depthState.depthFunc));
+		this.context.depthFunc(RendererUtils_RendererUtilsjs.getGLDepthFunc(this.context, depthState.depthFunc));
 		record.depthFunc = depthState.depthFunc;
 	}
 };
@@ -1528,9 +1513,9 @@ Renderer.prototype.updateTextures = function (material) {
 
 		if (texture === undefined) {
 			if (textureSlot.format === 'sampler2D') {
-				texture = TextureCreator.DEFAULT_TEXTURE_2D;
+				texture = TextureCreator_TextureCreatorjs.DEFAULT_TEXTURE_2D;
 			} else if (textureSlot.format === 'samplerCube') {
-				texture = TextureCreator.DEFAULT_TEXTURE_CUBE;
+				texture = TextureCreator_TextureCreatorjs.DEFAULT_TEXTURE_CUBE;
 			}
 		}
 
@@ -1544,13 +1529,13 @@ Renderer.prototype.updateTextures = function (material) {
 
 			var texIndex = textureSlot.index instanceof Array ? textureSlot.index[j] : textureSlot.index;
 
-			if (texture === null || texture instanceof RenderTarget && texture.glTexture === null ||
-				texture instanceof RenderTarget === false && (texture.image === undefined ||
+			if (texture === null || texture instanceof RenderTarget_RenderTargetjs && texture.glTexture === null ||
+				texture instanceof RenderTarget_RenderTargetjs === false && (texture.image === undefined ||
 					texture.checkDataReady() === false)) {
 				if (textureSlot.format === 'sampler2D') {
-					texture = TextureCreator.DEFAULT_TEXTURE_2D;
+					texture = TextureCreator_TextureCreatorjs.DEFAULT_TEXTURE_2D;
 				} else if (textureSlot.format === 'samplerCube') {
-					texture = TextureCreator.DEFAULT_TEXTURE_CUBE;
+					texture = TextureCreator_TextureCreatorjs.DEFAULT_TEXTURE_CUBE;
 				}
 			}
 
@@ -1563,7 +1548,7 @@ Renderer.prototype.updateTextures = function (material) {
 				texture.glTexture = context.createTexture();
 				this.updateTexture(context, texture, texIndex, unitrecord);
 				texture.needsUpdate = false;
-			} else if (texture instanceof RenderTarget === false && texture.checkNeedsUpdate()) {
+			} else if (texture instanceof RenderTarget_RenderTargetjs === false && texture.checkNeedsUpdate()) {
 				this.updateTexture(context, texture, texIndex, unitrecord);
 				texture.needsUpdate = false;
 			} else {
@@ -1571,7 +1556,7 @@ Renderer.prototype.updateTextures = function (material) {
 			}
 
 			var imageObject = texture.image !== undefined ? texture.image : texture;
-			var isTexturePowerOfTwo = MathUtils.isPowerOfTwo(imageObject.width) && MathUtils.isPowerOfTwo(imageObject.height);
+			var isTexturePowerOfTwo = MathUtils_MathUtilsjs.isPowerOfTwo(imageObject.width) && MathUtils_MathUtilsjs.isPowerOfTwo(imageObject.height);
 			this.updateTextureParameters(texture, isTexturePowerOfTwo);
 		}
 	}
@@ -1588,35 +1573,35 @@ Renderer.prototype.updateTextureParameters = function (texture, isImagePowerOfTw
 
 	var texrecord = texture.textureRecord;
 
-	var glType = RendererUtils.getGLType(context, texture.variant);
+	var glType = RendererUtils_RendererUtilsjs.getGLType(context, texture.variant);
 	if (texrecord.magFilter !== texture.magFilter) {
-		context.texParameteri(glType, context.TEXTURE_MAG_FILTER, RendererUtils.getGLMagFilter(context, texture.magFilter));
+		context.texParameteri(glType, context.TEXTURE_MAG_FILTER, RendererUtils_RendererUtilsjs.getGLMagFilter(context, texture.magFilter));
 		texrecord.magFilter = texture.magFilter;
 	}
-	var minFilter = isImagePowerOfTwo ? texture.minFilter : RendererUtils.getFilterFallback(texture.minFilter);
+	var minFilter = isImagePowerOfTwo ? texture.minFilter : RendererUtils_RendererUtilsjs.getFilterFallback(texture.minFilter);
 	if (texrecord.minFilter !== minFilter) {
-		context.texParameteri(glType, context.TEXTURE_MIN_FILTER, RendererUtils.getGLMinFilter(context, minFilter));
+		context.texParameteri(glType, context.TEXTURE_MIN_FILTER, RendererUtils_RendererUtilsjs.getGLMinFilter(context, minFilter));
 		texrecord.minFilter = minFilter;
 	}
 
 	// repeating NPOT textures are not supported in webgl https://www.khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences
 	var wrapS = isImagePowerOfTwo ? texture.wrapS : 'EdgeClamp';
 	if (texrecord.wrapS !== wrapS) {
-		var glwrapS = RendererUtils.getGLWrap(context, wrapS);
+		var glwrapS = RendererUtils_RendererUtilsjs.getGLWrap(context, wrapS);
 		context.texParameteri(glType, context.TEXTURE_WRAP_S, glwrapS);
 		texrecord.wrapS = wrapS;
 	}
 	var wrapT = isImagePowerOfTwo ? texture.wrapT : 'EdgeClamp';
 	if (texrecord.wrapT !== wrapT) {
-		var glwrapT = RendererUtils.getGLWrap(context, wrapT);
+		var glwrapT = RendererUtils_RendererUtilsjs.getGLWrap(context, wrapT);
 		context.texParameteri(glType, context.TEXTURE_WRAP_T, glwrapT);
 		texrecord.wrapT = wrapT;
 	}
 
-	if (Capabilities.TextureFilterAnisotropic && texture.type !== 'Float') {
+	if (Capabilities_Capabilitiesjs.TextureFilterAnisotropic && texture.type !== 'Float') {
 		var anisotropy = texture.anisotropy;
 		if (texrecord.anisotropy !== anisotropy) {
-			context.texParameterf(glType, Capabilities.TextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(anisotropy, Capabilities.maxAnisotropy));
+			context.texParameterf(glType, Capabilities_Capabilitiesjs.TextureFilterAnisotropic.TEXTURE_MAX_ANISOTROPY_EXT, Math.min(anisotropy, Capabilities_Capabilitiesjs.maxAnisotropy));
 			texrecord.anisotropy = anisotropy;
 		}
 	}
@@ -1633,7 +1618,7 @@ Renderer.prototype.updateTextureParameters = function (texture, isImagePowerOfTw
 Renderer.prototype.bindTexture = function (context, texture, unit, record) {
 	if (record.boundTexture === undefined || texture.glTexture !== undefined && record.boundTexture !== texture.glTexture) {
 		context.activeTexture(context.TEXTURE0 + unit);
-		context.bindTexture(RendererUtils.getGLType(context, texture.variant), texture.glTexture);
+		context.bindTexture(RendererUtils_RendererUtilsjs.getGLType(context, texture.variant), texture.glTexture);
 		record.boundTexture = texture.glTexture;
 	}
 };
@@ -1648,7 +1633,7 @@ Renderer.prototype.bindTexture = function (context, texture, unit, record) {
  */
 Renderer.prototype.unbindTexture = function (context, texture, unit, record) {
 	context.activeTexture(context.TEXTURE0 + unit);
-	context.bindTexture(RendererUtils.getGLType(context, texture.variant), null);
+	context.bindTexture(RendererUtils_RendererUtilsjs.getGLType(context, texture.variant), null);
 	record.boundTexture = undefined;
 };
 
@@ -1664,7 +1649,7 @@ Renderer.prototype.loadCompressedTexture = function (context, target, texture, i
 	var mipSizes = texture.image.mipmapSizes;
 	var dataOffset = 0, dataLength = 0;
 	var width = texture.image.width, height = texture.image.height;
-	var ddsExt = Capabilities.CompressedTextureS3TC;
+	var ddsExt = Capabilities_Capabilitiesjs.CompressedTextureS3TC;
 
 	if (!ddsExt) {
 		texture.image = undefined;
@@ -1737,7 +1722,7 @@ Renderer.prototype.loadCompressedTexture = function (context, target, texture, i
 Renderer.prototype.updateTexture = function (context, texture, unit, record) {
 	// this.bindTexture(context, texture, unit, record);
 	context.activeTexture(context.TEXTURE0 + unit);
-	context.bindTexture(RendererUtils.getGLType(context, texture.variant), texture.glTexture);
+	context.bindTexture(RendererUtils_RendererUtilsjs.getGLType(context, texture.variant), texture.glTexture);
 	record.boundTexture = texture.glTexture;
 
 	// set alignment to support images with width % 4 !== 0, as
@@ -1757,8 +1742,8 @@ Renderer.prototype.updateTexture = function (context, texture, unit, record) {
 	var image = texture.image;
 	if (texture.variant === '2D') {
 		if (!image) {
-			context.texImage2D(context.TEXTURE_2D, 0, RendererUtils.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
-				RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), null);
+			context.texImage2D(context.TEXTURE_2D, 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
+				RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), null);
 		} else {
 			if (!(image instanceof HTMLVideoElement) && !image.isCompressed && (texture.generateMipmaps || texture.wrapS !== 'EdgeClamp' || texture.wrapT !== 'EdgeClamp' || image.width > this.maxTextureSize || image.height > this.maxTextureSize)) {
 				this.checkRescale(texture, image, image.width, image.height, this.maxTextureSize);
@@ -1769,11 +1754,11 @@ Renderer.prototype.updateTexture = function (context, texture, unit, record) {
 				if (image.isCompressed) {
 					this.loadCompressedTexture(context, context.TEXTURE_2D, texture, image.data);
 				} else {
-					context.texImage2D(context.TEXTURE_2D, 0, RendererUtils.getGLInternalFormat(context, texture.format), image.width,
-						image.height, texture.hasBorder ? 1 : 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image.data);
+					context.texImage2D(context.TEXTURE_2D, 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), image.width,
+						image.height, texture.hasBorder ? 1 : 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image.data);
 				}
 			} else {
-				context.texImage2D(context.TEXTURE_2D, 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image);
+				context.texImage2D(context.TEXTURE_2D, 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image);
 			}
 
 			if (texture.generateMipmaps && !image.isCompressed) {
@@ -1782,34 +1767,34 @@ Renderer.prototype.updateTexture = function (context, texture, unit, record) {
 		}
 	} else if (texture.variant === 'CUBE') {
 		if (image && !image.isData && (texture.generateMipmaps || image.width > this.maxCubemapSize || image.height > this.maxCubemapSize)) {
-			for (var i = 0; i < Texture.CUBE_FACES.length; i++) {
+			for (var i = 0; i < Texture_Texturejs.CUBE_FACES.length; i++) {
 				if (image.data[i] && !image.data[i].buffer ) {
-					RendererUtils.scaleImage(texture, image.data[i], image.width, image.height, this.maxCubemapSize, i);
+					RendererUtils_RendererUtilsjs.scaleImage(texture, image.data[i], image.width, image.height, this.maxCubemapSize, i);
 				} else {
-					RendererUtils.getBlankImage(texture, [0.3, 0.3, 0.3, 0], image.width, image.height, this.maxCubemapSize, i);
+					RendererUtils_RendererUtilsjs.getBlankImage(texture, [0.3, 0.3, 0.3, 0], image.width, image.height, this.maxCubemapSize, i);
 				}
 			}
-			texture.image.width = Math.min(this.maxCubemapSize, MathUtils.nearestPowerOfTwo(texture.image.width));
-			texture.image.height = Math.min(this.maxCubemapSize, MathUtils.nearestPowerOfTwo(texture.image.height));
+			texture.image.width = Math.min(this.maxCubemapSize, MathUtils_MathUtilsjs.nearestPowerOfTwo(texture.image.width));
+			texture.image.height = Math.min(this.maxCubemapSize, MathUtils_MathUtilsjs.nearestPowerOfTwo(texture.image.height));
 			image = texture.image;
 		}
 
-		for (var faceIndex = 0; faceIndex < Texture.CUBE_FACES.length; faceIndex++) {
-			var face = Texture.CUBE_FACES[faceIndex];
+		for (var faceIndex = 0; faceIndex < Texture_Texturejs.CUBE_FACES.length; faceIndex++) {
+			var face = Texture_Texturejs.CUBE_FACES[faceIndex];
 
 			if (!image) {
-				context.texImage2D(RendererUtils.getGLCubeMapFace(context, face), 0, RendererUtils.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
-					RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), null);
+				context.texImage2D(RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), texture.width, texture.height, 0,
+					RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), null);
 			} else {
 				if (image.isData === true) {
 					if (image.isCompressed) {
-						this.loadCompressedTexture(context, RendererUtils.getGLCubeMapFace(context, face), texture, image.data[faceIndex]);
+						this.loadCompressedTexture(context, RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), texture, image.data[faceIndex]);
 					} else {
-						context.texImage2D(RendererUtils.getGLCubeMapFace(context, face), 0, RendererUtils.getGLInternalFormat(context, texture.format), image.width,
-							image.height, texture.hasBorder ? 1 : 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image.data[faceIndex]);
+						context.texImage2D(RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), image.width,
+							image.height, texture.hasBorder ? 1 : 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image.data[faceIndex]);
 					}
 				} else {
-					context.texImage2D(RendererUtils.getGLCubeMapFace(context, face), 0, RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLInternalFormat(context, texture.format), RendererUtils.getGLDataType(context, texture.type), image.data[faceIndex]);
+					context.texImage2D(RendererUtils_RendererUtilsjs.getGLCubeMapFace(context, face), 0, RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLInternalFormat(context, texture.format), RendererUtils_RendererUtilsjs.getGLDataType(context, texture.type), image.data[faceIndex]);
 				}
 			}
 		}
@@ -1831,7 +1816,7 @@ Renderer.prototype.updateTexture = function (context, texture, unit, record) {
  * @param {number} index
  */
 Renderer.prototype.checkRescale = function (texture, image, width, height, maxSize, index) {
-	RendererUtils.scaleImage(texture, image, width, height, maxSize, index);
+	RendererUtils_RendererUtilsjs.scaleImage(texture, image, width, height, maxSize, index);
 };
 
 /**
@@ -1882,13 +1867,13 @@ Renderer.prototype.updateBlending = function (material) {
 		} else if (blending === 'SeparateBlending') {
 			context.enable(context.BLEND);
 			context.blendEquationSeparate(
-					RendererUtils.getGLBlendParam(context, material.blendState.blendEquationColor),
-					RendererUtils.getGLBlendParam(context, material.blendState.blendEquationAlpha));
+					RendererUtils_RendererUtilsjs.getGLBlendParam(context, material.blendState.blendEquationColor),
+					RendererUtils_RendererUtilsjs.getGLBlendParam(context, material.blendState.blendEquationAlpha));
 			context.blendFuncSeparate(
-				RendererUtils.getGLBlendParam(context, material.blendState.blendSrcColor),
-				RendererUtils.getGLBlendParam(context, material.blendState.blendDstColor),
-				RendererUtils.getGLBlendParam(context, material.blendState.blendSrcAlpha),
-				RendererUtils.getGLBlendParam(context, material.blendState.blendDstAlpha));
+				RendererUtils_RendererUtilsjs.getGLBlendParam(context, material.blendState.blendSrcColor),
+				RendererUtils_RendererUtilsjs.getGLBlendParam(context, material.blendState.blendDstColor),
+				RendererUtils_RendererUtilsjs.getGLBlendParam(context, material.blendState.blendSrcAlpha),
+				RendererUtils_RendererUtilsjs.getGLBlendParam(context, material.blendState.blendDstAlpha));
 		} else {
 			context.enable(context.BLEND);
 			context.blendEquationSeparate(context.FUNC_ADD, context.FUNC_ADD);
@@ -1905,12 +1890,12 @@ Renderer.prototype.updateBlending = function (material) {
 		var blendDst = material.blendState.blendDst;
 
 		if (blendEquation !== blendRecord.blendEquation) {
-			context.blendEquation(RendererUtils.getGLBlendParam(context, blendEquation));
+			context.blendEquation(RendererUtils_RendererUtilsjs.getGLBlendParam(context, blendEquation));
 			blendRecord.blendEquation = blendEquation;
 		}
 
 		if (blendSrc !== blendRecord.blendSrc || blendDst !== blendRecord.blendDst) {
-			context.blendFunc(RendererUtils.getGLBlendParam(context, blendSrc), RendererUtils.getGLBlendParam(context, blendDst));
+			context.blendFunc(RendererUtils_RendererUtilsjs.getGLBlendParam(context, blendSrc), RendererUtils_RendererUtilsjs.getGLBlendParam(context, blendDst));
 
 			blendRecord.blendSrc = blendSrc;
 			blendRecord.blendDst = blendDst;
@@ -1962,7 +1947,7 @@ Renderer.prototype.updateOffset = function (material) {
 Renderer.prototype.setBoundBuffer = function (buffer, target) {
 	var targetBuffer = this.rendererRecord.currentBuffer[target];
 	if (!targetBuffer.valid || targetBuffer.buffer !== buffer) {
-		this.context.bindBuffer(RendererUtils.getGLBufferTarget(this.context, target), buffer);
+		this.context.bindBuffer(RendererUtils_RendererUtilsjs.getGLBufferTarget(this.context, target), buffer);
 		targetBuffer.buffer = buffer;
 		targetBuffer.valid = true;
 		if (target === 'ArrayBuffer') {
@@ -1980,7 +1965,7 @@ Renderer.prototype.setBoundBuffer = function (buffer, target) {
 Renderer.prototype.bindVertexAttribute = function (attribIndex, attribute) {
 	var hashKey = this.rendererRecord.attributeCache[attribIndex];
 	if (hashKey !== attribute.hashKey) {
-		this.context.vertexAttribPointer(attribIndex, attribute.count, RendererUtils.getGLDataType(this.context, attribute.type), attribute.normalized, attribute.stride, attribute.offset);
+		this.context.vertexAttribPointer(attribIndex, attribute.count, RendererUtils_RendererUtilsjs.getGLDataType(this.context, attribute.type), attribute.normalized, attribute.stride, attribute.offset);
 		this.rendererRecord.attributeCache[attribIndex] = attribute.hashKey;
 	}
 };
@@ -2094,9 +2079,9 @@ Renderer.prototype.setRenderTarget = function (renderTarget) {
 		}
 
 		// Setup texture, create render and frame buffers
-		var isTargetPowerOfTwo = MathUtils.isPowerOfTwo(renderTarget.width) && MathUtils.isPowerOfTwo(renderTarget.height);
-		var glFormat = RendererUtils.getGLInternalFormat(context, renderTarget.format);
-		var glType = RendererUtils.getGLDataType(context, renderTarget.type);
+		var isTargetPowerOfTwo = MathUtils_MathUtilsjs.isPowerOfTwo(renderTarget.width) && MathUtils_MathUtilsjs.isPowerOfTwo(renderTarget.height);
+		var glFormat = RendererUtils_RendererUtilsjs.getGLInternalFormat(context, renderTarget.format);
+		var glType = RendererUtils_RendererUtilsjs.getGLDataType(context, renderTarget.type);
 
 		renderTarget._glFrameBuffer = this.context.createFramebuffer();
 		renderTarget._glRenderBuffer = this.context.createRenderbuffer();
@@ -2200,4 +2185,20 @@ Renderer.prototype._deallocateShader = function (shader) {
 	shader.destroy();
 };
 
-module.exports = Renderer;
+var exported_Renderer = Renderer;
+
+/**
+ * The renderer handles displaying of graphics data to a render context.
+ * It accepts an object containing the settings for the renderer.
+ *
+ * @param {Object} parameters Renderer settings.
+ * @param {boolean} [parameters.alpha=false] Enables the possibility to render non-opaque pixels.
+ * @param {boolean} [parameters.premultipliedAlpha=true] Whether the colors are premultiplied with the alpha channel.
+ * @param {boolean} [parameters.antialias=true] Enables antialiasing.
+ * @param {boolean} [parameters.stencil=false] Enables the stencil buffer.
+ * @param {boolean} [parameters.preserveDrawingBuffer=false]
+ * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc).
+ * @param {canvas} [parameters.canvas] If not supplied, Renderer will create a new canvas.
+ * @param {function (string)} [parameters.onError] Called with message when error occurs.
+ */
+export { exported_Renderer as Renderer };

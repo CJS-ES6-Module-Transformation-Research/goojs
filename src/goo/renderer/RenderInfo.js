@@ -1,9 +1,5 @@
-var Entity = require('../entities/Entity');
-var Transform = require('../math/Transform');
-
-/**
- * Holds configuration data for renderable objects.
- */
+import { Entity as Entity_Entityjs } from "../entities/Entity";
+import { Transform as Transform_Transformjs } from "../math/Transform";
 
 function RenderInfo() {
 	this.reset();
@@ -37,10 +33,10 @@ RenderInfo.prototype.reset = function () {
  */
 
 RenderInfo.prototype.fill = function (renderable) {
-	if (renderable instanceof Entity) {
+	if (renderable instanceof Entity_Entityjs) {
 		this.meshData = renderable.meshDataComponent.meshData;
 		this.materials = renderable.meshRendererComponent.materials;
-		this.transform = renderable.particleComponent ? Transform.IDENTITY : renderable.transformComponent.sync().worldTransform;
+		this.transform = renderable.particleComponent ? Transform_Transformjs.IDENTITY : renderable.transformComponent.sync().worldTransform;
 		if (renderable.meshDataComponent.currentPose) {
 			this.currentPose = renderable.meshDataComponent.currentPose;
 		} else {
@@ -60,4 +56,10 @@ RenderInfo.prototype.fill = function (renderable) {
 	this.renderable = renderable;
 };
 
-module.exports = RenderInfo;
+var exported_RenderInfo = RenderInfo;
+
+/**
+ * Holds configuration data for renderable objects.
+ */
+
+export { exported_RenderInfo as RenderInfo };

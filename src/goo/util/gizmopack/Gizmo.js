@@ -1,26 +1,22 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Material = require('../../renderer/Material');
-var Renderer = require('../../renderer/Renderer');
-var Transform = require('../../math/Transform');
-var Plane = require('../../math/Plane');
-var Vector3 = require('../../math/Vector3');
-var Camera = require('../../renderer/Camera');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * @hidden
- */
+import { MeshData as MeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as Shader_Shaderjs } from "../../renderer/Shader";
+import { Material as Material_Materialjs } from "../../renderer/Material";
+import { Renderer as Renderer_Rendererjs } from "../../renderer/Renderer";
+import { Transform as Transform_Transformjs } from "../../math/Transform";
+import { Plane as Plane_Planejs } from "../../math/Plane";
+import { Vector3 as Vector3_Vector3js } from "../../math/Vector3";
+import { Camera as Camera_Camerajs } from "../../renderer/Camera";
+import { MathUtils as MathUtils_MathUtilsjs } from "../../math/MathUtils";
 function Gizmo(name) {
 	this.name = name;
 
-	this._plane = new Plane();
-	this._line = new Vector3();
+	this._plane = new Plane_Planejs();
+	this._line = new Vector3_Vector3js();
 	this._activeHandle = null;
 
 	this.visible = false;
 
-	this.transform = new Transform();
+	this.transform = new Transform_Transformjs();
 	this.renderables = [];
 	this.onChange = null;
 }
@@ -107,13 +103,13 @@ var GIZMO_SIZE = 1 / 60;
  * Scale adjustment is also performed.
  */
 Gizmo.prototype.updateTransforms = function () {
-	if (Renderer.mainCamera) {
-		var camera = Renderer.mainCamera;
+	if (Renderer_Rendererjs.mainCamera) {
+		var camera = Renderer_Rendererjs.mainCamera;
 		var scale;
-		if (camera.projectionMode === Camera.Perspective) {
+		if (camera.projectionMode === Camera_Camerajs.Perspective) {
 			var dist = camera.translation.distance(this.transform.translation);
 			scale = dist * GIZMO_SIZE;
-			scale *= Math.tan(camera.fov * MathUtils.DEG_TO_RAD / 2) * 2;
+			scale *= Math.tan(camera.fov * MathUtils_MathUtilsjs.DEG_TO_RAD / 2) * 2;
 		} else {
 			scale = (camera._frustumTop - camera._frustumBottom) / 30;
 		}
@@ -129,50 +125,50 @@ Gizmo.prototype.updateTransforms = function () {
 };
 
 (function () {
-	var worldCenter = new Vector3();
-	var worldX = new Vector3();
-	var worldY = new Vector3();
-	var worldZ = new Vector3();
-	var screenCenter = new Vector3();
-	var screenX = new Vector3();
-	var screenY = new Vector3();
-	var screenZ = new Vector3();
+	var worldCenter = new Vector3_Vector3js();
+	var worldX = new Vector3_Vector3js();
+	var worldY = new Vector3_Vector3js();
+	var worldZ = new Vector3_Vector3js();
+	var screenCenter = new Vector3_Vector3js();
+	var screenX = new Vector3_Vector3js();
+	var screenY = new Vector3_Vector3js();
+	var screenZ = new Vector3_Vector3js();
 
 	Gizmo.prototype._setPlane = function () {
 		var normal = this._plane.normal;
 
 		if (this._activeHandle.type === 'Plane') {
 			// Calculate plane's normal in world space
-			normal.copy([Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z][this._activeHandle.axis]);
+			normal.copy([Vector3_Vector3js.UNIT_X, Vector3_Vector3js.UNIT_Y, Vector3_Vector3js.UNIT_Z][this._activeHandle.axis]);
 			normal.applyPostVector(this.transform.matrix);
 			normal.normalize();
 
 			// Set plane distance from world origin by projecting world translation to plane normal
-			worldCenter.copy(Vector3.ZERO);
+			worldCenter.copy(Vector3_Vector3js.ZERO);
 			worldCenter.applyPostPoint(this.transform.matrix);
 
 			this._plane.constant = worldCenter.dot(normal);
 		} else {
 			// Get gizmo handle points in world space
-			worldCenter.copy(Vector3.ZERO);
+			worldCenter.copy(Vector3_Vector3js.ZERO);
 			worldCenter.applyPostPoint(this.transform.matrix);
 
-			worldX.copy(Vector3.UNIT_X);
+			worldX.copy(Vector3_Vector3js.UNIT_X);
 			worldX.applyPostPoint(this.transform.matrix);
 
-			worldY.copy(Vector3.UNIT_Y);
+			worldY.copy(Vector3_Vector3js.UNIT_Y);
 			worldY.applyPostPoint(this.transform.matrix);
 
-			worldZ.copy(Vector3.UNIT_Z);
+			worldZ.copy(Vector3_Vector3js.UNIT_Z);
 			worldZ.applyPostPoint(this.transform.matrix);
 
 			// Gizmo handle points in screen space
-			Renderer.mainCamera.getScreenCoordinates(worldCenter, 1, 1, screenCenter);
-			Renderer.mainCamera.getScreenCoordinates(worldX, 1, 1, screenX);
+			Renderer_Rendererjs.mainCamera.getScreenCoordinates(worldCenter, 1, 1, screenCenter);
+			Renderer_Rendererjs.mainCamera.getScreenCoordinates(worldX, 1, 1, screenX);
 			screenX.sub(screenCenter);
-			Renderer.mainCamera.getScreenCoordinates(worldY, 1, 1, screenY);
+			Renderer_Rendererjs.mainCamera.getScreenCoordinates(worldY, 1, 1, screenY);
 			screenY.sub(screenCenter);
-			Renderer.mainCamera.getScreenCoordinates(worldZ, 1, 1, screenZ);
+			Renderer_Rendererjs.mainCamera.getScreenCoordinates(worldZ, 1, 1, screenZ);
 			screenZ.sub(screenCenter);
 
 			// when dragging on a line
@@ -211,7 +207,7 @@ Gizmo.prototype.updateTransforms = function () {
 
 Gizmo.prototype._setLine = function () {
 	// If translating or scaling along a line, set current line
-	this._line.copy([Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z][this._activeHandle.axis]);
+	this._line.copy([Vector3_Vector3js.UNIT_X, Vector3_Vector3js.UNIT_Y, Vector3_Vector3js.UNIT_Z][this._activeHandle.axis]);
 	this._line.applyPostVector(this.transform.matrix);
 	this._line.normalize();
 };
@@ -222,7 +218,7 @@ Gizmo.prototype.addRenderable = function (renderable) {
 };
 
 Gizmo.buildMaterialForAxis = function (axis, opacity) {
-	var material = new Material(SHADER_DEF, axis + 'Material');
+	var material = new Material_Materialjs(SHADER_DEF, axis + 'Material');
 	material.uniforms.color = COLORS[axis].slice();
 
 	if (opacity !== undefined && opacity < 1.0) {
@@ -244,12 +240,12 @@ var COLORS = [
 
 var SHADER_DEF = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: MeshData_MeshDatajs.POSITION,
+		vertexNormal: MeshData_MeshDatajs.NORMAL
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: Shader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: Shader_Shaderjs.WORLD_MATRIX,
 		color: [1.0, 1.0, 1.0],
 		opacity: 1.0
 	},
@@ -291,4 +287,9 @@ var SHADER_DEF = {
 	].join('\n')
 };
 
-module.exports = Gizmo;
+var exported_Gizmo = Gizmo;
+
+/**
+ * @hidden
+ */
+export { exported_Gizmo as Gizmo };

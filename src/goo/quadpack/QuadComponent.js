@@ -1,27 +1,13 @@
-var Component = require('../entities/components/Component');
-var DoubleQuad = require('../quadpack/DoubleQuad');
-var MeshDataComponent = require('../entities/components/MeshDataComponent');
-var MeshRendererComponent = require('../entities/components/MeshRendererComponent');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Material = require('../renderer/Material');
-var ObjectUtils = require('../util/ObjectUtils');
-var Texture = require('../renderer/Texture');
-
-/**
- * Quad component that holds a unit [Quad]{@link Quad} mesh and a [Material]{@link Material}. It makes it easy to create a textured quad in 3D space, for example a logotype. When the component is added to the world, all other needed components are automatically added to the entity. Make sure your add a [QuadSystem]{@link QuadSystem} to the world before you start using this component.
- * @see QuadSystem
- * @param {HTMLImageElement} [image]
- * @param {Object} [settings]
- * @param {number} [settings.width=1]	Width of the Quad mesh. See [Quad]{@link Quad}
- * @param {number} [settings.height=1]
- * @param {number} [settings.tileX=1]	Number of tiles in the Quad. See [Quad]{@link Quad}
- * @param {number} [settings.tileY=1]
- * @param {number} [settings.preserveAspectRatio=true] Will resize the Quad mesh so that the aspect is preserved.
- * @extends {Component}
- * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/QuadComponent/QuadComponent-vtest.html Working example
- */
+import { Component as Component_Componentjs } from "../entities/components/Component";
+import { DoubleQuad as DoubleQuad_DoubleQuadjs } from "../quadpack/DoubleQuad";
+import { MeshDataComponent as MeshDataComponent_MeshDataComponentjs } from "../entities/components/MeshDataComponent";
+import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponentjs } from "../entities/components/MeshRendererComponent";
+import { ShaderLib as ShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
+import { Material as Material_Materialjs } from "../renderer/Material";
+import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { Texture as Texture_Texturejs } from "../renderer/Texture";
 function QuadComponent(image, settings) {
-	Component.apply(this, arguments);
+	Component_Componentjs.apply(this, arguments);
 
 	settings = settings || {};
 	var defaults = {
@@ -31,7 +17,7 @@ function QuadComponent(image, settings) {
 		tileY: 1,
 		preserveAspectRatio : true
 	};
-	ObjectUtils.defaults(settings, defaults); //! AT: this will mutate settings which is BAD!!!
+	ObjectUtils_ObjectUtilsjs.defaults(settings, defaults); //! AT: this will mutate settings which is BAD!!!
 
 	this.type = 'QuadComponent';
 
@@ -68,24 +54,24 @@ function QuadComponent(image, settings) {
 	 * @type {MeshRendererComponent}
 	 * @private
 	 */
-	this.meshRendererComponent = new MeshRendererComponent();
+	this.meshRendererComponent = new MeshRendererComponent_MeshRendererComponentjs();
 
 	/** The material currently used by the component.
 	 * @type {Material}
 	 */
-	this.material = new Material(ShaderLib.uber, 'QuadComponent default material');
+	this.material = new Material_Materialjs(ShaderLib_ShaderLibjs.uber, 'QuadComponent default material');
 
 	/** The quad meshdata.
 	 * @type {Quad}
 	 * @private
 	 */
-	this.meshData = new DoubleQuad(settings.width, settings.height, settings.tileX, settings.tileY);
+	this.meshData = new DoubleQuad_DoubleQuadjs(settings.width, settings.height, settings.tileX, settings.tileY);
 
 	/** Mesh data component that this component creates and adds to the entity.
 	 * @type {MeshDataComponent}
 	 * @private
 	 */
-	this.meshDataComponent = new MeshDataComponent(this.meshData);
+	this.meshDataComponent = new MeshDataComponent_MeshDataComponentjs(this.meshData);
 
 	// Set the material as current
 	var material = this.material;
@@ -95,7 +81,7 @@ function QuadComponent(image, settings) {
 	this.setMaterial(material);
 
 	if (image) {
-		var texture = new Texture(image);
+		var texture = new Texture_Texturejs(image);
 		texture.anisotropy = 16;
 		texture.wrapS = 'EdgeClamp';
 		texture.wrapT = 'EdgeClamp';
@@ -104,7 +90,7 @@ function QuadComponent(image, settings) {
 
 	this.rebuildMeshData();
 }
-QuadComponent.prototype = Object.create(Component.prototype);
+QuadComponent.prototype = Object.create(Component_Componentjs.prototype);
 QuadComponent.prototype.constructor = QuadComponent;
 
 QuadComponent.prototype.attached = function (entity) {
@@ -177,5 +163,20 @@ QuadComponent.prototype.rebuildMeshData = function () {
 	}
 };
 
-module.exports = QuadComponent;
+var exported_QuadComponent = QuadComponent;
+
+/**
+ * Quad component that holds a unit [Quad]{@link Quad} mesh and a [Material]{@link Material}. It makes it easy to create a textured quad in 3D space, for example a logotype. When the component is added to the world, all other needed components are automatically added to the entity. Make sure your add a [QuadSystem]{@link QuadSystem} to the world before you start using this component.
+ * @see QuadSystem
+ * @param {HTMLImageElement} [image]
+ * @param {Object} [settings]
+ * @param {number} [settings.width=1]	Width of the Quad mesh. See [Quad]{@link Quad}
+ * @param {number} [settings.height=1]
+ * @param {number} [settings.tileX=1]	Number of tiles in the Quad. See [Quad]{@link Quad}
+ * @param {number} [settings.tileY=1]
+ * @param {number} [settings.preserveAspectRatio=true] Will resize the Quad mesh so that the aspect is preserved.
+ * @extends {Component}
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/QuadComponent/QuadComponent-vtest.html Working example
+ */
+export { exported_QuadComponent as QuadComponent };
 

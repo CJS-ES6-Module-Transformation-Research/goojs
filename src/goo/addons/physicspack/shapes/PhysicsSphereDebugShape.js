@@ -1,19 +1,13 @@
-var MeshData = require('../../../renderer/MeshData');
-
-/**
- * A wireframe mesh indicating the position and orientation of a SphereCollider.
- * @param {number} [numSegments=32]
- * @extends MeshData
- */
+import { MeshData as MeshData_MeshDatajs } from "../../../renderer/MeshData";
 function PhysicsSphereDebugShape(numSegments) {
 	numSegments = numSegments || 32;
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = MeshData_MeshDatajs.defaultMap([MeshData_MeshDatajs.POSITION]);
 	this.numSegments = numSegments;
-	MeshData.call(this, attributeMap, 3 * 3 * numSegments, 3 * 2 * numSegments);
+	MeshData_MeshDatajs.call(this, attributeMap, 3 * 3 * numSegments, 3 * 2 * numSegments);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsSphereDebugShape.prototype = Object.create(MeshData.prototype);
+PhysicsSphereDebugShape.prototype = Object.create(MeshData_MeshDatajs.prototype);
 PhysicsSphereDebugShape.prototype.constructor = PhysicsSphereDebugShape;
 
 /**
@@ -49,10 +43,17 @@ PhysicsSphereDebugShape.prototype.rebuild = function () {
 		indices.push(2 * numSegments + i, 2 * numSegments + (i + 1) % numSegments);
 	}
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshData_MeshDatajs.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 
 	return this;
 };
 
-module.exports = PhysicsSphereDebugShape;
+var exported_PhysicsSphereDebugShape = PhysicsSphereDebugShape;
+
+/**
+ * A wireframe mesh indicating the position and orientation of a SphereCollider.
+ * @param {number} [numSegments=32]
+ * @extends MeshData
+ */
+export { exported_PhysicsSphereDebugShape as PhysicsSphereDebugShape };

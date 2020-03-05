@@ -1,14 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A disk shape
- * @extends MeshData
- * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Disk/Disk-vtest.html Working example
- * @param {number} [nSegments=8] Number of slices
- * @param {number} [radius=1] Radius of the disk
- * @param {number} [pointiness=0] The center of the disk can be offset in both directions from its outer edge by setting a positive or negative pointiness.
- */
+import { MeshData as MeshData_MeshDatajs } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function Disk(nSegments, radius, pointiness) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -21,15 +12,15 @@ function Disk(nSegments, radius, pointiness) {
 	this.radius = radius || 1;
 	this.pointiness = pointiness || 0;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.nSegments + 1, this.nSegments * 3);
+	var attributeMap = MeshData_MeshDatajs.defaultMap([MeshData_MeshDatajs.POSITION, MeshData_MeshDatajs.NORMAL, MeshData_MeshDatajs.TEXCOORD0]);
+	MeshData_MeshDatajs.call(this, attributeMap, this.nSegments + 1, this.nSegments * 3);
 
 	this.indexModes = ['Triangles'];
 
 	this.rebuild();
 }
 
-Disk.prototype = Object.create(MeshData.prototype);
+Disk.prototype = Object.create(MeshData_MeshDatajs.prototype);
 Disk.prototype.constructor = Disk;
 
 /**
@@ -67,9 +58,9 @@ Disk.prototype.rebuild = function () {
 	norms.push(0, 0, 1);
 	tex.push(0.5, 0.5);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshData_MeshDatajs.POSITION).set(verts);
+	this.getAttributeBuffer(MeshData_MeshDatajs.NORMAL).set(norms);
+	this.getAttributeBuffer(MeshData_MeshDatajs.TEXCOORD0).set(tex);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -80,9 +71,19 @@ Disk.prototype.rebuild = function () {
  * @returns {Disk}
  */
 Disk.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['nSegments', 'radius', 'pointiness']);
+	var options = ObjectUtils_ObjectUtilsjs.shallowSelectiveClone(this, ['nSegments', 'radius', 'pointiness']);
 
 	return new Disk(options);
 };
 
-module.exports = Disk;
+var exported_Disk = Disk;
+
+/**
+ * A disk shape
+ * @extends MeshData
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Disk/Disk-vtest.html Working example
+ * @param {number} [nSegments=8] Number of slices
+ * @param {number} [radius=1] Radius of the disk
+ * @param {number} [pointiness=0] The center of the disk can be offset in both directions from its outer edge by setting a positive or negative pointiness.
+ */
+export { exported_Disk as Disk };

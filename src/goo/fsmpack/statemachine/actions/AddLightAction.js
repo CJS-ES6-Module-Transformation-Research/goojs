@@ -1,14 +1,14 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var LightComponent = require('../../../entities/components/LightComponent');
-var PointLight = require('../../../renderer/light/PointLight');
-var DirectionalLight = require('../../../renderer/light/DirectionalLight');
-var SpotLight = require('../../../renderer/light/SpotLight');
+import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { LightComponent as LightComponent_LightComponentjs } from "../../../entities/components/LightComponent";
+import { PointLight as PointLight_PointLightjs } from "../../../renderer/light/PointLight";
+import { DirectionalLight as DirectionalLight_DirectionalLightjs } from "../../../renderer/light/DirectionalLight";
+import { SpotLight as SpotLight_SpotLightjs } from "../../../renderer/light/SpotLight";
 
-function AddLightAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function AddLightAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-AddLightAction.prototype = Object.create(Action.prototype);
+AddLightAction.prototype = Object.create(Action_Actionjs.prototype);
 AddLightAction.prototype.constructor = AddLightAction;
 
 AddLightAction.external = {
@@ -71,20 +71,20 @@ AddLightAction.prototype.enter = function (fsm) {
 
 	var light;
 	if (this.type === 'Directional') {
-		light = new DirectionalLight();
+		light = new DirectionalLight_DirectionalLightjs();
 	} else if (this.type === 'Spot') {
-		light = new SpotLight();
+		light = new SpotLight_SpotLightjs();
 		light.range = +this.range;
 		light.angle = +this.angle;
 		light.penumbra = +this.penumbra;
 	} else {
-		light = new PointLight();
+		light = new PointLight_PointLightjs();
 		light.range = +this.range;
 	}
 
 	light.color.setDirect(this.color[0], this.color[1], this.color[2]);
 
-	entity.setComponent(new LightComponent(light));
+	entity.setComponent(new LightComponent_LightComponentjs(light));
 };
 
 AddLightAction.prototype.cleanup = function (fsm) {
@@ -96,4 +96,5 @@ AddLightAction.prototype.cleanup = function (fsm) {
 	}
 };
 
-module.exports = AddLightAction;
+var exported_AddLightAction = AddLightAction;
+export { exported_AddLightAction as AddLightAction };

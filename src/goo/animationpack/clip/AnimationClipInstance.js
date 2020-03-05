@@ -1,9 +1,4 @@
-var World = require('../../entities/World');
-
-/**
- * Maintains state information about an instance of a specific animation clip, such as time scaling applied, active flag, start time of the
- *        instance, etc.
- */
+import { World as World_Worldjs } from "../../entities/World";
 function AnimationClipInstance() {
 	this._active = true;
 	this._loopCount = 0;
@@ -20,7 +15,7 @@ function AnimationClipInstance() {
  * @param {number} [globalTime=World.time]
  */
 AnimationClipInstance.prototype.setTimeScale = function (scale, globalTime) {
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : World_Worldjs.time;
 	if (this._active && this._timeScale !== scale) {
 		if (this._timeScale !== 0.0 && scale !== 0.0) {
 			// move startTime to account for change in scale
@@ -62,4 +57,10 @@ AnimationClipInstance.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = AnimationClipInstance;
+var exported_AnimationClipInstance = AnimationClipInstance;
+
+/**
+ * Maintains state information about an instance of a specific animation clip, such as time scaling applied, active flag, start time of the
+ *        instance, etc.
+ */
+export { exported_AnimationClipInstance as AnimationClipInstance };

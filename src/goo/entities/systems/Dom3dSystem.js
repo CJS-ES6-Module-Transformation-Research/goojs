@@ -1,17 +1,11 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Vector3 = require('../../math/Vector3');
-var Ray = require('../../math/Ray');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
+import { Material as Material_Materialjs } from "../../renderer/Material";
+import { ShaderLib as ShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { Vector3 as Vector3_Vector3js } from "../../math/Vector3";
+import { Ray as Ray_Rayjs } from "../../math/Ray";
+import { MathUtils as MathUtils_MathUtilsjs } from "../../math/MathUtils";
 function Dom3dSystem(renderer) {
-	System.call(this, 'Dom3dSystem', ['TransformComponent', 'Dom3dComponent']);
+	System_Systemjs.call(this, 'Dom3dSystem', ['TransformComponent', 'Dom3dComponent']);
 
 	this.renderer = renderer;
 	this.camera = null;
@@ -22,12 +16,12 @@ function Dom3dSystem(renderer) {
 
 	this.playing = true;
 
-	var frontMaterial = new Material(ShaderLib.simple);
+	var frontMaterial = new Material_Materialjs(ShaderLib_ShaderLibjs.simple);
 	frontMaterial.blendState.blending = 'CustomBlending';
 	frontMaterial.blendState.blendSrc = 'ZeroFactor';
 	frontMaterial.blendState.blendDst = 'ZeroFactor';
 
-	var backMaterial = new Material(ShaderLib.uber);
+	var backMaterial = new Material_Materialjs(ShaderLib_ShaderLibjs.uber);
 	backMaterial.uniforms.materialDiffuse = [0.5, 0.5, 0.5, 1];
 	backMaterial.cullState.cullFace = 'Front';
 
@@ -40,13 +34,13 @@ function Dom3dSystem(renderer) {
 	this.precisionScale = 1000; // Thanks browsers
 }
 
-Dom3dSystem.prototype = Object.create(System.prototype);
+Dom3dSystem.prototype = Object.create(System_Systemjs.prototype);
 Dom3dSystem.prototype.constructor = Dom3dSystem;
 
 Dom3dSystem.prototype.init = function () {
-	var ray = new Ray();
-	var polygonVertices = [new Vector3(), new Vector3(), new Vector3(), new Vector3()];
-	var offsets = [new Vector3(-0.5, -0.5, 0), new Vector3(-0.5, 0.5, 0), new Vector3(0.5, 0.5, 0), new Vector3(0.5, -0.5, 0)];
+	var ray = new Ray_Rayjs();
+	var polygonVertices = [new Vector3_Vector3js(), new Vector3_Vector3js(), new Vector3_Vector3js(), new Vector3_Vector3js()];
+	var offsets = [new Vector3_Vector3js(-0.5, -0.5, 0), new Vector3_Vector3js(-0.5, 0.5, 0), new Vector3_Vector3js(0.5, 0.5, 0), new Vector3_Vector3js(0.5, -0.5, 0)];
 	var doPlanar = false;
 
 	var doesIntersect = false;
@@ -229,7 +223,7 @@ Dom3dSystem.prototype.onPreRender = function () {
 
 	var width = this.renderer.viewportWidth / this.renderer.devicePixelRatio;
 	var height = this.renderer.viewportHeight / this.renderer.devicePixelRatio;
-	var fov = 0.5 / Math.tan(MathUtils.DEG_TO_RAD * camera.fov * 0.5) * height;
+	var fov = 0.5 / Math.tan(MathUtils_MathUtilsjs.DEG_TO_RAD * camera.fov * 0.5) * height;
 
 	this.setStyle(this.rootDom, 'perspective', fov + 'px');
 
@@ -271,11 +265,17 @@ Dom3dSystem.prototype.onPreRender = function () {
 };
 
 Dom3dSystem.prototype.cleanup = function () {
-	System.prototype.cleanup.apply(this, arguments);
+	System_Systemjs.prototype.cleanup.apply(this, arguments);
 
 	if (this.rootDom.parentNode !== null) {
 		this.rootDom.parentNode.removeChild(this.rootDom);
 	}
 };
 
-module.exports = Dom3dSystem;
+var exported_Dom3dSystem = Dom3dSystem;
+
+/**
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
+ */
+export { exported_Dom3dSystem as Dom3dSystem };

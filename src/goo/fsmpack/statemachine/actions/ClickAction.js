@@ -1,14 +1,14 @@
-var Action = require('./Action');
+import { Action as Action_Actionjs } from "./Action";
 
-function ClickAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ClickAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
 	this.selected = false;
 	this.x = 0;
 	this.y = 0;
 }
 
-ClickAction.prototype = Object.create(Action.prototype);
+ClickAction.prototype = Object.create(Action_Actionjs.prototype);
 ClickAction.prototype.constructor = ClickAction;
 
 ClickAction.external = {
@@ -116,4 +116,5 @@ ClickAction.prototype.exit = function () {
 	document.removeEventListener('touchend', this.upListener);
 };
 
-module.exports = ClickAction;
+var exported_ClickAction = ClickAction;
+export { exported_ClickAction as ClickAction };

@@ -1,21 +1,16 @@
-var Material = require('../renderer/Material');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ParticleLib = require('../particles/ParticleLib');
-var ParticleSystemUtils = require('../util/ParticleSystemUtils');
-var Renderer = require('../renderer/Renderer');
-var Vector3 = require('../math/Vector3');
-
-/**
- * Snow
- * @param {GooRunner} gooRunner
- */
+import { Material as Material_Materialjs } from "../renderer/Material";
+import { ShaderLib as ShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
+import { ParticleLib as ParticleLib_ParticleLibjs } from "../particles/ParticleLib";
+import { ParticleSystemUtils as ParticleSystemUtils_ParticleSystemUtilsjs } from "../util/ParticleSystemUtils";
+import { Renderer as Renderer_Rendererjs } from "../renderer/Renderer";
+import { Vector3 as Vector3_Vector3js } from "../math/Vector3";
 function Snow(gooRunner) {
 	this.velocity = 10;
 	this.height = 25;
 
 	// put this in some subroutine
-	this.material = new Material(ShaderLib.particles);
-	var texture = ParticleSystemUtils.createFlareTexture(64); //Snowflake
+	this.material = new Material_Materialjs(ShaderLib_ShaderLibjs.particles);
+	var texture = ParticleSystemUtils_ParticleSystemUtilsjs.createFlareTexture(64); //Snowflake
 	texture.generateMipmaps = true;
 	this.material.setTexture('DIFFUSE_MAP', texture);
 	this.material.blendState.blending = 'AdditiveBlending';
@@ -27,14 +22,14 @@ function Snow(gooRunner) {
 	var that = this;
 
 	// and this too
-	this.particleCloudEntity = ParticleSystemUtils.createParticleSystemEntity(
+	this.particleCloudEntity = ParticleSystemUtils_ParticleSystemUtilsjs.createParticleSystemEntity(
 		gooRunner.world,
-		ParticleLib.getSnow({
+		ParticleLib_ParticleLibjs.getSnow({
 			getEmissionPoint: function (vec3) {
 				// either camera or some predefined area
 
 				// camera
-				vec3.copy(Renderer.mainCamera ? Renderer.mainCamera.translation : new Vector3());
+				vec3.copy(Renderer_Rendererjs.mainCamera ? Renderer_Rendererjs.mainCamera.translation : new Vector3_Vector3js());
 				vec3.x += Math.random() * 1000 - 500;
 				vec3.y += that.height; // put higher than camera
 				vec3.z += Math.random() * 1000 - 500;
@@ -53,7 +48,7 @@ function Snow(gooRunner) {
 		newCam.entity.attachChild(this.particleCloudEntity);
 	}.bind(this);
 
-	this.particleCloudEntity.transformComponent.transform.translation.copy(Renderer.mainCamera ? Renderer.mainCamera.translation : new Vector3());
+	this.particleCloudEntity.transformComponent.transform.translation.copy(Renderer_Rendererjs.mainCamera ? Renderer_Rendererjs.mainCamera.translation : new Vector3_Vector3js());
 
 	this.particleCloudEntity.addToWorld();
 	//SystemBus.addListener('goo.setCurrentCamera', this.onCameraChange);
@@ -93,4 +88,10 @@ Snow.prototype.remove = function () {
 	this.particleCloudEntity.removeFromWorld();
 };
 
-module.exports = Snow;
+var exported_Snow = Snow;
+
+/**
+ * Snow
+ * @param {GooRunner} gooRunner
+ */
+export { exported_Snow as Snow };

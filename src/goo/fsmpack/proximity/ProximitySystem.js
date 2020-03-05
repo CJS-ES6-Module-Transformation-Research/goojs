@@ -1,16 +1,7 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var StringUtils = require('../../util/StringUtils');
-
-/**
- * Processes all entities with a proximity component
- * @param {Renderer} renderer
- * @param {RenderSystem} renderSystem
- * @private
- * @extends System
- */
+import { System as System_Systemjs } from "../../entities/systems/System";
+import { StringUtils as StringUtils_StringUtilsjs } from "../../util/StringUtils";
 function ProximitySystem() {
-	System.call(this, 'ProximitySystem', ['ProximityComponent']);
+	System_Systemjs.call(this, 'ProximitySystem', ['ProximityComponent']);
 
 	this.collections = {
 		Red: { name: 'Red', collection: [] },
@@ -20,7 +11,7 @@ function ProximitySystem() {
 	};
 }
 
-ProximitySystem.prototype = Object.create(System.prototype);
+ProximitySystem.prototype = Object.create(System_Systemjs.prototype);
 
 ProximitySystem.prototype._collides = function (first, second) {
 	// really non-optimal
@@ -37,7 +28,7 @@ ProximitySystem.prototype._collides = function (first, second) {
 };
 
 function formatTag(tag) {
-	return StringUtils.capitalize(tag);
+	return StringUtils_StringUtilsjs.capitalize(tag);
 }
 
 ProximitySystem.prototype.getFor = function (tag) {
@@ -77,4 +68,13 @@ ProximitySystem.prototype.process = function (/*entities*/) {
 	*/
 };
 
-module.exports = ProximitySystem;
+var exported_ProximitySystem = ProximitySystem;
+
+/**
+ * Processes all entities with a proximity component
+ * @param {Renderer} renderer
+ * @param {RenderSystem} renderSystem
+ * @private
+ * @extends System
+ */
+export { exported_ProximitySystem as ProximitySystem };

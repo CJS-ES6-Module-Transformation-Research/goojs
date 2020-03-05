@@ -1,15 +1,15 @@
-var MeshRendererComponent = require('../../../../src/goo/entities/components/MeshRendererComponent');
-var Material = require('../../../../src/goo/renderer/Material');
-var World = require('../../../../src/goo/entities/World');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var Configs = require('../../../../test/unit/loaders/Configs');
+import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponentjs } from "../../../../src/goo/entities/components/MeshRendererComponent";
+import { Material as Material_Materialjs } from "../../../../src/goo/renderer/Material";
+import { World as World_Worldjs } from "../../../../src/goo/entities/World";
+import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
+import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
 
 describe('MeshRendererComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new World_Worldjs();
+		loader = new DynamicLoader_DynamicLoaderjs({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,19 +17,19 @@ describe('MeshRendererComponentHandler', function () {
 	});
 
 	it('loads an entity with a meshRendererComponent', function (done) {
-		var config = Configs.entity(['meshRenderer']);
-		loader.preload(Configs.get());
+		var config = Configs_Configsjs.entity(['meshRenderer']);
+		loader.preload(Configs_Configsjs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshRendererComponent).toEqual(jasmine.any(MeshRendererComponent));
-			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(Material));
+			expect(entity.meshRendererComponent).toEqual(jasmine.any(MeshRendererComponent_MeshRendererComponentjs));
+			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(Material_Materialjs));
 			done();
 		});
 	});
 
 	it('loads materials in right order', function (done) {
-		var config = Configs.entity(['meshRenderer']);
+		var config = Configs_Configsjs.entity(['meshRenderer']);
 		var materialConfigs = config.components.meshRenderer.materials;
-		loader.preload(Configs.get());
+		loader.preload(Configs_Configsjs.get());
 		loader.load(config.id).then(function (entity) {
 			var materials = entity.meshRendererComponent.materials;
 			var sortMaterials = {};
@@ -43,8 +43,8 @@ describe('MeshRendererComponentHandler', function () {
 			for (var i = 0; i < keys.length; i++) {
 				expect(sortMaterials[keys[i]]).toBe(materials[i].id);
 			}
-			expect(entity.meshRendererComponent).toEqual(jasmine.any(MeshRendererComponent));
-			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(Material));
+			expect(entity.meshRendererComponent).toEqual(jasmine.any(MeshRendererComponent_MeshRendererComponentjs));
+			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(Material_Materialjs));
 			done();
 		});
 	});

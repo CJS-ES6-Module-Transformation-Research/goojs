@@ -1,18 +1,18 @@
-var World = require('../../../../src/goo/entities/World');
-var EntityManager = require('../../../../src/goo/entities/managers/EntityManager');
+import { World as World_Worldjs } from "../../../../src/goo/entities/World";
+import { EntityManager as EntityManager_EntityManagerjs } from "../../../../src/goo/entities/managers/EntityManager";
 
 describe('EntityManager', function () {
 	var world;
 	var entityManager;
 	beforeEach(function () {
-		world = new World();
-		entityManager = new EntityManager();
+		world = new World_Worldjs();
+		entityManager = new EntityManager_EntityManagerjs();
 	});
 
 	describe('added & containsEntity', function () {
 		var entity1, entity2;
 		beforeEach(function () {
-			entityManager = new EntityManager();
+			entityManager = new EntityManager_EntityManagerjs();
 			entity1 = world.createEntity();
 			entity2 = world.createEntity();
 		});
@@ -54,7 +54,7 @@ describe('EntityManager', function () {
 	describe('removed', function () {
 		var entity1, entity2;
 		beforeEach(function () {
-			entityManager = new EntityManager();
+			entityManager = new EntityManager_EntityManagerjs();
 			entity1 = world.createEntity();
 			entity2 = world.createEntity();
 		});
@@ -89,7 +89,7 @@ describe('EntityManager', function () {
 	describe('getEntityById', function () {
 		var entity1, entity2, entity3;
 		beforeEach(function () {
-			entityManager = new EntityManager();
+			entityManager = new EntityManager_EntityManagerjs();
 			entity1 = world.createEntity();
 			entity2 = world.createEntity();
 			entity3 = world.createEntity();
@@ -110,7 +110,7 @@ describe('EntityManager', function () {
 	describe('getEntityByName', function () {
 		var entity1, entity2, entity3;
 		beforeEach(function () {
-			entityManager = new EntityManager();
+			entityManager = new EntityManager_EntityManagerjs();
 			entity1 = world.createEntity();
 			entity2 = world.createEntity();
 			entity3 = world.createEntity();
@@ -131,7 +131,7 @@ describe('EntityManager', function () {
 	describe('getEntities', function () {
 		var entity1, entity2, entity3;
 		beforeEach(function () {
-			entityManager = new EntityManager();
+			entityManager = new EntityManager_EntityManagerjs();
 			entity1 = world.createEntity();
 			entity2 = world.createEntity();
 			entity3 = world.createEntity();
@@ -212,7 +212,7 @@ describe('EntityManager', function () {
 		var world;
 		var entity1, entity2, entity3;
 		beforeEach(function () {
-			world = new World();
+			world = new World_Worldjs();
 			entity1 = world.createEntity().addToWorld();
 			entity2 = world.createEntity();
 			entity3 = world.createEntity().addToWorld();
@@ -233,7 +233,7 @@ describe('EntityManager', function () {
 		var world;
 		var entity1, entity2, entity3;
 		beforeEach(function () {
-			world = new World();
+			world = new World_Worldjs();
 			entity1 = world.createEntity().addToWorld();
 			entity2 = world.createEntity();
 			entity3 = world.createEntity().addToWorld();
