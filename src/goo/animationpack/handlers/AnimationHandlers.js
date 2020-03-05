@@ -1,15 +1,26 @@
-import { AnimationClipHandler as AnimationClipHandler_AnimationClipHandlerjs } from "../../animationpack/handlers/AnimationClipHandler";
-import {     AnimationComponentHandler as AnimationComponentHandler_AnimationComponentHandlerjs, } from "../../animationpack/handlers/AnimationComponentHandler";
-import { AnimationLayersHandler as AnimationLayersHandler_AnimationLayersHandlerjs } from "../../animationpack/handlers/AnimationLayersHandler";
-import { AnimationStateHandler as AnimationStateHandler_AnimationStateHandlerjs } from "../../animationpack/handlers/AnimationStateHandler";
-import { SkeletonHandler as SkeletonHandler_SkeletonHandlerjs } from "../../animationpack/handlers/SkeletonHandler";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationHandlersjs = undefined;
+
+var _AnimationClipHandler = require("../../animationpack/handlers/AnimationClipHandler");
+
+var _AnimationComponentHandler = require("../../animationpack/handlers/AnimationComponentHandler");
+
+var _AnimationLayersHandler = require("../../animationpack/handlers/AnimationLayersHandler");
+
+var _AnimationStateHandler = require("../../animationpack/handlers/AnimationStateHandler");
+
+var _SkeletonHandler = require("../../animationpack/handlers/SkeletonHandler");
 
 var AnimationHandlersjs = {
-	AnimationClipHandler: AnimationClipHandler_AnimationClipHandlerjs,
-	AnimationComponentHandler: AnimationComponentHandler_AnimationComponentHandlerjs,
-	AnimationLayersHandler: AnimationLayersHandler_AnimationLayersHandlerjs,
-	AnimationStateHandler: AnimationStateHandler_AnimationStateHandlerjs,
-	SkeletonHandler: SkeletonHandler_SkeletonHandlerjs
+	AnimationClipHandler: _AnimationClipHandler.AnimationClipHandler,
+	AnimationComponentHandler: _AnimationComponentHandler.AnimationComponentHandler,
+	AnimationLayersHandler: _AnimationLayersHandler.AnimationLayersHandler,
+	AnimationStateHandler: _AnimationStateHandler.AnimationStateHandler,
+	SkeletonHandler: _SkeletonHandler.SkeletonHandler
 };
 
-export { AnimationHandlersjs };
+exports.AnimationHandlersjs = AnimationHandlersjs;

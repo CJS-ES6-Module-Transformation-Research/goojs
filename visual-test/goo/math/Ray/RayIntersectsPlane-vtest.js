@@ -1,106 +1,101 @@
-	goo.V.attachToGlobal();
+'use strict';
 
-	V.describe('3 rays are intersecting 3 planes and all their points of intersection are marked with small spheres.');
+goo.V.attachToGlobal();
 
-	// initialise goo
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+V.describe('3 rays are intersecting 3 planes and all their points of intersection are marked with small spheres.');
 
-	// add some lights
-	V.addLights();
+// initialise goo
+var gooRunner = V.initGoo();
+var world = gooRunner.world;
 
-	// add the camera
-	V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
+// add some lights
+V.addLights();
 
-	// plane management
-	var planeMesh = new Box(1, 10, 0.01);
-	var planes = [];
+// add the camera
+V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
 
-	function addPlane(lookAt, distance) {
-		lookAt.normalize();
+// plane management
+var planeMesh = new Box(1, 10, 0.01);
+var planes = [];
 
-		var plane = world.createEntity(planeMesh, V.getColoredMaterial()).addToWorld().lookAt(lookAt);
-		plane.transformComponent.updateTransform(); // force update
-		var translation = new Vector3(0, 0, -1)
-			.applyPost(plane.transformComponent.transform.rotation)
-			.scale(distance);
-		plane.setTranslation(translation);
+function addPlane(lookAt, distance) {
+	lookAt.normalize();
 
-		planes.push(new Plane(lookAt, distance));
-		return plane;
-	}
-	// ---
+	var plane = world.createEntity(planeMesh, V.getColoredMaterial()).addToWorld().lookAt(lookAt);
+	plane.transformComponent.updateTransform(); // force update
+	var translation = new Vector3(0, 0, -1).applyPost(plane.transformComponent.transform.rotation).scale(distance);
+	plane.setTranslation(translation);
 
-	// ray management
-	function buildLine(from, to) {
-		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), 2, 2);
-		meshData.getAttributeBuffer(MeshData.POSITION).set(from.concat(to));
-		meshData.getIndexBuffer().set([0, 1]);
-		meshData.indexModes = ['Lines'];
-		return meshData;
-	}
+	planes.push(new Plane(lookAt, distance));
+	return plane;
+}
+// ---
 
-	var rayMaterial = V.getColoredMaterial(1, 1, 1, 1);
-	var rays = [];
+// ray management
+function buildLine(from, to) {
+	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), 2, 2);
+	meshData.getAttributeBuffer(MeshData.POSITION).set(from.concat(to));
+	meshData.getIndexBuffer().set([0, 1]);
+	meshData.indexModes = ['Lines'];
+	return meshData;
+}
 
-	function addRay(origin, direction) {
-		rays.push(new Ray(origin, direction));
+var rayMaterial = V.getColoredMaterial(1, 1, 1, 1);
+var rays = [];
 
-		var rayMesh = buildLine(
-			[origin.x, origin.y, origin.z],
-			[origin.x + direction.x * 10, origin.y + direction.y * 10, origin.z + direction.z * 10]
-		);
+function addRay(origin, direction) {
+	rays.push(new Ray(origin, direction));
 
-		world.createEntity(rayMesh, rayMaterial).addToWorld();
-	}
-	// ---
+	var rayMesh = buildLine([origin.x, origin.y, origin.z], [origin.x + direction.x * 10, origin.y + direction.y * 10, origin.z + direction.z * 10]);
 
-	// intersection points
-	// pointer management
-	var pointerMaterial = V.getColoredMaterial();
-	var pointers = [];
+	world.createEntity(rayMesh, rayMaterial).addToWorld();
+}
+// ---
 
-	function pointerAt(position) {
-		pointers.push(world.createEntity(new Sphere(32, 32, 0.05), pointerMaterial, position).addToWorld());
-	}
+// intersection points
+// pointer management
+var pointerMaterial = V.getColoredMaterial();
+var pointers = [];
 
-	function clearPointers() {
-		pointers.forEach(function (pointer) { pointer.removeFromWorld(); });
-		pointers = [];
-	}
-	// ---
-	function addRayPlaneIntersections() {
-		rays.forEach(function (ray) {
-			planes.forEach(function (plane) {
-				var intersectionPoint = new Vector3();
-				if (ray.intersectsPlane(plane, intersectionPoint)) {
-					pointerAt(intersectionPoint);
-				}
-			});
-		});
-	}
-	// ---
+function pointerAt(position) {
+	pointers.push(world.createEntity(new Sphere(32, 32, 0.05), pointerMaterial, position).addToWorld());
+}
 
-	// the scene
-	var rayOrigin = new Vector3(-0.5, -0.5, 0);
-	world.createEntity(new Sphere(32, 32, 0.1), V.getColoredMaterial(), rayOrigin).addToWorld();
-
-	var normals = [
-		new Vector3( 1, -2, 0),
-		new Vector3( 0, -1, 0),
-		new Vector3(-2, -1, 0)
-	];
-
-	var distanceFromOrigin = 2;
-
-	// add planes some and rays
-	normals.forEach(function (normal) {
-		addPlane(normal, distanceFromOrigin);
-		addRay(rayOrigin, normal);
+function clearPointers() {
+	pointers.forEach(function (pointer) {
+		pointer.removeFromWorld();
 	});
+	pointers = [];
+}
+// ---
+function addRayPlaneIntersections() {
+	rays.forEach(function (ray) {
+		planes.forEach(function (plane) {
+			var intersectionPoint = new Vector3();
+			if (ray.intersectsPlane(plane, intersectionPoint)) {
+				pointerAt(intersectionPoint);
+			}
+		});
+	});
+}
+// ---
 
-	// mark all ray-plane intersections with markers
-	addRayPlaneIntersections();
-	// ---
+// the scene
+var rayOrigin = new Vector3(-0.5, -0.5, 0);
+world.createEntity(new Sphere(32, 32, 0.1), V.getColoredMaterial(), rayOrigin).addToWorld();
 
-	V.process();
+var normals = [new Vector3(1, -2, 0), new Vector3(0, -1, 0), new Vector3(-2, -1, 0)];
+
+var distanceFromOrigin = 2;
+
+// add planes some and rays
+normals.forEach(function (normal) {
+	addPlane(normal, distanceFromOrigin);
+	addRay(rayOrigin, normal);
+});
+
+// mark all ray-plane intersections with markers
+addRayPlaneIntersections();
+// ---
+
+V.process();

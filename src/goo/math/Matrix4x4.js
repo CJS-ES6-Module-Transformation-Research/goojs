@@ -1,19 +1,24 @@
-import { Matrix4 as Matrix4_Matrix4js } from "./Matrix4";
-import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+"use strict";
 
-var Matrix4x4 = ObjectUtils_ObjectUtilsjs.warnOnce(
-	'Matrix4x4 has been renamed to Matrix4.',
-	function () {
-		Matrix4_Matrix4js.apply(this, arguments);
-	}
-);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Matrix4x4 = undefined;
 
-let exported_Matrix4x4 = Matrix4x4;
+var _Matrix = require("./Matrix4");
 
-Matrix4x4.prototype = Object.create(Matrix4_Matrix4js.prototype);
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var Matrix4x4 = _ObjectUtils.ObjectUtils.warnOnce('Matrix4x4 has been renamed to Matrix4.', function () {
+	_Matrix.Matrix4.apply(this, arguments);
+});
+
+var exported_Matrix4x4 = Matrix4x4;
+
+Matrix4x4.prototype = Object.create(_Matrix.Matrix4.prototype);
 Matrix4x4.prototype.constructor = Matrix4x4;
-for (var x in Matrix4_Matrix4js) {
-	Matrix4x4[x] = Matrix4_Matrix4js[x];
+for (var x in _Matrix.Matrix4) {
+	Matrix4x4[x] = _Matrix.Matrix4[x];
 }
 
-export { exported_Matrix4x4 as Matrix4x4 };
+exports.Matrix4x4 = exported_Matrix4x4;

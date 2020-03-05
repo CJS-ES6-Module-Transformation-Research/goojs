@@ -1,15 +1,21 @@
-import { World as World_Worldjs } from "../../../src/goo/entities/World";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../src/goo/loaders/DynamicLoader";
-import { QuadComponent as QuadComponent_QuadComponentjs } from "../../../src/goo/quadpack/QuadComponent";
-import { Configs as Configs_Configsjs } from "../../../test/unit/loaders/Configs";
-import "../../../src/goo/quadpack/QuadComponentHandler";
+"use strict";
+
+var _World = require("../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../src/goo/loaders/DynamicLoader");
+
+var _QuadComponent = require("../../../src/goo/quadpack/QuadComponent");
+
+var _Configs = require("../../../test/unit/loaders/Configs");
+
+require("../../../src/goo/quadpack/QuadComponentHandler");
 
 describe('QuadComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,17 +23,17 @@ describe('QuadComponentHandler', function () {
 	});
 
 	it('loads an entity with a quadComponent', function (done) {
-		var config = Configs_Configsjs.entity(['quad']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['quad']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.quadComponent).toEqual(jasmine.any(QuadComponent_QuadComponentjs));
+			expect(entity.quadComponent).toEqual(jasmine.any(_QuadComponent.QuadComponent));
 			done();
 		});
 	});
 
 	it('cleans up after the config was updated', function (done) {
-		var config = Configs_Configsjs.entity(['quad']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['quad']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function () {
 			var newConfig = JSON.parse(JSON.stringify(config));
 

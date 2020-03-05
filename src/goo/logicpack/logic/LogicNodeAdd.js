@@ -1,34 +1,44 @@
-import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeAdd = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 var LogicNodeAdd_inportY;
 var LogicNodeAdd_inportX;
 var LogicNodeAdd_outportSum;
 var LogicNodeAdd_editorName;
 var LogicNodeAdd_logicInterface;
 function LogicNodeAdd() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	LogicNodeAdd_logicInterface = LogicNodeAdd_logicInterface;;
 	this.type = 'LogicNodeAdd';
 }
 
-LogicNodeAdd.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeAdd.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeAdd_editorName = "Add";;
 
 LogicNodeAdd.prototype.onInputChanged = function (instDesc) {
-	var out = LogicLayer_LogicLayerjs.readPort(instDesc, LogicNodeAdd_inportX) +
-		LogicLayer_LogicLayerjs.readPort(instDesc, LogicNodeAdd_inportY);
+	var out = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeAdd_inportX) + _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeAdd_inportY);
 
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeAdd_outportSum, out);
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeAdd_outportSum, out);
 };
 
-LogicNodeAdd_logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeAdd_logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeAdd_outportSum = LogicNodeAdd_logicInterface.addOutputProperty("sum", "float");;
 LogicNodeAdd_inportX = LogicNodeAdd_logicInterface.addInputProperty("x", "float", 0);;
 LogicNodeAdd_inportY = LogicNodeAdd_logicInterface.addInputProperty("y", "float", 0);;
 
-LogicNodes_LogicNodesjs.registerType('LogicNodeAdd', LogicNodeAdd);
+_LogicNodes.LogicNodes.registerType('LogicNodeAdd', LogicNodeAdd);
 
 var exported_LogicNodeAdd = LogicNodeAdd;
 
@@ -36,4 +46,4 @@ var exported_LogicNodeAdd = LogicNodeAdd;
  * Logic node to add values.
  * @private
  */
-export { exported_LogicNodeAdd as LogicNodeAdd };
+exports.LogicNodeAdd = exported_LogicNodeAdd;

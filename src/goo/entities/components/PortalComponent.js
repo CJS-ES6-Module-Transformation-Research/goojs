@@ -1,7 +1,16 @@
-import { Component as Component_Componentjs } from "../../entities/components/Component";
-import { RenderTarget as RenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PortalComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
 function PortalComponent(camera, height, options, overrideMaterial) {
-	Component_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	height = height || 200;
 
@@ -18,17 +27,17 @@ function PortalComponent(camera, height, options, overrideMaterial) {
 	this.type = 'PortalComponent';
 
 	/**
-	 * @type {Camera}
-	 */
+  * @type {Camera}
+  */
 	this.camera = camera;
 
 	/**
-	 * @type {RenderTarget}
-	 */
-	this.target = new RenderTarget_RenderTargetjs(height, height / aspect);
+  * @type {RenderTarget}
+  */
+	this.target = new _RenderTarget.RenderTarget(height, height / aspect);
 
 	if (this.options.preciseRecursion) {
-		this.secondaryTarget = new RenderTarget_RenderTargetjs(height, height / aspect);
+		this.secondaryTarget = new _RenderTarget.RenderTarget(height, height / aspect);
 	}
 
 	// @ifdef DEBUG
@@ -38,7 +47,7 @@ function PortalComponent(camera, height, options, overrideMaterial) {
 
 PortalComponent.type = 'PortalComponent';
 
-PortalComponent.prototype = Object.create(Component_Componentjs.prototype);
+PortalComponent.prototype = Object.create(_Component.Component.prototype);
 PortalComponent.prototype.constructor = PortalComponent;
 
 /**
@@ -61,4 +70,4 @@ var exported_PortalComponent = PortalComponent;
  * @param {Material} [overrideMaterial=null] Optional override material to use when rendering to the host object
  * @extends Component
  */
-export { exported_PortalComponent as PortalComponent };
+exports.PortalComponent = exported_PortalComponent;

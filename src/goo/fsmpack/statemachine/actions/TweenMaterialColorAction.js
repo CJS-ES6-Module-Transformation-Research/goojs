@@ -1,16 +1,24 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3_Vector3js } from "../../../math/Vector3";
+"use strict";
 
-function TweenMaterialColorAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenMaterialColorAction = undefined;
 
-	this.fromColor = new Vector3_Vector3js();
-	this.toColor = new Vector3_Vector3js();
-	this.calc = new Vector3_Vector3js();
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+function TweenMaterialColorAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromColor = new _Vector.Vector3();
+	this.toColor = new _Vector.Vector3();
+	this.calc = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenMaterialColorAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenMaterialColorAction.prototype = Object.create(_Action.Action.prototype);
 TweenMaterialColorAction.prototype.constructor = TweenMaterialColorAction;
 
 TweenMaterialColorAction.external = {
@@ -75,12 +83,12 @@ var MAPPING = {
 	Ambient: 'materialAmbient'
 };
 
-TweenMaterialColorAction.getTransitionLabel = function (transitionKey, actionConfig){
+TweenMaterialColorAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	return transitionKey === 'complete' ? 'On Tween ' + (actionConfig.options.type || 'Color') + ' Complete' : undefined;
 };
 
 TweenMaterialColorAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	var meshRendererComponent = entity.meshRendererComponent;
 	if (!meshRendererComponent) {
 		return;
@@ -101,7 +109,7 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 	if (this.completed) {
 		return;
 	}
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	var meshRendererComponent = entity.meshRendererComponent;
 	if (!meshRendererComponent) {
 		return;
@@ -122,4 +130,4 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenMaterialColorAction = TweenMaterialColorAction;
-export { exported_TweenMaterialColorAction as TweenMaterialColorAction };
+exports.TweenMaterialColorAction = exported_TweenMaterialColorAction;

@@ -1,15 +1,23 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector2 as Vector2_Vector2js } from "../../../math/Vector2";
+"use strict";
 
-function TweenTextureOffsetAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenTextureOffsetAction = undefined;
 
-	this.fromOffset = new Vector2_Vector2js();
-	this.toOffset = new Vector2_Vector2js();
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector2");
+
+function TweenTextureOffsetAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromOffset = new _Vector.Vector2();
+	this.toOffset = new _Vector.Vector2();
 	this.completed = false;
 }
 
-TweenTextureOffsetAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenTextureOffsetAction.prototype = Object.create(_Action.Action.prototype);
 TweenTextureOffsetAction.prototype.constructor = TweenTextureOffsetAction;
 
 TweenTextureOffsetAction.external = {
@@ -59,7 +67,7 @@ TweenTextureOffsetAction.external = {
 	}]
 };
 
-TweenTextureOffsetAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenTextureOffsetAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On UV Tween Complete' : undefined;
 };
 
@@ -106,4 +114,4 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenTextureOffsetAction = TweenTextureOffsetAction;
-export { exported_TweenTextureOffsetAction as TweenTextureOffsetAction };
+exports.TweenTextureOffsetAction = exported_TweenTextureOffsetAction;

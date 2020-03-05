@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function RenderStats() {
 	this.reset();
 }
@@ -9,10 +14,8 @@ RenderStats.prototype.reset = function () {
 };
 
 RenderStats.prototype.toString = function () {
-	return 'Calls: ' + this.calls +
-		'<br/>Vertices: ' + this.vertices +
-		'<br/>Indices: ' + this.indices;
+	return 'Calls: ' + this.calls + '<br/>Vertices: ' + this.vertices + '<br/>Indices: ' + this.indices;
 };
 
 var exported_RenderStats = RenderStats;
-export { exported_RenderStats as RenderStats };
+exports.RenderStats = exported_RenderStats;

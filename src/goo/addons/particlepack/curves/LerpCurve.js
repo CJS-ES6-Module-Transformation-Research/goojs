@@ -1,37 +1,46 @@
-import { Curve as Curve_Curvejs } from "../../../addons/particlepack/curves/Curve";
-import { MathUtils as MathUtils_MathUtilsjs } from "../../../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.LerpCurve = undefined;
+
+var _Curve = require("../../../addons/particlepack/curves/Curve");
+
+var _MathUtils = require("../../../math/MathUtils");
+
 function LerpCurve(options) {
-	options = options || {};
+  options = options || {};
 
-	Curve_Curvejs.call(this, options);
+  _Curve.Curve.call(this, options);
 
-	/**
-	 * @type {Curve}
-	 */
-	this.curveA = options.curveA !== undefined ? options.curveA.clone() : null;
+  /**
+   * @type {Curve}
+   */
+  this.curveA = options.curveA !== undefined ? options.curveA.clone() : null;
 
-	/**
-	 * @type {Curve}
-	 */
-	this.curveB = options.curveB !== undefined ? options.curveB.clone() : null;
+  /**
+   * @type {Curve}
+   */
+  this.curveB = options.curveB !== undefined ? options.curveB.clone() : null;
 }
-LerpCurve.prototype = Object.create(Curve_Curvejs.prototype);
+LerpCurve.prototype = Object.create(_Curve.Curve.prototype);
 LerpCurve.prototype.constructor = LerpCurve;
 
 LerpCurve.prototype.toGLSL = function (timeVariableName, lerpVariableName) {
-	return 'mix(' + this.curveA.toGLSL(timeVariableName, lerpVariableName) + ',' + this.curveB.toGLSL(timeVariableName, lerpVariableName) + ',' + lerpVariableName + ')';
+  return 'mix(' + this.curveA.toGLSL(timeVariableName, lerpVariableName) + ',' + this.curveB.toGLSL(timeVariableName, lerpVariableName) + ',' + lerpVariableName + ')';
 };
 
 LerpCurve.prototype.integralToGLSL = function (timeVariableName, lerpVariableName) {
-	return 'mix(' + this.curveA.integralToGLSL(timeVariableName, lerpVariableName) + ',' + this.curveB.integralToGLSL(timeVariableName, lerpVariableName) + ',' + lerpVariableName + ')';
+  return 'mix(' + this.curveA.integralToGLSL(timeVariableName, lerpVariableName) + ',' + this.curveB.integralToGLSL(timeVariableName, lerpVariableName) + ',' + lerpVariableName + ')';
 };
 
 LerpCurve.prototype.getValueAt = function (t, lerpValue) {
-	return MathUtils_MathUtilsjs.lerp(lerpValue, this.curveA.getValueAt(t, lerpValue), this.curveB.getValueAt(t, lerpValue));
+  return _MathUtils.MathUtils.lerp(lerpValue, this.curveA.getValueAt(t, lerpValue), this.curveB.getValueAt(t, lerpValue));
 };
 
 LerpCurve.prototype.getIntegralValueAt = function (t, lerpValue) {
-	return MathUtils_MathUtilsjs.lerp(lerpValue, this.curveA.getIntegralValueAt(t, lerpValue), this.curveB.getIntegralValueAt(t, lerpValue));
+  return _MathUtils.MathUtils.lerp(lerpValue, this.curveA.getIntegralValueAt(t, lerpValue), this.curveB.getIntegralValueAt(t, lerpValue));
 };
 
 var exported_LerpCurve = LerpCurve;
@@ -45,4 +54,4 @@ var exported_LerpCurve = LerpCurve;
  * @param {Curve} [options.curveA]
  * @param {Curve} [options.curveB]
  */
-export { exported_LerpCurve as LerpCurve };
+exports.LerpCurve = exported_LerpCurve;

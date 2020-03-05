@@ -1,66 +1,30 @@
+'use strict';
 
-	goo.V.attachToGlobal();
+goo.V.attachToGlobal();
 
-	V.describe('Extruding a path along another path');
+V.describe('Extruding a path along another path');
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+var gooRunner = V.initGoo();
+var world = gooRunner.world;
 
-	var path = PolyLine.fromCubicSpline([
-		-1,  0,  0.0,
+var path = PolyLine.fromCubicSpline([-1, 0, 0.0, -1, -1, 0.0, -1, -1, 0.2, 0, -1, 0.2, 1, -1, 0.2, 1, -1, 0.4, 1, 0, 0.4, 1, 1, 0.4, 1, 1, 0.6, 0, 1, 0.6, -1, 1, 0.6, -1, 1, 0.8, -1, 0, 0.8], 32);
 
-		-1, -1,  0.0,
-		-1, -1,  0.2,
-		 0, -1,  0.2,
+var section = new PolyLine.fromCubicSpline([-0.1, 0.00, 0, -0.1, -0.04, 0, -0.0, -0.04, 0, 0.0, -0.04, 0, 0.1, -0.04, 0, 0.1, -0.04, 0, 0.1, 0.00, 0, 0.1, 0.04, 0, 0.1, 0.04, 0, 0.0, 0.04, 0, -0.1, 0.04, 0, -0.1, 0.04, 0, -0.1, 0.00, 0], 6);
 
-		 1, -1,  0.2,
-		 1, -1,  0.4,
-		 1,  0,  0.4,
+var pipeMeshData = path.pipe(section, {
+	scale: function scale(progress) {
+		return Math.sin(progress * Math.PI * 10) * 0.6 + 1.0;
+	},
+	twist: function twist(progress) {
+		return progress * 8;
+	}
+});
 
-		 1,  1,  0.4,
-		 1,  1,  0.6,
-		 0,  1,  0.6,
+var material = new Material(ShaderLib.simpleLit);
+world.createEntity(pipeMeshData, material).addToWorld();
 
-		-1,  1,  0.6,
-		-1,  1,  0.8,
-		-1,  0,  0.8
-	], 32);
+V.addLights();
 
-	var section = new PolyLine.fromCubicSpline([
-		-0.1,  0.00, 0,
+V.addOrbitCamera(new Vector3(5, Math.PI / 2, 0));
 
-		-0.1, -0.04, 0,
-		-0.0, -0.04, 0,
-		 0.0, -0.04, 0,
-
-		 0.1, -0.04, 0,
-		 0.1, -0.04, 0,
-		 0.1,  0.00, 0,
-
-		 0.1,  0.04, 0,
-		 0.1,  0.04, 0,
-		 0.0,  0.04, 0,
-
-		-0.1,  0.04, 0,
-		-0.1,  0.04, 0,
-		-0.1,  0.00, 0
-	], 6);
-
-	var pipeMeshData = path.pipe(section, {
-		scale: function (progress) {
-			return Math.sin(progress * Math.PI * 10) * 0.6 + 1.0;
-		},
-		twist: function (progress) {
-			return progress * 8;
-		}
-	});
-
-	var material = new Material(ShaderLib.simpleLit);
-	world.createEntity(pipeMeshData, material).addToWorld();
-
-
-	V.addLights();
-
-	V.addOrbitCamera(new Vector3(5, Math.PI / 2, 0));
-
-	V.process();
+V.process();

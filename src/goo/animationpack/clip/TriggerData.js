@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function TriggerData() {
 	this._currentTriggers = [];
 	this._currentIndex = -1;
@@ -15,7 +20,7 @@ TriggerData.prototype.arm = function (index, triggers) {
 		this.armed = false;
 	} else if (index !== this._currentIndex) {
 		this._currentTriggers.length = 0;
-		for ( var i = 0, max = triggers.length; i < max; i++) {
+		for (var i = 0, max = triggers.length; i < max; i++) {
 			if (triggers[i] && triggers[i] !== '') {
 				this._currentTriggers.push(triggers[i]);
 			}
@@ -31,4 +36,4 @@ var exported_TriggerData = TriggerData;
  * Transient class that maintains the current triggers and armed status for a {@link TriggerChannel}.
  * @private
  */
-export { exported_TriggerData as TriggerData };
+exports.TriggerData = exported_TriggerData;

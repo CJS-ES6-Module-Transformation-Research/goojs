@@ -1,20 +1,31 @@
-import { Component as Component_Componentjs } from "../../entities/components/Component";
-import { Particle as Particle_Particlejs } from "../../particles/Particle";
-import { ParticleEmitter as ParticleEmitter_ParticleEmitterjs } from "../../particles/ParticleEmitter";
-import { MeshData as MeshData_MeshDatajs } from "../../renderer/MeshData";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Particle = require("../../particles/Particle");
+
+var _ParticleEmitter = require("../../particles/ParticleEmitter");
+
+var _MeshData = require("../../renderer/MeshData");
+
 function ParticleComponent(settings) {
-	Component_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'ParticleComponent';
 
-	Component_Componentjs.call(this);
+	_Component.Component.call(this);
 
 	settings = settings || {};
 
 	this.emitters = [];
 	if (settings.emitters) {
-		for ( var i = 0, max = settings.emitters.length; i < max; i++) {
-			this.emitters.push(new ParticleEmitter_ParticleEmitterjs(settings.emitters[i]));
+		for (var i = 0, max = settings.emitters.length; i < max; i++) {
+			this.emitters.push(new _ParticleEmitter.ParticleEmitter(settings.emitters[i]));
 		}
 	}
 
@@ -35,18 +46,18 @@ function ParticleComponent(settings) {
 
 ParticleComponent.type = 'ParticleComponent';
 
-ParticleComponent.prototype = Object.create(Component_Componentjs.prototype);
+ParticleComponent.prototype = Object.create(_Component.Component.prototype);
 ParticleComponent.prototype.constructor = ParticleComponent;
 
 ParticleComponent.prototype.generateMeshData = function () {
-	var attributeMap = MeshData_MeshDatajs.defaultMap([MeshData_MeshDatajs.POSITION, MeshData_MeshDatajs.COLOR, MeshData_MeshDatajs.TEXCOORD0]);
-	this.meshData = new MeshData_MeshDatajs(attributeMap, this.particleCount * 4, this.particleCount * 6);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.COLOR, _MeshData.MeshData.TEXCOORD0]);
+	this.meshData = new _MeshData.MeshData(attributeMap, this.particleCount * 4, this.particleCount * 6);
 	this.meshData.vertexData.setDataUsage('DynamicDraw');
 
 	// setup texture coords
-	var uvBuffer = this.meshData.getAttributeBuffer(MeshData_MeshDatajs.TEXCOORD0);
+	var uvBuffer = this.meshData.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
 	var indexBuffer = this.meshData.getIndexBuffer();
-	for ( var i = 0, max = this.particleCount; i < max; i++) {
+	for (var i = 0, max = this.particleCount; i < max; i++) {
 		uvBuffer.set([1.0, 0.0], i * 8 + 0);
 		uvBuffer.set([1.0, 1.0], i * 8 + 2);
 		uvBuffer.set([0.0, 1.0], i * 8 + 4);
@@ -59,8 +70,8 @@ ParticleComponent.prototype.generateMeshData = function () {
 ParticleComponent.prototype.recreateParticles = function (particleCount) {
 	this.particleCount = particleCount;
 	this.particles = [];
-	for ( var i = 0; i < this.particleCount; i++) {
-		this.particles[i] = new Particle_Particlejs(this, i);
+	for (var i = 0; i < this.particleCount; i++) {
+		this.particles[i] = new _Particle.Particle(this, i);
 	}
 	this.generateMeshData();
 };
@@ -89,4 +100,4 @@ var exported_ParticleComponent = ParticleComponent;
  * @param {number} [settings.particleCount=100]
  * @extends Component
  */
-export { exported_ParticleComponent as ParticleComponent };
+exports.ParticleComponent = exported_ParticleComponent;

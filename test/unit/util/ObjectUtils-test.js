@@ -1,9 +1,12 @@
-import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../../../src/goo/util/ObjectUtils";
-import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../test/unit/CustomMatchers";
+"use strict";
+
+var _ObjectUtils = require("../../../src/goo/util/ObjectUtils");
+
+var _CustomMatchers = require("../../../test/unit/CustomMatchers");
 
 describe('ObjectUtils', function () {
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
 	});
 
 	describe('defaults', function () {
@@ -11,7 +14,7 @@ describe('ObjectUtils', function () {
 			var destination = {};
 			var source = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.defaults(destination, source);
+			_ObjectUtils.ObjectUtils.defaults(destination, source);
 
 			expect(destination).toEqual(source);
 		});
@@ -20,7 +23,7 @@ describe('ObjectUtils', function () {
 			var destination = { a: 123, b: 456 };
 			var source = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.defaults(destination, source);
+			_ObjectUtils.ObjectUtils.defaults(destination, source);
 
 			expect(destination).toEqual({ a: 123, b: 456 });
 		});
@@ -32,7 +35,7 @@ describe('ObjectUtils', function () {
 			var options = {};
 			var defaults = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.copyOptions(destination, options, defaults);
+			_ObjectUtils.ObjectUtils.copyOptions(destination, options, defaults);
 
 			expect(destination).toEqual(defaults);
 		});
@@ -42,7 +45,7 @@ describe('ObjectUtils', function () {
 			var options = { a: 123, b: 456 };
 			var defaults = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.copyOptions(destination, options, defaults);
+			_ObjectUtils.ObjectUtils.copyOptions(destination, options, defaults);
 
 			expect(destination).toEqual(options);
 		});
@@ -52,7 +55,7 @@ describe('ObjectUtils', function () {
 			var options = null;
 			var defaults = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.copyOptions(destination, options, defaults);
+			_ObjectUtils.ObjectUtils.copyOptions(destination, options, defaults);
 
 			expect(destination).toEqual(defaults);
 		});
@@ -63,7 +66,7 @@ describe('ObjectUtils', function () {
 			var destination = {};
 			var source = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.extend(destination, source);
+			_ObjectUtils.ObjectUtils.extend(destination, source);
 
 			expect(destination).toEqual(source);
 		});
@@ -72,7 +75,7 @@ describe('ObjectUtils', function () {
 			var destination = { a: 123, b: 456 };
 			var source = { a: 1, b: 2 };
 
-			ObjectUtils_ObjectUtilsjs.extend(destination, source);
+			_ObjectUtils.ObjectUtils.extend(destination, source);
 
 			expect(destination).toEqual(source);
 		});
@@ -85,7 +88,7 @@ describe('ObjectUtils', function () {
 				p1: { sortValue: 1, value: 234 }
 			};
 			var spy = jasmine.createSpy('spy1');
-			ObjectUtils_ObjectUtilsjs.forEach(obj, spy, null, 'sortValue');
+			_ObjectUtils.ObjectUtils.forEach(obj, spy, null, 'sortValue');
 
 			expect(spy.calls.count()).toEqual(2);
 			expect(spy).toHaveBeenCalledWith(obj.p1, 'p1', obj);
@@ -96,7 +99,7 @@ describe('ObjectUtils', function () {
 	describe('cloneMap', function () {
 		it('clones an empty map', function () {
 			var originalMap = new Map();
-			var clonedMap = ObjectUtils_ObjectUtilsjs.cloneMap(originalMap);
+			var clonedMap = _ObjectUtils.ObjectUtils.cloneMap(originalMap);
 
 			expect(clonedMap.size).toEqual(0);
 		});
@@ -105,7 +108,7 @@ describe('ObjectUtils', function () {
 			var originalMap = new Map();
 			originalMap.set(11, 'aa');
 			originalMap.set(22, 'bb');
-			var clonedMap = ObjectUtils_ObjectUtilsjs.cloneMap(originalMap);
+			var clonedMap = _ObjectUtils.ObjectUtils.cloneMap(originalMap);
 
 			expect(clonedMap.size).toEqual(2);
 			expect(clonedMap.get(11)).toEqual('aa');
@@ -116,7 +119,7 @@ describe('ObjectUtils', function () {
 	describe('cloneSet', function () {
 		it('clones an empty set', function () {
 			var originalSet = new Set();
-			var clonedSet = ObjectUtils_ObjectUtilsjs.cloneSet(originalSet);
+			var clonedSet = _ObjectUtils.ObjectUtils.cloneSet(originalSet);
 
 			expect(clonedSet.size).toEqual(0);
 		});
@@ -125,7 +128,7 @@ describe('ObjectUtils', function () {
 			var originalSet = new Set();
 			originalSet.add(11);
 			originalSet.add(22);
-			var clonedSet = ObjectUtils_ObjectUtilsjs.cloneSet(originalSet);
+			var clonedSet = _ObjectUtils.ObjectUtils.cloneSet(originalSet);
 
 			expect(clonedSet.size).toEqual(2);
 			expect(clonedSet.has(11)).toBeTruthy();
@@ -134,14 +137,14 @@ describe('ObjectUtils', function () {
 	});
 
 	describe('deepClone', function () {
-		var clone = ObjectUtils_ObjectUtilsjs.deepClone;
+		var clone = _ObjectUtils.ObjectUtils.deepClone;
 
 		it('does not clone primitives and functions', function () {
 			expect(clone(123)).toBe(123);
 			expect(clone(true)).toBe(true);
 			expect(clone('asd')).toBe('asd');
 
-			var func = function () {};
+			var func = function func() {};
 			expect(clone(func)).toBe(func);
 		});
 
@@ -173,7 +176,7 @@ describe('ObjectUtils', function () {
 			expect(clone(original)).toBeCloned(original);
 		});
 
-		if (typeof(module) === 'undefined') {
+		if (typeof module === 'undefined') {
 			it('clones dom elements', function () {
 				var original = document.createElement('div');
 				original.classList.add('asd');

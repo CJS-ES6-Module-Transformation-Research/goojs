@@ -1,10 +1,17 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function TransitionOnMessageAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TransitionOnMessageAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function TransitionOnMessageAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-TransitionOnMessageAction.prototype = Object.create(Action_Actionjs.prototype);
+TransitionOnMessageAction.prototype = Object.create(_Action.Action.prototype);
 TransitionOnMessageAction.prototype.constructor = TransitionOnMessageAction;
 
 TransitionOnMessageAction.external = {
@@ -26,21 +33,21 @@ TransitionOnMessageAction.external = {
 	}]
 };
 
-TransitionOnMessageAction.getTransitionLabel = function (transitionKey, actionConfig){
+TransitionOnMessageAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	var label = actionConfig.options.channel ? '"' + actionConfig.options.channel + '"' : '';
 	return transitionKey === 'transition' ? 'On ' + label + ' event' : 'On Message';
 };
 
 TransitionOnMessageAction.prototype.enter = function (fsm) {
-	this.eventListener = function (/*data*/) {
+	this.eventListener = function () /*data*/{
 		fsm.send(this.transitions.transition);
 	}.bind(this);
 	SystemBus.addListener(this.channel, this.eventListener, false);
 };
 
-TransitionOnMessageAction.prototype.exit = function (/*fsm*/) {
+TransitionOnMessageAction.prototype.exit = function () /*fsm*/{
 	SystemBus.removeListener(this.channel, this.eventListener);
 };
 
 var exported_TransitionOnMessageAction = TransitionOnMessageAction;
-export { exported_TransitionOnMessageAction as TransitionOnMessageAction };
+exports.TransitionOnMessageAction = exported_TransitionOnMessageAction;

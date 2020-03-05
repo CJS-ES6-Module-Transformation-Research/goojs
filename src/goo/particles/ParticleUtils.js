@@ -1,4 +1,12 @@
-import { Vector3 as Vector3_Vector3js } from "../math/Vector3";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleUtils = undefined;
+
+var _Vector = require("../math/Vector3");
+
 function ParticleUtils() {}
 
 ParticleUtils.getRandomVelocityOffY = function (store, minOffsetAngle, maxOffsetAngle, scale, particleEntity) {
@@ -25,13 +33,13 @@ ParticleUtils.randomPointInCube = function (store, xRadius, yRadius, zRadius, ce
 };
 
 ParticleUtils.createConstantForce = function (force) {
-	var applyForce = new Vector3_Vector3js(force);
+	var applyForce = new _Vector.Vector3(force);
 	return {
 		enabled: true,
 		/* Was: function (particleEntity, emitter) */
-		prepare: function () {},
+		prepare: function prepare() {},
 		/* Was: function (tpf, particle, particleIndex) */
-		apply: function (tpf, particle) {
+		apply: function apply(tpf, particle) {
 			particle.velocity.x += applyForce.x * tpf;
 			particle.velocity.y += applyForce.y * tpf;
 			particle.velocity.z += applyForce.z * tpf;
@@ -56,12 +64,27 @@ ParticleUtils.applyEntityTransformVector = function (vec3, entity) {
 };
 
 ParticleUtils.applyTimeline = function (particle, timeline) {
-	var age = particle.age, lifeSpan = particle.lifeSpan;
-	var prevCAge = 0, prevMAge = 0, prevSiAge = 0, prevSpAge = 0;
-	var nextCAge = lifeSpan, nextMAge = lifeSpan, nextSiAge = lifeSpan, nextSpAge = lifeSpan;
-	var trAge = 0, ratio;
-	var prevCEntry = null, prevMEntry = null, prevSiEntry = null, prevSpEntry = null, prevUVEntry = null;
-	var nextCEntry = null, nextMEntry = null, nextSiEntry = null, nextSpEntry = null;
+	var age = particle.age,
+	    lifeSpan = particle.lifeSpan;
+	var prevCAge = 0,
+	    prevMAge = 0,
+	    prevSiAge = 0,
+	    prevSpAge = 0;
+	var nextCAge = lifeSpan,
+	    nextMAge = lifeSpan,
+	    nextSiAge = lifeSpan,
+	    nextSpAge = lifeSpan;
+	var trAge = 0,
+	    ratio;
+	var prevCEntry = null,
+	    prevMEntry = null,
+	    prevSiEntry = null,
+	    prevSpEntry = null,
+	    prevUVEntry = null;
+	var nextCEntry = null,
+	    nextMEntry = null,
+	    nextSiEntry = null,
+	    nextSpEntry = null;
 
 	for (var i = 0, max = timeline.length; i < max; i++) {
 		var entry = timeline[i];
@@ -152,4 +175,4 @@ var exported_ParticleUtils = ParticleUtils;
 /**
  * Various helper utils for particle systems.
  */
-export { exported_ParticleUtils as ParticleUtils };
+exports.ParticleUtils = exported_ParticleUtils;

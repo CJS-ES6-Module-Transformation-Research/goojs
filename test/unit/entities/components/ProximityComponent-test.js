@@ -1,18 +1,22 @@
-import { ProximitySystem as ProximitySystem_ProximitySystemjs } from "../../../../src/goo/fsmpack/proximity/ProximitySystem";
-import { ProximityComponent as ProximityComponent_ProximityComponentjs } from "../../../../src/goo/fsmpack/proximity/ProximityComponent";
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
+"use strict";
+
+var _ProximitySystem = require("../../../../src/goo/fsmpack/proximity/ProximitySystem");
+
+var _ProximityComponent = require("../../../../src/goo/fsmpack/proximity/ProximityComponent");
+
+var _World = require("../../../../src/goo/entities/World");
 
 describe('ProximityComponent', function () {
 	var world, proximitySystem;
 
 	beforeEach(function () {
-		world = new World_Worldjs();
-		proximitySystem = new ProximitySystem_ProximitySystemjs();
+		world = new _World.World();
+		proximitySystem = new _ProximitySystem.ProximitySystem();
 		world.add(proximitySystem);
 	});
 
 	it('it adds a proximity component', function () {
-		var proximityComponent = new ProximityComponent_ProximityComponentjs('Green');
+		var proximityComponent = new _ProximityComponent.ProximityComponent('Green');
 
 		var entity = world.createEntity(proximityComponent).addToWorld();
 		world.process();
@@ -21,7 +25,7 @@ describe('ProximityComponent', function () {
 	});
 
 	it('it removes a proximity component', function () {
-		var proximityComponent = new ProximityComponent_ProximityComponentjs('Blue');
+		var proximityComponent = new _ProximityComponent.ProximityComponent('Blue');
 
 		var entity = world.createEntity(proximityComponent).addToWorld();
 		world.process();

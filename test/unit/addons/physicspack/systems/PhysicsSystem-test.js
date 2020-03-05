@@ -1,22 +1,31 @@
-import { RigidBodyComponent as RigidBodyComponent_RigidBodyComponentjs } from "../../../../../src/goo/addons/physicspack/components/RigidBodyComponent";
-import { ColliderComponent as ColliderComponent_ColliderComponentjs } from "../../../../../src/goo/addons/physicspack/components/ColliderComponent";
-import { RaycastResult as RaycastResult_RaycastResultjs } from "../../../../../src/goo/addons/physicspack/RaycastResult";
-import { SphereCollider as SphereCollider_SphereColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
-import { PhysicsSystem as PhysicsSystem_PhysicsSystemjs } from "../../../../../src/goo/addons/physicspack/systems/PhysicsSystem";
-import { Vector3 as Vector3_Vector3js } from "../../../../../src/goo/math/Vector3";
-import { World as World_Worldjs } from "../../../../../src/goo/entities/World";
-import { CustomMatchers as CustomMatchers_CustomMatchersjs } from "../../../../../test/unit/CustomMatchers";
+"use strict";
+
+var _RigidBodyComponent = require("../../../../../src/goo/addons/physicspack/components/RigidBodyComponent");
+
+var _ColliderComponent = require("../../../../../src/goo/addons/physicspack/components/ColliderComponent");
+
+var _RaycastResult = require("../../../../../src/goo/addons/physicspack/RaycastResult");
+
+var _SphereCollider = require("../../../../../src/goo/addons/physicspack/colliders/SphereCollider");
+
+var _PhysicsSystem = require("../../../../../src/goo/addons/physicspack/systems/PhysicsSystem");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _CustomMatchers = require("../../../../../test/unit/CustomMatchers");
 
 describe('PhysicsSystem', function () {
 	var world, system;
 
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers_CustomMatchersjs);
-		world = new World_Worldjs();
-		system = new PhysicsSystem_PhysicsSystemjs({
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
+		world = new _World.World();
+		system = new _PhysicsSystem.PhysicsSystem({
 			maxSubSteps: 1
 		});
-		system.setGravity(new Vector3_Vector3js());
+		system.setGravity(new _Vector.Vector3());
 		world.setSystem(system);
 	});
 
@@ -25,17 +34,17 @@ describe('PhysicsSystem', function () {
 	});
 
 	it('can raycast closest', function () {
-		var start = new Vector3_Vector3js(0, 0, -10);
-		var direction = new Vector3_Vector3js(0, 0, 1);
+		var start = new _Vector.Vector3(0, 0, -10);
+		var direction = new _Vector.Vector3(0, 0, 1);
 		var distance = 20;
 
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var rbcB = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var rbcB = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
-		var ccB = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var ccB = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entityA = world.createEntity(rbcA, ccA).addToWorld();
 		var entityB = world.createEntity(rbcB, ccB).addToWorld();
@@ -45,9 +54,9 @@ describe('PhysicsSystem', function () {
 		rbcA.initialize(); // Needed to initialize bodies
 		rbcB.initialize();
 
-		var result = new RaycastResult_RaycastResultjs();
+		var result = new _RaycastResult.RaycastResult();
 		system.raycastClosest(start, direction, distance, {}, result);
-		expect(result.normal).toBeCloseToVector(new Vector3_Vector3js(0, 0, -1));
+		expect(result.normal).toBeCloseToVector(new _Vector.Vector3(0, 0, -1));
 		expect(result.entity).toBe(entityB);
 		expect(result.distance).toBeCloseTo(6);
 
@@ -55,25 +64,25 @@ describe('PhysicsSystem', function () {
 		start.setDirect(0, 0, 10);
 		direction.setDirect(0, 0, -1);
 
-		result = new RaycastResult_RaycastResultjs();
+		result = new _RaycastResult.RaycastResult();
 		system.raycastClosest(start, direction, distance, {}, result);
 		expect(result.entity).toBe(entityA);
-		expect(result.normal).toBeCloseToVector(new Vector3_Vector3js(0, 0, 1));
+		expect(result.normal).toBeCloseToVector(new _Vector.Vector3(0, 0, 1));
 		expect(result.distance).toBeCloseTo(6);
 	});
 
 	it('can raycast any', function () {
-		var start = new Vector3_Vector3js(0, 0, -10);
-		var direction = new Vector3_Vector3js(0, 0, 1);
+		var start = new _Vector.Vector3(0, 0, -10);
+		var direction = new _Vector.Vector3(0, 0, 1);
 		var distance = 20;
 
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var rbcB = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var rbcB = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
-		var ccB = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var ccB = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entityA = world.createEntity(rbcA, ccA).addToWorld();
 		var entityB = world.createEntity(rbcB, ccB).addToWorld();
@@ -83,24 +92,24 @@ describe('PhysicsSystem', function () {
 		rbcA.initialize(); // Needed to initialize bodies
 		rbcB.initialize();
 
-		var result = new RaycastResult_RaycastResultjs();
+		var result = new _RaycastResult.RaycastResult();
 		system.raycastAny(start, direction, distance, {}, result);
 		expect(result.entity).toBeTruthy();
-		expect(result.normal).toBeCloseToVector(new Vector3_Vector3js(0, 0, -1));
+		expect(result.normal).toBeCloseToVector(new _Vector.Vector3(0, 0, -1));
 	});
 
 	it('can raycast all', function () {
-		var start = new Vector3_Vector3js(0, 0, -10);
-		var direction = new Vector3_Vector3js(0, 0, 1);
+		var start = new _Vector.Vector3(0, 0, -10);
+		var direction = new _Vector.Vector3(0, 0, 1);
 		var distance = 20;
 
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var rbcB = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var rbcB = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
-		var ccB = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var ccB = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entityA = world.createEntity(rbcA, ccA).addToWorld();
 		var entityB = world.createEntity(rbcB, ccB).addToWorld();
@@ -111,13 +120,13 @@ describe('PhysicsSystem', function () {
 		rbcB.initialize();
 
 		var numHits = 0;
-		system.raycastAll(start, direction, distance, { skipBackfaces: false }, function (/*result*/) {
+		system.raycastAll(start, direction, distance, { skipBackfaces: false }, function () /*result*/{
 			numHits++;
 		});
 		expect(numHits).toBe(4);
 
 		numHits = 0;
-		system.raycastAll(start, direction, distance, {}, function (/*result*/) {
+		system.raycastAll(start, direction, distance, {}, function () /*result*/{
 			numHits++;
 			return false; // Abort traversal
 		});
@@ -125,36 +134,36 @@ describe('PhysicsSystem', function () {
 	});
 
 	it('can use collision groups', function () {
-		var start = new Vector3_Vector3js(0, 0, -10);
-		var direction = new Vector3_Vector3js(0, 0, 1);
+		var start = new _Vector.Vector3(0, 0, -10);
+		var direction = new _Vector.Vector3(0, 0, 1);
 		var distance = 20;
 
-		var rbc = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var cc = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbc = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var cc = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entity = world.createEntity(rbc, cc).addToWorld();
 		entity.setTranslation(0, 0, 3);
 
 		rbc.initialize(); // Needed to initialize body
 
-		var result = new RaycastResult_RaycastResultjs();
+		var result = new _RaycastResult.RaycastResult();
 		system.raycastAny(start, direction, distance, { collisionGroup: -1 }, result);
 		expect(result.entity).toBeTruthy();
 
-		result = new RaycastResult_RaycastResultjs();
+		result = new _RaycastResult.RaycastResult();
 		system.raycastAny(start, direction, distance, { collisionGroup: 2 }, result);
 		expect(result.entity).toBeFalsy();
 	});
 
 	it('can filter away backfaces', function () {
-		var start = new Vector3_Vector3js(0, 0, -10);
-		var direction = new Vector3_Vector3js(0, 0, 1);
+		var start = new _Vector.Vector3(0, 0, -10);
+		var direction = new _Vector.Vector3(0, 0, 1);
 		var distance = 20;
 
-		var rbc = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var cc = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbc = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var cc = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		world.createEntity(rbc, cc).addToWorld();
 
@@ -162,7 +171,7 @@ describe('PhysicsSystem', function () {
 
 		var numHits = 0;
 		system.raycastAll(start, direction, distance, { skipBackfaces: true }, function (result) {
-			expect(result.normal).toBeCloseToVector(new Vector3_Vector3js(0, 0, -1));
+			expect(result.normal).toBeCloseToVector(new _Vector.Vector3(0, 0, -1));
 			numHits++;
 		});
 		expect(numHits).toBe(1);
@@ -175,11 +184,11 @@ describe('PhysicsSystem', function () {
 	});
 
 	it('can raycast with optional parameters', function () {
-		var start = new Vector3_Vector3js(0, 0, -10);
-		var direction = new Vector3_Vector3js(0, 0, 1);
+		var start = new _Vector.Vector3(0, 0, -10);
+		var direction = new _Vector.Vector3(0, 0, 1);
 		var distance = 20;
 		var options = {};
-		var result = new RaycastResult_RaycastResultjs();
+		var result = new _RaycastResult.RaycastResult();
 
 		expect(system.raycastAll(start, direction, distance, options, function () {})).toBe(false);
 		expect(system.raycastAll(start, direction, distance, function () {})).toBe(false);
@@ -201,13 +210,13 @@ describe('PhysicsSystem', function () {
 			return a.name > b.name ? 1 : -1;
 		}
 
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var rbcB = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var rbcB = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
-		var ccB = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var ccB = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entityA = world.createEntity(rbcA, ccA).addToWorld();
 		var entityB = world.createEntity(rbcB, ccB).addToWorld();
@@ -220,15 +229,15 @@ describe('PhysicsSystem', function () {
 		var numEndContact = 0;
 
 		var listeners = {
-			'goo.physics.beginContact': function (evt) {
+			'goo.physics.beginContact': function gooPhysicsBeginContact(evt) {
 				expect([evt.entityA, evt.entityB].sort(sortEntitiesByName)).toEqual(entities);
 				numBeginContact++;
 			},
-			'goo.physics.duringContact': function (evt) {
+			'goo.physics.duringContact': function gooPhysicsDuringContact(evt) {
 				expect([evt.entityA, evt.entityB].sort(sortEntitiesByName)).toEqual(entities);
 				numDuringContact++;
 			},
-			'goo.physics.endContact': function (evt) {
+			'goo.physics.endContact': function gooPhysicsEndContact(evt) {
 				expect([evt.entityA, evt.entityB].sort(sortEntitiesByName)).toEqual(entities);
 				numEndContact++;
 			}
@@ -246,8 +255,8 @@ describe('PhysicsSystem', function () {
 		expect(numDuringContact).toEqual(0);
 		expect(numEndContact).toEqual(0);
 
-		rbcA.setPosition(new Vector3_Vector3js(0, 0, 0.1));
-		rbcB.setPosition(new Vector3_Vector3js(0, 0, -0.1));
+		rbcA.setPosition(new _Vector.Vector3(0, 0, 0.1));
+		rbcB.setPosition(new _Vector.Vector3(0, 0, -0.1));
 
 		world.fixedUpdate();
 
@@ -261,8 +270,8 @@ describe('PhysicsSystem', function () {
 		expect(numDuringContact).toEqual(2);
 		expect(numEndContact).toEqual(0);
 
-		rbcA.setPosition(new Vector3_Vector3js(0, 0, 3));
-		rbcB.setPosition(new Vector3_Vector3js(0, 0, -3));
+		rbcA.setPosition(new _Vector.Vector3(0, 0, 3));
+		rbcB.setPosition(new _Vector.Vector3(0, 0, -3));
 
 		world.fixedUpdate();
 
@@ -284,22 +293,22 @@ describe('PhysicsSystem', function () {
 		var numEndContact = 0;
 
 		var listeners = {
-			'goo.physics.triggerEnter': function () {
+			'goo.physics.triggerEnter': function gooPhysicsTriggerEnter() {
 				numTriggerEnter++;
 			},
-			'goo.physics.triggerStay': function () {
+			'goo.physics.triggerStay': function gooPhysicsTriggerStay() {
 				numTriggerStay++;
 			},
-			'goo.physics.triggerExit': function () {
+			'goo.physics.triggerExit': function gooPhysicsTriggerExit() {
 				numTriggerExit++;
 			},
-			'goo.physics.beginContact': function () {
+			'goo.physics.beginContact': function gooPhysicsBeginContact() {
 				numBeginContact++;
 			},
-			'goo.physics.duringContact': function () {
+			'goo.physics.duringContact': function gooPhysicsDuringContact() {
 				numDuringContact++;
 			},
-			'goo.physics.endContact': function () {
+			'goo.physics.endContact': function gooPhysicsEndContact() {
 				numEndContact++;
 			}
 		};
@@ -324,16 +333,16 @@ describe('PhysicsSystem', function () {
 		});
 
 		function createStaticCollider(x) {
-			var ccA = new ColliderComponent_ColliderComponentjs({
-				collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+			var ccA = new _ColliderComponent.ColliderComponent({
+				collider: new _SphereCollider.SphereCollider({ radius: 1 })
 			});
 			world.createEntity(ccA, [x || 0, 0, 0]).addToWorld();
 			ccA.initialize();
 		}
 
 		function createStaticTriggerCollider(x) {
-			var ccA = new ColliderComponent_ColliderComponentjs({
-				collider: new SphereCollider_SphereColliderjs({ radius: 1 }),
+			var ccA = new _ColliderComponent.ColliderComponent({
+				collider: new _SphereCollider.SphereCollider({ radius: 1 }),
 				isTrigger: true
 			});
 			world.createEntity(ccA, [x || 0, 0, 0]).addToWorld();
@@ -341,9 +350,9 @@ describe('PhysicsSystem', function () {
 		}
 
 		function createRigidBodyTriggerCollider() {
-			var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-			var ccA = new ColliderComponent_ColliderComponentjs({
-				collider: new SphereCollider_SphereColliderjs({ radius: 1 }),
+			var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+			var ccA = new _ColliderComponent.ColliderComponent({
+				collider: new _SphereCollider.SphereCollider({ radius: 1 }),
 				isTrigger: true
 			});
 			world.createEntity(rbcA, ccA).addToWorld();
@@ -351,27 +360,27 @@ describe('PhysicsSystem', function () {
 		}
 
 		function createRigidBodyCollider(x) {
-			var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-			var ccA = new ColliderComponent_ColliderComponentjs({
-				collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+			var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+			var ccA = new _ColliderComponent.ColliderComponent({
+				collider: new _SphereCollider.SphereCollider({ radius: 1 })
 			});
 			world.createEntity(rbcA, ccA, [x || 0, 0, 0]).addToWorld();
 			rbcA.initialize();
 		}
 
 		function createKinematicRigidBodyCollider() {
-			var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1, isKinematic: true });
-			var ccA = new ColliderComponent_ColliderComponentjs({
-				collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+			var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1, isKinematic: true });
+			var ccA = new _ColliderComponent.ColliderComponent({
+				collider: new _SphereCollider.SphereCollider({ radius: 1 })
 			});
 			world.createEntity(rbcA, ccA).addToWorld();
 			rbcA.initialize();
 		}
 
 		function createKinematicRigidBodyTriggerCollider() {
-			var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1, isKinematic: true });
-			var ccA = new ColliderComponent_ColliderComponentjs({
-				collider: new SphereCollider_SphereColliderjs({ radius: 1 }),
+			var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1, isKinematic: true });
+			var ccA = new _ColliderComponent.ColliderComponent({
+				collider: new _SphereCollider.SphereCollider({ radius: 1 }),
 				isTrigger: true
 			});
 			world.createEntity(rbcA, ccA).addToWorld();
@@ -536,7 +545,6 @@ describe('PhysicsSystem', function () {
 			});
 		});
 
-
 		describe('Kinematic Rigid Body Collider vs...', function () {
 
 			it('Kinematic Rigid Body Collider', function () {
@@ -693,15 +701,15 @@ describe('PhysicsSystem', function () {
 	it('emits substep events', function () {
 		var substeps = 0;
 
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		world.createEntity(rbcA, ccA, [0, 0, 0]).addToWorld();
 		rbcA.initialize();
 
 		var listeners = {
-			'goo.physics.substep': function () {
+			'goo.physics.substep': function gooPhysicsSubstep() {
 				substeps++;
 			}
 		};
@@ -721,7 +729,7 @@ describe('PhysicsSystem', function () {
 	it('filters collisions', function () {
 		var numBeginContact = 0;
 		var listeners = {
-			'goo.physics.beginContact': function () {
+			'goo.physics.beginContact': function gooPhysicsBeginContact() {
 				numBeginContact++;
 			}
 		};
@@ -729,13 +737,13 @@ describe('PhysicsSystem', function () {
 			SystemBus.addListener(key, listeners[key]);
 		}
 
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var rbcB = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var rbcB = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
-		var ccB = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var ccB = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entityA = world.createEntity(rbcA, ccA).addToWorld();
 		var entityB = world.createEntity(rbcB, ccB).addToWorld();
@@ -768,18 +776,18 @@ describe('PhysicsSystem', function () {
 	});
 
 	it('can set and get gravity', function () {
-		system.setGravity(new Vector3_Vector3js(1, 2, 3));
-		var gravity = new Vector3_Vector3js();
+		system.setGravity(new _Vector.Vector3(1, 2, 3));
+		var gravity = new _Vector.Vector3();
 		system.getGravity(gravity);
-		expect(gravity).toEqual(new Vector3_Vector3js(1, 2, 3));
+		expect(gravity).toEqual(new _Vector.Vector3(1, 2, 3));
 	});
 
 	//! AT: what is this supposed to test?
 	it('can stop and play', function () {
 		//! AT: bad variable names
-		var rbcA = new RigidBodyComponent_RigidBodyComponentjs({ mass: 1 });
-		var ccA = new ColliderComponent_ColliderComponentjs({
-			collider: new SphereCollider_SphereColliderjs({ radius: 1 })
+		var rbcA = new _RigidBodyComponent.RigidBodyComponent({ mass: 1 });
+		var ccA = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		world.createEntity(rbcA, ccA).addToWorld();
 

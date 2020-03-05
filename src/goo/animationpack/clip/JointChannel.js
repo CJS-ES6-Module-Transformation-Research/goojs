@@ -1,14 +1,23 @@
-import { TransformChannel as TransformChannel_TransformChanneljs } from "../../animationpack/clip/TransformChannel";
-import { JointData as JointData_JointDatajs } from "../../animationpack/clip/JointData";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.JointChannel = undefined;
+
+var _TransformChannel = require("../../animationpack/clip/TransformChannel");
+
+var _JointData = require("../../animationpack/clip/JointData");
+
 var JointChannel_JOINT_CHANNEL_NAME;
 function JointChannel(jointIndex, jointName, times, rotations, translations, scales, blendType) {
-	TransformChannel_TransformChanneljs.call(this, jointName, times, rotations, translations, scales, blendType);
+  _TransformChannel.TransformChannel.call(this, jointName, times, rotations, translations, scales, blendType);
 
-	this._jointName = jointName; // Joint has a name even though index is used for id, this can be used for debugging purposes.
-	this._jointIndex = jointIndex;
+  this._jointName = jointName; // Joint has a name even though index is used for id, this can be used for debugging purposes.
+  this._jointIndex = jointIndex;
 }
 
-JointChannel.prototype = Object.create(TransformChannel_TransformChanneljs.prototype);
+JointChannel.prototype = Object.create(_TransformChannel.TransformChannel.prototype);
 
 /**
  * @type {string}
@@ -22,7 +31,7 @@ JointChannel_JOINT_CHANNEL_NAME = "_jnt";;
  * @returns {JointData}
  */
 JointChannel.prototype.createStateDataObject = function () {
-	return new JointData_JointDatajs();
+  return new _JointData.JointData();
 };
 
 /*
@@ -32,8 +41,8 @@ JointChannel.prototype.createStateDataObject = function () {
  * @param {JointData} value The data item to apply animation to
  */
 JointChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent, jointData) {
-	TransformChannel_TransformChanneljs.prototype.setCurrentSample.call(this, sampleIndex, progressPercent, jointData);
-	jointData._jointIndex = this._jointIndex;
+  _TransformChannel.TransformChannel.prototype.setCurrentSample.call(this, sampleIndex, progressPercent, jointData);
+  jointData._jointIndex = this._jointIndex;
 };
 
 /**
@@ -43,10 +52,10 @@ JointChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent
  * @returns {JointData} our resulting TransformData.
  */
 JointChannel.prototype.getData = function (index, store) {
-	var rVal = store ? store : new JointData_JointDatajs();
-	TransformChannel_TransformChanneljs.prototype.getData.call(this, index, rVal);
-	rVal._jointIndex = this._jointIndex;
-	return rVal;
+  var rVal = store ? store : new _JointData.JointData();
+  _TransformChannel.TransformChannel.prototype.getData.call(this, index, rVal);
+  rVal._jointIndex = this._jointIndex;
+  return rVal;
 };
 
 var exported_JointChannel = JointChannel;
@@ -60,4 +69,4 @@ var exported_JointChannel = JointChannel;
  * @param {Array<number>} translations the translations to set on this channel at each time offset.
  * @param {Array<number>} scales the scales to set on this channel at each time offset.
  */
-export { exported_JointChannel as JointChannel };
+exports.JointChannel = exported_JointChannel;

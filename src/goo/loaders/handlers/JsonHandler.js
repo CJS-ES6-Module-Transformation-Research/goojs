@@ -1,12 +1,21 @@
-import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.JsonHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 function JsonHandler() {
-	ConfigHandler_ConfigHandlerjs.apply(this, arguments);
+  _ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-JsonHandler.prototype = Object.create(ConfigHandler_ConfigHandlerjs.prototype);
+JsonHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 JsonHandler.prototype.constructor = JsonHandler;
-ConfigHandler_ConfigHandlerjs._registerClass('json', JsonHandler);
+_ConfigHandler.ConfigHandler._registerClass('json', JsonHandler);
 
 /**
  * Adds/updates/removes a json data object.
@@ -16,19 +25,19 @@ ConfigHandler_ConfigHandlerjs._registerClass('json', JsonHandler);
  * @returns {RSVP.Promise} Resolves with the updated shader or null if removed
  */
 JsonHandler.prototype._update = function (ref, config) {
-	if (!config) {
-		this._remove(ref);
-		return PromiseUtils_PromiseUtilsjs.resolve();
-	}
+  if (!config) {
+    this._remove(ref);
+    return _PromiseUtils.PromiseUtils.resolve();
+  }
 
-	var data;
-	try {
-		data = JSON.parse(config.body);
-	} catch (error) {
-		data = {};
-	}
+  var data;
+  try {
+    data = JSON.parse(config.body);
+  } catch (error) {
+    data = {};
+  }
 
-	return PromiseUtils_PromiseUtilsjs.resolve(data);
+  return _PromiseUtils.PromiseUtils.resolve(data);
 };
 
 var exported_JsonHandler = JsonHandler;
@@ -43,4 +52,4 @@ var exported_JsonHandler = JsonHandler;
  * @extends ConfigHandler
  * @private
  */
-export { exported_JsonHandler as JsonHandler };
+exports.JsonHandler = exported_JsonHandler;

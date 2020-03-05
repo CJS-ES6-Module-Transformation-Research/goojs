@@ -1,15 +1,21 @@
-import { World as World_Worldjs } from "../../../../src/goo/entities/World";
-import { Entity as Entity_Entityjs } from "../../../../src/goo/entities/Entity";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _Entity = require("../../../../src/goo/entities/Entity");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('ProjectHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,8 +23,8 @@ describe('ProjectHandler', function () {
 	});
 
 	it('loads a project with scene', function (done) {
-		var config = Configs_Configsjs.project();
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.project();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (project) {
 			expect(project.mainScene).toBeDefined();
 			expect(project.mainScene.entities).toEqual(jasmine.any(Object));
@@ -27,15 +33,15 @@ describe('ProjectHandler', function () {
 	});
 
 	it('loads a slightly more complex project', function (done) {
-		var config = Configs_Configsjs.project(true);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.project(true);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (project) {
 			expect(project.mainScene).toBeDefined();
 			var entity;
 			for (var key in project.mainScene.entities) {
 				entity = project.mainScene.entities[key];
 			}
-			expect(entity).toEqual(jasmine.any(Entity_Entityjs));
+			expect(entity).toEqual(jasmine.any(_Entity.Entity));
 			done();
 		});
 	});

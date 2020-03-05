@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function FsmUtils() {}
 
 FsmUtils.setParameters = function (settings, externalParameters) {
@@ -41,7 +46,7 @@ FsmUtils.keys = {
 	'Pause': 19,
 	'Capslock': 20,
 	'Esc': 27,
-	'Space':32,
+	'Space': 32,
 	'Pageup': 33,
 	'Pagedown': 34,
 	'End': 35,
@@ -169,16 +174,13 @@ FsmUtils.keyForCode = function (code) {
 	return 'FsmUtils.keyForCode: key not found for code ' + code;
 };
 
-var s4 = function () {
-	return Math.floor((1 + Math.random()) * 0x10000)
-		.toString(16)
-		.substring(1);
+var s4 = function s4() {
+	return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
 };
 
 // Random unique id
 FsmUtils.guid = function () {
-	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-		s4() + '-' + s4() + s4() + s4();
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 };
 
 FsmUtils.getValue = function (par, fsm) {
@@ -190,4 +192,4 @@ FsmUtils.getValue = function (par, fsm) {
 };
 
 var exported_FsmUtils = FsmUtils;
-export { exported_FsmUtils as FsmUtils };
+exports.FsmUtils = exported_FsmUtils;

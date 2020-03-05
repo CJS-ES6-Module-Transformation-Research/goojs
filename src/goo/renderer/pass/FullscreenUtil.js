@@ -1,2 +1,10 @@
-import { FullscreenUtils as FullscreenUtils_FullscreenUtilsjs } from "../../renderer/pass/FullscreenUtils";
-export { FullscreenUtils_FullscreenUtilsjs as FullscreenUtils };
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FullscreenUtils = undefined;
+
+var _FullscreenUtils = require("../../renderer/pass/FullscreenUtils");
+
+exports.FullscreenUtils = _FullscreenUtils.FullscreenUtils;

@@ -1,17 +1,17 @@
-import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
+"use strict";
 
-var performance = typeof(window) !== 'undefined' ? window.performance : {};
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TaskScheduler = undefined;
 
-performance.now = (
-	performance.now ||
-	performance.mozNow ||
-	performance.msNow ||
-	performance.oNow ||
-	performance.webkitNow ||
-	function () {
-		return Date.now();
-	}
-);
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var performance = typeof window !== 'undefined' ? window.performance : {};
+
+performance.now = performance.now || performance.mozNow || performance.msNow || performance.oNow || performance.webkitNow || function () {
+	return Date.now();
+};
 
 function TaskScheduler() {}
 
@@ -19,7 +19,7 @@ TaskScheduler.maxTimePerFrame = 50;
 
 // Engine loop must be disabled while running this
 TaskScheduler.each = function (queue) {
-	return PromiseUtils_PromiseUtilsjs.createPromise(function (resolve) {
+	return _PromiseUtils.PromiseUtils.createPromise(function (resolve) {
 		var i = 0;
 
 		function process() {
@@ -43,4 +43,4 @@ TaskScheduler.each = function (queue) {
 };
 
 var exported_TaskScheduler = TaskScheduler;
-export { exported_TaskScheduler as TaskScheduler };
+exports.TaskScheduler = exported_TaskScheduler;

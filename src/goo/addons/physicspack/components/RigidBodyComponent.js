@@ -1,47 +1,63 @@
-import {     AbstractRigidBodyComponent as AbstractRigidBodyComponent_AbstractRigidBodyComponentjs, } from "../../../addons/physicspack/components/AbstractRigidBodyComponent";
-import { Vector3 as Vector3_Vector3js } from "../../../math/Vector3";
-import { Quaternion as Quaternion_Quaternionjs } from "../../../math/Quaternion";
-import { BoxCollider as BoxCollider_BoxColliderjs } from "../../../addons/physicspack/colliders/BoxCollider";
-import { SphereCollider as SphereCollider_SphereColliderjs } from "../../../addons/physicspack/colliders/SphereCollider";
-import { MeshCollider as MeshCollider_MeshColliderjs } from "../../../addons/physicspack/colliders/MeshCollider";
-import { BallJoint as BallJoint_BallJointjs } from "../../../addons/physicspack/joints/BallJoint";
-import { HingeJoint as HingeJoint_HingeJointjs } from "../../../addons/physicspack/joints/HingeJoint";
-import { ColliderComponent as ColliderComponent_ColliderComponentjs } from "../../../addons/physicspack/components/ColliderComponent";
-import { MathUtils as MathUtils_MathUtilsjs } from "../../../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RigidBodyComponent = undefined;
+
+var _AbstractRigidBodyComponent = require("../../../addons/physicspack/components/AbstractRigidBodyComponent");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _BoxCollider = require("../../../addons/physicspack/colliders/BoxCollider");
+
+var _SphereCollider = require("../../../addons/physicspack/colliders/SphereCollider");
+
+var _MeshCollider = require("../../../addons/physicspack/colliders/MeshCollider");
+
+var _BallJoint = require("../../../addons/physicspack/joints/BallJoint");
+
+var _HingeJoint = require("../../../addons/physicspack/joints/HingeJoint");
+
+var _ColliderComponent = require("../../../addons/physicspack/components/ColliderComponent");
+
+var _MathUtils = require("../../../math/MathUtils");
 
 /* global CANNON */
-var tmpQuat = new Quaternion_Quaternionjs();
+var tmpQuat = new _Quaternion.Quaternion();
 var tmpCannonVec;
 var tmpCannonVec2;
 
 function RigidBodyComponent(settings) {
 	settings = settings || {};
-	AbstractRigidBodyComponent_AbstractRigidBodyComponentjs.apply(this, arguments);
+	_AbstractRigidBodyComponent.AbstractRigidBodyComponent.apply(this, arguments);
 
 	this.type = 'RigidBodyComponent';
 
 	/**
-	 * @type {CANNON.Body}
-	 */
+  * @type {CANNON.Body}
+  */
 	this.cannonBody = null;
 
 	/**
-	 * If true, the Cannon.js body is re-initialized in the next process().
-	 * @private
-	 * @type {boolean}
-	 */
+  * If true, the Cannon.js body is re-initialized in the next process().
+  * @private
+  * @type {boolean}
+  */
 	this._dirty = true;
 
 	/**
-	 * @private
-	 * @type {boolean}
-	 */
+  * @private
+  * @type {boolean}
+  */
 	this._isKinematic = !!settings.isKinematic;
 
 	/**
-	 * @private
-	 * @type {number}
-	 */
+  * @private
+  * @type {number}
+  */
 	this._mass = settings.mass !== undefined ? settings.mass : 1.0;
 	if (this._isKinematic) {
 		this._mass = 0;
@@ -50,45 +66,45 @@ function RigidBodyComponent(settings) {
 	}
 
 	/**
-	 * @private
-	 * @type {boolean}
-	 */
+  * @private
+  * @type {boolean}
+  */
 	this._initialized = false;
 
 	/**
-	 * @private
-	 * @type {Vector3}
-	 */
-	this._velocity = settings.velocity ? settings.velocity.clone() : new Vector3_Vector3js();
+  * @private
+  * @type {Vector3}
+  */
+	this._velocity = settings.velocity ? settings.velocity.clone() : new _Vector.Vector3();
 
 	/**
-	 * @private
-	 * @type {Vector3}
-	 */
-	this._angularVelocity = settings.angularVelocity ? settings.angularVelocity.clone() : new Vector3_Vector3js();
+  * @private
+  * @type {Vector3}
+  */
+	this._angularVelocity = settings.angularVelocity ? settings.angularVelocity.clone() : new _Vector.Vector3();
 
 	/**
-	 * @private
-	 * @type {number}
-	 */
+  * @private
+  * @type {number}
+  */
 	this._linearDamping = settings.linearDamping !== undefined ? settings.linearDamping : 0.01;
 
 	/**
-	 * @private
-	 * @type {number}
-	 */
+  * @private
+  * @type {number}
+  */
 	this._angularDamping = settings.angularDamping !== undefined ? settings.angularDamping : 0.05;
 
 	/**
-	 * @private
-	 * @type {number}
-	 */
+  * @private
+  * @type {number}
+  */
 	this._sleepingThreshold = settings.sleepingThreshold !== undefined ? settings.sleepingThreshold : 0.2;
 
 	/**
-	 * @private
-	 * @type {number}
-	 */
+  * @private
+  * @type {number}
+  */
 	this._sleepingTimeLimit = settings.sleepingTimeLimit !== undefined ? settings.sleepingTimeLimit : 1;
 
 	if (!tmpCannonVec) {
@@ -97,26 +113,26 @@ function RigidBodyComponent(settings) {
 	}
 
 	/**
-	 * All the attached colliders.
-	 * @type {Array}
-	 */
+  * All the attached colliders.
+  * @type {Array}
+  */
 	this._colliderEntities = [];
 
 	/**
-	 * How smoothing of the rigid body movement should be done. Set it to {@link RigidBodyComponent.NONE} or {@link RigidBodyComponent.INTERPOLATE}.
-	 * @type {number}
-	 */
+  * How smoothing of the rigid body movement should be done. Set it to {@link RigidBodyComponent.NONE} or {@link RigidBodyComponent.INTERPOLATE}.
+  * @type {number}
+  */
 	this.interpolation = RigidBodyComponent.INTERPOLATE;
 
 	/**
-	 * Constraint the movement of the rigid body. Set it to RigidBodyComponent.FREEZE_NONE, RigidBodyComponent.FREEZE_POSITION_X, RigidBodyComponent.FREEZE_POSITION_Y, RigidBodyComponent.FREEZE_POSITION_Z, RigidBodyComponent.FREEZE_ROTATION_X, RigidBodyComponent.FREEZE_ROTATION_Y, RigidBodyComponent.FREEZE_ROTATION_Z, RigidBodyComponent.FREEZE_POSITION, RigidBodyComponent.FREEZE_ROTATION or RigidBodyComponent.FREEZE_ALL.
-	 *
-	 * @type {number}
-	 */
+  * Constraint the movement of the rigid body. Set it to RigidBodyComponent.FREEZE_NONE, RigidBodyComponent.FREEZE_POSITION_X, RigidBodyComponent.FREEZE_POSITION_Y, RigidBodyComponent.FREEZE_POSITION_Z, RigidBodyComponent.FREEZE_ROTATION_X, RigidBodyComponent.FREEZE_ROTATION_Y, RigidBodyComponent.FREEZE_ROTATION_Z, RigidBodyComponent.FREEZE_POSITION, RigidBodyComponent.FREEZE_ROTATION or RigidBodyComponent.FREEZE_ALL.
+  *
+  * @type {number}
+  */
 	this._constraints = RigidBodyComponent.FREEZE_NONE;
 }
 
-RigidBodyComponent.prototype = Object.create(AbstractRigidBodyComponent_AbstractRigidBodyComponentjs.prototype);
+RigidBodyComponent.prototype = Object.create(_AbstractRigidBodyComponent.AbstractRigidBodyComponent.prototype);
 RigidBodyComponent.prototype.constructor = RigidBodyComponent;
 
 RigidBodyComponent.type = 'RigidBodyComponent';
@@ -398,11 +414,7 @@ RigidBodyComponent.prototype.getInterpolatedPosition = function (targetVector) {
 	var prevPosition = this.cannonBody.previousPosition;
 	var currentPosition = this.cannonBody.position;
 	var t = this._system.world.interpolationTime;
-	targetVector.setDirect(
-		MathUtils_MathUtilsjs.lerp(t, prevPosition.x, currentPosition.x),
-		MathUtils_MathUtilsjs.lerp(t, prevPosition.y, currentPosition.y),
-		MathUtils_MathUtilsjs.lerp(t, prevPosition.z, currentPosition.z)
-	);
+	targetVector.setDirect(_MathUtils.MathUtils.lerp(t, prevPosition.x, currentPosition.x), _MathUtils.MathUtils.lerp(t, prevPosition.y, currentPosition.y), _MathUtils.MathUtils.lerp(t, prevPosition.z, currentPosition.z));
 };
 
 /**
@@ -420,12 +432,7 @@ RigidBodyComponent.prototype.setQuaternion = function (quaternion) {
 RigidBodyComponent.prototype.getQuaternion = function (targetQuat) {
 	if (this.cannonBody) {
 		var cannonQuaternion = this.cannonBody.quaternion;
-		targetQuat.setDirect(
-			cannonQuaternion.x,
-			cannonQuaternion.y,
-			cannonQuaternion.z,
-			cannonQuaternion.w
-		);
+		targetQuat.setDirect(cannonQuaternion.x, cannonQuaternion.y, cannonQuaternion.z, cannonQuaternion.w);
 	}
 };
 
@@ -441,25 +448,20 @@ RigidBodyComponent.prototype.getInterpolatedQuaternion = function (targetQuat) {
 	var prevQuat = this.cannonBody.previousQuaternion;
 	var currentQuat = this.cannonBody.quaternion;
 	var t = this._system.world.interpolationTime;
-	targetQuat.setDirect(
-		MathUtils_MathUtilsjs.lerp(t, prevQuat.x, currentQuat.x),
-		MathUtils_MathUtilsjs.lerp(t, prevQuat.y, currentQuat.y),
-		MathUtils_MathUtilsjs.lerp(t, prevQuat.z, currentQuat.z),
-		MathUtils_MathUtilsjs.lerp(t, prevQuat.w, currentQuat.w)
-	);
+	targetQuat.setDirect(_MathUtils.MathUtils.lerp(t, prevQuat.x, currentQuat.x), _MathUtils.MathUtils.lerp(t, prevQuat.y, currentQuat.y), _MathUtils.MathUtils.lerp(t, prevQuat.z, currentQuat.z), _MathUtils.MathUtils.lerp(t, prevQuat.w, currentQuat.w));
 };
 
 Object.defineProperties(RigidBodyComponent.prototype, {
 
 	/**
-	 * @target-class RigidBodyComponent linearDamping member
-	 * @type {number}
-	 */
+  * @target-class RigidBodyComponent linearDamping member
+  * @type {number}
+  */
 	linearDamping: {
-		get: function () {
+		get: function get() {
 			return this._linearDamping;
 		},
-		set: function (value) {
+		set: function set(value) {
 			if (this.cannonBody) {
 				this.cannonBody.linearDamping = value;
 			}
@@ -468,14 +470,14 @@ Object.defineProperties(RigidBodyComponent.prototype, {
 	},
 
 	/**
-	 * @target-class RigidBodyComponent angularDamping member
-	 * @type {number}
-	 */
+  * @target-class RigidBodyComponent angularDamping member
+  * @type {number}
+  */
 	angularDamping: {
-		get: function () {
+		get: function get() {
 			return this._angularDamping;
 		},
-		set: function (value) {
+		set: function set(value) {
 			if (this.cannonBody) {
 				this.cannonBody.angularDamping = value;
 			}
@@ -484,14 +486,14 @@ Object.defineProperties(RigidBodyComponent.prototype, {
 	},
 
 	/**
-	 * @target-class RigidBodyComponent isKinematic member
-	 * @type {number}
-	 */
+  * @target-class RigidBodyComponent isKinematic member
+  * @type {number}
+  */
 	isKinematic: {
-		get: function () {
+		get: function get() {
 			return this._isKinematic;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._isKinematic = value;
 			if (this.cannonBody) {
 				this.cannonBody.type = value ? CANNON.Body.KINEMATIC : CANNON.Body.DYNAMIC;
@@ -501,14 +503,14 @@ Object.defineProperties(RigidBodyComponent.prototype, {
 	},
 
 	/**
-	 * @target-class RigidBodyComponent sleepingThreshold member
-	 * @type {number}
-	 */
+  * @target-class RigidBodyComponent sleepingThreshold member
+  * @type {number}
+  */
 	sleepingThreshold: {
-		get: function () {
+		get: function get() {
 			return this._sleepingThreshold;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._sleepingThreshold = value;
 			if (this.cannonBody) {
 				this.cannonBody.sleepSpeedLimit = value;
@@ -517,14 +519,14 @@ Object.defineProperties(RigidBodyComponent.prototype, {
 	},
 
 	/**
-	 * @target-class RigidBodyComponent mass member
-	 * @type {number}
-	 */
+  * @target-class RigidBodyComponent mass member
+  * @type {number}
+  */
 	mass: {
-		get: function () {
+		get: function get() {
 			return this._mass;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._mass = value;
 			if (this.cannonBody) {
 				this.cannonBody.mass = value;
@@ -534,14 +536,14 @@ Object.defineProperties(RigidBodyComponent.prototype, {
 	},
 
 	/**
-	 * @target-class RigidBodyComponent sleepingTimeLimit member
-	 * @type {number}
-	 */
+  * @target-class RigidBodyComponent sleepingTimeLimit member
+  * @type {number}
+  */
 	sleepingTimeLimit: {
-		get: function () {
+		get: function get() {
 			return this._sleepingTimeLimit;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._sleepingTimeLimit = value;
 			if (this.cannonBody) {
 				this.cannonBody.sleepTimeLimit = value;
@@ -550,15 +552,15 @@ Object.defineProperties(RigidBodyComponent.prototype, {
 	},
 
 	/**
-	 * Constraint the movement of the rigid body. Set it to RigidBodyComponent.FREEZE_NONE, RigidBodyComponent.FREEZE_POSITION_X, RigidBodyComponent.FREEZE_POSITION_Y, RigidBodyComponent.FREEZE_POSITION_Z, RigidBodyComponent.FREEZE_ROTATION_X, RigidBodyComponent.FREEZE_ROTATION_Y, RigidBodyComponent.FREEZE_ROTATION_Z, RigidBodyComponent.FREEZE_POSITION, RigidBodyComponent.FREEZE_ROTATION or RigidBodyComponent.FREEZE_ALL.
-	 * @target-class RigidBodyComponent constraints member
-	 * @type {number}
-	 */
+  * Constraint the movement of the rigid body. Set it to RigidBodyComponent.FREEZE_NONE, RigidBodyComponent.FREEZE_POSITION_X, RigidBodyComponent.FREEZE_POSITION_Y, RigidBodyComponent.FREEZE_POSITION_Z, RigidBodyComponent.FREEZE_ROTATION_X, RigidBodyComponent.FREEZE_ROTATION_Y, RigidBodyComponent.FREEZE_ROTATION_Z, RigidBodyComponent.FREEZE_POSITION, RigidBodyComponent.FREEZE_ROTATION or RigidBodyComponent.FREEZE_ALL.
+  * @target-class RigidBodyComponent constraints member
+  * @type {number}
+  */
 	constraints: {
-		get: function () {
+		get: function get() {
 			return this._constraints;
 		},
-		set: function (value) {
+		set: function set(value) {
 			this._constraints = value;
 			var body = this.cannonBody;
 			if (body) {
@@ -590,16 +592,8 @@ RigidBodyComponent.prototype.destroy = function () {
 };
 
 RigidBodyComponent.constraintsToCannonFactors = function (constraints, linear, angular) {
-	linear.set(
-		constraints & RigidBodyComponent.FREEZE_POSITION_X ? 0 : 1,
-		constraints & RigidBodyComponent.FREEZE_POSITION_Y ? 0 : 1,
-		constraints & RigidBodyComponent.FREEZE_POSITION_Z ? 0 : 1
-	);
-	angular.set(
-		constraints & RigidBodyComponent.FREEZE_ROTATION_X ? 0 : 1,
-		constraints & RigidBodyComponent.FREEZE_ROTATION_Y ? 0 : 1,
-		constraints & RigidBodyComponent.FREEZE_ROTATION_Z ? 0 : 1
-	);
+	linear.set(constraints & RigidBodyComponent.FREEZE_POSITION_X ? 0 : 1, constraints & RigidBodyComponent.FREEZE_POSITION_Y ? 0 : 1, constraints & RigidBodyComponent.FREEZE_POSITION_Z ? 0 : 1);
+	angular.set(constraints & RigidBodyComponent.FREEZE_ROTATION_X ? 0 : 1, constraints & RigidBodyComponent.FREEZE_ROTATION_Y ? 0 : 1, constraints & RigidBodyComponent.FREEZE_ROTATION_Z ? 0 : 1);
 };
 
 /**
@@ -643,7 +637,7 @@ RigidBodyComponent.prototype.initializeJoint = function (joint) {
 	var bodyA = this.cannonBody;
 	var bodyB = (joint.connectedEntity.rigidBodyComponent || joint.connectedEntity.colliderComponent).cannonBody;
 	var constraint;
-	if (joint instanceof BallJoint_BallJointjs) {
+	if (joint instanceof _BallJoint.BallJoint) {
 		// Scale the joint to the world scale
 		var scaledPivotA = joint.localPivot.clone();
 		scaledPivotA.mul(this._entity.transformComponent.transform.scale);
@@ -663,7 +657,7 @@ RigidBodyComponent.prototype.initializeJoint = function (joint) {
 		}
 
 		constraint = new CANNON.PointToPointConstraint(bodyA, pivotInA, bodyB, pivotInB);
-	} else if (joint instanceof HingeJoint_HingeJointjs) {
+	} else if (joint instanceof _HingeJoint.HingeJoint) {
 		var pivotInA = new CANNON.Vec3();
 		var pivotInB = new CANNON.Vec3();
 		var axisInA = new CANNON.Vec3();
@@ -712,13 +706,13 @@ RigidBodyComponent.prototype.initializeJoint = function (joint) {
 };
 
 RigidBodyComponent.copyScaleFromColliderToCannonShape = function (cannonShape, collider) {
-	if (collider instanceof SphereCollider_SphereColliderjs) {
+	if (collider instanceof _SphereCollider.SphereCollider) {
 		cannonShape.radius = collider.radius;
-	} else if (collider instanceof BoxCollider_BoxColliderjs) {
+	} else if (collider instanceof _BoxCollider.BoxCollider) {
 		cannonShape.halfExtents.copy(collider.halfExtents);
 		cannonShape.updateConvexPolyhedronRepresentation();
 		cannonShape.updateBoundingSphereRadius();
-	} else if (collider instanceof MeshCollider_MeshColliderjs) {
+	} else if (collider instanceof _MeshCollider.MeshCollider) {
 		var scale;
 		if (!tmpCannonVec) {
 			tmpCannonVec = new CANNON.Vec3();
@@ -750,7 +744,7 @@ RigidBodyComponent.prototype.addCollider = function (entity, position, quaternio
 	colliderComponent.updateWorldCollider(true);
 	var collider = colliderComponent.worldCollider;
 
-	var cannonShape = colliderComponent.cannonShape = ColliderComponent_ColliderComponentjs.getCannonShape(collider);
+	var cannonShape = colliderComponent.cannonShape = _ColliderComponent.ColliderComponent.getCannonShape(collider);
 
 	this._system._shapeIdToColliderEntityMap.set(cannonShape.id, entity);
 
@@ -808,4 +802,4 @@ var exported_RigidBodyComponent = RigidBodyComponent;
  * @param {number} [settings.angularDamping=0.05]
  * @extends AbstractRigidBodyComponent
  */
-export { exported_RigidBodyComponent as RigidBodyComponent };
+exports.RigidBodyComponent = exported_RigidBodyComponent;

@@ -1,12 +1,20 @@
-import { System as System_Systemjs } from "../../../entities/systems/System";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AbstractPhysicsSystem = undefined;
+
+var _System = require('../../../entities/systems/System');
+
 function AbstractPhysicsSystem() {
-	System_Systemjs.apply(this, arguments);
+	_System.System.apply(this, arguments);
 
 	this.priority = -1;
 
 	/**
-	 * Entitites that holds ColliderComponents, but aren't instantiated since they have no RigidBodyComponent
-	 */
+  * Entitites that holds ColliderComponents, but aren't instantiated since they have no RigidBodyComponent
+  */
 	this._activeColliderEntities = [];
 
 	this._colliderInsertedListener = function (event) {
@@ -31,14 +39,14 @@ function AbstractPhysicsSystem() {
 	SystemBus.addListener('goo.collider.deleted', this._colliderDeletedListener);
 	SystemBus.addListener('goo.collider.deletedComponent', this._colliderDeletedComponentListener);
 }
-AbstractPhysicsSystem.prototype = Object.create(System_Systemjs.prototype);
+AbstractPhysicsSystem.prototype = Object.create(_System.System.prototype);
 AbstractPhysicsSystem.prototype.constructor = AbstractPhysicsSystem;
 
 /**
  * @virtual
  * @param {Vector3} gravityVector
  */
-AbstractPhysicsSystem.prototype.setGravity = function (/*gravityVector*/) {};
+AbstractPhysicsSystem.prototype.setGravity = function () /*gravityVector*/{};
 
 var event = {
 	entityA: null,
@@ -114,9 +122,9 @@ AbstractPhysicsSystem.prototype._emitEvent = function (channel, entityA, entityB
 	event.entityB = null;
 };
 
-AbstractPhysicsSystem.prototype._colliderInserted = function (/*entity*/) {};
-AbstractPhysicsSystem.prototype._colliderDeleted = function (/*entity*/) {};
-AbstractPhysicsSystem.prototype._colliderDeletedComponent = function (/*entity*/) {};
+AbstractPhysicsSystem.prototype._colliderInserted = function () /*entity*/{};
+AbstractPhysicsSystem.prototype._colliderDeleted = function () /*entity*/{};
+AbstractPhysicsSystem.prototype._colliderDeletedComponent = function () /*entity*/{};
 
 var exported_AbstractPhysicsSystem = AbstractPhysicsSystem;
 
@@ -124,4 +132,4 @@ var exported_AbstractPhysicsSystem = AbstractPhysicsSystem;
  * Base class for physics systems.
  * @extends System
  */
-export { exported_AbstractPhysicsSystem as AbstractPhysicsSystem };
+exports.AbstractPhysicsSystem = exported_AbstractPhysicsSystem;

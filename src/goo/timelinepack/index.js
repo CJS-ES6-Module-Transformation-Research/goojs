@@ -1,18 +1,26 @@
-import {     AbstractTimelineChannel as AbstractTimelineChannel_AbstractTimelineChanneljs, } from "./AbstractTimelineChannel";
-import { EventChannel as EventChannel_EventChanneljs } from "./EventChannel";
-import { TimelineComponent as TimelineComponent_TimelineComponentjs } from "./TimelineComponent";
-import {     TimelineComponentHandler as TimelineComponentHandler_TimelineComponentHandlerjs, } from "./TimelineComponentHandler";
-import { TimelineSystem as TimelineSystem_TimelineSystemjs } from "./TimelineSystem";
-import { ValueChannel as ValueChannel_ValueChanneljs } from "./ValueChannel";
+"use strict";
+
+var _AbstractTimelineChannel = require("./AbstractTimelineChannel");
+
+var _EventChannel = require("./EventChannel");
+
+var _TimelineComponent = require("./TimelineComponent");
+
+var _TimelineComponentHandler = require("./TimelineComponentHandler");
+
+var _TimelineSystem = require("./TimelineSystem");
+
+var _ValueChannel = require("./ValueChannel");
+
 module.exports = {
-	AbstractTimelineChannel: AbstractTimelineChannel_AbstractTimelineChanneljs,
-	EventChannel: EventChannel_EventChanneljs,
-	TimelineComponent: TimelineComponent_TimelineComponentjs,
-	TimelineComponentHandler: TimelineComponentHandler_TimelineComponentHandlerjs,
-	TimelineSystem: TimelineSystem_TimelineSystemjs,
-	ValueChannel: ValueChannel_ValueChanneljs
+	AbstractTimelineChannel: _AbstractTimelineChannel.AbstractTimelineChannel,
+	EventChannel: _EventChannel.EventChannel,
+	TimelineComponent: _TimelineComponent.TimelineComponent,
+	TimelineComponentHandler: _TimelineComponentHandler.TimelineComponentHandler,
+	TimelineSystem: _TimelineSystem.TimelineSystem,
+	ValueChannel: _ValueChannel.ValueChannel
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

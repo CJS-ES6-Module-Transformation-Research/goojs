@@ -1,13 +1,15 @@
-import { Curve as Curve_Curvejs } from "../../../../../src/goo/addons/particlepack/curves/Curve";
+'use strict';
+
+var _Curve = require('../../../../../src/goo/addons/particlepack/curves/Curve');
 
 describe('Curve', function () {
 	it('.getValueAt', function () {
-		var curve = new Curve_Curvejs();
+		var curve = new _Curve.Curve();
 		expect(curve.getValueAt(0)).toBe(0);
 	});
 
 	it('.toGLSL', function () {
-		var curve = new Curve_Curvejs();
+		var curve = new _Curve.Curve();
 		expect(curve.toGLSL('t')).toBe('0.0');
 	});
 });

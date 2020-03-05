@@ -1,4 +1,6 @@
-import { CanvasUtils as CanvasUtils_CanvasUtilsjs } from "../../../src/goo/util/CanvasUtils";
+'use strict';
+
+var _CanvasUtils = require('../../../src/goo/util/CanvasUtils');
 
 describe('CanvasUtils', function () {
 	describe('Rendering an SVG to canvas', function () {
@@ -9,11 +11,9 @@ describe('CanvasUtils', function () {
 		};
 
 		it('should create an canvas element with the given dimensions', function (done) {
-			var data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">' +
-				'<rect x="0" y="0" width="200" height="100" fill="blue" />' +
-				'</svg>';
+			var data = '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="100">' + '<rect x="0" y="0" width="200" height="100" fill="blue" />' + '</svg>';
 
-			CanvasUtils_CanvasUtilsjs.renderSvgToCanvas(data, options, function (canvas) {
+			_CanvasUtils.CanvasUtils.renderSvgToCanvas(data, options, function (canvas) {
 				expect(canvas).toEqual(jasmine.any(HTMLCanvasElement));
 				expect(canvas.width).toEqual(options.width);
 				expect(canvas.height).toEqual(options.height);
@@ -25,7 +25,7 @@ describe('CanvasUtils', function () {
 			it('should fire the callback with no argument (undefined)', function (done) {
 				var data = '<svg xmlns="http://www.w3.org/2000/svg" oh wait what?';
 
-				CanvasUtils_CanvasUtilsjs.renderSvgToCanvas(data, options, function (canvas) {
+				_CanvasUtils.CanvasUtils.renderSvgToCanvas(data, options, function (canvas) {
 					expect(canvas).toBeUndefined();
 					done();
 				});

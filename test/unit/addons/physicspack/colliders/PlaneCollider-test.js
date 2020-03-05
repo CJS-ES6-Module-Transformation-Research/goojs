@@ -1,20 +1,24 @@
-import { PlaneCollider as PlaneCollider_PlaneColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/PlaneCollider";
-import { Transform as Transform_Transformjs } from "../../../../../src/goo/math/Transform";
+"use strict";
+
+var _PlaneCollider = require("../../../../../src/goo/addons/physicspack/colliders/PlaneCollider");
+
+var _Transform = require("../../../../../src/goo/math/Transform");
+
 describe('PlaneCollider', function () {
 
-	var PlaneCollider = PlaneCollider_PlaneColliderjs;
-	var Transform = Transform_Transformjs;
+	var PlaneCollider = _PlaneCollider.PlaneCollider;
+	var Transform = _Transform.Transform;
 
 	it('can clone', function () {
-		var collider = new PlaneCollider_PlaneColliderjs();
+		var collider = new _PlaneCollider.PlaneCollider();
 		var clone = collider.clone();
 		expect(collider).toEqual(clone);
 	});
 
 	it('can transform', function () {
-		var collider = new PlaneCollider_PlaneColliderjs();
-		var collider2 = new PlaneCollider_PlaneColliderjs();
-		var transform = new Transform_Transformjs();
+		var collider = new _PlaneCollider.PlaneCollider();
+		var collider2 = new _PlaneCollider.PlaneCollider();
+		var transform = new _Transform.Transform();
 		collider.transform(transform, collider2);
 		expect(collider).toEqual(collider2);
 	});

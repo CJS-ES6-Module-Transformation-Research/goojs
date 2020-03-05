@@ -1,15 +1,23 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3_Vector3js } from "../../../math/Vector3";
+"use strict";
 
-function TweenLightColorAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenLightColorAction = undefined;
 
-	this.fromCol = new Vector3_Vector3js();
-	this.toCol = new Vector3_Vector3js();
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+function TweenLightColorAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
+
+	this.fromCol = new _Vector.Vector3();
+	this.toCol = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenLightColorAction.prototype = Object.create(Action_Actionjs.prototype);
+TweenLightColorAction.prototype = Object.create(_Action.Action.prototype);
 TweenLightColorAction.prototype.constructor = TweenLightColorAction;
 
 TweenLightColorAction.external = {
@@ -53,7 +61,7 @@ TweenLightColorAction.external = {
 	}]
 };
 
-TweenLightColorAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenLightColorAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Light Complete' : undefined;
 };
 
@@ -94,4 +102,4 @@ TweenLightColorAction.prototype.update = function (fsm) {
 };
 
 var exported_TweenLightColorAction = TweenLightColorAction;
-export { exported_TweenLightColorAction as TweenLightColorAction };
+exports.TweenLightColorAction = exported_TweenLightColorAction;

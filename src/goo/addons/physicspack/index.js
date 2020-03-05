@@ -1,59 +1,87 @@
-import { BoxCollider as BoxCollider_BoxColliderjs } from "./colliders/BoxCollider";
-import { Collider as Collider_Colliderjs } from "./colliders/Collider";
-import { CylinderCollider as CylinderCollider_CylinderColliderjs } from "./colliders/CylinderCollider";
-import { MeshCollider as MeshCollider_MeshColliderjs } from "./colliders/MeshCollider";
-import { PlaneCollider as PlaneCollider_PlaneColliderjs } from "./colliders/PlaneCollider";
-import { SphereCollider as SphereCollider_SphereColliderjs } from "./colliders/SphereCollider";
-import {     AbstractColliderComponent as AbstractColliderComponent_AbstractColliderComponentjs, } from "./components/AbstractColliderComponent";
-import {     AbstractRigidBodyComponent as AbstractRigidBodyComponent_AbstractRigidBodyComponentjs, } from "./components/AbstractRigidBodyComponent";
-import { ColliderComponent as ColliderComponent_ColliderComponentjs } from "./components/ColliderComponent";
-import { RigidBodyComponent as RigidBodyComponent_RigidBodyComponentjs } from "./components/RigidBodyComponent";
-import {     ColliderComponentHandler as ColliderComponentHandler_ColliderComponentHandlerjs, } from "./handlers/ColliderComponentHandler";
-import {     RigidBodyComponentHandler as RigidBodyComponentHandler_RigidBodyComponentHandlerjs, } from "./handlers/RigidBodyComponentHandler";
-import { BallJoint as BallJoint_BallJointjs } from "./joints/BallJoint";
-import { HingeJoint as HingeJoint_HingeJointjs } from "./joints/HingeJoint";
-import { PhysicsJoint as PhysicsJoint_PhysicsJointjs } from "./joints/PhysicsJoint";
-import { PhysicsMaterial as PhysicsMaterial_PhysicsMaterialjs } from "./PhysicsMaterial";
-import { RaycastResult as RaycastResult_RaycastResultjs } from "./RaycastResult";
-import { PhysicsBoxDebugShape as PhysicsBoxDebugShape_PhysicsBoxDebugShapejs } from "./shapes/PhysicsBoxDebugShape";
-import {     PhysicsCylinderDebugShape as PhysicsCylinderDebugShape_PhysicsCylinderDebugShapejs, } from "./shapes/PhysicsCylinderDebugShape";
-import { PhysicsPlaneDebugShape as PhysicsPlaneDebugShape_PhysicsPlaneDebugShapejs } from "./shapes/PhysicsPlaneDebugShape";
-import {     PhysicsSphereDebugShape as PhysicsSphereDebugShape_PhysicsSphereDebugShapejs, } from "./shapes/PhysicsSphereDebugShape";
-import { AbstractPhysicsSystem as AbstractPhysicsSystem_AbstractPhysicsSystemjs } from "./systems/AbstractPhysicsSystem";
-import { ColliderSystem as ColliderSystem_ColliderSystemjs } from "./systems/ColliderSystem";
-import {     PhysicsDebugRenderSystem as PhysicsDebugRenderSystem_PhysicsDebugRenderSystemjs, } from "./systems/PhysicsDebugRenderSystem";
-import { PhysicsSystem as PhysicsSystem_PhysicsSystemjs } from "./systems/PhysicsSystem";
-import { Pool as Pool_Pooljs } from "./util/Pool";
+"use strict";
+
+var _BoxCollider = require("./colliders/BoxCollider");
+
+var _Collider = require("./colliders/Collider");
+
+var _CylinderCollider = require("./colliders/CylinderCollider");
+
+var _MeshCollider = require("./colliders/MeshCollider");
+
+var _PlaneCollider = require("./colliders/PlaneCollider");
+
+var _SphereCollider = require("./colliders/SphereCollider");
+
+var _AbstractColliderComponent = require("./components/AbstractColliderComponent");
+
+var _AbstractRigidBodyComponent = require("./components/AbstractRigidBodyComponent");
+
+var _ColliderComponent = require("./components/ColliderComponent");
+
+var _RigidBodyComponent = require("./components/RigidBodyComponent");
+
+var _ColliderComponentHandler = require("./handlers/ColliderComponentHandler");
+
+var _RigidBodyComponentHandler = require("./handlers/RigidBodyComponentHandler");
+
+var _BallJoint = require("./joints/BallJoint");
+
+var _HingeJoint = require("./joints/HingeJoint");
+
+var _PhysicsJoint = require("./joints/PhysicsJoint");
+
+var _PhysicsMaterial = require("./PhysicsMaterial");
+
+var _RaycastResult = require("./RaycastResult");
+
+var _PhysicsBoxDebugShape = require("./shapes/PhysicsBoxDebugShape");
+
+var _PhysicsCylinderDebugShape = require("./shapes/PhysicsCylinderDebugShape");
+
+var _PhysicsPlaneDebugShape = require("./shapes/PhysicsPlaneDebugShape");
+
+var _PhysicsSphereDebugShape = require("./shapes/PhysicsSphereDebugShape");
+
+var _AbstractPhysicsSystem = require("./systems/AbstractPhysicsSystem");
+
+var _ColliderSystem = require("./systems/ColliderSystem");
+
+var _PhysicsDebugRenderSystem = require("./systems/PhysicsDebugRenderSystem");
+
+var _PhysicsSystem = require("./systems/PhysicsSystem");
+
+var _Pool = require("./util/Pool");
+
 module.exports = {
-	BoxCollider: BoxCollider_BoxColliderjs,
-	Collider: Collider_Colliderjs,
-	CylinderCollider: CylinderCollider_CylinderColliderjs,
-	MeshCollider: MeshCollider_MeshColliderjs,
-	PlaneCollider: PlaneCollider_PlaneColliderjs,
-	SphereCollider: SphereCollider_SphereColliderjs,
-	AbstractColliderComponent: AbstractColliderComponent_AbstractColliderComponentjs,
-	AbstractRigidBodyComponent: AbstractRigidBodyComponent_AbstractRigidBodyComponentjs,
-	ColliderComponent: ColliderComponent_ColliderComponentjs,
-	RigidBodyComponent: RigidBodyComponent_RigidBodyComponentjs,
-	ColliderComponentHandler: ColliderComponentHandler_ColliderComponentHandlerjs,
-	RigidBodyComponentHandler: RigidBodyComponentHandler_RigidBodyComponentHandlerjs,
-	BallJoint: BallJoint_BallJointjs,
-	HingeJoint: HingeJoint_HingeJointjs,
-	PhysicsJoint: PhysicsJoint_PhysicsJointjs,
-	PhysicsMaterial: PhysicsMaterial_PhysicsMaterialjs,
-	RaycastResult: RaycastResult_RaycastResultjs,
-	PhysicsBoxDebugShape: PhysicsBoxDebugShape_PhysicsBoxDebugShapejs,
-	PhysicsCylinderDebugShape: PhysicsCylinderDebugShape_PhysicsCylinderDebugShapejs,
-	PhysicsPlaneDebugShape: PhysicsPlaneDebugShape_PhysicsPlaneDebugShapejs,
-	PhysicsSphereDebugShape: PhysicsSphereDebugShape_PhysicsSphereDebugShapejs,
-	AbstractPhysicsSystem: AbstractPhysicsSystem_AbstractPhysicsSystemjs,
-	ColliderSystem: ColliderSystem_ColliderSystemjs,
-	PhysicsDebugRenderSystem: PhysicsDebugRenderSystem_PhysicsDebugRenderSystemjs,
-	PhysicsSystem: PhysicsSystem_PhysicsSystemjs,
-	Pool: Pool_Pooljs
+	BoxCollider: _BoxCollider.BoxCollider,
+	Collider: _Collider.Collider,
+	CylinderCollider: _CylinderCollider.CylinderCollider,
+	MeshCollider: _MeshCollider.MeshCollider,
+	PlaneCollider: _PlaneCollider.PlaneCollider,
+	SphereCollider: _SphereCollider.SphereCollider,
+	AbstractColliderComponent: _AbstractColliderComponent.AbstractColliderComponent,
+	AbstractRigidBodyComponent: _AbstractRigidBodyComponent.AbstractRigidBodyComponent,
+	ColliderComponent: _ColliderComponent.ColliderComponent,
+	RigidBodyComponent: _RigidBodyComponent.RigidBodyComponent,
+	ColliderComponentHandler: _ColliderComponentHandler.ColliderComponentHandler,
+	RigidBodyComponentHandler: _RigidBodyComponentHandler.RigidBodyComponentHandler,
+	BallJoint: _BallJoint.BallJoint,
+	HingeJoint: _HingeJoint.HingeJoint,
+	PhysicsJoint: _PhysicsJoint.PhysicsJoint,
+	PhysicsMaterial: _PhysicsMaterial.PhysicsMaterial,
+	RaycastResult: _RaycastResult.RaycastResult,
+	PhysicsBoxDebugShape: _PhysicsBoxDebugShape.PhysicsBoxDebugShape,
+	PhysicsCylinderDebugShape: _PhysicsCylinderDebugShape.PhysicsCylinderDebugShape,
+	PhysicsPlaneDebugShape: _PhysicsPlaneDebugShape.PhysicsPlaneDebugShape,
+	PhysicsSphereDebugShape: _PhysicsSphereDebugShape.PhysicsSphereDebugShape,
+	AbstractPhysicsSystem: _AbstractPhysicsSystem.AbstractPhysicsSystem,
+	ColliderSystem: _ColliderSystem.ColliderSystem,
+	PhysicsDebugRenderSystem: _PhysicsDebugRenderSystem.PhysicsDebugRenderSystem,
+	PhysicsSystem: _PhysicsSystem.PhysicsSystem,
+	Pool: _Pool.Pool
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

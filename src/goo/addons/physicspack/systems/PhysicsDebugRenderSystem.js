@@ -1,20 +1,42 @@
-import { EntitySelection as EntitySelection_EntitySelectionjs } from "../../../entities/EntitySelection";
-import { System as System_Systemjs } from "../../../entities/systems/System";
-import { PhysicsPlaneDebugShape as PhysicsPlaneDebugShape_PhysicsPlaneDebugShapejs } from "../../../addons/physicspack/shapes/PhysicsPlaneDebugShape";
-import {     PhysicsCylinderDebugShape as PhysicsCylinderDebugShape_PhysicsCylinderDebugShapejs, } from "../../../addons/physicspack/shapes/PhysicsCylinderDebugShape";
-import {     PhysicsSphereDebugShape as PhysicsSphereDebugShape_PhysicsSphereDebugShapejs, } from "../../../addons/physicspack/shapes/PhysicsSphereDebugShape";
-import { PhysicsBoxDebugShape as PhysicsBoxDebugShape_PhysicsBoxDebugShapejs } from "../../../addons/physicspack/shapes/PhysicsBoxDebugShape";
-import { SphereCollider as SphereCollider_SphereColliderjs } from "../../../addons/physicspack/colliders/SphereCollider";
-import { BoxCollider as BoxCollider_BoxColliderjs } from "../../../addons/physicspack/colliders/BoxCollider";
-import { CylinderCollider as CylinderCollider_CylinderColliderjs } from "../../../addons/physicspack/colliders/CylinderCollider";
-import { PlaneCollider as PlaneCollider_PlaneColliderjs } from "../../../addons/physicspack/colliders/PlaneCollider";
-import { MeshCollider as MeshCollider_MeshColliderjs } from "../../../addons/physicspack/colliders/MeshCollider";
-import { Transform as Transform_Transformjs } from "../../../math/Transform";
-import { Material as Material_Materialjs } from "../../../renderer/Material";
-import { ShaderLib as ShaderLib_ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
-import { Pool as Pool_Pooljs } from "../../../addons/physicspack/util/Pool";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PhysicsDebugRenderSystem = undefined;
+
+var _EntitySelection = require("../../../entities/EntitySelection");
+
+var _System = require("../../../entities/systems/System");
+
+var _PhysicsPlaneDebugShape = require("../../../addons/physicspack/shapes/PhysicsPlaneDebugShape");
+
+var _PhysicsCylinderDebugShape = require("../../../addons/physicspack/shapes/PhysicsCylinderDebugShape");
+
+var _PhysicsSphereDebugShape = require("../../../addons/physicspack/shapes/PhysicsSphereDebugShape");
+
+var _PhysicsBoxDebugShape = require("../../../addons/physicspack/shapes/PhysicsBoxDebugShape");
+
+var _SphereCollider = require("../../../addons/physicspack/colliders/SphereCollider");
+
+var _BoxCollider = require("../../../addons/physicspack/colliders/BoxCollider");
+
+var _CylinderCollider = require("../../../addons/physicspack/colliders/CylinderCollider");
+
+var _PlaneCollider = require("../../../addons/physicspack/colliders/PlaneCollider");
+
+var _MeshCollider = require("../../../addons/physicspack/colliders/MeshCollider");
+
+var _Transform = require("../../../math/Transform");
+
+var _Material = require("../../../renderer/Material");
+
+var _ShaderLib = require("../../../renderer/shaders/ShaderLib");
+
+var _Pool = require("../../../addons/physicspack/util/Pool");
+
 function PhysicsDebugRenderSystem() {
-	System_Systemjs.call(this, 'PhysicsDebugRenderSystem', ['TransformComponent']);
+	_System.System.call(this, 'PhysicsDebugRenderSystem', ['TransformComponent']);
 
 	this.priority = 3;
 
@@ -26,44 +48,44 @@ function PhysicsDebugRenderSystem() {
 	}.bind(this));
 
 	/**
-	 * If set to true, all entities with a ColliderComponent attached is rendered, and the selection is disregarded.
-	 * @type {boolean}
-	 */
+  * If set to true, all entities with a ColliderComponent attached is rendered, and the selection is disregarded.
+  * @type {boolean}
+  */
 	this.renderAll = true;
 
 	/**
-	 * The selected entities to be rendered.
-	 * @type {EntitySelection}
-	 */
-	this.selection = new EntitySelection_EntitySelectionjs();
+  * The selected entities to be rendered.
+  * @type {EntitySelection}
+  */
+	this.selection = new _EntitySelection.EntitySelection();
 
-	this.sphereMeshData = new PhysicsSphereDebugShape_PhysicsSphereDebugShapejs(32);
-	this.boxMeshData = new PhysicsBoxDebugShape_PhysicsBoxDebugShapejs();
-	this.cylinderMeshData = new PhysicsCylinderDebugShape_PhysicsCylinderDebugShapejs(32);
-	this.planeMeshData = new PhysicsPlaneDebugShape_PhysicsPlaneDebugShapejs();
+	this.sphereMeshData = new _PhysicsSphereDebugShape.PhysicsSphereDebugShape(32);
+	this.boxMeshData = new _PhysicsBoxDebugShape.PhysicsBoxDebugShape();
+	this.cylinderMeshData = new _PhysicsCylinderDebugShape.PhysicsCylinderDebugShape(32);
+	this.planeMeshData = new _PhysicsPlaneDebugShape.PhysicsPlaneDebugShape();
 
-	this.material = new Material_Materialjs(ShaderLib_ShaderLibjs.simpleColored);
+	this.material = new _Material.Material(_ShaderLib.ShaderLib.simpleColored);
 	this.material.uniforms.color = [0, 1, 0];
 	this.material.wireframe = true;
-	this.renderablePool = new Pool_Pooljs({
-		create: function () {
+	this.renderablePool = new _Pool.Pool({
+		create: function create() {
 			return {
 				meshData: null,
-				transform: new Transform_Transformjs(),
+				transform: new _Transform.Transform(),
 				materials: []
 			};
 		},
-		init: function (meshData, material) {
+		init: function init(meshData, material) {
 			this.meshData = meshData;
 			this.materials[0] = material;
 		},
-		destroy: function (renderable) {
+		destroy: function destroy(renderable) {
 			renderable.meshData = null;
 			renderable.materials.length = 0;
 		}
 	});
 }
-PhysicsDebugRenderSystem.prototype = Object.create(System_Systemjs.prototype);
+PhysicsDebugRenderSystem.prototype = Object.create(_System.System.prototype);
 PhysicsDebugRenderSystem.prototype.constructor = PhysicsDebugRenderSystem;
 
 /**
@@ -112,16 +134,16 @@ PhysicsDebugRenderSystem.prototype.process = function (entities) {
 PhysicsDebugRenderSystem.prototype.getWorldTransform = function (colliderEntity, collider, targetTransform) {
 	targetTransform.copy(colliderEntity.transformComponent.sync().worldTransform);
 
-	if (collider instanceof SphereCollider_SphereColliderjs) {
+	if (collider instanceof _SphereCollider.SphereCollider) {
 		var scale = collider.radius;
 		targetTransform.scale.set(scale, scale, scale);
-	} else if (collider instanceof BoxCollider_BoxColliderjs) {
+	} else if (collider instanceof _BoxCollider.BoxCollider) {
 		targetTransform.scale.copy(collider.halfExtents).scale(2);
-	} else if (collider instanceof CylinderCollider_CylinderColliderjs) {
+	} else if (collider instanceof _CylinderCollider.CylinderCollider) {
 		targetTransform.scale.set(collider.radius, collider.radius, collider.height);
-	} else if (collider instanceof PlaneCollider_PlaneColliderjs) {
+	} else if (collider instanceof _PlaneCollider.PlaneCollider) {
 		targetTransform.scale.set(1, 1, 1);
-	} else if (collider instanceof MeshCollider_MeshColliderjs) {
+	} else if (collider instanceof _MeshCollider.MeshCollider) {
 		targetTransform.scale.set(collider.scale);
 	}
 };
@@ -134,15 +156,15 @@ PhysicsDebugRenderSystem.prototype.getWorldTransform = function (colliderEntity,
  */
 PhysicsDebugRenderSystem.prototype.getMeshData = function (collider) {
 	var meshData;
-	if (collider instanceof SphereCollider_SphereColliderjs) {
+	if (collider instanceof _SphereCollider.SphereCollider) {
 		meshData = this.sphereMeshData;
-	} else if (collider instanceof BoxCollider_BoxColliderjs) {
+	} else if (collider instanceof _BoxCollider.BoxCollider) {
 		meshData = this.boxMeshData;
-	} else if (collider instanceof CylinderCollider_CylinderColliderjs) {
+	} else if (collider instanceof _CylinderCollider.CylinderCollider) {
 		meshData = this.cylinderMeshData;
-	} else if (collider instanceof PlaneCollider_PlaneColliderjs) {
+	} else if (collider instanceof _PlaneCollider.PlaneCollider) {
 		meshData = this.planeMeshData;
-	} else if (collider instanceof MeshCollider_MeshColliderjs) {
+	} else if (collider instanceof _MeshCollider.MeshCollider) {
 		meshData = collider.meshData;
 	}
 	return meshData;
@@ -185,4 +207,4 @@ var exported_PhysicsDebugRenderSystem = PhysicsDebugRenderSystem;
  * @example
  * world.setSystem(new PhysicsDebugRenderSystem());
  */
-export { exported_PhysicsDebugRenderSystem as PhysicsDebugRenderSystem };
+exports.PhysicsDebugRenderSystem = exported_PhysicsDebugRenderSystem;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function ShaderCall(context, uniform, type) {
 	this.context = context;
 	this.location = uniform;
@@ -369,4 +374,4 @@ var exported_ShaderCall = ShaderCall;
 /**
  * Makes sure shader calls are not done when already set
  */
-export { exported_ShaderCall as ShaderCall };
+exports.ShaderCall = exported_ShaderCall;

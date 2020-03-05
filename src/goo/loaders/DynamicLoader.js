@@ -1,29 +1,62 @@
-import { ConfigHandler as ConfigHandler_ConfigHandlerjs } from "./handlers/ConfigHandler";
-import { Ajax as Ajax_Ajaxjs } from "../util/Ajax";
-import { rsvpjs as rsvp_rsvpjsjs } from "../util/rsvp";
-import { StringUtils as StringUtils_StringUtilsjs } from "../util/StringUtils";
-import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
-import { ArrayUtils as ArrayUtils_ArrayUtilsjs } from "../util/ArrayUtils";
-import { ShapeCreatorMemoized as ShapeCreatorMemoized_ShapeCreatorMemoizedjs } from "../util/ShapeCreatorMemoized";
-import "./handlers/ComponentHandler";
-import "./handlers/CameraComponentHandler";
-import "./handlers/EntityHandler";
-import "./handlers/JsonHandler";
-import "./handlers/LightComponentHandler";
-import "./handlers/MaterialHandler";
-import "./handlers/MeshDataComponentHandler";
-import "./handlers/MeshDataHandler";
-import "./handlers/MeshRendererComponentHandler";
-import "./handlers/SceneHandler";
-import "./handlers/ShaderHandler";
-import "./handlers/TextureHandler";
-import "./handlers/TransformComponentHandler";
-import "./handlers/ProjectHandler";
-import "./handlers/SoundComponentHandler";
-import "./handlers/SoundHandler";
-import "./handlers/EnvironmentHandler";
-import "./handlers/SkyboxHandler";
-import "./handlers/HtmlComponentHandler";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DynamicLoader = undefined;
+
+var _ConfigHandler = require("./handlers/ConfigHandler");
+
+var _Ajax = require("../util/Ajax");
+
+var _rsvp = require("../util/rsvp");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _ArrayUtils = require("../util/ArrayUtils");
+
+var _ShapeCreatorMemoized = require("../util/ShapeCreatorMemoized");
+
+require("./handlers/ComponentHandler");
+
+require("./handlers/CameraComponentHandler");
+
+require("./handlers/EntityHandler");
+
+require("./handlers/JsonHandler");
+
+require("./handlers/LightComponentHandler");
+
+require("./handlers/MaterialHandler");
+
+require("./handlers/MeshDataComponentHandler");
+
+require("./handlers/MeshDataHandler");
+
+require("./handlers/MeshRendererComponentHandler");
+
+require("./handlers/SceneHandler");
+
+require("./handlers/ShaderHandler");
+
+require("./handlers/TextureHandler");
+
+require("./handlers/TransformComponentHandler");
+
+require("./handlers/ProjectHandler");
+
+require("./handlers/SoundComponentHandler");
+
+require("./handlers/SoundHandler");
+
+require("./handlers/EnvironmentHandler");
+
+require("./handlers/SkyboxHandler");
+
+require("./handlers/HtmlComponentHandler");
+
 function DynamicLoader(options) {
 	if (options.world) {
 		this._world = options.world;
@@ -34,7 +67,7 @@ function DynamicLoader(options) {
 	if (options.ajax) {
 		this._ajax = options.ajax;
 	} else if (options.rootPath) {
-		this._ajax = new Ajax_Ajaxjs(options.rootPath);
+		this._ajax = new _Ajax.Ajax(options.rootPath);
 	} else {
 		throw new Error('ajax or rootPath must be defined');
 	}
@@ -71,7 +104,7 @@ DynamicLoader.prototype.clear = function () {
 		this._ajax.clear();
 	}
 	if (this._world && this._world.gooRunner) {
-		ShapeCreatorMemoized_ShapeCreatorMemoizedjs.clearCache(this._world.gooRunner.renderer.context);
+		_ShapeCreatorMemoized.ShapeCreatorMemoized.clearCache(this._world.gooRunner.renderer.context);
 		for (var i = 0; i < this._world.gooRunner.renderSystems.length; i++) {
 			var lights = this._world.gooRunner.renderSystems[i].lights;
 			if (lights) {
@@ -83,7 +116,7 @@ DynamicLoader.prototype.clear = function () {
 
 		this._world.gooRunner.renderer.clearShaderCache();
 	}
-	return rsvp_rsvpjsjs.all(promises);
+	return _rsvp.rsvpjs.all(promises);
 };
 
 /**
@@ -127,8 +160,7 @@ DynamicLoader.prototype.update = function (ref, config, options) {
 
 	return this._ajax.update(ref, config).then(function (config) {
 		return that._updateObject(ref, config, options);
-	})
-	.then(null, function (err) {
+	}).then(null, function (err) {
 		console.error('Error updating ' + ref + ' ' + err);
 		throw err;
 	});
@@ -175,10 +207,10 @@ DynamicLoader.prototype._updateObject = function (ref, config, options) {
 	if (handler) {
 		return handler.update(ref, config, options);
 	} else if (DynamicLoader._isRefTypeInGroup(ref, 'binary') || type !== 'bundle') {
-		return PromiseUtils_PromiseUtilsjs.resolve(config);
+		return _PromiseUtils.PromiseUtils.resolve(config);
 	} else {
 		console.warn('No handler for type ' + type);
-		return PromiseUtils_PromiseUtilsjs.resolve(config);
+		return _PromiseUtils.PromiseUtils.resolve(config);
 	}
 };
 
@@ -191,7 +223,7 @@ DynamicLoader.prototype._updateObject = function (ref, config, options) {
  * @private
  */
 DynamicLoader.prototype._loadRef = function (ref, options) {
-	return this._ajax.load(ref, (options == null) ? false : options.noCache);
+	return this._ajax.load(ref, options == null ? false : options.noCache);
 };
 
 /**
@@ -222,7 +254,7 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
 			});
 		}
 		// When all binary refs are loaded, we're done
-		return rsvp_rsvpjsjs.all(refs.map(load));
+		return _rsvp.rsvpjs.all(refs.map(load));
 	}
 
 	function traverse(refs) {
@@ -238,7 +270,7 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
 		function traverseFn(config) {
 			var promises = [];
 			if (config.lazy === true) {
-				return PromiseUtils_PromiseUtilsjs.resolve();
+				return _PromiseUtils.PromiseUtils.resolve();
 			}
 
 			var refs = DynamicLoader._getRefsFromConfig(config);
@@ -254,12 +286,12 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
 					promises.push(loadFn(ref));
 				}
 			}
-			return rsvp_rsvpjsjs.all(promises);
+			return _rsvp.rsvpjs.all(promises);
 		}
 
 		// Resolved when everything is loaded and traversed
 		return traverseFn({ collectionRefs: refs }).then(function () {
-			return ArrayUtils_ArrayUtilsjs.fromValues(binaryRefs);
+			return _ArrayUtils.ArrayUtils.fromValues(binaryRefs);
 		});
 	}
 
@@ -274,20 +306,16 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
  */
 DynamicLoader.prototype._getHandler = function (type) {
 	var handler = this._handlers[type];
-	if (handler) { return handler; }
-	var Handler = ConfigHandler_ConfigHandlerjs.getHandler(type);
+	if (handler) {
+		return handler;
+	}
+	var Handler = _ConfigHandler.ConfigHandler.getHandler(type);
 	if (Handler) {
-		this._handlers[type] = new Handler(
-			this._world,
-			this._loadRef.bind(this),
-			this._updateObject.bind(this),
-			this._loadObject.bind(this)
-		);
+		this._handlers[type] = new Handler(this._world, this._loadRef.bind(this), this._updateObject.bind(this), this._loadObject.bind(this));
 		return this._handlers[type];
 	}
 	return null;
 };
-
 
 var BINARY_HASH_LENGTH = 40;
 var JSON_HASH_LENGTH = 32;
@@ -299,14 +327,12 @@ var JSON_HASH_LENGTH = 32;
  * @returns {boolean}
  * @private
  */
-var isValidId = function (id) {
+var isValidId = function isValidId(id) {
 	if (typeof id !== 'string') {
 		return false;
 	}
 	var tokens = id.split('.');
-	return tokens[0] &&
-		(tokens[0].length === BINARY_HASH_LENGTH || tokens[0].length === JSON_HASH_LENGTH) &&
-		tokens[1];
+	return tokens[0] && (tokens[0].length === BINARY_HASH_LENGTH || tokens[0].length === JSON_HASH_LENGTH) && tokens[1];
 };
 
 /**
@@ -320,7 +346,7 @@ DynamicLoader._getRefsFromConfig = function (config) {
 
 	function traverse(key, value) {
 		// Multiple refs
-		if (StringUtils_StringUtilsjs.endsWith(key.toLowerCase(), 'refs') && value instanceof Object) {
+		if (_StringUtils.StringUtils.endsWith(key.toLowerCase(), 'refs') && value instanceof Object) {
 			var foundRefs = 0;
 			for (var i = 0, keys = Object.keys(value), len = keys.length; i < len; i++) {
 				if (isValidId(value[keys[i]])) {
@@ -334,21 +360,13 @@ DynamicLoader._getRefsFromConfig = function (config) {
 		}
 
 		// Single ref
-		if (
-			StringUtils_StringUtilsjs.endsWith(key.toLowerCase(), 'ref') &&
-			key !== 'thumbnailRef' &&
-			isValidId(value)
-		) {
+		if (_StringUtils.StringUtils.endsWith(key.toLowerCase(), 'ref') && key !== 'thumbnailRef' && isValidId(value)) {
 			refs.push(value);
 			return;
 		}
 
 		// Regular object (step into)
-		if (
-			value instanceof Object &&
-			key !== 'assets' &&
-			!(value instanceof Array)
-		) {
+		if (value instanceof Object && key !== 'assets' && !(value instanceof Array)) {
 			// Go down a level
 			for (var i = 0, keys = Object.keys(value), len = keys.length; i < len; i++) {
 				traverse(keys[i], value[keys[i]]);
@@ -380,7 +398,7 @@ DynamicLoader.getTypeForRef = function (ref) {
  */
 DynamicLoader._isRefTypeInGroup = function (ref, group) {
 	var type = DynamicLoader.getTypeForRef(ref);
-	return type && Ajax_Ajaxjs.types[group] && Ajax_Ajaxjs.types[group][type];
+	return type && _Ajax.Ajax.types[group] && _Ajax.Ajax.types[group][type];
 };
 
 var exported_DynamicLoader = DynamicLoader;
@@ -393,4 +411,4 @@ var exported_DynamicLoader = DynamicLoader;
  * @param {Ajax} [options.ajax=new Ajax(options.rootPath)]
  * Can be used to overwrite how the loader fetches refs. Good for testing.
  */
-export { exported_DynamicLoader as DynamicLoader };
+exports.DynamicLoader = exported_DynamicLoader;

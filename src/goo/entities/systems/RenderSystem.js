@@ -1,15 +1,27 @@
-import { System as System_Systemjs } from "../../entities/systems/System";
-import { SimplePartitioner as SimplePartitioner_SimplePartitionerjs } from "../../renderer/SimplePartitioner";
-import { Material as Material_Materialjs } from "../../renderer/Material";
-import { ShaderLib as ShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
-import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SimplePartitioner = require("../../renderer/SimplePartitioner");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function RenderSystem() {
-	System_Systemjs.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
+	_System.System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
 	this.entities = [];
 	this.renderList = [];
 	this.postRenderables = [];
-	this.partitioner = new SimplePartitioner_SimplePartitionerjs();
+	this.partitioner = new _SimplePartitioner.SimplePartitioner();
 	this.preRenderers = [];
 	this.composers = [];
 	this._composersActive = true;
@@ -36,14 +48,14 @@ function RenderSystem() {
 		x: 0,
 		y: 0,
 		pickingStore: {},
-		pickingCallback: function (id, depth) {
+		pickingCallback: function pickingCallback(id, depth) {
 			console.log(id, depth);
 		},
 		skipUpdateBuffer: false
 	};
 }
 
-RenderSystem.prototype = Object.create(System_Systemjs.prototype);
+RenderSystem.prototype = Object.create(_System.System.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 
 RenderSystem.prototype.pick = function (x, y, callback, skipUpdateBuffer) {
@@ -119,25 +131,25 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 	switch (key) {
 		case 'wireframe':
 		case 'color':
-			fshader = ObjectUtils_ObjectUtilsjs.deepClone(ShaderLib_ShaderLibjs.simpleColored.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.simpleColored.fshader);
 			break;
 		case 'lit':
-			fshader = ObjectUtils_ObjectUtilsjs.deepClone(ShaderLib_ShaderLibjs.simpleLit.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.simpleLit.fshader);
 			break;
 		case 'texture':
-			fshader = ObjectUtils_ObjectUtilsjs.deepClone(ShaderLib_ShaderLibjs.textured.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.textured.fshader);
 			break;
 		case 'normals':
-			fshader = ObjectUtils_ObjectUtilsjs.deepClone(ShaderLib_ShaderLibjs.showNormals.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.showNormals.fshader);
 			break;
 		case 'simple':
-			fshader = ObjectUtils_ObjectUtilsjs.deepClone(ShaderLib_ShaderLibjs.simple.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.simple.fshader);
 			break;
 	}
-	var shaderDef = ObjectUtils_ObjectUtilsjs.deepClone(ShaderLib_ShaderLibjs.uber);
+	var shaderDef = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.uber);
 	shaderDef.fshader = fshader;
 	if (key !== 'flat') {
-		this._debugMaterials[key] = new Material_Materialjs(shaderDef, key);
+		this._debugMaterials[key] = new _Material.Material(shaderDef, key);
 		if (key === 'wireframe') {
 			this._debugMaterials[key].wireframe = true;
 		}
@@ -153,7 +165,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 			};
 		}
 	} else {
-		this._debugMaterials[key] = Material_Materialjs.createEmptyMaterial(null, key);
+		this._debugMaterials[key] = _Material.Material.createEmptyMaterial(null, key);
 		this._debugMaterials[key].flat = true;
 	}
 };
@@ -205,4 +217,4 @@ var exported_RenderSystem = RenderSystem;
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { exported_RenderSystem as RenderSystem };
+exports.RenderSystem = exported_RenderSystem;

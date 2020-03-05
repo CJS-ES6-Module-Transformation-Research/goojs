@@ -1,17 +1,30 @@
-import { ComponentHandler as ComponentHandler_ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
-import { SoundComponent as SoundComponent_SoundComponentjs } from "../../entities/components/SoundComponent";
-import { AudioContextjs as AudioContext_AudioContextjsjs } from "../../sound/AudioContext";
-import { rsvpjs as rsvp_rsvpjsjs } from "../../util/rsvp";
-import { PromiseUtils as PromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
-import { ObjectUtils as ObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _SoundComponent = require("../../entities/components/SoundComponent");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var _rsvp = require("../../util/rsvp");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function SoundComponentHandler() {
-	ComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'SoundComponent';
 }
 
-SoundComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandlerjs.prototype);
+SoundComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 SoundComponentHandler.prototype.constructor = SoundComponentHandler;
-ComponentHandler_ComponentHandlerjs._registerClass('sound', SoundComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('sound', SoundComponentHandler);
 
 /**
  * Removes the souncomponent and stops all connected sounds
@@ -33,7 +46,7 @@ SoundComponentHandler.prototype._remove = function (entity) {
  * @param {Object} config
  */
 SoundComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils_ObjectUtilsjs.defaults(config, {
+	_ObjectUtils.ObjectUtils.defaults(config, {
 		volume: 1.0,
 		reverb: 0.0
 	});
@@ -45,7 +58,7 @@ SoundComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundComponentHandler.prototype._create = function () {
-	return new SoundComponent_SoundComponentjs();
+	return new _SoundComponent.SoundComponent();
 };
 
 /**
@@ -56,13 +69,15 @@ SoundComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 SoundComponentHandler.prototype.update = function (entity, config, options) {
-	if (!AudioContext_AudioContextjsjs.isSupported()) {
-		return PromiseUtils_PromiseUtilsjs.resolve(); //! AT: we're not really using reject
+	if (!_AudioContext.AudioContextjs.isSupported()) {
+		return _PromiseUtils.PromiseUtils.resolve(); //! AT: we're not really using reject
 	}
 
 	var that = this;
-	return ComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 		component.updateConfig(config);
 
 		// Remove old sounds
@@ -75,11 +90,11 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 
 		var promises = [];
 		// Load all sounds
-		ObjectUtils_ObjectUtilsjs.forEach(config.sounds, function (soundCfg) {
+		_ObjectUtils.ObjectUtils.forEach(config.sounds, function (soundCfg) {
 			promises.push(that._load(soundCfg.soundRef, options));
 		}, null, 'sortValue');
 
-		return rsvp_rsvpjsjs.all(promises).then(function (sounds) {
+		return _rsvp.rsvpjs.all(promises).then(function (sounds) {
 			// Add new sounds
 			for (var i = 0; i < sounds.length; i++) {
 				if (component.sounds.indexOf(sounds[i]) === -1) {
@@ -101,4 +116,4 @@ var exported_SoundComponentHandler = SoundComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_SoundComponentHandler as SoundComponentHandler };
+exports.SoundComponentHandler = exported_SoundComponentHandler;

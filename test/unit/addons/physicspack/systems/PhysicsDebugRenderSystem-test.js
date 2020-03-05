@@ -1,36 +1,49 @@
-import { BoxCollider as BoxCollider_BoxColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/BoxCollider";
-import { SphereCollider as SphereCollider_SphereColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
-import { CylinderCollider as CylinderCollider_CylinderColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/CylinderCollider";
-import { PlaneCollider as PlaneCollider_PlaneColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/PlaneCollider";
-import { MeshCollider as MeshCollider_MeshColliderjs } from "../../../../../src/goo/addons/physicspack/colliders/MeshCollider";
-import {     PhysicsDebugRenderSystem as PhysicsDebugRenderSystem_PhysicsDebugRenderSystemjs, } from "../../../../../src/goo/addons/physicspack/systems/PhysicsDebugRenderSystem";
-import { ColliderSystem as ColliderSystem_ColliderSystemjs } from "../../../../../src/goo/addons/physicspack/systems/ColliderSystem";
-import { PhysicsSystem as PhysicsSystem_PhysicsSystemjs } from "../../../../../src/goo/addons/physicspack/systems/PhysicsSystem";
-import { Sphere as Sphere_Spherejs } from "../../../../../src/goo/shapes/Sphere";
-import { World as World_Worldjs } from "../../../../../src/goo/entities/World";
-import { MeshData as MeshData_MeshDatajs } from "../../../../../src/goo/renderer/MeshData";
+"use strict";
+
+var _BoxCollider = require("../../../../../src/goo/addons/physicspack/colliders/BoxCollider");
+
+var _SphereCollider = require("../../../../../src/goo/addons/physicspack/colliders/SphereCollider");
+
+var _CylinderCollider = require("../../../../../src/goo/addons/physicspack/colliders/CylinderCollider");
+
+var _PlaneCollider = require("../../../../../src/goo/addons/physicspack/colliders/PlaneCollider");
+
+var _MeshCollider = require("../../../../../src/goo/addons/physicspack/colliders/MeshCollider");
+
+var _PhysicsDebugRenderSystem = require("../../../../../src/goo/addons/physicspack/systems/PhysicsDebugRenderSystem");
+
+var _ColliderSystem = require("../../../../../src/goo/addons/physicspack/systems/ColliderSystem");
+
+var _PhysicsSystem = require("../../../../../src/goo/addons/physicspack/systems/PhysicsSystem");
+
+var _Sphere = require("../../../../../src/goo/shapes/Sphere");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _MeshData = require("../../../../../src/goo/renderer/MeshData");
+
 describe('PhysicsDebugRenderSystem', function () {
 
-	var BoxCollider = BoxCollider_BoxColliderjs;
-	var SphereCollider = SphereCollider_SphereColliderjs;
-	var CylinderCollider = CylinderCollider_CylinderColliderjs;
-	var PlaneCollider = PlaneCollider_PlaneColliderjs;
-	var MeshCollider = MeshCollider_MeshColliderjs;
-	var PhysicsDebugRenderSystem = PhysicsDebugRenderSystem_PhysicsDebugRenderSystemjs;
-	var ColliderSystem = ColliderSystem_ColliderSystemjs;
-	var PhysicsSystem = PhysicsSystem_PhysicsSystemjs;
-	var Sphere = Sphere_Spherejs;
-	var World = World_Worldjs;
-	var MeshData = MeshData_MeshDatajs;
+	var BoxCollider = _BoxCollider.BoxCollider;
+	var SphereCollider = _SphereCollider.SphereCollider;
+	var CylinderCollider = _CylinderCollider.CylinderCollider;
+	var PlaneCollider = _PlaneCollider.PlaneCollider;
+	var MeshCollider = _MeshCollider.MeshCollider;
+	var PhysicsDebugRenderSystem = _PhysicsDebugRenderSystem.PhysicsDebugRenderSystem;
+	var ColliderSystem = _ColliderSystem.ColliderSystem;
+	var PhysicsSystem = _PhysicsSystem.PhysicsSystem;
+	var Sphere = _Sphere.Sphere;
+	var World = _World.World;
+	var MeshData = _MeshData.MeshData;
 
 	var world, system;
 
 	beforeEach(function () {
-		world = new World_Worldjs();
-		system = new PhysicsDebugRenderSystem_PhysicsDebugRenderSystemjs();
+		world = new _World.World();
+		system = new _PhysicsDebugRenderSystem.PhysicsDebugRenderSystem();
 		world.setSystem(system);
-		world.setSystem(new ColliderSystem_ColliderSystemjs());
-		world.setSystem(new PhysicsSystem_PhysicsSystemjs());
+		world.setSystem(new _ColliderSystem.ColliderSystem());
+		world.setSystem(new _PhysicsSystem.PhysicsSystem());
 	});
 
 	afterEach(function () {
@@ -52,16 +65,16 @@ describe('PhysicsDebugRenderSystem', function () {
 	});
 
 	it('can get mesh data from collider', function () {
-		var boxCollider = new BoxCollider_BoxColliderjs();
-		var sphereCollider = new SphereCollider_SphereColliderjs();
-		var cylinderCollider = new CylinderCollider_CylinderColliderjs();
-		var planeCollider = new PlaneCollider_PlaneColliderjs();
-		var meshCollider = new MeshCollider_MeshColliderjs({ meshData: new Sphere_Spherejs() });
+		var boxCollider = new _BoxCollider.BoxCollider();
+		var sphereCollider = new _SphereCollider.SphereCollider();
+		var cylinderCollider = new _CylinderCollider.CylinderCollider();
+		var planeCollider = new _PlaneCollider.PlaneCollider();
+		var meshCollider = new _MeshCollider.MeshCollider({ meshData: new _Sphere.Sphere() });
 
-		expect(system.getMeshData(boxCollider)).toEqual(jasmine.any(MeshData_MeshDatajs));
-		expect(system.getMeshData(sphereCollider)).toEqual(jasmine.any(MeshData_MeshDatajs));
-		expect(system.getMeshData(cylinderCollider)).toEqual(jasmine.any(MeshData_MeshDatajs));
-		expect(system.getMeshData(planeCollider)).toEqual(jasmine.any(MeshData_MeshDatajs));
-		expect(system.getMeshData(meshCollider)).toEqual(jasmine.any(MeshData_MeshDatajs));
+		expect(system.getMeshData(boxCollider)).toEqual(jasmine.any(_MeshData.MeshData));
+		expect(system.getMeshData(sphereCollider)).toEqual(jasmine.any(_MeshData.MeshData));
+		expect(system.getMeshData(cylinderCollider)).toEqual(jasmine.any(_MeshData.MeshData));
+		expect(system.getMeshData(planeCollider)).toEqual(jasmine.any(_MeshData.MeshData));
+		expect(system.getMeshData(meshCollider)).toEqual(jasmine.any(_MeshData.MeshData));
 	});
 });

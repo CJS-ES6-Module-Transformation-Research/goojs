@@ -1,22 +1,32 @@
-import { FilledPolygon as FilledPolygon_FilledPolygonjs } from "./FilledPolygon";
-import { PolyLine as PolyLine_PolyLinejs } from "./PolyLine";
-import { RegularPolygon as RegularPolygon_RegularPolygonjs } from "./RegularPolygon";
-import { Surface as Surface_Surfacejs } from "./Surface";
-import { TextComponent as TextComponent_TextComponentjs } from "./text/TextComponent";
-import { TextComponentHandler as TextComponentHandler_TextComponentHandlerjs } from "./text/TextComponentHandler";
-import { TextMeshGeneratorjs as TextMeshGenerator_TextMeshGeneratorjsjs } from "./text/TextMeshGenerator";
-import { Triangle as Triangle_Trianglejs } from "./Triangle";
+"use strict";
+
+var _FilledPolygon = require("./FilledPolygon");
+
+var _PolyLine = require("./PolyLine");
+
+var _RegularPolygon = require("./RegularPolygon");
+
+var _Surface = require("./Surface");
+
+var _TextComponent = require("./text/TextComponent");
+
+var _TextComponentHandler = require("./text/TextComponentHandler");
+
+var _TextMeshGenerator = require("./text/TextMeshGenerator");
+
+var _Triangle = require("./Triangle");
+
 module.exports = {
-	FilledPolygon: FilledPolygon_FilledPolygonjs,
-	PolyLine: PolyLine_PolyLinejs,
-	RegularPolygon: RegularPolygon_RegularPolygonjs,
-	Surface: Surface_Surfacejs,
-	TextComponent: TextComponent_TextComponentjs,
-	TextComponentHandler: TextComponentHandler_TextComponentHandlerjs,
-	TextMeshGenerator: TextMeshGenerator_TextMeshGeneratorjsjs,
-	Triangle: Triangle_Trianglejs
+	FilledPolygon: _FilledPolygon.FilledPolygon,
+	PolyLine: _PolyLine.PolyLine,
+	RegularPolygon: _RegularPolygon.RegularPolygon,
+	Surface: _Surface.Surface,
+	TextComponent: _TextComponent.TextComponent,
+	TextComponentHandler: _TextComponentHandler.TextComponentHandler,
+	TextMeshGenerator: _TextMeshGenerator.TextMeshGeneratorjs,
+	Triangle: _Triangle.Triangle
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

@@ -1,15 +1,21 @@
-import { World as World_Worldjs } from "../../../src/goo/entities/World";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../src/goo/loaders/DynamicLoader";
-import { TimelineComponent as TimelineComponent_TimelineComponentjs } from "../../../src/goo/timelinepack/TimelineComponent";
-import { Configs as Configs_Configsjs } from "../../../test/unit/loaders/Configs";
-import "../../../src/goo/timelinepack/TimelineComponentHandler";
+"use strict";
+
+var _World = require("../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../src/goo/loaders/DynamicLoader");
+
+var _TimelineComponent = require("../../../src/goo/timelinepack/TimelineComponent");
+
+var _Configs = require("../../../test/unit/loaders/Configs");
+
+require("../../../src/goo/timelinepack/TimelineComponentHandler");
 
 describe('TimelineComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_Worldjs();
-		loader = new DynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,11 +23,11 @@ describe('TimelineComponentHandler', function () {
 	});
 
 	it('loads an entity with a timeline component', function (done) {
-		var config = Configs_Configsjs.entity(['timeline']);
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.entity(['timeline']);
+		loader.preload(_Configs.Configs.get());
 
 		loader.load(config.id).then(function (entity) {
-			expect(entity.timelineComponent).toEqual(jasmine.any(TimelineComponent_TimelineComponentjs));
+			expect(entity.timelineComponent).toEqual(jasmine.any(_TimelineComponent.TimelineComponent));
 
 			//
 			expect(entity.timelineComponent.channels.length).toEqual(2);

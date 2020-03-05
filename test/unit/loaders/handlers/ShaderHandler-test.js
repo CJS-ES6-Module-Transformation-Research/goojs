@@ -1,17 +1,22 @@
-import { GooRunner as GooRunner_GooRunnerjs } from "../../../../src/goo/entities/GooRunner";
-import { DynamicLoader as DynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Shader as Shader_Shaderjs } from "../../../../src/goo/renderer/Shader";
-import { Configs as Configs_Configsjs } from "../../../../test/unit/loaders/Configs";
+"use strict";
+
+var _GooRunner = require("../../../../src/goo/entities/GooRunner");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Shader = require("../../../../src/goo/renderer/Shader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
 
 describe('ShaderHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new GooRunner_GooRunnerjs({
+		gooRunner = new _GooRunner.GooRunner({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new DynamicLoader_DynamicLoaderjs({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: gooRunner.world,
 			rootPath: 'loaders/res/'
 		});
@@ -22,17 +27,17 @@ describe('ShaderHandler', function () {
 	});
 
 	it('loads a shader', function (done) {
-		var config = Configs_Configsjs.shader();
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.shader();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (shader) {
-			expect(shader).toEqual(jasmine.any(Shader_Shaderjs));
+			expect(shader).toEqual(jasmine.any(_Shader.Shader));
 			done();
 		});
 	});
 
 	it('clears shader from the GPU', function (done) {
-		var config = Configs_Configsjs.shader();
-		loader.preload(Configs_Configsjs.get());
+		var config = _Configs.Configs.shader();
+		loader.preload(_Configs.Configs.get());
 		var s;
 		loader.load(config.id).then(function (shader) {
 			s = shader;

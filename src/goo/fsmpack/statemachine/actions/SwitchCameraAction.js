@@ -1,12 +1,20 @@
-import { Action as Action_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Renderer as Renderer_Rendererjs } from "../../../renderer/Renderer";
+"use strict";
 
-function SwitchCameraAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SwitchCameraAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Renderer = require("../../../renderer/Renderer");
+
+function SwitchCameraAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this._camera = null;
 }
 
-SwitchCameraAction.prototype = Object.create(Action_Actionjs.prototype);
+SwitchCameraAction.prototype = Object.create(_Action.Action.prototype);
 SwitchCameraAction.prototype.constructor = SwitchCameraAction;
 
 SwitchCameraAction.external = {
@@ -24,8 +32,8 @@ SwitchCameraAction.external = {
 	transitions: []
 };
 
-SwitchCameraAction.prototype.ready = function (/*fsm*/) {
-	this._camera = Renderer_Rendererjs.mainCamera; // make this into get activeCamera
+SwitchCameraAction.prototype.ready = function () /*fsm*/{
+	this._camera = _Renderer.Renderer.mainCamera; // make this into get activeCamera
 };
 
 SwitchCameraAction.prototype.enter = function (fsm) {
@@ -39,8 +47,7 @@ SwitchCameraAction.prototype.enter = function (fsm) {
 	}
 };
 
-SwitchCameraAction.prototype.cleanup = function (/*fsm*/) {
-};
+SwitchCameraAction.prototype.cleanup = function () /*fsm*/{};
 
 var exported_SwitchCameraAction = SwitchCameraAction;
-export { exported_SwitchCameraAction as SwitchCameraAction };
+exports.SwitchCameraAction = exported_SwitchCameraAction;

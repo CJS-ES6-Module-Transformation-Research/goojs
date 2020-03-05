@@ -1,9 +1,21 @@
-import { MeshData as MeshData_MeshDatajs } from "../../renderer/MeshData";
-import { MeshBuilder as MeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
-import { Transform as Transform_Transformjs } from "../../math/Transform";
-import { Vector3 as Vector3_Vector3js } from "../../math/Vector3";
-import { Box as Box_Boxjs } from "../../shapes/Box";
-import { Cylinder as Cylinder_Cylinderjs } from "../../shapes/Cylinder";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraDebug = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _Transform = require("../../math/Transform");
+
+var _Vector = require("../../math/Vector3");
+
+var _Box = require("../../shapes/Box");
+
+var _Cylinder = require("../../shapes/Cylinder");
 
 function CameraDebug() {
 	this._camera = CameraDebug.buildCamera();
@@ -106,9 +118,9 @@ CameraDebug.buildFrustum = function (camera) {
 	indices.push(2, 6);
 	indices.push(3, 7);
 
-	var meshData = new MeshData_MeshDatajs(MeshData_MeshDatajs.defaultMap([MeshData_MeshDatajs.POSITION]), 8, 24);
+	var meshData = new _MeshData.MeshData(_MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]), 8, 24);
 
-	meshData.getAttributeBuffer(MeshData_MeshDatajs.POSITION).set(verts);
+	meshData.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -118,20 +130,16 @@ CameraDebug.buildFrustum = function (camera) {
 };
 
 CameraDebug.buildCamera = function () {
-	var meshBuilder = new MeshBuilder_MeshBuilderjs();
-	var transform = new Transform_Transformjs();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
+	var transform = new _Transform.Transform();
 
-	var cameraBox1 = new Cylinder_Cylinderjs(32, 0.6);
-	var cameraBox2 = new Cylinder_Cylinderjs(32, 0.6);
-	var cameraBox3 = new Box_Boxjs(0.3, 1, 1.6);
+	var cameraBox1 = new _Cylinder.Cylinder(32, 0.6);
+	var cameraBox2 = new _Cylinder.Cylinder(32, 0.6);
+	var cameraBox3 = new _Box.Box(0.3, 1, 1.6);
 
-	var cameraBox4 = new Box_Boxjs(0.2, 0.15, 0.7);
-	cameraBox4.applyFunction(MeshData_MeshDatajs.POSITION, function (vert) {
-		return new Vector3_Vector3js(
-			vert.x + vert.x / ((vert.z + 1.1) * 0.3),
-			vert.y + vert.y / ((vert.z + 1.1) * 0.3),
-			vert.z
-		);
+	var cameraBox4 = new _Box.Box(0.2, 0.15, 0.7);
+	cameraBox4.applyFunction(_MeshData.MeshData.POSITION, function (vert) {
+		return new _Vector.Vector3(vert.x + vert.x / ((vert.z + 1.1) * 0.3), vert.y + vert.y / ((vert.z + 1.1) * 0.3), vert.z);
 	});
 
 	transform.translation.setDirect(0.0, 0.0, 0.0);
@@ -158,4 +166,4 @@ CameraDebug.buildCamera = function () {
 };
 
 var exported_CameraDebug = CameraDebug;
-export { exported_CameraDebug as CameraDebug };
+exports.CameraDebug = exported_CameraDebug;

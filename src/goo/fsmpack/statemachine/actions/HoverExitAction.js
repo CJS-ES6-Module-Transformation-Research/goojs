@@ -1,14 +1,22 @@
-import { Action as Action_Actionjs } from "./Action";
-import { BoundingPicker as BoundingPicker_BoundingPickerjs } from "./../../../renderer/bounds/BoundingPicker";
+"use strict";
 
-function HoverExitAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HoverExitAction = undefined;
+
+var _Action = require("./Action");
+
+var _BoundingPicker = require("./../../../renderer/bounds/BoundingPicker");
+
+function HoverExitAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverExitAction.prototype = Object.create(Action_Actionjs.prototype);
+HoverExitAction.prototype = Object.create(_Action.Action.prototype);
 HoverExitAction.prototype.constructor = HoverExitAction;
 
 HoverExitAction.types = {
@@ -37,13 +45,13 @@ HoverExitAction.external = {
 	}]
 };
 
-HoverExitAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HoverExitAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Entity Hover Exit';
 };
 
 HoverExitAction.prototype.enter = function (fsm) {
 	var that = this;
-	var isHit = function (entity) {
+	var isHit = function isHit(entity) {
 		if (!entity) {
 			return false;
 		}
@@ -57,7 +65,7 @@ HoverExitAction.prototype.enter = function (fsm) {
 		return hit;
 	};
 
-	var checkExit = function (entity) {
+	var checkExit = function checkExit(entity) {
 		var hit = isHit(entity);
 
 		if ((that.first || that.hit) && !hit) {
@@ -86,7 +94,7 @@ HoverExitAction.prototype.enter = function (fsm) {
 			var pickingStore = that.goo.pickSync(x, y);
 			pickedEntity = that.goo.world.entityManager.getEntityByIndex(pickingStore.id);
 		} else {
-			var pickList = BoundingPicker_BoundingPickerjs.pick(that.goo.world, camera, x, y);
+			var pickList = _BoundingPicker.BoundingPicker.pick(that.goo.world, camera, x, y);
 			if (pickList.length > 0) {
 				pickedEntity = pickList[0].entity;
 			}
@@ -111,4 +119,4 @@ HoverExitAction.prototype.exit = function () {
 };
 
 var exported_HoverExitAction = HoverExitAction;
-export { exported_HoverExitAction as HoverExitAction };
+exports.HoverExitAction = exported_HoverExitAction;
