@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function RotationScript() {
 	var mouseState, actualState, entity;
 
@@ -17,7 +22,7 @@ function RotationScript() {
 		document.addEventListener('mousemove', onMouseMove);
 	}
 
-	function update(parameters/*, env*/) {
+	function update(parameters /*, env*/) {
 		actualState.x += (mouseState.x - actualState.x) * parameters.fraction;
 		actualState.y += (mouseState.y - actualState.y) * parameters.fraction;
 
@@ -29,7 +34,7 @@ function RotationScript() {
 		mouseState.y = e.y;
 	}
 
-	function cleanup(/*parameters, env*/) {
+	function cleanup() /*parameters, env*/{
 		document.removeEventListener('mousemove', onMouseMove);
 	}
 	return {
@@ -55,4 +60,4 @@ RotationScript.externals = {
 };
 
 var exported_RotationScript = RotationScript;
-export { exported_RotationScript as RotationScript };
+exports.RotationScript = exported_RotationScript;

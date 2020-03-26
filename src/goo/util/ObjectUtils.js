@@ -1,3 +1,11 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 function ObjectUtils() {}
 
 /**
@@ -67,9 +75,7 @@ ObjectUtils.copyOptions = function (destination, options, defaults) {
 		for (var i = 0; i < keys.length; i++) {
 			var key = keys[i];
 			var option = options[key];
-			destination[key] = typeof option === 'undefined' || option === null ?
-				defaults[key] :
-				option;
+			destination[key] = typeof option === 'undefined' || option === null ? defaults[key] : option;
 		}
 	} else {
 		ObjectUtils.extend(destination, defaults);
@@ -85,7 +91,9 @@ ObjectUtils.copyOptions = function (destination, options, defaults) {
  * @returns {Object} Returns the destination object
  */
 ObjectUtils.extend = function (destination, source) {
-	if (!source) { return; }
+	if (!source) {
+		return;
+	}
 
 	var keys = Object.keys(source);
 	for (var i = 0; i < keys.length; i++) {
@@ -98,7 +106,9 @@ ObjectUtils.extend = function (destination, source) {
 
 // Create a (shallow-cloned) duplicate of an object.
 ObjectUtils.clone = function (obj) {
-	if (!ObjectUtils.isObject(obj)) { return obj; }
+	if (!ObjectUtils.isObject(obj)) {
+		return obj;
+	}
 	return Array.isArray(obj) ? obj.slice() : ObjectUtils.extend({}, obj);
 };
 
@@ -109,7 +119,9 @@ var nativeForEach = Array.prototype.forEach;
 // Handles objects with the built-in `forEach`, arrays, and raw objects.
 // Delegates to **ECMAScript 5**'s native `forEach` if available.
 ObjectUtils.each = ObjectUtils.forEach = function (obj, iterator, context, sortProp) {
-	if (typeof obj === 'undefined' || obj === null) { return; }
+	if (typeof obj === 'undefined' || obj === null) {
+		return;
+	}
 	if (nativeForEach && obj.forEach === nativeForEach) {
 		obj.forEach(iterator, context);
 	} else if (obj.length === +obj.length) {
@@ -162,7 +174,7 @@ ObjectUtils.map = function (collection, iteratee, context, sortProp) {
  */
 ObjectUtils.deepClone = function (object) {
 	// handle primitive types, functions, null and undefined
-	if (object === null || typeof object !== 'object') {
+	if (object === null || (typeof object === 'undefined' ? 'undefined' : _typeof(object)) !== 'object') {
 		return object;
 	}
 
@@ -239,7 +251,9 @@ ObjectUtils.warnOnce = function (message, fun) {
  * @returns {Function}
  */
 ObjectUtils.constant = function (value) {
-	return function () { return value; };
+	return function () {
+		return value;
+	};
 };
 
 /**
@@ -251,7 +265,9 @@ ObjectUtils.constant = function (value) {
  * @returns {Function}
  */
 ObjectUtils.property = function (propName) {
-	return function (obj) { return obj[propName]; };
+	return function (obj) {
+		return obj[propName];
+	};
 };
 
 /**
@@ -340,4 +356,4 @@ ObjectUtils.getExtension = function (value) {
 };
 
 var exported_ObjectUtils = ObjectUtils;
-export { exported_ObjectUtils as ObjectUtils };
+exports.ObjectUtils = exported_ObjectUtils;

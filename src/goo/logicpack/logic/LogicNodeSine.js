@@ -1,28 +1,39 @@
-import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeSine = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 function LogicNodeSine() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeSine.logicInterface;
 	this.type = 'LogicNodeSine';
 	this._time = 0;
 }
 
-LogicNodeSine.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeSine.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeSine.editorName = 'Sine';
 
 LogicNodeSine.prototype.onInputChanged = function (instDesc, portID, value) {
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeSine.outportSin, Math.sin(value));
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeSine.outportCos, Math.cos(value));
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeSine.outportSin, Math.sin(value));
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeSine.outportCos, Math.cos(value));
 };
 
-LogicNodeSine.logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeSine.logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeSine.outportSin = LogicNodeSine.logicInterface.addOutputProperty('Sine', 'float');
 LogicNodeSine.outportCos = LogicNodeSine.logicInterface.addOutputProperty('Cosine', 'float');
 LogicNodeSine.inportPhase = LogicNodeSine.logicInterface.addInputProperty('Phase', 'float', 0);
 
-LogicNodes_LogicNodesjs.registerType('LogicNodeSine', LogicNodeSine);
+_LogicNodes.LogicNodes.registerType('LogicNodeSine', LogicNodeSine);
 
 var exported_LogicNodeSine = LogicNodeSine;
 
@@ -30,4 +41,4 @@ var exported_LogicNodeSine = LogicNodeSine;
  * Logic node that calculates sin & cos.
  * @private
  */
-export { exported_LogicNodeSine as LogicNodeSine };
+exports.LogicNodeSine = exported_LogicNodeSine;

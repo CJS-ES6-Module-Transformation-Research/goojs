@@ -1,19 +1,31 @@
-import { EntityConfigjs as helpersEntityConfig_EntityConfigjsjs } from "./helpers/EntityConfig";
-import { AnimationConfigjs as helpersAnimationConfig_AnimationConfigjsjs } from "./helpers/AnimationConfig";
-import { MaterialConfigjs as helpersMaterialConfig_MaterialConfigjsjs } from "./helpers/MaterialConfig";
-import { MeshConfigjs as helpersMeshConfig_MeshConfigjsjs } from "./helpers/MeshConfig";
-import { SceneConfigjs as helpersSceneConfig_SceneConfigjsjs } from "./helpers/SceneConfig";
-import { PosteffectsConfigjs as helpersPosteffectsConfig_PosteffectsConfigjsjs } from "./helpers/PosteffectsConfig";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Configs = undefined;
+
+var _EntityConfig = require("./helpers/EntityConfig");
+
+var _AnimationConfig = require("./helpers/AnimationConfig");
+
+var _MaterialConfig = require("./helpers/MaterialConfig");
+
+var _MeshConfig = require("./helpers/MeshConfig");
+
+var _SceneConfig = require("./helpers/SceneConfig");
+
+var _PosteffectsConfig = require("./helpers/PosteffectsConfig");
 
 var bundle = {};
 var Configs = {
-	randomRef: function (type) {
-		var hash = 'aaaabbbbaaaabbbbaaaabbbbaaaabbbb'.replace(/[ab]/g, function(a) {
-			return ((Math.random() * 16) % 16 | 0).toString(16);
+	randomRef: function randomRef(type) {
+		var hash = 'aaaabbbbaaaabbbbaaaabbbbaaaabbbb'.replace(/[ab]/g, function (a) {
+			return (Math.random() * 16 % 16 | 0).toString(16);
 		});
 		return hash + '.' + (type || '');
 	},
-	gooObject: function (type, name) {
+	gooObject: function gooObject(type, name) {
 		var config = {
 			id: Configs.randomRef(type),
 			name: name,
@@ -34,13 +46,13 @@ var Configs = {
 		this.addToBundle(config);
 		return config;
 	},
-	addToBundle: function (config, ref) {
+	addToBundle: function addToBundle(config, ref) {
 		ref = ref || config.id;
 		if (ref) {
 			bundle[ref] = config;
 		}
 	},
-	binary: function (size) {
+	binary: function binary(size) {
 		var arr = new Float32Array(size);
 		for (var i = 0; i < size; i++) {
 			arr[i] = i / size;
@@ -49,12 +61,12 @@ var Configs = {
 		Configs.addToBundle(arr.buffer, ref);
 		return ref;
 	},
-	get: function () {
+	get: function get() {
 		return bundle;
 	}
 };
 
-let exported_Configs = Configs;
+var exported_Configs = Configs;
 
 function attach(attachee, attacher) {
 	for (var key in attacher) {
@@ -69,10 +81,10 @@ function attach(attachee, attacher) {
 	}
 }
 
-attach(Configs, helpersEntityConfig_EntityConfigjsjs);
-attach(Configs, helpersAnimationConfig_AnimationConfigjsjs);
-attach(Configs, helpersMaterialConfig_MaterialConfigjsjs);
-attach(Configs, helpersMeshConfig_MeshConfigjsjs);
-attach(Configs, helpersSceneConfig_SceneConfigjsjs);
-attach(Configs, helpersPosteffectsConfig_PosteffectsConfigjsjs);
-export { exported_Configs as Configs };
+attach(Configs, _EntityConfig.EntityConfigjs);
+attach(Configs, _AnimationConfig.AnimationConfigjs);
+attach(Configs, _MaterialConfig.MaterialConfigjs);
+attach(Configs, _MeshConfig.MeshConfigjs);
+attach(Configs, _SceneConfig.SceneConfigjs);
+attach(Configs, _PosteffectsConfig.PosteffectsConfigjs);
+exports.Configs = exported_Configs;

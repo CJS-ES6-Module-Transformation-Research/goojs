@@ -1,27 +1,35 @@
-import { System as entitiessystemsSystem_Systemjs } from "../../../entities/systems/System";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ColliderSystem = undefined;
+
+var _System = require("../../../entities/systems/System");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
 function ColliderSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'ColliderSystem', ['ColliderComponent', 'TransformComponent']);
-	this.priority = 1; // Should be processed after TransformSystem
+  _System.System.call(this, 'ColliderSystem', ['ColliderComponent', 'TransformComponent']);
+  this.priority = 1; // Should be processed after TransformSystem
 }
-ColliderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+ColliderSystem.prototype = Object.create(_System.System.prototype);
 ColliderSystem.prototype.constructor = ColliderSystem;
 
 /**
  * @private
  * @param {array} entities
  */
-ColliderSystem.prototype.process = function (/*entities*/) {
-};
+ColliderSystem.prototype.process = function () /*entities*/{};
 
 /**
  * @private
  * @param  {Entity} entity
  */
 ColliderSystem.prototype.inserted = function (entity) {
-	entitiesSystemBus_SystemBusjsjs.emit('goo.collider.inserted', {
-		entity: entity
-	});
+  _SystemBus.SystemBusjs.emit('goo.collider.inserted', {
+    entity: entity
+  });
 };
 
 /**
@@ -29,9 +37,9 @@ ColliderSystem.prototype.inserted = function (entity) {
  * @param  {Entity} entity
  */
 ColliderSystem.prototype.deleted = function (entity) {
-	entitiesSystemBus_SystemBusjsjs.emit('goo.collider.deleted', {
-		entity: entity
-	});
+  _SystemBus.SystemBusjs.emit('goo.collider.deleted', {
+    entity: entity
+  });
 };
 
 /**
@@ -40,10 +48,10 @@ ColliderSystem.prototype.deleted = function (entity) {
  * @param  {Component} component
  */
 ColliderSystem.prototype.removedComponent = function (entity, component) {
-	entitiesSystemBus_SystemBusjsjs.emit('goo.collider.deletedComponent', {
-		entity: entity,
-		component: component
-	});
+  _SystemBus.SystemBusjs.emit('goo.collider.deletedComponent', {
+    entity: entity,
+    component: component
+  });
 };
 
 var exported_ColliderSystem = ColliderSystem;
@@ -52,4 +60,4 @@ var exported_ColliderSystem = ColliderSystem;
  * Processes all entities with collider components, making sure they are up to date.
  * @extends System
  */
-export { exported_ColliderSystem as ColliderSystem };
+exports.ColliderSystem = exported_ColliderSystem;

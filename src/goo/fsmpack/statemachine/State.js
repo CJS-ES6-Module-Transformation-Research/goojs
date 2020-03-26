@@ -1,5 +1,13 @@
-import { ArrayUtils as utilArrayUtils_ArrayUtilsjs } from "../../util/ArrayUtils";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.State = undefined;
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
 
 function State(uuid) {
 	this.uuid = uuid;
@@ -36,7 +44,7 @@ function State(uuid) {
 		getEntityById: function (id) {
 			return this._fsm.entity._world.by.id(id).first();
 		}.bind(this),
-		send: function (channels/*, data*/) {
+		send: function (channels /*, data*/) {
 			if (channels) {
 				if (typeof channels === 'string' && this._transitions[channels]) {
 					this.requestTransition(this._transitions[channels]);
@@ -106,7 +114,7 @@ State.prototype.requestTransition = function (target) {
 				};
 				data.error = 'Exceeded max loop depth (' + this.parent.maxLoopDepth + ') in "' + [data.entityName, data.machineName, data.stateName].join('" / "') + '"';
 				console.warn(data.error);
-				entitiesSystemBus_SystemBusjsjs.emit('goo.fsm.error', data);
+				_SystemBus.SystemBusjs.emit('goo.fsm.error', data);
 				return;
 			}
 
@@ -129,7 +137,7 @@ State.prototype.clearTransition = function (eventName) {
 };
 
 State.prototype.enter = function () {
-	entitiesSystemBus_SystemBusjsjs.emit('goo.fsm.enter', {
+	_SystemBus.SystemBusjs.emit('goo.fsm.enter', {
 		entityId: this._fsm && this._fsm.entity ? this._fsm.entity.id : '',
 		machineName: this.parent ? this.parent.name : '',
 		stateId: this.uuid,
@@ -198,7 +206,7 @@ State.prototype.update = function () {
 };
 
 State.prototype.kill = function () {
-	entitiesSystemBus_SystemBusjsjs.emit('goo.fsm.exit', {
+	_SystemBus.SystemBusjs.emit('goo.fsm.exit', {
 		entityId: this._fsm && this._fsm.entity ? this._fsm.entity.id : '',
 		machineName: this.parent ? this.parent.name : '',
 		stateId: this.uuid,
@@ -285,7 +293,7 @@ State.prototype.removeAction = function (action) {
 		action.onDestroy(this.proxy);
 	}
 
-	utilArrayUtils_ArrayUtilsjs.remove(this._actions, action);
+	_ArrayUtils.ArrayUtils.remove(this._actions, action);
 };
 
 State.prototype.addMachine = function (machine) {
@@ -299,8 +307,8 @@ State.prototype.addMachine = function (machine) {
 
 State.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	utilArrayUtils_ArrayUtilsjs.remove(this._machines, machine);
+	_ArrayUtils.ArrayUtils.remove(this._machines, machine);
 };
 
 var exported_State = State;
-export { exported_State as State };
+exports.State = exported_State;

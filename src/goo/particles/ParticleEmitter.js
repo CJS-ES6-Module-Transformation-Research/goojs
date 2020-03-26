@@ -1,22 +1,32 @@
-import { ParticleUtils as particlesParticleUtils_ParticleUtilsjs } from "../particles/ParticleUtils";
-import { Renderer as rendererRenderer_Rendererjs } from "../renderer/Renderer";
-import { ObjectUtils as utilObjectUtil_ObjectUtilsjs } from "../util/ObjectUtil";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleEmitter = undefined;
+
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _ObjectUtil = require("../util/ObjectUtil");
+
 function ParticleEmitter(options) {
-	utilObjectUtil_ObjectUtilsjs(this, options, {
+	(0, _ObjectUtil.ObjectUtils)(this, options, {
 		totalParticlesToSpawn: -1,
 		maxLifetime: 3.0,
 		minLifetime: 2.0,
 		timeline: undefined,
 		influences: [],
-		getEmissionPoint: function (particle, particleEntity) {
+		getEmissionPoint: function getEmissionPoint(particle, particleEntity) {
 			var vec3 = particle.position;
 			vec3.setDirect(0, 0, 0);
-			return particlesParticleUtils_ParticleUtilsjs.applyEntityTransformPoint(vec3, particleEntity);
+			return _ParticleUtils.ParticleUtils.applyEntityTransformPoint(vec3, particleEntity);
 		},
-		getEmissionVelocity: function (particle, particleEntity) {
+		getEmissionVelocity: function getEmissionVelocity(particle, particleEntity) {
 			var vec3 = particle.velocity;
 			vec3.setDirect(0, 1, 0);
-			return particlesParticleUtils_ParticleUtilsjs.applyEntityTransformVector(vec3, particleEntity);
+			return _ParticleUtils.ParticleUtils.applyEntityTransformVector(vec3, particleEntity);
 		},
 		getParticleBillboardVectors: ParticleEmitter.CAMERA_BILLBOARD_FUNC,
 		releaseRatePerSecond: 10,
@@ -33,7 +43,7 @@ function ParticleEmitter(options) {
  */
 // Was: function (particle, particleEntity)
 ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
-	var camera = rendererRenderer_Rendererjs.mainCamera;
+	var camera = _Renderer.Renderer.mainCamera;
 	if (camera) {
 		particle.bbX.set(camera._left);
 		particle.bbY.set(camera._up);
@@ -65,4 +75,4 @@ var exported_ParticleEmitter = ParticleEmitter;
  * @param {function (particle)} [options.getParticleBillboardVectors=ParticleEmitter.CAMERA_BILLBOARD_FUNC] A function that sets the orientation of the particle's billboard
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
-export { exported_ParticleEmitter as ParticleEmitter };
+exports.ParticleEmitter = exported_ParticleEmitter;

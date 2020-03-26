@@ -1,9 +1,21 @@
-import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
-import { ShaderBuilder as renderershadersShaderBuilder_ShaderBuilderjs } from "../../renderer/shaders/ShaderBuilder";
-import { Snow as utilSnow_Snowjs } from "../../util/Snow";
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EnvironmentHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _ShaderBuilder = require("../../renderer/shaders/ShaderBuilder");
+
+var _Snow = require("../../util/Snow");
+
+var _rsvp = require("../../util/rsvp");
 
 var defaults = {
 	backgroundColor: [0.3, 0.3, 0.3, 1],
@@ -23,15 +35,15 @@ var soundDefaults = {
 };
 
 function EnvironmentHandler() {
-	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-EnvironmentHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
+EnvironmentHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 EnvironmentHandler.prototype.constructor = EnvironmentHandler;
-loadershandlersConfigHandler_ConfigHandlerjs._registerClass('environment', EnvironmentHandler);
+_ConfigHandler.ConfigHandler._registerClass('environment', EnvironmentHandler);
 
 EnvironmentHandler.prototype._prepare = function (config) {
-	utilObjectUtils_ObjectUtilsjs.defaults(config, defaults);
+	_ObjectUtils.ObjectUtils.defaults(config, defaults);
 };
 
 EnvironmentHandler.prototype._create = function () {
@@ -53,12 +65,12 @@ EnvironmentHandler.prototype._remove = function (ref) {
 	}
 
 	// Reset environment
-	entitiesSystemBus_SystemBusjsjs.emit('goo.setClearColor', defaults.backgroundColor);
-	renderershadersShaderBuilder_ShaderBuilderjs.CLEAR_COLOR = defaults.backgroundColor;
-	renderershadersShaderBuilder_ShaderBuilderjs.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
-	renderershadersShaderBuilder_ShaderBuilderjs.USE_FOG = defaults.fog.enabled;
-	renderershadersShaderBuilder_ShaderBuilderjs.FOG_COLOR = defaults.fog.color.slice(0, 3);
-	renderershadersShaderBuilder_ShaderBuilderjs.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
+	_SystemBus.SystemBusjs.emit('goo.setClearColor', defaults.backgroundColor);
+	_ShaderBuilder.ShaderBuilder.CLEAR_COLOR = defaults.backgroundColor;
+	_ShaderBuilder.ShaderBuilder.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
+	_ShaderBuilder.ShaderBuilder.USE_FOG = defaults.fog.enabled;
+	_ShaderBuilder.ShaderBuilder.FOG_COLOR = defaults.fog.color.slice(0, 3);
+	_ShaderBuilder.ShaderBuilder.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
 
 	// Reset Sound
 	var soundSystem = this.world.getSystem('SoundSystem');
@@ -77,30 +89,27 @@ EnvironmentHandler.prototype._remove = function (ref) {
  */
 EnvironmentHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (object) {
-		if (!object) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+		if (!object) {
+			return;
+		}
 
 		var backgroundColor = config.backgroundColor;
 		var alpha = backgroundColor[3];
-		object.backgroundColor = [
-			backgroundColor[0] * alpha,
-			backgroundColor[1] * alpha,
-			backgroundColor[2] * alpha,
-			backgroundColor[3]
-		];
+		object.backgroundColor = [backgroundColor[0] * alpha, backgroundColor[1] * alpha, backgroundColor[2] * alpha, backgroundColor[3]];
 		object.globalAmbient = config.globalAmbient.slice(0, 3);
 
-		object.fog = utilObjectUtils_ObjectUtilsjs.deepClone(config.fog);
+		object.fog = _ObjectUtils.ObjectUtils.deepClone(config.fog);
 
 		// Background color
-		entitiesSystemBus_SystemBusjsjs.emit('goo.setClearColor', object.backgroundColor);
+		_SystemBus.SystemBusjs.emit('goo.setClearColor', object.backgroundColor);
 
 		// Fog and ambient
-		renderershadersShaderBuilder_ShaderBuilderjs.CLEAR_COLOR = object.backgroundColor;
-		renderershadersShaderBuilder_ShaderBuilderjs.GLOBAL_AMBIENT = object.globalAmbient;
-		renderershadersShaderBuilder_ShaderBuilderjs.USE_FOG = object.fog.enabled;
-		renderershadersShaderBuilder_ShaderBuilderjs.FOG_COLOR = object.fog.color.slice(0, 3);
-		renderershadersShaderBuilder_ShaderBuilderjs.FOG_SETTINGS = [object.fog.near, config.fog.far];
+		_ShaderBuilder.ShaderBuilder.CLEAR_COLOR = object.backgroundColor;
+		_ShaderBuilder.ShaderBuilder.GLOBAL_AMBIENT = object.globalAmbient;
+		_ShaderBuilder.ShaderBuilder.USE_FOG = object.fog.enabled;
+		_ShaderBuilder.ShaderBuilder.FOG_COLOR = object.fog.color.slice(0, 3);
+		_ShaderBuilder.ShaderBuilder.FOG_SETTINGS = [object.fog.near, config.fog.far];
 
 		// Weather
 		for (var key in config.weather) {
@@ -117,8 +126,7 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 			EnvironmentHandler.currentSkyboxRef = config.skyboxRef;
 			promises.push(that._load(config.skyboxRef, { reload: true }));
 		} else if (EnvironmentHandler.currentSkyboxRef) {
-			var p = that.updateObject(EnvironmentHandler.currentSkyboxRef, null)
-			.then(function () {
+			var p = that.updateObject(EnvironmentHandler.currentSkyboxRef, null).then(function () {
 				delete EnvironmentHandler.currentSkyboxRef;
 			});
 			promises.push(p);
@@ -137,20 +145,21 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 				soundSystem.setReverb(null);
 			}
 		}
-		return utilrsvp_rsvpjsjs.all(promises).then(function () { return object; });
+		return _rsvp.rsvpjs.all(promises).then(function () {
+			return object;
+		});
 	});
 };
 
-
 EnvironmentHandler.weatherHandlers = {
 	snow: {
-		update: function (config, weatherState) {
+		update: function update(config, weatherState) {
 			if (config.enabled) {
 				if (!weatherState.snow || !weatherState.snow.enabled) {
 					// add snow
 					weatherState.snow = weatherState.snow || {};
 					weatherState.snow.enabled = true;
-					weatherState.snow.snow = new utilSnow_Snowjs(this.world.gooRunner);
+					weatherState.snow.snow = new _Snow.Snow(this.world.gooRunner);
 				}
 
 				weatherState.snow.snow.setEmissionVelocity(config.velocity);
@@ -163,7 +172,7 @@ EnvironmentHandler.weatherHandlers = {
 				delete weatherState.snow.snow;
 			}
 		},
-		remove: function (weatherState) {
+		remove: function remove(weatherState) {
 			if (weatherState.snow && weatherState.snow.snow) {
 				weatherState.snow.snow.remove();
 				weatherState.snow.enabled = false;
@@ -182,4 +191,4 @@ var exported_EnvironmentHandler = EnvironmentHandler;
  * @param {Function} updateObject
  * @private
  */
-export { exported_EnvironmentHandler as EnvironmentHandler };
+exports.EnvironmentHandler = exported_EnvironmentHandler;

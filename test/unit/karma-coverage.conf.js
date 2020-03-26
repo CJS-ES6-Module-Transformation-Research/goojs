@@ -1,13 +1,36 @@
-import path from "path";
-import webpack from "webpack";
-import karmacoverage from "karma-coverage";
-import karmajasmine from "karma-jasmine";
-import karmachromelauncher from "karma-chrome-launcher";
-import karmawebpack from "karma-webpack";
-import { karmaWebpackProvidePluginSettings_obj } from "./karmaWebpackProvidePluginSettings";
+"use strict";
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _webpack = require("webpack");
+
+var _webpack2 = _interopRequireDefault(_webpack);
+
+var _karmaCoverage = require("karma-coverage");
+
+var _karmaCoverage2 = _interopRequireDefault(_karmaCoverage);
+
+var _karmaJasmine = require("karma-jasmine");
+
+var _karmaJasmine2 = _interopRequireDefault(_karmaJasmine);
+
+var _karmaChromeLauncher = require("karma-chrome-launcher");
+
+var _karmaChromeLauncher2 = _interopRequireDefault(_karmaChromeLauncher);
+
+var _karmaWebpack = require("karma-webpack");
+
+var _karmaWebpack2 = _interopRequireDefault(_karmaWebpack);
+
+var _karmaWebpackProvidePluginSettings = require("./karmaWebpackProvidePluginSettings");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var encapsulated_anonymus;
 
-encapsulated_anonymus = function (config) {
+encapsulated_anonymus = function encapsulated_anonymus(config) {
 	config.set({
 		browsers: ['Chrome'],
 		captureTimeout: 60000,
@@ -16,21 +39,11 @@ encapsulated_anonymus = function (config) {
 
 		basePath: '../../',
 
-		files: [
-			'lib/cannon/cannon.min.js',
-			{ pattern: 'test/unit/**/*.mp4', included: false },
-			{ pattern: 'test/unit/**/*.png', included: false },
-			'test/unit/**/*-test.js'
-		],
+		files: ['lib/cannon/cannon.min.js', { pattern: 'test/unit/**/*.mp4', included: false }, { pattern: 'test/unit/**/*.png', included: false }, 'test/unit/**/*-test.js'],
 
 		frameworks: ['jasmine'],
 
-		plugins: [
-			karmacoverage,
-			karmajasmine,
-			karmachromelauncher,
-			karmawebpack
-		],
+		plugins: [_karmaCoverage2.default, _karmaJasmine2.default, _karmaChromeLauncher2.default, _karmaWebpack2.default],
 
 		preprocessors: {
 			'test/unit/**/*-test.js': ['webpack']
@@ -52,7 +65,7 @@ encapsulated_anonymus = function (config) {
 		webpack: {
 			resolve: {
 				// Everything relative to repo root
-				root: path.resolve(path.join(__dirname, '..', '..'))
+				root: _path2.default.resolve(_path2.default.join(__dirname, '..', '..'))
 			},
 
 			node: {
@@ -63,7 +76,7 @@ encapsulated_anonymus = function (config) {
 			module: {
 				loaders: [{
 					test: /\.js?$/,
-					include: path.join(__dirname, 'src'),
+					include: _path2.default.join(__dirname, 'src'),
 					loader: 'babel?stage=0'
 				}],
 				postLoaders: [{
@@ -73,9 +86,7 @@ encapsulated_anonymus = function (config) {
 				}]
 			},
 
-			plugins: [
-				new webpack.ProvidePlugin(karmaWebpackProvidePluginSettings_obj)
-			]
+			plugins: [new _webpack2.default.ProvidePlugin(_karmaWebpackProvidePluginSettings.karmaWebpackProvidePluginSettings_obj)]
 
 		},
 

@@ -1,5 +1,13 @@
-import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../sound/AudioContext";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.OscillatorSound = undefined;
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _MathUtils = require("../math/MathUtils");
 
 function OscillatorSound() {
 	// Settings
@@ -9,7 +17,7 @@ function OscillatorSound() {
 	this._type = 'sine';
 
 	// Nodes
-	this._outNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._outNode = _AudioContext.AudioContextjs.getContext().createGain();
 
 	this.connectTo();
 }
@@ -20,7 +28,7 @@ OscillatorSound.prototype.stop = function () {
 };
 
 OscillatorSound.prototype.play = function () {
-	this._oscNode = soundAudioContext_AudioContextjsjs.getContext().createOscillator();
+	this._oscNode = _AudioContext.AudioContextjs.getContext().createOscillator();
 	this._oscNode.connect(this._outNode);
 	this._oscNode.frequency.value = this._frequency;
 	this._oscNode.type = this._type;
@@ -30,7 +38,7 @@ OscillatorSound.prototype.play = function () {
 
 OscillatorSound.prototype.update = function (config) {
 	if (config.volume !== undefined) {
-		this._volume = mathMathUtils_MathUtilsjs.clamp(config.volume, 0, 1);
+		this._volume = _MathUtils.MathUtils.clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.frequency !== undefined) {
@@ -52,7 +60,7 @@ OscillatorSound.prototype.update = function (config) {
  * @param {(Array<AudioNode> | AudioNode)} nodes
  */
 OscillatorSound.prototype.connectTo = function (nodes) {
-	if (!soundAudioContext_AudioContextjsjs.isSupported()) {
+	if (!_AudioContext.AudioContextjs.isSupported()) {
 		console.warn('WebAudio not supported');
 		return;
 	}
@@ -68,13 +76,7 @@ OscillatorSound.prototype.connectTo = function (nodes) {
 	}
 };
 
-OscillatorSound.TYPES = [
-	'sine',
-	'square',
-	'sawtooth',
-	'triangle',
-	'custom'
-];
+OscillatorSound.TYPES = ['sine', 'square', 'sawtooth', 'triangle', 'custom'];
 
 var exported_OscillatorSound = OscillatorSound;
-export { exported_OscillatorSound as OscillatorSound };
+exports.OscillatorSound = exported_OscillatorSound;

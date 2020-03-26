@@ -1,13 +1,25 @@
-import { Shader as rendererShader_Shaderjs } from "../renderer/Shader";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
-import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
-import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../renderer/pass/RenderTarget";
-import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../renderer/pass/FullscreenPass";
-import { Pass as rendererpassPass_Passjs } from "../renderer/pass/Pass";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MotionBlurPass = undefined;
+
+var _Shader = require("../renderer/Shader");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _MeshData = require("../renderer/MeshData");
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _FullscreenPass = require("../renderer/pass/FullscreenPass");
+
+var _Pass = require("../renderer/pass/Pass");
 
 function MotionBlurPass() {
-	this.inPass = new rendererpassFullscreenPass_FullscreenPassjs(blendShader);
-	this.outPass = new rendererpassFullscreenPass_FullscreenPassjs(renderershadersShaderLib_ShaderLibjs.copyPure);
+	this.inPass = new _FullscreenPass.FullscreenPass(blendShader);
+	this.outPass = new _FullscreenPass.FullscreenPass(_ShaderLib.ShaderLib.copyPure);
 
 	var width = window.innerWidth || 1024;
 	var height = window.innerHeight || 1024;
@@ -22,7 +34,7 @@ function MotionBlurPass() {
 	this.needsSwap = true;
 }
 
-MotionBlurPass.prototype = Object.create(rendererpassPass_Passjs.prototype);
+MotionBlurPass.prototype = Object.create(_Pass.Pass.prototype);
 MotionBlurPass.prototype.constructor = MotionBlurPass;
 
 MotionBlurPass.prototype.destroy = function (renderer) {
@@ -52,10 +64,7 @@ MotionBlurPass.prototype.updateSize = function (size, renderer) {
 		}
 	}
 
-	this.targetSwap = [
-		new rendererpassRenderTarget_RenderTargetjs(sizeX, sizeY),
-		new rendererpassRenderTarget_RenderTargetjs(sizeX, sizeY)
-	];
+	this.targetSwap = [new _RenderTarget.RenderTarget(sizeX, sizeY), new _RenderTarget.RenderTarget(sizeX, sizeY)];
 };
 
 MotionBlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -75,52 +84,20 @@ var blendShader = {
 		}
 	}],
 	attributes: {
-		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
-		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
+		vertexPosition: _MeshData.MeshData.POSITION,
+		vertexUV0: _MeshData.MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
-		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		viewProjectionMatrix: _Shader.Shader.VIEW_PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX,
 		blend: 0.90,
 		scale: 1.0,
-		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP,
+		diffuseMap: _Shader.Shader.DIFFUSE_MAP,
 		motionMap: 'MOTION_MAP'
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'attribute vec2 vertexUV0;',
-
-		'uniform mat4 viewProjectionMatrix;',
-		'uniform mat4 worldMatrix;',
-
-		'varying vec2 texCoord0;',
-
-		'void main(void) {',
-		'  texCoord0 = vertexUV0;',
-		'  gl_Position = viewProjectionMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-		'}'
-	].join('\n'),
-	fshader: [
-		'uniform sampler2D diffuseMap;',
-		'uniform sampler2D motionMap;',
-		'uniform float blend;',
-		'uniform float scale;',
-
-		'varying vec2 texCoord0;',
-
-		'void main(void)',
-		'{',
-		'    vec4 colA = texture2D(diffuseMap, texCoord0);',
-		'    #ifdef MOTION_MAP',
-		'    vec4 colB = texture2D(motionMap, (texCoord0 - 0.5) / scale + 0.5);',
-		'    float wBlend = blend;// * length(colB) / sqrt(3.0);',
-		'    gl_FragColor = mix(colA, colB, wBlend);',
-		'    #else',
-		'    gl_FragColor = colA;',
-		'    #endif',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', 'attribute vec2 vertexUV0;', 'uniform mat4 viewProjectionMatrix;', 'uniform mat4 worldMatrix;', 'varying vec2 texCoord0;', 'void main(void) {', '  texCoord0 = vertexUV0;', '  gl_Position = viewProjectionMatrix * worldMatrix * vec4(vertexPosition, 1.0);', '}'].join('\n'),
+	fshader: ['uniform sampler2D diffuseMap;', 'uniform sampler2D motionMap;', 'uniform float blend;', 'uniform float scale;', 'varying vec2 texCoord0;', 'void main(void)', '{', '    vec4 colA = texture2D(diffuseMap, texCoord0);', '    #ifdef MOTION_MAP', '    vec4 colB = texture2D(motionMap, (texCoord0 - 0.5) / scale + 0.5);', '    float wBlend = blend;// * length(colB) / sqrt(3.0);', '    gl_FragColor = mix(colA, colB, wBlend);', '    #else', '    gl_FragColor = colA;', '    #endif', '}'].join('\n')
 };
 
 var exported_MotionBlurPass = MotionBlurPass;
-export { exported_MotionBlurPass as MotionBlurPass };
+exports.MotionBlurPass = exported_MotionBlurPass;

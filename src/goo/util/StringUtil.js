@@ -1,2 +1,10 @@
-import { StringUtils as utilStringUtils_StringUtilsjs } from "../util/StringUtils";
-export { utilStringUtils_StringUtilsjs as StringUtils };
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.StringUtils = undefined;
+
+var _StringUtils = require("../util/StringUtils");
+
+exports.StringUtils = _StringUtils.StringUtils;

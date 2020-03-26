@@ -1,6 +1,14 @@
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 function TextComponent(text) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'TextComponent';
 
@@ -14,7 +22,7 @@ function TextComponent(text) {
 
 TextComponent.type = 'TextComponent';
 
-TextComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+TextComponent.prototype = Object.create(_Component.Component.prototype);
 TextComponent.prototype.constructor = TextComponent;
 
 /**
@@ -37,4 +45,4 @@ var exported_TextComponent = TextComponent;
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
  */
-export { exported_TextComponent as TextComponent };
+exports.TextComponent = exported_TextComponent;

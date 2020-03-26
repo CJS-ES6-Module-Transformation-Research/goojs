@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs = {
 	CustomMatchers: 'test/unit/CustomMatchers',
 	Configs: 'test/unit/loaders/Configs',
@@ -409,7 +414,7 @@ var karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs = {
 	StringUtil: 'src/goo/util/StringUtil',
 	StringUtils: 'src/goo/util/StringUtils',
 	TangentGenerator: 'src/goo/util/TangentGenerator',
-	TWEEN: 'src/goo/util/TWEEN',
+	TWEEN: 'src/goo/util/TWEEN'
 };
 
-export { karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs as karmaWebpackProvidePluginSettingsjs };
+exports.karmaWebpackProvidePluginSettingsjs = karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs;

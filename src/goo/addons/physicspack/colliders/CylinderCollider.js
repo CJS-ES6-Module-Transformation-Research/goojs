@@ -1,20 +1,28 @@
-import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CylinderCollider = undefined;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 function CylinderCollider(settings) {
 	settings = settings || {};
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.radius = settings.radius !== undefined ? settings.radius : 0.5;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.height = settings.height !== undefined ? settings.height : 1;
 
-	addonsphysicspackcollidersCollider_Colliderjs.call(this);
+	_Collider.Collider.call(this);
 }
-CylinderCollider.prototype = Object.create(addonsphysicspackcollidersCollider_Colliderjs.prototype);
+CylinderCollider.prototype = Object.create(_Collider.Collider.prototype);
 CylinderCollider.prototype.constructor = CylinderCollider;
 
 /**
@@ -47,4 +55,4 @@ var exported_CylinderCollider = CylinderCollider;
  * @param {number} [settings.height=1]
  * @extends Collider
  */
-export { exported_CylinderCollider as CylinderCollider };
+exports.CylinderCollider = exported_CylinderCollider;

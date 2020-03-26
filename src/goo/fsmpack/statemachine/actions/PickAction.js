@@ -1,11 +1,19 @@
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
+"use strict";
 
-function PickAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PickAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+function PickAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-PickAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+PickAction.prototype = Object.create(_Action.Action.prototype);
 PickAction.prototype.constructor = PickAction;
 
 PickAction.external = {
@@ -26,7 +34,7 @@ var labels = {
 	pick: 'On pick entity'
 };
 
-PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+PickAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -66,16 +74,16 @@ PickAction.prototype.enter = function (fsm) {
 
 	document.addEventListener('click', this.eventListener);
 	document.addEventListener('touchstart', this.eventListener);
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.trigger.click', this.eventListener);
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.trigger.touchstart', this.eventListener);
+	_SystemBus.SystemBusjs.addListener('goo.trigger.click', this.eventListener);
+	_SystemBus.SystemBusjs.addListener('goo.trigger.touchstart', this.eventListener);
 };
 
 PickAction.prototype.exit = function () {
 	document.removeEventListener('click', this.eventListener);
 	document.removeEventListener('touchstart', this.eventListener);
-	entitiesSystemBus_SystemBusjsjs.removeListener('goo.trigger.click', this.eventListener);
-	entitiesSystemBus_SystemBusjsjs.removeListener('goo.trigger.touchstart', this.eventListener);
+	_SystemBus.SystemBusjs.removeListener('goo.trigger.click', this.eventListener);
+	_SystemBus.SystemBusjs.removeListener('goo.trigger.touchstart', this.eventListener);
 };
 
 var exported_PickAction = PickAction;
-export { exported_PickAction as PickAction };
+exports.PickAction = exported_PickAction;

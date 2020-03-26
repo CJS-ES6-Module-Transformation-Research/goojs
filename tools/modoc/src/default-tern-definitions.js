@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var defaultterndefinitionsjs_defaultterndefinitionsjs = {
 	"Context": {
 		"!type": "fn()",
@@ -49,4 +54,4 @@ var defaultterndefinitionsjs_defaultterndefinitionsjs = {
 	}
 };
 
-export { defaultterndefinitionsjs_defaultterndefinitionsjs as defaultterndefinitionsjs };
+exports.defaultterndefinitionsjs = defaultterndefinitionsjs_defaultterndefinitionsjs;

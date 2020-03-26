@@ -1,71 +1,105 @@
-import { LogicInterfacejs as logicLogicInterface_LogicInterfacejs } from "./logic/LogicInterface";
-import { LogicLayerjs as logicLogicLayer_LogicLayerjs } from "./logic/LogicLayer";
-import { LogicNodejs as logicLogicNode_LogicNodejs } from "./logic/LogicNode";
-import { LogicNodeAddjs as logicLogicNodeAdd_LogicNodeAddjs } from "./logic/LogicNodeAdd";
-import { LogicNodeApplyMatrixjs as logicLogicNodeApplyMatrix_LogicNodeApplyMatrixjs } from "./logic/LogicNodeApplyMatrix";
-import { LogicNodeConstVec3js as logicLogicNodeConstVec3_LogicNodeConstVec3js } from "./logic/LogicNodeConstVec3";
-import { LogicNodeDebugjs as logicLogicNodeDebug_LogicNodeDebugjs } from "./logic/LogicNodeDebug";
-import { LogicNodeEntityProxyjs as logicLogicNodeEntityProxy_LogicNodeEntityProxyjs } from "./logic/LogicNodeEntityProxy";
-import { LogicNodeFloatjs as logicLogicNodeFloat_LogicNodeFloatjs } from "./logic/LogicNodeFloat";
-import { LogicNodeInputjs as logicLogicNodeInput_LogicNodeInputjs } from "./logic/LogicNodeInput";
-import { LogicNodeIntjs as logicLogicNodeInt_LogicNodeIntjs } from "./logic/LogicNodeInt";
-import {     LogicNodeLightComponentjs as logicLogicNodeLightComponent_LogicNodeLightComponentjs, } from "./logic/LogicNodeLightComponent";
-import { LogicNodeMaxjs as logicLogicNodeMax_LogicNodeMaxjs } from "./logic/LogicNodeMax";
-import {     LogicNodeMeshRendererComponentjs as logicLogicNodeMeshRendererComponent_LogicNodeMeshRendererComponentjs, } from "./logic/LogicNodeMeshRendererComponent";
-import { LogicNodeMousejs as logicLogicNodeMouse_LogicNodeMousejs } from "./logic/LogicNodeMouse";
-import { LogicNodeMultiplyjs as logicLogicNodeMultiply_LogicNodeMultiplyjs } from "./logic/LogicNodeMultiply";
-import {     LogicNodeMultiplyFloatjs as logicLogicNodeMultiplyFloat_LogicNodeMultiplyFloatjs, } from "./logic/LogicNodeMultiplyFloat";
-import { LogicNodeOutputjs as logicLogicNodeOutput_LogicNodeOutputjs } from "./logic/LogicNodeOutput";
-import { LogicNodeRandomjs as logicLogicNodeRandom_LogicNodeRandomjs } from "./logic/LogicNodeRandom";
-import {     LogicNodeRotationMatrixjs as logicLogicNodeRotationMatrix_LogicNodeRotationMatrixjs, } from "./logic/LogicNodeRotationMatrix";
-import { LogicNodesjs as logicLogicNodes_LogicNodesjs } from "./logic/LogicNodes";
-import { LogicNodeSinejs as logicLogicNodeSine_LogicNodeSinejs } from "./logic/LogicNodeSine";
-import { LogicNodeSubjs as logicLogicNodeSub_LogicNodeSubjs } from "./logic/LogicNodeSub";
-import { LogicNodeTimejs as logicLogicNodeTime_LogicNodeTimejs } from "./logic/LogicNodeTime";
-import {     LogicNodeTransformComponentjs as logicLogicNodeTransformComponent_LogicNodeTransformComponentjs, } from "./logic/LogicNodeTransformComponent";
-import { LogicNodeVec3js as logicLogicNodeVec3_LogicNodeVec3js } from "./logic/LogicNodeVec3";
-import { LogicNodeVec3Addjs as logicLogicNodeVec3Add_LogicNodeVec3Addjs } from "./logic/LogicNodeVec3Add";
-import { LogicNodeWASDjs as logicLogicNodeWASD_LogicNodeWASDjs } from "./logic/LogicNodeWASD";
-import { LogicNodeWASD2js as logicLogicNodeWASD2_LogicNodeWASD2js } from "./logic/LogicNodeWASD2";
-import { LogicComponentjs as LogicComponent_LogicComponentjs } from "./LogicComponent";
-import { LogicComponentHandlerjs as LogicComponentHandler_LogicComponentHandlerjs } from "./LogicComponentHandler";
-import { LogicSystemjs as LogicSystem_LogicSystemjs } from "./LogicSystem";
+"use strict";
+
+var _LogicInterface = require("./logic/LogicInterface");
+
+var _LogicLayer = require("./logic/LogicLayer");
+
+var _LogicNode = require("./logic/LogicNode");
+
+var _LogicNodeAdd = require("./logic/LogicNodeAdd");
+
+var _LogicNodeApplyMatrix = require("./logic/LogicNodeApplyMatrix");
+
+var _LogicNodeConstVec = require("./logic/LogicNodeConstVec3");
+
+var _LogicNodeDebug = require("./logic/LogicNodeDebug");
+
+var _LogicNodeEntityProxy = require("./logic/LogicNodeEntityProxy");
+
+var _LogicNodeFloat = require("./logic/LogicNodeFloat");
+
+var _LogicNodeInput = require("./logic/LogicNodeInput");
+
+var _LogicNodeInt = require("./logic/LogicNodeInt");
+
+var _LogicNodeLightComponent = require("./logic/LogicNodeLightComponent");
+
+var _LogicNodeMax = require("./logic/LogicNodeMax");
+
+var _LogicNodeMeshRendererComponent = require("./logic/LogicNodeMeshRendererComponent");
+
+var _LogicNodeMouse = require("./logic/LogicNodeMouse");
+
+var _LogicNodeMultiply = require("./logic/LogicNodeMultiply");
+
+var _LogicNodeMultiplyFloat = require("./logic/LogicNodeMultiplyFloat");
+
+var _LogicNodeOutput = require("./logic/LogicNodeOutput");
+
+var _LogicNodeRandom = require("./logic/LogicNodeRandom");
+
+var _LogicNodeRotationMatrix = require("./logic/LogicNodeRotationMatrix");
+
+var _LogicNodes = require("./logic/LogicNodes");
+
+var _LogicNodeSine = require("./logic/LogicNodeSine");
+
+var _LogicNodeSub = require("./logic/LogicNodeSub");
+
+var _LogicNodeTime = require("./logic/LogicNodeTime");
+
+var _LogicNodeTransformComponent = require("./logic/LogicNodeTransformComponent");
+
+var _LogicNodeVec = require("./logic/LogicNodeVec3");
+
+var _LogicNodeVec3Add = require("./logic/LogicNodeVec3Add");
+
+var _LogicNodeWASD = require("./logic/LogicNodeWASD");
+
+var _LogicNodeWASD2 = require("./logic/LogicNodeWASD2");
+
+var _LogicComponent = require("./LogicComponent");
+
+var _LogicComponentHandler = require("./LogicComponentHandler");
+
+var _LogicSystem = require("./LogicSystem");
+
 var indexjs;
 indexjs = {
-	LogicInterface: logicLogicInterface_LogicInterfacejs,
-	LogicLayer: logicLogicLayer_LogicLayerjs,
-	LogicNode: logicLogicNode_LogicNodejs,
-	LogicNodeAdd: logicLogicNodeAdd_LogicNodeAddjs,
-	LogicNodeApplyMatrix: logicLogicNodeApplyMatrix_LogicNodeApplyMatrixjs,
-	LogicNodeConstVec3: logicLogicNodeConstVec3_LogicNodeConstVec3js,
-	LogicNodeDebug: logicLogicNodeDebug_LogicNodeDebugjs,
-	LogicNodeEntityProxy: logicLogicNodeEntityProxy_LogicNodeEntityProxyjs,
-	LogicNodeFloat: logicLogicNodeFloat_LogicNodeFloatjs,
-	LogicNodeInput: logicLogicNodeInput_LogicNodeInputjs,
-	LogicNodeInt: logicLogicNodeInt_LogicNodeIntjs,
-	LogicNodeLightComponent: logicLogicNodeLightComponent_LogicNodeLightComponentjs,
-	LogicNodeMax: logicLogicNodeMax_LogicNodeMaxjs,
-	LogicNodeMeshRendererComponent: logicLogicNodeMeshRendererComponent_LogicNodeMeshRendererComponentjs,
-	LogicNodeMouse: logicLogicNodeMouse_LogicNodeMousejs,
-	LogicNodeMultiply: logicLogicNodeMultiply_LogicNodeMultiplyjs,
-	LogicNodeMultiplyFloat: logicLogicNodeMultiplyFloat_LogicNodeMultiplyFloatjs,
-	LogicNodeOutput: logicLogicNodeOutput_LogicNodeOutputjs,
-	LogicNodeRandom: logicLogicNodeRandom_LogicNodeRandomjs,
-	LogicNodeRotationMatrix: logicLogicNodeRotationMatrix_LogicNodeRotationMatrixjs,
-	LogicNodes: logicLogicNodes_LogicNodesjs,
-	LogicNodeSine: logicLogicNodeSine_LogicNodeSinejs,
-	LogicNodeSub: logicLogicNodeSub_LogicNodeSubjs,
-	LogicNodeTime: logicLogicNodeTime_LogicNodeTimejs,
-	LogicNodeTransformComponent: logicLogicNodeTransformComponent_LogicNodeTransformComponentjs,
-	LogicNodeVec3: logicLogicNodeVec3_LogicNodeVec3js,
-	LogicNodeVec3Add: logicLogicNodeVec3Add_LogicNodeVec3Addjs,
-	LogicNodeWASD: logicLogicNodeWASD_LogicNodeWASDjs,
-	LogicNodeWASD2: logicLogicNodeWASD2_LogicNodeWASD2js,
-	LogicComponent: LogicComponent_LogicComponentjs,
-	LogicComponentHandler: LogicComponentHandler_LogicComponentHandlerjs,
-	LogicSystem: LogicSystem_LogicSystemjs
+	LogicInterface: _LogicInterface.LogicInterfacejs,
+	LogicLayer: _LogicLayer.LogicLayerjs,
+	LogicNode: _LogicNode.LogicNodejs,
+	LogicNodeAdd: _LogicNodeAdd.LogicNodeAddjs,
+	LogicNodeApplyMatrix: _LogicNodeApplyMatrix.LogicNodeApplyMatrixjs,
+	LogicNodeConstVec3: _LogicNodeConstVec.LogicNodeConstVec3js,
+	LogicNodeDebug: _LogicNodeDebug.LogicNodeDebugjs,
+	LogicNodeEntityProxy: _LogicNodeEntityProxy.LogicNodeEntityProxyjs,
+	LogicNodeFloat: _LogicNodeFloat.LogicNodeFloatjs,
+	LogicNodeInput: _LogicNodeInput.LogicNodeInputjs,
+	LogicNodeInt: _LogicNodeInt.LogicNodeIntjs,
+	LogicNodeLightComponent: _LogicNodeLightComponent.LogicNodeLightComponentjs,
+	LogicNodeMax: _LogicNodeMax.LogicNodeMaxjs,
+	LogicNodeMeshRendererComponent: _LogicNodeMeshRendererComponent.LogicNodeMeshRendererComponentjs,
+	LogicNodeMouse: _LogicNodeMouse.LogicNodeMousejs,
+	LogicNodeMultiply: _LogicNodeMultiply.LogicNodeMultiplyjs,
+	LogicNodeMultiplyFloat: _LogicNodeMultiplyFloat.LogicNodeMultiplyFloatjs,
+	LogicNodeOutput: _LogicNodeOutput.LogicNodeOutputjs,
+	LogicNodeRandom: _LogicNodeRandom.LogicNodeRandomjs,
+	LogicNodeRotationMatrix: _LogicNodeRotationMatrix.LogicNodeRotationMatrixjs,
+	LogicNodes: _LogicNodes.LogicNodesjs,
+	LogicNodeSine: _LogicNodeSine.LogicNodeSinejs,
+	LogicNodeSub: _LogicNodeSub.LogicNodeSubjs,
+	LogicNodeTime: _LogicNodeTime.LogicNodeTimejs,
+	LogicNodeTransformComponent: _LogicNodeTransformComponent.LogicNodeTransformComponentjs,
+	LogicNodeVec3: _LogicNodeVec.LogicNodeVec3js,
+	LogicNodeVec3Add: _LogicNodeVec3Add.LogicNodeVec3Addjs,
+	LogicNodeWASD: _LogicNodeWASD.LogicNodeWASDjs,
+	LogicNodeWASD2: _LogicNodeWASD2.LogicNodeWASD2js,
+	LogicComponent: _LogicComponent.LogicComponentjs,
+	LogicComponentHandler: _LogicComponentHandler.LogicComponentHandlerjs,
+	LogicSystem: _LogicSystem.LogicSystemjs
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

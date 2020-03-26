@@ -1,13 +1,22 @@
-import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../loaders/handlers/ComponentHandler";
-import { QuadComponent as quadpackQuadComponent_QuadComponentjs } from "../quadpack/QuadComponent";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.QuadComponentHandler = undefined;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _QuadComponent = require("../quadpack/QuadComponent");
+
 function QuadComponentHandler() {
-	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'QuadComponent';
 }
 
-QuadComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
+QuadComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 QuadComponentHandler.prototype.constructor = QuadComponentHandler;
-loadershandlersComponentHandler_ComponentHandlerjs._registerClass('quad', QuadComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('quad', QuadComponentHandler);
 
 /**
  * Create a quadcomponent object.
@@ -15,7 +24,7 @@ loadershandlersComponentHandler_ComponentHandlerjs._registerClass('quad', QuadCo
  * @private
  */
 QuadComponentHandler.prototype._create = function () {
-	return new quadpackQuadComponent_QuadComponentjs();
+	return new _QuadComponent.QuadComponent();
 };
 
 /**
@@ -39,8 +48,10 @@ QuadComponentHandler.prototype._remove = function (entity) {
  */
 QuadComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		// Load material
 		return that._load(config.materialRef, options).then(function (material) {
@@ -74,4 +85,4 @@ var exported_QuadComponentHandler = QuadComponentHandler;
  * @extends ComponentHandler
  * @hidden
  */
-export { exported_QuadComponentHandler as QuadComponentHandler };
+exports.QuadComponentHandler = exported_QuadComponentHandler;

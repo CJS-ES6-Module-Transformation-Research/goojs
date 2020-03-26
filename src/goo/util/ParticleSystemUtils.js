@@ -1,8 +1,20 @@
-import {     ParticleComponent as entitiescomponentsParticleComponent_ParticleComponentjs, } from "../entities/components/ParticleComponent";
-import {     MeshRendererComponent as entitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../entities/components/MeshRendererComponent";
-import {     MeshDataComponent as entitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../entities/components/MeshDataComponent";
-import { Texture as rendererTexture_Texturejs } from "../renderer/Texture";
-import { ParticleEmitter as particlesParticleEmitter_ParticleEmitterjs } from "../particles/ParticleEmitter";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleSystemUtils = undefined;
+
+var _ParticleComponent = require("../entities/components/ParticleComponent");
+
+var _MeshRendererComponent = require("../entities/components/MeshRendererComponent");
+
+var _MeshDataComponent = require("../entities/components/MeshDataComponent");
+
+var _Texture = require("../renderer/Texture");
+
+var _ParticleEmitter = require("../particles/ParticleEmitter");
+
 function ParticleSystemUtils() {}
 
 /**
@@ -19,19 +31,19 @@ ParticleSystemUtils.createParticleSystemEntity = function (world, particleParame
 	var particleSystemEntity = world.createEntity();
 
 	// Set particle component
-	var particleComponent = new entitiescomponentsParticleComponent_ParticleComponentjs({
+	var particleComponent = new _ParticleComponent.ParticleComponent({
 		particleCount: particleParameters.particleCount || 500
 	});
 
-	particleComponent.emitters.push(new particlesParticleEmitter_ParticleEmitterjs(particleParameters));
+	particleComponent.emitters.push(new _ParticleEmitter.ParticleEmitter(particleParameters));
 	particleSystemEntity.setComponent(particleComponent);
 
 	// Create meshData component using particle data
-	var meshDataComponent = new entitiescomponentsMeshDataComponent_MeshDataComponentjs(particleComponent.meshData);
+	var meshDataComponent = new _MeshDataComponent.MeshDataComponent(particleComponent.meshData);
 	particleSystemEntity.setComponent(meshDataComponent);
 
 	// Create meshRenderer component with material and shader
-	var meshRendererComponent = new entitiescomponentsMeshRendererComponent_MeshRendererComponentjs();
+	var meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
 	meshRendererComponent.materials.push(material);
 	meshRendererComponent.cullMode = 'Never';
 	particleSystemEntity.setComponent(meshRendererComponent);
@@ -60,8 +72,7 @@ ParticleSystemUtils.createFlareTexture = function (size, options) {
 	canvas.height = size;
 	var con2d = canvas.getContext('2d');
 
-	var gradient = con2d.createRadialGradient(
-		size / 2, size / 2, options.startRadius, size / 2, size / 2, options.endRadius);
+	var gradient = con2d.createRadialGradient(size / 2, size / 2, options.startRadius, size / 2, size / 2, options.endRadius);
 
 	for (var i = 0; i < options.steps.length; i++) {
 		var step = options.steps[i];
@@ -74,7 +85,7 @@ ParticleSystemUtils.createFlareTexture = function (size, options) {
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new rendererTexture_Texturejs(imageData, null, size, size);
+	var texture = new _Texture.Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -122,24 +133,17 @@ ParticleSystemUtils.createSplashTexture = function (size, options) {
 			var angle = Math.random() * Math.PI * 2;
 			var innerRadius = Math.random() * 4 + minInnerRadius;
 			var outerRadius = Math.random() * 4 - maxOuterRadius;
-			trail(
-				x + Math.cos(angle) * innerRadius,
-				y + Math.sin(angle) * innerRadius,
-				x + Math.cos(angle) * outerRadius,
-				y + Math.sin(angle) * outerRadius,
-				startTrailRadius,
-				endTrailRadius
-			);
+			trail(x + Math.cos(angle) * innerRadius, y + Math.sin(angle) * innerRadius, x + Math.cos(angle) * outerRadius, y + Math.sin(angle) * outerRadius, startTrailRadius, endTrailRadius);
 		}
 	}
 	// ----
 
-	splash(size / 2, size / 2, ((size / 2) / 10) * 1, ((size / 2) / 10) * 9, options.trailStartRadius, options.trailEndRadius, options.nTrails);
+	splash(size / 2, size / 2, size / 2 / 10 * 1, size / 2 / 10 * 9, options.trailStartRadius, options.trailEndRadius, options.nTrails);
 
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new rendererTexture_Texturejs(imageData, null, size, size);
+	var texture = new _Texture.Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -185,7 +189,7 @@ ParticleSystemUtils.createPlanktonTexture = function (size, options) {
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new rendererTexture_Texturejs(imageData, null, size, size);
+	var texture = new _Texture.Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -221,8 +225,8 @@ ParticleSystemUtils.createSnowflakeTexture = function (size, options) {
 		con2d.lineTo(0, 90);
 
 		for (var i = 0; i < 6; i++) {
-			con2d.moveTo(0, 25 + i * 10); con2d.lineTo(16 - i * 1.5, 35 + i * 10);
-			con2d.moveTo(0, 25 + i * 10); con2d.lineTo(-(16 - i * 1.5), 35 + i * 10);
+			con2d.moveTo(0, 25 + i * 10);con2d.lineTo(16 - i * 1.5, 35 + i * 10);
+			con2d.moveTo(0, 25 + i * 10);con2d.lineTo(-(16 - i * 1.5), 35 + i * 10);
 		}
 
 		con2d.stroke();
@@ -236,11 +240,10 @@ ParticleSystemUtils.createSnowflakeTexture = function (size, options) {
 	con2d.scale(size / 100 / 2, size / 100 / 2);
 	replicateRotated(7, subSnow1);
 
-
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new rendererTexture_Texturejs(imageData, null, size, size);
+	var texture = new _Texture.Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -249,4 +252,4 @@ var exported_ParticleSystemUtils = ParticleSystemUtils;
 /**
  * Provides utility methods for particle systems
  */
-export { exported_ParticleSystemUtils as ParticleSystemUtils };
+exports.ParticleSystemUtils = exported_ParticleSystemUtils;

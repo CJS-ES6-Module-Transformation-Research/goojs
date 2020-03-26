@@ -1,5 +1,7 @@
+'use strict';
+
 describe('SphereCollider', function () {
-    it('can clone', function () {
+	it('can clone', function () {
 		var collider = new SphereCollider({
 			radius: 2
 		});
@@ -7,7 +9,7 @@ describe('SphereCollider', function () {
 		expect(collider).toEqual(clone);
 	});
 
-    it('can transform', function () {
+	it('can transform', function () {
 		var collider = new SphereCollider({
 			radius: 2
 		});

@@ -1,8 +1,24 @@
-import fs from "fs";
-import path from "path";
-import child_process_child_process from "child_process";
-import async from "async";
-var exec = child_process_child_process.exec;
+"use strict";
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _child_process = require("child_process");
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+var _async = require("async");
+
+var _async2 = _interopRequireDefault(_async);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var exec = _child_process2.default.exec;
 var imgCompare = require(__dirname + '/../../tools/imgcompare2/imgCompare');
 var toc = require(__dirname + '/../../tools/table-of-contents');
 var filterList = null;
@@ -15,11 +31,11 @@ function filterArray(array, filters) {
 	});
 }
 
-var testFiles = toc.getFilesSync(path.join(__dirname, '/../../visual-test'));
+var testFiles = toc.getFilesSync(_path2.default.join(__dirname, '/../../visual-test'));
 testFiles = filterArray(testFiles, filterList);
 
 var rootUrl = process.env.GOOJS_ROOT_URL;
-var gooRootPath = path.join(__dirname, '..', '..');
+var gooRootPath = _path2.default.join(__dirname, '..', '..');
 
 if (!rootUrl) {
 	console.error('Please set environment variable GOOJS_ROOT_URL!');
@@ -28,10 +44,10 @@ if (!rootUrl) {
 
 // testFilePath should be something like visual-test/.../lol-test.html
 function getTestInfo(testFilePath) {
-	var testFile = path.relative(gooRootPath, testFilePath);
+	var testFile = _path2.default.relative(gooRootPath, testFilePath);
 	var url = rootUrl + '/' + testFile + '?deterministic=1';
-	var actualPath = path.join(__dirname, 'screenshots-tmp', testFile.replace('visual-test', '').replace('.html','.png'));
-	var expectedPath = path.join(__dirname, 'screenshots',     testFile.replace('visual-test', '').replace('.html','.png'));
+	var actualPath = _path2.default.join(__dirname, 'screenshots-tmp', testFile.replace('visual-test', '').replace('.html', '.png'));
+	var expectedPath = _path2.default.join(__dirname, 'screenshots', testFile.replace('visual-test', '').replace('.html', '.png'));
 
 	return {
 		url: url,
@@ -39,7 +55,6 @@ function getTestInfo(testFilePath) {
 		actualPath: actualPath
 	};
 }
-
 
 var shooter = new ScreenShooter();
 
@@ -52,7 +67,7 @@ function report(url, problem) {
 }
 
 var DISS_THRESH = 0.08;
-async.eachSeries(testFiles, function (testFile, done) {
+_async2.default.eachSeries(testFiles, function (testFile, done) {
 	var info2 = getTestInfo(testFile);
 
 	var url = info2.url;

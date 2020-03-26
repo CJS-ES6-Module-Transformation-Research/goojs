@@ -1,15 +1,23 @@
-import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SphereCollider = undefined;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 function SphereCollider(settings) {
 	settings = settings || {};
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.radius = settings.radius !== undefined ? settings.radius : 0.5;
 
-	addonsphysicspackcollidersCollider_Colliderjs.call(this);
+	_Collider.Collider.call(this);
 }
-SphereCollider.prototype = Object.create(addonsphysicspackcollidersCollider_Colliderjs.prototype);
+SphereCollider.prototype = Object.create(_Collider.Collider.prototype);
 SphereCollider.prototype.constructor = SphereCollider;
 
 /**
@@ -19,11 +27,7 @@ SphereCollider.prototype.constructor = SphereCollider;
  */
 SphereCollider.prototype.transform = function (transform, targetCollider) {
 	var scale = transform.scale;
-	targetCollider.radius = this.radius * Math.max(
-		Math.abs(scale.x),
-		Math.abs(scale.y),
-		Math.abs(scale.z)
-	);
+	targetCollider.radius = this.radius * Math.max(Math.abs(scale.x), Math.abs(scale.y), Math.abs(scale.z));
 };
 
 /**
@@ -42,4 +46,4 @@ var exported_SphereCollider = SphereCollider;
  * @param {number} [settings.radius=0.5]
  * @extends Collider
  */
-export { exported_SphereCollider as SphereCollider };
+exports.SphereCollider = exported_SphereCollider;

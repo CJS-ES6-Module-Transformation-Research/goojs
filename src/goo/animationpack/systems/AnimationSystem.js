@@ -1,16 +1,25 @@
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
-import { World as entitiesWorld_Worldjs } from "../../entities/World";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _World = require("../../entities/World");
+
 function AnimationSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'AnimationSystem', ['AnimationComponent']);
+	_System.System.call(this, 'AnimationSystem', ['AnimationComponent']);
 }
 
-AnimationSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+AnimationSystem.prototype = Object.create(_System.System.prototype);
 
 AnimationSystem.prototype.process = function () {
 	for (var i = 0; i < this._activeEntities.length; i++) {
 		var entity = this._activeEntities[i];
 		var animationComponent = entity.animationComponent;
-		animationComponent.update(entitiesWorld_Worldjs.time);
+		animationComponent.update(_World.World.time);
 		animationComponent.apply(entity.transformComponent);
 		animationComponent.postUpdate();
 	}
@@ -47,4 +56,4 @@ var exported_AnimationSystem = AnimationSystem;
  * Processes all entities with animation components, updating the animations
  * @extends System
  */
-export { exported_AnimationSystem as AnimationSystem };
+exports.AnimationSystem = exported_AnimationSystem;

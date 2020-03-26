@@ -1,10 +1,17 @@
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function HideAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HideAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function HideAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-HideAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+HideAction.prototype = Object.create(_Action.Action.prototype);
 HideAction.prototype.constructor = HideAction;
 
 HideAction.external = {
@@ -22,4 +29,4 @@ HideAction.prototype.enter = function (fsm) {
 };
 
 var exported_HideAction = HideAction;
-export { exported_HideAction as HideAction };
+exports.HideAction = exported_HideAction;

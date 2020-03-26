@@ -1,37 +1,48 @@
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../../sound/AudioContext";
-import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var _Vector = require("../../math/Vector3");
+
+var _MathUtils = require("../../math/MathUtils");
+
 function SoundComponent() {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'SoundComponent';
 
 	this._system = null;
 
 	/**
-	 * Current sounds in the entity. Add a sound using {@link SoundComponent#addSound}.
-	 * @type {Array<Sound>}
-	 */
+  * Current sounds in the entity. Add a sound using {@link SoundComponent#addSound}.
+  * @type {Array<Sound>}
+  */
 	this.sounds = [];
 
 	this._isPanned = true;
-	this._outDryNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
-	this._outWetNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._outDryNode = _AudioContext.AudioContextjs.getContext().createGain();
+	this._outWetNode = _AudioContext.AudioContextjs.getContext().createGain();
 	this.connectTo();
-	this._pannerNode = soundAudioContext_AudioContextjsjs.getContext().createPanner();
+	this._pannerNode = _AudioContext.AudioContextjs.getContext().createPanner();
 	this._pannerNode.connect(this._outDryNode);
-	this._inNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._inNode = _AudioContext.AudioContextjs.getContext().createGain();
 	this._inNode.connect(this._pannerNode);
 
 	// The 2D sounds are always in camera space
 	// Do we need another outDryNode for 2D?
-	this._inNode2d = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._inNode2d = _AudioContext.AudioContextjs.getContext().createGain();
 	this._inNode2d.connect(this._outDryNode);
 
-	this._oldPosition = new mathVector3_Vector3js();
-	this._position = new mathVector3_Vector3js();
-	this._orientation = new mathVector3_Vector3js();
+	this._oldPosition = new _Vector.Vector3();
+	this._position = new _Vector.Vector3();
+	this._orientation = new _Vector.Vector3();
 	this._attachedToCamera = false;
 
 	this._autoPlayDirty = false;
@@ -43,7 +54,7 @@ function SoundComponent() {
 
 SoundComponent.type = 'SoundComponent';
 
-SoundComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+SoundComponent.prototype = Object.create(_Component.Component.prototype);
 SoundComponent.prototype.constructor = SoundComponent;
 
 /**
@@ -118,10 +129,10 @@ SoundComponent.prototype.connectTo = function (nodes) {
  */
 SoundComponent.prototype.updateConfig = function (config) {
 	if (config.volume !== undefined) {
-		this._outDryNode.gain.value = mathMathUtils_MathUtilsjs.clamp(config.volume, 0, 1);
+		this._outDryNode.gain.value = _MathUtils.MathUtils.clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this._outWetNode.gain.value = mathMathUtils_MathUtilsjs.clamp(config.reverb, 0, 1);
+		this._outWetNode.gain.value = _MathUtils.MathUtils.clamp(config.reverb, 0, 1);
 	}
 };
 
@@ -143,7 +154,7 @@ SoundComponent.prototype._autoPlaySounds = function () {
  * @param {number} tpf
  * @hidden
  */
-SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
+SoundComponent.prototype.process = function (settings, mvMat /*, tpf*/) {
 	this._pannerNode.rolloffFactor = settings.rolloffFactor;
 	this._pannerNode.maxDistance = settings.maxDistance;
 
@@ -187,4 +198,4 @@ var exported_SoundComponent = SoundComponent;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
  * @extends {Component}
  */
-export { exported_SoundComponent as SoundComponent };
+exports.SoundComponent = exported_SoundComponent;

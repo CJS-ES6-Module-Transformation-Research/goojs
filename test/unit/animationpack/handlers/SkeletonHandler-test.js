@@ -1,15 +1,21 @@
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
-import { SkeletonPose as srcgooanimationpackSkeletonPose_SkeletonPosejs } from "../../../../src/goo/animationpack/SkeletonPose";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _SkeletonPose = require("../../../../src/goo/animationpack/SkeletonPose");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('SkeletonHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,26 +23,28 @@ describe('SkeletonHandler', function () {
 	});
 
 	it('loads a skeleton', function (done) {
-		var config = testunitloadersConfigs_Configsjs.skeleton();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.skeleton();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (skeleton) {
-			expect(skeleton).toEqual(jasmine.any(srcgooanimationpackSkeletonPose_SkeletonPosejs));
+			expect(skeleton).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
 			expect(skeleton._skeleton._joints.length).toBe(Object.keys(config.joints).length);
 			done();
 		});
 	});
 
 	it('order joints correctly', function (done) {
-		var config = testunitloadersConfigs_Configsjs.skeleton();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.skeleton();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (skeleton) {
 			var joints = skeleton._skeleton._joints;
 			var ordered = joints.every(function (joint, idx) {
-				if (idx === 0) { return true; }
-				return joint._index > joints[idx-1]._index;
+				if (idx === 0) {
+					return true;
+				}
+				return joint._index > joints[idx - 1]._index;
 			});
 			expect(ordered).toBeTruthy();
-			expect(skeleton).toEqual(jasmine.any(srcgooanimationpackSkeletonPose_SkeletonPosejs));
+			expect(skeleton).toEqual(jasmine.any(_SkeletonPose.SkeletonPose));
 			expect(skeleton._skeleton._joints.length).toBe(Object.keys(config.joints).length);
 			done();
 		});

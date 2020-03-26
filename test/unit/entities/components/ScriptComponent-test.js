@@ -1,12 +1,16 @@
-import { ScriptSystem as srcgooentitiessystemsScriptSystem_ScriptSystemjs } from "../../../../src/goo/entities/systems/ScriptSystem";
-import {     ScriptComponent as srcgooentitiescomponentsScriptComponent_ScriptComponentjs, } from "../../../../src/goo/entities/components/ScriptComponent";
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
+"use strict";
+
+var _ScriptSystem = require("../../../../src/goo/entities/systems/ScriptSystem");
+
+var _ScriptComponent = require("../../../../src/goo/entities/components/ScriptComponent");
+
+var _World = require("../../../../src/goo/entities/World");
 
 describe('ScriptComponent', function () {
 	var world;
 
 	beforeEach(function () {
-		world = new srcgooentitiesWorld_Worldjs();
+		world = new _World.World();
 		world.gooRunner = {
 			renderer: {
 				domElement: null,
@@ -14,18 +18,23 @@ describe('ScriptComponent', function () {
 				viewportHeight: null
 			}
 		};
-		world.add(new srcgooentitiessystemsScriptSystem_ScriptSystemjs(world));
+		world.add(new _ScriptSystem.ScriptSystem(world));
 	});
 
 	it('it calls setup on all scripts when removing the component', function () {
-		var a = 0, b = 0;
+		var a = 0,
+		    b = 0;
 
-		var scriptComponent = new srcgooentitiescomponentsScriptComponent_ScriptComponentjs([{
-			setup: function () { a += 123; },
-			run: function () {}
+		var scriptComponent = new _ScriptComponent.ScriptComponent([{
+			setup: function setup() {
+				a += 123;
+			},
+			run: function run() {}
 		}, {
-			setup: function () { b += 234; },
-			run: function () {}
+			setup: function setup() {
+				b += 234;
+			},
+			run: function run() {}
 		}]);
 
 		world.createEntity(scriptComponent).addToWorld();
@@ -36,14 +45,19 @@ describe('ScriptComponent', function () {
 	});
 
 	it('it calls cleanup on all scripts when removing the component', function () {
-		var a = 0, b = 0;
+		var a = 0,
+		    b = 0;
 
-		var scriptComponent = new srcgooentitiescomponentsScriptComponent_ScriptComponentjs([{
-			run: function () {},
-			cleanup: function () { a += 123; }
+		var scriptComponent = new _ScriptComponent.ScriptComponent([{
+			run: function run() {},
+			cleanup: function cleanup() {
+				a += 123;
+			}
 		}, {
-			run: function () {},
-			cleanup: function () { b += 234; }
+			run: function run() {},
+			cleanup: function cleanup() {
+				b += 234;
+			}
 		}]);
 
 		var entity = world.createEntity(scriptComponent).addToWorld();

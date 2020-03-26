@@ -1,13 +1,22 @@
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
-import { Renderer as rendererRenderer_Rendererjs } from "../../../renderer/Renderer";
+"use strict";
 
-function SwitchCameraAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SwitchCameraAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var _Renderer = require("../../../renderer/Renderer");
+
+function SwitchCameraAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this._camera = null;
 }
 
-SwitchCameraAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+SwitchCameraAction.prototype = Object.create(_Action.Action.prototype);
 SwitchCameraAction.prototype.constructor = SwitchCameraAction;
 
 SwitchCameraAction.external = {
@@ -25,23 +34,22 @@ SwitchCameraAction.external = {
 	transitions: []
 };
 
-SwitchCameraAction.prototype.ready = function (/*fsm*/) {
-	this._camera = rendererRenderer_Rendererjs.mainCamera; // make this into get activeCamera
+SwitchCameraAction.prototype.ready = function () /*fsm*/{
+	this._camera = _Renderer.Renderer.mainCamera; // make this into get activeCamera
 };
 
 SwitchCameraAction.prototype.enter = function (fsm) {
 	var world = fsm.getOwnerEntity()._world;
 	var cameraEntity = world.entityManager.getEntityById(this.cameraEntityRef);
 	if (cameraEntity && cameraEntity.cameraComponent) {
-		entitiesSystemBus_SystemBusjsjs.emit('goo.setCurrentCamera', {
+		_SystemBus.SystemBusjs.emit('goo.setCurrentCamera', {
 			camera: cameraEntity.cameraComponent.camera,
 			entity: cameraEntity
 		});
 	}
 };
 
-SwitchCameraAction.prototype.cleanup = function (/*fsm*/) {
-};
+SwitchCameraAction.prototype.cleanup = function () /*fsm*/{};
 
 var exported_SwitchCameraAction = SwitchCameraAction;
-export { exported_SwitchCameraAction as SwitchCameraAction };
+exports.SwitchCameraAction = exported_SwitchCameraAction;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function TgaLoader() {
 	this.header = null;
 	this.offset = 0;
@@ -23,11 +28,10 @@ TgaLoader.ORIGIN_BR = 0x01;
 TgaLoader.ORIGIN_UL = 0x02;
 TgaLoader.ORIGIN_UR = 0x03;
 
-
 /**
  * Load and parse a TGA file
  */
-TgaLoader.prototype.load = function (buffer, tex/*, flipped, arrayByteOffset, arrayByteLength*/) {
+TgaLoader.prototype.load = function (buffer, tex /*, flipped, arrayByteOffset, arrayByteLength*/) {
 	this.loadData(new Uint8Array(buffer));
 	var imageData = this.getCanvas();
 	tex.setImage(imageData, imageData.width, imageData.height);
@@ -56,10 +60,7 @@ TgaLoader.prototype.loadData = function (data) {
 		colormap_index: data[this.offset++] | data[this.offset++] << 8,
 		colormap_length: data[this.offset++] | data[this.offset++] << 8,
 		colormap_size: data[this.offset++],
-		origin: [
-			data[this.offset++] | data[this.offset++] << 8,
-			data[this.offset++] | data[this.offset++] << 8
-		],
+		origin: [data[this.offset++] | data[this.offset++] << 8, data[this.offset++] | data[this.offset++] << 8],
 		width: data[this.offset++] | data[this.offset++] << 8,
 		height: data[this.offset++] | data[this.offset++] << 8,
 		pixel_size: data[this.offset++],
@@ -117,7 +118,7 @@ TgaLoader.prototype.checkHeader = function () {
 			}
 			break;
 
-			// Check colormap type
+		// Check colormap type
 		case TgaLoader.TYPE_RGB:
 		case TgaLoader.TYPE_GREY:
 		case TgaLoader.TYPE_RLE_RGB:
@@ -127,11 +128,11 @@ TgaLoader.prototype.checkHeader = function () {
 			}
 			break;
 
-			// What the need of a file without data ?
+		// What the need of a file without data ?
 		case TgaLoader.TYPE_NO_DATA:
 			throw new Error("Targa::checkHeader() - No data on this TGA file");
 
-			// Invalid type ?
+		// Invalid type ?
 		default:
 			throw new Error("Targa::checkHeader() - Invalid type '" + this.header.image_type + "'");
 	}
@@ -153,10 +154,7 @@ TgaLoader.prototype.checkHeader = function () {
  * @param {Uint8Array} data - Binary data of the TGA file
  */
 TgaLoader.prototype.parse = function (data) {
-	var _header,
-		pixel_data,
-		pixel_size,
-		pixel_total;
+	var _header, pixel_data, pixel_size, pixel_total;
 
 	_header = this.header;
 	// numAlphaBits = _header.flags & 0xf;
@@ -165,9 +163,7 @@ TgaLoader.prototype.parse = function (data) {
 
 	// Read palettes
 	if (this.use_pal) {
-		this.palettes = data.subarray(
-			this.offset,
-			this.offset += _header.colormap_length * pixel_size);
+		this.palettes = data.subarray(this.offset, this.offset += _header.colormap_length * pixel_size);
 	}
 
 	// Read LRE
@@ -199,22 +195,19 @@ TgaLoader.prototype.parse = function (data) {
 
 			// Raw pixels.
 			else {
-				count *= pixel_size;
-				for (i = 0; i < count; ++i) {
-					pixel_data[offset + i] = data[this.offset++];
+					count *= pixel_size;
+					for (i = 0; i < count; ++i) {
+						pixel_data[offset + i] = data[this.offset++];
+					}
+					offset += count;
 				}
-				offset += count;
-			}
 		}
 	}
 
 	// RAW Pixels
 	else {
-		pixel_data = data.subarray(
-			this.offset,
-			this.offset += (
-			this.use_pal ? _header.width * _header.height : pixel_total));
-	}
+			pixel_data = data.subarray(this.offset, this.offset += this.use_pal ? _header.width * _header.height : pixel_total);
+		}
 
 	this.image = pixel_data;
 };
@@ -227,21 +220,19 @@ TgaLoader.prototype.parse = function (data) {
  */
 TgaLoader.prototype.getImageData = function (imageData) {
 	var width = this.header.width,
-		height = this.header.height,
-		x_start,
-		y_start,
-		x_step,
-		y_step,
-		y_end,
-		x_end,
-		func,
-		data;
+	    height = this.header.height,
+	    x_start,
+	    y_start,
+	    x_step,
+	    y_step,
+	    y_end,
+	    x_end,
+	    func,
+	    data;
 
 	data =
 	// sent as argument
-	imageData ||
-
-	{
+	imageData || {
 		width: width,
 		height: height,
 		data: new Uint8Array(width * height * 4)
@@ -292,7 +283,7 @@ TgaLoader.prototype.getImageData = function (imageData) {
 	// y_start += this.header.origin[1];
 
 	// Load the specify method
-	func = 'getImageData' + (this.use_grey ? 'Grey' : '') + (this.header.pixel_size) + 'bits';
+	func = 'getImageData' + (this.use_grey ? 'Grey' : '') + this.header.pixel_size + 'bits';
 	this[func](data.data, y_start, y_step, y_end, x_start, x_step, x_end);
 	return data;
 };
@@ -336,18 +327,20 @@ TgaLoader.prototype.getDataURL = function (type) {
  */
 TgaLoader.prototype.getImageData8bits = function (imageData, y_start, y_step, y_end, x_start, x_step, x_end) {
 	var image = this.image,
-		colormap = this.palettes;
+	    colormap = this.palettes;
 	var width = this.header.width;
-	var color, i = 0,
-		x, y;
+	var color,
+	    i = 0,
+	    x,
+	    y;
 
 	for (y = y_start; y !== y_end; y += y_step) {
 		for (x = x_start; x !== x_end; x += x_step, i++) {
 			color = image[i];
 			imageData[(x + width * y) * 4 + 3] = 255;
-			imageData[(x + width * y) * 4 + 2] = colormap[(color * 3) + 0];
-			imageData[(x + width * y) * 4 + 1] = colormap[(color * 3) + 1];
-			imageData[(x + width * y) * 4 + 0] = colormap[(color * 3) + 2];
+			imageData[(x + width * y) * 4 + 2] = colormap[color * 3 + 0];
+			imageData[(x + width * y) * 4 + 1] = colormap[color * 3 + 1];
+			imageData[(x + width * y) * 4 + 0] = colormap[color * 3 + 2];
 		}
 	}
 
@@ -369,8 +362,10 @@ TgaLoader.prototype.getImageData8bits = function (imageData, y_start, y_step, y_
 TgaLoader.prototype.getImageData16bits = function (imageData, y_start, y_step, y_end, x_start, x_step, x_end) {
 	var image = this.image;
 	var width = this.header.width;
-	var color, i = 0,
-		x, y;
+	var color,
+	    i = 0,
+	    x,
+	    y;
 
 	for (y = y_start; y !== y_end; y += y_step) {
 		for (x = x_start; x !== x_end; x += x_step, i += 2) {
@@ -378,7 +373,7 @@ TgaLoader.prototype.getImageData16bits = function (imageData, y_start, y_step, y
 			imageData[(x + width * y) * 4 + 0] = (color & 0x7C00) >> 7;
 			imageData[(x + width * y) * 4 + 1] = (color & 0x03E0) >> 2;
 			imageData[(x + width * y) * 4 + 2] = (color & 0x001F) >> 3;
-			imageData[(x + width * y) * 4 + 3] = (color & 0x8000) ? 0 : 255;
+			imageData[(x + width * y) * 4 + 3] = color & 0x8000 ? 0 : 255;
 		}
 	}
 
@@ -401,7 +396,8 @@ TgaLoader.prototype.getImageData24bits = function (imageData, y_start, y_step, y
 	var image = this.image;
 	var width = this.header.width;
 	var i = 0,
-		x, y;
+	    x,
+	    y;
 
 	for (y = y_start; y !== y_end; y += y_step) {
 		for (x = x_start; x !== x_end; x += x_step, i += 3) {
@@ -431,7 +427,8 @@ TgaLoader.prototype.getImageData32bits = function (imageData, y_start, y_step, y
 	var image = this.image;
 	var width = this.header.width;
 	var i = 0,
-		x, y;
+	    x,
+	    y;
 
 	for (y = y_start; y !== y_end; y += y_step) {
 		for (x = x_start; x !== x_end; x += x_step, i += 4) {
@@ -460,8 +457,10 @@ TgaLoader.prototype.getImageData32bits = function (imageData, y_start, y_step, y
 TgaLoader.prototype.getImageDataGrey8bits = function (imageData, y_start, y_step, y_end, x_start, x_step, x_end) {
 	var image = this.image;
 	var width = this.header.width;
-	var color, i = 0,
-		x, y;
+	var color,
+	    i = 0,
+	    x,
+	    y;
 
 	for (y = y_start; y !== y_end; y += y_step) {
 		for (x = x_start; x !== x_end; x += x_step, i++) {
@@ -492,7 +491,8 @@ TgaLoader.prototype.getImageDataGrey16bits = function (imageData, y_start, y_ste
 	var image = this.image;
 	var width = this.header.width;
 	var i = 0,
-		x, y;
+	    x,
+	    y;
 
 	for (y = y_start; y !== y_end; y += y_step) {
 		for (x = x_start; x !== x_end; x += x_step, i += 2) {
@@ -519,4 +519,4 @@ var exported_TgaLoader = TgaLoader;
 /**
  * @private
  */
-export { exported_TgaLoader as TgaLoader };
+exports.TgaLoader = exported_TgaLoader;

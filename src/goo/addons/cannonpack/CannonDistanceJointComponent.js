@@ -1,12 +1,21 @@
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonDistanceJointComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 function CannonDistanceJointComponent(settings) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	settings = settings || {};
 	this.type = 'CannonDistanceJointComponent';
 
-	utilObjectUtils_ObjectUtilsjs.defaults(settings, {
+	_ObjectUtils.ObjectUtils.defaults(settings, {
 		distance: 1,
 		connectedBody: null
 	});
@@ -16,7 +25,7 @@ function CannonDistanceJointComponent(settings) {
 
 	this.cannonConstraint = null;
 }
-CannonDistanceJointComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+CannonDistanceJointComponent.prototype = Object.create(_Component.Component.prototype);
 CannonDistanceJointComponent.constructor = CannonDistanceJointComponent;
 
 CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
@@ -38,4 +47,4 @@ var exported_CannonDistanceJointComponent = CannonDistanceJointComponent;
  * @param {number} [settings.distance=1]
  * @param {CannonRigidbodyComponent} settings.connectedBody
  */
-export { exported_CannonDistanceJointComponent as CannonDistanceJointComponent };
+exports.CannonDistanceJointComponent = exported_CannonDistanceJointComponent;

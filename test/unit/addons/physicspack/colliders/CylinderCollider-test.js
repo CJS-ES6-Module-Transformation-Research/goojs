@@ -1,5 +1,7 @@
+'use strict';
+
 describe('CylinderCollider', function () {
-    it('can clone', function () {
+	it('can clone', function () {
 		var collider = new CylinderCollider({
 			radius: 123,
 			height: 456
@@ -8,7 +10,7 @@ describe('CylinderCollider', function () {
 		expect(collider).toEqual(clone);
 	});
 
-    it('can transform', function () {
+	it('can transform', function () {
 		var collider = new CylinderCollider({
 			radius: 2,
 			height: 3

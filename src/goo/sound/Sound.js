@@ -1,13 +1,24 @@
-import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../sound/AudioContext";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
-import { PromiseUtils as utilPromiseUtil_PromiseUtilsjs } from "../util/PromiseUtil";
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Sound = undefined;
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _PromiseUtil = require("../util/PromiseUtil");
+
+var _rsvp = require("../util/rsvp");
+
 function Sound() {
 	/** @type {string}
-	 */
+  */
 	this.id = null;
 	/** @type {string}
-	 */
+  */
 	this.name = null;
 	this._loop = false;
 	this._rate = 1.0;
@@ -20,10 +31,10 @@ function Sound() {
 	this._stream = null;
 	this._streamSource = null;
 	this._currentSource = null;
-	this._outNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._outNode = _AudioContext.AudioContextjs.getContext().createGain();
 	this.connectTo();
 
-			// Playback memory
+	// Playback memory
 	this._playStart = 0;
 	this._pausePos = 0;
 	//this._endTimer = null;
@@ -32,16 +43,16 @@ function Sound() {
 	this._paused = false;
 
 	/**
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * @type {boolean}
+  * @readonly
+  */
 	this.spatialize = true;
 
 	/**
-	 * If true, it will start playing when the SoundSystem runs play().
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * If true, it will start playing when the SoundSystem runs play().
+  * @type {boolean}
+  * @readonly
+  */
 	this.autoPlay = false;
 
 	// @ifdef DEBUG
@@ -60,12 +71,12 @@ Sound.prototype.play = function (when) {
 	if (this._currentSource) {
 		return this._endPromise;
 	}
-	this._endPromise = new utilrsvp_rsvpjsjs.Promise(); //! AT: this needs refactoring
+	this._endPromise = new _rsvp.rsvpjs.Promise(); //! AT: this needs refactoring
 	if (!this._buffer || this._stream) {
 		return this._endPromise;
 	}
 
-	var currentSource = this._currentSource = soundAudioContext_AudioContextjsjs.getContext().createBufferSource();
+	var currentSource = this._currentSource = _AudioContext.AudioContextjs.getContext().createBufferSource();
 
 	this._paused = false;
 	this._currentSource.onended = function () {
@@ -83,7 +94,7 @@ Sound.prototype.play = function (when) {
 		this._currentSource.loopEnd = this._duration + this._offset;
 	}
 
-	this._playStart = soundAudioContext_AudioContextjsjs.getContext().currentTime - this._pausePos;
+	this._playStart = _AudioContext.AudioContextjs.getContext().currentTime - this._pausePos;
 	var duration = this._duration - this._pausePos;
 
 	if (this._loop) {
@@ -105,7 +116,7 @@ Sound.prototype.pause = function () {
 
 	this._paused = true;
 
-	this._pausePos = (soundAudioContext_AudioContextjsjs.getContext().currentTime - this._playStart) % this._duration;
+	this._pausePos = (_AudioContext.AudioContextjs.getContext().currentTime - this._playStart) % this._duration;
 	this._pausePos /= this._rate;
 	this._stop();
 };
@@ -140,10 +151,10 @@ Sound.prototype.fadeOut = function (time) {
 };
 
 Sound.prototype.fade = function (volume, time) {
-	this._outNode.gain.cancelScheduledValues(soundAudioContext_AudioContextjsjs.getContext().currentTime);
-	this._outNode.gain.setValueAtTime(this._outNode.gain.value, soundAudioContext_AudioContextjsjs.getContext().currentTime);
-	this._outNode.gain.linearRampToValueAtTime(volume, soundAudioContext_AudioContextjsjs.getContext().currentTime + time);
-	return utilPromiseUtil_PromiseUtilsjs(volume, time * 1000);
+	this._outNode.gain.cancelScheduledValues(_AudioContext.AudioContextjs.getContext().currentTime);
+	this._outNode.gain.setValueAtTime(this._outNode.gain.value, _AudioContext.AudioContextjs.getContext().currentTime);
+	this._outNode.gain.linearRampToValueAtTime(volume, _AudioContext.AudioContextjs.getContext().currentTime + time);
+	return (0, _PromiseUtil.PromiseUtils)(volume, time * 1000);
 };
 
 Sound.prototype.isPlaying = function () {
@@ -188,7 +199,7 @@ Sound.prototype.update = function (config) {
 		}
 	}
 	if (config.volume !== undefined) {
-		this._volume = mathMathUtils_MathUtilsjs.clamp(config.volume, 0, 1);
+		this._volume = _MathUtils.MathUtils.clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.offset !== undefined) {
@@ -229,7 +240,7 @@ Sound.prototype._clampInterval = function () {
 	} else {
 		this._duration = this._buffer.duration - this._offset;
 	}
-	this._pausePos = mathMathUtils_MathUtilsjs.clamp(this._pausePos, 0, this._duration);
+	this._pausePos = _MathUtils.MathUtils.clamp(this._pausePos, 0, this._duration);
 };
 
 /**
@@ -284,7 +295,7 @@ Sound.prototype.setAudioStream = function (stream) {
 	}
 	this.stop();
 	this._stream = stream;
-	this._streamSource = soundAudioContext_AudioContextjsjs.getContext().createMediaStreamSource(stream);
+	this._streamSource = _AudioContext.AudioContextjs.getContext().createMediaStreamSource(stream);
 	this._streamSource.connect(this._outNode);
 };
 
@@ -293,4 +304,4 @@ var exported_Sound = Sound;
 /**
  * A representation of a sound in the engine
  */
-export { exported_Sound as Sound };
+exports.Sound = exported_Sound;

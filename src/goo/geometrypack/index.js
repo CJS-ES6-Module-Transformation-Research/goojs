@@ -1,23 +1,33 @@
-import { FilledPolygonjs as FilledPolygon_FilledPolygonjs } from "./FilledPolygon";
-import { PolyLinejs as PolyLine_PolyLinejs } from "./PolyLine";
-import { RegularPolygonjs as RegularPolygon_RegularPolygonjs } from "./RegularPolygon";
-import { Surfacejs as Surface_Surfacejs } from "./Surface";
-import { TextComponentjs as textTextComponent_TextComponentjs } from "./text/TextComponent";
-import { TextComponentHandlerjs as textTextComponentHandler_TextComponentHandlerjs } from "./text/TextComponentHandler";
-import { textTextMeshGenerator_obj } from "./text/TextMeshGenerator";
-import { Trianglejs as Triangle_Trianglejs } from "./Triangle";
+"use strict";
+
+var _FilledPolygon = require("./FilledPolygon");
+
+var _PolyLine = require("./PolyLine");
+
+var _RegularPolygon = require("./RegularPolygon");
+
+var _Surface = require("./Surface");
+
+var _TextComponent = require("./text/TextComponent");
+
+var _TextComponentHandler = require("./text/TextComponentHandler");
+
+var _TextMeshGenerator = require("./text/TextMeshGenerator");
+
+var _Triangle = require("./Triangle");
+
 var indexjs;
 indexjs = {
-	FilledPolygon: FilledPolygon_FilledPolygonjs,
-	PolyLine: PolyLine_PolyLinejs,
-	RegularPolygon: RegularPolygon_RegularPolygonjs,
-	Surface: Surface_Surfacejs,
-	TextComponent: textTextComponent_TextComponentjs,
-	TextComponentHandler: textTextComponentHandler_TextComponentHandlerjs,
-	TextMeshGenerator: textTextMeshGenerator_obj,
-	Triangle: Triangle_Trianglejs
+	FilledPolygon: _FilledPolygon.FilledPolygonjs,
+	PolyLine: _PolyLine.PolyLinejs,
+	RegularPolygon: _RegularPolygon.RegularPolygonjs,
+	Surface: _Surface.Surfacejs,
+	TextComponent: _TextComponent.TextComponentjs,
+	TextComponentHandler: _TextComponentHandler.TextComponentHandlerjs,
+	TextMeshGenerator: _TextMeshGenerator.textTextMeshGenerator_obj,
+	Triangle: _Triangle.Trianglejs
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

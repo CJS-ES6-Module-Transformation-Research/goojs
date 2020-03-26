@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function Bus() {
 	this.trie = { name: '', listeners: [], children: new Map() };
 }
@@ -147,7 +152,9 @@ function nullifyElement(array, element) {
  */
 Bus.prototype.removeListener = function (channelName, callbackToRemove) {
 	var node = this._getNode(channelName);
-	if (node) { nullifyElement(node.listeners, callbackToRemove); }
+	if (node) {
+		nullifyElement(node.listeners, callbackToRemove);
+	}
 	return this;
 };
 
@@ -168,7 +175,9 @@ Bus.prototype.getLastMessageOn = function (channelName) {
  */
 Bus.prototype.removeAllOnChannel = function (channelName) {
 	var node = this._getNode(channelName);
-	if (node) { node.listeners = []; }
+	if (node) {
+		node.listeners = [];
+	}
 	return this;
 };
 
@@ -230,4 +239,4 @@ var exported_Bus = Bus;
  * // Remove the listener after you're done with it
  * SystemBus.removeListener('eventName', listener);
  */
-export { exported_Bus as Bus };
+exports.Bus = exported_Bus;

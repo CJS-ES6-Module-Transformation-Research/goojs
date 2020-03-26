@@ -1,10 +1,12 @@
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function ScriptAction(/*id, settings*/) {
-	Action_Actionjs.apply(this, arguments);
+var _Action = require('./Action');
+
+function ScriptAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-ScriptAction.prototype = Object.create(Action_Actionjs.prototype);
+ScriptAction.prototype = Object.create(_Action.Action.prototype);
 ScriptAction.prototype.constructor = ScriptAction;
 
 ScriptAction.external = {
@@ -74,8 +76,7 @@ ScriptAction.prototype.exit = function () {
 	}
 };
 
-ScriptAction.prototype.onDestroy = function () {
-};
+ScriptAction.prototype.onDestroy = function () {};
 
 var encapsulated_ScriptAction;
 

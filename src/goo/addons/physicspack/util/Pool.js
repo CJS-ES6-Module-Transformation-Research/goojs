@@ -1,28 +1,33 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function Pool(settings) {
 	settings = settings || {};
 
 	/**
-	 * @private
-	 * @type {Array}
-	 */
+  * @private
+  * @type {Array}
+  */
 	this._objects = [];
 
 	/**
-	 * @private
-	 * @type {Function}
-	 */
+  * @private
+  * @type {Function}
+  */
 	this._init = settings.init || function () {};
 
 	/**
-	 * @private
-	 * @type {Function}
-	 */
+  * @private
+  * @type {Function}
+  */
 	this._create = settings.create || function () {};
 
 	/**
-	 * @private
-	 * @type {Function}
-	 */
+  * @private
+  * @type {Function}
+  */
 	this._destroy = settings.destroy || function () {};
 }
 
@@ -90,4 +95,4 @@ var exported_Pool = Pool;
  * var vector = vectorPool.get(1, 2, 3);
  * vectorPool.release(vector);
  */
-export { exported_Pool as Pool };
+exports.Pool = exported_Pool;

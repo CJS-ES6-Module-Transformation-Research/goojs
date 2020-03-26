@@ -1,30 +1,38 @@
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HtmlComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 function HtmlComponent(domElement, options) {
 	options = options || {};
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'HtmlComponent';
 
 	/**
-	 * DOM element.
-	 */
+  * DOM element.
+  */
 	this.domElement = domElement;
 
 	/**
-	 * @type {boolean}
-	 */
+  * @type {boolean}
+  */
 	this.hidden = options.hidden !== undefined ? options.hidden : false;
 
 	/**
-	 * Move with the screen position of the entity.
-	 * @type {boolean}
-	 */
+  * Move with the screen position of the entity.
+  * @type {boolean}
+  */
 	this.useTransformComponent = options.useTransformComponent !== undefined ? options.useTransformComponent : true;
 
 	/**
-	 * Snap to integer pixel positions.
-	 * @type {boolean}
-	 */
+  * Snap to integer pixel positions.
+  * @type {boolean}
+  */
 	this.pixelPerfect = options.pixelPerfect !== undefined ? options.pixelPerfect : true;
 
 	// @ifdef DEBUG
@@ -34,7 +42,7 @@ function HtmlComponent(domElement, options) {
 
 HtmlComponent.type = 'HtmlComponent';
 
-HtmlComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+HtmlComponent.prototype = Object.create(_Component.Component.prototype);
 HtmlComponent.prototype.constructor = HtmlComponent;
 
 var exported_HtmlComponent = HtmlComponent;
@@ -49,4 +57,4 @@ var exported_HtmlComponent = HtmlComponent;
  * @param {boolean} [options.pixelPerfect=true]
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
  */
-export { exported_HtmlComponent as HtmlComponent };
+exports.HtmlComponent = exported_HtmlComponent;

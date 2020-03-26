@@ -1,16 +1,23 @@
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { SteadyState as srcgooanimationpackstateSteadyState_SteadyStatejs } from "../../../../src/goo/animationpack/state/SteadyState";
-import { AnimationLayer as srcgooanimationpacklayerAnimationLayer_AnimationLayerjs } from "../../../../src/goo/animationpack/layer/AnimationLayer";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _SteadyState = require("../../../../src/goo/animationpack/state/SteadyState");
+
+var _AnimationLayer = require("../../../../src/goo/animationpack/layer/AnimationLayer");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('AnimationLayersHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -18,21 +25,21 @@ describe('AnimationLayersHandler', function () {
 	});
 
 	it('loads a collection of animation layers', function (done) {
-		var layersConfig = testunitloadersConfigs_Configsjs.animation();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var layersConfig = _Configs.Configs.animation();
+		loader.preload(_Configs.Configs.get());
 		loader.load(layersConfig.id).then(function (layers) {
 			expect(layers.length).toBe(Object.keys(layersConfig.layers).length);
 
 			var layer = layers[0];
-			expect(layer).toEqual(jasmine.any(srcgooanimationpacklayerAnimationLayer_AnimationLayerjs));
-			expect(layer._currentState).toEqual(jasmine.any(srcgooanimationpackstateSteadyState_SteadyStatejs));
+			expect(layer).toEqual(jasmine.any(_AnimationLayer.AnimationLayer));
+			expect(layer._currentState).toEqual(jasmine.any(_SteadyState.SteadyState));
 			done();
 		});
 	});
 
 	it('sorts animation layers correctly', function (done) {
-		var layersConfig = testunitloadersConfigs_Configsjs.animation();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var layersConfig = _Configs.Configs.animation();
+		loader.preload(_Configs.Configs.get());
 		loader.load(layersConfig.id).then(function (layers) {
 			for (var i = 0; i < layers.length; i++) {
 				expect(layersConfig.layers[layers[i].id].sortValue).toBe(i);

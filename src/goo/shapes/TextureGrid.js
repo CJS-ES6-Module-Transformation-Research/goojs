@@ -1,17 +1,26 @@
-import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextureGrid = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 function TextureGrid(matrix, textureUnitsPerLine) {
 	this.matrix = matrix;
 	this.textureUnitsPerLine = textureUnitsPerLine || 8;
 
-	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION, rendererMeshData_MeshDatajs.NORMAL, rendererMeshData_MeshDatajs.TEXCOORD0]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
 	var nCells = countCells(matrix);
-	rendererMeshData_MeshDatajs.call(this, attributeMap, nCells * 4, nCells * 6);
+	_MeshData.MeshData.call(this, attributeMap, nCells * 4, nCells * 6);
 
 	this.rebuild();
 }
 
-TextureGrid.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
+TextureGrid.prototype = Object.create(_MeshData.MeshData.prototype);
 TextureGrid.prototype.constructor = TextureGrid;
 
 function countCells(matrix) {
@@ -37,43 +46,25 @@ TextureGrid.prototype.rebuild = function () {
 	for (var i = 0; i < this.matrix.length; i++) {
 		var halfWidth = this.matrix[i].length / 2;
 		for (var j = 0; j < this.matrix[i].length; j++) {
-			verts.push(
-				j - halfWidth, -i - 1 + halfHeight, 0,
-				j - halfWidth, -i + halfHeight, 0,
-				j + 1 - halfWidth, -i + halfHeight, 0,
-				j + 1 - halfWidth, -i - 1 + halfHeight, 0
-			);
+			verts.push(j - halfWidth, -i - 1 + halfHeight, 0, j - halfWidth, -i + halfHeight, 0, j + 1 - halfWidth, -i + halfHeight, 0, j + 1 - halfWidth, -i - 1 + halfHeight, 0);
 
-			norms.push(
-				0, 0, 1,
-				0, 0, 1,
-				0, 0, 1,
-				0, 0, 1
-			);
+			norms.push(0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1);
 
-			var texX = (this.matrix[i][j] % this.textureUnitsPerLine) / this.textureUnitsPerLine;
+			var texX = this.matrix[i][j] % this.textureUnitsPerLine / this.textureUnitsPerLine;
 			var texY = Math.floor(this.matrix[i][j] / this.textureUnitsPerLine) / this.textureUnitsPerLine;
 			texY = 1 - texY;
 
-			tex.push(
-				texX, texY - 1 / this.textureUnitsPerLine,
-				texX, texY,
-				texX + 1 / this.textureUnitsPerLine, texY,
-				texX + 1 / this.textureUnitsPerLine, texY - 1 / this.textureUnitsPerLine
-			);
+			tex.push(texX, texY - 1 / this.textureUnitsPerLine, texX, texY, texX + 1 / this.textureUnitsPerLine, texY, texX + 1 / this.textureUnitsPerLine, texY - 1 / this.textureUnitsPerLine);
 
-			indices.push(
-				indexCounter + 3, indexCounter + 1, indexCounter + 0,
-				indexCounter + 2, indexCounter + 1, indexCounter + 3
-			);
+			indices.push(indexCounter + 3, indexCounter + 1, indexCounter + 0, indexCounter + 2, indexCounter + 1, indexCounter + 3);
 
 			indexCounter += 4;
 		}
 	}
 
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.NORMAL).set(norms);
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0).set(tex);
 
 	this.getIndexBuffer().set(indices);
 
@@ -85,7 +76,7 @@ TextureGrid.prototype.rebuild = function () {
  * @returns {TextureGrid}
  */
 TextureGrid.prototype.clone = function () {
-	var options = utilObjectUtils_ObjectUtilsjs.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
+	var options = _ObjectUtils.ObjectUtils.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
 
 	return new TextureGrid(options);
 };
@@ -115,4 +106,4 @@ var exported_TextureGrid = TextureGrid;
  * @param matrix
  * @param textureUnitsPerLine
  */
-export { exported_TextureGrid as TextureGrid };
+exports.TextureGrid = exported_TextureGrid;

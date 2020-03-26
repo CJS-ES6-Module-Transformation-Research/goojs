@@ -1,13 +1,18 @@
-import { DoubleQuadjs as DoubleQuad_DoubleQuadjs } from "./DoubleQuad";
-import { QuadComponentjs as QuadComponent_QuadComponentjs } from "./QuadComponent";
-import { QuadComponentHandlerjs as QuadComponentHandler_QuadComponentHandlerjs } from "./QuadComponentHandler";
+"use strict";
+
+var _DoubleQuad = require("./DoubleQuad");
+
+var _QuadComponent = require("./QuadComponent");
+
+var _QuadComponentHandler = require("./QuadComponentHandler");
+
 var indexjs;
 indexjs = {
-	DoubleQuad: DoubleQuad_DoubleQuadjs,
-	QuadComponent: QuadComponent_QuadComponentjs,
-	QuadComponentHandler: QuadComponentHandler_QuadComponentHandlerjs
+	DoubleQuad: _DoubleQuad.DoubleQuadjs,
+	QuadComponent: _QuadComponent.QuadComponentjs,
+	QuadComponentHandler: _QuadComponentHandler.QuadComponentHandlerjs
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

@@ -1,11 +1,15 @@
-import { InBoxAction as srcgoofsmpackstatemachineactionsInBoxAction_InBoxActionjs } from "../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction";
-import { Vector3 as srcgoomathVector3_Vector3js } from "../../../../../src/goo/math/Vector3";
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../../src/goo/entities/World";
+"use strict";
+
+var _InBoxAction = require("../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
 
 describe('InBoxAction', function () {
 	describe('Check pos against boxes', function () {
 		var inBoxAction;
-		var fakeFunc = function () {};
+		var fakeFunc = function fakeFunc() {};
 
 		var mockFsm = {
 			send: fakeFunc
@@ -14,8 +18,8 @@ describe('InBoxAction', function () {
 		var entity, world;
 
 		beforeEach(function () {
-			world = new srcgooentitiesWorld_Worldjs();
-			entity = world.createEntity([0,0,0]);
+			world = new _World.World();
+			entity = world.createEntity([0, 0, 0]);
 			mockFsm.entity = entity;
 			mockFsm.getOwnerEntity = function () {
 				return entity;
@@ -33,9 +37,9 @@ describe('InBoxAction', function () {
 
 			};
 
-			inBoxAction = new srcgoofsmpackstatemachineactionsInBoxAction_InBoxActionjs('testId', settings);
+			inBoxAction = new _InBoxAction.InBoxAction('testId', settings);
 
-			entity.transformComponent.setTranslation(new srcgoomathVector3_Vector3js(1, 1, 1));
+			entity.transformComponent.setTranslation(new _Vector.Vector3(1, 1, 1));
 			spyOn(mockFsm, 'send');
 
 			inBoxAction.update(mockFsm);
@@ -53,9 +57,9 @@ describe('InBoxAction', function () {
 				}
 			};
 
-			inBoxAction = new srcgoofsmpackstatemachineactionsInBoxAction_InBoxActionjs('testId', settings);
+			inBoxAction = new _InBoxAction.InBoxAction('testId', settings);
 
-			entity.transformComponent.setTranslation(new srcgoomathVector3_Vector3js(3, 3, 3));
+			entity.transformComponent.setTranslation(new _Vector.Vector3(3, 3, 3));
 			spyOn(mockFsm, 'send');
 			inBoxAction.update(mockFsm);
 			expect(mockFsm.send).toHaveBeenCalledWith(settings.transitions.outside);
@@ -71,9 +75,9 @@ describe('InBoxAction', function () {
 				}
 			};
 
-			inBoxAction = new srcgoofsmpackstatemachineactionsInBoxAction_InBoxActionjs('testId', settings);
+			inBoxAction = new _InBoxAction.InBoxAction('testId', settings);
 
-			entity.transformComponent.setTranslation(new srcgoomathVector3_Vector3js(-100, 0, 0));
+			entity.transformComponent.setTranslation(new _Vector.Vector3(-100, 0, 0));
 			spyOn(mockFsm, 'send');
 			inBoxAction.update(mockFsm);
 			expect(mockFsm.send).toHaveBeenCalledWith(settings.transitions.inside);

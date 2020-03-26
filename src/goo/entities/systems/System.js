@@ -1,31 +1,36 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function System(type, interests) {
 
 	/**
-	 * @type {World}
-	 */
+  * @type {World}
+  */
 	this.world = null;
 
 	/**
-	 * @type {string}
-	 */
+  * @type {string}
+  */
 	this.type = type;
 
 	/**
-	 * @type {array}
-	 */
+  * @type {array}
+  */
 	this.interests = interests;
 
 	this._activeEntities = [];
 
 	/**
-	 * @type {boolean}
-	 */
+  * @type {boolean}
+  */
 	this.passive = false;
 
 	/**
-	 * Priority of a system. The lower the number the higher the priority is. By default a systems has priority 0. Internal goo systems (like TransformSystem and CameraSystem) should have negative priority.
-	 * @type {number}
-	 */
+  * Priority of a system. The lower the number the higher the priority is. By default a systems has priority 0. Internal goo systems (like TransformSystem and CameraSystem) should have negative priority.
+  * @type {number}
+  */
 	this.priority = 0;
 }
 
@@ -34,14 +39,14 @@ function System(type, interests) {
  * @param {array} entities
  * @param {number} tpf
  */
-System.prototype.process = function (/*entities, tpf*/) {};
+System.prototype.process = function () /*entities, tpf*/{};
 
 /**
  * Called on each physics tick, if the system is not passive.
  * @param {array} entities
  * @param {number} fixedTpf
  */
-System.prototype.fixedUpdate = function (/*entities, fixedTpf*/) {};
+System.prototype.fixedUpdate = function () /*entities, fixedTpf*/{};
 
 /**
  * Called when an entity is added to the world and systems need to be informed. Called by the world.
@@ -56,13 +61,13 @@ System.prototype.added = function (entity) {
  * Called when an entity is added to the world and systems need to be informed. To be implemented in subclasses.
  * @param entity
  */
-System.prototype.inserted = function (/*entity*/) {};
+System.prototype.inserted = function () /*entity*/{};
 
 /**
  * Called when an entity is remove from the world and systems need to be informed. To be implemented in subclasses.
  * @param entity
  */
-System.prototype.deleted = function (/*entity*/) {};
+System.prototype.deleted = function () /*entity*/{};
 
 /**
  * Called when an entity gets/loses components
@@ -155,7 +160,7 @@ System.prototype._lateProcess = function (tpf) {
 };
 
 System.prototype.clear = function () {
-	this._activeEntities.length  = 0;
+	this._activeEntities.length = 0;
 };
 
 /**
@@ -185,4 +190,4 @@ var exported_System = System;
  * @property {string} type System type
  * @property {Array<String>} interests Array of component types this system is interested in
  */
-export { exported_System as System };
+exports.System = exported_System;

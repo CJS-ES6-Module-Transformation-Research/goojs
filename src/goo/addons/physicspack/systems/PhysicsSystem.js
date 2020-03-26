@@ -1,25 +1,37 @@
-import {     AbstractPhysicsSystem as addonsphysicspacksystemsAbstractPhysicsSystem_AbstractPhysicsSystemjs, } from "../../../addons/physicspack/systems/AbstractPhysicsSystem";
-import { RaycastResult as addonsphysicspackRaycastResult_RaycastResultjs } from "../../../addons/physicspack/RaycastResult";
-import {     RigidBodyComponent as addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs, } from "../../../addons/physicspack/components/RigidBodyComponent";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
-import { Quaternion as mathQuaternion_Quaternionjs } from "../../../math/Quaternion";
-import { Transform as mathTransform_Transformjs } from "../../../math/Transform";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PhysicsSystem = undefined;
+
+var _AbstractPhysicsSystem = require("../../../addons/physicspack/systems/AbstractPhysicsSystem");
+
+var _RaycastResult = require("../../../addons/physicspack/RaycastResult");
+
+var _RigidBodyComponent = require("../../../addons/physicspack/components/RigidBodyComponent");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _Transform = require("../../../math/Transform");
 
 /* global CANNON */
 
 var tmpVec1;
 var tmpVec2;
-var tmpQuat = new mathQuaternion_Quaternionjs();
-var tmpVec = new mathVector3_Vector3js();
+var tmpQuat = new _Quaternion.Quaternion();
+var tmpVec = new _Vector.Vector3();
 var tmpCannonResult;
-var tmpTransform = new mathTransform_Transformjs();
+var tmpTransform = new _Transform.Transform();
 
 function PhysicsSystem(settings) {
 	settings = settings || {};
 
 	/**
-	 * @type {CANNON.World}
-	 */
+  * @type {CANNON.World}
+  */
 	this.cannonWorld = new CANNON.World({
 		broadphase: new CANNON.SAPBroadphase()
 	});
@@ -40,7 +52,7 @@ function PhysicsSystem(settings) {
 			this._stayingEntities.push(entityA, entityB);
 
 			// At least one of the colliders need to have a non-kinematic rigid body
-		} else if ((colliderComponentA.getBodyEntity() && !colliderComponentA.getBodyEntity().rigidBodyComponent.isKinematic) || (colliderComponentB.getBodyEntity() && !colliderComponentB.getBodyEntity().rigidBodyComponent.isKinematic)) {
+		} else if (colliderComponentA.getBodyEntity() && !colliderComponentA.getBodyEntity().rigidBodyComponent.isKinematic || colliderComponentB.getBodyEntity() && !colliderComponentB.getBodyEntity().rigidBodyComponent.isKinematic) {
 			this.emitBeginContact(entityA, entityB);
 			this._stayingEntities.push(entityA, entityB);
 		}
@@ -54,13 +66,13 @@ function PhysicsSystem(settings) {
 		// Remove them from the staying array
 		var stayingEntities = this._stayingEntities;
 		for (var i = 0; i < stayingEntities.length; i += 2) {
-			if ((stayingEntities[i] === entityA && stayingEntities[i + 1] === entityB) || (stayingEntities[i] === entityB && stayingEntities[i + 1] === entityA)) {
+			if (stayingEntities[i] === entityA && stayingEntities[i + 1] === entityB || stayingEntities[i] === entityB && stayingEntities[i + 1] === entityA) {
 				stayingEntities.splice(i, 2);
 				break;
 			}
 		}
 
-		if ((entityA.colliderComponent && entityA.colliderComponent.isTrigger) || (entityB.colliderComponent && entityB.colliderComponent.isTrigger)) {
+		if (entityA.colliderComponent && entityA.colliderComponent.isTrigger || entityB.colliderComponent && entityB.colliderComponent.isTrigger) {
 			this.emitTriggerExit(entityA, entityB);
 		} else {
 			this.emitEndContact(entityA, entityB);
@@ -73,7 +85,7 @@ function PhysicsSystem(settings) {
 		for (var i = 0; i < stayingEntities.length; i += 2) {
 			var entityA = stayingEntities[i];
 			var entityB = stayingEntities[i + 1];
-			if ((entityA.colliderComponent && entityA.colliderComponent.isTrigger) || (entityB.colliderComponent && entityB.colliderComponent.isTrigger)) {
+			if (entityA.colliderComponent && entityA.colliderComponent.isTrigger || entityB.colliderComponent && entityB.colliderComponent.isTrigger) {
 				this.emitTriggerStay(entityA, entityB);
 			} else {
 				this.emitDuringContact(entityA, entityB);
@@ -91,14 +103,14 @@ function PhysicsSystem(settings) {
 		tmpCannonResult = new CANNON.RaycastResult();
 	}
 
-	this.setGravity(settings.gravity || new mathVector3_Vector3js(0, -10, 0));
+	this.setGravity(settings.gravity || new _Vector.Vector3(0, -10, 0));
 
 	this.initialized = false;
 
-	addonsphysicspacksystemsAbstractPhysicsSystem_AbstractPhysicsSystemjs.call(this, 'PhysicsSystem', ['RigidBodyComponent']);
+	_AbstractPhysicsSystem.AbstractPhysicsSystem.call(this, 'PhysicsSystem', ['RigidBodyComponent']);
 }
 
-PhysicsSystem.prototype = Object.create(addonsphysicspacksystemsAbstractPhysicsSystem_AbstractPhysicsSystemjs.prototype);
+PhysicsSystem.prototype = Object.create(_AbstractPhysicsSystem.AbstractPhysicsSystem.prototype);
 PhysicsSystem.prototype.constructor = PhysicsSystem;
 
 /**
@@ -170,12 +182,12 @@ PhysicsSystem.prototype._getCannonStartEnd = function (start, direction, distanc
  * @returns {boolean} True if hit, else false
  */
 PhysicsSystem.prototype.raycastAny = function (start, direction, maxDistance, options, result) {
-	if (options instanceof addonsphysicspackRaycastResult_RaycastResultjs) {
+	if (options instanceof _RaycastResult.RaycastResult) {
 		result = options;
 		options = {};
 	}
 	options = options || {};
-	result = result || new addonsphysicspackRaycastResult_RaycastResultjs();
+	result = result || new _RaycastResult.RaycastResult();
 
 	var cannonStart = tmpVec1;
 	var cannonEnd = tmpVec2;
@@ -199,12 +211,12 @@ PhysicsSystem.prototype.raycastAny = function (start, direction, maxDistance, op
  * @returns {boolean} True if hit, else false
  */
 PhysicsSystem.prototype.raycastClosest = function (start, direction, maxDistance, options, result) {
-	if (options instanceof addonsphysicspackRaycastResult_RaycastResultjs) {
+	if (options instanceof _RaycastResult.RaycastResult) {
 		result = options;
 		options = {};
 	}
 	options = options || {};
-	result = result || new addonsphysicspackRaycastResult_RaycastResultjs();
+	result = result || new _RaycastResult.RaycastResult();
 
 	var cannonStart = tmpVec1;
 	var cannonEnd = tmpVec2;
@@ -215,7 +227,7 @@ PhysicsSystem.prototype.raycastClosest = function (start, direction, maxDistance
 	return this._copyCannonRaycastResultToGoo(tmpCannonResult, result, start);
 };
 
-var tmpResult = new addonsphysicspackRaycastResult_RaycastResultjs();
+var tmpResult = new _RaycastResult.RaycastResult();
 
 /**
  * Make a ray cast into the world of colliders, evaluating the given callback once at every hit.
@@ -311,7 +323,8 @@ PhysicsSystem.prototype.initialize = function (entities) {
 	for (var i = 0; i !== colliderEntities.length; i++) {
 		var colliderEntity = colliderEntities[i];
 
-		if (!colliderEntity.colliderComponent) { // Needed?
+		if (!colliderEntity.colliderComponent) {
+			// Needed?
 			continue;
 		}
 
@@ -364,7 +377,8 @@ PhysicsSystem.prototype.destroy = function (entities) {
 	for (var i = 0; i !== this._activeColliderEntities.length; i++) {
 		var colliderEntity = this._activeColliderEntities[i];
 
-		if (!colliderEntity.colliderComponent) { // Needed?
+		if (!colliderEntity.colliderComponent) {
+			// Needed?
 			continue;
 		}
 
@@ -447,7 +461,7 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 		rigidBodyComponent._updated = true;
 
 		// Get physics orientation
-		if (rigidBodyComponent.interpolation === addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.INTERPOLATE) {
+		if (rigidBodyComponent.interpolation === _RigidBodyComponent.RigidBodyComponent.INTERPOLATE) {
 			rigidBodyComponent.getInterpolatedPosition(tmpVec);
 			rigidBodyComponent.getInterpolatedQuaternion(tmpQuat);
 		} else {
@@ -464,7 +478,7 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 			// The rigid body is a child, but we have its physics world transform
 			// and need to set the world transform of it.
 			parent.entity.transformComponent.sync().worldTransform.invert(tmpTransform);
-			mathTransform_Transformjs.combine(tmpTransform, transform, tmpTransform);
+			_Transform.Transform.combine(tmpTransform, transform, tmpTransform);
 
 			transform.rotation.copy(tmpTransform.rotation);
 			transform.translation.copy(tmpTransform.translation);
@@ -482,4 +496,4 @@ var exported_PhysicsSystem = PhysicsSystem;
  * @param {Object} [settings]
  * @param {Vector3} [settings.gravity]
  */
-export { exported_PhysicsSystem as PhysicsSystem };
+exports.PhysicsSystem = exported_PhysicsSystem;

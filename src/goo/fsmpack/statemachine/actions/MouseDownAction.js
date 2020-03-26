@@ -1,10 +1,17 @@
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function MouseDownAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MouseDownAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+function MouseDownAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-MouseDownAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+MouseDownAction.prototype = Object.create(_Action.Action.prototype);
 MouseDownAction.prototype.constructor = MouseDownAction;
 
 MouseDownAction.external = {
@@ -36,7 +43,7 @@ var labels = {
 	touchDown: 'On touch start'
 };
 
-MouseDownAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+MouseDownAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -45,11 +52,7 @@ MouseDownAction.prototype.enter = function (fsm) {
 		if (button === 'touch') {
 			fsm.send(this.transitions.touchDown);
 		} else {
-			fsm.send([
-				this.transitions.mouseLeftDown,
-				this.transitions.middleMouseDown,
-				this.transitions.rightMouseDown
-			][button]);
+			fsm.send([this.transitions.mouseLeftDown, this.transitions.middleMouseDown, this.transitions.rightMouseDown][button]);
 		}
 	}.bind(this);
 
@@ -71,4 +74,4 @@ MouseDownAction.prototype.exit = function () {
 };
 
 var exported_MouseDownAction = MouseDownAction;
-export { exported_MouseDownAction as MouseDownAction };
+exports.MouseDownAction = exported_MouseDownAction;

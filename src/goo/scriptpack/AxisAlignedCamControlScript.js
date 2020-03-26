@@ -1,16 +1,25 @@
-import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AxisAlignedCamControlScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _MathUtils = require("../math/MathUtils");
+
 function AxisAlignedCamControlScript() {
 	function setup(params, env) {
 		// Look axis
-		env.axis = mathVector3_Vector3js.UNIT_Z.clone();
+		env.axis = _Vector.Vector3.UNIT_Z.clone();
 		// Up axis will most often be Y but you never know...
-		env.upAxis = mathVector3_Vector3js.UNIT_Y.clone();
+		env.upAxis = _Vector.Vector3.UNIT_Y.clone();
 		setView(params, env, params.view);
 		env.currentView = params.view;
-		env.lookAtPoint	= new mathVector3_Vector3js();
-		env.distance	= params.distance;
-		env.smoothness	= Math.pow(mathMathUtils_MathUtilsjs.clamp(params.smoothness, 0, 1), 0.3);
+		env.lookAtPoint = new _Vector.Vector3();
+		env.distance = params.distance;
+		env.smoothness = Math.pow(_MathUtils.MathUtils.clamp(params.smoothness, 0, 1), 0.3);
 		env.axisAlignedDirty = true;
 	}
 
@@ -21,12 +30,12 @@ function AxisAlignedCamControlScript() {
 		env.currentView = view;
 		switch (view) {
 			case 'XY':
-				env.axis.set(mathVector3_Vector3js.UNIT_Z);
-				env.upAxis.set(mathVector3_Vector3js.UNIT_Y);
+				env.axis.set(_Vector.Vector3.UNIT_Z);
+				env.upAxis.set(_Vector.Vector3.UNIT_Y);
 				break;
 			case 'ZY':
-				env.axis.set(mathVector3_Vector3js.UNIT_X);
-				env.upAxis.set(mathVector3_Vector3js.UNIT_Y);
+				env.axis.set(_Vector.Vector3.UNIT_X);
+				env.upAxis.set(_Vector.Vector3.UNIT_Y);
 				break;
 		}
 		env.axisAlignedDirty = true;
@@ -50,8 +59,7 @@ function AxisAlignedCamControlScript() {
 	}
 
 	// Removes all listeners
-	function cleanup(/*params, env*/) {
-	}
+	function cleanup() /*params, env*/{}
 
 	return {
 		setup: setup,
@@ -94,4 +102,4 @@ var exported_AxisAlignedCamControlScript = AxisAlignedCamControlScript;
  * Axis aligned camera control script
  * @returns {{setup: setup, update: update, cleanup: cleanup}}
  */
-export { exported_AxisAlignedCamControlScript as AxisAlignedCamControlScript };
+exports.AxisAlignedCamControlScript = exported_AxisAlignedCamControlScript;

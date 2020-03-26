@@ -1,10 +1,20 @@
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
-import {     AnimationClipInstance as animationpackclipAnimationClipInstance_AnimationClipInstancejs, } from "../../animationpack/clip/AnimationClipInstance";
-import { Source as animationpackblendtreeSource_Sourcejs } from "../../animationpack/blendtree/Source";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ClipSource = undefined;
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _AnimationClipInstance = require("../../animationpack/clip/AnimationClipInstance");
+
+var _Source = require("../../animationpack/blendtree/Source");
+
 function ClipSource(clip, filter, channelNames) {
-	animationpackblendtreeSource_Sourcejs.call(this);
+	_Source.Source.call(this);
 	this._clip = clip;
-	this._clipInstance = new animationpackclipAnimationClipInstance_AnimationClipInstancejs();
+	this._clipInstance = new _AnimationClipInstance.AnimationClipInstance();
 
 	this._filterChannels = {};
 	this._filter = null;
@@ -16,7 +26,7 @@ function ClipSource(clip, filter, channelNames) {
 	this.currentLoop = 0;
 }
 
-ClipSource.prototype = Object.create(animationpackblendtreeSource_Sourcejs.prototype);
+ClipSource.prototype = Object.create(_Source.Source.prototype);
 ClipSource.prototype.constructor = ClipSource;
 
 /**
@@ -26,7 +36,7 @@ ClipSource.prototype.constructor = ClipSource;
  */
 ClipSource.prototype.setFilter = function (filter, channelNames) {
 	if (filter && channelNames) {
-		this._filter = (['Exclude', 'Include'].indexOf(filter) > -1) ? filter : null;
+		this._filter = ['Exclude', 'Include'].indexOf(filter) > -1 ? filter : null;
 		for (var i = 0; i < channelNames.length; i++) {
 			this._filterChannels[channelNames[i]] = true;
 		}
@@ -89,7 +99,7 @@ ClipSource.prototype.setTime = function (globalTime) {
 			}
 
 			if (clockTime > maxTime || clockTime < minTime) {
-				clockTime = mathMathUtils_MathUtilsjs.clamp(clockTime, minTime, maxTime);
+				clockTime = _MathUtils.MathUtils.clamp(clockTime, minTime, maxTime);
 				// deactivate this instance of the clip
 				instance._active = false;
 			}
@@ -116,7 +126,7 @@ ClipSource.prototype.resetClips = function (globalTime) {
  */
 ClipSource.prototype.shiftClipTime = function (shiftTime) {
 	this._clipInstance._startTime += shiftTime;
-	this._clipInstance._active = true;  // ?
+	this._clipInstance._active = true; // ?
 };
 
 /**
@@ -131,7 +141,7 @@ ClipSource.prototype.setTimeScale = function (timeScale) {
  * @private
  */
 ClipSource.prototype.isActive = function () {
-	return this._clipInstance._active && (this._clip._maxTime !== -1);
+	return this._clipInstance._active && this._clip._maxTime !== -1;
 };
 
 /**
@@ -145,10 +155,10 @@ ClipSource.prototype.getSourceData = function () {
 	var cso = this._clipInstance._clipStateObjects;
 	var rVal = {};
 
-	var filter = (this._filter === 'Include');
+	var filter = this._filter === 'Include';
 
 	for (var key in cso) {
-		if ((this._filterChannels[key] !== undefined) === filter) {
+		if (this._filterChannels[key] !== undefined === filter) {
 			rVal[key] = cso[key];
 		}
 	}
@@ -184,4 +194,4 @@ var exported_ClipSource = ClipSource;
  * @param {Array<string>} [channelNames]
  * @extends Source
  */
-export { exported_ClipSource as ClipSource };
+exports.ClipSource = exported_ClipSource;

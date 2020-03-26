@@ -1,24 +1,24 @@
-define([
-], function(
-) {
+'use strict';
+
+define([], function () {
 	goo.V.attachToGlobal();
 	var _canvas, _config, _canvasInnerWrapper, _canvasOuterWrapper;
 
 	var CanvasWrapper = {
-		setup: function(canvas, config) {
+		setup: function setup(canvas, config) {
 			_canvas = canvas;
 			_canvas.id = 'goo';
 			_config = config || {};
 		},
 
-		add: function() {
+		add: function add() {
 			_canvasOuterWrapper = document.getElementById('canvas-outer');
 			_canvasInnerWrapper = document.getElementById('canvas-inner');
 			_canvasInnerWrapper.appendChild(_canvas);
 
 			// Put the goo logo inside the inner canvas wrapper.
 			var gooLogo = document.getElementById('goologo');
-			if(gooLogo){
+			if (gooLogo) {
 				_canvasInnerWrapper.appendChild(gooLogo);
 			}
 
@@ -31,19 +31,19 @@ define([
 			CanvasWrapper.resize();
 		},
 
-		hide: function() {
+		hide: function hide() {
 			_canvas.style.visibility = 'hidden';
 		},
 
-		show: function() {
+		show: function show() {
 			_canvas.style.visibility = 'visible';
 		},
 
 		/**
-		 * Resizes the camera according to the configuration included in the
-		 * bundle.
-		 */
-		resize: function() {
+   * Resizes the camera according to the configuration included in the
+   * bundle.
+   */
+		resize: function resize() {
 			if (_config.mode === 'Resolution' && _config.resolution) {
 				setSize(_config.resolution.width, _config.resolution.height);
 			} else if (_config.mode == 'AspectRatio' && _config.aspect) {
@@ -59,7 +59,7 @@ define([
 				if (ratio > windowAspectRatio) {
 					width = window.innerWidth;
 					height = width / ratio;
-				// Left/Right letterbox
+					// Left/Right letterbox
 				} else {
 					height = window.innerHeight;
 					width = height * ratio;
@@ -71,14 +71,14 @@ define([
 			}
 		},
 
-		uninterruptedPan: function() {
+		uninterruptedPan: function uninterruptedPan() {
 			var htmlEntities = document.querySelectorAll('.goo-entity');
 			for (var i = 0; i < htmlEntities.length; i++) {
 				addClass(htmlEntities[i], 'no-pointer');
 			}
 		},
 
-		allowSelection: function() {
+		allowSelection: function allowSelection() {
 			var htmlEntities = document.querySelectorAll('.goo-entity');
 			for (var i = 0; i < htmlEntities.length; i++) {
 				removeClass(htmlEntities[i], 'no-pointer');
@@ -86,15 +86,14 @@ define([
 		}
 	};
 
-
 	/**
-	 * Sets a custom size on the canvas.
-	 *
-	 * @param {number} width
-	 *        The new width of the canvas.
-	 * @param {number} height
-	 *        The new height of the canvas.
-	 */
+  * Sets a custom size on the canvas.
+  *
+  * @param {number} width
+  *        The new width of the canvas.
+  * @param {number} height
+  *        The new height of the canvas.
+  */
 	function setSize(width, height) {
 		if (width && height) {
 			addClass(_canvasOuterWrapper, 'custom');
@@ -120,13 +119,13 @@ define([
 		}
 		var cn = element.className;
 		//test for existance
-		var re = new RegExp('\\b'+className+'\\b');
+		var re = new RegExp('\\b' + className + '\\b');
 		if (re.test(cn)) {
 			return;
 		}
 		//add a space if the element already has class
 		if (cn !== '') {
-			className = ' '+className;
+			className = ' ' + className;
 		}
 		element.className = cn + className;
 	}

@@ -1,55 +1,66 @@
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshRendererComponent = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _Component = require("../../entities/components/Component");
+
+var _Material = require("../../renderer/Material");
+
 function MeshRendererComponent(materials) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'MeshRendererComponent';
 
 	//! schteppe: Don't chain or nest ternary operators as it hard to read and confusing
 	/** Materials to use when rendering
-	 * @type {Array<Material>}
-	 */
+  * @type {Array<Material>}
+  */
 	this.materials = Array.isArray(materials) ? materials : materials ? [materials] : [];
 	/** Worldspace bounding considering entity transformations
-	 * @type {BoundingVolume}
-	 */
+  * @type {BoundingVolume}
+  */
 	this.worldBound = null;
 
 	this._worldBoundDirty = true;
 	this._transformUpdatedListener = null;
 
 	/** Culling mode. Other valid values: 'Never'
-	 * @type {string}
-	 * @default
-	 */
+  * @type {string}
+  * @default
+  */
 	this.cullMode = 'Dynamic'; //'Dynamic', 'Never'
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.castShadows = true;
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.receiveShadows = true;
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.isPickable = true;
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.isReflectable = true;
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.hidden = false;
 
 	this._renderDistance = 0;
@@ -61,11 +72,11 @@ function MeshRendererComponent(materials) {
 
 MeshRendererComponent.type = 'MeshRendererComponent';
 
-MeshRendererComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+MeshRendererComponent.prototype = Object.create(_Component.Component.prototype);
 MeshRendererComponent.prototype.constructor = MeshRendererComponent;
 
 MeshRendererComponent.prototype.api = {
-	setDiffuse: function () {
+	setDiffuse: function setDiffuse() {
 		var material = this.meshRendererComponent.materials[0];
 		if (!material.uniforms.materialDiffuse) {
 			material.uniforms.materialDiffuse = [0, 0, 0, 1];
@@ -85,7 +96,7 @@ MeshRendererComponent.prototype.api = {
 				diffuse[1] = arg[1];
 				diffuse[2] = arg[2];
 				diffuse[3] = arg.length === 3 ? 1 : arg[3];
-			} else if (arg.r !== undefined && arg.g !== undefined && typeof arg.b !== undefined) {
+			} else if (arg.r !== undefined && arg.g !== undefined && _typeof(arg.b) !== undefined) {
 				diffuse[0] = arg.r;
 				diffuse[1] = arg.g;
 				diffuse[2] = arg.b;
@@ -93,7 +104,7 @@ MeshRendererComponent.prototype.api = {
 			}
 		}
 	},
-	getDiffuse: function () {
+	getDiffuse: function getDiffuse() {
 		return this.meshRendererComponent.materials[0].uniforms.materialDiffuse;
 	}
 };
@@ -138,7 +149,9 @@ MeshRendererComponent.prototype.clone = function (options) {
 	if (options.shareMaterials) {
 		clonedMaterials = this.materials;
 	} else {
-		clonedMaterials = this.materials.map(function (material) { return material.clone(options); });
+		clonedMaterials = this.materials.map(function (material) {
+			return material.clone(options);
+		});
 	}
 
 	var clone = new MeshRendererComponent(clonedMaterials);
@@ -162,7 +175,7 @@ MeshRendererComponent.applyOnEntity = function (obj, entity) {
 	// or a texture
 	// or a {r, g, b} object
 	var matched = false;
-	if (obj instanceof rendererMaterial_Materialjs) {
+	if (obj instanceof _Material.Material) {
 		meshRendererComponent.materials.push(obj);
 		matched = true;
 	}
@@ -180,4 +193,4 @@ var exported_MeshRendererComponent = MeshRendererComponent;
  * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshRendererComponent/MeshRendererComponent-example.html Working example
  * @extends Component
  */
-export { exported_MeshRendererComponent as MeshRendererComponent };
+exports.MeshRendererComponent = exported_MeshRendererComponent;

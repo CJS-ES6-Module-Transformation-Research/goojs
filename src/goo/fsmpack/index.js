@@ -1,170 +1,253 @@
-import { MachineHandlerjs as MachineHandler_MachineHandlerjs } from "./MachineHandler";
-import { ProximityComponentjs as proximityProximityComponent_ProximityComponentjs } from "./proximity/ProximityComponent";
-import { ProximitySystemjs as proximityProximitySystem_ProximitySystemjs } from "./proximity/ProximitySystem";
-import { Actionjs as statemachineactionsAction_Actionjs } from "./statemachine/actions/Action";
-import { Actionsjs as statemachineactionsActions_Actionsjs } from "./statemachine/actions/Actions";
-import { AddLightActionjs as statemachineactionsAddLightAction_AddLightActionjs } from "./statemachine/actions/AddLightAction";
-import {     AddPositionActionjs as statemachineactionsAddPositionAction_AddPositionActionjs, } from "./statemachine/actions/AddPositionAction";
-import {     AddVariableActionjs as statemachineactionsAddVariableAction_AddVariableActionjs, } from "./statemachine/actions/AddVariableAction";
-import {     ApplyImpulseActionjs as statemachineactionsApplyImpulseAction_ApplyImpulseActionjs, } from "./statemachine/actions/ApplyImpulseAction";
-import { ArrowsActionjs as statemachineactionsArrowsAction_ArrowsActionjs } from "./statemachine/actions/ArrowsAction";
-import { CollidesActionjs as statemachineactionsCollidesAction_CollidesActionjs } from "./statemachine/actions/CollidesAction";
-import {     CompareCounterActionjs as statemachineactionsCompareCounterAction_CompareCounterActionjs, } from "./statemachine/actions/CompareCounterAction";
-import {     CompareCountersActionjs as statemachineactionsCompareCountersAction_CompareCountersActionjs, } from "./statemachine/actions/CompareCountersAction";
-import {     CompareDistanceActionjs as statemachineactionsCompareDistanceAction_CompareDistanceActionjs, } from "./statemachine/actions/CompareDistanceAction";
-import {     CopyJointTransformActionjs as statemachineactionsCopyJointTransformAction_CopyJointTransformActionjs, } from "./statemachine/actions/CopyJointTransformAction";
-import { DollyZoomActionjs as statemachineactionsDollyZoomAction_DollyZoomActionjs } from "./statemachine/actions/DollyZoomAction";
-import { EmitActionjs as statemachineactionsEmitAction_EmitActionjs } from "./statemachine/actions/EmitAction";
-import { EvalActionjs as statemachineactionsEvalAction_EvalActionjs } from "./statemachine/actions/EvalAction";
-import { FireActionjs as statemachineactionsFireAction_FireActionjs } from "./statemachine/actions/FireAction";
-import {     GetPositionActionjs as statemachineactionsGetPositionAction_GetPositionActionjs, } from "./statemachine/actions/GetPositionAction";
-import { HideActionjs as statemachineactionsHideAction_HideActionjs } from "./statemachine/actions/HideAction";
-import { HtmlActionjs as statemachineactionsHtmlAction_HtmlActionjs } from "./statemachine/actions/HtmlAction";
-import { InBoxActionjs as statemachineactionsInBoxAction_InBoxActionjs } from "./statemachine/actions/InBoxAction";
-import {     IncrementCounterActionjs as statemachineactionsIncrementCounterAction_IncrementCounterActionjs, } from "./statemachine/actions/IncrementCounterAction";
-import { InFrustumActionjs as statemachineactionsInFrustumAction_InFrustumActionjs } from "./statemachine/actions/InFrustumAction";
-import { KeyDownActionjs as statemachineactionsKeyDownAction_KeyDownActionjs } from "./statemachine/actions/KeyDownAction";
-import {     KeyPressedActionjs as statemachineactionsKeyPressedAction_KeyPressedActionjs, } from "./statemachine/actions/KeyPressedAction";
-import { KeyUpActionjs as statemachineactionsKeyUpAction_KeyUpActionjs } from "./statemachine/actions/KeyUpAction";
-import {     LogMessageActionjs as statemachineactionsLogMessageAction_LogMessageActionjs, } from "./statemachine/actions/LogMessageAction";
-import { LookAtActionjs as statemachineactionsLookAtAction_LookAtActionjs } from "./statemachine/actions/LookAtAction";
-import { MouseDownActionjs as statemachineactionsMouseDownAction_MouseDownActionjs } from "./statemachine/actions/MouseDownAction";
-import { MouseMoveActionjs as statemachineactionsMouseMoveAction_MouseMoveActionjs } from "./statemachine/actions/MouseMoveAction";
-import { MouseUpActionjs as statemachineactionsMouseUpAction_MouseUpActionjs } from "./statemachine/actions/MouseUpAction";
-import { MoveActionjs as statemachineactionsMoveAction_MoveActionjs } from "./statemachine/actions/MoveAction";
-import {     MultiplyVariableActionjs as statemachineactionsMultiplyVariableAction_MultiplyVariableActionjs, } from "./statemachine/actions/MultiplyVariableAction";
-import {     NumberCompareActionjs as statemachineactionsNumberCompareAction_NumberCompareActionjs, } from "./statemachine/actions/NumberCompareAction";
-import {     PauseAnimationActionjs as statemachineactionsPauseAnimationAction_PauseAnimationActionjs, } from "./statemachine/actions/PauseAnimationAction";
-import { PickActionjs as statemachineactionsPickAction_PickActionjs } from "./statemachine/actions/PickAction";
-import {     PickAndExitActionjs as statemachineactionsPickAndExitAction_PickAndExitActionjs, } from "./statemachine/actions/PickAndExitAction";
-import {     RandomTransitionActionjs as statemachineactionsRandomTransitionAction_RandomTransitionActionjs, } from "./statemachine/actions/RandomTransitionAction";
-import { RemoveActionjs as statemachineactionsRemoveAction_RemoveActionjs } from "./statemachine/actions/RemoveAction";
-import {     RemoveLightActionjs as statemachineactionsRemoveLightAction_RemoveLightActionjs, } from "./statemachine/actions/RemoveLightAction";
-import {     RemoveParticlesActionjs as statemachineactionsRemoveParticlesAction_RemoveParticlesActionjs, } from "./statemachine/actions/RemoveParticlesAction";
-import {     ResumeAnimationActionjs as statemachineactionsResumeAnimationAction_ResumeAnimationActionjs, } from "./statemachine/actions/ResumeAnimationAction";
-import { RotateActionjs as statemachineactionsRotateAction_RotateActionjs } from "./statemachine/actions/RotateAction";
-import { ScaleActionjs as statemachineactionsScaleAction_ScaleActionjs } from "./statemachine/actions/ScaleAction";
-import {     SetAnimationActionjs as statemachineactionsSetAnimationAction_SetAnimationActionjs, } from "./statemachine/actions/SetAnimationAction";
-import {     SetClearColorActionjs as statemachineactionsSetClearColorAction_SetClearColorActionjs, } from "./statemachine/actions/SetClearColorAction";
-import {     SetCounterActionjs as statemachineactionsSetCounterAction_SetCounterActionjs, } from "./statemachine/actions/SetCounterAction";
-import {     SetLightRangeActionjs as statemachineactionsSetLightRangeAction_SetLightRangeActionjs, } from "./statemachine/actions/SetLightRangeAction";
-import {     SetPositionActionjs as statemachineactionsSetPositionAction_SetPositionActionjs, } from "./statemachine/actions/SetPositionAction";
-import {     SetRenderTargetActionjs as statemachineactionsSetRenderTargetAction_SetRenderTargetActionjs, } from "./statemachine/actions/SetRenderTargetAction";
-import {     SetRotationActionjs as statemachineactionsSetRotationAction_SetRotationActionjs, } from "./statemachine/actions/SetRotationAction";
-import {     SetVariableActionjs as statemachineactionsSetVariableAction_SetVariableActionjs, } from "./statemachine/actions/SetVariableAction";
-import { ShakeActionjs as statemachineactionsShakeAction_ShakeActionjs } from "./statemachine/actions/ShakeAction";
-import { ShowActionjs as statemachineactionsShowAction_ShowActionjs } from "./statemachine/actions/ShowAction";
-import { SmokeActionjs as statemachineactionsSmokeAction_SmokeActionjs } from "./statemachine/actions/SmokeAction";
-import {     SoundFadeInActionjs as statemachineactionsSoundFadeInAction_SoundFadeInActionjs, } from "./statemachine/actions/SoundFadeInAction";
-import {     SoundFadeOutActionjs as statemachineactionsSoundFadeOutAction_SoundFadeOutActionjs, } from "./statemachine/actions/SoundFadeOutAction";
-import {     SwitchCameraActionjs as statemachineactionsSwitchCameraAction_SwitchCameraActionjs, } from "./statemachine/actions/SwitchCameraAction";
-import { TagActionjs as statemachineactionsTagAction_TagActionjs } from "./statemachine/actions/TagAction";
-import {     TransitionActionjs as statemachineactionsTransitionAction_TransitionActionjs, } from "./statemachine/actions/TransitionAction";
-import {     TransitionOnMessageActionjs as statemachineactionsTransitionOnMessageAction_TransitionOnMessageActionjs, } from "./statemachine/actions/TransitionOnMessageAction";
-import {     TriggerEnterActionjs as statemachineactionsTriggerEnterAction_TriggerEnterActionjs, } from "./statemachine/actions/TriggerEnterAction";
-import {     TriggerLeaveActionjs as statemachineactionsTriggerLeaveAction_TriggerLeaveActionjs, } from "./statemachine/actions/TriggerLeaveAction";
-import {     TweenLightColorActionjs as statemachineactionsTweenLightColorAction_TweenLightColorActionjs, } from "./statemachine/actions/TweenLightColorAction";
-import {     TweenLookAtActionjs as statemachineactionsTweenLookAtAction_TweenLookAtActionjs, } from "./statemachine/actions/TweenLookAtAction";
-import { TweenMoveActionjs as statemachineactionsTweenMoveAction_TweenMoveActionjs } from "./statemachine/actions/TweenMoveAction";
-import {     TweenOpacityActionjs as statemachineactionsTweenOpacityAction_TweenOpacityActionjs, } from "./statemachine/actions/TweenOpacityAction";
-import {     TweenRotationActionjs as statemachineactionsTweenRotationAction_TweenRotationActionjs, } from "./statemachine/actions/TweenRotationAction";
-import {     TweenScaleActionjs as statemachineactionsTweenScaleAction_TweenScaleActionjs, } from "./statemachine/actions/TweenScaleAction";
-import {     TweenTextureOffsetActionjs as statemachineactionsTweenTextureOffsetAction_TweenTextureOffsetActionjs, } from "./statemachine/actions/TweenTextureOffsetAction";
-import { WaitActionjs as statemachineactionsWaitAction_WaitActionjs } from "./statemachine/actions/WaitAction";
-import { WasdActionjs as statemachineactionsWasdAction_WasdActionjs } from "./statemachine/actions/WasdAction";
-import { FSMUtiljs as statemachineFSMUtil_FSMUtiljs } from "./statemachine/FSMUtil";
-import { FsmUtilsjs as statemachineFsmUtils_FsmUtilsjs } from "./statemachine/FsmUtils";
-import { Machinejs as statemachineMachine_Machinejs } from "./statemachine/Machine";
-import { Statejs as statemachineState_Statejs } from "./statemachine/State";
-import {     StateMachineComponentjs as statemachineStateMachineComponent_StateMachineComponentjs, } from "./statemachine/StateMachineComponent";
-import {     StateMachineSystemjs as statemachineStateMachineSystem_StateMachineSystemjs, } from "./statemachine/StateMachineSystem";
-import {     StateMachineComponentHandlerjs as StateMachineComponentHandler_StateMachineComponentHandlerjs, } from "./StateMachineComponentHandler";
+"use strict";
+
+var _MachineHandler = require("./MachineHandler");
+
+var _ProximityComponent = require("./proximity/ProximityComponent");
+
+var _ProximitySystem = require("./proximity/ProximitySystem");
+
+var _Action = require("./statemachine/actions/Action");
+
+var _Actions = require("./statemachine/actions/Actions");
+
+var _AddLightAction = require("./statemachine/actions/AddLightAction");
+
+var _AddPositionAction = require("./statemachine/actions/AddPositionAction");
+
+var _AddVariableAction = require("./statemachine/actions/AddVariableAction");
+
+var _ApplyImpulseAction = require("./statemachine/actions/ApplyImpulseAction");
+
+var _ArrowsAction = require("./statemachine/actions/ArrowsAction");
+
+var _CollidesAction = require("./statemachine/actions/CollidesAction");
+
+var _CompareCounterAction = require("./statemachine/actions/CompareCounterAction");
+
+var _CompareCountersAction = require("./statemachine/actions/CompareCountersAction");
+
+var _CompareDistanceAction = require("./statemachine/actions/CompareDistanceAction");
+
+var _CopyJointTransformAction = require("./statemachine/actions/CopyJointTransformAction");
+
+var _DollyZoomAction = require("./statemachine/actions/DollyZoomAction");
+
+var _EmitAction = require("./statemachine/actions/EmitAction");
+
+var _EvalAction = require("./statemachine/actions/EvalAction");
+
+var _FireAction = require("./statemachine/actions/FireAction");
+
+var _GetPositionAction = require("./statemachine/actions/GetPositionAction");
+
+var _HideAction = require("./statemachine/actions/HideAction");
+
+var _HtmlAction = require("./statemachine/actions/HtmlAction");
+
+var _InBoxAction = require("./statemachine/actions/InBoxAction");
+
+var _IncrementCounterAction = require("./statemachine/actions/IncrementCounterAction");
+
+var _InFrustumAction = require("./statemachine/actions/InFrustumAction");
+
+var _KeyDownAction = require("./statemachine/actions/KeyDownAction");
+
+var _KeyPressedAction = require("./statemachine/actions/KeyPressedAction");
+
+var _KeyUpAction = require("./statemachine/actions/KeyUpAction");
+
+var _LogMessageAction = require("./statemachine/actions/LogMessageAction");
+
+var _LookAtAction = require("./statemachine/actions/LookAtAction");
+
+var _MouseDownAction = require("./statemachine/actions/MouseDownAction");
+
+var _MouseMoveAction = require("./statemachine/actions/MouseMoveAction");
+
+var _MouseUpAction = require("./statemachine/actions/MouseUpAction");
+
+var _MoveAction = require("./statemachine/actions/MoveAction");
+
+var _MultiplyVariableAction = require("./statemachine/actions/MultiplyVariableAction");
+
+var _NumberCompareAction = require("./statemachine/actions/NumberCompareAction");
+
+var _PauseAnimationAction = require("./statemachine/actions/PauseAnimationAction");
+
+var _PickAction = require("./statemachine/actions/PickAction");
+
+var _PickAndExitAction = require("./statemachine/actions/PickAndExitAction");
+
+var _RandomTransitionAction = require("./statemachine/actions/RandomTransitionAction");
+
+var _RemoveAction = require("./statemachine/actions/RemoveAction");
+
+var _RemoveLightAction = require("./statemachine/actions/RemoveLightAction");
+
+var _RemoveParticlesAction = require("./statemachine/actions/RemoveParticlesAction");
+
+var _ResumeAnimationAction = require("./statemachine/actions/ResumeAnimationAction");
+
+var _RotateAction = require("./statemachine/actions/RotateAction");
+
+var _ScaleAction = require("./statemachine/actions/ScaleAction");
+
+var _SetAnimationAction = require("./statemachine/actions/SetAnimationAction");
+
+var _SetClearColorAction = require("./statemachine/actions/SetClearColorAction");
+
+var _SetCounterAction = require("./statemachine/actions/SetCounterAction");
+
+var _SetLightRangeAction = require("./statemachine/actions/SetLightRangeAction");
+
+var _SetPositionAction = require("./statemachine/actions/SetPositionAction");
+
+var _SetRenderTargetAction = require("./statemachine/actions/SetRenderTargetAction");
+
+var _SetRotationAction = require("./statemachine/actions/SetRotationAction");
+
+var _SetVariableAction = require("./statemachine/actions/SetVariableAction");
+
+var _ShakeAction = require("./statemachine/actions/ShakeAction");
+
+var _ShowAction = require("./statemachine/actions/ShowAction");
+
+var _SmokeAction = require("./statemachine/actions/SmokeAction");
+
+var _SoundFadeInAction = require("./statemachine/actions/SoundFadeInAction");
+
+var _SoundFadeOutAction = require("./statemachine/actions/SoundFadeOutAction");
+
+var _SwitchCameraAction = require("./statemachine/actions/SwitchCameraAction");
+
+var _TagAction = require("./statemachine/actions/TagAction");
+
+var _TransitionAction = require("./statemachine/actions/TransitionAction");
+
+var _TransitionOnMessageAction = require("./statemachine/actions/TransitionOnMessageAction");
+
+var _TriggerEnterAction = require("./statemachine/actions/TriggerEnterAction");
+
+var _TriggerLeaveAction = require("./statemachine/actions/TriggerLeaveAction");
+
+var _TweenLightColorAction = require("./statemachine/actions/TweenLightColorAction");
+
+var _TweenLookAtAction = require("./statemachine/actions/TweenLookAtAction");
+
+var _TweenMoveAction = require("./statemachine/actions/TweenMoveAction");
+
+var _TweenOpacityAction = require("./statemachine/actions/TweenOpacityAction");
+
+var _TweenRotationAction = require("./statemachine/actions/TweenRotationAction");
+
+var _TweenScaleAction = require("./statemachine/actions/TweenScaleAction");
+
+var _TweenTextureOffsetAction = require("./statemachine/actions/TweenTextureOffsetAction");
+
+var _WaitAction = require("./statemachine/actions/WaitAction");
+
+var _WasdAction = require("./statemachine/actions/WasdAction");
+
+var _FSMUtil = require("./statemachine/FSMUtil");
+
+var _FsmUtils = require("./statemachine/FsmUtils");
+
+var _Machine = require("./statemachine/Machine");
+
+var _State = require("./statemachine/State");
+
+var _StateMachineComponent = require("./statemachine/StateMachineComponent");
+
+var _StateMachineSystem = require("./statemachine/StateMachineSystem");
+
+var _StateMachineComponentHandler = require("./StateMachineComponentHandler");
+
 var indexjs;
 indexjs = {
-	MachineHandler: MachineHandler_MachineHandlerjs,
-	ProximityComponent: proximityProximityComponent_ProximityComponentjs,
-	ProximitySystem: proximityProximitySystem_ProximitySystemjs,
-	Action: statemachineactionsAction_Actionjs,
-	Actions: statemachineactionsActions_Actionsjs,
-	AddLightAction: statemachineactionsAddLightAction_AddLightActionjs,
-	AddPositionAction: statemachineactionsAddPositionAction_AddPositionActionjs,
-	AddVariableAction: statemachineactionsAddVariableAction_AddVariableActionjs,
-	ApplyImpulseAction: statemachineactionsApplyImpulseAction_ApplyImpulseActionjs,
-	ArrowsAction: statemachineactionsArrowsAction_ArrowsActionjs,
-	CollidesAction: statemachineactionsCollidesAction_CollidesActionjs,
-	CompareCounterAction: statemachineactionsCompareCounterAction_CompareCounterActionjs,
-	CompareCountersAction: statemachineactionsCompareCountersAction_CompareCountersActionjs,
-	CompareDistanceAction: statemachineactionsCompareDistanceAction_CompareDistanceActionjs,
-	CopyJointTransformAction: statemachineactionsCopyJointTransformAction_CopyJointTransformActionjs,
-	DollyZoomAction: statemachineactionsDollyZoomAction_DollyZoomActionjs,
-	EmitAction: statemachineactionsEmitAction_EmitActionjs,
-	EvalAction: statemachineactionsEvalAction_EvalActionjs,
-	FireAction: statemachineactionsFireAction_FireActionjs,
-	GetPositionAction: statemachineactionsGetPositionAction_GetPositionActionjs,
-	HideAction: statemachineactionsHideAction_HideActionjs,
-	HtmlAction: statemachineactionsHtmlAction_HtmlActionjs,
-	InBoxAction: statemachineactionsInBoxAction_InBoxActionjs,
-	IncrementCounterAction: statemachineactionsIncrementCounterAction_IncrementCounterActionjs,
-	InFrustumAction: statemachineactionsInFrustumAction_InFrustumActionjs,
-	KeyDownAction: statemachineactionsKeyDownAction_KeyDownActionjs,
-	KeyPressedAction: statemachineactionsKeyPressedAction_KeyPressedActionjs,
-	KeyUpAction: statemachineactionsKeyUpAction_KeyUpActionjs,
-	LogMessageAction: statemachineactionsLogMessageAction_LogMessageActionjs,
-	LookAtAction: statemachineactionsLookAtAction_LookAtActionjs,
-	MouseDownAction: statemachineactionsMouseDownAction_MouseDownActionjs,
-	MouseMoveAction: statemachineactionsMouseMoveAction_MouseMoveActionjs,
-	MouseUpAction: statemachineactionsMouseUpAction_MouseUpActionjs,
-	MoveAction: statemachineactionsMoveAction_MoveActionjs,
-	MultiplyVariableAction: statemachineactionsMultiplyVariableAction_MultiplyVariableActionjs,
-	NumberCompareAction: statemachineactionsNumberCompareAction_NumberCompareActionjs,
-	PauseAnimationAction: statemachineactionsPauseAnimationAction_PauseAnimationActionjs,
-	PickAction: statemachineactionsPickAction_PickActionjs,
-	PickAndExitAction: statemachineactionsPickAndExitAction_PickAndExitActionjs,
-	RandomTransitionAction: statemachineactionsRandomTransitionAction_RandomTransitionActionjs,
-	RemoveAction: statemachineactionsRemoveAction_RemoveActionjs,
-	RemoveLightAction: statemachineactionsRemoveLightAction_RemoveLightActionjs,
-	RemoveParticlesAction: statemachineactionsRemoveParticlesAction_RemoveParticlesActionjs,
-	ResumeAnimationAction: statemachineactionsResumeAnimationAction_ResumeAnimationActionjs,
-	RotateAction: statemachineactionsRotateAction_RotateActionjs,
-	ScaleAction: statemachineactionsScaleAction_ScaleActionjs,
-	SetAnimationAction: statemachineactionsSetAnimationAction_SetAnimationActionjs,
-	SetClearColorAction: statemachineactionsSetClearColorAction_SetClearColorActionjs,
-	SetCounterAction: statemachineactionsSetCounterAction_SetCounterActionjs,
-	SetLightRangeAction: statemachineactionsSetLightRangeAction_SetLightRangeActionjs,
-	SetPositionAction: statemachineactionsSetPositionAction_SetPositionActionjs,
-	SetRenderTargetAction: statemachineactionsSetRenderTargetAction_SetRenderTargetActionjs,
-	SetRotationAction: statemachineactionsSetRotationAction_SetRotationActionjs,
-	SetVariableAction: statemachineactionsSetVariableAction_SetVariableActionjs,
-	ShakeAction: statemachineactionsShakeAction_ShakeActionjs,
-	ShowAction: statemachineactionsShowAction_ShowActionjs,
-	SmokeAction: statemachineactionsSmokeAction_SmokeActionjs,
-	SoundFadeInAction: statemachineactionsSoundFadeInAction_SoundFadeInActionjs,
-	SoundFadeOutAction: statemachineactionsSoundFadeOutAction_SoundFadeOutActionjs,
-	SwitchCameraAction: statemachineactionsSwitchCameraAction_SwitchCameraActionjs,
-	TagAction: statemachineactionsTagAction_TagActionjs,
-	TransitionAction: statemachineactionsTransitionAction_TransitionActionjs,
-	TransitionOnMessageAction: statemachineactionsTransitionOnMessageAction_TransitionOnMessageActionjs,
-	TriggerEnterAction: statemachineactionsTriggerEnterAction_TriggerEnterActionjs,
-	TriggerLeaveAction: statemachineactionsTriggerLeaveAction_TriggerLeaveActionjs,
-	TweenLightColorAction: statemachineactionsTweenLightColorAction_TweenLightColorActionjs,
-	TweenLookAtAction: statemachineactionsTweenLookAtAction_TweenLookAtActionjs,
-	TweenMoveAction: statemachineactionsTweenMoveAction_TweenMoveActionjs,
-	TweenOpacityAction: statemachineactionsTweenOpacityAction_TweenOpacityActionjs,
-	TweenRotationAction: statemachineactionsTweenRotationAction_TweenRotationActionjs,
-	TweenScaleAction: statemachineactionsTweenScaleAction_TweenScaleActionjs,
-	TweenTextureOffsetAction: statemachineactionsTweenTextureOffsetAction_TweenTextureOffsetActionjs,
-	WaitAction: statemachineactionsWaitAction_WaitActionjs,
-	WasdAction: statemachineactionsWasdAction_WasdActionjs,
-	FSMUtil: statemachineFSMUtil_FSMUtiljs,
-	FsmUtils: statemachineFsmUtils_FsmUtilsjs,
-	Machine: statemachineMachine_Machinejs,
-	State: statemachineState_Statejs,
-	StateMachineComponent: statemachineStateMachineComponent_StateMachineComponentjs,
-	StateMachineSystem: statemachineStateMachineSystem_StateMachineSystemjs,
-	StateMachineComponentHandler: StateMachineComponentHandler_StateMachineComponentHandlerjs,
+	MachineHandler: _MachineHandler.MachineHandlerjs,
+	ProximityComponent: _ProximityComponent.ProximityComponentjs,
+	ProximitySystem: _ProximitySystem.ProximitySystemjs,
+	Action: _Action.Actionjs,
+	Actions: _Actions.Actionsjs,
+	AddLightAction: _AddLightAction.AddLightActionjs,
+	AddPositionAction: _AddPositionAction.AddPositionActionjs,
+	AddVariableAction: _AddVariableAction.AddVariableActionjs,
+	ApplyImpulseAction: _ApplyImpulseAction.ApplyImpulseActionjs,
+	ArrowsAction: _ArrowsAction.ArrowsActionjs,
+	CollidesAction: _CollidesAction.CollidesActionjs,
+	CompareCounterAction: _CompareCounterAction.CompareCounterActionjs,
+	CompareCountersAction: _CompareCountersAction.CompareCountersActionjs,
+	CompareDistanceAction: _CompareDistanceAction.CompareDistanceActionjs,
+	CopyJointTransformAction: _CopyJointTransformAction.CopyJointTransformActionjs,
+	DollyZoomAction: _DollyZoomAction.DollyZoomActionjs,
+	EmitAction: _EmitAction.EmitActionjs,
+	EvalAction: _EvalAction.EvalActionjs,
+	FireAction: _FireAction.FireActionjs,
+	GetPositionAction: _GetPositionAction.GetPositionActionjs,
+	HideAction: _HideAction.HideActionjs,
+	HtmlAction: _HtmlAction.HtmlActionjs,
+	InBoxAction: _InBoxAction.InBoxActionjs,
+	IncrementCounterAction: _IncrementCounterAction.IncrementCounterActionjs,
+	InFrustumAction: _InFrustumAction.InFrustumActionjs,
+	KeyDownAction: _KeyDownAction.KeyDownActionjs,
+	KeyPressedAction: _KeyPressedAction.KeyPressedActionjs,
+	KeyUpAction: _KeyUpAction.KeyUpActionjs,
+	LogMessageAction: _LogMessageAction.LogMessageActionjs,
+	LookAtAction: _LookAtAction.LookAtActionjs,
+	MouseDownAction: _MouseDownAction.MouseDownActionjs,
+	MouseMoveAction: _MouseMoveAction.MouseMoveActionjs,
+	MouseUpAction: _MouseUpAction.MouseUpActionjs,
+	MoveAction: _MoveAction.MoveActionjs,
+	MultiplyVariableAction: _MultiplyVariableAction.MultiplyVariableActionjs,
+	NumberCompareAction: _NumberCompareAction.NumberCompareActionjs,
+	PauseAnimationAction: _PauseAnimationAction.PauseAnimationActionjs,
+	PickAction: _PickAction.PickActionjs,
+	PickAndExitAction: _PickAndExitAction.PickAndExitActionjs,
+	RandomTransitionAction: _RandomTransitionAction.RandomTransitionActionjs,
+	RemoveAction: _RemoveAction.RemoveActionjs,
+	RemoveLightAction: _RemoveLightAction.RemoveLightActionjs,
+	RemoveParticlesAction: _RemoveParticlesAction.RemoveParticlesActionjs,
+	ResumeAnimationAction: _ResumeAnimationAction.ResumeAnimationActionjs,
+	RotateAction: _RotateAction.RotateActionjs,
+	ScaleAction: _ScaleAction.ScaleActionjs,
+	SetAnimationAction: _SetAnimationAction.SetAnimationActionjs,
+	SetClearColorAction: _SetClearColorAction.SetClearColorActionjs,
+	SetCounterAction: _SetCounterAction.SetCounterActionjs,
+	SetLightRangeAction: _SetLightRangeAction.SetLightRangeActionjs,
+	SetPositionAction: _SetPositionAction.SetPositionActionjs,
+	SetRenderTargetAction: _SetRenderTargetAction.SetRenderTargetActionjs,
+	SetRotationAction: _SetRotationAction.SetRotationActionjs,
+	SetVariableAction: _SetVariableAction.SetVariableActionjs,
+	ShakeAction: _ShakeAction.ShakeActionjs,
+	ShowAction: _ShowAction.ShowActionjs,
+	SmokeAction: _SmokeAction.SmokeActionjs,
+	SoundFadeInAction: _SoundFadeInAction.SoundFadeInActionjs,
+	SoundFadeOutAction: _SoundFadeOutAction.SoundFadeOutActionjs,
+	SwitchCameraAction: _SwitchCameraAction.SwitchCameraActionjs,
+	TagAction: _TagAction.TagActionjs,
+	TransitionAction: _TransitionAction.TransitionActionjs,
+	TransitionOnMessageAction: _TransitionOnMessageAction.TransitionOnMessageActionjs,
+	TriggerEnterAction: _TriggerEnterAction.TriggerEnterActionjs,
+	TriggerLeaveAction: _TriggerLeaveAction.TriggerLeaveActionjs,
+	TweenLightColorAction: _TweenLightColorAction.TweenLightColorActionjs,
+	TweenLookAtAction: _TweenLookAtAction.TweenLookAtActionjs,
+	TweenMoveAction: _TweenMoveAction.TweenMoveActionjs,
+	TweenOpacityAction: _TweenOpacityAction.TweenOpacityActionjs,
+	TweenRotationAction: _TweenRotationAction.TweenRotationActionjs,
+	TweenScaleAction: _TweenScaleAction.TweenScaleActionjs,
+	TweenTextureOffsetAction: _TweenTextureOffsetAction.TweenTextureOffsetActionjs,
+	WaitAction: _WaitAction.WaitActionjs,
+	WasdAction: _WasdAction.WasdActionjs,
+	FSMUtil: _FSMUtil.FSMUtiljs,
+	FsmUtils: _FsmUtils.FsmUtilsjs,
+	Machine: _Machine.Machinejs,
+	State: _State.Statejs,
+	StateMachineComponent: _StateMachineComponent.StateMachineComponentjs,
+	StateMachineSystem: _StateMachineSystem.StateMachineSystemjs,
+	StateMachineComponentHandler: _StateMachineComponentHandler.StateMachineComponentHandlerjs,
 	StateMachineHandlers: {}
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

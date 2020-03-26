@@ -1,15 +1,26 @@
-import {     AnimationClipHandlerjs as animationpackhandlersAnimationClipHandler_AnimationClipHandlerjs, } from "../../animationpack/handlers/AnimationClipHandler";
-import {     AnimationComponentHandlerjs as animationpackhandlersAnimationComponentHandler_AnimationComponentHandlerjs, } from "../../animationpack/handlers/AnimationComponentHandler";
-import {     AnimationLayersHandlerjs as animationpackhandlersAnimationLayersHandler_AnimationLayersHandlerjs, } from "../../animationpack/handlers/AnimationLayersHandler";
-import {     AnimationStateHandlerjs as animationpackhandlersAnimationStateHandler_AnimationStateHandlerjs, } from "../../animationpack/handlers/AnimationStateHandler";
-import {     SkeletonHandlerjs as animationpackhandlersSkeletonHandler_SkeletonHandlerjs, } from "../../animationpack/handlers/SkeletonHandler";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationHandlersjs = undefined;
+
+var _AnimationClipHandler = require("../../animationpack/handlers/AnimationClipHandler");
+
+var _AnimationComponentHandler = require("../../animationpack/handlers/AnimationComponentHandler");
+
+var _AnimationLayersHandler = require("../../animationpack/handlers/AnimationLayersHandler");
+
+var _AnimationStateHandler = require("../../animationpack/handlers/AnimationStateHandler");
+
+var _SkeletonHandler = require("../../animationpack/handlers/SkeletonHandler");
 
 var AnimationHandlersjs_AnimationHandlersjs = {
-	AnimationClipHandler: animationpackhandlersAnimationClipHandler_AnimationClipHandlerjs,
-	AnimationComponentHandler: animationpackhandlersAnimationComponentHandler_AnimationComponentHandlerjs,
-	AnimationLayersHandler: animationpackhandlersAnimationLayersHandler_AnimationLayersHandlerjs,
-	AnimationStateHandler: animationpackhandlersAnimationStateHandler_AnimationStateHandlerjs,
-	SkeletonHandler: animationpackhandlersSkeletonHandler_SkeletonHandlerjs
+	AnimationClipHandler: _AnimationClipHandler.AnimationClipHandlerjs,
+	AnimationComponentHandler: _AnimationComponentHandler.AnimationComponentHandlerjs,
+	AnimationLayersHandler: _AnimationLayersHandler.AnimationLayersHandlerjs,
+	AnimationStateHandler: _AnimationStateHandler.AnimationStateHandlerjs,
+	SkeletonHandler: _SkeletonHandler.SkeletonHandlerjs
 };
 
-export { AnimationHandlersjs_AnimationHandlersjs as AnimationHandlersjs };
+exports.AnimationHandlersjs = AnimationHandlersjs_AnimationHandlersjs;

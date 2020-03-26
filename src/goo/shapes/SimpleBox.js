@@ -1,4 +1,12 @@
-import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SimpleBox = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
 function SimpleBox(width, height, length) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -11,13 +19,13 @@ function SimpleBox(width, height, length) {
 	this.yExtent = height !== undefined ? height * 0.5 : 0.5;
 	this.zExtent = length !== undefined ? length * 0.5 : 0.5;
 
-	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]);
-	rendererMeshData_MeshDatajs.call(this, attributeMap, 8, 36);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]);
+	_MeshData.MeshData.call(this, attributeMap, 8, 36);
 
 	this.rebuild();
 }
 
-SimpleBox.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
+SimpleBox.prototype = Object.create(_MeshData.MeshData.prototype);
 SimpleBox.prototype.constructor = SimpleBox;
 
 /**
@@ -29,32 +37,21 @@ SimpleBox.prototype.rebuild = function () {
 	var yExtent = this.yExtent;
 	var zExtent = this.zExtent;
 
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set([
-		-xExtent, -yExtent, -zExtent,
-		xExtent, -yExtent, -zExtent,
-		xExtent,  yExtent, -zExtent,
-		-xExtent,  yExtent, -zExtent,
-
-		-xExtent, -yExtent,  zExtent,
-		xExtent, -yExtent,  zExtent,
-		xExtent,  yExtent,  zExtent,
-		-xExtent,  yExtent,  zExtent
-	]);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set([-xExtent, -yExtent, -zExtent, xExtent, -yExtent, -zExtent, xExtent, yExtent, -zExtent, -xExtent, yExtent, -zExtent, -xExtent, -yExtent, zExtent, xExtent, -yExtent, zExtent, xExtent, yExtent, zExtent, -xExtent, yExtent, zExtent]);
 
 	this.getIndexBuffer().set([
-		//front
-		2, 1, 0, 0, 3, 2,
-		//back
-		5, 6, 7, 7, 4, 5,
-		//left
-		7, 3, 0, 0, 4, 7,
-		//right
-		1, 2, 6, 6, 5, 1,
-		//top
-		6, 2, 3, 3, 7, 6,
-		//bottom
-		0, 1, 5, 5, 4, 0
-	]);
+	//front
+	2, 1, 0, 0, 3, 2,
+	//back
+	5, 6, 7, 7, 4, 5,
+	//left
+	7, 3, 0, 0, 4, 7,
+	//right
+	1, 2, 6, 6, 5, 1,
+	//top
+	6, 2, 3, 3, 7, 6,
+	//bottom
+	0, 1, 5, 5, 4, 0]);
 
 	return this;
 };
@@ -82,4 +79,4 @@ var exported_SimpleBox = SimpleBox;
  * @param {number} [height=1] Total height of box.
  * @param {number} [length=1] Total length of box.
  */
-export { exported_SimpleBox as SimpleBox };
+exports.SimpleBox = exported_SimpleBox;

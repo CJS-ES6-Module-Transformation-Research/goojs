@@ -1,48 +1,69 @@
-import {     AxisAlignedCamControlScriptjs as AxisAlignedCamControlScript_AxisAlignedCamControlScriptjs, } from "./AxisAlignedCamControlScript";
-import { BasicControlScriptjs as BasicControlScript_BasicControlScriptjs } from "./BasicControlScript";
-import { ButtonScriptjs as ButtonScript_ButtonScriptjs } from "./ButtonScript";
-import { CannonPickScriptjs as CannonPickScript_CannonPickScriptjs } from "./CannonPickScript";
-import { FlyControlScriptjs as FlyControlScript_FlyControlScriptjs } from "./FlyControlScript";
-import {     GroundBoundMovementScriptjs as GroundBoundMovementScript_GroundBoundMovementScriptjs, } from "./GroundBoundMovementScript";
-import {     HeightMapBoundingScriptjs as HeightMapBoundingScript_HeightMapBoundingScriptjs, } from "./HeightMapBoundingScript";
-import { LensFlareScriptjs as LensFlareScript_LensFlareScriptjs } from "./LensFlareScript";
-import {     MouseLookControlScriptjs as MouseLookControlScript_MouseLookControlScriptjs, } from "./MouseLookControlScript";
-import {     OrbitNPanControlScriptjs as OrbitNPanControlScript_OrbitNPanControlScriptjs, } from "./OrbitNPanControlScript";
-import { PanCamScriptjs as PanCamScript_PanCamScriptjs } from "./PanCamScript";
-import { PickAndRotateScriptjs as PickAndRotateScript_PickAndRotateScriptjs } from "./PickAndRotateScript";
-import { PolyBoundingScriptjs as PolyBoundingScript_PolyBoundingScriptjs } from "./PolyBoundingScript";
-import { RotationScriptjs as RotationScript_RotationScriptjs } from "./RotationScript";
-import {     ScriptComponentHandlerjs as ScriptComponentHandler_ScriptComponentHandlerjs, } from "./ScriptComponentHandler";
-import { ScriptHandlerjs as ScriptHandler_ScriptHandlerjs } from "./ScriptHandler";
-import {     SparseHeightMapBoundingScriptjs as SparseHeightMapBoundingScript_SparseHeightMapBoundingScriptjs, } from "./SparseHeightMapBoundingScript";
-import { WasdControlScriptjs as WasdControlScript_WasdControlScriptjs } from "./WasdControlScript";
-import {     WorldFittedTerrainScriptjs as WorldFittedTerrainScript_WorldFittedTerrainScriptjs, } from "./WorldFittedTerrainScript";
+"use strict";
+
+var _AxisAlignedCamControlScript = require("./AxisAlignedCamControlScript");
+
+var _BasicControlScript = require("./BasicControlScript");
+
+var _ButtonScript = require("./ButtonScript");
+
+var _CannonPickScript = require("./CannonPickScript");
+
+var _FlyControlScript = require("./FlyControlScript");
+
+var _GroundBoundMovementScript = require("./GroundBoundMovementScript");
+
+var _HeightMapBoundingScript = require("./HeightMapBoundingScript");
+
+var _LensFlareScript = require("./LensFlareScript");
+
+var _MouseLookControlScript = require("./MouseLookControlScript");
+
+var _OrbitNPanControlScript = require("./OrbitNPanControlScript");
+
+var _PanCamScript = require("./PanCamScript");
+
+var _PickAndRotateScript = require("./PickAndRotateScript");
+
+var _PolyBoundingScript = require("./PolyBoundingScript");
+
+var _RotationScript = require("./RotationScript");
+
+var _ScriptComponentHandler = require("./ScriptComponentHandler");
+
+var _ScriptHandler = require("./ScriptHandler");
+
+var _SparseHeightMapBoundingScript = require("./SparseHeightMapBoundingScript");
+
+var _WasdControlScript = require("./WasdControlScript");
+
+var _WorldFittedTerrainScript = require("./WorldFittedTerrainScript");
+
 var indexjs;
 indexjs = {
-	AxisAlignedCamControlScript: AxisAlignedCamControlScript_AxisAlignedCamControlScriptjs,
-	BasicControlScript: BasicControlScript_BasicControlScriptjs,
-	ButtonScript: ButtonScript_ButtonScriptjs,
-	CannonPickScript: CannonPickScript_CannonPickScriptjs,
-	FlyControlScript: FlyControlScript_FlyControlScriptjs,
-	GroundBoundMovementScript: GroundBoundMovementScript_GroundBoundMovementScriptjs,
-	HeightMapBoundingScript: HeightMapBoundingScript_HeightMapBoundingScriptjs,
-	LensFlareScript: LensFlareScript_LensFlareScriptjs,
-	MouseLookControlScript: MouseLookControlScript_MouseLookControlScriptjs,
-	OrbitNPanControlScript: OrbitNPanControlScript_OrbitNPanControlScriptjs,
-	PanCamScript: PanCamScript_PanCamScriptjs,
-	PickAndRotateScript: PickAndRotateScript_PickAndRotateScriptjs,
-	PolyBoundingScript: PolyBoundingScript_PolyBoundingScriptjs,
-	RotationScript: RotationScript_RotationScriptjs,
-	ScriptComponentHandler: ScriptComponentHandler_ScriptComponentHandlerjs,
-	ScriptHandler: ScriptHandler_ScriptHandlerjs,
+	AxisAlignedCamControlScript: _AxisAlignedCamControlScript.AxisAlignedCamControlScriptjs,
+	BasicControlScript: _BasicControlScript.BasicControlScriptjs,
+	ButtonScript: _ButtonScript.ButtonScriptjs,
+	CannonPickScript: _CannonPickScript.CannonPickScriptjs,
+	FlyControlScript: _FlyControlScript.FlyControlScriptjs,
+	GroundBoundMovementScript: _GroundBoundMovementScript.GroundBoundMovementScriptjs,
+	HeightMapBoundingScript: _HeightMapBoundingScript.HeightMapBoundingScriptjs,
+	LensFlareScript: _LensFlareScript.LensFlareScriptjs,
+	MouseLookControlScript: _MouseLookControlScript.MouseLookControlScriptjs,
+	OrbitNPanControlScript: _OrbitNPanControlScript.OrbitNPanControlScriptjs,
+	PanCamScript: _PanCamScript.PanCamScriptjs,
+	PickAndRotateScript: _PickAndRotateScript.PickAndRotateScriptjs,
+	PolyBoundingScript: _PolyBoundingScript.PolyBoundingScriptjs,
+	RotationScript: _RotationScript.RotationScriptjs,
+	ScriptComponentHandler: _ScriptComponentHandler.ScriptComponentHandlerjs,
+	ScriptHandler: _ScriptHandler.ScriptHandlerjs,
 	ScriptHandlers: {},
 	ScriptRegister: {},
-	SparseHeightMapBoundingScript: SparseHeightMapBoundingScript_SparseHeightMapBoundingScriptjs,
-	WasdControlScript: WasdControlScript_WasdControlScriptjs,
-	WorldFittedTerrainScript: WorldFittedTerrainScript_WorldFittedTerrainScriptjs
+	SparseHeightMapBoundingScript: _SparseHeightMapBoundingScript.SparseHeightMapBoundingScriptjs,
+	WasdControlScript: _WasdControlScript.WasdControlScriptjs,
+	WorldFittedTerrainScript: _WorldFittedTerrainScript.WorldFittedTerrainScriptjs
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

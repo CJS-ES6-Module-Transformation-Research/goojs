@@ -1,23 +1,36 @@
-import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.FilledPolygon = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MathUtils = require("../math/MathUtils");
+
 function FilledPolygon(verts, indices) {
 	this.verts = verts;
 	this.indices = indices ? indices : getTriangulation(verts);
 
-	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION, rendererMeshData_MeshDatajs.NORMAL, rendererMeshData_MeshDatajs.TEXCOORD0]);
-	rendererMeshData_MeshDatajs.call(this, attributeMap, this.verts.length / 3, this.indices.length);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
+	_MeshData.MeshData.call(this, attributeMap, this.verts.length / 3, this.indices.length);
 
 	this.rebuild();
 }
 
-FilledPolygon.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
+FilledPolygon.prototype = Object.create(_MeshData.MeshData.prototype);
 
 function getTriangulation(p) {
 	var n = p.length / 3;
-	if (n < 3) { return []; }
+	if (n < 3) {
+		return [];
+	}
 	var tgs = [];
 	var avl = [];
-	for (var i = 0; i < n; i++) { avl.push(i); }
+	for (var i = 0; i < n; i++) {
+		avl.push(i);
+	}
 
 	var i = 0;
 	var al = n;
@@ -26,17 +39,24 @@ function getTriangulation(p) {
 		var i1 = avl[(i + 1) % al];
 		var i2 = avl[(i + 2) % al];
 
-		var ax = p[3 * i0], ay = p[3 * i0 + 1];
-		var bx = p[3 * i1], by = p[3 * i1 + 1];
-		var cx = p[3 * i2], cy = p[3 * i2 + 1];
+		var ax = p[3 * i0],
+		    ay = p[3 * i0 + 1];
+		var bx = p[3 * i1],
+		    by = p[3 * i1 + 1];
+		var cx = p[3 * i2],
+		    cy = p[3 * i2 + 1];
 
 		var earFound = false;
 		if (convex(ax, ay, bx, by, cx, cy)) {
 			earFound = true;
 			for (var j = 0; j < al; j++) {
 				var vi = avl[j];
-				if (vi === i0 || vi === i1 || vi === i2) { continue; }
-				if (pointInTriangle(p[3 * vi], p[3 * vi + 1], ax, ay, bx, by, cx, cy)) { earFound = false; break; }
+				if (vi === i0 || vi === i1 || vi === i2) {
+					continue;
+				}
+				if (pointInTriangle(p[3 * vi], p[3 * vi + 1], ax, ay, bx, by, cx, cy)) {
+					earFound = false;break;
+				}
 			}
 		}
 		if (earFound) {
@@ -71,7 +91,7 @@ function pointInTriangle(px, py, ax, ay, bx, by, cx, cy) {
 	var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
 
 	// Check if point is in triangle
-	return (u >= 0) && (v >= 0) && (u + v < 1);
+	return u >= 0 && v >= 0 && u + v < 1;
 }
 
 function convex(ax, ay, bx, by, cx, cy) {
@@ -83,21 +103,11 @@ function convex(ax, ay, bx, by, cx, cy) {
  * @returns {FilledPolygon} Self for chaining.
  */
 FilledPolygon.prototype.rebuild = function () {
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(this.verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(this.verts);
 
 	var norms = [];
 	for (var i = 0; i < this.indices.length; i += 3) {
-		var normal = mathMathUtils_MathUtilsjs.getTriangleNormal(
-			this.verts[this.indices[i + 0] * 3 + 0],
-			this.verts[this.indices[i + 0] * 3 + 1],
-			this.verts[this.indices[i + 0] * 3 + 2],
-			this.verts[this.indices[i + 1] * 3 + 0],
-			this.verts[this.indices[i + 1] * 3 + 1],
-			this.verts[this.indices[i + 1] * 3 + 2],
-			this.verts[this.indices[i + 2] * 3 + 0],
-			this.verts[this.indices[i + 2] * 3 + 1],
-			this.verts[this.indices[i + 2] * 3 + 2]
-		);
+		var normal = _MathUtils.MathUtils.getTriangleNormal(this.verts[this.indices[i + 0] * 3 + 0], this.verts[this.indices[i + 0] * 3 + 1], this.verts[this.indices[i + 0] * 3 + 2], this.verts[this.indices[i + 1] * 3 + 0], this.verts[this.indices[i + 1] * 3 + 1], this.verts[this.indices[i + 1] * 3 + 2], this.verts[this.indices[i + 2] * 3 + 0], this.verts[this.indices[i + 2] * 3 + 1], this.verts[this.indices[i + 2] * 3 + 2]);
 
 		norms[this.indices[i + 0] * 3 + 0] = normal[0];
 		norms[this.indices[i + 0] * 3 + 1] = normal[1];
@@ -110,7 +120,7 @@ FilledPolygon.prototype.rebuild = function () {
 		norms[this.indices[i + 2] * 3 + 2] = normal[2];
 	}
 
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set(norms);
 
 	this.getIndexBuffer().set(this.indices);
 
@@ -126,7 +136,7 @@ FilledPolygon.prototype.rebuild = function () {
 		tex.push(x, y);
 	}
 
-	this.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0).set(tex);
 
 	return this;
 };
@@ -160,4 +170,4 @@ var exported_FilledPolygon = FilledPolygon;
  * @param {Array} verts Array of vertices
  * @param {Array} indices Array of indices
  */
-export { exported_FilledPolygon as FilledPolygon };
+exports.FilledPolygon = exported_FilledPolygon;

@@ -1,10 +1,24 @@
-import { Material as rendererMaterial_Materialjs } from "../renderer/Material";
-import { FullscreenUtils as rendererpassFullscreenUtils_FullscreenUtilsjs } from "../renderer/pass/FullscreenUtils";
-import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../renderer/pass/RenderTarget";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
-import { ShaderLibExtra as passpackShaderLibExtra_ShaderLibExtrajs } from "../passpack/ShaderLibExtra";
-import { Pass as rendererpassPass_Passjs } from "../renderer/pass/Pass";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DogPass = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _FullscreenUtils = require("../renderer/pass/FullscreenUtils");
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _ShaderLibExtra = require("../passpack/ShaderLibExtra");
+
+var _Pass = require("../renderer/pass/Pass");
+
 function DogPass(settings) {
 	settings = settings || {};
 
@@ -22,16 +36,16 @@ function DogPass(settings) {
 	this.updateSize({ width: width, height: height });
 
 	this.renderable = {
-		meshData: rendererpassFullscreenUtils_FullscreenUtilsjs.quad,
+		meshData: _FullscreenUtils.FullscreenUtils.quad,
 		materials: []
 	};
 
-	this.convolutionShader1 = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.convolution);
-	this.convolutionShader2 = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.convolution);
+	this.convolutionShader1 = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.convolution);
+	this.convolutionShader2 = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.convolution);
 
-	this.differenceShader = utilObjectUtils_ObjectUtilsjs.deepClone(passpackShaderLibExtra_ShaderLibExtrajs.differenceOfGaussians);
+	this.differenceShader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLibExtra.ShaderLibExtra.differenceOfGaussians);
 	this.differenceShader.uniforms.threshold = threshold;
-	this.differenceMaterial = new rendererMaterial_Materialjs(this.differenceShader);
+	this.differenceMaterial = new _Material.Material(this.differenceShader);
 
 	this.updateSigma(sigma);
 
@@ -40,7 +54,7 @@ function DogPass(settings) {
 	this.needsSwap = true;
 }
 
-DogPass.prototype = Object.create(rendererpassPass_Passjs.prototype);
+DogPass.prototype = Object.create(_Pass.Pass.prototype);
 DogPass.prototype.constructor = DogPass;
 
 DogPass.prototype.destroy = function (renderer) {
@@ -85,9 +99,9 @@ DogPass.prototype.updateBackgroundMix = function (amount) {
 DogPass.prototype.updateSize = function (size) {
 	var sizeX = size.width / this.downsampleAmount;
 	var sizeY = size.height / this.downsampleAmount;
-	this.renderTargetX = new rendererpassRenderTarget_RenderTargetjs(sizeX, sizeY);
-	this.gaussian1 = new rendererpassRenderTarget_RenderTargetjs(sizeX, sizeY);
-	this.gaussian2 = new rendererpassRenderTarget_RenderTargetjs(sizeX, sizeY);
+	this.renderTargetX = new _RenderTarget.RenderTarget(sizeX, sizeY);
+	this.gaussian1 = new _RenderTarget.RenderTarget(sizeX, sizeY);
+	this.gaussian2 = new _RenderTarget.RenderTarget(sizeX, sizeY);
 
 	this.blurX = [0.5 / sizeX, 0.0];
 	this.blurY = [0.0, 0.5 / sizeY];
@@ -116,8 +130,8 @@ DogPass.prototype.updateSigma = function (sigma) {
 	this.convolutionShader1.uniforms.cKernel = kernel1;
 	this.convolutionShader2.uniforms.cKernel = kernel2;
 
-	this.convolutionMaterial1 = new rendererMaterial_Materialjs(this.convolutionShader1);
-	this.convolutionMaterial2 = new rendererMaterial_Materialjs(this.convolutionShader2);
+	this.convolutionMaterial1 = new _Material.Material(this.convolutionShader1);
+	this.convolutionMaterial2 = new _Material.Material(this.convolutionShader2);
 };
 
 DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -127,12 +141,12 @@ DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial1.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionShader1.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial1.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionShader1.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], this.gaussian1, true);
+	renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], this.gaussian1, true);
 
 	// Gaussian sigma2
 	this.renderable.materials[0] = this.convolutionMaterial2;
@@ -140,12 +154,12 @@ DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial2.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionShader2.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial2.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionShader2.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], this.gaussian2, true);
+	renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], this.gaussian2, true);
 
 	// OUT
 	this.renderable.materials[0] = this.differenceMaterial;
@@ -155,9 +169,9 @@ DogPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.differenceMaterial.setTexture('ORIGINAL', readBuffer);
 
 	if (this.target !== null) {
-		renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], this.target, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], this.target, this.clear);
 	} else {
-		renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], writeBuffer, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], writeBuffer, this.clear);
 	}
 };
 
@@ -184,4 +198,4 @@ var exported_DogPass = DogPass;
 * http://en.wikipedia.org/wiki/Difference_of_Gaussians
 * http://www.tara.tcd.ie/bitstream/2262/12840/1/eg07.pdf , Adaptive Abstraction of 3D Scenes in Real-Time by Redmond and Dingliana, 2007
 */
-export { exported_DogPass as DogPass };
+exports.DogPass = exported_DogPass;

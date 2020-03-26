@@ -1,76 +1,112 @@
-import { Sourcejs as blendtreeSource_Sourcejs } from "./blendtree/Source";
-import { BinaryLerpSourcejs as blendtreeBinaryLerpSource_BinaryLerpSourcejs } from "./blendtree/BinaryLerpSource";
-import { ClipSourcejs as blendtreeClipSource_ClipSourcejs } from "./blendtree/ClipSource";
-import { FrozenClipSourcejs as blendtreeFrozenClipSource_FrozenClipSourcejs } from "./blendtree/FrozenClipSource";
-import {     ManagedTransformSourcejs as blendtreeManagedTransformSource_ManagedTransformSourcejs, } from "./blendtree/ManagedTransformSource";
-import {     AbstractAnimationChanneljs as clipAbstractAnimationChannel_AbstractAnimationChanneljs, } from "./clip/AbstractAnimationChannel";
-import { AnimationClipjs as clipAnimationClip_AnimationClipjs } from "./clip/AnimationClip";
-import {     AnimationClipInstancejs as clipAnimationClipInstance_AnimationClipInstancejs, } from "./clip/AnimationClipInstance";
-import {     InterpolatedFloatChanneljs as clipInterpolatedFloatChannel_InterpolatedFloatChanneljs, } from "./clip/InterpolatedFloatChannel";
-import { JointChanneljs as clipJointChannel_JointChanneljs } from "./clip/JointChannel";
-import { JointDatajs as clipJointData_JointDatajs } from "./clip/JointData";
-import { TransformChanneljs as clipTransformChannel_TransformChanneljs } from "./clip/TransformChannel";
-import { TransformDatajs as clipTransformData_TransformDatajs } from "./clip/TransformData";
-import { TriggerChanneljs as clipTriggerChannel_TriggerChanneljs } from "./clip/TriggerChannel";
-import { TriggerDatajs as clipTriggerData_TriggerDatajs } from "./clip/TriggerData";
-import { AnimationComponentjs as componentsAnimationComponent_AnimationComponentjs } from "./components/AnimationComponent";
-import {     AnimationClipHandlerjs as handlersAnimationClipHandler_AnimationClipHandlerjs, } from "./handlers/AnimationClipHandler";
-import {     AnimationComponentHandlerjs as handlersAnimationComponentHandler_AnimationComponentHandlerjs, } from "./handlers/AnimationComponentHandler";
-import { handlersAnimationHandlers_obj } from "./handlers/AnimationHandlers";
-import {     AnimationLayersHandlerjs as handlersAnimationLayersHandler_AnimationLayersHandlerjs, } from "./handlers/AnimationLayersHandler";
-import {     AnimationStateHandlerjs as handlersAnimationStateHandler_AnimationStateHandlerjs, } from "./handlers/AnimationStateHandler";
-import { SkeletonHandlerjs as handlersSkeletonHandler_SkeletonHandlerjs } from "./handlers/SkeletonHandler";
-import { Jointjs as Joint_Jointjs } from "./Joint";
-import { AnimationLayerjs as layerAnimationLayer_AnimationLayerjs } from "./layer/AnimationLayer";
-import { LayerLerpBlenderjs as layerLayerLerpBlender_LayerLerpBlenderjs } from "./layer/LayerLerpBlender";
-import { Skeletonjs as Skeleton_Skeletonjs } from "./Skeleton";
-import { SkeletonPosejs as SkeletonPose_SkeletonPosejs } from "./SkeletonPose";
-import { AbstractStatejs as stateAbstractState_AbstractStatejs } from "./state/AbstractState";
-import {     AbstractTransitionStatejs as stateAbstractTransitionState_AbstractTransitionStatejs, } from "./state/AbstractTransitionState";
-import { FadeTransitionStatejs as stateFadeTransitionState_FadeTransitionStatejs } from "./state/FadeTransitionState";
-import {     FrozenTransitionStatejs as stateFrozenTransitionState_FrozenTransitionStatejs, } from "./state/FrozenTransitionState";
-import { SteadyStatejs as stateSteadyState_SteadyStatejs } from "./state/SteadyState";
-import {     SyncFadeTransitionStatejs as stateSyncFadeTransitionState_SyncFadeTransitionStatejs, } from "./state/SyncFadeTransitionState";
-import { AnimationSystemjs as systemsAnimationSystem_AnimationSystemjs } from "./systems/AnimationSystem";
+"use strict";
+
+var _Source = require("./blendtree/Source");
+
+var _BinaryLerpSource = require("./blendtree/BinaryLerpSource");
+
+var _ClipSource = require("./blendtree/ClipSource");
+
+var _FrozenClipSource = require("./blendtree/FrozenClipSource");
+
+var _ManagedTransformSource = require("./blendtree/ManagedTransformSource");
+
+var _AbstractAnimationChannel = require("./clip/AbstractAnimationChannel");
+
+var _AnimationClip = require("./clip/AnimationClip");
+
+var _AnimationClipInstance = require("./clip/AnimationClipInstance");
+
+var _InterpolatedFloatChannel = require("./clip/InterpolatedFloatChannel");
+
+var _JointChannel = require("./clip/JointChannel");
+
+var _JointData = require("./clip/JointData");
+
+var _TransformChannel = require("./clip/TransformChannel");
+
+var _TransformData = require("./clip/TransformData");
+
+var _TriggerChannel = require("./clip/TriggerChannel");
+
+var _TriggerData = require("./clip/TriggerData");
+
+var _AnimationComponent = require("./components/AnimationComponent");
+
+var _AnimationClipHandler = require("./handlers/AnimationClipHandler");
+
+var _AnimationComponentHandler = require("./handlers/AnimationComponentHandler");
+
+var _AnimationHandlers = require("./handlers/AnimationHandlers");
+
+var _AnimationLayersHandler = require("./handlers/AnimationLayersHandler");
+
+var _AnimationStateHandler = require("./handlers/AnimationStateHandler");
+
+var _SkeletonHandler = require("./handlers/SkeletonHandler");
+
+var _Joint = require("./Joint");
+
+var _AnimationLayer = require("./layer/AnimationLayer");
+
+var _LayerLerpBlender = require("./layer/LayerLerpBlender");
+
+var _Skeleton = require("./Skeleton");
+
+var _SkeletonPose = require("./SkeletonPose");
+
+var _AbstractState = require("./state/AbstractState");
+
+var _AbstractTransitionState = require("./state/AbstractTransitionState");
+
+var _FadeTransitionState = require("./state/FadeTransitionState");
+
+var _FrozenTransitionState = require("./state/FrozenTransitionState");
+
+var _SteadyState = require("./state/SteadyState");
+
+var _SyncFadeTransitionState = require("./state/SyncFadeTransitionState");
+
+var _AnimationSystem = require("./systems/AnimationSystem");
+
 var indexjs;
 indexjs = {
-	Source: blendtreeSource_Sourcejs,
-	BinaryLerpSource: blendtreeBinaryLerpSource_BinaryLerpSourcejs,
-	ClipSource: blendtreeClipSource_ClipSourcejs,
-	FrozenClipSource: blendtreeFrozenClipSource_FrozenClipSourcejs,
-	ManagedTransformSource: blendtreeManagedTransformSource_ManagedTransformSourcejs,
-	AbstractAnimationChannel: clipAbstractAnimationChannel_AbstractAnimationChanneljs,
-	AnimationClip: clipAnimationClip_AnimationClipjs,
-	AnimationClipInstance: clipAnimationClipInstance_AnimationClipInstancejs,
-	InterpolatedFloatChannel: clipInterpolatedFloatChannel_InterpolatedFloatChanneljs,
-	JointChannel: clipJointChannel_JointChanneljs,
-	JointData: clipJointData_JointDatajs,
-	TransformChannel: clipTransformChannel_TransformChanneljs,
-	TransformData: clipTransformData_TransformDatajs,
-	TriggerChannel: clipTriggerChannel_TriggerChanneljs,
-	TriggerData: clipTriggerData_TriggerDatajs,
-	AnimationComponent: componentsAnimationComponent_AnimationComponentjs,
-	AnimationClipHandler: handlersAnimationClipHandler_AnimationClipHandlerjs,
-	AnimationComponentHandler: handlersAnimationComponentHandler_AnimationComponentHandlerjs,
-	AnimationHandlers: handlersAnimationHandlers_obj,
-	AnimationLayersHandler: handlersAnimationLayersHandler_AnimationLayersHandlerjs,
-	AnimationStateHandler: handlersAnimationStateHandler_AnimationStateHandlerjs,
-	SkeletonHandler: handlersSkeletonHandler_SkeletonHandlerjs,
-	Joint: Joint_Jointjs,
-	AnimationLayer: layerAnimationLayer_AnimationLayerjs,
-	LayerLerpBlender: layerLayerLerpBlender_LayerLerpBlenderjs,
-	Skeleton: Skeleton_Skeletonjs,
-	SkeletonPose: SkeletonPose_SkeletonPosejs,
-	AbstractState: stateAbstractState_AbstractStatejs,
-	AbstractTransitionState: stateAbstractTransitionState_AbstractTransitionStatejs,
-	FadeTransitionState: stateFadeTransitionState_FadeTransitionStatejs,
-	FrozenTransitionState: stateFrozenTransitionState_FrozenTransitionStatejs,
-	SteadyState: stateSteadyState_SteadyStatejs,
-	SyncFadeTransitionState: stateSyncFadeTransitionState_SyncFadeTransitionStatejs,
-	AnimationSystem: systemsAnimationSystem_AnimationSystemjs
+	Source: _Source.Sourcejs,
+	BinaryLerpSource: _BinaryLerpSource.BinaryLerpSourcejs,
+	ClipSource: _ClipSource.ClipSourcejs,
+	FrozenClipSource: _FrozenClipSource.FrozenClipSourcejs,
+	ManagedTransformSource: _ManagedTransformSource.ManagedTransformSourcejs,
+	AbstractAnimationChannel: _AbstractAnimationChannel.AbstractAnimationChanneljs,
+	AnimationClip: _AnimationClip.AnimationClipjs,
+	AnimationClipInstance: _AnimationClipInstance.AnimationClipInstancejs,
+	InterpolatedFloatChannel: _InterpolatedFloatChannel.InterpolatedFloatChanneljs,
+	JointChannel: _JointChannel.JointChanneljs,
+	JointData: _JointData.JointDatajs,
+	TransformChannel: _TransformChannel.TransformChanneljs,
+	TransformData: _TransformData.TransformDatajs,
+	TriggerChannel: _TriggerChannel.TriggerChanneljs,
+	TriggerData: _TriggerData.TriggerDatajs,
+	AnimationComponent: _AnimationComponent.AnimationComponentjs,
+	AnimationClipHandler: _AnimationClipHandler.AnimationClipHandlerjs,
+	AnimationComponentHandler: _AnimationComponentHandler.AnimationComponentHandlerjs,
+	AnimationHandlers: _AnimationHandlers.handlersAnimationHandlers_obj,
+	AnimationLayersHandler: _AnimationLayersHandler.AnimationLayersHandlerjs,
+	AnimationStateHandler: _AnimationStateHandler.AnimationStateHandlerjs,
+	SkeletonHandler: _SkeletonHandler.SkeletonHandlerjs,
+	Joint: _Joint.Jointjs,
+	AnimationLayer: _AnimationLayer.AnimationLayerjs,
+	LayerLerpBlender: _LayerLerpBlender.LayerLerpBlenderjs,
+	Skeleton: _Skeleton.Skeletonjs,
+	SkeletonPose: _SkeletonPose.SkeletonPosejs,
+	AbstractState: _AbstractState.AbstractStatejs,
+	AbstractTransitionState: _AbstractTransitionState.AbstractTransitionStatejs,
+	FadeTransitionState: _FadeTransitionState.FadeTransitionStatejs,
+	FrozenTransitionState: _FrozenTransitionState.FrozenTransitionStatejs,
+	SteadyState: _SteadyState.SteadyStatejs,
+	SyncFadeTransitionState: _SyncFadeTransitionState.SyncFadeTransitionStatejs,
+	AnimationSystem: _AnimationSystem.AnimationSystemjs
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

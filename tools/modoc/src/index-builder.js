@@ -1,5 +1,24 @@
-import _ from "underscore";
-import * as util_getFileNamejs from "./util";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getIndex = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _underscore = require("underscore");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+var _util = require("./util");
+
+var util_getFileNamejs = _interopRequireWildcard(_util);
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // jshint node:true
 'use strict';
 
@@ -21,17 +40,19 @@ function getDifferentiatorIndex(strings) {
 }
 
 function getIndex(classes) {
-	var files = _.pluck(classes, 'file').filter(Boolean);
+	var files = _underscore2.default.pluck(classes, 'file').filter(Boolean);
 	var differentiator = getDifferentiatorIndex(files);
 
-	var groups = _.groupBy(files, function (file) {
+	var groups = _underscore2.default.groupBy(files, function (file) {
 		return file.substring(differentiator, file.lastIndexOf('/'));
 	});
 
 	Object.keys(classes).forEach(function (className) {
 		var class_ = classes[className];
 		if (class_.group) {
-			if (!groups[class_.group]) { groups[class_.group] = []; }
+			if (!groups[class_.group]) {
+				groups[class_.group] = [];
+			}
 			groups[class_.group].push({
 				name: class_.constructor.name,
 				requirePath: class_.requirePath,
@@ -48,7 +69,9 @@ function getIndex(classes) {
 	Object.keys(groups).forEach(function (name) {
 		var group = groups[name];
 		group.forEach(function (file) {
-			if (typeof file === 'object') { return file; }
+			if ((typeof file === "undefined" ? "undefined" : _typeof(file)) === 'object') {
+				return file;
+			}
 
 			var fileName = util_getFileNamejs(file);
 			var requirePath = file.substring(differentiator, file.length - 3);
@@ -61,13 +84,11 @@ function getIndex(classes) {
 	});
 
 	ret[0].classes.sort(function (classA, classB) {
-		return classA.name < classB.name ? -1 :
-			classA.name > classB.name ? 1 : 0;
-	})
+		return classA.name < classB.name ? -1 : classA.name > classB.name ? 1 : 0;
+	});
 
 	return ret;
 }
 
-
 var getIndex_getIndex = getIndex;
-export { getIndex_getIndex as getIndex };
+exports.getIndex = getIndex_getIndex;

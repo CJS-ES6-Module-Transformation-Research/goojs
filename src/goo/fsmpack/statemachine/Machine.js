@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 function Machine(id, name) {
 	this.id = id;
 	this.name = name;
@@ -130,8 +135,12 @@ Machine.prototype.recursiveRemove = function () {
 };
 
 Machine.prototype.removeState = function (id) {
-	if (!this._states[id]) { return; }
-	if (this.initialState === id) { throw new Error('Cannot remove initial state'); }
+	if (!this._states[id]) {
+		return;
+	}
+	if (this.initialState === id) {
+		throw new Error('Cannot remove initial state');
+	}
 	if (this.currentState === this._states[id]) {
 		this.reset();
 	}
@@ -143,4 +152,4 @@ Machine.prototype.setInitialState = function (initialState) {
 };
 
 var exported_Machine = Machine;
-export { exported_Machine as Machine };
+exports.Machine = exported_Machine;

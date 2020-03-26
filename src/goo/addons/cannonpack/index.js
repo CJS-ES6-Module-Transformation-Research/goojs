@@ -1,23 +1,33 @@
-import {     CannonBoxColliderComponentjs as CannonBoxColliderComponent_CannonBoxColliderComponentjs, } from "./CannonBoxColliderComponent";
-import {     CannonCylinderColliderComponentjs as CannonCylinderColliderComponent_CannonCylinderColliderComponentjs, } from "./CannonCylinderColliderComponent";
-import {     CannonDistanceJointComponentjs as CannonDistanceJointComponent_CannonDistanceJointComponentjs, } from "./CannonDistanceJointComponent";
-import {     CannonPlaneColliderComponentjs as CannonPlaneColliderComponent_CannonPlaneColliderComponentjs, } from "./CannonPlaneColliderComponent";
-import {     CannonRigidbodyComponentjs as CannonRigidbodyComponent_CannonRigidbodyComponentjs, } from "./CannonRigidbodyComponent";
-import {     CannonSphereColliderComponentjs as CannonSphereColliderComponent_CannonSphereColliderComponentjs, } from "./CannonSphereColliderComponent";
-import { CannonSystemjs as CannonSystem_CannonSystemjs } from "./CannonSystem";
-import {     CannonTerrainColliderComponentjs as CannonTerrainColliderComponent_CannonTerrainColliderComponentjs, } from "./CannonTerrainColliderComponent";
+"use strict";
+
+var _CannonBoxColliderComponent = require("./CannonBoxColliderComponent");
+
+var _CannonCylinderColliderComponent = require("./CannonCylinderColliderComponent");
+
+var _CannonDistanceJointComponent = require("./CannonDistanceJointComponent");
+
+var _CannonPlaneColliderComponent = require("./CannonPlaneColliderComponent");
+
+var _CannonRigidbodyComponent = require("./CannonRigidbodyComponent");
+
+var _CannonSphereColliderComponent = require("./CannonSphereColliderComponent");
+
+var _CannonSystem = require("./CannonSystem");
+
+var _CannonTerrainColliderComponent = require("./CannonTerrainColliderComponent");
+
 var indexjs;
 indexjs = {
-	CannonBoxColliderComponent: CannonBoxColliderComponent_CannonBoxColliderComponentjs,
-	CannonCylinderColliderComponent: CannonCylinderColliderComponent_CannonCylinderColliderComponentjs,
-	CannonDistanceJointComponent: CannonDistanceJointComponent_CannonDistanceJointComponentjs,
-	CannonPlaneColliderComponent: CannonPlaneColliderComponent_CannonPlaneColliderComponentjs,
-	CannonRigidbodyComponent: CannonRigidbodyComponent_CannonRigidbodyComponentjs,
-	CannonSphereColliderComponent: CannonSphereColliderComponent_CannonSphereColliderComponentjs,
-	CannonSystem: CannonSystem_CannonSystemjs,
-	CannonTerrainColliderComponent: CannonTerrainColliderComponent_CannonTerrainColliderComponentjs
+	CannonBoxColliderComponent: _CannonBoxColliderComponent.CannonBoxColliderComponentjs,
+	CannonCylinderColliderComponent: _CannonCylinderColliderComponent.CannonCylinderColliderComponentjs,
+	CannonDistanceJointComponent: _CannonDistanceJointComponent.CannonDistanceJointComponentjs,
+	CannonPlaneColliderComponent: _CannonPlaneColliderComponent.CannonPlaneColliderComponentjs,
+	CannonRigidbodyComponent: _CannonRigidbodyComponent.CannonRigidbodyComponentjs,
+	CannonSphereColliderComponent: _CannonSphereColliderComponent.CannonSphereColliderComponentjs,
+	CannonSystem: _CannonSystem.CannonSystemjs,
+	CannonTerrainColliderComponent: _CannonTerrainColliderComponent.CannonTerrainColliderComponentjs
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

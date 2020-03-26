@@ -1,8 +1,15 @@
-import { Ray as mathRay_Rayjs } from "../../math/Ray";
-function BoundingPicker() {
-}
+'use strict';
 
-var pickRay = new mathRay_Rayjs();
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BoundingPicker = undefined;
+
+var _Ray = require('../../math/Ray');
+
+function BoundingPicker() {}
+
+var pickRay = new _Ray.Ray();
 
 BoundingPicker.pick = function (world, camera, x, y) {
 	var entities = world.entityManager.getEntities();
@@ -45,4 +52,4 @@ var exported_BoundingPicker = BoundingPicker;
 /**
  * BoundingPicker
  */
-export { exported_BoundingPicker as BoundingPicker };
+exports.BoundingPicker = exported_BoundingPicker;

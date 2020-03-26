@@ -1,16 +1,23 @@
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../../src/goo/loaders/DynamicLoader";
-import { Vector3 as srcgoomathVector3_Vector3js } from "../../../../../src/goo/math/Vector3";
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../../src/goo/entities/World";
-import {     RigidBodyComponent as srcgooaddonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs, } from "../../../../../src/goo/addons/physicspack/components/RigidBodyComponent";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../../test/unit/loaders/Configs";
-import "../../../../../src/goo/addons/physicspack/handlers/RigidBodyComponentHandler";
+"use strict";
+
+var _DynamicLoader = require("../../../../../src/goo/loaders/DynamicLoader");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _RigidBodyComponent = require("../../../../../src/goo/addons/physicspack/components/RigidBodyComponent");
+
+var _Configs = require("../../../../../test/unit/loaders/Configs");
+
+require("../../../../../src/goo/addons/physicspack/handlers/RigidBodyComponentHandler");
 
 describe('RigidBodyComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -18,23 +25,23 @@ describe('RigidBodyComponentHandler', function () {
 	});
 
 	it('loads an entity with rigidBody component', function (done) {
-		var config = testunitloadersConfigs_Configsjs.entity(['rigidBody']);
+		var config = _Configs.Configs.entity(['rigidBody']);
 
 		config.components.rigidBody.mass = 3;
 		config.components.rigidBody.velocity = [1, 2, 3];
 		config.components.rigidBody.angularVelocity = [4, 5, 6];
 
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.rigidBodyComponent).toEqual(jasmine.any(srcgooaddonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs));
+			expect(entity.rigidBodyComponent).toEqual(jasmine.any(_RigidBodyComponent.RigidBodyComponent));
 
-			var velocity = new srcgoomathVector3_Vector3js();
+			var velocity = new _Vector.Vector3();
 			entity.rigidBodyComponent.getVelocity(velocity);
-			expect(velocity).toEqual(new srcgoomathVector3_Vector3js(1, 2, 3));
+			expect(velocity).toEqual(new _Vector.Vector3(1, 2, 3));
 
-			var angularVelocity = new srcgoomathVector3_Vector3js();
+			var angularVelocity = new _Vector.Vector3();
 			entity.rigidBodyComponent.getAngularVelocity(angularVelocity);
-			expect(angularVelocity).toEqual(new srcgoomathVector3_Vector3js(4, 5, 6));
+			expect(angularVelocity).toEqual(new _Vector.Vector3(4, 5, 6));
 
 			expect(entity.rigidBodyComponent.mass).toBe(3);
 

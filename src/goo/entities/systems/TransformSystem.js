@@ -1,15 +1,22 @@
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TransformSystem = undefined;
+
+var _System = require('../../entities/systems/System');
 
 // has to stay here because it's used by traverseFunc below
 // it's pretty crappy how it's sprinkled over the code
 var numUpdates;
 
 function TransformSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'TransformSystem', ['TransformComponent']);
+	_System.System.call(this, 'TransformSystem', ['TransformComponent']);
 	this.numUpdates = 0;
 }
 
-TransformSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+TransformSystem.prototype = Object.create(_System.System.prototype);
 TransformSystem.prototype.constructor = TransformSystem;
 
 TransformSystem.prototype.process = function () {
@@ -56,4 +63,4 @@ var exported_TransformSystem = TransformSystem;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
  * @extends System
  */
-export { exported_TransformSystem as TransformSystem };
+exports.TransformSystem = exported_TransformSystem;

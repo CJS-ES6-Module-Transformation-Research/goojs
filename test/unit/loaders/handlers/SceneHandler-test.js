@@ -1,15 +1,21 @@
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Entity as srcgooentitiesEntity_Entityjs } from "../../../../src/goo/entities/Entity";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/loaders/handlers/SceneHandler";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Entity = require("../../../../src/goo/entities/Entity");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/loaders/handlers/SceneHandler");
 
 describe('SceneHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,8 +23,8 @@ describe('SceneHandler', function () {
 	});
 
 	it('loads a scene with entities', function (done) {
-		var config = testunitloadersConfigs_Configsjs.scene();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.scene();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (scene) {
 			expect(scene.entities).toEqual(jasmine.any(Object));
 			var entity;
@@ -26,7 +32,7 @@ describe('SceneHandler', function () {
 				entity = scene.entities[key];
 				break;
 			}
-			expect(entity).toEqual(jasmine.any(srcgooentitiesEntity_Entityjs));
+			expect(entity).toEqual(jasmine.any(_Entity.Entity));
 			expect(entity._world._addedEntities).toContain(entity);
 			done();
 		});

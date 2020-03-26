@@ -1,32 +1,39 @@
-import { Box as shapesBox_Boxjs } from "../../shapes/Box";
-import { Transform as mathTransform_Transformjs } from "../../math/Transform";
-import { Joint as animationpackJoint_Jointjs } from "../../animationpack/Joint";
-import { MeshBuilder as utilMeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
-import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SkeletonDebug = undefined;
+
+var _Box = require("../../shapes/Box");
+
+var _Transform = require("../../math/Transform");
+
+var _Joint = require("../../animationpack/Joint");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _MeshData = require("../../renderer/MeshData");
 
 function SkeletonDebug() {}
-var calcTrans = new mathTransform_Transformjs();
+var calcTrans = new _Transform.Transform();
 
 SkeletonDebug.prototype.getMesh = function (pose) {
 	var joints = pose._skeleton._joints;
-	return [
-		this._buildLines(joints),
-		this._buildBoxes(joints)
-	];
+	return [this._buildLines(joints), this._buildBoxes(joints)];
 };
 
 SkeletonDebug.prototype._buildBoxes = function (joints) {
-	var boxBuilder = new utilMeshBuilder_MeshBuilderjs();
+	var boxBuilder = new _MeshBuilder.MeshBuilder();
 
-	var box = new shapesBox_Boxjs(2, 2, 2);
-	box.attributeMap.WEIGHTS = rendererMeshData_MeshDatajs.createAttribute(4, 'Float');
-	box.attributeMap.JOINTIDS = rendererMeshData_MeshDatajs.createAttribute(4, 'Float');
+	var box = new _Box.Box(2, 2, 2);
+	box.attributeMap.WEIGHTS = _MeshData.MeshData.createAttribute(4, 'Float');
+	box.attributeMap.JOINTIDS = _MeshData.MeshData.createAttribute(4, 'Float');
 	box.rebuildData();
 	box.rebuild();
 
 	for (var i = 0; i < joints.length; i++) {
-		calcTrans.matrix.copy(joints[i]._inverseBindPose.matrix)
-			.invert();
+		calcTrans.matrix.copy(joints[i]._inverseBindPose.matrix).invert();
 		this._stuffBox(box, joints[i]);
 		boxBuilder.addMeshData(box, calcTrans);
 	}
@@ -38,12 +45,16 @@ SkeletonDebug.prototype._buildBoxes = function (joints) {
 };
 
 SkeletonDebug.prototype._buildLines = function (joints) {
-	var positions = [], weights = [], jointIds = [],
-		indices = [], count = 0, td = calcTrans.matrix.data;
+	var positions = [],
+	    weights = [],
+	    jointIds = [],
+	    indices = [],
+	    count = 0,
+	    td = calcTrans.matrix.data;
 
 	for (var i = 0; i < joints.length; i++) {
 		var joint = joints[i];
-		if (joint._parentIndex !== animationpackJoint_Jointjs.NO_PARENT) {
+		if (joint._parentIndex !== _Joint.Joint.NO_PARENT) {
 			var parentJoint = joints[joint._parentIndex];
 			weights.push(1, 0, 0, 0, 1, 0, 0, 0);
 			jointIds.push(joint._index, 0, 0, 0, parentJoint._index, 0, 0, 0);
@@ -57,16 +68,11 @@ SkeletonDebug.prototype._buildLines = function (joints) {
 		}
 	}
 	// Lines for bones
-	var line = new rendererMeshData_MeshDatajs(
-		rendererMeshData_MeshDatajs.defaultMap([
-			rendererMeshData_MeshDatajs.POSITION,
-			rendererMeshData_MeshDatajs.WEIGHTS,
-			rendererMeshData_MeshDatajs.JOINTIDS
-		]), positions.length / 3, indices.length);
+	var line = new _MeshData.MeshData(_MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.WEIGHTS, _MeshData.MeshData.JOINTIDS]), positions.length / 3, indices.length);
 	line.indexModes = ['Lines'];
-	line.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(positions);
-	line.getAttributeBuffer(rendererMeshData_MeshDatajs.WEIGHTS).set(weights);
-	line.getAttributeBuffer(rendererMeshData_MeshDatajs.JOINTIDS).set(jointIds);
+	line.getAttributeBuffer(_MeshData.MeshData.POSITION).set(positions);
+	line.getAttributeBuffer(_MeshData.MeshData.WEIGHTS).set(weights);
+	line.getAttributeBuffer(_MeshData.MeshData.JOINTIDS).set(jointIds);
 	line.getIndexBuffer().set(indices);
 
 	this._buildPaletteMap(line, joints);
@@ -92,4 +98,4 @@ SkeletonDebug.prototype._buildPaletteMap = function (meshData, joints) {
 };
 
 var exported_SkeletonDebug = SkeletonDebug;
-export { exported_SkeletonDebug as SkeletonDebug };
+exports.SkeletonDebug = exported_SkeletonDebug;

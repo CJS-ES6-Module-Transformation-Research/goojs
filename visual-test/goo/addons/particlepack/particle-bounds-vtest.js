@@ -1,3 +1,5 @@
+"use strict";
+
 goo.V.attachToGlobal();
 
 var gooRunner = V.initGoo();
@@ -19,7 +21,7 @@ var entity = world.createEntity([0, 0, 0], new ParticleSystemComponent({
 	entity.setTranslation(0, 0, x);
 
 	var wb = entity.particleSystemComponent.meshEntity.meshRendererComponent.worldBound;
-	if(wb){
+	if (wb) {
 		var transform = debugRenderSystem.selectionRenderable[0].transform;
 		transform.scale.setDirect(wb.xExtent, wb.yExtent, wb.zExtent);
 		transform.translation.set(wb.center);

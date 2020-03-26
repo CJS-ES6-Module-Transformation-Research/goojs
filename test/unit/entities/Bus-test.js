@@ -1,10 +1,12 @@
-import { Bus as srcgooentitiesBus_Busjs } from "../../../src/goo/entities/Bus";
+'use strict';
+
+var _Bus = require('../../../src/goo/entities/Bus');
 
 describe('Bus', function () {
 	var bus;
 
 	beforeEach(function () {
-		bus = new srcgooentitiesBus_Busjs();
+		bus = new _Bus.Bus();
 	});
 
 	it('can add a listener, emit and capture a message', function () {
@@ -259,7 +261,9 @@ describe('Bus', function () {
 
 		it('correctly emits to channels as they are removed (before the current position)', function () {
 			var spy1 = jasmine.createSpy('spy1');
-			var rem2 = function () { bus.removeListener('main', spy1); };
+			var rem2 = function rem2() {
+				bus.removeListener('main', spy1);
+			};
 			var spy3 = jasmine.createSpy('spy5');
 
 			bus.addListener('main', spy1);
@@ -274,7 +278,9 @@ describe('Bus', function () {
 
 		it('correctly emits to channels as they are removed (after the current position)', function () {
 			var spy1 = jasmine.createSpy('spy1');
-			var rem2 = function () { bus.removeListener('main', spy3); };
+			var rem2 = function rem2() {
+				bus.removeListener('main', spy3);
+			};
 			var spy3 = jasmine.createSpy('spy3');
 
 			bus.addListener('main', spy1);
@@ -326,7 +332,7 @@ describe('Bus', function () {
 
 	describe('removeListener', function () {
 		it('returns itself', function () {
-			var listener = function () {};
+			var listener = function listener() {};
 			bus.addListener('main', listener);
 			expect(bus.removeListener('main', listener)).toBe(bus);
 		});
@@ -352,10 +358,10 @@ describe('Bus', function () {
 
 	describe('clear', function () {
 		it('clears the system bus of any channels or listeners', function () {
-			bus.addListener('main', function (/*data*/) {});
-			bus.addListener('main.second', function (/*data*/) {});
+			bus.addListener('main', function () /*data*/{});
+			bus.addListener('main.second', function () /*data*/{});
 			bus.clear();
-			var newBus = new srcgooentitiesBus_Busjs();
+			var newBus = new _Bus.Bus();
 			bus._emitOnEachChildChannel = newBus._emitOnEachChildChannel = null; // this function is the only thing that differ in the following test
 			expect(bus).toEqual(newBus);
 		});

@@ -1,110 +1,205 @@
-import { allActions as ArrowsAction_allActions } from "./ArrowsAction";
-import { allActions as DomEventAction_allActions } from "./DomEventAction";
-import { allActions as MouseUpAction_allActions } from "./MouseUpAction";
-import { allActions as MouseDownAction_allActions } from "./MouseDownAction";
-import { allActions as MouseMoveAction_allActions } from "./MouseMoveAction";
-import { allActions as MousePressedAction_allActions } from "./MousePressedAction";
-import { allActions as KeyUpAction_allActions } from "./KeyUpAction";
-import { allActions as KeyDownAction_allActions } from "./KeyDownAction";
-import { allActions as KeyPressedAction_allActions } from "./KeyPressedAction";
-import { allActions as PickAction_allActions } from "./PickAction";
-import { allActions as PickAndExitAction_allActions } from "./PickAndExitAction";
-import { allActions as ClickAction_allActions } from "./ClickAction";
-import { allActions as HoverEnterAction_allActions } from "./HoverEnterAction";
-import { allActions as HoverExitAction_allActions } from "./HoverExitAction";
-import { allActions as WasdAction_allActions } from "./WasdAction";
-import { allActions as MoveAction_allActions } from "./MoveAction";
-import { allActions as RotateAction_allActions } from "./RotateAction";
-import { allActions as ScaleAction_allActions } from "./ScaleAction";
-import { allActions as LookAtAction_allActions } from "./LookAtAction";
-import { allActions as TweenMoveAction_allActions } from "./TweenMoveAction";
-import { allActions as TweenRotationAction_allActions } from "./TweenRotationAction";
-import { allActions as TweenScaleAction_allActions } from "./TweenScaleAction";
-import { allActions as TweenLookAtAction_allActions } from "./TweenLookAtAction";
-import { allActions as ShakeAction_allActions } from "./ShakeAction";
-import { allActions as PauseAnimationAction_allActions } from "./PauseAnimationAction";
-import { allActions as ResumeAnimationAction_allActions } from "./ResumeAnimationAction";
-import { allActions as SetAnimationAction_allActions } from "./SetAnimationAction";
-import { allActions as SetTimeScaleAction_allActions } from "./SetTimeScaleAction";
-import { allActions as SetAnimationOffsetAction_allActions } from "./SetAnimationOffsetAction";
-import { allActions as WaitAction_allActions } from "./WaitAction";
-import { allActions as TransitionAction_allActions } from "./TransitionAction";
-import { allActions as NextFrameAction_allActions } from "./NextFrameAction";
-import { allActions as RandomTransitionAction_allActions } from "./RandomTransitionAction";
-import { allActions as EmitAction_allActions } from "./EmitAction";
-import { allActions as TransitionOnMessageAction_allActions } from "./TransitionOnMessageAction";
-import { allActions as EvalAction_allActions } from "./EvalAction";
-import { allActions as HideAction_allActions } from "./HideAction";
-import { allActions as ShowAction_allActions } from "./ShowAction";
-import { allActions as RemoveAction_allActions } from "./RemoveAction";
-import { allActions as AddLightAction_allActions } from "./AddLightAction";
-import { allActions as RemoveLightAction_allActions } from "./RemoveLightAction";
-import { allActions as SetLightPropertiesAction_allActions } from "./SetLightPropertiesAction";
-import { allActions as TweenLightColorAction_allActions } from "./TweenLightColorAction";
-import { allActions as SetClearColorAction_allActions } from "./SetClearColorAction";
-import { allActions as SwitchCameraAction_allActions } from "./SwitchCameraAction";
-import { allActions as InFrustumAction_allActions } from "./InFrustumAction";
-import { allActions as DollyZoomAction_allActions } from "./DollyZoomAction";
-import { allActions as InBoxAction_allActions } from "./InBoxAction";
-import { allActions as CompareDistanceAction_allActions } from "./CompareDistanceAction";
-import { allActions as CollidesAction_allActions } from "./CollidesAction";
-import { allActions as TagAction_allActions } from "./TagAction";
-import { allActions as SmokeAction_allActions } from "./SmokeAction";
-import { allActions as FireAction_allActions } from "./FireAction";
-import { allActions as RemoveParticlesAction_allActions } from "./RemoveParticlesAction";
-import { allActions as TogglePostFxAction_allActions } from "./TogglePostFxAction";
-import { allActions as ToggleFullscreenAction_allActions } from "./ToggleFullscreenAction";
-import { allActions as PlaySoundAction_allActions } from "./PlaySoundAction";
-import { allActions as PauseSoundAction_allActions } from "./PauseSoundAction";
-import { allActions as StopSoundAction_allActions } from "./StopSoundAction";
-import { allActions as SoundFadeInAction_allActions } from "./SoundFadeInAction";
-import { allActions as SoundFadeOutAction_allActions } from "./SoundFadeOutAction";
-import { allActions as SetRenderTargetAction_allActions } from "./SetRenderTargetAction";
-import { allActions as TweenTextureOffsetAction_allActions } from "./TweenTextureOffsetAction";
-import { allActions as SetMaterialColorAction_allActions } from "./SetMaterialColorAction";
-import { allActions as TweenMaterialColorAction_allActions } from "./TweenMaterialColorAction";
-import { allActions as LogMessageAction_allActions } from "./LogMessageAction";
-import { allActions as TweenOpacityAction_allActions } from "./TweenOpacityAction";
-import { allActions as HtmlAction_allActions } from "./HtmlAction";
-import { allActions as CopyJointTransformAction_allActions } from "./CopyJointTransformAction";
-import { allActions as TriggerEnterAction_allActions } from "./TriggerEnterAction";
-import { allActions as TriggerLeaveAction_allActions } from "./TriggerLeaveAction";
-import { allActions as ApplyImpulseAction_allActions } from "./ApplyImpulseAction";
-import { allActions as ApplyForceAction_allActions } from "./ApplyForceAction";
-import { allActions as ApplyTorqueAction_allActions } from "./ApplyTorqueAction";
-import { allActions as SetRigidBodyPositionAction_allActions } from "./SetRigidBodyPositionAction";
-import { allActions as SetRigidBodyRotationAction_allActions } from "./SetRigidBodyRotationAction";
-import { allActions as SetRigidBodyVelocityAction_allActions } from "./SetRigidBodyVelocityAction";
-import { allActions as SetRigidBodyAngularVelocityAction_allActions } from "./SetRigidBodyAngularVelocityAction";
-import { allActions as CompareCounterAction_allActions } from "./CompareCounterAction";
-import { allActions as CompareCountersAction_allActions } from "./CompareCountersAction";
-import { allActions as SetCounterAction_allActions } from "./SetCounterAction";
-import { allActions as IncrementCounterAction_allActions } from "./IncrementCounterAction";
-import { allActions as MuteAction_allActions } from "./MuteAction";
-import { allActions as UnmuteAction_allActions } from "./UnmuteAction";
-import { allActions as ToggleMuteAction_allActions } from "./ToggleMuteAction";
-import { allActions as StartTimelineAction_allActions } from "./StartTimelineAction";
-import { allActions as PauseTimelineAction_allActions } from "./PauseTimelineAction";
-import { allActions as StopTimelineAction_allActions } from "./StopTimelineAction";
-import { allActions as SetTimelineTimeAction_allActions } from "./SetTimelineTimeAction";
-import { allActions as SetHtmlTextAction_allActions } from "./SetHtmlTextAction";
-import { allActions as SpriteAnimationAction_allActions } from "./SpriteAnimationAction";
-import { allActions as PauseParticleSystemAction_allActions } from "./PauseParticleSystemAction";
-import { allActions as StopParticleSystemAction_allActions } from "./StopParticleSystemAction";
-import { allActions as StartParticleSystemAction_allActions } from "./StartParticleSystemAction";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Actions = undefined;
+
+var _ArrowsAction = require("./ArrowsAction");
+
+var _DomEventAction = require("./DomEventAction");
+
+var _MouseUpAction = require("./MouseUpAction");
+
+var _MouseDownAction = require("./MouseDownAction");
+
+var _MouseMoveAction = require("./MouseMoveAction");
+
+var _MousePressedAction = require("./MousePressedAction");
+
+var _KeyUpAction = require("./KeyUpAction");
+
+var _KeyDownAction = require("./KeyDownAction");
+
+var _KeyPressedAction = require("./KeyPressedAction");
+
+var _PickAction = require("./PickAction");
+
+var _PickAndExitAction = require("./PickAndExitAction");
+
+var _ClickAction = require("./ClickAction");
+
+var _HoverEnterAction = require("./HoverEnterAction");
+
+var _HoverExitAction = require("./HoverExitAction");
+
+var _WasdAction = require("./WasdAction");
+
+var _MoveAction = require("./MoveAction");
+
+var _RotateAction = require("./RotateAction");
+
+var _ScaleAction = require("./ScaleAction");
+
+var _LookAtAction = require("./LookAtAction");
+
+var _TweenMoveAction = require("./TweenMoveAction");
+
+var _TweenRotationAction = require("./TweenRotationAction");
+
+var _TweenScaleAction = require("./TweenScaleAction");
+
+var _TweenLookAtAction = require("./TweenLookAtAction");
+
+var _ShakeAction = require("./ShakeAction");
+
+var _PauseAnimationAction = require("./PauseAnimationAction");
+
+var _ResumeAnimationAction = require("./ResumeAnimationAction");
+
+var _SetAnimationAction = require("./SetAnimationAction");
+
+var _SetTimeScaleAction = require("./SetTimeScaleAction");
+
+var _SetAnimationOffsetAction = require("./SetAnimationOffsetAction");
+
+var _WaitAction = require("./WaitAction");
+
+var _TransitionAction = require("./TransitionAction");
+
+var _NextFrameAction = require("./NextFrameAction");
+
+var _RandomTransitionAction = require("./RandomTransitionAction");
+
+var _EmitAction = require("./EmitAction");
+
+var _TransitionOnMessageAction = require("./TransitionOnMessageAction");
+
+var _EvalAction = require("./EvalAction");
+
+var _HideAction = require("./HideAction");
+
+var _ShowAction = require("./ShowAction");
+
+var _RemoveAction = require("./RemoveAction");
+
+var _AddLightAction = require("./AddLightAction");
+
+var _RemoveLightAction = require("./RemoveLightAction");
+
+var _SetLightPropertiesAction = require("./SetLightPropertiesAction");
+
+var _TweenLightColorAction = require("./TweenLightColorAction");
+
+var _SetClearColorAction = require("./SetClearColorAction");
+
+var _SwitchCameraAction = require("./SwitchCameraAction");
+
+var _InFrustumAction = require("./InFrustumAction");
+
+var _DollyZoomAction = require("./DollyZoomAction");
+
+var _InBoxAction = require("./InBoxAction");
+
+var _CompareDistanceAction = require("./CompareDistanceAction");
+
+var _CollidesAction = require("./CollidesAction");
+
+var _TagAction = require("./TagAction");
+
+var _SmokeAction = require("./SmokeAction");
+
+var _FireAction = require("./FireAction");
+
+var _RemoveParticlesAction = require("./RemoveParticlesAction");
+
+var _TogglePostFxAction = require("./TogglePostFxAction");
+
+var _ToggleFullscreenAction = require("./ToggleFullscreenAction");
+
+var _PlaySoundAction = require("./PlaySoundAction");
+
+var _PauseSoundAction = require("./PauseSoundAction");
+
+var _StopSoundAction = require("./StopSoundAction");
+
+var _SoundFadeInAction = require("./SoundFadeInAction");
+
+var _SoundFadeOutAction = require("./SoundFadeOutAction");
+
+var _SetRenderTargetAction = require("./SetRenderTargetAction");
+
+var _TweenTextureOffsetAction = require("./TweenTextureOffsetAction");
+
+var _SetMaterialColorAction = require("./SetMaterialColorAction");
+
+var _TweenMaterialColorAction = require("./TweenMaterialColorAction");
+
+var _LogMessageAction = require("./LogMessageAction");
+
+var _TweenOpacityAction = require("./TweenOpacityAction");
+
+var _HtmlAction = require("./HtmlAction");
+
+var _CopyJointTransformAction = require("./CopyJointTransformAction");
+
+var _TriggerEnterAction = require("./TriggerEnterAction");
+
+var _TriggerLeaveAction = require("./TriggerLeaveAction");
+
+var _ApplyImpulseAction = require("./ApplyImpulseAction");
+
+var _ApplyForceAction = require("./ApplyForceAction");
+
+var _ApplyTorqueAction = require("./ApplyTorqueAction");
+
+var _SetRigidBodyPositionAction = require("./SetRigidBodyPositionAction");
+
+var _SetRigidBodyRotationAction = require("./SetRigidBodyRotationAction");
+
+var _SetRigidBodyVelocityAction = require("./SetRigidBodyVelocityAction");
+
+var _SetRigidBodyAngularVelocityAction = require("./SetRigidBodyAngularVelocityAction");
+
+var _CompareCounterAction = require("./CompareCounterAction");
+
+var _CompareCountersAction = require("./CompareCountersAction");
+
+var _SetCounterAction = require("./SetCounterAction");
+
+var _IncrementCounterAction = require("./IncrementCounterAction");
+
+var _MuteAction = require("./MuteAction");
+
+var _UnmuteAction = require("./UnmuteAction");
+
+var _ToggleMuteAction = require("./ToggleMuteAction");
+
+var _StartTimelineAction = require("./StartTimelineAction");
+
+var _PauseTimelineAction = require("./PauseTimelineAction");
+
+var _StopTimelineAction = require("./StopTimelineAction");
+
+var _SetTimelineTimeAction = require("./SetTimelineTimeAction");
+
+var _SetHtmlTextAction = require("./SetHtmlTextAction");
+
+var _SpriteAnimationAction = require("./SpriteAnimationAction");
+
+var _PauseParticleSystemAction = require("./PauseParticleSystemAction");
+
+var _StopParticleSystemAction = require("./StopParticleSystemAction");
+
+var _StartParticleSystemAction = require("./StartParticleSystemAction");
+
 var _actions = {};
 
-var Actions = function () {};
+var Actions = function Actions() {};
 
-let exported_Actions = Actions;
+var exported_Actions = Actions;
 
-var IGNORED_ACTIONS = [
-	'Eval',
-	'HTMLPick',
-	'Remove',
-	'Collides',
-	'Tag'
-];
+var IGNORED_ACTIONS = ['Eval', 'HTMLPick', 'Remove', 'Collides', 'Tag'];
 
 Actions.register = function (name, actionClass) {
 	_actions[name] = actionClass;
@@ -137,107 +232,106 @@ Actions.allActionsArray = function () {
 	return array;
 };
 
-
 var allActions = {
-	ArrowsAction: ArrowsAction_allActions,
-	DomEventAction: DomEventAction_allActions,
-	MouseUpAction: MouseUpAction_allActions,
-	MouseDownAction: MouseDownAction_allActions,
-	MouseMoveAction: MouseMoveAction_allActions,
-	MousePressedAction: MousePressedAction_allActions,
-	KeyUpAction: KeyUpAction_allActions,
-	KeyDownAction: KeyDownAction_allActions,
-	KeyPressedAction: KeyPressedAction_allActions,
-	PickAction: PickAction_allActions,
-	PickAndExitAction: PickAndExitAction_allActions,
-	ClickAction: ClickAction_allActions,
-	HoverEnterAction: HoverEnterAction_allActions,
-	HoverExitAction: HoverExitAction_allActions,
-	WasdAction: WasdAction_allActions,
-	MoveAction: MoveAction_allActions,
-	RotateAction: RotateAction_allActions,
-	ScaleAction: ScaleAction_allActions,
-	LookAtAction: LookAtAction_allActions,
-	TweenMoveAction: TweenMoveAction_allActions,
-	TweenRotationAction: TweenRotationAction_allActions,
-	TweenScaleAction: TweenScaleAction_allActions,
-	TweenLookAtAction: TweenLookAtAction_allActions,
-	ShakeAction: ShakeAction_allActions,
-	PauseAnimationAction: PauseAnimationAction_allActions,
-	ResumeAnimationAction: ResumeAnimationAction_allActions,
-	SetAnimationAction: SetAnimationAction_allActions,
-	SetTimeScaleAction: SetTimeScaleAction_allActions,
-	SetAnimationOffsetAction: SetAnimationOffsetAction_allActions,
-	WaitAction: WaitAction_allActions,
-	TransitionAction: TransitionAction_allActions,
-	NextFrameAction: NextFrameAction_allActions,
-	RandomTransitionAction: RandomTransitionAction_allActions,
-	EmitAction: EmitAction_allActions,
-	TransitionOnMessageAction: TransitionOnMessageAction_allActions,
-	EvalAction: EvalAction_allActions,
-	HideAction: HideAction_allActions,
-	ShowAction: ShowAction_allActions,
-	RemoveAction: RemoveAction_allActions,
-	AddLightAction: AddLightAction_allActions,
-	RemoveLightAction: RemoveLightAction_allActions,
-	SetLightPropertiesAction: SetLightPropertiesAction_allActions,
-	TweenLightColorAction: TweenLightColorAction_allActions,
-	SetClearColorAction: SetClearColorAction_allActions,
-	SwitchCameraAction: SwitchCameraAction_allActions,
-	InFrustumAction: InFrustumAction_allActions,
-	DollyZoomAction: DollyZoomAction_allActions,
-	InBoxAction: InBoxAction_allActions,
-	CompareDistanceAction: CompareDistanceAction_allActions,
-	CollidesAction: CollidesAction_allActions,
-	TagAction: TagAction_allActions,
-	SmokeAction: SmokeAction_allActions,
-	FireAction: FireAction_allActions,
-	RemoveParticlesAction: RemoveParticlesAction_allActions,
-	TogglePostFxAction: TogglePostFxAction_allActions,
-	ToggleFullscreenAction: ToggleFullscreenAction_allActions,
-	PlaySoundAction: PlaySoundAction_allActions,
-	PauseSoundAction: PauseSoundAction_allActions,
-	StopSoundAction: StopSoundAction_allActions,
-	SoundFadeInAction: SoundFadeInAction_allActions,
-	SoundFadeOutAction: SoundFadeOutAction_allActions,
-	SetRenderTargetAction: SetRenderTargetAction_allActions,
-	TweenTextureOffsetAction: TweenTextureOffsetAction_allActions,
-	SetMaterialColorAction: SetMaterialColorAction_allActions,
-	TweenMaterialColorAction: TweenMaterialColorAction_allActions,
-	LogMessageAction: LogMessageAction_allActions,
-	TweenOpacityAction: TweenOpacityAction_allActions,
-	HtmlAction: HtmlAction_allActions,
-	CopyJointTransformAction: CopyJointTransformAction_allActions,
-	TriggerEnterAction: TriggerEnterAction_allActions,
-	TriggerLeaveAction: TriggerLeaveAction_allActions,
-	ApplyImpulseAction: ApplyImpulseAction_allActions,
-	ApplyForceAction: ApplyForceAction_allActions,
-	ApplyTorqueAction: ApplyTorqueAction_allActions,
-	SetRigidBodyPositionAction: SetRigidBodyPositionAction_allActions,
-	SetRigidBodyRotationAction: SetRigidBodyRotationAction_allActions,
-	SetRigidBodyVelocityAction: SetRigidBodyVelocityAction_allActions,
-	SetRigidBodyAngularVelocityAction: SetRigidBodyAngularVelocityAction_allActions,
-	CompareCounterAction: CompareCounterAction_allActions,
-	CompareCountersAction: CompareCountersAction_allActions,
-	SetCounterAction: SetCounterAction_allActions,
-	IncrementCounterAction: IncrementCounterAction_allActions,
-	MuteAction: MuteAction_allActions,
-	UnmuteAction: UnmuteAction_allActions,
-	ToggleMuteAction: ToggleMuteAction_allActions,
-	StartTimelineAction: StartTimelineAction_allActions,
-	PauseTimelineAction: PauseTimelineAction_allActions,
-	StopTimelineAction: StopTimelineAction_allActions,
-	SetTimelineTimeAction: SetTimelineTimeAction_allActions,
-	SetHtmlTextAction: SetHtmlTextAction_allActions,
-	SpriteAnimationAction: SpriteAnimationAction_allActions,
-	PauseParticleSystemAction: PauseParticleSystemAction_allActions,
-	StopParticleSystemAction: StopParticleSystemAction_allActions,
-	StartParticleSystemAction: StartParticleSystemAction_allActions
+	ArrowsAction: _ArrowsAction.allActions,
+	DomEventAction: _DomEventAction.allActions,
+	MouseUpAction: _MouseUpAction.allActions,
+	MouseDownAction: _MouseDownAction.allActions,
+	MouseMoveAction: _MouseMoveAction.allActions,
+	MousePressedAction: _MousePressedAction.allActions,
+	KeyUpAction: _KeyUpAction.allActions,
+	KeyDownAction: _KeyDownAction.allActions,
+	KeyPressedAction: _KeyPressedAction.allActions,
+	PickAction: _PickAction.allActions,
+	PickAndExitAction: _PickAndExitAction.allActions,
+	ClickAction: _ClickAction.allActions,
+	HoverEnterAction: _HoverEnterAction.allActions,
+	HoverExitAction: _HoverExitAction.allActions,
+	WasdAction: _WasdAction.allActions,
+	MoveAction: _MoveAction.allActions,
+	RotateAction: _RotateAction.allActions,
+	ScaleAction: _ScaleAction.allActions,
+	LookAtAction: _LookAtAction.allActions,
+	TweenMoveAction: _TweenMoveAction.allActions,
+	TweenRotationAction: _TweenRotationAction.allActions,
+	TweenScaleAction: _TweenScaleAction.allActions,
+	TweenLookAtAction: _TweenLookAtAction.allActions,
+	ShakeAction: _ShakeAction.allActions,
+	PauseAnimationAction: _PauseAnimationAction.allActions,
+	ResumeAnimationAction: _ResumeAnimationAction.allActions,
+	SetAnimationAction: _SetAnimationAction.allActions,
+	SetTimeScaleAction: _SetTimeScaleAction.allActions,
+	SetAnimationOffsetAction: _SetAnimationOffsetAction.allActions,
+	WaitAction: _WaitAction.allActions,
+	TransitionAction: _TransitionAction.allActions,
+	NextFrameAction: _NextFrameAction.allActions,
+	RandomTransitionAction: _RandomTransitionAction.allActions,
+	EmitAction: _EmitAction.allActions,
+	TransitionOnMessageAction: _TransitionOnMessageAction.allActions,
+	EvalAction: _EvalAction.allActions,
+	HideAction: _HideAction.allActions,
+	ShowAction: _ShowAction.allActions,
+	RemoveAction: _RemoveAction.allActions,
+	AddLightAction: _AddLightAction.allActions,
+	RemoveLightAction: _RemoveLightAction.allActions,
+	SetLightPropertiesAction: _SetLightPropertiesAction.allActions,
+	TweenLightColorAction: _TweenLightColorAction.allActions,
+	SetClearColorAction: _SetClearColorAction.allActions,
+	SwitchCameraAction: _SwitchCameraAction.allActions,
+	InFrustumAction: _InFrustumAction.allActions,
+	DollyZoomAction: _DollyZoomAction.allActions,
+	InBoxAction: _InBoxAction.allActions,
+	CompareDistanceAction: _CompareDistanceAction.allActions,
+	CollidesAction: _CollidesAction.allActions,
+	TagAction: _TagAction.allActions,
+	SmokeAction: _SmokeAction.allActions,
+	FireAction: _FireAction.allActions,
+	RemoveParticlesAction: _RemoveParticlesAction.allActions,
+	TogglePostFxAction: _TogglePostFxAction.allActions,
+	ToggleFullscreenAction: _ToggleFullscreenAction.allActions,
+	PlaySoundAction: _PlaySoundAction.allActions,
+	PauseSoundAction: _PauseSoundAction.allActions,
+	StopSoundAction: _StopSoundAction.allActions,
+	SoundFadeInAction: _SoundFadeInAction.allActions,
+	SoundFadeOutAction: _SoundFadeOutAction.allActions,
+	SetRenderTargetAction: _SetRenderTargetAction.allActions,
+	TweenTextureOffsetAction: _TweenTextureOffsetAction.allActions,
+	SetMaterialColorAction: _SetMaterialColorAction.allActions,
+	TweenMaterialColorAction: _TweenMaterialColorAction.allActions,
+	LogMessageAction: _LogMessageAction.allActions,
+	TweenOpacityAction: _TweenOpacityAction.allActions,
+	HtmlAction: _HtmlAction.allActions,
+	CopyJointTransformAction: _CopyJointTransformAction.allActions,
+	TriggerEnterAction: _TriggerEnterAction.allActions,
+	TriggerLeaveAction: _TriggerLeaveAction.allActions,
+	ApplyImpulseAction: _ApplyImpulseAction.allActions,
+	ApplyForceAction: _ApplyForceAction.allActions,
+	ApplyTorqueAction: _ApplyTorqueAction.allActions,
+	SetRigidBodyPositionAction: _SetRigidBodyPositionAction.allActions,
+	SetRigidBodyRotationAction: _SetRigidBodyRotationAction.allActions,
+	SetRigidBodyVelocityAction: _SetRigidBodyVelocityAction.allActions,
+	SetRigidBodyAngularVelocityAction: _SetRigidBodyAngularVelocityAction.allActions,
+	CompareCounterAction: _CompareCounterAction.allActions,
+	CompareCountersAction: _CompareCountersAction.allActions,
+	SetCounterAction: _SetCounterAction.allActions,
+	IncrementCounterAction: _IncrementCounterAction.allActions,
+	MuteAction: _MuteAction.allActions,
+	UnmuteAction: _UnmuteAction.allActions,
+	ToggleMuteAction: _ToggleMuteAction.allActions,
+	StartTimelineAction: _StartTimelineAction.allActions,
+	PauseTimelineAction: _PauseTimelineAction.allActions,
+	StopTimelineAction: _StopTimelineAction.allActions,
+	SetTimelineTimeAction: _SetTimelineTimeAction.allActions,
+	SetHtmlTextAction: _SetHtmlTextAction.allActions,
+	SpriteAnimationAction: _SpriteAnimationAction.allActions,
+	PauseParticleSystemAction: _PauseParticleSystemAction.allActions,
+	StopParticleSystemAction: _StopParticleSystemAction.allActions,
+	StartParticleSystemAction: _StartParticleSystemAction.allActions
 };
 
-for (var actionName in ArrowsAction_allActions) {
-	var action = ArrowsAction_allActions[actionName];
+for (var actionName in _ArrowsAction.allActions) {
+	var action = _ArrowsAction.allActions[actionName];
 	Actions.register(action.external.key, action);
 }
 
-export { exported_Actions as Actions };
+exports.Actions = exported_Actions;

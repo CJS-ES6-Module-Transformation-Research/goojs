@@ -1,21 +1,30 @@
-import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshCollider = undefined;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
+var _Vector = require("../../../math/Vector3");
+
 function MeshCollider(settings) {
 	settings = settings || {};
 
 	/**
-	 * @type {MeshData}
-	 */
+  * @type {MeshData}
+  */
 	this.meshData = settings.meshData;
 
 	/**
-	 * @type {Vector3}
-	 */
-	this.scale = settings.scale !== undefined ? new mathVector3_Vector3js(settings.scale) : new mathVector3_Vector3js(1, 1, 1);
+  * @type {Vector3}
+  */
+	this.scale = settings.scale !== undefined ? new _Vector.Vector3(settings.scale) : new _Vector.Vector3(1, 1, 1);
 
-	addonsphysicspackcollidersCollider_Colliderjs.call(this);
+	_Collider.Collider.call(this);
 }
-MeshCollider.prototype = Object.create(addonsphysicspackcollidersCollider_Colliderjs.prototype);
+MeshCollider.prototype = Object.create(_Collider.Collider.prototype);
 MeshCollider.prototype.constructor = MeshCollider;
 
 /**
@@ -46,4 +55,4 @@ var exported_MeshCollider = MeshCollider;
  * @param {Vector3} [settings.scale]
  * @extends Collider
  */
-export { exported_MeshCollider as MeshCollider };
+exports.MeshCollider = exported_MeshCollider;

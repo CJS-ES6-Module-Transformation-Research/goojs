@@ -1,3 +1,5 @@
+'use strict';
+
 /* global goo */
 
 goo.V.describe('All entities in the scene have an ammo component which updates their transform. Press any key to add entities.');
@@ -20,9 +22,7 @@ function createEntity(meshData, ammoSettings, pos) {
 	new TextureCreator().loadTexture2D(resourcePath + '/goo.png').then(function (texture) {
 		material.setTexture('DIFFUSE_MAP', texture);
 	});
-	return world.createEntity(meshData, material, pos)
-		.set(new AmmoComponent(ammoSettings))
-		.addToWorld();
+	return world.createEntity(meshData, material, pos).set(new AmmoComponent(ammoSettings)).addToWorld();
 }
 
 function addPrimitives() {
@@ -31,17 +31,9 @@ function addPrimitives() {
 		var y = goo.V.rng.nextFloat() * 16 + 8;
 		var z = goo.V.rng.nextFloat() * 16 - 8;
 		if (goo.V.rng.nextFloat() < 0.5) {
-			createEntity(
-				new Box(1 + goo.V.rng.nextFloat() * 2, 1 + goo.V.rng.nextFloat() * 2, 1 + goo.V.rng.nextFloat() * 2),
-				{ mass: 1 },
-				[x, y, z]
-			);
+			createEntity(new Box(1 + goo.V.rng.nextFloat() * 2, 1 + goo.V.rng.nextFloat() * 2, 1 + goo.V.rng.nextFloat() * 2), { mass: 1 }, [x, y, z]);
 		} else {
-			createEntity(
-				new Sphere(10, 10, 1 + goo.V.rng.nextFloat()),
-				{ mass: 1 },
-				[x, y, z]
-			);
+			createEntity(new Sphere(10, 10, 1 + goo.V.rng.nextFloat()), { mass: 1 }, [x, y, z]);
 		}
 	}
 }

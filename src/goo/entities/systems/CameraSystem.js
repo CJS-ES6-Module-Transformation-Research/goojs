@@ -1,12 +1,22 @@
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
-import { Renderer as rendererRenderer_Rendererjs } from "../../renderer/Renderer";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _Renderer = require("../../renderer/Renderer");
+
 function CameraSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
+	_System.System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
 	this.mainCamera = null; //! AT: what's up with this? is it unused?
 }
 
-CameraSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+CameraSystem.prototype = Object.create(_System.System.prototype);
 CameraSystem.prototype.constructor = CameraSystem;
 
 /**
@@ -16,7 +26,7 @@ CameraSystem.prototype.constructor = CameraSystem;
 CameraSystem.prototype.findMainCamera = function () {
 	if (this._activeEntities.length) {
 		var firstEntity = this._activeEntities[0];
-		entitiesSystemBus_SystemBusjsjs.emit('goo.setCurrentCamera', {
+		_SystemBus.SystemBusjs.emit('goo.setCurrentCamera', {
 			camera: firstEntity.cameraComponent.camera,
 			entity: firstEntity
 		});
@@ -24,8 +34,8 @@ CameraSystem.prototype.findMainCamera = function () {
 };
 
 CameraSystem.prototype.inserted = function (entity) {
-	if (!rendererRenderer_Rendererjs.mainCamera) {
-		entitiesSystemBus_SystemBusjsjs.emit('goo.setCurrentCamera', {
+	if (!_Renderer.Renderer.mainCamera) {
+		_SystemBus.SystemBusjs.emit('goo.setCurrentCamera', {
 			camera: entity.cameraComponent.camera,
 			entity: entity
 		});
@@ -57,4 +67,4 @@ var exported_CameraSystem = CameraSystem;
  * Updates cameras/cameracomponents with their transform component transforms
  * @extends System
  */
-export { exported_CameraSystem as CameraSystem };
+exports.CameraSystem = exported_CameraSystem;

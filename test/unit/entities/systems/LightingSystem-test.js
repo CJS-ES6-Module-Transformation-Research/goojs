@@ -1,57 +1,63 @@
-import { Entity as srcgooentitiesEntity_Entityjs } from "../../../../src/goo/entities/Entity";
-import { LightComponent as srcgooentitiescomponentsLightComponent_LightComponentjs } from "../../../../src/goo/entities/components/LightComponent";
-import {     TransformComponent as srcgooentitiescomponentsTransformComponent_TransformComponentjs, } from "../../../../src/goo/entities/components/TransformComponent";
-import { LightingSystem as srcgooentitiessystemsLightingSystem_LightingSystemjs } from "../../../../src/goo/entities/systems/LightingSystem";
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
+"use strict";
+
+var _Entity = require("../../../../src/goo/entities/Entity");
+
+var _LightComponent = require("../../../../src/goo/entities/components/LightComponent");
+
+var _TransformComponent = require("../../../../src/goo/entities/components/TransformComponent");
+
+var _LightingSystem = require("../../../../src/goo/entities/systems/LightingSystem");
+
+var _World = require("../../../../src/goo/entities/World");
 
 describe('LightingSystem', function () {
-	describe('inserted', function () {
-		it('will update a light\'s transform', function () {
-			var light = jasmine.createSpyObj('Light', ['update']);
-			var lightComponent = new srcgooentitiescomponentsLightComponent_LightComponentjs(light);
-			var entity = new srcgooentitiesEntity_Entityjs().setComponent(lightComponent).setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
-			var lightingSystem = new srcgooentitiessystemsLightingSystem_LightingSystemjs();
+			describe('inserted', function () {
+						it('will update a light\'s transform', function () {
+									var light = jasmine.createSpyObj('Light', ['update']);
+									var lightComponent = new _LightComponent.LightComponent(light);
+									var entity = new _Entity.Entity().setComponent(lightComponent).setComponent(new _TransformComponent.TransformComponent());
+									var lightingSystem = new _LightingSystem.LightingSystem();
 
-			lightingSystem.inserted(entity);
+									lightingSystem.inserted(entity);
 
-			expect(light.update).toHaveBeenCalledWith(entity.transformComponent.worldTransform);
-		});
-	});
+									expect(light.update).toHaveBeenCalledWith(entity.transformComponent.worldTransform);
+						});
+			});
 
-	// testing interaction coming from 'world-space'
-	describe('+World', function () {
-		it('adds and updates a light when adding an entity with a light component to the world', function () {
-			var light = jasmine.createSpyObj('Light', ['update']);
-			var lightComponent = new srcgooentitiescomponentsLightComponent_LightComponentjs(light);
-			var lightingSystem = new srcgooentitiessystemsLightingSystem_LightingSystemjs();
+			// testing interaction coming from 'world-space'
+			describe('+World', function () {
+						it('adds and updates a light when adding an entity with a light component to the world', function () {
+									var light = jasmine.createSpyObj('Light', ['update']);
+									var lightComponent = new _LightComponent.LightComponent(light);
+									var lightingSystem = new _LightingSystem.LightingSystem();
 
-			var world = new srcgooentitiesWorld_Worldjs();
-			world.setSystem(lightingSystem);
-			var entity = world.createEntity(lightComponent).addToWorld();
+									var world = new _World.World();
+									world.setSystem(lightingSystem);
+									var entity = world.createEntity(lightComponent).addToWorld();
 
-			world.process();
+									world.process();
 
-			expect(lightingSystem.lights).toContain(light);
-			expect(light.update).toHaveBeenCalledWith(entity.transformComponent.worldTransform);
-		});
+									expect(lightingSystem.lights).toContain(light);
+									expect(light.update).toHaveBeenCalledWith(entity.transformComponent.worldTransform);
+						});
 
-		it('adds and updates a light when adding a light component on an existing entity', function () {
-			var light = jasmine.createSpyObj('Light', ['update']);
-			var lightComponent = new srcgooentitiescomponentsLightComponent_LightComponentjs(light);
-			var lightingSystem = new srcgooentitiessystemsLightingSystem_LightingSystemjs();
+						it('adds and updates a light when adding a light component on an existing entity', function () {
+									var light = jasmine.createSpyObj('Light', ['update']);
+									var lightComponent = new _LightComponent.LightComponent(light);
+									var lightingSystem = new _LightingSystem.LightingSystem();
 
-			var world = new srcgooentitiesWorld_Worldjs();
-			world.setSystem(lightingSystem);
-			var entity = world.createEntity().addToWorld();
+									var world = new _World.World();
+									world.setSystem(lightingSystem);
+									var entity = world.createEntity().addToWorld();
 
-			world.process();
+									world.process();
 
-			entity.setComponent(lightComponent);
+									entity.setComponent(lightComponent);
 
-			world.process();
+									world.process();
 
-			expect(lightingSystem.lights).toContain(light);
-			expect(light.update).toHaveBeenCalledWith(entity.transformComponent.worldTransform);
-		});
-	});
+									expect(lightingSystem.lights).toContain(light);
+									expect(light.update).toHaveBeenCalledWith(entity.transformComponent.worldTransform);
+						});
+			});
 });

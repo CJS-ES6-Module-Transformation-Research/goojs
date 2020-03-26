@@ -1,11 +1,19 @@
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+"use strict";
 
-function MoveAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MoveAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+function MoveAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-MoveAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+MoveAction.prototype = Object.create(_Action.Action.prototype);
 MoveAction.prototype.constructor = MoveAction;
 
 MoveAction.external = {
@@ -44,7 +52,7 @@ MoveAction.external = {
 MoveAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	var transform = entity.transformComponent.sync().transform;
-	this.forward = mathVector3_Vector3js.fromArray(this.translation);
+	this.forward = _Vector.Vector3.fromArray(this.translation);
 	var orientation = transform.rotation;
 	this.forward.applyPost(orientation);
 
@@ -66,7 +74,7 @@ MoveAction.prototype.applyMove = function (fsm) {
 
 	if (this.oriented) {
 		if (this.relative) {
-			var forward = mathVector3_Vector3js.fromArray(this.translation);
+			var forward = _Vector.Vector3.fromArray(this.translation);
 			var orientation = transform.rotation;
 			forward.applyPost(orientation);
 
@@ -96,4 +104,4 @@ MoveAction.prototype.applyMove = function (fsm) {
 };
 
 var exported_MoveAction = MoveAction;
-export { exported_MoveAction as MoveAction };
+exports.MoveAction = exported_MoveAction;

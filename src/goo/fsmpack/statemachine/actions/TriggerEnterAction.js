@@ -1,12 +1,20 @@
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
+"use strict";
 
-function TriggerEnterAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerEnterAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+function TriggerEnterAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerEnterAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+TriggerEnterAction.prototype = Object.create(_Action.Action.prototype);
 TriggerEnterAction.prototype.constructor = TriggerEnterAction;
 
 TriggerEnterAction.external = {
@@ -22,7 +30,7 @@ TriggerEnterAction.external = {
 	}]
 };
 
-TriggerEnterAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TriggerEnterAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'enter' ? 'On Trigger Enter' : undefined;
 };
 
@@ -36,13 +44,13 @@ TriggerEnterAction.prototype.enter = function (fsm) {
 			fsm.send(that.transitions.enter);
 		}
 	};
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.physics.triggerEnter', this.listener);
+	_SystemBus.SystemBusjs.addListener('goo.physics.triggerEnter', this.listener);
 };
 
-TriggerEnterAction.prototype.exit = function (/*fsm*/) {
-	entitiesSystemBus_SystemBusjsjs.removeListener('goo.physics.triggerEnter', this.listener);
+TriggerEnterAction.prototype.exit = function () /*fsm*/{
+	_SystemBus.SystemBusjs.removeListener('goo.physics.triggerEnter', this.listener);
 	this.entity = null;
 };
 
 var exported_TriggerEnterAction = TriggerEnterAction;
-export { exported_TriggerEnterAction as TriggerEnterAction };
+exports.TriggerEnterAction = exported_TriggerEnterAction;

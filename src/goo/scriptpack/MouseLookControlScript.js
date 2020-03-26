@@ -1,6 +1,15 @@
-import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
-import { GameUtils as utilGameUtils_GameUtilsjs } from "../util/GameUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MouseLookControlScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _GameUtils = require("../util/GameUtils");
 
 var allButtons = ['Any', 'Left', 'Middle', 'Right', 'None'];
 
@@ -8,7 +17,10 @@ function MouseLookControlScript() {
 	var buttonPressed = false;
 	var hasPointerLock = false;
 	var hasPointerLockSupport = false;
-	var lastX = 0, lastY = 0, x = 0, y = 0;
+	var lastX = 0,
+	    lastY = 0,
+	    x = 0,
+	    y = 0;
 	var angles;
 	var button;
 	var _environment;
@@ -17,7 +29,7 @@ function MouseLookControlScript() {
 
 	function mouseDown(e) {
 		if (!_parameters.whenUsed || _environment.entity === _environment.activeCameraEntity) {
-			if (button === -1 || e.button === button || (button === 3 && !hasPointerLockSupport)) {
+			if (button === -1 || e.button === button || button === 3 && !hasPointerLockSupport) {
 				buttonPressed = true;
 				lastX = x = e.clientX;
 				lastY = y = e.clientY;
@@ -29,7 +41,7 @@ function MouseLookControlScript() {
 	// Helps attaching the lock if we failed in .setup().
 	function mouseDownToRequestPointerLock() {
 		if (!hasPointerLock) {
-			utilGameUtils_GameUtilsjs.requestPointerLock();
+			_GameUtils.GameUtils.requestPointerLock();
 		}
 	}
 
@@ -90,7 +102,7 @@ function MouseLookControlScript() {
 		var domElement = environment.domElement;
 		if (button === 3) {
 			document.addEventListener('pointerlockchange', pointerLockChange);
-			utilGameUtils_GameUtilsjs.requestPointerLock();
+			_GameUtils.GameUtils.requestPointerLock();
 			document.addEventListener('mousemove', documentMouseMove);
 			document.addEventListener('mousemove', documentMouseUp);
 			domElement.addEventListener('mousedown', mouseDownToRequestPointerLock);
@@ -100,7 +112,7 @@ function MouseLookControlScript() {
 		domElement.addEventListener('mousedown', mouseDown);
 		domElement.addEventListener('mouseup', mouseUp);
 
-		angles = new mathVector3_Vector3js();
+		angles = new _Vector.Vector3();
 		var rotation = environment.entity.transformComponent.transform.rotation;
 		rotation.toAngles(angles);
 		_initialAzimuth = angles.y;
@@ -119,15 +131,15 @@ function MouseLookControlScript() {
 		var pitch = angles.x;
 		var yaw = angles.y;
 
-		var maxAscent = parameters.maxAscent * mathMathUtils_MathUtilsjs.DEG_TO_RAD;
-		var minAscent = parameters.minAscent * mathMathUtils_MathUtilsjs.DEG_TO_RAD;
-		pitch = mathMathUtils_MathUtilsjs.clamp(pitch - deltaY * parameters.speed / 200, minAscent, maxAscent);
+		var maxAscent = parameters.maxAscent * _MathUtils.MathUtils.DEG_TO_RAD;
+		var minAscent = parameters.minAscent * _MathUtils.MathUtils.DEG_TO_RAD;
+		pitch = _MathUtils.MathUtils.clamp(pitch - deltaY * parameters.speed / 200, minAscent, maxAscent);
 
-		var maxAzimuth = parameters.maxAzimuth * mathMathUtils_MathUtilsjs.DEG_TO_RAD - _initialAzimuth;
-		var minAzimuth = parameters.minAzimuth * mathMathUtils_MathUtilsjs.DEG_TO_RAD - _initialAzimuth;
+		var maxAzimuth = parameters.maxAzimuth * _MathUtils.MathUtils.DEG_TO_RAD - _initialAzimuth;
+		var minAzimuth = parameters.minAzimuth * _MathUtils.MathUtils.DEG_TO_RAD - _initialAzimuth;
 		yaw -= deltaX * parameters.speed / 200;
 		if (parameters.clampAzimuth) {
-			yaw = mathMathUtils_MathUtilsjs.radialClamp(yaw, minAzimuth, maxAzimuth);
+			yaw = _MathUtils.MathUtils.radialClamp(yaw, minAzimuth, maxAzimuth);
 		}
 
 		rotation.fromAngles(pitch, yaw, 0);
@@ -139,7 +151,7 @@ function MouseLookControlScript() {
 	function cleanup(parameters, environment) {
 		var domElement = environment.domElement;
 		if (button === 3) {
-			utilGameUtils_GameUtilsjs.exitPointerLock();
+			_GameUtils.GameUtils.exitPointerLock();
 			document.removeEventListener('mousemove', documentMouseMove);
 			document.removeEventListener('pointerlockchange', pointerLockChange);
 			domElement.removeEventListener('mousedown', mouseDownToRequestPointerLock);
@@ -160,72 +172,66 @@ MouseLookControlScript.externals = {
 	key: 'MouseLookScript',
 	name: 'Mouse Look Control',
 	description: 'Click and drag to change rotation of entity, usually a camera',
-	parameters: [
-		{
-			key: 'whenUsed',
-			type: 'boolean',
-			name: 'When Camera Used',
-			description: 'Script only runs when the camera to which it is added is being used.',
-			'default': true
-		},
-		{
-			key: 'button',
-			name: 'Mouse button',
-			type: 'string',
-			control: 'select',
-			'default': 'Left',
-			options: allButtons
-		},
-		{
-			key: 'speed',
-			name: 'Turn Speed',
-			type: 'float',
-			control: 'slider',
-			'default': 1.0,
-			min: -10,
-			max: 10,
-			scale: 0.1
-		},
-		{
-			key: 'maxAscent',
-			name: 'Max Ascent',
-			type: 'float',
-			control: 'slider',
-			'default': 89.95,
-			min: -89.95,
-			max: 89.95
-		},
-		{
-			key: 'minAscent',
-			name: 'Min Ascent',
-			type: 'float',
-			control: 'slider',
-			'default': -89.95,
-			min: -89.95,
-			max: 89.95
-		}, {
-			key: 'clampAzimuth',
-			'default': false,
-			type: 'boolean'
-		}, {
-			key: 'minAzimuth',
-			description: 'Maximum arc the camera can reach clockwise of the target point',
-			'default': -90,
-			type: 'int',
-			control: 'slider',
-			min: -180,
-			max: 0
-		}, {
-			key: 'maxAzimuth',
-			description: 'Maximum arc the camera can reach counter-clockwise of the target point',
-			'default': 90,
-			type: 'int',
-			control: 'slider',
-			min: 0,
-			max: 180
-		}
-	]
+	parameters: [{
+		key: 'whenUsed',
+		type: 'boolean',
+		name: 'When Camera Used',
+		description: 'Script only runs when the camera to which it is added is being used.',
+		'default': true
+	}, {
+		key: 'button',
+		name: 'Mouse button',
+		type: 'string',
+		control: 'select',
+		'default': 'Left',
+		options: allButtons
+	}, {
+		key: 'speed',
+		name: 'Turn Speed',
+		type: 'float',
+		control: 'slider',
+		'default': 1.0,
+		min: -10,
+		max: 10,
+		scale: 0.1
+	}, {
+		key: 'maxAscent',
+		name: 'Max Ascent',
+		type: 'float',
+		control: 'slider',
+		'default': 89.95,
+		min: -89.95,
+		max: 89.95
+	}, {
+		key: 'minAscent',
+		name: 'Min Ascent',
+		type: 'float',
+		control: 'slider',
+		'default': -89.95,
+		min: -89.95,
+		max: 89.95
+	}, {
+		key: 'clampAzimuth',
+		'default': false,
+		type: 'boolean'
+	}, {
+		key: 'minAzimuth',
+		description: 'Maximum arc the camera can reach clockwise of the target point',
+		'default': -90,
+		type: 'int',
+		control: 'slider',
+		min: -180,
+		max: 0
+	}, {
+		key: 'maxAzimuth',
+		description: 'Maximum arc the camera can reach counter-clockwise of the target point',
+		'default': 90,
+		type: 'int',
+		control: 'slider',
+		min: 0,
+		max: 180
+	}]
 };
 
 var exported_MouseLookControlScript = MouseLookControlScript;
-export { exported_MouseLookControlScript as MouseLookControlScript };
+exports.MouseLookControlScript = exported_MouseLookControlScript;

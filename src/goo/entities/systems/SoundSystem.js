@@ -1,52 +1,64 @@
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
-import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../../sound/AudioContext";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
-import { Matrix4 as mathMatrix4_Matrix4js } from "../../math/Matrix4";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _AudioContext = require("../../sound/AudioContext");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _Matrix = require("../../math/Matrix4");
+
 function SoundSystem() {
-	this._isSupported = soundAudioContext_AudioContextjsjs.isSupported();
+	this._isSupported = _AudioContext.AudioContextjs.isSupported();
 	if (!this._isSupported) {
 		console.warn('Cannot create SoundSystem, WebAudio not supported');
 		return;
 	}
-	entitiessystemsSystem_Systemjs.call(this, 'SoundSystem', ['SoundComponent', 'TransformComponent']);
+	_System.System.call(this, 'SoundSystem', ['SoundComponent', 'TransformComponent']);
 
 	this.entities = [];
-	this._relativeTransform = new mathMatrix4_Matrix4js();
+	this._relativeTransform = new _Matrix.Matrix4();
 
 	this._pausedSounds = {};
 
 	this.initialized = false;
 
 	/**
-	 * @type {number}
-	 * @readonly
-	 */
+  * @type {number}
+  * @readonly
+  */
 	this.rolloffFactor = 0.4;
 
 	/**
-	 * @type {number}
-	 * @readonly
-	 */
+  * @type {number}
+  * @readonly
+  */
 	this.maxDistance = 100;
 
 	/**
-	 * @type {number}
-	 * @readonly
-	 */
+  * @type {number}
+  * @readonly
+  */
 	this.volume = 1;
 
 	/**
-	 * @type {number}
-	 * @readonly
-	 */
+  * @type {number}
+  * @readonly
+  */
 	this.reverb = 0;
 
 	/**
-	 * The muted state. To mute or unmute, see the mute() and unmute() methods.
-	 * @type {boolean}
-	 * @readonly
-	 */
+  * The muted state. To mute or unmute, see the mute() and unmute() methods.
+  * @type {boolean}
+  * @readonly
+  */
 	this.muted = false;
 
 	this.reverbAudioBuffer = null;
@@ -56,34 +68,33 @@ function SoundSystem() {
 	this._camera = null;
 
 	var that = this;
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (camConfig) {
+	_SystemBus.SystemBusjs.addListener('goo.setCurrentCamera', function (camConfig) {
 		that._camera = camConfig.camera;
 	});
 
 	this._scheduledUpdates = [];
 }
 
-SoundSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+SoundSystem.prototype = Object.create(_System.System.prototype);
 SoundSystem.prototype.constructor = SoundSystem;
 
 SoundSystem.prototype._initializeAudioNodes = function () {
-	this._outNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
-	this._outNode.connect(soundAudioContext_AudioContextjsjs.getContext().destination);
+	this._outNode = _AudioContext.AudioContextjs.getContext().createGain();
+	this._outNode.connect(_AudioContext.AudioContextjs.getContext().destination);
 
-	this._wetNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._wetNode = _AudioContext.AudioContextjs.getContext().createGain();
 	this._wetNode.connect(this._outNode);
 	this._wetNode.gain.value = 0.2;
 
-	this._convolver = soundAudioContext_AudioContextjsjs.getContext().createConvolver();
+	this._convolver = _AudioContext.AudioContextjs.getContext().createConvolver();
 	this._convolver.connect(this._wetNode);
 
-	this._listener = soundAudioContext_AudioContextjsjs.getContext().listener;
+	this._listener = _AudioContext.AudioContextjs.getContext().listener;
 
 	// Everything is relative to the camera
 	this._listener.setPosition(0, 0, 0);
-	this._listener.setOrientation(
-		0, 0, -1, // Orientation
-		0, 1, 0  // Up
+	this._listener.setOrientation(0, 0, -1, // Orientation
+	0, 1, 0 // Up
 	);
 
 	this.initialized = true;
@@ -95,7 +106,9 @@ SoundSystem.prototype._initializeAudioNodes = function () {
  * @private
  */
 SoundSystem.prototype.inserted = function (entity) {
-	if (!this.initialized) { this._initializeAudioNodes(); }
+	if (!this.initialized) {
+		this._initializeAudioNodes();
+	}
 
 	entity.soundComponent.connectTo({
 		dry: this._outNode,
@@ -141,10 +154,10 @@ SoundSystem.prototype.updateConfig = function (config) {
 		this.rolloffFactor = config.rolloffFactor;
 	}
 	if (config.volume !== undefined) {
-		this.volume = mathMathUtils_MathUtilsjs.clamp(config.volume, 0, 1);
+		this.volume = _MathUtils.MathUtils.clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this.reverb = mathMathUtils_MathUtilsjs.clamp(config.reverb, 0, 1);
+		this.reverb = _MathUtils.MathUtils.clamp(config.reverb, 0, 1);
 	}
 	if (config.muted !== undefined) {
 		this.muted = config.muted;
@@ -166,7 +179,9 @@ SoundSystem.prototype.setReverb = function (audioBuffer) {
  * Pause the sound system and thereby all sounds in the scene
  */
 SoundSystem.prototype.pause = function () {
-	if (this._pausedSounds) { return; }
+	if (this._pausedSounds) {
+		return;
+	}
 	this._pausedSounds = {};
 	for (var i = 0; i < this.entities.length; i++) {
 		var sounds = this.entities[i].soundComponent.sounds;
@@ -200,7 +215,9 @@ SoundSystem.prototype.unmute = function () {
  * Resumes playing of all sounds that were paused
  */
 SoundSystem.prototype.resume = function () {
-	if (!this._pausedSounds) { return; }
+	if (!this._pausedSounds) {
+		return;
+	}
 
 	for (var i = 0; i < this.entities.length; i++) {
 		var sounds = this.entities[i].soundComponent.sounds;
@@ -295,4 +312,4 @@ var exported_SoundSystem = SoundSystem;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
  * @extends System
  */
-export { exported_SoundSystem as SoundSystem };
+exports.SoundSystem = exported_SoundSystem;

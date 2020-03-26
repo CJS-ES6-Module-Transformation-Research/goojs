@@ -1,13 +1,22 @@
-import { System as entitiessystemsSystem_Systemjs } from "../../../entities/systems/System";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AbstractPhysicsSystem = undefined;
+
+var _System = require("../../../entities/systems/System");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
 function AbstractPhysicsSystem() {
-	entitiessystemsSystem_Systemjs.apply(this, arguments);
+	_System.System.apply(this, arguments);
 
 	this.priority = -1;
 
 	/**
-	 * Entitites that holds ColliderComponents, but aren't instantiated since they have no RigidBodyComponent
-	 */
+  * Entitites that holds ColliderComponents, but aren't instantiated since they have no RigidBodyComponent
+  */
 	this._activeColliderEntities = [];
 
 	this._colliderInsertedListener = function (event) {
@@ -28,18 +37,18 @@ function AbstractPhysicsSystem() {
 		this._colliderDeletedComponent(event.entity, event.component);
 	}.bind(this);
 
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.collider.inserted', this._colliderInsertedListener);
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.collider.deleted', this._colliderDeletedListener);
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.collider.deletedComponent', this._colliderDeletedComponentListener);
+	_SystemBus.SystemBusjs.addListener('goo.collider.inserted', this._colliderInsertedListener);
+	_SystemBus.SystemBusjs.addListener('goo.collider.deleted', this._colliderDeletedListener);
+	_SystemBus.SystemBusjs.addListener('goo.collider.deletedComponent', this._colliderDeletedComponentListener);
 }
-AbstractPhysicsSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+AbstractPhysicsSystem.prototype = Object.create(_System.System.prototype);
 AbstractPhysicsSystem.prototype.constructor = AbstractPhysicsSystem;
 
 /**
  * @virtual
  * @param {Vector3} gravityVector
  */
-AbstractPhysicsSystem.prototype.setGravity = function (/*gravityVector*/) {};
+AbstractPhysicsSystem.prototype.setGravity = function () /*gravityVector*/{};
 
 var event = {
 	entityA: null,
@@ -50,7 +59,7 @@ var event = {
  * @private
  */
 AbstractPhysicsSystem.prototype.emitSubStepEvent = function () {
-	entitiesSystemBus_SystemBusjsjs.emit('goo.physics.substep');
+	_SystemBus.SystemBusjs.emit('goo.physics.substep');
 };
 
 /**
@@ -110,14 +119,14 @@ AbstractPhysicsSystem.prototype.emitTriggerExit = function (triggerEntity, other
 AbstractPhysicsSystem.prototype._emitEvent = function (channel, entityA, entityB) {
 	event.entityA = entityA;
 	event.entityB = entityB;
-	entitiesSystemBus_SystemBusjsjs.emit(channel, event);
+	_SystemBus.SystemBusjs.emit(channel, event);
 	event.entityA = null;
 	event.entityB = null;
 };
 
-AbstractPhysicsSystem.prototype._colliderInserted = function (/*entity*/) {};
-AbstractPhysicsSystem.prototype._colliderDeleted = function (/*entity*/) {};
-AbstractPhysicsSystem.prototype._colliderDeletedComponent = function (/*entity*/) {};
+AbstractPhysicsSystem.prototype._colliderInserted = function () /*entity*/{};
+AbstractPhysicsSystem.prototype._colliderDeleted = function () /*entity*/{};
+AbstractPhysicsSystem.prototype._colliderDeletedComponent = function () /*entity*/{};
 
 var exported_AbstractPhysicsSystem = AbstractPhysicsSystem;
 
@@ -125,4 +134,4 @@ var exported_AbstractPhysicsSystem = AbstractPhysicsSystem;
  * Base class for physics systems.
  * @extends System
  */
-export { exported_AbstractPhysicsSystem as AbstractPhysicsSystem };
+exports.AbstractPhysicsSystem = exported_AbstractPhysicsSystem;
