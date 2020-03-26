@@ -1,13 +1,11 @@
+import fs from "fs";
+import glob from "glob";
+import _ from "underscore";
+import { extract as extractor_extractjs } from "./extractor";
+import * as jsdocprocessor_jsdocprocessorjsjs from "./jsdoc-processor";
+import * as util_getFileNamejs from "./util";
 // jshint node:true
 'use strict';
-
-var fs = require('fs');
-var glob = require('glob');
-var _ = require('underscore');
-
-var extractor = require('./extractor');
-var jsdocProcessor = require('./jsdoc-processor');
-var util = require('./util');
 
 
 function getFiles(sourcePath, ignore) {
@@ -44,11 +42,11 @@ function compileDoc(files) {
 
 	// extract information from classes
 	files.forEach(function (file) {
-		console.log('compiling doc for ' + util.getFileName(file));
+		console.log('compiling doc for ' + util_getFileNamejs(file));
 
 		var source = fs.readFileSync(file, { encoding: 'utf8' });
 
-		var class_ = extractor.extract(source, file);
+		var class_ = extractor_extractjs(source, file);
 
 		Array.prototype.push.apply(extraComments, class_.extraComments);
 
@@ -129,6 +127,9 @@ function compileDoc(files) {
 	return classes;
 }
 
-exports.getFiles = getFiles;
-exports.filterPrivates = filterPrivates;
-exports.compileDoc = compileDoc;
+var getFiles_getFiles = getFiles;
+var filterPrivates;
+filterPrivates = filterPrivates;
+var compileDoc_compileDoc = compileDoc;
+export { getFiles_getFiles as getFiles };
+export { compileDoc_compileDoc as compileDoc };

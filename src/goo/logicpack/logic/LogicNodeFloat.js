@@ -1,35 +1,30 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that provides a float value.
- * @private
- */
+import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
 function LogicNodeFloat() {
-	LogicNode.call(this);
+	LogicNode_LogicNodejs.call(this);
 	this.logicInterface = LogicNodeFloat.logicInterface;
 	this.type = 'LogicNodeFloat';
 }
 
-LogicNodeFloat.prototype = Object.create(LogicNode.prototype);
+LogicNodeFloat.prototype = Object.create(LogicNode_LogicNodejs.prototype);
 LogicNodeFloat.editorName = 'Float';
 
 LogicNodeFloat.prototype.onConfigure = function (newConfig) {
 	if (newConfig.value !== undefined) {
 		this.value = newConfig.value;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
+		LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
 	}
 };
 
 LogicNodeFloat.prototype.onSystemStarted = function () {
-	LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
+	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
 };
 
-LogicNodes.registerType('LogicNodeFloat', LogicNodeFloat);
+LogicNodes_LogicNodesjs.registerType('LogicNodeFloat', LogicNodeFloat);
 
-LogicNodeFloat.logicInterface = new LogicInterface();
+LogicNodeFloat.logicInterface = new LogicInterface_LogicInterfacejs();
 LogicNodeFloat.outportFloat = LogicNodeFloat.logicInterface.addOutputProperty('value', 'float');
 LogicNodeFloat.logicInterface.addConfigEntry({
 	name: 'value',
@@ -37,4 +32,10 @@ LogicNodeFloat.logicInterface.addConfigEntry({
 	label: 'Value'
 });
 
-module.exports = LogicNodeFloat;
+var exported_LogicNodeFloat = LogicNodeFloat;
+
+/**
+ * Logic node that provides a float value.
+ * @private
+ */
+export { exported_LogicNodeFloat as LogicNodeFloat };

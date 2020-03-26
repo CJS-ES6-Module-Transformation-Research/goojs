@@ -1,18 +1,13 @@
-var Material = require('../../renderer/Material');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Transform = require('../../math/Transform');
-
-/**
- * Used internally to render a batch of lines all with the same color.
- * @param {World} world The world lines are rendered in.
- */
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
 function LineRenderer(world) {
 	this.world = world;
 
-	this._material = new Material(LineRenderer.COLORED_LINE_SHADER);
+	this._material = new rendererMaterial_Materialjs(LineRenderer.COLORED_LINE_SHADER);
 
-	this._meshData = new MeshData(LineRenderer.ATTRIBUTE_MAP, LineRenderer.MAX_NUM_LINES * 2);
+	this._meshData = new rendererMeshData_MeshDatajs(LineRenderer.ATTRIBUTE_MAP, LineRenderer.MAX_NUM_LINES * 2);
 	this._meshData.indexModes = ['Lines'];
 
 	this._positions = this._meshData.getAttributeBuffer('POSITION');
@@ -20,7 +15,7 @@ function LineRenderer(world) {
 
 	this._renderObject = {
 		meshData: this._meshData,
-		transform: new Transform(),
+		transform: new mathTransform_Transformjs(),
 		materials: [this._material]
 	};
 
@@ -33,8 +28,8 @@ function LineRenderer(world) {
 }
 
 LineRenderer.ATTRIBUTE_MAP = {
-	POSITION: MeshData.createAttribute(3, 'Float'),
-	RGB_COLOR: MeshData.createAttribute(3, 'Float')
+	POSITION: rendererMeshData_MeshDatajs.createAttribute(3, 'Float'),
+	RGB_COLOR: rendererMeshData_MeshDatajs.createAttribute(3, 'Float')
 };
 
 LineRenderer.COLORED_LINE_SHADER = {
@@ -43,7 +38,7 @@ LineRenderer.COLORED_LINE_SHADER = {
 		vertexColor: 'RGB_COLOR'
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -140,4 +135,10 @@ LineRenderer.prototype._addLine = function (start, end, color) {
 	this._numRenderingLines++;
 };
 
-module.exports = LineRenderer;
+var exported_LineRenderer = LineRenderer;
+
+/**
+ * Used internally to render a batch of lines all with the same color.
+ * @param {World} world The world lines are rendered in.
+ */
+export { exported_LineRenderer as LineRenderer };

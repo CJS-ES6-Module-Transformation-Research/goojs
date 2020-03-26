@@ -1,21 +1,12 @@
+import fs from "fs";
+import _ from "underscore";
+import * as util_utiljsjs from "./util";
+import * as trunk_trunkjsjs from "./trunk";
+import { parse as typeexpressionstypeparser_parsejs } from "./type-expressions/type-parser";
+import { serialize as typeexpressionsternserializer_serializejs } from "./type-expressions/tern-serializer";
+import {     defaultterndefinitionsjs as defaultterndefinitions_defaultterndefinitionsjsjs, } from "./default-tern-definitions";
 // jshint node:true
 'use strict';
-
-/*
- tern definition generator - shared a lot of code with modoc
- will have to refactor the common parts out
- */
-
-var fs = require('fs');
-var _ = require('underscore');
-
-var util = require('./util');
-var trunk = require('./trunk');
-
-var typeParser = require('./type-expressions/type-parser');
-var ternSerializer = require('./type-expressions/tern-serializer');
-
-var defaultTernDefinitions = require('./default-tern-definitions');
 
 
 function processArguments() {
@@ -267,8 +258,8 @@ function makeConverter(classNames) {
 	var typesRegex = new RegExp(typesRegexStr, 'g');
 
 	return function (closureType) {
-		var parsed = typeParser.parse(closureType);
-		var ternType = ternSerializer.serialize(parsed);
+		var parsed = typeexpressionstypeparser_parsejs(closureType);
+		var ternType = typeexpressionsternserializer_serializejs(parsed);
 
 		// perform the substitutions after the conversion as this inflates the string with `goo.` prefixes
 		// should this prefixing be done on the expression in parsed form instead? why?
@@ -293,8 +284,8 @@ function buildClasses(classes) {
 	var ternDefinitions = {
 		'!name': 'goo',
 		'!define': additionalDefinitions,
-		'Context': defaultTernDefinitions['Context'],
-		'Arguments': defaultTernDefinitions['Arguments']
+		'Context': defaultterndefinitions_defaultterndefinitionsjsjs['Context'],
+		'Arguments': defaultterndefinitions_defaultterndefinitionsjsjs['Arguments']
 	};
 
 	convert = makeConverter(Object.keys(classes));

@@ -1,28 +1,21 @@
-var Vector3 = require('../../math/Vector3');
-var Light = require('../../renderer/light/Light');
-
-/**
- * A directional light
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @extends Light
- * @param {Vector3} [color=(1, 1, 1)] The color of the light
- */
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Light as rendererlightLight_Lightjs } from "../../renderer/light/Light";
 function DirectionalLight(color) {
-	Light.call(this, color);
+	rendererlightLight_Lightjs.call(this, color);
 
 	/**
 	 * The direction vector of the light
 	 * @readonly
 	 * @type {Vector3}
 	 */
-	this.direction = new Vector3();
+	this.direction = new mathVector3_Vector3js();
 
 	// @ifdef DEBUG
 	Object.seal(this);
 	// @endif
 }
 
-DirectionalLight.prototype = Object.create(Light.prototype);
+DirectionalLight.prototype = Object.create(rendererlightLight_Lightjs.prototype);
 DirectionalLight.prototype.constructor = DirectionalLight;
 
 /**
@@ -37,7 +30,7 @@ DirectionalLight.prototype.update = function (transform) {
 };
 
 DirectionalLight.prototype.copy = function (source) {
-	Light.prototype.copy.call(this, source);
+	rendererlightLight_Lightjs.prototype.copy.call(this, source);
 
 	this.direction.copy(source.direction);
 
@@ -50,4 +43,12 @@ DirectionalLight.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = DirectionalLight;
+var exported_DirectionalLight = DirectionalLight;
+
+/**
+ * A directional light
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @extends Light
+ * @param {Vector3} [color=(1, 1, 1)] The color of the light
+ */
+export { exported_DirectionalLight as DirectionalLight };

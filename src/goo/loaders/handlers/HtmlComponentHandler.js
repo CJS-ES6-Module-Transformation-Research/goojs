@@ -1,25 +1,17 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var HtmlComponent = require('../../entities/components/HtmlComponent');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
+import { HtmlComponent as entitiescomponentsHtmlComponent_HtmlComponentjs } from "../../entities/components/HtmlComponent";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
 
 'use strict';
 
-/**
- * For handling loading of HTML components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
 function HtmlComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'HtmlComponent';
 }
 
-HtmlComponentHandler.prototype = Object.create(ComponentHandler.prototype);
-ComponentHandler._registerClass('html', HtmlComponentHandler);
+HtmlComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
+loadershandlersComponentHandler_ComponentHandlerjs._registerClass('html', HtmlComponentHandler);
 HtmlComponentHandler.prototype.constructor = HtmlComponentHandler;
 
 /**
@@ -37,7 +29,7 @@ HtmlComponentHandler.prototype._prepare = function (/*config*/) {};
  * @private
  */
 HtmlComponentHandler.prototype._create = function () {
-	return new HtmlComponent();
+	return new entitiescomponentsHtmlComponent_HtmlComponentjs();
 };
 
 var regex = /\W/g;
@@ -55,7 +47,7 @@ function getSafeEntityId(id) {
  */
 HtmlComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		var domElement = component.domElement;
@@ -176,7 +168,7 @@ HtmlComponentHandler.prototype._attachDomElement = function (domElement, entity)
  */
 HtmlComponentHandler.prototype._updateHtml = function (domElement, entity, config, options) {
 	if (config.innerHtml === domElement.prevInnerHtml) {
-		return PromiseUtils.resolve();
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 
 	domElement.prevInnerHtml = config.innerHtml;
@@ -201,7 +193,7 @@ HtmlComponentHandler.prototype._loadImages = function (domElement, options) {
 
 	function loadImage(htmlImage) {
 		var imageRef = htmlImage.getAttribute('data-id');
-		if (!imageRef) { return PromiseUtils.resolve(); }
+		if (!imageRef) { return utilPromiseUtils_PromiseUtilsjs.resolve(); }
 
 		return that.loadObject(imageRef, options)
 		.then(function (image) {
@@ -215,7 +207,7 @@ HtmlComponentHandler.prototype._loadImages = function (domElement, options) {
 	}
 
 	var images = [].slice.apply(domElement.getElementsByTagName('IMG'));
-	return RSVP.all(images.map(loadImage));
+	return utilrsvp_rsvpjsjs.all(images.map(loadImage));
 };
 
 /**
@@ -274,10 +266,20 @@ HtmlComponentHandler.prototype._updateAttributes = function (domElement, entity,
 
 HtmlComponentHandler.prototype._remove = function (entity) {
 	var component = entity.htmlComponent;
-	ComponentHandler.prototype._remove.call(this, entity);
+	loadershandlersComponentHandler_ComponentHandlerjs.prototype._remove.call(this, entity);
 	if (component.domElement) {
 		component.domElement.parentNode.removeChild(component.domElement);
 	}
 };
 
-module.exports = HtmlComponentHandler;
+var exported_HtmlComponentHandler = HtmlComponentHandler;
+
+/**
+ * For handling loading of HTML components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { exported_HtmlComponentHandler as HtmlComponentHandler };

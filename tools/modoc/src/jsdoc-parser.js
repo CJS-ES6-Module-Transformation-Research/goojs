@@ -1,7 +1,6 @@
+import * as util_utiljsjs from "./util";
 // jshint node:true
 'use strict';
-
-var util = require('./util');
 
 var SUPPORTED_TAGS = [
 	'description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type',
@@ -327,13 +326,24 @@ var extract = function (doc) {
 	return tags;
 };
 
-exports._partition = partition;
-exports._extractType = extractType;
-exports._extractName = extractName;
-exports._extractDescription = extractDescription;
-exports._extractTagParam = extractTagParam;
-exports._extractTagReturn = extractTagReturn;
-exports._extractTagType = extractTagType;
-exports._extractTagExtends = extractTagExtends;
-exports._extractTagTargetClass = extractTagTargetClass;
-exports.extract = extract;
+var _partition;
+
+_partition = partition;
+var _extractType;
+_extractType = extractType;
+var _extractName;
+_extractName = extractName;
+var _extractDescription;
+_extractDescription = extractDescription;
+var _extractTagParam;
+_extractTagParam = extractTagParam;
+var _extractTagReturn;
+_extractTagReturn = extractTagReturn;
+var _extractTagType;
+_extractTagType = extractTagType;
+var _extractTagExtends;
+_extractTagExtends = extractTagExtends;
+var _extractTagTargetClass;
+_extractTagTargetClass = extractTagTargetClass;
+var extract_extract = extract;
+export { extract_extract as extract };

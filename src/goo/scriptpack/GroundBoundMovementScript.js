@@ -1,6 +1,6 @@
-var Vector3 = require('../math/Vector3');
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
 
-var calcVec = new Vector3();
+var calcVec = new mathVector3_Vector3js();
 var _defaults = {
 	gravity: -9.81,
 	worldFloor: -Infinity,
@@ -13,10 +13,6 @@ var _defaults = {
 	modTurn: 0.3
 };
 
-/**
- * A script for handling basic movement and jumping over a terrain.
- * The standard usage of this script will likely also need some input listener and camera handling.
- */
 function GroundBoundMovementScript(properties) {
 	properties = properties || {};
 	for (var key in _defaults) {
@@ -24,20 +20,20 @@ function GroundBoundMovementScript(properties) {
 			this[key] = properties[key] !== undefined ? properties[key] === true : _defaults[key];
 		} else if (!isNaN(_defaults[key])) {
 			this[key] = !isNaN(properties[key]) ? properties[key] : _defaults[key];
-		} else if (_defaults[key] instanceof Vector3) {
-			this[key] = (properties[key]) ? new Vector3(properties[key]) : new Vector3().set(_defaults[key]);
+		} else if (_defaults[key] instanceof mathVector3_Vector3js) {
+			this[key] = (properties[key]) ? new mathVector3_Vector3js(properties[key]) : new mathVector3_Vector3js().set(_defaults[key]);
 		} else {
 			this[key] = properties[key] || _defaults[key];
 		}
 	}
 
 	this.groundContact = 1;
-	this.targetVelocity = new Vector3();
-	this.targetHeading = new Vector3();
-	this.acceleration = new Vector3();
-	this.torque = new Vector3();
+	this.targetVelocity = new mathVector3_Vector3js();
+	this.targetHeading = new mathVector3_Vector3js();
+	this.acceleration = new mathVector3_Vector3js();
+	this.torque = new mathVector3_Vector3js();
 	this.groundHeight = 0;
-	this.groundNormal = new Vector3();
+	this.groundNormal = new mathVector3_Vector3js();
 	this.controlState = {
 		run: 0,
 		strafe: 0,
@@ -310,4 +306,10 @@ GroundBoundMovementScript.prototype.run = function (entity) {
 	this.applyGroundContact(entity, transform);
 };
 
-module.exports = GroundBoundMovementScript;
+var exported_GroundBoundMovementScript = GroundBoundMovementScript;
+
+/**
+ * A script for handling basic movement and jumping over a terrain.
+ * The standard usage of this script will likely also need some input listener and camera handling.
+ */
+export { exported_GroundBoundMovementScript as GroundBoundMovementScript };

@@ -1,19 +1,11 @@
-var Source = require('../../animationpack/blendtree/Source');
-
-/**
- * A blend tree node that does not update any clips or sources below it in the blend tree. This is useful for freezing an animation, often
- *        for purposes of transitioning between two unrelated animations.
- * @param {(ClipSource|BinaryLerpSource|FrozenClipSource|ManagedTransformSource)} source Our sub source.
- * @param {number} frozenTime The time we are frozen at.
- * @extends Source
- */
+import { Source as animationpackblendtreeSource_Sourcejs } from "../../animationpack/blendtree/Source";
 function FrozenClipSource(source, frozenTime) {
-	Source.call(this);
+	animationpackblendtreeSource_Sourcejs.call(this);
 	this._source = source;
 	this._time = frozenTime;
 }
 
-FrozenClipSource.prototype = Object.create(Source.prototype);
+FrozenClipSource.prototype = Object.create(animationpackblendtreeSource_Sourcejs.prototype);
 FrozenClipSource.prototype.constructor = FrozenClipSource;
 
 /**
@@ -50,4 +42,13 @@ FrozenClipSource.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = FrozenClipSource;
+var exported_FrozenClipSource = FrozenClipSource;
+
+/**
+ * A blend tree node that does not update any clips or sources below it in the blend tree. This is useful for freezing an animation, often
+ *        for purposes of transitioning between two unrelated animations.
+ * @param {(ClipSource|BinaryLerpSource|FrozenClipSource|ManagedTransformSource)} source Our sub source.
+ * @param {number} frozenTime The time we are frozen at.
+ * @extends Source
+ */
+export { exported_FrozenClipSource as FrozenClipSource };

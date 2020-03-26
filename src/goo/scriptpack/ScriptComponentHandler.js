@@ -1,40 +1,36 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var ScriptComponent = require('../entities/components/ScriptComponent');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var SystemBus = require('../entities/SystemBus');
-var Scripts = require('../scripts/Scripts');
-var ScriptUtils = require('../scripts/ScriptUtils');
-
-/**
- * @hidden
- */
+import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../loaders/handlers/ComponentHandler";
+import { ScriptComponent as entitiescomponentsScriptComponent_ScriptComponentjs } from "../entities/components/ScriptComponent";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
+import { Scripts as scriptsScripts_Scriptsjs } from "../scripts/Scripts";
+import { ScriptUtils as scriptsScriptUtils_ScriptUtilsjs } from "../scripts/ScriptUtils";
 function ScriptComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'ScriptComponent';
 }
 
-ScriptComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+ScriptComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
 ScriptComponentHandler.prototype.constructor = ScriptComponentHandler;
-ComponentHandler._registerClass('script', ScriptComponentHandler);
+loadershandlersComponentHandler_ComponentHandlerjs._registerClass('script', ScriptComponentHandler);
 
 ScriptComponentHandler.ENGINE_SCRIPT_PREFIX = 'GOO_ENGINE_SCRIPTS/';
 
 ScriptComponentHandler.prototype._prepare = function (/*config*/) {};
 
 ScriptComponentHandler.prototype._create = function () {
-	return new ScriptComponent();
+	return new entitiescomponentsScriptComponent_ScriptComponentjs();
 };
 
 ScriptComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options)
+	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options)
 	.then(function (component) {
 		if (!component) { return; }
 
-		return RSVP.all(ObjectUtils.map(config.scripts, function (instanceConfig) {
+		return utilrsvp_rsvpjsjs.all(utilObjectUtils_ObjectUtilsjs.map(config.scripts, function (instanceConfig) {
 			return that._updateScriptInstance(component, instanceConfig, options);
 		}, null, 'sortValue'))
 		.then(function (scripts) {
@@ -51,11 +47,11 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 	.then(function (script) {
 		var newParameters = instanceConfig.options || {};
 		if (script.parameters) {
-			ObjectUtils.defaults(newParameters, script.parameters);
+			utilObjectUtils_ObjectUtilsjs.defaults(newParameters, script.parameters);
 		}
 
 		if (script.externals && script.externals.parameters) {
-			ScriptUtils.fillDefaultValues(newParameters, script.externals.parameters);
+			scriptsScriptUtils_ScriptUtilsjs.fillDefaultValues(newParameters, script.externals.parameters);
 		}
 
 		var newScript = null;
@@ -90,7 +86,7 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 				newScript.argsUpdated(newScript.parameters, newScript.context, window.goo);
 			}
 		})
-		.then(ObjectUtils.constant(newScript));
+		.then(utilObjectUtils_ObjectUtilsjs.constant(newScript));
 	});
 };
 
@@ -134,7 +130,7 @@ ScriptComponentHandler.prototype._createOrLoadEngineScript = function (component
 	var prefix = ScriptComponentHandler.ENGINE_SCRIPT_PREFIX;
 
 	if (existingScript) {
-		return PromiseUtils.resolve(existingScript);
+		return utilPromiseUtils_PromiseUtilsjs.resolve(existingScript);
 	}
 
 	return this._createEngineScript(instanceConfig.scriptRef.slice(prefix.length));
@@ -180,7 +176,7 @@ ScriptComponentHandler.prototype._createOrLoadCustomScript = function (component
  * @private
  */
 ScriptComponentHandler.prototype._findScriptInstance = function (component, instanceId) {
-	return ObjectUtils.find(component.scripts, function (script) {
+	return utilObjectUtils_ObjectUtilsjs.find(component.scripts, function (script) {
 		return script.instanceId === instanceId;
 	});
 };
@@ -198,7 +194,7 @@ ScriptComponentHandler.prototype._findScriptInstance = function (component, inst
 	* @private
 	*/
 ScriptComponentHandler.prototype._createEngineScript = function (scriptName) {
-	var script = Scripts.create(scriptName);
+	var script = scriptsScripts_Scriptsjs.create(scriptName);
 	if (!script) {
 		throw new Error('Unrecognized script name');
 	}
@@ -206,12 +202,12 @@ ScriptComponentHandler.prototype._createEngineScript = function (scriptName) {
 	script.id = ScriptComponentHandler.ENGINE_SCRIPT_PREFIX + scriptName;
 	script.enabled = false;
 
-	SystemBus.emit('goo.scriptExternals', {
+	entitiesSystemBus_SystemBusjsjs.emit('goo.scriptExternals', {
 		id: script.id,
 		externals: script.externals
 	});
 
-	return PromiseUtils.resolve(script);
+	return utilPromiseUtils_PromiseUtilsjs.resolve(script);
 };
 
 /**
@@ -238,7 +234,7 @@ ScriptComponentHandler.prototype._setParameters = function (parameters, config, 
 
 	// is externals ever falsy?
 	if (!externals || !externals.parameters) {
-		return PromiseUtils.resolve();
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 
 	var promises = externals.parameters.map(function (external) {
@@ -247,7 +243,7 @@ ScriptComponentHandler.prototype._setParameters = function (parameters, config, 
 
 	parameters.enabled = config.enabled !== false;
 
-	return RSVP.all(promises);
+	return utilrsvp_rsvpjsjs.all(promises);
 };
 
 /**
@@ -275,14 +271,14 @@ ScriptComponentHandler.prototype._setParameter = function (parameters, config, e
 
 	function setParam(value) {
 		parameters[key] = value;
-		return PromiseUtils.resolve();
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 
 	function getInvalidParam() {
 		if (external.default === undefined) {
-			return ObjectUtils.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[type]);
+			return utilObjectUtils_ObjectUtilsjs.deepClone(scriptsScriptUtils_ScriptUtilsjs.DEFAULTS_BY_TYPE[type]);
 		} else {
-			return ObjectUtils.deepClone(external.default);
+			return utilObjectUtils_ObjectUtilsjs.deepClone(external.default);
 		}
 	}
 
@@ -298,19 +294,24 @@ ScriptComponentHandler.prototype._setParameter = function (parameters, config, e
 		return that._load(ref, options).then(setParam);
 	}
 
-	if (!ScriptUtils.TYPE_VALIDATORS[type](config)) {
+	if (!scriptsScriptUtils_ScriptUtilsjs.TYPE_VALIDATORS[type](config)) {
 		return setParam(getInvalidParam());
 	} else if (type === 'entity') {
 		// For entities, because they can depend on themselves, we don't
 		// wait for the load to be completed. It will eventually resolve
 		// and the parameter will be set.
 		setRefParam();
-		return PromiseUtils.resolve();
-	} else if (ScriptUtils.isRefType(type)) {
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
+	} else if (scriptsScriptUtils_ScriptUtilsjs.isRefType(type)) {
 		return setRefParam();
 	} else {
-		return setParam(ObjectUtils.clone(config));
+		return setParam(utilObjectUtils_ObjectUtilsjs.clone(config));
 	}
 };
 
-module.exports = ScriptComponentHandler;
+var exported_ScriptComponentHandler = ScriptComponentHandler;
+
+/**
+ * @hidden
+ */
+export { exported_ScriptComponentHandler as ScriptComponentHandler };

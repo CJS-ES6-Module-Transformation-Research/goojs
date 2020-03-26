@@ -1,18 +1,9 @@
-var Entity = require('../../entities/Entity');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../../renderer/bounds/BoundingSphere');
-
-/**
- * Runs a mesh combine optimization on the whole scene, based on
- * material, components etc
- * @param {World} gooWorld An instance of a goo.world object
- * @param {number} [gridCount=1] Number of grid segments to split the world in during combine
- * @param {boolean} [removeOldData=true] Remove old data which is now unused after combining
- * @param {boolean} [keepEntities=false] Keep all entities even if they are unused after combine
- */
+import { Entity as entitiesEntity_Entityjs } from "../../entities/Entity";
+import { MeshBuilder as utilMeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../../renderer/bounds/BoundingBox";
+import { BoundingSphere as rendererboundsBoundingSphere_BoundingSpherejs } from "../../renderer/bounds/BoundingSphere";
 function EntityCombiner(gooWorld, gridCount, removeOldData, keepEntities) {
 	this.world = gooWorld;
 	this.gridCount = gridCount || 1;
@@ -40,7 +31,7 @@ EntityCombiner.prototype.combine = function () {
 EntityCombiner.prototype._combineList = function (entities) {
 	var root = entities;
 	this.createdEntities = [];
-	if (entities instanceof Entity === true) {
+	if (entities instanceof entitiesEntity_Entityjs === true) {
 		root = [entities];
 	}
 
@@ -86,8 +77,8 @@ EntityCombiner.prototype._buildSubs = function (entity, baseSubs, subs) {
 
 EntityCombiner.prototype._combine = function (root, combineList) {
 	var rootTransform = root.transformComponent.sync().worldTransform;
-	var invertTransform = new Transform();
-	var calcTransform = new Transform();
+	var invertTransform = new mathTransform_Transformjs();
+	var calcTransform = new mathTransform_Transformjs();
 	rootTransform.invert(invertTransform);
 
 	var entities = new Map();
@@ -128,7 +119,7 @@ EntityCombiner.prototype._combine = function (root, combineList) {
 				return;
 			}
 
-			var meshBuilder = new MeshBuilder();
+			var meshBuilder = new utilMeshBuilder_MeshBuilderjs();
 			for (var k = 0; k < toCombine.length; k++) {
 				var entity = toCombine[k];
 
@@ -167,20 +158,20 @@ EntityCombiner.prototype._combine = function (root, combineList) {
 
 EntityCombiner.prototype._calculateBounds = function (entities) {
 	var first = true;
-	var wb = new BoundingBox();
+	var wb = new rendererboundsBoundingBox_BoundingBoxjs();
 	for (var i = 0; i < entities.length; i++) {
 		var rootEntity = entities[i];
 		rootEntity.traverse(function (entity) {
 			if (entity.meshRendererComponent && !entity.particleComponent) {
 				if (first) {
 					var bound = entity.meshRendererComponent.worldBound;
-					if (bound instanceof BoundingBox) {
+					if (bound instanceof rendererboundsBoundingBox_BoundingBoxjs) {
 						wb.copy(bound);
-					} else if (bound instanceof BoundingSphere) {
+					} else if (bound instanceof rendererboundsBoundingSphere_BoundingSpherejs) {
 						wb.center.set(bound.center);
 						wb.xExtent = wb.yExtent = wb.zExtent = bound.radius;
 					} else {
-						wb.center.set(Vector3.ZERO);
+						wb.center.set(mathVector3_Vector3js.ZERO);
 						wb.xExtent = wb.yExtent = wb.zExtent = 10;
 					}
 
@@ -206,4 +197,14 @@ EntityCombiner.prototype.cleanup = function () {
 	}
 };
 
-module.exports = EntityCombiner;
+var exported_EntityCombiner = EntityCombiner;
+
+/**
+ * Runs a mesh combine optimization on the whole scene, based on
+ * material, components etc
+ * @param {World} gooWorld An instance of a goo.world object
+ * @param {number} [gridCount=1] Number of grid segments to split the world in during combine
+ * @param {boolean} [removeOldData=true] Remove old data which is now unused after combining
+ * @param {boolean} [keepEntities=false] Keep all entities even if they are unused after combine
+ */
+export { exported_EntityCombiner as EntityCombiner };

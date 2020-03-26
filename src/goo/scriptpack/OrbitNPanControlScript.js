@@ -1,11 +1,11 @@
-var Scripts = require('../scripts/Scripts');
-var OrbitCamControlScript = require('../scripts/OrbitCamControlScript');
-var PanCamControlScript = require('../scriptpack/PanCamScript');
-var ObjectUtils = require('../util/ObjectUtils');
+import { Scripts as scriptsScripts_Scriptsjs } from "../scripts/Scripts";
+import {     OrbitCamControlScript as scriptsOrbitCamControlScript_OrbitCamControlScriptjs, } from "../scripts/OrbitCamControlScript";
+import { PanCamScript as scriptpackPanCamScript_PanCamScriptjs } from "../scriptpack/PanCamScript";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 
 function OrbitNPan() {
-	var orbitScript = Scripts.create(OrbitCamControlScript);
-	var panScript = Scripts.create(PanCamControlScript);
+	var orbitScript = scriptsScripts_Scriptsjs.create(scriptsOrbitCamControlScript_OrbitCamControlScriptjs);
+	var panScript = scriptsScripts_Scriptsjs.create(scriptpackPanCamScript_PanCamScriptjs);
 	function setup(parameters, environment, goo) {
 		parameters.touchMode = 'Double'; // should alaways be 2 touch mode for panning
 		orbitScript.setup(parameters, environment, goo);
@@ -32,11 +32,11 @@ function OrbitNPan() {
 	};
 }
 
-var orbitParams = OrbitCamControlScript.externals.parameters;
-var panParams = PanCamControlScript.externals.parameters;
+var orbitParams = scriptsOrbitCamControlScript_OrbitCamControlScriptjs.externals.parameters;
+var panParams = scriptpackPanCamScript_PanCamScriptjs.externals.parameters;
 
 // Make sure we don't change parameters for the other scripts
-var params = ObjectUtils.deepClone(orbitParams.concat(panParams.slice(1)));
+var params = utilObjectUtils_ObjectUtilsjs.deepClone(orbitParams.concat(panParams.slice(1)));
 
 // Remove the panSpeed and touchMode parameters
 for (var i = params.length - 1; i >= 0; i--) {
@@ -71,4 +71,5 @@ OrbitNPan.externals = {
 	parameters:	params
 };
 
-module.exports = OrbitNPan;
+var exported_OrbitNPan = OrbitNPan;
+export { exported_OrbitNPan as OrbitNPan };

@@ -1,9 +1,5 @@
 describe('SphereCollider', function () {
-
-	var SphereCollider = require('../../../../../src/goo/addons/physicspack/colliders/SphereCollider');
-	var Transform = require('../../../../../src/goo/math/Transform');
-
-	it('can clone', function () {
+    it('can clone', function () {
 		var collider = new SphereCollider({
 			radius: 2
 		});
@@ -11,7 +7,7 @@ describe('SphereCollider', function () {
 		expect(collider).toEqual(clone);
 	});
 
-	it('can transform', function () {
+    it('can transform', function () {
 		var collider = new SphereCollider({
 			radius: 2
 		});

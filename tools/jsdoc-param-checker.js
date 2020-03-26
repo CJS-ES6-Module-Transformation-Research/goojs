@@ -1,3 +1,8 @@
+import fs from "fs";
+import glob from "glob";
+import { extract as modocsrcextractor_extractjs } from "./modoc/src/extractor";
+import * as modocsrcjsdocparser_extractjs from "./modoc/src/jsdoc-parser";
+import "colors";
 // jshint node:true
 /**
  * Reports any undocumented function parameter
@@ -7,14 +12,6 @@
  */
 
 'use strict';
-
-var fs = require('fs');
-var glob = require('glob');
-
-require('colors');
-
-var extractor = require('./modoc/src/extractor');
-var jsdocParser = require('./modoc/src/jsdoc-parser');
 
 var allFiles = glob.sync('src/**/*.js');
 
@@ -42,7 +39,7 @@ function validate(data) {
 
 		var functionParams = data.params;
 
-		var jsdoc = jsdocParser.extract(data.rawComment);
+		var jsdoc = modocsrcjsdocparser_extractjs(data.rawComment);
 
 		if (!jsdoc['@param']) {
 			if (functionParams.length) {
@@ -77,7 +74,7 @@ var count = 0;
 allFiles.forEach(function (file) {
 	var source = fs.readFileSync(file, 'utf8');
 
-	var data = extractor.extract(source, file);
+	var data = modocsrcextractor_extractjs(source, file);
 
 	var errors = validate(data, file);
 

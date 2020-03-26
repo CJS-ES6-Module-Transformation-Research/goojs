@@ -1,14 +1,6 @@
-var Component = require('../../entities/components/Component');
-
-/* global CANNON */
-
-/**
- * Plane collider. Attach to an entity with a {@link CannonRigidbodyComponent}.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
- * @param {Object} [settings]
- */
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
 function CannonPlaneColliderComponent(settings) {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'CannonPlaneColliderComponent';
 
@@ -18,7 +10,16 @@ function CannonPlaneColliderComponent(settings) {
 	this.cannonShape = new CANNON.Plane();
 }
 
-CannonPlaneColliderComponent.prototype = Object.create(Component.prototype);
+CannonPlaneColliderComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 CannonPlaneColliderComponent.constructor = CannonPlaneColliderComponent;
 
-module.exports = CannonPlaneColliderComponent;
+var exported_CannonPlaneColliderComponent = CannonPlaneColliderComponent;
+
+/* global CANNON */
+
+/**
+ * Plane collider. Attach to an entity with a {@link CannonRigidbodyComponent}.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @param {Object} [settings]
+ */
+export { exported_CannonPlaneColliderComponent as CannonPlaneColliderComponent };

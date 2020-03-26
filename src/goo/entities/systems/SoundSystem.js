@@ -1,24 +1,18 @@
-var System = require('../../entities/systems/System');
-var AudioContext = require('../../sound/AudioContext');
-var MathUtils = require('../../math/MathUtils');
-var SystemBus = require('../../entities/SystemBus');
-var Matrix4 = require('../../math/Matrix4');
-
-/**
- * System responsible for sound.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
- * @extends System
- */
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../../sound/AudioContext";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { Matrix4 as mathMatrix4_Matrix4js } from "../../math/Matrix4";
 function SoundSystem() {
-	this._isSupported = AudioContext.isSupported();
+	this._isSupported = soundAudioContext_AudioContextjsjs.isSupported();
 	if (!this._isSupported) {
 		console.warn('Cannot create SoundSystem, WebAudio not supported');
 		return;
 	}
-	System.call(this, 'SoundSystem', ['SoundComponent', 'TransformComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'SoundSystem', ['SoundComponent', 'TransformComponent']);
 
 	this.entities = [];
-	this._relativeTransform = new Matrix4();
+	this._relativeTransform = new mathMatrix4_Matrix4js();
 
 	this._pausedSounds = {};
 
@@ -62,28 +56,28 @@ function SoundSystem() {
 	this._camera = null;
 
 	var that = this;
-	SystemBus.addListener('goo.setCurrentCamera', function (camConfig) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (camConfig) {
 		that._camera = camConfig.camera;
 	});
 
 	this._scheduledUpdates = [];
 }
 
-SoundSystem.prototype = Object.create(System.prototype);
+SoundSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 SoundSystem.prototype.constructor = SoundSystem;
 
 SoundSystem.prototype._initializeAudioNodes = function () {
-	this._outNode = AudioContext.getContext().createGain();
-	this._outNode.connect(AudioContext.getContext().destination);
+	this._outNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
+	this._outNode.connect(soundAudioContext_AudioContextjsjs.getContext().destination);
 
-	this._wetNode = AudioContext.getContext().createGain();
+	this._wetNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
 	this._wetNode.connect(this._outNode);
 	this._wetNode.gain.value = 0.2;
 
-	this._convolver = AudioContext.getContext().createConvolver();
+	this._convolver = soundAudioContext_AudioContextjsjs.getContext().createConvolver();
 	this._convolver.connect(this._wetNode);
 
-	this._listener = AudioContext.getContext().listener;
+	this._listener = soundAudioContext_AudioContextjsjs.getContext().listener;
 
 	// Everything is relative to the camera
 	this._listener.setPosition(0, 0, 0);
@@ -147,10 +141,10 @@ SoundSystem.prototype.updateConfig = function (config) {
 		this.rolloffFactor = config.rolloffFactor;
 	}
 	if (config.volume !== undefined) {
-		this.volume = MathUtils.clamp(config.volume, 0, 1);
+		this.volume = mathMathUtils_MathUtilsjs.clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this.reverb = MathUtils.clamp(config.reverb, 0, 1);
+		this.reverb = mathMathUtils_MathUtilsjs.clamp(config.reverb, 0, 1);
 	}
 	if (config.muted !== undefined) {
 		this.muted = config.muted;
@@ -294,4 +288,11 @@ SoundSystem.prototype.process = function (entities, tpf) {
 	}
 };
 
-module.exports = SoundSystem;
+var exported_SoundSystem = SoundSystem;
+
+/**
+ * System responsible for sound.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
+ * @extends System
+ */
+export { exported_SoundSystem as SoundSystem };

@@ -1,15 +1,10 @@
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
-
-/**
- * Processes all entities with collider components, making sure they are up to date.
- * @extends System
- */
+import { System as entitiessystemsSystem_Systemjs } from "../../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 function ColliderSystem() {
-	System.call(this, 'ColliderSystem', ['ColliderComponent', 'TransformComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'ColliderSystem', ['ColliderComponent', 'TransformComponent']);
 	this.priority = 1; // Should be processed after TransformSystem
 }
-ColliderSystem.prototype = Object.create(System.prototype);
+ColliderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 ColliderSystem.prototype.constructor = ColliderSystem;
 
 /**
@@ -24,7 +19,7 @@ ColliderSystem.prototype.process = function (/*entities*/) {
  * @param  {Entity} entity
  */
 ColliderSystem.prototype.inserted = function (entity) {
-	SystemBus.emit('goo.collider.inserted', {
+	entitiesSystemBus_SystemBusjsjs.emit('goo.collider.inserted', {
 		entity: entity
 	});
 };
@@ -34,7 +29,7 @@ ColliderSystem.prototype.inserted = function (entity) {
  * @param  {Entity} entity
  */
 ColliderSystem.prototype.deleted = function (entity) {
-	SystemBus.emit('goo.collider.deleted', {
+	entitiesSystemBus_SystemBusjsjs.emit('goo.collider.deleted', {
 		entity: entity
 	});
 };
@@ -45,10 +40,16 @@ ColliderSystem.prototype.deleted = function (entity) {
  * @param  {Component} component
  */
 ColliderSystem.prototype.removedComponent = function (entity, component) {
-	SystemBus.emit('goo.collider.deletedComponent', {
+	entitiesSystemBus_SystemBusjsjs.emit('goo.collider.deletedComponent', {
 		entity: entity,
 		component: component
 	});
 };
 
-module.exports = ColliderSystem;
+var exported_ColliderSystem = ColliderSystem;
+
+/**
+ * Processes all entities with collider components, making sure they are up to date.
+ * @extends System
+ */
+export { exported_ColliderSystem as ColliderSystem };

@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function ShowAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ShowAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-ShowAction.prototype = Object.create(Action.prototype);
+ShowAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 ShowAction.prototype.constructor = ShowAction;
 
 ShowAction.external = {
@@ -21,4 +21,5 @@ ShowAction.prototype.enter = function (fsm) {
 	entity.show();
 };
 
-module.exports = ShowAction;
+var exported_ShowAction = ShowAction;
+export { exported_ShowAction as ShowAction };

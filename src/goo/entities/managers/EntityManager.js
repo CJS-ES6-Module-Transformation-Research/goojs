@@ -1,12 +1,7 @@
-var Manager = require('../../entities/managers/Manager');
-var EntitySelection = require('../../entities/EntitySelection');
-
-/**
- * Main handler of all entities in the world.
- * @extends Manager
- */
+import { Manager as entitiesmanagersManager_Managerjs } from "../../entities/managers/Manager";
+import { EntitySelection as entitiesEntitySelection_EntitySelectionjs } from "../../entities/EntitySelection";
 function EntityManager() {
-	Manager.call(this);
+	entitiesmanagersManager_Managerjs.call(this);
 
 	this.type = 'EntityManager';
 
@@ -25,18 +20,18 @@ function EntityManager() {
 	this.api = {
 		id: function () {
 			var ret = EntityManager.prototype.getEntityById.apply(this, arguments);
-			return new EntitySelection(ret);
+			return new entitiesEntitySelection_EntitySelectionjs(ret);
 		}.bind(this),
 		name: function (name) {
 			var entities = this.getEntities();
-			return new EntitySelection(entities.filter(function (entity) {
+			return new entitiesEntitySelection_EntitySelectionjs(entities.filter(function (entity) {
 				return entity.name === name;
 			}));
 		}.bind(this)
 	};
 }
 
-EntityManager.prototype = Object.create(Manager.prototype);
+EntityManager.prototype = Object.create(entitiesmanagersManager_Managerjs.prototype);
 
 EntityManager.prototype.added = function (entity) {
 	if (!this.containsEntity(entity)) {
@@ -157,4 +152,10 @@ EntityManager.prototype.clear = function () {
 	this._entityCount = 0;
 };
 
-module.exports = EntityManager;
+var exported_EntityManager = EntityManager;
+
+/**
+ * Main handler of all entities in the world.
+ * @extends Manager
+ */
+export { exported_EntityManager as EntityManager };

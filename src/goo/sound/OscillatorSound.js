@@ -1,5 +1,5 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../sound/AudioContext";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
 
 function OscillatorSound() {
 	// Settings
@@ -9,7 +9,7 @@ function OscillatorSound() {
 	this._type = 'sine';
 
 	// Nodes
-	this._outNode = AudioContext.getContext().createGain();
+	this._outNode = soundAudioContext_AudioContextjsjs.getContext().createGain();
 
 	this.connectTo();
 }
@@ -20,7 +20,7 @@ OscillatorSound.prototype.stop = function () {
 };
 
 OscillatorSound.prototype.play = function () {
-	this._oscNode = AudioContext.getContext().createOscillator();
+	this._oscNode = soundAudioContext_AudioContextjsjs.getContext().createOscillator();
 	this._oscNode.connect(this._outNode);
 	this._oscNode.frequency.value = this._frequency;
 	this._oscNode.type = this._type;
@@ -30,7 +30,7 @@ OscillatorSound.prototype.play = function () {
 
 OscillatorSound.prototype.update = function (config) {
 	if (config.volume !== undefined) {
-		this._volume = MathUtils.clamp(config.volume, 0, 1);
+		this._volume = mathMathUtils_MathUtilsjs.clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.frequency !== undefined) {
@@ -52,7 +52,7 @@ OscillatorSound.prototype.update = function (config) {
  * @param {(Array<AudioNode> | AudioNode)} nodes
  */
 OscillatorSound.prototype.connectTo = function (nodes) {
-	if (!AudioContext.isSupported()) {
+	if (!soundAudioContext_AudioContextjsjs.isSupported()) {
 		console.warn('WebAudio not supported');
 		return;
 	}
@@ -76,4 +76,5 @@ OscillatorSound.TYPES = [
 	'custom'
 ];
 
-module.exports = OscillatorSound;
+var exported_OscillatorSound = OscillatorSound;
+export { exported_OscillatorSound as OscillatorSound };

@@ -1,31 +1,28 @@
-var ParticleUtils = require('../particles/ParticleUtils');
-var Vector3 = require('../math/Vector3');
-var Vector4 = require('../math/Vector4');
-var MeshData = require('../renderer/MeshData');
+import { ParticleUtils as particlesParticleUtils_ParticleUtilsjs } from "../particles/ParticleUtils";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { Vector4 as mathVector4_Vector4js } from "../math/Vector4";
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
 
-var calcVec = new Vector3();
+var calcVec = new mathVector3_Vector3js();
 
-/**
- * Data object tracking a single particle in a particle component
- */
 function Particle(particleComponent, index) {
 	this.alive = false;
-	this.position = new Vector3();
-	this.velocity = new Vector3();
+	this.position = new mathVector3_Vector3js();
+	this.velocity = new mathVector3_Vector3js();
 	this.lifeSpan = 0;
 	this.parent = particleComponent;
 	this.age = 0;
 	this.index = index;
-	this.color = new Vector4(1, 0, 0, 1);
+	this.color = new mathVector4_Vector4js(1, 0, 0, 1);
 	this.size = 0.0;
 	this.spin = 0.0;
 	this.mass = 1.0;
 	this.emitter = null;
 	this.uvIndex = 0;
 	this.lastUVIndex = -1;
-	this.bbX = new Vector3();
-	this.bbY = new Vector3();
-	this.lastColor = new Vector4();
+	this.bbX = new mathVector3_Vector3js();
+	this.bbY = new mathVector3_Vector3js();
+	this.lastColor = new mathVector4_Vector4js();
 }
 
 /**
@@ -63,11 +60,11 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	this.position.addDirect(this.velocity.x * tpf, this.velocity.y * tpf, this.velocity.z * tpf);
 
 	// set values from component timeline
-	ParticleUtils.applyTimeline(this, this.emitter && this.emitter.timeline ? this.emitter.timeline : this.parent.timeline);
+	particlesParticleUtils_ParticleUtilsjs.applyTimeline(this, this.emitter && this.emitter.timeline ? this.emitter.timeline : this.parent.timeline);
 
 	// apply current color to mesh
 	if (!this.lastColor.equals(this.color)) {
-		var colorBuffer = this.parent.meshData.getAttributeBuffer(MeshData.COLOR);
+		var colorBuffer = this.parent.meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.COLOR);
 
 		var offset = this.index * 16;
 
@@ -111,7 +108,7 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	}
 
 	// apply billboard vectors to mesh verts
-	var vertexBuffer = this.parent.meshData.getAttributeBuffer(MeshData.POSITION);
+	var vertexBuffer = this.parent.meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION);
 
 	var offset = this.index * 12;
 
@@ -140,7 +137,7 @@ Particle.prototype.update = function (tpf, particleEntity) {
 	vertexBuffer[offset + 9 + 2] = calcVec.z;
 
 	if (this.lastUVIndex !== this.uvIndex) {
-		var uvBuffer = this.parent.meshData.getAttributeBuffer(MeshData.TEXCOORD0);
+		var uvBuffer = this.parent.meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0);
 		var uIndex = (this.uvIndex % this.parent.uRange) / this.parent.uRange;
 		var vIndex = 1.0 - (Math.floor(this.uvIndex / this.parent.vRange) / this.parent.vRange);
 		var uDelta = 1.0 / this.parent.uRange;
@@ -174,11 +171,16 @@ Particle.prototype.update = function (tpf, particleEntity) {
 Particle.prototype.kill = function () {
 	this.alive = false;
 	// collapse particle to a single point, effectively hiding it from view.
-	var vertexBuffer = this.parent.meshData.getAttributeBuffer(MeshData.POSITION);
+	var vertexBuffer = this.parent.meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION);
 	var pointA = vertexBuffer.subarray(this.index * 12, this.index * 12 + 3);
 	vertexBuffer.set(pointA, this.index * 12 + 3);
 	vertexBuffer.set(pointA, this.index * 12 + 6);
 	vertexBuffer.set(pointA, this.index * 12 + 9);
 };
 
-module.exports = Particle;
+var exported_Particle = Particle;
+
+/**
+ * Data object tracking a single particle in a particle component
+ */
+export { exported_Particle as Particle };

@@ -1,11 +1,12 @@
-var ScriptUtils = require('../scripts/ScriptUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import { ScriptUtils as scriptsScriptUtils_ScriptUtilsjs } from "../scripts/ScriptUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 
 // the collection of scripts
 var _scripts = {};
 
-// the static class which just holds the following methods
 var Scripts = {};
+
+let exported_Scripts = Scripts;
 
 Scripts.register = function (factoryFunction) {
 	var key = factoryFunction.externals.key || factoryFunction.externals.name;
@@ -14,18 +15,18 @@ Scripts.register = function (factoryFunction) {
 		return;
 	}
 	//! AT: this will modify the external object but that's ok
-	ScriptUtils.fillDefaultNames(factoryFunction.externals.parameters);
+	scriptsScriptUtils_ScriptUtilsjs.fillDefaultNames(factoryFunction.externals.parameters);
 	_scripts[key] = factoryFunction;
 };
 
-Scripts.addClass = ObjectUtils.warnOnce(
+Scripts.addClass = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Scripts.addClass is deprecated; please consider using the global goo object instead',
 	function (/* name, klass */) {
 		// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
 	}
 );
 
-Scripts.getClasses = ObjectUtils.warnOnce(
+Scripts.getClasses = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Scripts.getClasses is deprecated; please consider using the global goo object instead',
 	function () {
 		return window.goo;
@@ -53,12 +54,12 @@ Scripts.create = function (key, options) {
 	script.externals = factoryFunction.externals;
 
 	if (factoryFunction.externals) {
-		ScriptUtils.fillDefaultNames(script.externals.parameters);
-		ScriptUtils.fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
+		scriptsScriptUtils_ScriptUtilsjs.fillDefaultNames(script.externals.parameters);
+		scriptsScriptUtils_ScriptUtilsjs.fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
 	}
 
 	if (options) {
-		ObjectUtils.extend(script.parameters, options);
+		utilObjectUtils_ObjectUtilsjs.extend(script.parameters, options);
 	}
 
 	return script;
@@ -75,4 +76,4 @@ Scripts.allScripts = function () {
 	return scripts;
 };
 
-module.exports = Scripts;
+export { exported_Scripts as Scripts };

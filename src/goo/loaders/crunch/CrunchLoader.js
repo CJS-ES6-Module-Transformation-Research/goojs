@@ -1,33 +1,6 @@
-/*
- * Copyright (c) 2012 Brandon Jones
- *
- * This software is provided 'as-is', without any express or implied
- * warranty. In no event will the authors be held liable for any damages
- * arising from the use of this software.
- *
- * Permission is granted to anyone to use this software for any purpose,
- * including commercial applications, and to alter it and redistribute it
- * freely, subject to the following restrictions:
- *
- *    1. The origin of this software must not be misrepresented; you must not
- *    claim that you wrote the original software. If you use this software
- *    in a product, an acknowledgment in the product documentation would be
- *    appreciated but is not required.
- *
- *    2. Altered source versions must be plainly marked as such, and must not
- *    be misrepresented as being the original software.
- *
- *    3. This notice may not be removed or altered from any source
- *    distribution.
- */
-
-require('../../loaders/dds/DdsLoader'); // needed?
-var DdsUtils = require('../../loaders/dds/DdsUtils');
-var Capabilities = require('../../renderer/Capabilities');
-
-/**
- * @private
- */
+import { DdsUtils as loadersddsDdsUtils_DdsUtilsjs } from "../../loaders/dds/DdsUtils";
+import { Capabilities as rendererCapabilities_Capabilitiesjs } from "../../renderer/Capabilities";
+import "../../loaders/dds/DdsLoader";
 function CrunchLoader() {
 }
 
@@ -112,7 +85,7 @@ CrunchLoader.prototype.load = function (arrayBuffer, texture, flipped/*, arrayBy
 		CrunchModule._crn_decompress(src, srcSize, dst, dstSize, i);
 		dxtData = new Uint8Array(CrunchModule.HEAPU8.buffer, dst, dstSize);
 		if (flipped) {
-			dxtData = DdsUtils.flipDXT(dxtData, width, height, texture.format);
+			dxtData = loadersddsDdsUtils_DdsUtilsjs.flipDXT(dxtData, width, height, texture.format);
 		}
 
 		imageData.push(dxtData);
@@ -224,11 +197,16 @@ CrunchLoader.prototype.dxtToRgb565 = function (src, src16Offset, width, height) 
 };
 
 CrunchLoader.prototype.isSupported = function () {
-	return !!Capabilities.CompressedTextureS3TC;
+	return !!rendererCapabilities_Capabilitiesjs.CompressedTextureS3TC;
 };
 
 CrunchLoader.prototype.toString = function () {
 	return 'CrunchLoader';
 };
 
-module.exports = CrunchLoader;
+var exported_CrunchLoader = CrunchLoader;
+
+/**
+ * @private
+ */
+export { exported_CrunchLoader as CrunchLoader };

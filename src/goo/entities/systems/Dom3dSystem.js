@@ -1,33 +1,28 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Vector3 = require('../../math/Vector3');
-var Ray = require('../../math/Ray');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
- */
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Ray as mathRay_Rayjs } from "../../math/Ray";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
 function Dom3dSystem(renderer) {
-	System.call(this, 'Dom3dSystem', ['TransformComponent', 'Dom3dComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'Dom3dSystem', ['TransformComponent', 'Dom3dComponent']);
 
 	this.renderer = renderer;
 	this.camera = null;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this), true);
 
 	this.playing = true;
 
-	var frontMaterial = new Material(ShaderLib.simple);
+	var frontMaterial = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.simple);
 	frontMaterial.blendState.blending = 'CustomBlending';
 	frontMaterial.blendState.blendSrc = 'ZeroFactor';
 	frontMaterial.blendState.blendDst = 'ZeroFactor';
 
-	var backMaterial = new Material(ShaderLib.uber);
+	var backMaterial = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.uber);
 	backMaterial.uniforms.materialDiffuse = [0.5, 0.5, 0.5, 1];
 	backMaterial.cullState.cullFace = 'Front';
 
@@ -40,13 +35,13 @@ function Dom3dSystem(renderer) {
 	this.precisionScale = 1000; // Thanks browsers
 }
 
-Dom3dSystem.prototype = Object.create(System.prototype);
+Dom3dSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 Dom3dSystem.prototype.constructor = Dom3dSystem;
 
 Dom3dSystem.prototype.init = function () {
-	var ray = new Ray();
-	var polygonVertices = [new Vector3(), new Vector3(), new Vector3(), new Vector3()];
-	var offsets = [new Vector3(-0.5, -0.5, 0), new Vector3(-0.5, 0.5, 0), new Vector3(0.5, 0.5, 0), new Vector3(0.5, -0.5, 0)];
+	var ray = new mathRay_Rayjs();
+	var polygonVertices = [new mathVector3_Vector3js(), new mathVector3_Vector3js(), new mathVector3_Vector3js(), new mathVector3_Vector3js()];
+	var offsets = [new mathVector3_Vector3js(-0.5, -0.5, 0), new mathVector3_Vector3js(-0.5, 0.5, 0), new mathVector3_Vector3js(0.5, 0.5, 0), new mathVector3_Vector3js(0.5, -0.5, 0)];
 	var doPlanar = false;
 
 	var doesIntersect = false;
@@ -91,11 +86,11 @@ Dom3dSystem.prototype.init = function () {
 		var intersects = doPick(event);
 
 		if (intersects && !doesIntersect) {
-			SystemBus.emit('goo.dom3d.enabled', true);
+			entitiesSystemBus_SystemBusjsjs.emit('goo.dom3d.enabled', true);
 			that.renderer.domElement.style.pointerEvents = 'none';
 			doesIntersect = true;
 		} else if (!intersects && doesIntersect) {
-			SystemBus.emit('goo.dom3d.enabled', false);
+			entitiesSystemBus_SystemBusjsjs.emit('goo.dom3d.enabled', false);
 			that.renderer.domElement.style.pointerEvents = '';
 			doesIntersect = false;
 		}
@@ -173,7 +168,7 @@ Dom3dSystem.prototype.resume = Dom3dSystem.prototype.play;
 Dom3dSystem.prototype.stop = function () {
 	this.playing = false;
 
-	SystemBus.emit('goo.dom3d.enabled', false);
+	entitiesSystemBus_SystemBusjsjs.emit('goo.dom3d.enabled', false);
 	if (this.renderer.domElement) {
 		this.renderer.domElement.style.pointerEvents = '';
 	}
@@ -229,7 +224,7 @@ Dom3dSystem.prototype.onPreRender = function () {
 
 	var width = this.renderer.viewportWidth / this.renderer.devicePixelRatio;
 	var height = this.renderer.viewportHeight / this.renderer.devicePixelRatio;
-	var fov = 0.5 / Math.tan(MathUtils.DEG_TO_RAD * camera.fov * 0.5) * height;
+	var fov = 0.5 / Math.tan(mathMathUtils_MathUtilsjs.DEG_TO_RAD * camera.fov * 0.5) * height;
 
 	this.setStyle(this.rootDom, 'perspective', fov + 'px');
 
@@ -271,11 +266,17 @@ Dom3dSystem.prototype.onPreRender = function () {
 };
 
 Dom3dSystem.prototype.cleanup = function () {
-	System.prototype.cleanup.apply(this, arguments);
+	entitiessystemsSystem_Systemjs.prototype.cleanup.apply(this, arguments);
 
 	if (this.rootDom.parentNode !== null) {
 		this.rootDom.parentNode.removeChild(this.rootDom);
 	}
 };
 
-module.exports = Dom3dSystem;
+var exported_Dom3dSystem = Dom3dSystem;
+
+/**
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
+ */
+export { exported_Dom3dSystem as Dom3dSystem };

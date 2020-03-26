@@ -1,16 +1,12 @@
-var SoundHandler = require('../loaders/handlers/SoundHandler');
-var AudioContext = require('../sound/AudioContext');
-var Ajax = require('../util/Ajax');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-
-/**
- * Provides a simple way to load sounds
- */
+import { SoundHandler as loadershandlersSoundHandler_SoundHandlerjs } from "../loaders/handlers/SoundHandler";
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../sound/AudioContext";
+import { Ajax as utilAjax_Ajaxjs } from "../util/Ajax";
+import { StringUtils as utilStringUtils_StringUtilsjs } from "../util/StringUtils";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
 function SoundCreator() {
-	var ajax = this.ajax = new Ajax();
+	var ajax = this.ajax = new utilAjax_Ajaxjs();
 
-	this.soundHandler = new SoundHandler(
+	this.soundHandler = new loadershandlersSoundHandler_SoundHandlerjs(
 		{},
 		function (ref, options) {
 			return ajax.load(ref, options ? options.noCache : false);
@@ -37,15 +33,15 @@ SoundCreator.prototype.clear = function () {
  * @returns {RSVP.Promise}
  */
 SoundCreator.prototype.loadSound = function (url, settings) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils.reject(new Error('AudioContext is not supported!'));
+	if (!soundAudioContext_AudioContextjsjs.isSupported()) {
+		return utilPromiseUtils_PromiseUtilsjs.reject(new Error('AudioContext is not supported!'));
 	}
 
-	var id = StringUtils.createUniqueId('sound');
+	var id = utilStringUtils_StringUtilsjs.createUniqueId('sound');
 	settings = settings || {};
 	settings.audioRefs = {};
 
-	var fileExtension = StringUtils.getAfterLast(url, '.');
+	var fileExtension = utilStringUtils_StringUtilsjs.getAfterLast(url, '.');
 	settings.audioRefs[fileExtension] = url;
 
 	var sound = this.soundHandler._create();
@@ -54,4 +50,9 @@ SoundCreator.prototype.loadSound = function (url, settings) {
 	return this.soundHandler.update(id, settings, {});
 };
 
-module.exports = SoundCreator;
+var exported_SoundCreator = SoundCreator;
+
+/**
+ * Provides a simple way to load sounds
+ */
+export { exported_SoundCreator as SoundCreator };

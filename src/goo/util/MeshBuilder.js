@@ -1,30 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var Capabilities = require('../renderer/Capabilities');
-var Vector3 = require('../math/Vector3');
-
-/**
- * Combines the MeshData of passed-in entities into one new MeshData. This can be useful to reduce draw calls.
- * Combination is currently limited to 65536 vertices.
- * Keep in mind that combined MeshData can only use one diffuse color texture, so this is best suited for MeshData that can share the same texture.
- * @example
- * var meshBuilder = new MeshBuilder();
- * var transform = new Transform();
- *
- * var box1 = new Box(0.3, 1, 1.6);
- * var box2 = new Box(0.2, 0.15, 0.7);
- *
- * transform.translation.setDirect(0, 0, 1.3);
- * transform.update();
- * meshBuilder.addMeshData(box1, transform);
- *
- * transform.translation.setDirect(0, 0, 0);
- * transform.update();
- * meshBuilder.addMeshData(box2, transform);
- *
- * var meshData = meshBuilder.build()[0];
- * goo.world.createEntity( meshData, new Material(ShaderLib.simpleLit)).addToWorld();
-
- */
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+import { Capabilities as rendererCapabilities_Capabilitiesjs } from "../renderer/Capabilities";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
 function MeshBuilder() {
 	this.meshDatas = [];
 
@@ -51,13 +27,13 @@ MeshBuilder.prototype.addEntity = function (entity) {
 };
 
 // var normalMatrix = new Matrix3();
-var vert = new Vector3();
+var vert = new mathVector3_Vector3js();
 /**
  * add MeshData to this MeshBuilder
  * @param {MeshData} meshData
  */
 MeshBuilder.prototype.addMeshData = function (meshData, transform) {
-	if (!Capabilities.ElementIndexUInt) {
+	if (!rendererCapabilities_Capabilitiesjs.ElementIndexUInt) {
 		if (meshData.vertexCount >= 65536) {
 			throw new Error('Maximum number of vertices for a mesh to add is 65535. Got: ' + meshData.vertexCount);
 		} else if (this.vertexCounter + meshData.vertexCount >= 65536) {
@@ -96,7 +72,7 @@ MeshBuilder.prototype.addMeshData = function (meshData, transform) {
 		var array = attribute.array;
 		var count = map.count;
 		var vertexPos = this.vertexCounter * count;
-		if (key === MeshData.POSITION) {
+		if (key === rendererMeshData_MeshDatajs.POSITION) {
 			for (var i = 0; i < viewLength; i += count) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 				vert.applyPostPoint(matrix);
@@ -104,7 +80,7 @@ MeshBuilder.prototype.addMeshData = function (meshData, transform) {
 				array[vertexPos + i + 1] = vert.y;
 				array[vertexPos + i + 2] = vert.z;
 			}
-		} else if (key === MeshData.NORMAL) {
+		} else if (key === rendererMeshData_MeshDatajs.NORMAL) {
 			for (var i = 0; i < viewLength; i += count) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 				vert.applyPost(rotation);
@@ -112,7 +88,7 @@ MeshBuilder.prototype.addMeshData = function (meshData, transform) {
 				array[vertexPos + i + 1] = vert.y;
 				array[vertexPos + i + 2] = vert.z;
 			}
-		} else if (key === MeshData.TANGENT) {
+		} else if (key === rendererMeshData_MeshDatajs.TANGENT) {
 			for (var i = 0; i < viewLength; i += count) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 				vert.applyPost(rotation);
@@ -150,7 +126,7 @@ MeshBuilder.prototype._generateMesh = function () {
 		attributeMap[key] = data.map;
 	}
 
-	var meshData = new MeshData(attributeMap, this.vertexCounter, this.indexCounter);
+	var meshData = new rendererMeshData_MeshDatajs(attributeMap, this.vertexCounter, this.indexCounter);
 	for (var key in this.vertexData) {
 		var data = this.vertexData[key].array;
 		meshData.getAttributeBuffer(key).set(data);
@@ -222,4 +198,29 @@ MeshBuilder.prototype.reset = function () {
 	this.indexModes = [];
 };
 
-module.exports = MeshBuilder;
+var exported_MeshBuilder = MeshBuilder;
+
+/**
+ * Combines the MeshData of passed-in entities into one new MeshData. This can be useful to reduce draw calls.
+ * Combination is currently limited to 65536 vertices.
+ * Keep in mind that combined MeshData can only use one diffuse color texture, so this is best suited for MeshData that can share the same texture.
+ * @example
+ * var meshBuilder = new MeshBuilder();
+ * var transform = new Transform();
+ *
+ * var box1 = new Box(0.3, 1, 1.6);
+ * var box2 = new Box(0.2, 0.15, 0.7);
+ *
+ * transform.translation.setDirect(0, 0, 1.3);
+ * transform.update();
+ * meshBuilder.addMeshData(box1, transform);
+ *
+ * transform.translation.setDirect(0, 0, 0);
+ * transform.update();
+ * meshBuilder.addMeshData(box2, transform);
+ *
+ * var meshData = meshBuilder.build()[0];
+ * goo.world.createEntity( meshData, new Material(ShaderLib.simpleLit)).addToWorld();
+
+ */
+export { exported_MeshBuilder as MeshBuilder };

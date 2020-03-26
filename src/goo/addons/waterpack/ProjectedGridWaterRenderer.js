@@ -1,46 +1,40 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Camera = require('../../renderer/Camera');
-var Plane = require('../../math/Plane');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var Vector3 = require('../../math/Vector3');
-var Vector4 = require('../../math/Vector4');
-var Material = require('../../renderer/Material');
-var Texture = require('../../renderer/Texture');
-var TextureCreator = require('../../renderer/TextureCreator');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-
-/**
- * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
- * @param {Object} [settings] Water settings passed in a JSON object
- * @param {boolean} [settings.divider=1] Resolution divider for reflection/refraction
- */
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { Camera as rendererCamera_Camerajs } from "../../renderer/Camera";
+import { Plane as mathPlane_Planejs } from "../../math/Plane";
+import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Vector4 as mathVector4_Vector4js } from "../../math/Vector4";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { Texture as rendererTexture_Texturejs } from "../../renderer/Texture";
+import { TextureCreator as rendererTextureCreator_TextureCreatorjs } from "../../renderer/TextureCreator";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { ShaderFragment as renderershadersShaderFragment_ShaderFragmentjs } from "../../renderer/shaders/ShaderFragment";
 function ProjectedGridWaterRenderer(settings) {
-	this.waterCamera = new Camera(45, 1, 0.1, 2000);
+	this.waterCamera = new rendererCamera_Camerajs(45, 1, 0.1, 2000);
 	this.renderList = [];
 
-	this.waterPlane = new Plane();
+	this.waterPlane = new mathPlane_Planejs();
 
 	settings = settings || {};
 
 	var width = window.innerWidth / (settings.divider || 4);
 	var height = window.innerHeight / (settings.divider || 4);
-	this.renderTarget = new RenderTarget(width, height);
+	this.renderTarget = new rendererpassRenderTarget_RenderTargetjs(width, height);
 	width = window.innerWidth / (settings.divider || 1);
 	height = window.innerHeight / (settings.divider || 1);
-	this.heightTarget = new RenderTarget(width, height, {
+	this.heightTarget = new rendererpassRenderTarget_RenderTargetjs(width, height, {
 		type: 'Float'
 	});
-	this.normalTarget = new RenderTarget(width, height, {
+	this.normalTarget = new rendererpassRenderTarget_RenderTargetjs(width, height, {
 		// type: 'Float'
 	});
 
-	this.fullscreenPass = new FullscreenPass(ShaderLib.normalmap);
+	this.fullscreenPass = new rendererpassFullscreenPass_FullscreenPassjs(renderershadersShaderLib_ShaderLibjs.normalmap);
 	this.fullscreenPass.material.shader.uniforms.resolution = [width, height];
 
-	var waterMaterial = this.waterMaterial = new Material(waterShaderDef, 'WaterMaterial');
+	var waterMaterial = this.waterMaterial = new rendererMaterial_Materialjs(waterShaderDef, 'WaterMaterial');
 	waterMaterial.cullState.enabled = false;
 
 	var texture = null;
@@ -48,12 +42,12 @@ function ProjectedGridWaterRenderer(settings) {
 		texture = settings.normalsTexture;
 	} else if (settings.normalsUrl) {
 		var normalsTextureUrl = settings.normalsUrl || '../resources/water/waternormals3.png';
-		new TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
+		new rendererTextureCreator_TextureCreatorjs().loadTexture2D(normalsTextureUrl).then(function (texture) {
 			waterMaterial.setTexture('NORMAL_MAP', texture);
 		});
 	} else {
 		var flatNormalData = new Uint8Array([127, 127, 255, 255]);
-		texture = new Texture(flatNormalData, null, 1, 1);
+		texture = new rendererTexture_Texturejs(flatNormalData, null, 1, 1);
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	}
 	waterMaterial.setTexture('REFLECTION_MAP', this.renderTarget);
@@ -66,25 +60,25 @@ function ProjectedGridWaterRenderer(settings) {
 	// materialWire.wireframe = true;
 	// materialWire.wireframeColor = [0, 0, 0];
 
-	this.calcVect = new Vector3();
-	this.camReflectDir = new Vector3();
-	this.camReflectUp = new Vector3();
-	this.camReflectLeft = new Vector3();
-	this.camLocation = new Vector3();
-	this.camReflectPos = new Vector3();
+	this.calcVect = new mathVector3_Vector3js();
+	this.camReflectDir = new mathVector3_Vector3js();
+	this.camReflectUp = new mathVector3_Vector3js();
+	this.camReflectLeft = new mathVector3_Vector3js();
+	this.camLocation = new mathVector3_Vector3js();
+	this.camReflectPos = new mathVector3_Vector3js();
 
 	this.waterEntity = null;
-	this.clipPlane = new Vector4();
+	this.clipPlane = new mathVector4_Vector4js();
 
-	var projData = this.projData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), 4, 6);
-	projData.getAttributeBuffer(MeshData.POSITION).set([
+	var projData = this.projData = new rendererMeshData_MeshDatajs(rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]), 4, 6);
+	projData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 1, 0
 	]);
 	projData.getIndexBuffer().set([1, 3, 0, 2, 3, 1]);
-	var materialProj = new Material(projShaderDef, 'mat');
+	var materialProj = new rendererMaterial_Materialjs(projShaderDef, 'mat');
 	this.projRenderable = {
 		meshData: projData,
 		materials: [materialProj]
@@ -92,7 +86,7 @@ function ProjectedGridWaterRenderer(settings) {
 }
 
 ProjectedGridWaterRenderer.prototype.updateHelper = function (intersectBottomLeft, intersectBottomRight, intersectTopRight, intersectTopLeft) {
-	var vbuf = this.projData.getAttributeBuffer(MeshData.POSITION);
+	var vbuf = this.projData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION);
 	vbuf[0] = intersectBottomLeft.x / intersectBottomLeft.w;
 	vbuf[1] = 0.0;
 	vbuf[2] = intersectBottomLeft.z / intersectBottomLeft.w;
@@ -217,14 +211,14 @@ ProjectedGridWaterRenderer.prototype.setWaterEntity = function (entity) {
 var waterShaderDef = {
 	attributes: {
 		//vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		normalMatrix: Shader.NORMAL_MATRIX,
-		cameraPosition: Shader.CAMERA,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		normalMatrix: rendererShader_Shaderjs.NORMAL_MATRIX,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
 		normalMap: 'NORMAL_MAP',
 		reflection: 'REFLECTION_MAP',
 		bump: 'BUMP_MAP',
@@ -248,9 +242,9 @@ var waterShaderDef = {
 		coarseStrength: 0.25,
 		detailStrength: 2.0,
 		fogStart: 0.0,
-		camNear: Shader.NEAR_PLANE,
-		camFar: Shader.FAR_PLANE,
-		time: Shader.TIME,
+		camNear: rendererShader_Shaderjs.NEAR_PLANE,
+		camFar: rendererShader_Shaderjs.FAR_PLANE,
+		time: rendererShader_Shaderjs.TIME,
 		intersectBottomLeft: [0, 0, 0, 0],
 		intersectTopLeft: [0, 0, 0, 0],
 		intersectTopRight: [0, 0, 0, 0],
@@ -453,16 +447,16 @@ var waterShaderDef = {
 
 var projShaderDef = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		//diffuseMap: Shader.TEXTURE0,
 		//camNear: Shader.NEAR_PLANE,
 		//camFar: Shader.FAR_PLANE,
-		time: Shader.TIME
+		time: rendererShader_Shaderjs.TIME
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -490,7 +484,7 @@ var projShaderDef = {
 	'varying vec4 worldPos;',
 	'varying vec4 viewCoords;',
 
-	ShaderFragment.noise3d,
+	renderershadersShaderFragment_ShaderFragmentjs.noise3d,
 
 	'vec4 getNoise(sampler2D map, vec2 uv) {',
 	'    vec2 uv0 = (uv/223.0)+vec2(time/17.0, time/29.0);',
@@ -519,4 +513,11 @@ var projShaderDef = {
 	].join('\n')
 };
 
-module.exports = ProjectedGridWaterRenderer;
+var exported_ProjectedGridWaterRenderer = ProjectedGridWaterRenderer;
+
+/**
+ * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
+ * @param {Object} [settings] Water settings passed in a JSON object
+ * @param {boolean} [settings.divider=1] Resolution divider for reflection/refraction
+ */
+export { exported_ProjectedGridWaterRenderer as ProjectedGridWaterRenderer };

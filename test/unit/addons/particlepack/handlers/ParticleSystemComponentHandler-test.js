@@ -1,30 +1,28 @@
-var PolyCurve = require('../../../../../src/goo/addons/particlepack/curves/PolyCurve');
-var Vector3Curve = require('../../../../../src/goo/addons/particlepack/curves/Vector3Curve');
-var Vector4Curve = require('../../../../../src/goo/addons/particlepack/curves/Vector4Curve');
-var ConstantCurve = require('../../../../../src/goo/addons/particlepack/curves/ConstantCurve');
-var ConstantCurve = require('../../../../../src/goo/addons/particlepack/curves/ConstantCurve');
-var ParticleSystemComponent = require('../../../../../src/goo/addons/particlepack/components/ParticleSystemComponent');
-var Vector3 = require('../../../../../src/goo/math/Vector3');
-var World = require('../../../../../src/goo/entities/World');
-var Configs = require('../../../../../test/unit/loaders/Configs');
-var DynamicLoader = require('../../../../../src/goo/loaders/DynamicLoader');
-var _ = require('../../../../../src/goo/util/ObjectUtil');
-
-require('../../../../../src/goo/addons/particlepack/handlers/ParticleSystemComponentHandler');
+import { PolyCurve as srcgooaddonsparticlepackcurvesPolyCurve_PolyCurvejs } from "../../../../../src/goo/addons/particlepack/curves/PolyCurve";
+import { Vector3Curve as srcgooaddonsparticlepackcurvesVector3Curve_Vector3Curvejs } from "../../../../../src/goo/addons/particlepack/curves/Vector3Curve";
+import { Vector4Curve as srcgooaddonsparticlepackcurvesVector4Curve_Vector4Curvejs } from "../../../../../src/goo/addons/particlepack/curves/Vector4Curve";
+import {     ConstantCurve as srcgooaddonsparticlepackcurvesConstantCurve_ConstantCurvejs, } from "../../../../../src/goo/addons/particlepack/curves/ConstantCurve";
+import {     ParticleSystemComponent as srcgooaddonsparticlepackcomponentsParticleSystemComponent_ParticleSystemComponentjs, } from "../../../../../src/goo/addons/particlepack/components/ParticleSystemComponent";
+import { Vector3 as srcgoomathVector3_Vector3js } from "../../../../../src/goo/math/Vector3";
+import { World as srcgooentitiesWorld_Worldjs } from "../../../../../src/goo/entities/World";
+import { Configs as testunitloadersConfigs_Configsjs } from "../../../../../test/unit/loaders/Configs";
+import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../../src/goo/loaders/DynamicLoader";
+import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../../src/goo/util/ObjectUtil";
+import "../../../../../src/goo/addons/particlepack/handlers/ParticleSystemComponentHandler";
 
 describe('ParticleSystemComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new srcgooentitiesWorld_Worldjs();
+		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
 			world: world,
 			rootPath: typeof(window) !== 'undefined' && window.__karma__ ? './' : 'loaders/res'
 		});
 	});
 
 	it('loads an entity with a ParticleSystemComponent', function (done) {
-		var config = Configs.entity(['transform', 'particleSystem']);
+		var config = testunitloadersConfigs_Configsjs.entity(['transform', 'particleSystem']);
 
 		function constantCurve(value){
 			return [{
@@ -34,7 +32,7 @@ describe('ParticleSystemComponentHandler', function () {
 			}];
 		}
 
-		_.extend(config.components.particleSystem, {
+		srcgooutilObjectUtil_ObjectUtilsjs(config.components.particleSystem, {
 			seed: 123,
 			shapeType: 'sphere',
 			sphereRadius: 123,
@@ -84,15 +82,15 @@ describe('ParticleSystemComponentHandler', function () {
 			//textureRef: null
 		});
 
-		loader.preload(Configs.get());
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.particleSystemComponent).toEqual(jasmine.any(ParticleSystemComponent));
+			expect(entity.particleSystemComponent).toEqual(jasmine.any(srcgooaddonsparticlepackcomponentsParticleSystemComponent_ParticleSystemComponentjs));
 
 			function newConstantPolyCurve(value){
-				return new PolyCurve({ segments: [new ConstantCurve({ value: value })] });
+				return new srcgooaddonsparticlepackcurvesPolyCurve_PolyCurvejs({ segments: [new srcgooaddonsparticlepackcurvesConstantCurve_ConstantCurvejs({ value: value })] });
 			}
 			function newVector4Curve(x,y,z,w){
-				return new Vector4Curve({
+				return new srcgooaddonsparticlepackcurvesVector4Curve_Vector4Curvejs({
 					x: newConstantPolyCurve(x),
 					y: newConstantPolyCurve(y),
 					z: newConstantPolyCurve(z),
@@ -100,7 +98,7 @@ describe('ParticleSystemComponentHandler', function () {
 				});
 			}
 			function newVector3Curve(x,y,z){
-				return new Vector3Curve({
+				return new srcgooaddonsparticlepackcurvesVector3Curve_Vector3Curvejs({
 					x: newConstantPolyCurve(x),
 					y: newConstantPolyCurve(y),
 					z: newConstantPolyCurve(z)
@@ -113,7 +111,7 @@ describe('ParticleSystemComponentHandler', function () {
 			expect(c.sphereEmitFromShell).toEqual(true);
 			expect(c.randomDirection).toEqual(true);
 			expect(c.coneEmitFrom).toEqual('volume');
-			expect(c.boxExtents).toEqual(new Vector3(1, 2, 3));
+			expect(c.boxExtents).toEqual(new srcgoomathVector3_Vector3js(1, 2, 3));
 			expect(c.coneRadius).toEqual(123);
 			expect(c.coneAngle.toFixed(4)).toEqual((12 * Math.PI / 180).toFixed(4));
 			expect(c.coneLength).toEqual(123);
@@ -138,7 +136,7 @@ describe('ParticleSystemComponentHandler', function () {
 			expect(c.textureAnimationCycles).toEqual(123);
 			expect(c.textureFrameOverLifetime).toEqual(newConstantPolyCurve(0));
 			expect(c.startSize).toEqual(newConstantPolyCurve(123));
-			expect(c.sortMode).toEqual(ParticleSystemComponent.SORT_CAMERA_DISTANCE);
+			expect(c.sortMode).toEqual(srcgooaddonsparticlepackcomponentsParticleSystemComponent_ParticleSystemComponentjs.SORT_CAMERA_DISTANCE);
 			expect(c.billboard).toEqual(false);
 			expect(c.sizeOverLifetime).toEqual(newConstantPolyCurve(1));
 			expect(c.startAngle).toEqual(newConstantPolyCurve(0));

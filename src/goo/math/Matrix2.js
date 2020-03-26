@@ -1,14 +1,8 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Matrix with 2x2 components.
- * @extends Matrix
- * @param {number...} arguments Initial values for the matrix components.
- */
+import { MathUtils as MathUtils_MathUtilsjs } from "./MathUtils";
+import { Matrix as Matrix_Matrixjs } from "./Matrix";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function Matrix2() {
-	Matrix.call(this, 2, 2);
+	Matrix_Matrixjs.call(this, 2, 2);
 
 	if (arguments.length === 0) {
 		this.data[0] = 1;
@@ -30,10 +24,10 @@ function Matrix2() {
 	// @endif
 }
 
-Matrix2.prototype = Object.create(Matrix.prototype);
+Matrix2.prototype = Object.create(Matrix_Matrixjs.prototype);
 Matrix2.prototype.constructor = Matrix2;
 
-Matrix.setupAliases(Matrix2.prototype, [['e00'], ['e10'], ['e01'], ['e11']]);
+Matrix_Matrixjs.setupAliases(Matrix2.prototype, [['e00'], ['e10'], ['e01'], ['e11']]);
 
 /* @type {Matrix2} */
 Matrix2.IDENTITY = new Matrix2(1, 0, 0, 1);
@@ -170,7 +164,7 @@ Matrix2.invert = function (source, target) {
 
 	var det = source.determinant();
 
-	if (Math.abs(det) < MathUtils.EPSILON) {
+	if (Math.abs(det) < MathUtils_MathUtilsjs.EPSILON) {
 		return target;
 	}
 
@@ -201,7 +195,7 @@ Matrix2.prototype.isOrthogonal = function () {
 
 	dot = this.e00 * this.e01 + this.e10 * this.e11;
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
@@ -217,14 +211,14 @@ Matrix2.prototype.isNormal = function () {
 
 	l = this.e00 * this.e00 + this.e10 * this.e10;
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
 	l = this.e01 * this.e01 + this.e11 * this.e11;
 
 	//! AT: why wrap the condition in an if?!
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
@@ -265,10 +259,10 @@ Matrix2.prototype.equals = function (rhs) {
 	var thisData = this.data;
 	var rhsData = rhs.data;
 
-	return (Math.abs(thisData[0] - rhsData[0]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[1] - rhsData[1]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[2] - rhsData[2]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[3] - rhsData[3]) <= MathUtils.EPSILON);
+	return (Math.abs(thisData[0] - rhsData[0]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[1] - rhsData[1]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[2] - rhsData[2]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[3] - rhsData[3]) <= MathUtils_MathUtilsjs.EPSILON);
 };
 
 /**
@@ -320,7 +314,7 @@ Matrix2.prototype.clone = function () {
 };
 
 // @ifdef DEBUG
-Matrix.addPostChecks(Matrix2.prototype, [
+Matrix_Matrixjs.addPostChecks(Matrix2.prototype, [
 	'add', 'sub', 'scale', 'transpose', 'invert',
 	'isOrthogonal', 'determinant',
 	'copy'
@@ -332,7 +326,7 @@ Matrix.addPostChecks(Matrix2.prototype, [
  * @hidden
  * @deprecated
  */
-Matrix2.add = ObjectUtils.warnOnce(
+Matrix2.add = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.add is deprecated. Use Matrix2.prototype.add instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -359,7 +353,7 @@ Matrix2.add = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.combine = ObjectUtils.warnOnce(
+Matrix2.combine = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.combine is deprecated. Use Matrix2.prototype.multiply instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -367,7 +361,7 @@ Matrix2.combine = ObjectUtils.warnOnce(
 		}
 
 		if (target === lhs || target === rhs) {
-			return Matrix.copy(Matrix2.combine(lhs, rhs), target);
+			return Matrix_Matrixjs.copy(Matrix2.combine(lhs, rhs), target);
 		}
 
 		target.e00 = lhs.e00 * rhs.e00 + lhs.e01 * rhs.e10;
@@ -383,7 +377,7 @@ Matrix2.combine = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.div = ObjectUtils.warnOnce(
+Matrix2.div = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.div is deprecated. Use Matrix2.prototype.div instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -412,7 +406,7 @@ Matrix2.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.mul = ObjectUtils.warnOnce(
+Matrix2.mul = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.mul is deprecated. Use Matrix2.prototype.mul instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -439,7 +433,7 @@ Matrix2.mul = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.transpose = ObjectUtils.warnOnce(
+Matrix2.transpose = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.transpose is deprecated. Use Matrix2.prototype.transpose instead.',
 	function (source, target) {
 		if (!target) {
@@ -447,7 +441,7 @@ Matrix2.transpose = ObjectUtils.warnOnce(
 		}
 
 		if (target === source) {
-			return Matrix.copy(Matrix2.transpose(source), target);
+			return Matrix_Matrixjs.copy(Matrix2.transpose(source), target);
 		}
 
 		target.e00 = source.e00;
@@ -463,7 +457,7 @@ Matrix2.transpose = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.sub = ObjectUtils.warnOnce(
+Matrix2.sub = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.sub is deprecated. Use Matrix2.prototype.sub instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -490,7 +484,7 @@ Matrix2.sub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.prototype.combine = ObjectUtils.warnOnce(
+Matrix2.prototype.combine = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.prototype.combine is deprecated. Use Matrix2.prototype.mul or Matrix2.prototype.mul2 instead.',
 	function (rhs) {
 		return Matrix2.combine(this, rhs, this);
@@ -501,12 +495,17 @@ Matrix2.prototype.combine = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix2.prototype.div = ObjectUtils.warnOnce(
+Matrix2.prototype.div = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2.prototype.div is deprecated.',
 	function (rhs) {
 		return Matrix2.div(this, rhs, this);
 	}
 );
-// SHIM END
+var exported_Matrix2 = Matrix2;
 
-module.exports = Matrix2;
+/**
+ * Matrix with 2x2 components.
+ * @extends Matrix
+ * @param {number...} arguments Initial values for the matrix components.
+ */
+export { exported_Matrix2 as Matrix2 };

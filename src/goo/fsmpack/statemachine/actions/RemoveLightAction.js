@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function RemoveLightAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function RemoveLightAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-RemoveLightAction.prototype = Object.create(Action.prototype);
+RemoveLightAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 RemoveLightAction.prototype.constructor = RemoveLightAction;
 
 RemoveLightAction.external = {
@@ -23,4 +23,5 @@ RemoveLightAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = RemoveLightAction;
+var exported_RemoveLightAction = RemoveLightAction;
+export { exported_RemoveLightAction as RemoveLightAction };

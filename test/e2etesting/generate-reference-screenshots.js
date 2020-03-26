@@ -1,9 +1,10 @@
-var path = require('path');
-var program = require('commander');
+import path from "path";
+import program from "commander";
+import { ScreenShooter as ScreenShooter_ScreenShooterjs } from "./ScreenShooter";
+import child_process_child_process from "child_process";
+import { filterList as filterList_filterListjs } from "./filterList";
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var ScreenShooter = require('./ScreenShooter');
-var exec = require('child_process').exec;
-var filterList = require('./filterList').filterList;
+var exec = child_process_child_process.exec;
 
 program
 	.version('0.0.0')
@@ -17,8 +18,8 @@ var gooRootPath = path.join(__dirname, '..', '..');
 
 console.log('Using test URL: ' + program.url);
 
-var shooter = new ScreenShooter({
-	script : ScreenShooter.removeGooStuffScript
+var shooter = new ScreenShooter_ScreenShooterjs({
+	script : ScreenShooter_ScreenShooterjs.removeGooStuffScript
 });
 
 if (typeof program.wait !== 'undefined') {
@@ -37,7 +38,7 @@ var files = toc.getFilesSync(__dirname + '/../../visual-test');
 var urlToPathMap = {};
 for (var i = 0; i < files.length; i++) {
 	var file = files[i];
-	if (filterList.some(function (term) { return file.indexOf(term) !== -1; })) {
+	if (filterList_filterListjs.some(function (term) { return file.indexOf(term) !== -1; })) {
 		continue;
 	}
 

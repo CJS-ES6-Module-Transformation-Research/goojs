@@ -1,23 +1,7 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-var Vector4 = require('./Vector4');
-
-/**
- * Vector with 3 components.
- * @extends Vector
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @example
- * var zero = new Vector3();
- * var a = new Vector3(1, 2, 3);
- * var b = new Vector3([1, 2, 3]); // Create from array
- * var c = new Vector3(otherVector); // Create from other Vector3
- *
- * // Methods return the self object and allows for chaining:
- * a.add(b).sub(c); // a = a + b - c
- */
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { MathUtils as MathUtils_MathUtilsjs } from "./MathUtils";
+import { Vector as Vector_Vectorjs } from "./Vector";
+import { Vector4 as Vector4_Vector4js } from "./Vector4";
 function Vector3(x, y, z) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -52,15 +36,15 @@ function Vector3(x, y, z) {
 	// @endif
 }
 
-Vector3.prototype = Object.create(Vector.prototype);
+Vector3.prototype = Object.create(Vector_Vectorjs.prototype);
 Vector3.prototype.constructor = Vector3;
 
 // @ifdef DEBUG
-Vector.setupAliases(Vector3.prototype, [['x'], ['y'], ['z']]);
-Vector.setupIndices(Vector3.prototype, 3);
+Vector_Vectorjs.setupAliases(Vector3.prototype, [['x'], ['y'], ['z']]);
+Vector_Vectorjs.setupIndices(Vector3.prototype, 3);
 // @endif
 
-Vector.setupAliases(Vector3.prototype, [['u', 'r'], ['v', 'g'], ['w', 'b']]);
+Vector_Vectorjs.setupAliases(Vector3.prototype, [['u', 'r'], ['v', 'g'], ['w', 'b']]);
 
 /**
  * Zero-vector (0, 0, 0)
@@ -136,7 +120,7 @@ Vector3.prototype.add = function (rhs) {
 		this.x += rhs.x;
 		this.y += rhs.y;
 		this.z += rhs.z;
-	} else if (rhs instanceof Vector4) {
+	} else if (rhs instanceof Vector4_Vector4js) {
 		console.warn('Passing a Vector4 argument to Vector3.prototype.add is deprecated. Consider using .addDirect instead.');
 		this.x += rhs.x;
 		this.y += rhs.y;
@@ -356,7 +340,7 @@ Vector3.prototype.dotDirect = function (x, y, z) {
  * @returns {boolean}
  */
 Vector3.prototype.equals = function (rhs) {
-	var eps = MathUtils.EPSILON;
+	var eps = MathUtils_MathUtilsjs.EPSILON;
 	return (Math.abs(this.x - rhs.x) <= eps) &&
 		(Math.abs(this.y - rhs.y) <= eps) &&
 		(Math.abs(this.z - rhs.z) <= eps);
@@ -370,7 +354,7 @@ Vector3.prototype.equals = function (rhs) {
  * @returns {boolean}
  */
 Vector3.prototype.equalsDirect = function (x, y, z) {
-	var eps = MathUtils.EPSILON;
+	var eps = MathUtils_MathUtilsjs.EPSILON;
 	return (Math.abs(this.x - x) <= eps) &&
 		(Math.abs(this.y - y) <= eps) &&
 		(Math.abs(this.z - z) <= eps);
@@ -463,7 +447,7 @@ Vector3.prototype.lerp = function (end, factor) {
  * v.set(new Vector3(2, 4, 6)); // v == (2, 4, 6)
  */
 Vector3.prototype.set = function (rhs) {
-	if (rhs instanceof Vector3 || rhs instanceof Vector4) {
+	if (rhs instanceof Vector3 || rhs instanceof Vector4_Vector4js) {
 		this.x = rhs.x;
 		this.y = rhs.y;
 		this.z = rhs.z;
@@ -522,7 +506,7 @@ Vector3.prototype.length = function () {
 Vector3.prototype.normalize = function () {
 	var length = this.length();
 
-	if (length < MathUtils.EPSILON) {
+	if (length < MathUtils_MathUtilsjs.EPSILON) {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
@@ -734,7 +718,7 @@ Vector3.prototype.setArray = function (array) {
 
 // SHIM START
 Object.defineProperty(Vector3.prototype, 'data', {
-	get: ObjectUtils.warnOnce('The .data property of Vector3 was removed. Please use the .x, .y and .z properties instead.', function () {
+	get: utilObjectUtils_ObjectUtilsjs.warnOnce('The .data property of Vector3 was removed. Please use the .x, .y and .z properties instead.', function () {
 		var data = [];
 		var that = this;
 		Object.defineProperties(data, {
@@ -771,7 +755,7 @@ Object.defineProperty(Vector3.prototype, 'data', {
  * @hidden
  * @deprecated
  */
-Vector3.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vector3 is deprecated. Please use the set method instead.', function (rhs) {
+Vector3.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce('The setVector method of Vector3 is deprecated. Please use the set method instead.', function (rhs) {
 	return this.set(rhs);
 });
 
@@ -779,7 +763,7 @@ Vector3.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vect
  * @hidden
  * @deprecated
  */
-Vector3.add = ObjectUtils.warnOnce('Vector3.add is deprecated. Use Vector3.prototype.add instead.', function (lhs, rhs, target) {
+Vector3.add = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.add is deprecated. Use Vector3.prototype.add instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs];
 	}
@@ -806,7 +790,7 @@ Vector3.add = ObjectUtils.warnOnce('Vector3.add is deprecated. Use Vector3.proto
  * @hidden
  * @deprecated
  */
-Vector3.cross = ObjectUtils.warnOnce('Vector3.cross is deprecated. Use Vector3.prototype.cross instead.', function (lhs, rhs, target) {
+Vector3.cross = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.cross is deprecated. Use Vector3.prototype.cross instead.', function (lhs, rhs, target) {
 	if (!target) {
 		target = new Vector3();
 	}
@@ -829,7 +813,7 @@ Vector3.cross = ObjectUtils.warnOnce('Vector3.cross is deprecated. Use Vector3.p
  * @hidden
  * @deprecated
  */
-Vector3.distance = ObjectUtils.warnOnce('Vector3.distance is deprecated. Use Vector3.prototype.distance instead.', function (lhs, rhs) {
+Vector3.distance = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.distance is deprecated. Use Vector3.prototype.distance instead.', function (lhs, rhs) {
 	return Math.sqrt(Vector3.distanceSquared(lhs, rhs));
 });
 
@@ -837,7 +821,7 @@ Vector3.distance = ObjectUtils.warnOnce('Vector3.distance is deprecated. Use Vec
  * @hidden
  * @deprecated
  */
-Vector3.distanceSquared = ObjectUtils.warnOnce('Vector3.distanceSquared is deprecated. Use Vector3.prototype.distanceSquared instead.', function (lhs, rhs) {
+Vector3.distanceSquared = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.distanceSquared is deprecated. Use Vector3.prototype.distanceSquared instead.', function (lhs, rhs) {
 	var x = lhs.x - rhs.x,
 		y = lhs.y - rhs.y,
 		z = lhs.z - rhs.z;
@@ -848,7 +832,7 @@ Vector3.distanceSquared = ObjectUtils.warnOnce('Vector3.distanceSquared is depre
  * @hidden
  * @deprecated
  */
-Vector3.div = ObjectUtils.warnOnce('Vector3.div is deprecated. Use Vector3.prototype.div instead.', function (lhs, rhs, target) {
+Vector3.div = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.div is deprecated. Use Vector3.prototype.div instead.', function (lhs, rhs, target) {
 	if (!target) {
 		target = new Vector3();
 	}
@@ -882,7 +866,7 @@ Vector3.div = ObjectUtils.warnOnce('Vector3.div is deprecated. Use Vector3.proto
  * @hidden
  * @deprecated
  */
-Vector3.dot = ObjectUtils.warnOnce('Vector3.dot is deprecated. Use Vector3.prototype.dot instead.', function (lhs, rhs) {
+Vector3.dot = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.dot is deprecated. Use Vector3.prototype.dot instead.', function (lhs, rhs) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs];
 	}
@@ -903,7 +887,7 @@ Vector3.dot = ObjectUtils.warnOnce('Vector3.dot is deprecated. Use Vector3.proto
  * @hidden
  * @deprecated
  */
-Vector3.mul = ObjectUtils.warnOnce('Vector3.mul is deprecated. Use Vector3.prototype.mul instead.', function (lhs, rhs, target) {
+Vector3.mul = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.mul is deprecated. Use Vector3.prototype.mul instead.', function (lhs, rhs, target) {
 	if (!target) {
 		target = new Vector3();
 	}
@@ -936,7 +920,7 @@ Vector3.mul = ObjectUtils.warnOnce('Vector3.mul is deprecated. Use Vector3.proto
  * @hidden
  * @deprecated
  */
-Vector3.prototype.addVector = ObjectUtils.warnOnce('Vector3.prototype.addVector is deprecated. Use Vector3.prototype.add instead.', function (vector) {
+Vector3.prototype.addVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.prototype.addVector is deprecated. Use Vector3.prototype.add instead.', function (vector) {
 	this.x += vector.x;
 	this.y += vector.y;
 	this.z += vector.z;
@@ -948,7 +932,7 @@ Vector3.prototype.addVector = ObjectUtils.warnOnce('Vector3.prototype.addVector 
  * @hidden
  * @deprecated
  */
-Vector3.prototype.mulVector = ObjectUtils.warnOnce('Vector3.prototype.mulVector is deprecated. Use .mul instead.', function (vec3) {
+Vector3.prototype.mulVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.prototype.mulVector is deprecated. Use .mul instead.', function (vec3) {
 	this.x *= vec3.x;
 	this.y *= vec3.y;
 	this.z *= vec3.z;
@@ -960,7 +944,7 @@ Vector3.prototype.mulVector = ObjectUtils.warnOnce('Vector3.prototype.mulVector 
  * @hidden
  * @deprecated
  */
-Vector3.prototype.dotVector = ObjectUtils.warnOnce('Vector3.prototype.dotVector is deprecated. Use .dot instead.', function (rhs) {
+Vector3.prototype.dotVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.prototype.dotVector is deprecated. Use .dot instead.', function (rhs) {
 	var ldata = this.data;
 	var rdata = rhs.data;
 
@@ -973,7 +957,7 @@ Vector3.prototype.dotVector = ObjectUtils.warnOnce('Vector3.prototype.dotVector 
  * @hidden
  * @deprecated
  */
-Vector3.prototype.invert = ObjectUtils.warnOnce('Vector3.prototype.invert is deprecated. Use .negate instead.', function () {
+Vector3.prototype.invert = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.prototype.invert is deprecated. Use .negate instead.', function () {
 	this.x = 0.0 - this.x;
 	this.y = 0.0 - this.y;
 	this.z = 0.0 - this.z;
@@ -985,7 +969,7 @@ Vector3.prototype.invert = ObjectUtils.warnOnce('Vector3.prototype.invert is dep
  * @hidden
  * @deprecated
  */
-Vector3.prototype.subVector = ObjectUtils.warnOnce('Vector3.prototype.subVector is deprecated. Use .sub instead.', function (vector) {
+Vector3.prototype.subVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.prototype.subVector is deprecated. Use .sub instead.', function (vector) {
 	this.x -= vector.x;
 	this.y -= vector.y;
 	this.z -= vector.z;
@@ -997,7 +981,7 @@ Vector3.prototype.subVector = ObjectUtils.warnOnce('Vector3.prototype.subVector 
  * @hidden
  * @deprecated
  */
-Vector3.sub = ObjectUtils.warnOnce('Vector3.sub is deprecated. Use Vector3.prototype.sub instead.', function (lhs, rhs, target) {
+Vector3.sub = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector3.sub is deprecated. Use Vector3.prototype.sub instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs];
 	}
@@ -1022,11 +1006,26 @@ Vector3.sub = ObjectUtils.warnOnce('Vector3.sub is deprecated. Use Vector3.proto
 // SHIM END
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Vector3.prototype, [
+Vector_Vectorjs.addReturnChecks(Vector3.prototype, [
 	'dot', 'dotDirect',
 	'length', 'lengthSquared',
 	'distance', 'distanceSquared'
 ]);
-// @endif
+var exported_Vector3 = Vector3;
 
-module.exports = Vector3;
+/**
+ * Vector with 3 components.
+ * @extends Vector
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @example
+ * var zero = new Vector3();
+ * var a = new Vector3(1, 2, 3);
+ * var b = new Vector3([1, 2, 3]); // Create from array
+ * var c = new Vector3(otherVector); // Create from other Vector3
+ *
+ * // Methods return the self object and allows for chaining:
+ * a.add(b).sub(c); // a = a + b - c
+ */
+export { exported_Vector3 as Vector3 };

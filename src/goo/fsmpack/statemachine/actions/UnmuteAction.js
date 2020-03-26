@@ -1,9 +1,9 @@
-var Action = require('./Action');
+import { Action as Action_Actionjs } from "./Action";
 
-function UnmuteAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function UnmuteAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
-UnmuteAction.prototype = Object.create(Action.prototype);
+UnmuteAction.prototype = Object.create(Action_Actionjs.prototype);
 UnmuteAction.prototype.constructor = UnmuteAction;
 
 UnmuteAction.external = {
@@ -26,4 +26,5 @@ UnmuteAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = UnmuteAction;
+var exported_UnmuteAction = UnmuteAction;
+export { exported_UnmuteAction as UnmuteAction };

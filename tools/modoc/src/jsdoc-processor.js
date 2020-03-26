@@ -1,12 +1,10 @@
+import _ from "underscore";
+import * as jsdocparser_extractjs from "./jsdoc-parser";
+import { parse as typeexpressionstypeparser_parsejs } from "./type-expressions/type-parser";
+import { serialize as typeexpressionsjsdocserializer_serializejs } from "./type-expressions/jsdoc-serializer";
+import * as util_utiljsjs from "./util";
 // jshint node:true
 'use strict';
-
-var _ = require('underscore');
-
-var jsdocParser = require('./jsdoc-parser');
-var typeParser = require('./type-expressions/type-parser');
-var jsdocSerializer = require('./type-expressions/jsdoc-serializer');
-var util = require('./util');
 
 // regex compilation for `[]()` links, `@link` and types (big mess)
 var typesRegex;
@@ -45,8 +43,8 @@ var expandIcons = function (string) {
 var translateType = function (closureType) {
 	if (closureType.trim().length > 0) {
 		try {
-			var parsed = typeParser.parse(closureType);
-			var jsdocType = jsdocSerializer.serialize(parsed);
+			var parsed = typeexpressionstypeparser_parsejs(closureType);
+			var jsdocType = typeexpressionsjsdocserializer_serializejs(parsed);
 			return jsdocType;
 		} catch (e) {
 			console.warn(e);
@@ -121,7 +119,7 @@ var booleanTags = [
 
 var compileComment = function (rawComment) {
 	// parse the raw comment
-	var parsed = jsdocParser.extract(rawComment);
+	var parsed = jsdocparser_extractjs(rawComment);
 
 	var comment = {};
 	comment.description = parsed.description;
@@ -186,6 +184,9 @@ var all = function (jsData, files) {
 };
 
 
-exports.all = all;
-exports.compileComment = compileComment;
-exports.link = link;
+var all_all = all;
+var compileComment_compileComment = compileComment;
+var link_link = link;
+export { all_all as all };
+export { compileComment_compileComment as compileComment };
+export { link_link as link };

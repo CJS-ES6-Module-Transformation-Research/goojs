@@ -54,4 +54,5 @@ RotationScript.externals = {
 	}]
 };
 
-module.exports = RotationScript;
+var exported_RotationScript = RotationScript;
+export { exported_RotationScript as RotationScript };

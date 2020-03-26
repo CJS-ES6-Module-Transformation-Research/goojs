@@ -1,8 +1,8 @@
-var HeightMapBoundingScript = require('../scriptpack/HeightMapBoundingScript');
-var Vector3 = require('../math/Vector3');
+import {     HeightMapBoundingScript as scriptpackHeightMapBoundingScript_HeightMapBoundingScriptjs, } from "../scriptpack/HeightMapBoundingScript";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
 
-var calcVec1 = new Vector3();
-var calcVec2 = new Vector3();
+var calcVec1 = new mathVector3_Vector3js();
+var calcVec2 = new mathVector3_Vector3js();
 
 var _defaults = {
 	minX: 0,
@@ -39,15 +39,11 @@ function registerHeightData(heightMatrix, dimensions, heightMapData) {
 	var scriptContainer = {
 		dimensions: dimensions,
 		sideQuadCount: heightMatrix.length - 1,
-		script: new HeightMapBoundingScript(heightMatrix)
+		script: new scriptpackHeightMapBoundingScript_HeightMapBoundingScriptjs(heightMatrix)
 	};
 	return scriptContainer;
 }
 
-/**
- * Creates and exposes a square heightmap terrain fitted within given world dimensions.
- * This does not do any visualizing of the heightMap. That needs to be done elsewhere.
- */
 function WorldFittedTerrainScript() {
 	this.heightMapData = [];
 	this.yMargin = 1;
@@ -161,4 +157,10 @@ WorldFittedTerrainScript.prototype.getTerrainNormalAt = function (pos) {
 	return calcVec1;
 };
 
-module.exports = WorldFittedTerrainScript;
+var exported_WorldFittedTerrainScript = WorldFittedTerrainScript;
+
+/**
+ * Creates and exposes a square heightmap terrain fitted within given world dimensions.
+ * This does not do any visualizing of the heightMap. That needs to be done elsewhere.
+ */
+export { exported_WorldFittedTerrainScript as WorldFittedTerrainScript };

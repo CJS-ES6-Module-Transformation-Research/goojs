@@ -1,4 +1,4 @@
-var MeshData = require('../../renderer/MeshData');
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
 
 function MeshRendererDebug() {
 	this._meshes = [buildBox(1, 1, 1), null];
@@ -37,9 +37,9 @@ function buildBox(dx, dy, dz) {
 		3, 7
 	];
 
-	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
+	var meshData = new rendererMeshData_MeshDatajs(rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]), verts.length / 3, indices.length);
 
-	meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -48,4 +48,5 @@ function buildBox(dx, dy, dz) {
 	return meshData;
 }
 
-module.exports = MeshRendererDebug;
+var exported_MeshRendererDebug = MeshRendererDebug;
+export { exported_MeshRendererDebug as MeshRendererDebug };

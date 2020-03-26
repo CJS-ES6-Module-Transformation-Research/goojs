@@ -1,10 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function RemoveAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function RemoveAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-RemoveAction.prototype = Object.create(Action.prototype);
+RemoveAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 RemoveAction.prototype.constructor = RemoveAction;
 
 RemoveAction.external = {
@@ -27,4 +27,5 @@ RemoveAction.prototype.enter = function (fsm) {
 	entity.removeFromWorld(this.recursive);
 };
 
-module.exports = RemoveAction;
+var exported_RemoveAction = RemoveAction;
+export { exported_RemoveAction as RemoveAction };

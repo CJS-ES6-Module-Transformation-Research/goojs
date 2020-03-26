@@ -1,18 +1,11 @@
-var Vector3 = require('../../math/Vector3');
-var Component = require('../../entities/components/Component');
-
-/**
- * Holds the movement parameters of an entity.
- * Typically useful for anything which has a speed and/or
- * rotation.
- * @extends Component
- */
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
 function MovementComponent() {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'MovementComponent';
-	this.velocity = new Vector3();
-	this.rotationVelocity = new Vector3();
+	this.velocity = new mathVector3_Vector3js();
+	this.rotationVelocity = new mathVector3_Vector3js();
 
 	// @ifdef DEBUG
 	Object.seal(this);
@@ -21,7 +14,7 @@ function MovementComponent() {
 
 MovementComponent.type = 'MovementComponent';
 
-MovementComponent.prototype = Object.create(Component.prototype);
+MovementComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 MovementComponent.prototype.constructor = MovementComponent;
 
 /**
@@ -76,4 +69,12 @@ MovementComponent.prototype.getRotationVelocity = function () {
 	return this.rotationVelocity;
 };
 
-module.exports = MovementComponent;
+var exported_MovementComponent = MovementComponent;
+
+/**
+ * Holds the movement parameters of an entity.
+ * Typically useful for anything which has a speed and/or
+ * rotation.
+ * @extends Component
+ */
+export { exported_MovementComponent as MovementComponent };

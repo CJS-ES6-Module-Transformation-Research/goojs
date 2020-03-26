@@ -1,16 +1,15 @@
-var World = require('../../../src/goo/entities/World');
-var DynamicLoader = require('../../../src/goo/loaders/DynamicLoader');
-var QuadComponent = require('../../../src/goo/quadpack/QuadComponent');
-var Configs = require('../../../test/unit/loaders/Configs');
-
-require('../../../src/goo/quadpack/QuadComponentHandler');
+import { World as srcgooentitiesWorld_Worldjs } from "../../../src/goo/entities/World";
+import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../src/goo/loaders/DynamicLoader";
+import { QuadComponent as srcgooquadpackQuadComponent_QuadComponentjs } from "../../../src/goo/quadpack/QuadComponent";
+import { Configs as testunitloadersConfigs_Configsjs } from "../../../test/unit/loaders/Configs";
+import "../../../src/goo/quadpack/QuadComponentHandler";
 
 describe('QuadComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new srcgooentitiesWorld_Worldjs();
+		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -18,17 +17,17 @@ describe('QuadComponentHandler', function () {
 	});
 
 	it('loads an entity with a quadComponent', function (done) {
-		var config = Configs.entity(['quad']);
-		loader.preload(Configs.get());
+		var config = testunitloadersConfigs_Configsjs.entity(['quad']);
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.quadComponent).toEqual(jasmine.any(QuadComponent));
+			expect(entity.quadComponent).toEqual(jasmine.any(srcgooquadpackQuadComponent_QuadComponentjs));
 			done();
 		});
 	});
 
 	it('cleans up after the config was updated', function (done) {
-		var config = Configs.entity(['quad']);
-		loader.preload(Configs.get());
+		var config = testunitloadersConfigs_Configsjs.entity(['quad']);
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		loader.load(config.id).then(function () {
 			var newConfig = JSON.parse(JSON.stringify(config));
 

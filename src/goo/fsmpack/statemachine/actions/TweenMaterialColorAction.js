@@ -1,17 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+import { Easing as utilEasing_Easingjs } from "../../../util/Easing";
 
-function TweenMaterialColorAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenMaterialColorAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 
-	this.fromColor = new Vector3();
-	this.toColor = new Vector3();
-	this.calc = new Vector3();
+	this.fromColor = new mathVector3_Vector3js();
+	this.toColor = new mathVector3_Vector3js();
+	this.calc = new mathVector3_Vector3js();
 	this.completed = false;
 }
 
-TweenMaterialColorAction.prototype = Object.create(Action.prototype);
+TweenMaterialColorAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 TweenMaterialColorAction.prototype.constructor = TweenMaterialColorAction;
 
 TweenMaterialColorAction.external = {
@@ -109,7 +109,7 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = utilEasing_Easingjs[this.easing1][this.easing2](t);
 
 	this.calc.set(this.fromColor).lerp(this.toColor, fT);
 	this.materialColor[0] = this.calc.x;
@@ -122,4 +122,5 @@ TweenMaterialColorAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenMaterialColorAction;
+var exported_TweenMaterialColorAction = TweenMaterialColorAction;
+export { exported_TweenMaterialColorAction as TweenMaterialColorAction };

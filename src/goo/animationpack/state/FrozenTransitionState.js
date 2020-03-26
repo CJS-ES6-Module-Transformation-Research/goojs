@@ -1,14 +1,9 @@
-var AbstractTransitionState = require('../../animationpack/state/AbstractTransitionState');
-
-/**
- * A two state transition that freezes the starting state at its current position and blends that over time with a target state. The target
- *        state moves forward in time during the blend as normal.
- */
+import {     AbstractTransitionState as animationpackstateAbstractTransitionState_AbstractTransitionStatejs, } from "../../animationpack/state/AbstractTransitionState";
 function FrozenTransitionState() {
-	AbstractTransitionState.call(this);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.call(this);
 }
 
-FrozenTransitionState.prototype = Object.create(AbstractTransitionState.prototype);
+FrozenTransitionState.prototype = Object.create(animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype);
 FrozenTransitionState.prototype.constructor = FrozenTransitionState;
 
 /**
@@ -16,7 +11,7 @@ FrozenTransitionState.prototype.constructor = FrozenTransitionState;
  * @param {number} globalTime the current global time.
  */
 FrozenTransitionState.prototype.update = function (globalTime) {
-	AbstractTransitionState.prototype.update.call(this, globalTime);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype.update.call(this, globalTime);
 
 	// update only the target state - the source state is frozen
 	if (this._targetState) {
@@ -40,13 +35,19 @@ FrozenTransitionState.prototype.postUpdate = function () {
  * @param {number} globalTime
  */
 FrozenTransitionState.prototype.resetClips = function (globalTime) {
-	AbstractTransitionState.prototype.resetClips.call(this, globalTime);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype.resetClips.call(this, globalTime);
 	this._targetState.resetClips(globalTime);
 };
 
 FrozenTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractTransitionState.prototype.shiftClipTime.call(this, shiftTime);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype.shiftClipTime.call(this, shiftTime);
 	this._targetState.shiftClipTime(shiftTime);
 };
 
-module.exports = FrozenTransitionState;
+var exported_FrozenTransitionState = FrozenTransitionState;
+
+/**
+ * A two state transition that freezes the starting state at its current position and blends that over time with a target state. The target
+ *        state moves forward in time during the blend as normal.
+ */
+export { exported_FrozenTransitionState as FrozenTransitionState };

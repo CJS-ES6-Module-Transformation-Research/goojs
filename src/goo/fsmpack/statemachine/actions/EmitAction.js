@@ -1,11 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-function EmitAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function EmitAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-EmitAction.prototype = Object.create(Action.prototype);
+EmitAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 EmitAction.prototype.constructor = EmitAction;
 
 EmitAction.external = {
@@ -24,7 +24,8 @@ EmitAction.external = {
 };
 
 EmitAction.prototype.enter = function (/*fsm*/) {
-	SystemBus.emit(this.channel, this.data); // data is unused?
+	entitiesSystemBus_SystemBusjsjs.emit(this.channel, this.data); // data is unused?
 };
 
-module.exports = EmitAction;
+var exported_EmitAction = EmitAction;
+export { exported_EmitAction as EmitAction };

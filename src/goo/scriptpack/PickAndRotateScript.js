@@ -162,4 +162,5 @@ PickAndRotateScript.externals = {
 	}]
 };
 
-module.exports = PickAndRotateScript;
+var exported_PickAndRotateScript = PickAndRotateScript;
+export { exported_PickAndRotateScript as PickAndRotateScript };

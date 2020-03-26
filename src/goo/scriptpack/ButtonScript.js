@@ -1,8 +1,4 @@
-var SystemBus = require('../entities/SystemBus');
-
-/**
- * Attaches mouse events to an entity.
- */
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
 function ButtonScript() {
 	function setup(params, env) {
 		env.button = ['Any', 'Left', 'Middle', 'Right'].indexOf(params.button) - 1;
@@ -14,7 +10,7 @@ function ButtonScript() {
 		env.renderToPickHandler = function () {
 			env.skipUpdateBuffer = true;
 		};
-		SystemBus.addListener('ButtonScript.renderToPick', env.renderToPickHandler, false);
+		entitiesSystemBus_SystemBusjsjs.addListener('ButtonScript.renderToPick', env.renderToPickHandler, false);
 
 		env.mouseState = {
 			x: 0,
@@ -99,7 +95,7 @@ function ButtonScript() {
 		for (var event in env.listeners) {
 			env.domElement.removeEventListener(event, env.listeners[event]);
 		}
-		SystemBus.removeListener('ButtonScript.renderToPick', env.renderToPickHandler);
+		entitiesSystemBus_SystemBusjsjs.removeListener('ButtonScript.renderToPick', env.renderToPickHandler);
 	}
 
 	function getButton(event) {
@@ -119,12 +115,12 @@ function ButtonScript() {
 
 		var pickResult = gooRunner.pickSync(env.mouseState.x, env.mouseState.y, env.skipUpdateBuffer);
 		if (!env.skipUpdateBuffer) {
-			SystemBus.emit('ButtonScript.renderToPick');
+			entitiesSystemBus_SystemBusjsjs.emit('ButtonScript.renderToPick');
 		}
 		var entity = gooRunner.world.entityManager.getEntityByIndex(pickResult.id);
 		env.mouseState.downOnEntity = false;
 		if (entity === env.entity) {
-			SystemBus.emit(params.channel + '.' + type, {
+			entitiesSystemBus_SystemBusjsjs.emit(params.channel + '.' + type, {
 				type: type,
 				entity: entity
 			});
@@ -138,14 +134,14 @@ function ButtonScript() {
 
 		// mouseover
 		if (type === 'mousemove' && !env.mouseState.overEntity && entity === env.entity) {
-			SystemBus.emit(params.channel + '.mouseover', {
+			entitiesSystemBus_SystemBusjsjs.emit(params.channel + '.mouseover', {
 				type: 'mouseover',
 				entity: entity
 			});
 		}
 		// mouseout
 		if (type === 'mousemove' && env.mouseState.overEntity && entity !== env.entity) {
-			SystemBus.emit(params.channel + '.mouseout', {
+			entitiesSystemBus_SystemBusjsjs.emit(params.channel + '.mouseout', {
 				type: 'mouseout',
 				entity: entity
 			});
@@ -203,4 +199,9 @@ ButtonScript.externals = {
 	}]
 };
 
-module.exports = ButtonScript;
+var exported_ButtonScript = ButtonScript;
+
+/**
+ * Attaches mouse events to an entity.
+ */
+export { exported_ButtonScript as ButtonScript };

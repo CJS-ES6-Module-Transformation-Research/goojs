@@ -1,11 +1,5 @@
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-// TODO: make promise based instead of sending callbacks
-
-/**
- * Provides useful canvas-related methods
- */
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function CanvasUtils() {}
 
 // REVIEW: add documentation about what happens if the image is corrupt
@@ -57,7 +51,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			return callback();
 		}
 
-		ObjectUtils.defaults(options, {
+		utilObjectUtils_ObjectUtilsjs.defaults(options, {
 			// Canvas size
 			width: img.width,
 			height: img.height,
@@ -73,7 +67,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			destY: 0
 		});
 
-		ObjectUtils.defaults(options, {
+		utilObjectUtils_ObjectUtilsjs.defaults(options, {
 			destWidth: options.width,
 			destHeight: options.height
 		});
@@ -171,7 +165,7 @@ CanvasUtils.svgDataToImage = function (data) {
 	var img = new Image();
 	img.src = DOMURL.createObjectURL(svg);
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
 		img.onload = function () {
 			resolve(img);
 		};
@@ -181,4 +175,11 @@ CanvasUtils.svgDataToImage = function (data) {
 	});
 };
 
-module.exports = CanvasUtils;
+var exported_CanvasUtils = CanvasUtils;
+
+// TODO: make promise based instead of sending callbacks
+
+/**
+ * Provides useful canvas-related methods
+ */
+export { exported_CanvasUtils as CanvasUtils };

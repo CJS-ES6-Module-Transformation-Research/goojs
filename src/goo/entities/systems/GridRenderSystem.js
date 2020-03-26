@@ -1,18 +1,12 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var MeshData = require('../../renderer/MeshData');
-var Material = require('../../renderer/Material');
-var Shader = require('../../renderer/Shader');
-var Transform = require('../../math/Transform');
-var Grid = require('../../shapes/Grid');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { Grid as shapesGrid_Gridjs } from "../../shapes/Grid";
 function GridRenderSystem() {
-	System.call(this, 'GridRenderSystem', []);
+	entitiessystemsSystem_Systemjs.call(this, 'GridRenderSystem', []);
 
 	this.renderList = [];
 	this.doRender = {
@@ -24,29 +18,29 @@ function GridRenderSystem() {
 
 	this.camera = null;
 	this.lights = [];
-	this.transform1 = new Transform();
+	this.transform1 = new mathTransform_Transformjs();
 	this.transform1.rotation.rotateX(-Math.PI / 2);
 	this.transform1.scale.setDirect(this.scale, this.scale, this.scale);
 	this.transform1.update();
 
-	this.transform2 = new Transform();
+	this.transform2 = new mathTransform_Transformjs();
 	this.transform2.rotation.rotateX(-Math.PI / 2);
 	this.transform2.scale.setDirect(this.scale, this.scale, this.scale);
 	this.transform2.update();
 
 	var col = 0.2;
-	var gridMaterial1 = new Material(gridShaderDef, 'Grid Material');
+	var gridMaterial1 = new rendererMaterial_Materialjs(gridShaderDef, 'Grid Material');
 	gridMaterial1.blendState.blending = 'TransparencyBlending';
 	gridMaterial1.uniforms.color = [col, col, col, 1];
 	gridMaterial1.depthState.write = false;
 	gridMaterial1.depthState.enabled = true;
-	var gridMaterial2 = new Material(gridShaderDef, 'Grid Material');
+	var gridMaterial2 = new rendererMaterial_Materialjs(gridShaderDef, 'Grid Material');
 	gridMaterial2.blendState.blending = 'TransparencyBlending';
 	gridMaterial2.uniforms.color = [col, col, col, 1];
 	gridMaterial2.depthState.write = false;
 	gridMaterial2.depthState.enabled = true;
 
-	var gridMesh = new Grid(this.count, this.count);
+	var gridMesh = new shapesGrid_Gridjs(this.count, this.count);
 	this.grid1 = {
 		meshData: gridMesh,
 		materials: [gridMaterial1],
@@ -67,16 +61,16 @@ function GridRenderSystem() {
 
 	// stop using this pattern - use instead .bind()
 	var that = this;
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (newCam) {
 		that.camera = newCam.camera;
 	});
 
-	SystemBus.addListener('goo.setLights', function (lights) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setLights', function (lights) {
 		that.lights = lights;
 	});
 }
 
-GridRenderSystem.prototype = Object.create(System.prototype);
+GridRenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 GridRenderSystem.prototype.constructor = GridRenderSystem;
 
 GridRenderSystem.prototype.inserted = function (/*entity*/) {};
@@ -170,15 +164,15 @@ GridRenderSystem.prototype.invalidateHandles = function (renderer) {
 
 var gridShaderDef = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		color: [0.55, 0.55, 0.55, 1],
-		fogNear: Shader.NEAR_PLANE,
-		fogFar: Shader.FAR_PLANE,
+		fogNear: rendererShader_Shaderjs.NEAR_PLANE,
+		fogFar: rendererShader_Shaderjs.FAR_PLANE,
 		opacity: 1,
 		scale: 1
 	},
@@ -218,4 +212,11 @@ var gridShaderDef = {
 	].join('\n')
 };
 
-module.exports = GridRenderSystem;
+var exported_GridRenderSystem = GridRenderSystem;
+
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { exported_GridRenderSystem as GridRenderSystem };

@@ -1,17 +1,11 @@
-var Component = require('../../entities/components/Component');
-var World = require('../../entities/World'); //! AT: this should not exist
-var AnimationLayer = require('../../animationpack/layer/AnimationLayer');
-var JointData = require('../../animationpack/clip/JointData');
-var TransformData = require('../../animationpack/clip/TransformData');
-var TriggerData = require('../../animationpack/clip/TriggerData');
-
-/**
- * Holds the animation data.
- * @extends Component
- * @param {SkeletonPose} pose pose
- */
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import { World as entitiesWorld_Worldjs } from "../../entities/World";
+import { AnimationLayer as animationpacklayerAnimationLayer_AnimationLayerjs } from "../../animationpack/layer/AnimationLayer";
+import { JointData as animationpackclipJointData_JointDatajs } from "../../animationpack/clip/JointData";
+import { TransformData as animationpackclipTransformData_TransformDatajs } from "../../animationpack/clip/TransformData";
+import { TriggerData as animationpackclipTriggerData_TriggerDatajs } from "../../animationpack/clip/TriggerData";
 function AnimationComponent(pose) {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'AnimationComponent';
 
@@ -26,7 +20,7 @@ function AnimationComponent(pose) {
 	this._triggerCallbacks = {};
 
 	// Base layer
-	var layer = new AnimationLayer(AnimationLayer.BASE_LAYER_NAME);
+	var layer = new animationpacklayerAnimationLayer_AnimationLayerjs(animationpacklayerAnimationLayer_AnimationLayerjs.BASE_LAYER_NAME);
 	this.layers.push(layer);
 	this._skeletonPose = pose;
 
@@ -36,7 +30,7 @@ function AnimationComponent(pose) {
 
 AnimationComponent.type = 'AnimationComponent';
 
-AnimationComponent.prototype = Object.create(Component.prototype);
+AnimationComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 AnimationComponent.prototype.constructor = AnimationComponent;
 
 /**
@@ -82,7 +76,7 @@ AnimationComponent.prototype.update = function (globalTime) {
 	}
 
 	// grab current global time
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : entitiesWorld_Worldjs.time;
 
 	// check throttle
 	if (this._updateRate !== 0.0) {
@@ -114,16 +108,16 @@ AnimationComponent.prototype.apply = function (transformComponent) {
 	for (var i = 0, l = keys.length; i < l; i++) {
 		var key = keys[i];
 		var value = data[key];
-		if (value instanceof JointData) {
+		if (value instanceof animationpackclipJointData_JointDatajs) {
 			if (pose && value._jointIndex >= 0) {
 				value.applyTo(pose._localTransforms[value._jointIndex]);
 			}
-		} else if (value instanceof TransformData) {
+		} else if (value instanceof animationpackclipTransformData_TransformDatajs) {
 			if (transformComponent) {
 				transformComponent.sync();
 				value.applyTo(transformComponent.transform);
 			}
-		} else if (value instanceof TriggerData) {
+		} else if (value instanceof animationpackclipTriggerData_TriggerDatajs) {
 			if (value.armed) {
 				// pull callback(s) for the current trigger key, if exists, and call.
 				// TODO: Integrate with GameMaker somehow
@@ -205,7 +199,7 @@ AnimationComponent.prototype.setTimeScale = function (timeScale) {
 
 AnimationComponent.prototype.pause = function () {
 	if (!this.paused) {
-		this.lastTimeOfPause = World.time;
+		this.lastTimeOfPause = entitiesWorld_Worldjs.time;
 		this.paused = true;
 	}
 };
@@ -221,9 +215,9 @@ AnimationComponent.prototype.stop = function () {
 AnimationComponent.prototype.resume = function () {
 	if (this.paused || this.lastTimeOfPause === -1) {
 		if (this.lastTimeOfPause === -1) {
-			this.resetClips(World.time);
+			this.resetClips(entitiesWorld_Worldjs.time);
 		} else {
-			this.shiftClipTime(World.time - this.lastTimeOfPause);
+			this.shiftClipTime(entitiesWorld_Worldjs.time - this.lastTimeOfPause);
 		}
 	}
 	this.paused = false;
@@ -238,4 +232,11 @@ AnimationComponent.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = AnimationComponent;
+var exported_AnimationComponent = AnimationComponent;
+
+/**
+ * Holds the animation data.
+ * @extends Component
+ * @param {SkeletonPose} pose pose
+ */
+export { exported_AnimationComponent as AnimationComponent };

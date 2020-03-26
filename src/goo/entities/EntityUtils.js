@@ -1,11 +1,6 @@
-var Scripts = require('../scripts/Scripts');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Utilities for entity creation etc
- * Only used to define the class. Should never be instantiated.
- */
+import { Scripts as scriptsScripts_Scriptsjs } from "../scripts/Scripts";
+import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function EntityUtils() {}
 
 /**
@@ -38,8 +33,8 @@ function cloneEntity(world, entity, settings) {
 	// settings is also used to store stuff on it, like animation skeletons
 	var newEntity = world.createEntity(entity.name);
 
-	newEntity._tags = ObjectUtils.cloneSet(entity._tags);
-	newEntity._attributes = ObjectUtils.cloneMap(entity._attributes);
+	newEntity._tags = utilObjectUtils_ObjectUtilsjs.cloneSet(entity._tags);
+	newEntity._attributes = utilObjectUtils_ObjectUtilsjs.cloneMap(entity._attributes);
 	newEntity._hidden = entity._hidden;
 	newEntity.static = entity.static;
 
@@ -63,15 +58,15 @@ function cloneEntity(world, entity, settings) {
 				var newScript;
 				var script = component.scripts[j];
 				var key = script.externals ? script.externals.key || script.externals.name : null;
-				if (key && Scripts.getScript(key)) { // Engine script
-					newScript = Scripts.create(key, script.parameters);
+				if (key && scriptsScripts_Scriptsjs.getScript(key)) { // Engine script
+					newScript = scriptsScripts_Scriptsjs.create(key, script.parameters);
 				} else { // Custom script
 					newScript = {
 						externals: script.externals,
 						name: (script.name || '') + '_clone',
 						enabled: !!script.enabled
 					};
-					if (script.parameters) { newScript.parameters = ObjectUtils.deepClone(script.parameters); }
+					if (script.parameters) { newScript.parameters = utilObjectUtils_ObjectUtilsjs.deepClone(script.parameters); }
 
 					if (script.setup) { newScript.setup = script.setup; }
 					if (script.update) { newScript.update = script.update; }
@@ -161,7 +156,7 @@ EntityUtils.getRoot = function (entity) {
 /**
  * @deprecated Deprecated with warning on 2016-04-06
  */
-EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
+EntityUtils.updateWorldTransform = utilObjectUtils_ObjectUtilsjs.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
 	transformComponent.updateWorldTransform();
 
 	for (var i = 0; i < transformComponent.children.length; i++) {
@@ -174,13 +169,13 @@ EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorld
  * @param entity
  */
 EntityUtils.getTotalBoundingBox = function (entity) {
-	var mergedWorldBound = new BoundingBox();
+	var mergedWorldBound = new rendererboundsBoundingBox_BoundingBoxjs();
 	var first = true;
 	entity.traverse(function (entity) {
 		if (entity.meshRendererComponent) {
 			if (first) {
 				var boundingVolume = entity.meshRendererComponent.worldBound;
-				if (boundingVolume instanceof BoundingBox) {
+				if (boundingVolume instanceof rendererboundsBoundingBox_BoundingBoxjs) {
 					mergedWorldBound.copy(boundingVolume);
 				} else {
 					mergedWorldBound.center.set(boundingVolume.center);
@@ -197,10 +192,16 @@ EntityUtils.getTotalBoundingBox = function (entity) {
 	// a tiny bounding box centered around the coordinates of the parent
 	if (first) {
 		var translation = entity.transformComponent.worldTransform.translation;
-		mergedWorldBound = new BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
+		mergedWorldBound = new rendererboundsBoundingBox_BoundingBoxjs(translation.clone(), 0.001, 0.001, 0.001);
 	}
 
 	return mergedWorldBound;
 };
 
-module.exports = EntityUtils;
+var exported_EntityUtils = EntityUtils;
+
+/**
+ * Utilities for entity creation etc
+ * Only used to define the class. Should never be instantiated.
+ */
+export { exported_EntityUtils as EntityUtils };
