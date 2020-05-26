@@ -1,12 +1,7 @@
+import ext_underscore__ from "underscore";
+import { getFileName as util_getFileNamejs } from "./util";
 // jshint node:true
 'use strict';
-
-/**
- Builds the index used to generate the nav bar
- */
-
-var _ = require('underscore');
-var util = require('./util');
 
 var HTML_SUFFIX = '-doc.html';
 
@@ -26,10 +21,10 @@ function getDifferentiatorIndex(strings) {
 }
 
 function getIndex(classes) {
-	var files = _.pluck(classes, 'file').filter(Boolean);
+	var files = ext_underscore__.pluck(classes, 'file').filter(Boolean);
 	var differentiator = getDifferentiatorIndex(files);
 
-	var groups = _.groupBy(files, function (file) {
+	var groups = ext_underscore__.groupBy(files, function (file) {
 		return file.substring(differentiator, file.lastIndexOf('/'));
 	});
 
@@ -55,7 +50,7 @@ function getIndex(classes) {
 		group.forEach(function (file) {
 			if (typeof file === 'object') { return file; }
 
-			var fileName = util.getFileName(file);
+			var fileName = util_getFileNamejs(file);
 			var requirePath = file.substring(differentiator, file.length - 3);
 			ret[0].classes.push({
 				name: fileName,
@@ -74,4 +69,8 @@ function getIndex(classes) {
 }
 
 
-exports.getIndex = getIndex;
+var getIndex_getIndex;
+
+
+getIndex_getIndex = getIndex;
+export { getIndex_getIndex as getIndex };

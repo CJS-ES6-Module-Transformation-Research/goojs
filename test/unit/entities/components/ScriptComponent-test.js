@@ -1,12 +1,13 @@
-var ScriptSystem = require('../../../../src/goo/entities/systems/ScriptSystem');
-var ScriptComponent = require('../../../../src/goo/entities/components/ScriptComponent');
-var World = require('../../../../src/goo/entities/World');
+var srcgooentitiesWorld_WorldjsBinding = {};
+import { ScriptSystem as srcgooentitiessystemsScriptSystem_ScriptSystemjs } from "../../../../src/goo/entities/systems/ScriptSystem";
+import {     ScriptComponent as srcgooentitiescomponentsScriptComponent_ScriptComponentjs, } from "../../../../src/goo/entities/components/ScriptComponent";
+import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
 
 describe('ScriptComponent', function () {
 	var world;
 
 	beforeEach(function () {
-		world = new World();
+		srcgooentitiesWorld_Worldjs = new srcgooentitiesWorld_Worldjs();
 		world.gooRunner = {
 			renderer: {
 				domElement: null,
@@ -14,13 +15,13 @@ describe('ScriptComponent', function () {
 				viewportHeight: null
 			}
 		};
-		world.add(new ScriptSystem(world));
+		world.add(new srcgooentitiessystemsScriptSystem_ScriptSystemjs(world));
 	});
 
 	it('it calls setup on all scripts when removing the component', function () {
 		var a = 0, b = 0;
 
-		var scriptComponent = new ScriptComponent([{
+		var scriptComponent = new srcgooentitiescomponentsScriptComponent_ScriptComponentjs([{
 			setup: function () { a += 123; },
 			run: function () {}
 		}, {
@@ -38,7 +39,7 @@ describe('ScriptComponent', function () {
 	it('it calls cleanup on all scripts when removing the component', function () {
 		var a = 0, b = 0;
 
-		var scriptComponent = new ScriptComponent([{
+		var scriptComponent = new srcgooentitiescomponentsScriptComponent_ScriptComponentjs([{
 			run: function () {},
 			cleanup: function () { a += 123; }
 		}, {

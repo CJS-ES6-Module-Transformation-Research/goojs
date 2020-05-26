@@ -1,16 +1,15 @@
-var World = require('../../../../src/goo/entities/World');
-var Entity = require('../../../../src/goo/entities/Entity');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var Configs = require('../../../../test/unit/loaders/Configs');
-
-require('../../../../src/goo/loaders/handlers/EntityHandler');
+import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
+import { Entity as srcgooentitiesEntity_Entityjs } from "../../../../src/goo/entities/Entity";
+import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
+import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
+import "../../../../src/goo/loaders/handlers/EntityHandler";
 
 describe('EntityHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new srcgooentitiesWorld_Worldjs();
+		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -18,19 +17,19 @@ describe('EntityHandler', function () {
 	});
 
 	it('loads an entity', function (done) {
-		var config = Configs.entity();
-		loader.preload(Configs.get());
-		loader.load(config.id).then(function (entity) {
-			expect(entity).toEqual(jasmine.any(Entity));
+		var config = testunitloadersConfigs_Configsjs.entity();
+		loader.preload(testunitloadersConfigs_Configsjs.get());
+		loader.load(srcgooentitiesEntity_Entityjs.id).then(function (entity) {
+			expect(entity).toEqual(jasmine.any(srcgooentitiesEntity_Entityjs));
 			expect(entity.id).toBe(config.id);
 			done();
 		});
 	});
 
 	it('loads an entity with tags', function (done) {
-		var config = Configs.entity();
+		var config = testunitloadersConfigs_Configsjs.entity();
 		config.tags = { t1: true, t2: true };
-		loader.preload(Configs.get());
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		loader.load(config.id).then(function (entity) {
 			expect(entity.hasTag('t1')).toEqual(true);
 			expect(entity.hasTag('t2')).toEqual(true);

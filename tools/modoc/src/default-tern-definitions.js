@@ -1,4 +1,5 @@
-module.exports = {
+var defaultterndefinitionsjs_defaultterndefinitionsjs;
+defaultterndefinitionsjs_defaultterndefinitionsjs = {
 	"Context": {
 		"!type": "fn()",
 		"!url": "http://goocreate.com/learn/the-ctx-object/",
@@ -48,3 +49,4 @@ module.exports = {
 		"!doc": "To define custom parameters in a Create script, the parameter array and the args object are used."
 	}
 };
+export { defaultterndefinitionsjs_defaultterndefinitionsjs as defaultterndefinitionsjs };

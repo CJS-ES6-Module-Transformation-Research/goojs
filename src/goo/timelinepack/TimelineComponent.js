@@ -1,11 +1,7 @@
-var Component = require('../entities/components/Component');
-
-/**
- * Timeline component
- * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
- */
+var TimelineComponent_TimelineComponent = TimelineComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../entities/components/Component";
 function TimelineComponent() {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'TimelineComponent';
 
@@ -29,7 +25,7 @@ function TimelineComponent() {
 	this.autoStart = true;
 }
 
-TimelineComponent.prototype = Object.create(Component.prototype);
+TimelineComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 TimelineComponent.prototype.constructor = TimelineComponent;
 
 /**
@@ -133,4 +129,8 @@ TimelineComponent.prototype.getValues = function () {
 	return retVal;
 };
 
-module.exports = TimelineComponent;
+/**
+ * Timeline component
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
+ */
+export { TimelineComponent_TimelineComponent as TimelineComponent };

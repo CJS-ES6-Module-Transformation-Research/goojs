@@ -1,7 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
+import ext_path_path from "path";
+import ext_webpack_webpack from "webpack";
+import ext_karmacoverage_karmacoverage from "karma-coverage";
+import ext_karmajasmine_karmajasmine from "karma-jasmine";
+import ext_karmachromelauncher_karmachromelauncher from "karma-chrome-launcher";
+import ext_karmawebpack_karmawebpack from "karma-webpack";
+import {     karmaWebpackProvidePluginSettingsjs as karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs, } from "./karmaWebpackProvidePluginSettings";
+var encapsulated_anonymus;
 
-module.exports = function (config) {
+encapsulated_anonymus = function (config) {
 	config.set({
 		browsers: ['Chrome'],
 		captureTimeout: 60000,
@@ -20,10 +26,10 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 
 		plugins: [
-			require('karma-coverage'),
-			require('karma-jasmine'),
-			require('karma-chrome-launcher'),
-			require('karma-webpack')
+			ext_karmacoverage_karmacoverage,
+			ext_karmajasmine_karmajasmine,
+			ext_karmachromelauncher_karmachromelauncher,
+			ext_karmawebpack_karmawebpack
 		],
 
 		preprocessors: {
@@ -46,7 +52,7 @@ module.exports = function (config) {
 		webpack: {
 			resolve: {
 				// Everything relative to repo root
-				root: path.resolve(path.join(__dirname, '..', '..'))
+				root: ext_path_path.resolve(ext_path_path.join(__dirname, '..', '..'))
 			},
 
 			node: {
@@ -57,7 +63,7 @@ module.exports = function (config) {
 			module: {
 				loaders: [{
 					test: /\.js?$/,
-					include: path.join(__dirname, 'src'),
+					include: ext_path_path.join(__dirname, 'src'),
 					loader: 'babel?stage=0'
 				}],
 				postLoaders: [{
@@ -68,7 +74,7 @@ module.exports = function (config) {
 			},
 
 			plugins: [
-				new webpack.ProvidePlugin(require('./karmaWebpackProvidePluginSettings'))
+				new ext_webpack_webpack.ProvidePlugin(karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs)
 			]
 
 		},

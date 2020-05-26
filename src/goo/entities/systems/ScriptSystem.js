@@ -1,12 +1,8 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Processes all entities with script components, running the scripts where applicable
- * @extends System
- */
+var ScriptSystem_ScriptSystem = ScriptSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
 function ScriptSystem(world) {
-	System.call(this, 'ScriptSystem', ['ScriptComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'ScriptSystem', ['ScriptComponent']);
 
 	//! AT: why this?
 	this._world = world;
@@ -25,11 +21,11 @@ function ScriptSystem(world) {
 
 	this._playing = true;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (data) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (data) {
 		this.context.activeCameraEntity = data.entity;
 	}.bind(this));
 
-	SystemBus.addListener('goo.viewportResize', function (data) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.viewportResize', function (data) {
 		this.context.viewportWidth = data.width;
 		this.context.viewportHeight = data.height;
 	}.bind(this));
@@ -39,7 +35,7 @@ function ScriptSystem(world) {
 	this.priority = 500;
 }
 
-ScriptSystem.prototype = Object.create(System.prototype);
+ScriptSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 ScriptSystem.prototype.constructor = ScriptSystem;
 
 /*
@@ -118,7 +114,11 @@ ScriptSystem.prototype.clear = function () {
 	this._world = null;
 	this.context = null;
 
-	System.prototype.clear.call(this);
+	entitiessystemsSystem_Systemjs.prototype.clear.call(this);
 };
 
-module.exports = ScriptSystem;
+/**
+ * Processes all entities with script components, running the scripts where applicable
+ * @extends System
+ */
+export { ScriptSystem_ScriptSystem as ScriptSystem };

@@ -1,12 +1,6 @@
-var MarkerComponent = require('./components/MarkerComponent');
-var MarkerSystem = require('./systems/MarkerSystem');
-
-//! AT: unused; should be removed
-/**
- * The debugger utility class adds a way to "select" entities and run a filtered serializer on them. It can also create a REPL and export the selected entity to global scope to aid in debugging with the browser's web console.
- * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
- * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
- */
+var Debugger_Debugger = Debugger;
+import { MarkerComponent as componentsMarkerComponent_MarkerComponentjs } from "./components/MarkerComponent";
+import { MarkerSystem as systemsMarkerSystem_MarkerSystemjs } from "./systems/MarkerSystem";
 function Debugger(exportPicked) {
 	this.goo = null;
 	this.exportPicked = exportPicked || false;
@@ -90,7 +84,7 @@ Debugger.prototype.inject = function (goo) {
 
 	// adding marker system if there is none
 	if (!this.goo.world.getSystem('MarkerSystem')) {
-		this.goo.world.setSystem(new MarkerSystem(this.goo));
+		this.goo.world.setSystem(new systemsMarkerSystem_MarkerSystemjs(this.goo));
 	}
 
 	this._setUpPicking();
@@ -243,14 +237,14 @@ function updateMarker(picked, oldPicked) {
 			oldPicked.clearComponent('MarkerComponent');
 		}
 		if (picked !== null) {
-			picked.setComponent(new MarkerComponent(picked));
+			picked.setComponent(new componentsMarkerComponent_MarkerComponentjs(picked));
 		}
 	}
 	else {
 		if (picked.hasComponent('MarkerComponent')) {
 			picked.clearComponent('MarkerComponent');
 		} else {
-			picked.setComponent(new MarkerComponent(picked));
+			picked.setComponent(new componentsMarkerComponent_MarkerComponentjs(picked));
 		}
 	}
 }
@@ -272,4 +266,10 @@ function displayInfo(entity) {
 	elem.value = entityStr;
 }
 
-module.exports = Debugger;
+//! AT: unused; should be removed
+/**
+ * The debugger utility class adds a way to "select" entities and run a filtered serializer on them. It can also create a REPL and export the selected entity to global scope to aid in debugging with the browser's web console.
+ * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
+ * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
+ */
+export { Debugger_Debugger as Debugger };

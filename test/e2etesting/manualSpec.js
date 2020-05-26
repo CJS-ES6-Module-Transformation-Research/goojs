@@ -1,19 +1,12 @@
-/*
-	p1: jasmine-reporters does not work with jasmine 2.0
-	p2: all our tests are written for jasmine 2.0
-	p3: going back to jasmine 1.x is not an option
-	p4: waiting until jasmine-reporters is fixes is not an option
-	p1, p2, p3, p4 => this file. It should have been specs/test.spec.js
- */
-
-var fs = require('fs');
-var path = require('path');
-var exec = require('child_process').exec;
-var async = require('async');
-var ScreenShooter = require('./ScreenShooter');
+import ext_fs_fs from "fs";
+import ext_path_path from "path";
+import ext_child_process_exec from "child_process";
+import ext_async_async from "async";
+import { ScreenShooter as ScreenShooter_ScreenShooterjs } from "./ScreenShooter";
+import { filterList as filterList_filterListjs } from "./filterList";
+var exec = ext_child_process_exec.exec;
 var imgCompare = require(__dirname + '/../../tools/imgcompare2/imgCompare');
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var filterList = require('./filterList').filterList;
 
 function filterArray(array, filters) {
 	return array.filter(function (entry) {
@@ -23,11 +16,11 @@ function filterArray(array, filters) {
 	});
 }
 
-var testFiles = toc.getFilesSync(path.join(__dirname, '/../../visual-test'));
-testFiles = filterArray(testFiles, filterList);
+var testFiles = toc.getFilesSync(ext_path_path.join(__dirname, '/../../visual-test'));
+testFiles = filterArray(testFiles, filterList_filterListjs);
 
 var rootUrl = process.env.GOOJS_ROOT_URL;
-var gooRootPath = path.join(__dirname, '..', '..');
+var gooRootPath = ext_path_path.join(__dirname, '..', '..');
 
 if (!rootUrl) {
 	console.error('Please set environment variable GOOJS_ROOT_URL!');
@@ -36,10 +29,10 @@ if (!rootUrl) {
 
 // testFilePath should be something like visual-test/.../lol-test.html
 function getTestInfo(testFilePath) {
-	var testFile = path.relative(gooRootPath, testFilePath);
+	var testFile = ext_path_path.relative(gooRootPath, testFilePath);
 	var url = rootUrl + '/' + testFile + '?deterministic=1';
-	var actualPath = path.join(__dirname, 'screenshots-tmp', testFile.replace('visual-test', '').replace('.html','.png'));
-	var expectedPath = path.join(__dirname, 'screenshots',     testFile.replace('visual-test', '').replace('.html','.png'));
+	var actualPath = ext_path_path.join(__dirname, 'screenshots-tmp', testFile.replace('visual-test', '').replace('.html','.png'));
+	var expectedPath = ext_path_path.join(__dirname, 'screenshots',     testFile.replace('visual-test', '').replace('.html','.png'));
 
 	return {
 		url: url,
@@ -49,7 +42,7 @@ function getTestInfo(testFilePath) {
 }
 
 
-var shooter = new ScreenShooter();
+var shooter = new ScreenShooter_ScreenShooterjs();
 
 var reports = [];
 function report(url, problem) {
@@ -60,7 +53,7 @@ function report(url, problem) {
 }
 
 var DISS_THRESH = 0.08;
-async.eachSeries(testFiles, function (testFile, done) {
+ext_async_async.eachSeries(testFiles, function (testFile, done) {
 	var info2 = getTestInfo(testFile);
 
 	var url = info2.url;

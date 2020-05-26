@@ -1,3 +1,4 @@
+var FsmUtils_FsmUtils = FsmUtils;
 function FsmUtils() {}
 
 FsmUtils.setParameters = function (settings, externalParameters) {
@@ -189,4 +190,4 @@ FsmUtils.getValue = function (par, fsm) {
 	}
 };
 
-module.exports = FsmUtils;
+export { FsmUtils_FsmUtils as FsmUtils };

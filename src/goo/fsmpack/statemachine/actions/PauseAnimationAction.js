@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var PauseAnimationAction_PauseAnimationAction = PauseAnimationAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function PauseAnimationAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function PauseAnimationAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-PauseAnimationAction.prototype = Object.create(Action.prototype);
+PauseAnimationAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 PauseAnimationAction.prototype.constructor = PauseAnimationAction;
 
 PauseAnimationAction.external = {
@@ -35,4 +36,4 @@ PauseAnimationAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = PauseAnimationAction;
+export { PauseAnimationAction_PauseAnimationAction as PauseAnimationAction };

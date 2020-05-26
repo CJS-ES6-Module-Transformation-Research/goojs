@@ -1,6 +1,4 @@
-/**
- * Base class for Colliders.
- */
+var Collider_Collider = Collider;
 function Collider() {}
 
 /**
@@ -19,4 +17,7 @@ Collider.prototype.clone = function () {
  */
 Collider.prototype.transform = function (/*transform, targetCollider*/) {};
 
-module.exports = Collider;
+/**
+ * Base class for Colliders.
+ */
+export { Collider_Collider as Collider };

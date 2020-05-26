@@ -1,9 +1,10 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+var PosteffectsConfigjs_PosteffectsConfigjs;
 
-module.exports = {
+PosteffectsConfigjs_PosteffectsConfigjs = {
 	posteffects: function () {
 		var config = this.gooObject('posteffects', 'Dummy');
-		_.extend(config, {
+		srcgooutilObjectUtil_ObjectUtilsjs.extend(config, {
 			posteffects: {
 				myBloomEffect: {
 					name: 'Bloom',
@@ -18,3 +19,4 @@ module.exports = {
 		return config;
 	}
 };
+export { PosteffectsConfigjs_PosteffectsConfigjs as PosteffectsConfigjs };

@@ -1,12 +1,10 @@
+import ext_underscore__ from "underscore";
+import { extract as jsdocparser_extractjs } from "./jsdoc-parser";
+import { parse as typeexpressionstypeparser_parsejs } from "./type-expressions/type-parser";
+import { serialize as typeexpressionsjsdocserializer_serializejs } from "./type-expressions/jsdoc-serializer";
+import { utiljs as util_utiljsjs } from "./util";
 // jshint node:true
 'use strict';
-
-var _ = require('underscore');
-
-var jsdocParser = require('./jsdoc-parser');
-var typeParser = require('./type-expressions/type-parser');
-var jsdocSerializer = require('./type-expressions/jsdoc-serializer');
-var util = require('./util');
 
 // regex compilation for `[]()` links, `@link` and types (big mess)
 var typesRegex;
@@ -45,8 +43,8 @@ var expandIcons = function (string) {
 var translateType = function (closureType) {
 	if (closureType.trim().length > 0) {
 		try {
-			var parsed = typeParser.parse(closureType);
-			var jsdocType = jsdocSerializer.serialize(parsed);
+			var parsed = typeexpressionstypeparser_parsejs(closureType);
+			var jsdocType = typeexpressionsjsdocserializer_serializejs(parsed);
 			return jsdocType;
 		} catch (e) {
 			console.warn(e);
@@ -57,7 +55,7 @@ var translateType = function (closureType) {
 	}
 };
 
-var processType = _.compose(linkTypes, escapeType, translateType);
+var processType = ext_underscore__.compose(linkTypes, escapeType, translateType);
 
 var link = function (comment) {
 	if (!comment) { return; }
@@ -92,7 +90,7 @@ var hasParamData = function (params) {
 var tagAndIdentifier = function (tag) {
 	return {
 		tag: tag,
-		identifier: util.tagToIdentifier(tag)
+		identifier: util_utiljsjs(tag)
 	};
 };
 
@@ -121,7 +119,7 @@ var booleanTags = [
 
 var compileComment = function (rawComment) {
 	// parse the raw comment
-	var parsed = jsdocParser.extract(rawComment);
+	var parsed = jsdocparser_extractjs(rawComment);
 
 	var comment = {};
 	comment.description = parsed.description;
@@ -166,7 +164,7 @@ var inject = function (data) {
 
 var all = function (jsData, files) {
 	if (!typesRegex) {
-		var types = files.map(util.getFileName);
+		var types = files.map(util_utiljsjs);
 		compileTypesRegex(types);
 	}
 
@@ -186,6 +184,14 @@ var all = function (jsData, files) {
 };
 
 
-exports.all = all;
-exports.compileComment = compileComment;
-exports.link = link;
+var all_all;
+
+
+all_all = all;
+var compileComment_compileComment;
+compileComment_compileComment = compileComment;
+var link_link;
+link_link = link;
+export { all_all as all };
+export { compileComment_compileComment as compileComment };
+export { link_link as link };

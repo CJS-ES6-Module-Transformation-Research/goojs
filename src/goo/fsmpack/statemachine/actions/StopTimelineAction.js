@@ -1,10 +1,11 @@
-var Action = require('./Action');
+var StopTimelineAction_StopTimelineAction = StopTimelineAction;
+import { Action as Action_Actionjs } from "./Action";
 
-function StopTimelineAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function StopTimelineAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-StopTimelineAction.prototype = Object.create(Action.prototype);
+StopTimelineAction.prototype = Object.create(Action_Actionjs.prototype);
 StopTimelineAction.prototype.constructor = StopTimelineAction;
 
 StopTimelineAction.external = {
@@ -25,4 +26,4 @@ StopTimelineAction.prototype.enter = function (fsm) {
 	entity.timelineComponent.stop();
 };
 
-module.exports = StopTimelineAction;
+export { StopTimelineAction_StopTimelineAction as StopTimelineAction };

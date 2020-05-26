@@ -1,9 +1,9 @@
-var EntityConfig = require('./helpers/EntityConfig');
-var AnimationConfig = require('./helpers/AnimationConfig');
-var MaterialConfig = require('./helpers/MaterialConfig');
-var MeshConfig = require('./helpers/MeshConfig');
-var SceneConfig = require('./helpers/SceneConfig');
-var PosteffectsConfig = require('./helpers/PosteffectsConfig');
+import { EntityConfigjs as helpersEntityConfig_EntityConfigjsjs } from "./helpers/EntityConfig";
+import { AnimationConfigjs as helpersAnimationConfig_AnimationConfigjsjs } from "./helpers/AnimationConfig";
+import { MaterialConfigjs as helpersMaterialConfig_MaterialConfigjsjs } from "./helpers/MaterialConfig";
+import { MeshConfigjs as helpersMeshConfig_MeshConfigjsjs } from "./helpers/MeshConfig";
+import { SceneConfigjs as helpersSceneConfig_SceneConfigjsjs } from "./helpers/SceneConfig";
+import { PosteffectsConfigjs as helpersPosteffectsConfig_PosteffectsConfigjsjs } from "./helpers/PosteffectsConfig";
 
 var bundle = {};
 var Configs = {
@@ -67,14 +67,17 @@ function attach(attachee, attacher) {
 	}
 }
 
-attach(Configs, EntityConfig);
-attach(Configs, AnimationConfig);
-attach(Configs, MaterialConfig);
-attach(Configs, MeshConfig);
-attach(Configs, SceneConfig);
-attach(Configs, PosteffectsConfig);
+attach(Configs, helpersEntityConfig_EntityConfigjsjs);
+attach(Configs, helpersAnimationConfig_AnimationConfigjsjs);
+attach(Configs, helpersMaterialConfig_MaterialConfigjsjs);
+attach(Configs, helpersMeshConfig_MeshConfigjsjs);
+attach(Configs, helpersSceneConfig_SceneConfigjsjs);
+attach(Configs, helpersPosteffectsConfig_PosteffectsConfigjsjs);
+var Configs_Configs;
 // for (var i = 0; i < arguments.length; i++) {
 // 	attach(Configs, arguments[i]);
 // }
 
-module.exports = Configs;
+Configs_Configs = Configs;
+Configs_Configs = Configs;
+export { Configs_Configs as Configs };
