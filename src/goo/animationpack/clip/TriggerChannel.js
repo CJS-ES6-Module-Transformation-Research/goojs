@@ -1,20 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerChannel = undefined;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _TriggerData = require("../../animationpack/clip/TriggerData");
+
 var TriggerChannel_TriggerChannel = TriggerChannel;
-import {     AbstractAnimationChannel as animationpackclipAbstractAnimationChannel_AbstractAnimationChanneljs, } from "../../animationpack/clip/AbstractAnimationChannel";
-import { TriggerData as animationpackclipTriggerData_TriggerDatajs } from "../../animationpack/clip/TriggerData";
+
 function TriggerChannel(channelName, times, keys, blendType) {
-	animationpackclipAbstractAnimationChannel_AbstractAnimationChanneljs.call(this, channelName, times, blendType);
+	_AbstractAnimationChannel.AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._keys = keys ? keys.slice(0) : null;
 	this.guarantee = false;
 }
 
-TriggerChannel.prototype = Object.create(animationpackclipAbstractAnimationChannel_AbstractAnimationChanneljs.prototype);
+TriggerChannel.prototype = Object.create(_AbstractAnimationChannel.AbstractAnimationChannel.prototype);
 
 /**
  * Creates a data item for this type of channel
  * @returns {TriggerData}
  */
 TriggerChannel.prototype.createStateDataObject = function () {
-	return new animationpackclipTriggerData_TriggerDatajs();
+	return new _TriggerData.TriggerData();
 };
 
 /**
@@ -38,7 +48,7 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
 			}
 			oldIndex = -1;
 		}
-		for ( var i = oldIndex + 1; i <= newIndex; i++) {
+		for (var i = oldIndex + 1; i <= newIndex; i++) {
 			triggers.push(this._keys[i]);
 		}
 		triggerData.arm(newIndex, triggers);
@@ -52,4 +62,4 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
  * @param {Array<string>} keys our key samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export { TriggerChannel_TriggerChannel as TriggerChannel };
+exports.TriggerChannel = TriggerChannel_TriggerChannel;

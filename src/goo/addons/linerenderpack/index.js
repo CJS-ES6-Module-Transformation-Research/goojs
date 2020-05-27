@@ -1,12 +1,16 @@
-import { LineRenderer as LineRenderer_LineRenderer } from "./LineRenderer";
-import { LineRenderSystem as LineRenderSystem_LineRenderSystem } from "./LineRenderSystem";
+"use strict";
+
+var _LineRenderer = require("./LineRenderer");
+
+var _LineRenderSystem = require("./LineRenderSystem");
+
 var indexjs;
 indexjs = {
-	LineRenderer: LineRenderer_LineRenderer,
-	LineRenderSystem: LineRenderSystem_LineRenderSystem
+	LineRenderer: _LineRenderer.LineRenderer,
+	LineRenderSystem: _LineRenderSystem.LineRenderSystem
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

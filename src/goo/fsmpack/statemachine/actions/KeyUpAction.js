@@ -1,12 +1,21 @@
-var KeyUpAction_KeyUpAction = KeyUpAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { FsmUtils as fsmpackstatemachineFsmUtils_FsmUtilsjs } from "../../../fsmpack/statemachine/FsmUtils";
+"use strict";
 
-function KeyUpAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.KeyUpAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var KeyUpAction_KeyUpAction = KeyUpAction;
+
+function KeyUpAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-KeyUpAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+KeyUpAction.prototype = Object.create(_Action.Action.prototype);
 KeyUpAction.prototype.constructor = KeyUpAction;
 
 KeyUpAction.external = {
@@ -29,12 +38,12 @@ KeyUpAction.external = {
 	}]
 };
 
-KeyUpAction.getTransitionLabel = function (transitionKey, actionConfig){
+KeyUpAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	return 'On Key ' + (actionConfig.options.key || '') + ' up';
 };
 
 KeyUpAction.prototype.configure = function (settings) {
-	this.key = settings.key ? fsmpackstatemachineFsmUtils_FsmUtilsjs.getKey(settings.key) : null;
+	this.key = settings.key ? _FsmUtils.FsmUtils.getKey(settings.key) : null;
 	this.transitions = { keyup: settings.transitions.keyup };
 };
 
@@ -51,4 +60,4 @@ KeyUpAction.prototype.exit = function () {
 	document.removeEventListener('keyup', this.eventListener);
 };
 
-export { KeyUpAction_KeyUpAction as KeyUpAction };
+exports.KeyUpAction = KeyUpAction_KeyUpAction;

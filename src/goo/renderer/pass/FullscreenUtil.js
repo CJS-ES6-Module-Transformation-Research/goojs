@@ -1,4 +1,12 @@
-import { FullscreenUtils as rendererpassFullscreenUtils_FullscreenUtilsjs } from "../../renderer/pass/FullscreenUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FullscreenUtils = undefined;
+
+var _FullscreenUtils = require("../../renderer/pass/FullscreenUtils");
+
 var FullscreenUtil_FullscreenUtils;
 
 /**
@@ -8,5 +16,5 @@ var FullscreenUtil_FullscreenUtils;
  * @group renderer/pass
  * @deprecated Deprecated as of 0.14.x and scheduled for removal in 0.16.0; The class has been renamed to `goo/util/FullscreenUtils`
  */
-FullscreenUtil_FullscreenUtils = rendererpassFullscreenUtils_FullscreenUtilsjs;
-export { FullscreenUtil_FullscreenUtils as FullscreenUtils };
+exports.FullscreenUtils = FullscreenUtil_FullscreenUtils = _FullscreenUtils.FullscreenUtils;
+exports.FullscreenUtils = FullscreenUtil_FullscreenUtils;

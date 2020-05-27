@@ -1,10 +1,28 @@
-import ext_fs_fs from "fs";
-import ext_path_path from "path";
-import ext_child_process_exec from "child_process";
-import ext_async_async from "async";
-import { ScreenShooter as ScreenShooter_ScreenShooterjs } from "./ScreenShooter";
-import { filterList as filterList_filterListjs } from "./filterList";
-var exec = ext_child_process_exec.exec;
+"use strict";
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _child_process = require("child_process");
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+var _async = require("async");
+
+var _async2 = _interopRequireDefault(_async);
+
+var _ScreenShooter = require("./ScreenShooter");
+
+var _filterList = require("./filterList");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var exec = _child_process2.default.exec;
 var imgCompare = require(__dirname + '/../../tools/imgcompare2/imgCompare');
 var toc = require(__dirname + '/../../tools/table-of-contents');
 
@@ -16,11 +34,11 @@ function filterArray(array, filters) {
 	});
 }
 
-var testFiles = toc.getFilesSync(ext_path_path.join(__dirname, '/../../visual-test'));
-testFiles = filterArray(testFiles, filterList_filterListjs);
+var testFiles = toc.getFilesSync(_path2.default.join(__dirname, '/../../visual-test'));
+testFiles = filterArray(testFiles, _filterList.filterList);
 
 var rootUrl = process.env.GOOJS_ROOT_URL;
-var gooRootPath = ext_path_path.join(__dirname, '..', '..');
+var gooRootPath = _path2.default.join(__dirname, '..', '..');
 
 if (!rootUrl) {
 	console.error('Please set environment variable GOOJS_ROOT_URL!');
@@ -29,10 +47,10 @@ if (!rootUrl) {
 
 // testFilePath should be something like visual-test/.../lol-test.html
 function getTestInfo(testFilePath) {
-	var testFile = ext_path_path.relative(gooRootPath, testFilePath);
+	var testFile = _path2.default.relative(gooRootPath, testFilePath);
 	var url = rootUrl + '/' + testFile + '?deterministic=1';
-	var actualPath = ext_path_path.join(__dirname, 'screenshots-tmp', testFile.replace('visual-test', '').replace('.html','.png'));
-	var expectedPath = ext_path_path.join(__dirname, 'screenshots',     testFile.replace('visual-test', '').replace('.html','.png'));
+	var actualPath = _path2.default.join(__dirname, 'screenshots-tmp', testFile.replace('visual-test', '').replace('.html', '.png'));
+	var expectedPath = _path2.default.join(__dirname, 'screenshots', testFile.replace('visual-test', '').replace('.html', '.png'));
 
 	return {
 		url: url,
@@ -41,8 +59,7 @@ function getTestInfo(testFilePath) {
 	};
 }
 
-
-var shooter = new ScreenShooter_ScreenShooterjs();
+var shooter = new _ScreenShooter.ScreenShooter();
 
 var reports = [];
 function report(url, problem) {
@@ -53,7 +70,7 @@ function report(url, problem) {
 }
 
 var DISS_THRESH = 0.08;
-ext_async_async.eachSeries(testFiles, function (testFile, done) {
+_async2.default.eachSeries(testFiles, function (testFile, done) {
 	var info2 = getTestInfo(testFile);
 
 	var url = info2.url;

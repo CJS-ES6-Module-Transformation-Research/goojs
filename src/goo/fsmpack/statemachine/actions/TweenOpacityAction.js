@@ -1,14 +1,24 @@
-var TweenOpacityAction_TweenOpacityAction = TweenOpacityAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Easing as utilEasing_Easingjs } from "../../../util/Easing";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../../../math/MathUtils";
+"use strict";
 
-function TweenOpacityAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenOpacityAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Easing = require("../../../util/Easing");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var TweenOpacityAction_TweenOpacityAction = TweenOpacityAction;
+
+function TweenOpacityAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 	this.completed = false;
 }
 
-TweenOpacityAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+TweenOpacityAction.prototype = Object.create(_Action.Action.prototype);
 TweenOpacityAction.prototype.constructor = TweenOpacityAction;
 
 TweenOpacityAction.external = {
@@ -53,7 +63,7 @@ TweenOpacityAction.external = {
 	}]
 };
 
-TweenOpacityAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenOpacityAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Opacity Complete' : undefined;
 };
 
@@ -93,9 +103,9 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = utilEasing_Easingjs[this.easing1][this.easing2](t);
+	var fT = _Easing.Easing[this.easing1][this.easing2](t);
 
-	this.uniforms.opacity = mathMathUtils_MathUtilsjs.lerp(fT, this.from, this.to);
+	this.uniforms.opacity = _MathUtils.MathUtils.lerp(fT, this.from, this.to);
 
 	if (t >= 1) {
 		fsm.send(this.transitions.complete);
@@ -103,4 +113,4 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 };
 
-export { TweenOpacityAction_TweenOpacityAction as TweenOpacityAction };
+exports.TweenOpacityAction = TweenOpacityAction_TweenOpacityAction;

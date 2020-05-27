@@ -1,21 +1,26 @@
-import { Matrix3 as Matrix3_Matrix3js } from "./Matrix3";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+"use strict";
 
-var Matrix3x3 = utilObjectUtils_ObjectUtilsjs.warnOnce(
-	'Matrix3x3 has been renamed to Matrix3.',
-	function () {
-		Matrix3_Matrix3js.apply(this, arguments);
-	}
-);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Matrix3x3 = undefined;
 
-Matrix3x3.prototype = Object.create(Matrix3_Matrix3js.prototype);
+var _Matrix = require("./Matrix3");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var Matrix3x3 = _ObjectUtils.ObjectUtils.warnOnce('Matrix3x3 has been renamed to Matrix3.', function () {
+	_Matrix.Matrix3.apply(this, arguments);
+});
+
+Matrix3x3.prototype = Object.create(_Matrix.Matrix3.prototype);
 Matrix3x3.prototype.constructor = Matrix3x3;
-for (var x in Matrix3_Matrix3js) {
-	Matrix3x3[x] = Matrix3_Matrix3js[x];
+for (var x in _Matrix.Matrix3) {
+	Matrix3x3[x] = _Matrix.Matrix3[x];
 }
 
 var Matrix3x3_Matrix3x3;
 
-Matrix3x3_Matrix3x3 = Matrix3x3;
-Matrix3x3_Matrix3x3 = Matrix3x3;
-export { Matrix3x3_Matrix3x3 as Matrix3x3 };
+exports.Matrix3x3 = Matrix3x3_Matrix3x3 = Matrix3x3;
+exports.Matrix3x3 = Matrix3x3_Matrix3x3 = Matrix3x3;
+exports.Matrix3x3 = Matrix3x3_Matrix3x3;

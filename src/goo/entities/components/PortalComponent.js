@@ -1,8 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PortalComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
 var PortalComponent_PortalComponent = PortalComponent;
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+
 function PortalComponent(camera, height, options, overrideMaterial) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	height = height || 200;
 
@@ -19,17 +29,17 @@ function PortalComponent(camera, height, options, overrideMaterial) {
 	this.type = 'PortalComponent';
 
 	/**
-	 * @type {Camera}
-	 */
+  * @type {Camera}
+  */
 	this.camera = camera;
 
 	/**
-	 * @type {RenderTarget}
-	 */
-	this.target = new rendererpassRenderTarget_RenderTargetjs(height, height / aspect);
+  * @type {RenderTarget}
+  */
+	this.target = new _RenderTarget.RenderTarget(height, height / aspect);
 
 	if (this.options.preciseRecursion) {
-		this.secondaryTarget = new rendererpassRenderTarget_RenderTargetjs(height, height / aspect);
+		this.secondaryTarget = new _RenderTarget.RenderTarget(height, height / aspect);
 	}
 
 	// @ifdef DEBUG
@@ -39,7 +49,7 @@ function PortalComponent(camera, height, options, overrideMaterial) {
 
 PortalComponent.type = 'PortalComponent';
 
-PortalComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+PortalComponent.prototype = Object.create(_Component.Component.prototype);
 PortalComponent.prototype.constructor = PortalComponent;
 
 /**
@@ -60,4 +70,4 @@ PortalComponent.prototype.requestUpdate = function () {
  * @param {Material} [overrideMaterial=null] Optional override material to use when rendering to the host object
  * @extends Component
  */
-export { PortalComponent_PortalComponent as PortalComponent };
+exports.PortalComponent = PortalComponent_PortalComponent;

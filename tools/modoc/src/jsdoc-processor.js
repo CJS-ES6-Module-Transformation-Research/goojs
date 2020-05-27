@@ -1,28 +1,46 @@
-import ext_underscore__ from "underscore";
-import { extract as jsdocparser_extractjs } from "./jsdoc-parser";
-import { parse as typeexpressionstypeparser_parsejs } from "./type-expressions/type-parser";
-import { serialize as typeexpressionsjsdocserializer_serializejs } from "./type-expressions/jsdoc-serializer";
-import { utiljs as util_utiljsjs } from "./util";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.link = exports.compileComment = exports.all = undefined;
+
+var _underscore = require("underscore");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+var _jsdocParser = require("./jsdoc-parser");
+
+var _typeParser = require("./type-expressions/type-parser");
+
+var _jsdocSerializer = require("./type-expressions/jsdoc-serializer");
+
+var _util = require("./util");
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
 // jshint node:true
 'use strict';
 
 // regex compilation for `[]()` links, `@link` and types (big mess)
 var typesRegex;
-var compileTypesRegex = function (types) {
+var compileTypesRegex = function compileTypesRegex(types) {
 	var typesRegexStr = '\\b(' + types.join('|') + ')\\b';
 	typesRegex = new RegExp(typesRegexStr, 'g');
 
 	var urlRegex2Str = '\\{@link\\s(' + types.join('|') + ')\\}';
-	urlRegex2 =	new RegExp(urlRegex2Str, 'g');
+	urlRegex2 = new RegExp(urlRegex2Str, 'g');
 };
 
-var linkTypes = function (string) {
+var linkTypes = function linkTypes(string) {
 	return string.replace(typesRegex, '<a href="#$1" class-name="$1">$1</a>');
 };
 
 var urlRegex1 = /\[(.+?)]\{@link (.+?)}/g;
 var urlRegex2;
-var linkUrls = function (string) {
+var linkUrls = function linkUrls(string) {
 	var tmp = string;
 	tmp = tmp.replace(urlRegex1, '<a href="$2" target="_blank">$1</a>');
 	tmp = tmp.replace(urlRegex2, '<a href="#$1" class-name="$1">$1</a>');
@@ -31,20 +49,20 @@ var linkUrls = function (string) {
 // ---
 
 // just concerned about < and > which might appear in type expressions
-var escapeType = function (string) {
+var escapeType = function escapeType(string) {
 	return string.replace('>', '&gt;').replace('<', '&lt;');
 };
 
 var warningRegex = /\(!\)/g;
-var expandIcons = function (string) {
+var expandIcons = function expandIcons(string) {
 	return string.replace(warningRegex, '<span class="icon-warning-yellow"></span>');
 };
 
-var translateType = function (closureType) {
+var translateType = function translateType(closureType) {
 	if (closureType.trim().length > 0) {
 		try {
-			var parsed = typeexpressionstypeparser_parsejs(closureType);
-			var jsdocType = typeexpressionsjsdocserializer_serializejs(parsed);
+			var parsed = (0, _typeParser.parse)(closureType);
+			var jsdocType = (0, _jsdocSerializer.serialize)(parsed);
 			return jsdocType;
 		} catch (e) {
 			console.warn(e);
@@ -55,10 +73,12 @@ var translateType = function (closureType) {
 	}
 };
 
-var processType = ext_underscore__.compose(linkTypes, escapeType, translateType);
+var processType = _underscore2.default.compose(linkTypes, escapeType, translateType);
 
-var link = function (comment) {
-	if (!comment) { return; }
+var link = function link(comment) {
+	if (!comment) {
+		return;
+	}
 	comment.description = linkUrls(expandIcons(comment.description));
 
 	if (comment.param) {
@@ -81,45 +101,26 @@ var link = function (comment) {
 	}
 };
 
-var hasParamData = function (params) {
+var hasParamData = function hasParamData(params) {
 	return params.some(function (param) {
 		return !!param.description || !!param.type;
 	});
 };
 
-var tagAndIdentifier = function (tag) {
+var tagAndIdentifier = function tagAndIdentifier(tag) {
 	return {
 		tag: tag,
-		identifier: util_utiljsjs(tag)
+		identifier: (0, _util.utiljs)(tag)
 	};
 };
 
-var copyTags = [
-	'@returns',
-	'@example',
-	'@example-link',
+var copyTags = ['@returns', '@example', '@example-link', '@property', '@default', '@type', '@deprecated', '@extends', '@target-class', '@group', '@require-path'].map(tagAndIdentifier);
 
-	'@property',
-	'@default',
-	'@type',
-	'@deprecated',
-	'@extends',
+var booleanTags = ['@virtual', '@readonly', '@hidden', '@private'].map(tagAndIdentifier);
 
-	'@target-class',
-	'@group',
-	'@require-path'
-].map(tagAndIdentifier);
-
-var booleanTags = [
-	'@virtual',
-	'@readonly',
-	'@hidden',
-	'@private'
-].map(tagAndIdentifier);
-
-var compileComment = function (rawComment) {
+var compileComment = function compileComment(rawComment) {
 	// parse the raw comment
-	var parsed = jsdocparser_extractjs(rawComment);
+	var parsed = (0, _jsdocParser.extract)(rawComment);
 
 	var comment = {};
 	comment.description = parsed.description;
@@ -156,15 +157,17 @@ var compileComment = function (rawComment) {
 	return comment;
 };
 
-var inject = function (data) {
-	if (!data.rawComment) { return; }
+var inject = function inject(data) {
+	if (!data.rawComment) {
+		return;
+	}
 
 	data.comment = compileComment(data.rawComment);
 };
 
-var all = function (jsData, files) {
+var all = function all(jsData, files) {
 	if (!typesRegex) {
-		var types = files.map(util_utiljsjs);
+		var types = files.map(_util.utiljs);
 		compileTypesRegex(types);
 	}
 
@@ -177,21 +180,27 @@ var all = function (jsData, files) {
 	// jsData.extraComments
 
 	link(jsData.constructor.comment);
-	jsData.methods.forEach(function (method) { link(method.comment); });
-	jsData.staticMethods.forEach(function (staticMethod) { link(staticMethod.comment); });
-	jsData.staticMembers.forEach(function (staticMember) { link(staticMember.comment); });
-	jsData.members.forEach(function (member) { link(member.comment); });
+	jsData.methods.forEach(function (method) {
+		link(method.comment);
+	});
+	jsData.staticMethods.forEach(function (staticMethod) {
+		link(staticMethod.comment);
+	});
+	jsData.staticMembers.forEach(function (staticMember) {
+		link(staticMember.comment);
+	});
+	jsData.members.forEach(function (member) {
+		link(member.comment);
+	});
 };
-
 
 var all_all;
 
-
-all_all = all;
+exports.all = all_all = all;
 var compileComment_compileComment;
-compileComment_compileComment = compileComment;
+exports.compileComment = compileComment_compileComment = compileComment;
 var link_link;
-link_link = link;
-export { all_all as all };
-export { compileComment_compileComment as compileComment };
-export { link_link as link };
+exports.link = link_link = link;
+exports.all = all_all;
+exports.compileComment = compileComment_compileComment;
+exports.link = link_link;

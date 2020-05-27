@@ -1,19 +1,34 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LightComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _LightComponent = require("../../entities/components/LightComponent");
+
+var _PointLight = require("../../renderer/light/PointLight");
+
+var _SpotLight = require("../../renderer/light/SpotLight");
+
+var _DirectionalLight = require("../../renderer/light/DirectionalLight");
+
+var _Vector = require("../../math/Vector3");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var LightComponentHandler_LightComponentHandler = LightComponentHandler;
-import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
-import { LightComponent as entitiescomponentsLightComponent_LightComponentjs } from "../../entities/components/LightComponent";
-import { PointLight as rendererlightPointLight_PointLightjs } from "../../renderer/light/PointLight";
-import { SpotLight as rendererlightSpotLight_SpotLightjs } from "../../renderer/light/SpotLight";
-import { DirectionalLight as rendererlightDirectionalLight_DirectionalLightjs } from "../../renderer/light/DirectionalLight";
-import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+
 function LightComponentHandler() {
-	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'LightComponent';
 }
 
-LightComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
+LightComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 LightComponentHandler.prototype.constructor = LightComponentHandler;
-loadershandlersComponentHandler_ComponentHandlerjs._registerClass('light', LightComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('light', LightComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -21,7 +36,7 @@ loadershandlersComponentHandler_ComponentHandlerjs._registerClass('light', Light
  * @private
  */
 LightComponentHandler.prototype._prepare = function (config) {
-	utilObjectUtils_ObjectUtilsjs.defaults(config, {
+	_ObjectUtils.ObjectUtils.defaults(config, {
 		direction: [0, 0, 0],
 		color: [1, 1, 1],
 		shadowCaster: false,
@@ -29,12 +44,12 @@ LightComponentHandler.prototype._prepare = function (config) {
 	});
 
 	if (config.type !== 'DirectionalLight') {
-		config.range = (config.range !== undefined) ? config.range : 1000;
+		config.range = config.range !== undefined ? config.range : 1000;
 	}
 
 	if (config.shadowCaster) {
 		config.shadowSettings = config.shadowSettings || {};
-		utilObjectUtils_ObjectUtilsjs.defaults(config.shadowSettings, {
+		_ObjectUtils.ObjectUtils.defaults(config.shadowSettings, {
 			shadowType: 'Basic',
 			near: 1,
 			far: 1000,
@@ -46,9 +61,9 @@ LightComponentHandler.prototype._prepare = function (config) {
 		var settings = config.shadowSettings;
 
 		if (settings.projection === 'Parallel') {
-			settings.size = (settings.size !== undefined) ? settings.size : 400;
+			settings.size = settings.size !== undefined ? settings.size : 400;
 		} else {
-			settings.fov = (settings.fov !== undefined) ? settings.fov : 55;
+			settings.fov = settings.fov !== undefined ? settings.fov : 55;
 		}
 	}
 };
@@ -59,7 +74,7 @@ LightComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 LightComponentHandler.prototype._create = function () {
-	return new entitiescomponentsLightComponent_LightComponentjs();
+	return new _LightComponent.LightComponent();
 };
 
 /**
@@ -72,13 +87,15 @@ LightComponentHandler.prototype._create = function () {
 LightComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 	var Light = {
-		SpotLight: rendererlightSpotLight_SpotLightjs,
-		DirectionalLight: rendererlightDirectionalLight_DirectionalLightjs,
-		PointLight: rendererlightPointLight_PointLightjs
+		SpotLight: _SpotLight.SpotLight,
+		DirectionalLight: _DirectionalLight.DirectionalLight,
+		PointLight: _PointLight.PointLight
 	};
 
-	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 		var light = component.light;
 		if (!light || Light[config.type] !== light.constructor) {
 			light = new Light[config.type]();
@@ -91,16 +108,16 @@ LightComponentHandler.prototype.update = function (entity, config, options) {
 				if (key === 'shadowSettings') {
 					for (var key in value) {
 						var shadowVal = value[key];
-						if (light.shadowSettings[key] instanceof mathVector3_Vector3js) {
+						if (light.shadowSettings[key] instanceof _Vector.Vector3) {
 							light.shadowSettings[key].setDirect(shadowVal[0], shadowVal[1], shadowVal[2]);
 						} else {
-							light.shadowSettings[key] = utilObjectUtils_ObjectUtilsjs.clone(shadowVal);
+							light.shadowSettings[key] = _ObjectUtils.ObjectUtils.clone(shadowVal);
 						}
 					}
-				} else if (light[key] instanceof mathVector3_Vector3js) {
+				} else if (light[key] instanceof _Vector.Vector3) {
 					light[key].setDirect(value[0], value[1], value[2]);
 				} else {
-					light[key] = utilObjectUtils_ObjectUtilsjs.clone(value);
+					light[key] = _ObjectUtils.ObjectUtils.clone(value);
 				}
 			}
 		}
@@ -136,4 +153,4 @@ LightComponentHandler.prototype.update = function (entity, config, options) {
  * @extends ComponentHandler
  * @hidden
  */
-export { LightComponentHandler_LightComponentHandler as LightComponentHandler };
+exports.LightComponentHandler = LightComponentHandler_LightComponentHandler;

@@ -1,17 +1,31 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MaterialHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _RenderQueue = require("../../renderer/RenderQueue");
+
+var _rsvp = require("../../util/rsvp");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var MaterialHandler_MaterialHandler = MaterialHandler;
-import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
-import { RenderQueue as rendererRenderQueue_RenderQueuejs } from "../../renderer/RenderQueue";
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+
 function MaterialHandler() {
-	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-MaterialHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
+MaterialHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 MaterialHandler.prototype.constructor = MaterialHandler;
-loadershandlersConfigHandler_ConfigHandlerjs._registerClass('material', MaterialHandler);
+_ConfigHandler.ConfigHandler._registerClass('material', MaterialHandler);
 
 MaterialHandler.ENGINE_SHADER_PREFIX = 'GOO_ENGINE_SHADERS/';
 
@@ -21,7 +35,7 @@ MaterialHandler.ENGINE_SHADER_PREFIX = 'GOO_ENGINE_SHADERS/';
  * @private
  */
 MaterialHandler.prototype._prepare = function (config) {
-	utilObjectUtils_ObjectUtilsjs.defaults(config, {
+	_ObjectUtils.ObjectUtils.defaults(config, {
 		blendState: {},
 		cullState: {},
 		depthState: {},
@@ -31,20 +45,20 @@ MaterialHandler.prototype._prepare = function (config) {
 		flat: false
 	});
 
-	utilObjectUtils_ObjectUtilsjs.defaults(config.blendState, {
+	_ObjectUtils.ObjectUtils.defaults(config.blendState, {
 		blending: 'NoBlending',
 		blendEquation: 'AddEquation',
 		blendSrc: 'SrcAlphaFactor',
 		blendDst: 'OneMinusSrcAlphaFactor'
 	});
 
-	utilObjectUtils_ObjectUtilsjs.defaults(config.cullState, {
+	_ObjectUtils.ObjectUtils.defaults(config.cullState, {
 		enabled: true,
 		cullFace: 'Back',
 		frontFace: 'CCW'
 	});
 
-	utilObjectUtils_ObjectUtilsjs.defaults(config.depthState, {
+	_ObjectUtils.ObjectUtils.defaults(config.depthState, {
 		enabled: true,
 		write: true
 	});
@@ -56,7 +70,7 @@ MaterialHandler.prototype._prepare = function (config) {
  * @private
  */
 MaterialHandler.prototype._create = function () {
-	return new rendererMaterial_Materialjs();
+	return new _Material.Material();
 };
 
 MaterialHandler.prototype._remove = function (ref) {
@@ -78,15 +92,17 @@ MaterialHandler.prototype._remove = function (ref) {
  */
 MaterialHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (material) {
-		if (!material) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (material) {
+		if (!material) {
+			return;
+		}
 
 		var promises = [];
 
 		// Material settings
-		utilObjectUtils_ObjectUtilsjs.extend(material.blendState, config.blendState);
-		utilObjectUtils_ObjectUtilsjs.extend(material.cullState, config.cullState);
-		utilObjectUtils_ObjectUtilsjs.extend(material.depthState, config.depthState);
+		_ObjectUtils.ObjectUtils.extend(material.blendState, config.blendState);
+		_ObjectUtils.ObjectUtils.extend(material.cullState, config.cullState);
+		_ObjectUtils.ObjectUtils.extend(material.depthState, config.depthState);
 
 		material.id = config.id;
 		material.name = config.name;
@@ -96,7 +112,7 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 
 		if (config.renderQueue === -1) {
 			if (config.blendState.blending !== 'NoBlending') {
-				material.renderQueue = rendererRenderQueue_RenderQueuejs.TRANSPARENT;
+				material.renderQueue = _RenderQueue.RenderQueue.TRANSPARENT;
 			} else {
 				material.renderQueue = null;
 			}
@@ -107,9 +123,9 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 		material.uniforms = {};
 		for (var name in config.uniforms) {
 			if (config.uniforms[name].enabled === undefined) {
-				material.uniforms[name] = utilObjectUtils_ObjectUtilsjs.clone(config.uniforms[name]);
+				material.uniforms[name] = _ObjectUtils.ObjectUtils.clone(config.uniforms[name]);
 			} else if (config.uniforms[name].enabled) {
-				material.uniforms[name] = utilObjectUtils_ObjectUtilsjs.clone(config.uniforms[name].value);
+				material.uniforms[name] = _ObjectUtils.ObjectUtils.clone(config.uniforms[name].value);
 			}
 		}
 
@@ -132,11 +148,10 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 		// Shader
 		var shaderRef = config.shaderRef;
 		if (!shaderRef) {
-			material.shader = rendererMaterial_Materialjs.createShader(renderershadersShaderLib_ShaderLibjs.texturedLit, 'DefaultShader');
-		}
-		else if (shaderRef.indexOf(MaterialHandler.ENGINE_SHADER_PREFIX) === 0) {
+			material.shader = _Material.Material.createShader(_ShaderLib.ShaderLib.texturedLit, 'DefaultShader');
+		} else if (shaderRef.indexOf(MaterialHandler.ENGINE_SHADER_PREFIX) === 0) {
 			var shaderName = shaderRef.slice(MaterialHandler.ENGINE_SHADER_PREFIX.length);
-			material.shader = rendererMaterial_Materialjs.createShader(renderershadersShaderLib_ShaderLibjs[shaderName]);
+			material.shader = _Material.Material.createShader(_ShaderLib.ShaderLib[shaderName]);
 		} else {
 			var p = that._load(shaderRef, options).then(function (shader) {
 				material.shader = shader;
@@ -168,7 +183,7 @@ MaterialHandler.prototype._update = function (ref, config, options) {
 				material.removeTexture(type);
 			}
 		}
-		return utilrsvp_rsvpjsjs.all(promises).then(function () {
+		return _rsvp.rsvpjs.all(promises).then(function () {
 			return material;
 		});
 	});
@@ -182,4 +197,4 @@ MaterialHandler.prototype._update = function (ref, config, options) {
  * @param {Function} updateObject
  * @private
  */
-export { MaterialHandler_MaterialHandler as MaterialHandler };
+exports.MaterialHandler = MaterialHandler_MaterialHandler;

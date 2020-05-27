@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HeightMapBoundingScript = undefined;
+
+var _MathUtils = require("../math/MathUtils");
+
 var HeightMapBoundingScript_HeightMapBoundingScript = HeightMapBoundingScript;
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
+
 function HeightMapBoundingScript(matrixData) {
 	this.matrixData = matrixData;
 	this.width = matrixData.length - 1;
@@ -22,8 +31,7 @@ HeightMapBoundingScript.prototype.getPointInMatrix = function (x, y) {
 HeightMapBoundingScript.prototype.getAt = function (x, y) {
 	if (x < 0 || x > this.width || y < 0 || y > this.width) {
 		return 0;
-	}
-	else {
+	} else {
 		return this.getPointInMatrix(x, y);
 	}
 };
@@ -71,7 +79,7 @@ HeightMapBoundingScript.prototype.getTriangleAt = function (x, y) {
 // get the exact height of the triangle at point
 HeightMapBoundingScript.prototype.getPreciseHeight = function (x, y) {
 	var tri = this.getTriangleAt(x, y);
-	var find = mathMathUtils_MathUtilsjs.barycentricInterpolation(tri[0], tri[1], tri[2], { x: x, y: y, z: 0 });
+	var find = _MathUtils.MathUtils.barycentricInterpolation(tri[0], tri[1], tri[2], { x: x, y: y, z: 0 });
 	return find.z;
 };
 
@@ -85,4 +93,4 @@ HeightMapBoundingScript.prototype.run = function (entity) {
  * provides functions for getting elevation at given coordinates.
  * @param {Array} matrixData The height data. Needs to be power of two.
  */
-export { HeightMapBoundingScript_HeightMapBoundingScript as HeightMapBoundingScript };
+exports.HeightMapBoundingScript = HeightMapBoundingScript_HeightMapBoundingScript;

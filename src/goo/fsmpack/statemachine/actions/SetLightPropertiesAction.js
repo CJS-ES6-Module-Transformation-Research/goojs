@@ -1,11 +1,19 @@
-var SetLightPropertiesAction_SetLightPropertiesAction = SetLightPropertiesAction;
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function SetLightPropertiesAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetLightPropertiesAction = undefined;
+
+var _Action = require('./Action');
+
+var SetLightPropertiesAction_SetLightPropertiesAction = SetLightPropertiesAction;
+
+function SetLightPropertiesAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetLightPropertiesAction.prototype = Object.create(Action_Actionjs.prototype);
+SetLightPropertiesAction.prototype = Object.create(_Action.Action.prototype);
 SetLightPropertiesAction.prototype.constructor = SetLightPropertiesAction;
 
 SetLightPropertiesAction.external = {
@@ -47,10 +55,8 @@ SetLightPropertiesAction.external = {
 };
 
 SetLightPropertiesAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
-	if (entity &&
-		entity.lightComponent &&
-		entity.lightComponent.light) {
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
+	if (entity && entity.lightComponent && entity.lightComponent.light) {
 		entity.lightComponent.light.color.setDirect(this.color[0], this.color[1], this.color[2]);
 		entity.lightComponent.light.intensity = this.intensity;
 		entity.lightComponent.light.specularIntensity = this.specularIntensity;
@@ -58,4 +64,4 @@ SetLightPropertiesAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { SetLightPropertiesAction_SetLightPropertiesAction as SetLightPropertiesAction };
+exports.SetLightPropertiesAction = SetLightPropertiesAction_SetLightPropertiesAction;

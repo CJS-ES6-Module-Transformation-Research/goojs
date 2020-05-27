@@ -1,17 +1,31 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeTransformComponent = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
+var _Vector = require("../../math/Vector3");
+
+var _Matrix = require("../../math/Matrix3");
+
 var LogicNodeTransformComponent_LogicNodeTransformComponent = LogicNodeTransformComponent;
-import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
-import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
-import { Matrix3 as mathMatrix3_Matrix3js } from "../../math/Matrix3";
+
 function LogicNodeTransformComponent() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeTransformComponent.logicInterface;
 	this.type = 'TransformComponent';
 }
 
-LogicNodeTransformComponent.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeTransformComponent.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeTransformComponent.editorName = 'TransformComponent';
 
 LogicNodeTransformComponent.prototype.onConfigure = function (config) {
@@ -19,7 +33,7 @@ LogicNodeTransformComponent.prototype.onConfigure = function (config) {
 };
 
 LogicNodeTransformComponent.prototype.onInputChanged = function (instDesc, portID, value) {
-	var entity = LogicLayer_LogicLayerjs.resolveEntityRef(instDesc, this.entityRef);
+	var entity = _LogicLayer.LogicLayer.resolveEntityRef(instDesc, this.entityRef);
 	var transformComponent = entity.transformComponent;
 
 	if (portID === LogicNodeTransformComponent.inportPos) {
@@ -29,27 +43,26 @@ LogicNodeTransformComponent.prototype.onInputChanged = function (instDesc, portI
 	} else if (portID === LogicNodeTransformComponent.inportScale) {
 		transformComponent.setScale(value);
 	}
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeTransformComponent.outportPos, entity.transformComponent.transform.translation.clone());
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeTransformComponent.outportRot, entity.transformComponent.transform.rotation.clone());
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeTransformComponent.outportPos, entity.transformComponent.transform.translation.clone());
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeTransformComponent.outportRot, entity.transformComponent.transform.rotation.clone());
 };
 
-LogicNodeTransformComponent.logicInterface = new LogicInterface_LogicInterfacejs('Transform');
-LogicNodeTransformComponent.inportPos = LogicNodeTransformComponent.logicInterface.addInputProperty('position', 'Vector3', new mathVector3_Vector3js(0, 0, 0));
-LogicNodeTransformComponent.inportRot = LogicNodeTransformComponent.logicInterface.addInputProperty('rotation', 'Vector3', new mathVector3_Vector3js(0, 0, 0));
-LogicNodeTransformComponent.inportScale = LogicNodeTransformComponent.logicInterface.addInputProperty('scale', 'Vector3', new mathVector3_Vector3js(1, 1, 1));
-LogicNodeTransformComponent.outportPos = LogicNodeTransformComponent.logicInterface.addOutputProperty('outpos', 'Vector3', new mathVector3_Vector3js());
-LogicNodeTransformComponent.outportRot = LogicNodeTransformComponent.logicInterface.addOutputProperty('rotmat', 'Matrix3', new mathMatrix3_Matrix3js());
+LogicNodeTransformComponent.logicInterface = new _LogicInterface.LogicInterface('Transform');
+LogicNodeTransformComponent.inportPos = LogicNodeTransformComponent.logicInterface.addInputProperty('position', 'Vector3', new _Vector.Vector3(0, 0, 0));
+LogicNodeTransformComponent.inportRot = LogicNodeTransformComponent.logicInterface.addInputProperty('rotation', 'Vector3', new _Vector.Vector3(0, 0, 0));
+LogicNodeTransformComponent.inportScale = LogicNodeTransformComponent.logicInterface.addInputProperty('scale', 'Vector3', new _Vector.Vector3(1, 1, 1));
+LogicNodeTransformComponent.outportPos = LogicNodeTransformComponent.logicInterface.addOutputProperty('outpos', 'Vector3', new _Vector.Vector3());
+LogicNodeTransformComponent.outportRot = LogicNodeTransformComponent.logicInterface.addOutputProperty('rotmat', 'Matrix3', new _Matrix.Matrix3());
 LogicNodeTransformComponent.logicInterface.addConfigEntry({
 	name: 'entityRef',
 	type: 'entityRef',
 	label: 'Entity'
 });
 
-
-LogicNodes_LogicNodesjs.registerType('TransformComponent', LogicNodeTransformComponent);
+_LogicNodes.LogicNodes.registerType('TransformComponent', LogicNodeTransformComponent);
 
 /**
  * Logic node that connects to the transform component of an entity.
  * @private
  */
-export { LogicNodeTransformComponent_LogicNodeTransformComponent as LogicNodeTransformComponent };
+exports.LogicNodeTransformComponent = LogicNodeTransformComponent_LogicNodeTransformComponent;

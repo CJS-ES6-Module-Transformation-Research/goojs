@@ -1,24 +1,34 @@
-import { tokenize as tokenizer_tokenizejs } from "./tokenizer";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.parse = undefined;
+
+var _tokenizer = require('./tokenizer');
+
 // jshint node:true
 'use strict';
 
-var makeTokenList = function (tokens) {
+var makeTokenList = function makeTokenList(tokens) {
 	var pointer = 0;
 
-	var hasNext = function () {
+	var hasNext = function hasNext() {
 		return pointer < tokens.length;
 	};
 
-	var current = function () {
+	var current = function current() {
 		return tokens[pointer];
 	};
 
-	var next = function () {
+	var next = function next() {
 		return tokens[pointer + 1];
 	};
 
-	var matches = function (type, data) {
-		if (pointer >= tokens.length) { return false; }
+	var matches = function matches(type, data) {
+		if (pointer >= tokens.length) {
+			return false;
+		}
 
 		var cur = current();
 
@@ -29,11 +39,11 @@ var makeTokenList = function (tokens) {
 		}
 	};
 
-	var advance = function () {
+	var advance = function advance() {
 		pointer++;
 	};
 
-	var stringifyToken = function (type, data) {
+	var stringifyToken = function stringifyToken(type, data) {
 		if (arguments.length === 2) {
 			return '[' + type + ' ' + data + ']';
 		} else if (arguments.length === 1) {
@@ -41,20 +51,14 @@ var makeTokenList = function (tokens) {
 		}
 	};
 
-	var expect = function (type, data) {
+	var expect = function expect(type, data) {
 		if (!hasNext()) {
-			throw new Error(
-				'Expected ' + stringifyToken(type, data) +
-				' but instead reached end of input'
-			);
+			throw new Error('Expected ' + stringifyToken(type, data) + ' but instead reached end of input');
 		}
 
 		var cur = current();
 		if (!matches(type, data)) {
-			throw new Error(
-				'Expected ' + stringifyToken(type, data) +
-				' but instead got ' + stringifyToken(cur)
-			);
+			throw new Error('Expected ' + stringifyToken(type, data) + ' but instead got ' + stringifyToken(cur));
 		}
 
 		advance();
@@ -85,7 +89,7 @@ var makeTokenList = function (tokens) {
 
  */
 
-var parseListItem = function (tokenList) {
+var parseListItem = function parseListItem(tokenList) {
 	var name = tokenList.current();
 	tokenList.advance();
 
@@ -105,7 +109,7 @@ var parseListItem = function (tokenList) {
 	};
 };
 
-var parseBindingList = function (tokenList, matchingParen) {
+var parseBindingList = function parseBindingList(tokenList, matchingParen) {
 	var items = [];
 
 	if (tokenList.matches('symbol', matchingParen)) {
@@ -125,7 +129,7 @@ var parseBindingList = function (tokenList, matchingParen) {
 	return items;
 };
 
-var parseFunction = function (tokenList) {
+var parseFunction = function parseFunction(tokenList) {
 	tokenList.expect('identifier', 'function');
 
 	tokenList.expect('symbol', '(');
@@ -150,7 +154,7 @@ var parseFunction = function (tokenList) {
 	}
 };
 
-var parseObject = function (tokenList) {
+var parseObject = function parseObject(tokenList) {
 	tokenList.expect('symbol', '{');
 
 	var bindingList = parseBindingList(tokenList, '}');
@@ -164,7 +168,7 @@ var parseObject = function (tokenList) {
 };
 
 // there are better ways of doing this
-var parseNonEmptyList = function (tokenList, matchingParen, separator) {
+var parseNonEmptyList = function parseNonEmptyList(tokenList, matchingParen, separator) {
 	var items = [];
 
 	while (tokenList.hasNext()) {
@@ -180,7 +184,7 @@ var parseNonEmptyList = function (tokenList, matchingParen, separator) {
 	return items;
 };
 
-var parseClass = function (tokenList) {
+var parseClass = function parseClass(tokenList) {
 	var className = tokenList.current();
 	tokenList.advance();
 
@@ -203,7 +207,7 @@ var parseClass = function (tokenList) {
 	};
 };
 
-var parseEither = function (tokenList) {
+var parseEither = function parseEither(tokenList) {
 	tokenList.advance();
 	var choices = parseNonEmptyList(tokenList, ')', '|');
 	tokenList.expect('symbol', ')');
@@ -214,7 +218,7 @@ var parseEither = function (tokenList) {
 	};
 };
 
-var parse = function (tokenList) {
+var parse = function parse(tokenList) {
 	var cur = tokenList.current();
 
 	if (cur.type === 'identifier') {
@@ -251,10 +255,8 @@ var parse = function (tokenList) {
 	}
 };
 
-var _parse = function (stringOrTokens) {
-	var tokens = typeof stringOrTokens === 'string' ?
-		tokenizer_tokenizejs(stringOrTokens) :
-		stringOrTokens;
+var _parse = function _parse(stringOrTokens) {
+	var tokens = typeof stringOrTokens === 'string' ? (0, _tokenizer.tokenize)(stringOrTokens) : stringOrTokens;
 
 	var tokenList = makeTokenList(tokens);
 	var parsed = parse(tokenList);
@@ -266,5 +268,5 @@ var _parse = function (stringOrTokens) {
 
 var parse_parse;
 
-parse_parse = _parse;
-export { parse_parse as parse };
+exports.parse = parse_parse = _parse;
+exports.parse = parse_parse;
