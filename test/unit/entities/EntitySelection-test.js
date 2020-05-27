@@ -1,6 +1,6 @@
-var EntitySelection = require('../../../src/goo/entities/EntitySelection');
-var World = require('../../../src/goo/entities/World');
-var TransformComponent = require('../../../src/goo/entities/components/TransformComponent');
+import { EntitySelection as srcgooentitiesEntitySelection_EntitySelectionjs } from "../../../src/goo/entities/EntitySelection";
+import { World as srcgooentitiesWorld_Worldjs } from "../../../src/goo/entities/World";
+import {     TransformComponent as srcgooentitiescomponentsTransformComponent_TransformComponentjs, } from "../../../src/goo/entities/components/TransformComponent";
 
 describe('EntitySelection', function () {
 	var world;
@@ -18,8 +18,8 @@ describe('EntitySelection', function () {
 	}
 
 	beforeEach(function () {
-		world = new World();
-		world.registerComponent(TransformComponent);
+		world = new srcgooentitiesWorld_Worldjs();
+		world.registerComponent(srcgooentitiescomponentsTransformComponent_TransformComponentjs);
 	});
 
 	describe('constructor', function () {
@@ -30,7 +30,7 @@ describe('EntitySelection', function () {
 
 	describe('children', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection();
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs();
 			selection.children(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -44,7 +44,7 @@ describe('EntitySelection', function () {
 			parent.attachChild(child1);
 			parent.attachChild(child2);
 
-			var selection = new EntitySelection(parent);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(parent);
 
 			var children = selection.children();
 
@@ -65,7 +65,7 @@ describe('EntitySelection', function () {
 			parent1.attachChild(child12);
 			parent3.attachChild(child31);
 
-			var selection = new EntitySelection(parent1, parent2, parent3);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(parent1, parent2, parent3);
 
 			var children = selection.children();
 
@@ -80,7 +80,7 @@ describe('EntitySelection', function () {
 
 	describe('parent', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection();
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs();
 			selection.parent(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -94,7 +94,7 @@ describe('EntitySelection', function () {
 			parent.attachChild(child1);
 			parent.attachChild(child2);
 
-			var selection = new EntitySelection(child1, child2);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(child1, child2);
 
 			var parents = selection.parent();
 
@@ -114,7 +114,7 @@ describe('EntitySelection', function () {
 			parent1.attachChild(child12);
 			parent3.attachChild(child31);
 
-			var selection = new EntitySelection(child11, child12, child31);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(child11, child12, child31);
 
 			var parents = selection.parent();
 
@@ -129,7 +129,7 @@ describe('EntitySelection', function () {
 
 	describe('and', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection();
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs();
 			selection.and(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -140,7 +140,7 @@ describe('EntitySelection', function () {
 			var array1 = [entities[0], entities[1], entities[2], entities[3], entities[4]];
 			var array2 = [entities[2], entities[3], entities[4], entities[5], entities[6]];
 
-			var selection = new EntitySelection(array1);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(array1);
 			selection.and(array2);
 
 			array1.forEach(function (entity) {
@@ -157,7 +157,7 @@ describe('EntitySelection', function () {
 
 	describe('intersects', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection();
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs();
 			selection.intersects(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -168,7 +168,7 @@ describe('EntitySelection', function () {
 			var array1 = [entities[0], entities[1], entities[2], entities[3], entities[4]];
 			var array2 = [entities[2], entities[3], entities[4], entities[5], entities[6]];
 
-			var selection = new EntitySelection(array1);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(array1);
 			selection.intersects(array2);
 
 			expect(selection.contains(entities[2])).toBeTruthy();
@@ -181,7 +181,7 @@ describe('EntitySelection', function () {
 
 	describe('without', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection();
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs();
 			selection.without(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -192,7 +192,7 @@ describe('EntitySelection', function () {
 			var array1 = [entities[0], entities[1], entities[2], entities[3], entities[4]];
 			var array2 = [entities[2], entities[3], entities[4], entities[5], entities[6]];
 
-			var selection = new EntitySelection(array1);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(array1);
 			selection.without(array2);
 
 			expect(selection.contains(entities[0])).toBeTruthy();
@@ -204,14 +204,14 @@ describe('EntitySelection', function () {
 
 	describe('andSelf', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection();
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs();
 			selection.andSelf();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
 		});
 
 		it('returns itself when applied to an selection that has only one stack entry', function () {
-			var selection = new EntitySelection(someEntities(5));
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(someEntities(5));
 			selection.andSelf();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -221,7 +221,7 @@ describe('EntitySelection', function () {
 			var entities = someEntities(5);
 			var children = [];
 
-			var selection = new EntitySelection(entities);
+			var selection = new srcgooentitiesEntitySelection_EntitySelectionjs(entities);
 			// attach some children
 			selection.each(function (entity) {
 				var child = someEntity();

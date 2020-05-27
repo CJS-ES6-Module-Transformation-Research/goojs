@@ -230,4 +230,8 @@ var Easing = {
 	}
 };
 
-module.exports = Easing;
+var Easing_Easing;
+
+Easing_Easing = Easing;
+Easing_Easing = Easing;
+export { Easing_Easing as Easing };

@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var MouseDownAction_MouseDownAction = MouseDownAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function MouseDownAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function MouseDownAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-MouseDownAction.prototype = Object.create(Action.prototype);
+MouseDownAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 MouseDownAction.prototype.constructor = MouseDownAction;
 
 MouseDownAction.external = {
@@ -70,4 +71,4 @@ MouseDownAction.prototype.exit = function () {
 	document.removeEventListener('touchstart', this.touchEventListener);
 };
 
-module.exports = MouseDownAction;
+export { MouseDownAction_MouseDownAction as MouseDownAction };

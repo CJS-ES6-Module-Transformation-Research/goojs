@@ -1,28 +1,10 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var Vector3 = require('./Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Matrix with 3x3 components. Used to store 3D rotations. It also contains common 3D Rotation operations.
- * Creates a new Matrix3 by passing in either a current Matrix3, number Array, or a set of 9 numbers.
- * @extends Matrix
- * @param {(Matrix3|Array<number>|...number)} arguments Initial values for the components.
- * @example
- * // Passing in no arguments
- * var m1 = new Matrix3(); // m1 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
- *
- * // Passing in a number Array
- * var m2 = new Matrix3([1, 0, 0, 0, 1, 0, 0, 0, 1]);
- *
- * // Passing in numbers
- * var m3 = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
- *
- * // Passing in an existing Matrix3
- * var m4 = new Matrix3(m1); // m4 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
- */
+var Matrix3_Matrix3 = Matrix3;
+import { MathUtils as MathUtils_MathUtilsjs } from "./MathUtils";
+import { Matrix as Matrix_Matrixjs } from "./Matrix";
+import { Vector3 as Vector3_Vector3js } from "./Vector3";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function Matrix3() {
-	Matrix.call(this, 3, 3);
+	Matrix_Matrixjs.call(this, 3, 3);
 
 	if (arguments.length === 0) {
 		this.data[0] = 1;
@@ -45,14 +27,14 @@ function Matrix3() {
 	// @endif
 }
 
-Matrix3._tempX = new Vector3();
-Matrix3._tempY = new Vector3();
-Matrix3._tempZ = new Vector3();
+Matrix3._tempX = new Vector3_Vector3js();
+Matrix3._tempY = new Vector3_Vector3js();
+Matrix3._tempZ = new Vector3_Vector3js();
 
-Matrix3.prototype = Object.create(Matrix.prototype);
+Matrix3.prototype = Object.create(Matrix_Matrixjs.prototype);
 Matrix3.prototype.constructor = Matrix3;
 
-Matrix.setupAliases(Matrix3.prototype, [['e00'], ['e10'], ['e20'], ['e01'], ['e11'], ['e21'], ['e02'], ['e12'], ['e22']]);
+Matrix_Matrixjs.setupAliases(Matrix3.prototype, [['e00'], ['e10'], ['e20'], ['e01'], ['e11'], ['e21'], ['e02'], ['e12'], ['e22']]);
 
 /** @type {Matrix3} */
 Matrix3.IDENTITY = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
@@ -225,7 +207,7 @@ Matrix3.invert = function (source, target) {
 
 	var det = source.determinant();
 
-	if (Math.abs(det) < MathUtils.EPSILON) {
+	if (Math.abs(det) < MathUtils_MathUtilsjs.EPSILON) {
 		return target;
 	}
 
@@ -264,19 +246,19 @@ Matrix3.prototype.isOrthogonal = function () {
 
 	var dot = d[0] * d[3] + d[1] * d[4] + d[2] * d[5];
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
 	dot = d[0] * d[6] + d[1] * d[7] + d[2] * d[8];
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
 	dot = d[3] * d[6] + d[4] * d[7] + d[5] * d[8];
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
@@ -292,19 +274,19 @@ Matrix3.prototype.isNormal = function () {
 
 	var l = d[0] * d[0] + d[1] * d[1] + d[2] * d[2];
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
 	l = d[3] * d[3] + d[4] * d[4] + d[5] * d[5];
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
 	l = d[6] * d[6] + d[7] * d[7] + d[8] * d[8];
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtils_MathUtilsjs.EPSILON) {
 		return false;
 	}
 
@@ -549,15 +531,15 @@ Matrix3.prototype.rotateZ = function (rad, store) {
 Matrix3.prototype.toAngles = function (store) {
 	var result = store;
 	if (!result) {
-		result = new Vector3();
+		result = new Vector3_Vector3js();
 	}
 
 	var d = this.data;
-	if (d[3] > 1 - MathUtils.EPSILON) { // singularity at north pole
+	if (d[3] > 1 - MathUtils_MathUtilsjs.EPSILON) { // singularity at north pole
 		result.y = Math.atan2(d[2], d[8]);
 		result.z = Math.PI / 2;
 		result.x = 0;
-	} else if (d[3] < -1 + MathUtils.EPSILON) { // singularity at south pole
+	} else if (d[3] < -1 + MathUtils_MathUtilsjs.EPSILON) { // singularity at south pole
 		result.y = Math.atan2(d[2], d[8]);
 		result.z = -Math.PI / 2;
 		result.x = 0;
@@ -626,7 +608,7 @@ Matrix3.prototype.lookAt = function (direction, up) {
 
 	x.set(up).cross(z).normalize();
 
-	if (x.equals(Vector3.ZERO)) {
+	if (x.equals(Vector3_Vector3js.ZERO)) {
 		if (z.x !== 0.0) {
 			x.setDirect(z.y, -z.x, 0);
 		} else {
@@ -668,15 +650,15 @@ Matrix3.prototype.equals = function (rhs) {
 	var thisData = this.data;
 	var rhsData = rhs.data;
 
-	return (Math.abs(thisData[0] - rhsData[0]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[1] - rhsData[1]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[2] - rhsData[2]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[3] - rhsData[3]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[4] - rhsData[4]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[5] - rhsData[5]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[6] - rhsData[6]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[7] - rhsData[7]) <= MathUtils.EPSILON) &&
-		(Math.abs(thisData[8] - rhsData[8]) <= MathUtils.EPSILON);
+	return (Math.abs(thisData[0] - rhsData[0]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[1] - rhsData[1]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[2] - rhsData[2]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[3] - rhsData[3]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[4] - rhsData[4]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[5] - rhsData[5]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[6] - rhsData[6]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[7] - rhsData[7]) <= MathUtils_MathUtilsjs.EPSILON) &&
+		(Math.abs(thisData[8] - rhsData[8]) <= MathUtils_MathUtilsjs.EPSILON);
 };
 
 /**
@@ -766,7 +748,7 @@ Matrix3.prototype.clone = function () {
  * @hidden
  * @deprecated
  */
-Matrix3.add = ObjectUtils.warnOnce(
+Matrix3.add = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.add is deprecated - use Matrix3.prototype.add instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -805,7 +787,7 @@ Matrix3.add = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.sub = ObjectUtils.warnOnce(
+Matrix3.sub = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.sub is deprecated - use Matrix3.prototype.sub instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -843,7 +825,7 @@ Matrix3.sub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.mul = ObjectUtils.warnOnce(
+Matrix3.mul = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.mul is deprecated - use Matrix3.prototype.mul instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -882,7 +864,7 @@ Matrix3.mul = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.div = ObjectUtils.warnOnce(
+Matrix3.div = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.div is deprecated - use Matrix3.prototype.div instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -921,7 +903,7 @@ Matrix3.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.prototype.div = ObjectUtils.warnOnce(
+Matrix3.prototype.div = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.prototype.div is deprecated.',
 	function (rhs) {
 		return Matrix3.div(this, rhs, this);
@@ -932,7 +914,7 @@ Matrix3.prototype.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.combine = ObjectUtils.warnOnce(
+Matrix3.combine = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.combine is deprecated - use Matrix3.prototype.mul or .mul2 instead.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -969,7 +951,7 @@ Matrix3.combine = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.prototype.combine = ObjectUtils.warnOnce(
+Matrix3.prototype.combine = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.prototype.combine is deprecated - use Matrix3.prototype.mul or .mul2 instead.',
 	function (rhs) {
 		return Matrix3.combine(this, rhs, this);
@@ -980,7 +962,7 @@ Matrix3.prototype.combine = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.transpose = ObjectUtils.warnOnce(
+Matrix3.transpose = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.transpose is deprecated - use Matrix3.prototype.transpose instead.',
 	function (source, target) {
 		if (!target) {
@@ -1024,7 +1006,7 @@ Matrix3.transpose = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.prototype.applyPost = ObjectUtils.warnOnce(
+Matrix3.prototype.applyPost = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.prototype.applyPost is deprecated - use Vector3.prototype.applyPost instead.',
 	function (rhs) {
 		var source = this.data;
@@ -1045,7 +1027,7 @@ Matrix3.prototype.applyPost = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix3.prototype.applyPre = ObjectUtils.warnOnce(
+Matrix3.prototype.applyPre = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix3.prototype.applyPre is deprecated - use Vector3.prototype.applyPre instead.',
 	function (rhs) {
 		var source = this.data;
@@ -1064,12 +1046,29 @@ Matrix3.prototype.applyPre = ObjectUtils.warnOnce(
 // SHIM END
 
 // @ifdef DEBUG
-Matrix.addPostChecks(Matrix3.prototype, [
+Matrix_Matrixjs.addPostChecks(Matrix3.prototype, [
 	'add', 'sub', 'scale', 'transpose', 'invert',
 	'isOrthogonal', 'determinant',
 	'fromAngles', 'rotateX', 'rotateY', 'rotateZ', 'fromAngleNormalAxis', 'lookAt',
 	'copyQuaternion', 'copy'
 ]);
-// @endif
 
-module.exports = Matrix3;
+/**
+ * Matrix with 3x3 components. Used to store 3D rotations. It also contains common 3D Rotation operations.
+ * Creates a new Matrix3 by passing in either a current Matrix3, number Array, or a set of 9 numbers.
+ * @extends Matrix
+ * @param {(Matrix3|Array<number>|...number)} arguments Initial values for the components.
+ * @example
+ * // Passing in no arguments
+ * var m1 = new Matrix3(); // m1 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
+ *
+ * // Passing in a number Array
+ * var m2 = new Matrix3([1, 0, 0, 0, 1, 0, 0, 0, 1]);
+ *
+ * // Passing in numbers
+ * var m3 = new Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+ *
+ * // Passing in an existing Matrix3
+ * var m4 = new Matrix3(m1); // m4 == (1, 0, 0, 0, 1, 0, 0, 0, 1)
+ */
+export { Matrix3_Matrix3 as Matrix3 };

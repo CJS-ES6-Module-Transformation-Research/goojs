@@ -1,16 +1,15 @@
-var World = require('../../../../src/goo/entities/World');
-var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
-var AnimationClip = require('../../../../src/goo/animationpack/clip/AnimationClip');
-var Configs = require('../../../../test/unit/loaders/Configs');
-
-require('../../../../src/goo/animationpack/handlers/AnimationHandlers');
+import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
+import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
+import { AnimationClip as srcgooanimationpackclipAnimationClip_AnimationClipjs } from "../../../../src/goo/animationpack/clip/AnimationClip";
+import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
+import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
 
 describe('AnimationClipHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World();
-		loader = new DynamicLoader({
+		var world = new srcgooentitiesWorld_Worldjs();
+		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -18,10 +17,10 @@ describe('AnimationClipHandler', function () {
 	});
 
 	it('loads a clip', function (done) {
-		var config = Configs.clip();
-		loader.preload(Configs.get());
+		var config = testunitloadersConfigs_Configsjs.clip();
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		loader.load(config.id).then(function (clip) {
-			expect(clip).toEqual(jasmine.any(AnimationClip));
+			expect(clip).toEqual(jasmine.any(srcgooanimationpackclipAnimationClip_AnimationClipjs));
 			done();
 		});
 	});

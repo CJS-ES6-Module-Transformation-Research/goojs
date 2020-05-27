@@ -1,12 +1,7 @@
-var AbstractState = require('../../animationpack/state/AbstractState');
-
-/**
- * A "steady" state is an animation state that is concrete and stand-alone (vs. a state that handles transitioning between two states, for example.)
- * @extends AbstractState
- * @param {string} name Name of state
- */
+var SteadyState_SteadyState = SteadyState;
+import { AbstractState as animationpackstateAbstractState_AbstractStatejs } from "../../animationpack/state/AbstractState";
 function SteadyState(name) {
-	AbstractState.call(this);
+	animationpackstateAbstractState_AbstractStatejs.call(this);
 
 	this.id = null;
 	this._name = name;
@@ -14,7 +9,7 @@ function SteadyState(name) {
 	this._sourceTree = null;
 }
 
-SteadyState.prototype = Object.create(AbstractState.prototype);
+SteadyState.prototype = Object.create(animationpackstateAbstractState_AbstractStatejs.prototype);
 SteadyState.prototype.constructor = SteadyState;
 
 /**
@@ -54,12 +49,12 @@ SteadyState.prototype.getCurrentLoop = function () {
  * @param {number} globalStartTime Usually current time
  */
 SteadyState.prototype.resetClips = function (globalStartTime) {
-	AbstractState.prototype.resetClips.call(this, globalStartTime);
+	animationpackstateAbstractState_AbstractStatejs.prototype.resetClips.call(this, globalStartTime);
 	this._sourceTree.resetClips(globalStartTime);
 };
 
 SteadyState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractState.prototype.shiftClipTime.call(this, shiftTime);
+	animationpackstateAbstractState_AbstractStatejs.prototype.shiftClipTime.call(this, shiftTime);
 	this._sourceTree.shiftClipTime(shiftTime);
 };
 
@@ -79,4 +74,9 @@ SteadyState.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = SteadyState;
+/**
+ * A "steady" state is an animation state that is concrete and stand-alone (vs. a state that handles transitioning between two states, for example.)
+ * @extends AbstractState
+ * @param {string} name Name of state
+ */
+export { SteadyState_SteadyState as SteadyState };

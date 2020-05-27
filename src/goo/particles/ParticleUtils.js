@@ -1,8 +1,5 @@
-var Vector3 = require('../math/Vector3');
-
-/**
- * Various helper utils for particle systems.
- */
+var ParticleUtils_ParticleUtils = ParticleUtils;
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
 function ParticleUtils() {}
 
 ParticleUtils.getRandomVelocityOffY = function (store, minOffsetAngle, maxOffsetAngle, scale, particleEntity) {
@@ -29,7 +26,7 @@ ParticleUtils.randomPointInCube = function (store, xRadius, yRadius, zRadius, ce
 };
 
 ParticleUtils.createConstantForce = function (force) {
-	var applyForce = new Vector3(force);
+	var applyForce = new mathVector3_Vector3js(force);
 	return {
 		enabled: true,
 		/* Was: function (particleEntity, emitter) */
@@ -151,4 +148,7 @@ ParticleUtils.applyTimeline = function (particle, timeline) {
 	particle.spin = (1 - ratio) * start + ratio * end;
 };
 
-module.exports = ParticleUtils;
+/**
+ * Various helper utils for particle systems.
+ */
+export { ParticleUtils_ParticleUtils as ParticleUtils };

@@ -1,28 +1,20 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var MeshRendererComponent = require('../../entities/components/MeshRendererComponent');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * For handling loading of meshrenderercomponents
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+var MeshRendererComponentHandler_MeshRendererComponentHandler = MeshRendererComponentHandler;
+import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
+import {     MeshRendererComponent as entitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../../entities/components/MeshRendererComponent";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
 function MeshRendererComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'MeshRendererComponent';
 }
 
-MeshRendererComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+MeshRendererComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
 MeshRendererComponentHandler.prototype.constructor = MeshRendererComponentHandler;
-ComponentHandler._registerClass('meshRenderer', MeshRendererComponentHandler);
+loadershandlersComponentHandler_ComponentHandlerjs._registerClass('meshRenderer', MeshRendererComponentHandler);
 
-MeshRendererComponentHandler.DEFAULT_MATERIAL = new Material(ShaderLib.uber, 'Default material');
+MeshRendererComponentHandler.DEFAULT_MATERIAL = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.uber, 'Default material');
 
 /**
  * Prepare component. Set defaults on config here.
@@ -31,7 +23,7 @@ MeshRendererComponentHandler.DEFAULT_MATERIAL = new Material(ShaderLib.uber, 'De
  * @private
  */
 MeshRendererComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils.defaults(config, {
+	return utilObjectUtils_ObjectUtilsjs.defaults(config, {
 		cullMode: 'Dynamic',
 		castShadows: true,
 		receiveShadows: true,
@@ -45,7 +37,7 @@ MeshRendererComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshRendererComponentHandler.prototype._create = function () {
-	return new MeshRendererComponent();
+	return new entitiescomponentsMeshRendererComponent_MeshRendererComponentjs();
 };
 
 /**
@@ -55,40 +47,48 @@ MeshRendererComponentHandler.prototype._create = function () {
  * @param {Object} options
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
- MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
-	var that = this;
+MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
+   var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
-		// Component settings
-		component.cullMode = config.cullMode;
-		component.castShadows = config.castShadows;
-		component.receiveShadows = config.receiveShadows;
-		component.isReflectable = config.reflectable;
-		//component.isPickable = config.pickable;
+   return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
+       if (!component) { return; }
+       // Component settings
+       component.cullMode = config.cullMode;
+       component.castShadows = config.castShadows;
+       component.receiveShadows = config.receiveShadows;
+       component.isReflectable = config.reflectable;
+       //component.isPickable = config.pickable;
 
-		// Materials
-		var materials = config.materials;
-		if (!materials || !Object.keys(materials).length) {
-			var selectionMaterial = component.materials.filter(function (material) {
-				return material.name === 'gooSelectionIndicator';
-			});
-			component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
-			return component;
-		}
+       // Materials
+       var materials = config.materials;
+       if (!materials || !Object.keys(materials).length) {
+           var selectionMaterial = component.materials.filter(function (material) {
+               return material.name === 'gooSelectionIndicator';
+           });
+           component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
+           return component;
+       }
 
-		var promises = [];
-		ObjectUtils.forEach(materials, function (item) {
-			promises.push(that._load(item.materialRef, options));
-		}, null, 'sortValue');
-		return RSVP.all(promises).then(function (materials) {
-			var selectionMaterial = component.materials.filter(function (material) {
-				return material.name === 'gooSelectionIndicator';
-			});
-			component.materials = materials.concat(selectionMaterial);
-			return component;
-		});
-	});
+       var promises = [];
+       utilObjectUtils_ObjectUtilsjs.forEach(materials, function (item) {
+           promises.push(that._load(item.materialRef, options));
+       }, null, 'sortValue');
+       return utilrsvp_rsvpjsjs.all(promises).then(function (materials) {
+           var selectionMaterial = component.materials.filter(function (material) {
+               return material.name === 'gooSelectionIndicator';
+           });
+           component.materials = materials.concat(selectionMaterial);
+           return component;
+       });
+   });
 };
 
-module.exports = MeshRendererComponentHandler;
+/**
+ * For handling loading of meshrenderercomponents
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { MeshRendererComponentHandler_MeshRendererComponentHandler as MeshRendererComponentHandler };

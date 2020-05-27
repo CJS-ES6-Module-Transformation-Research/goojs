@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var PromiseUtil = require('../../../util/PromiseUtil');
+var SoundFadeInAction_SoundFadeInAction = SoundFadeInAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { PromiseUtils as utilPromiseUtil_PromiseUtilsjs } from "../../../util/PromiseUtil";
 
-function SoundFadeInAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SoundFadeInAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-SoundFadeInAction.prototype = Object.create(Action.prototype);
+SoundFadeInAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 SoundFadeInAction.prototype.constructor = SoundFadeInAction;
 
 SoundFadeInAction.external = {
@@ -63,7 +64,7 @@ SoundFadeInAction.prototype.enter = function (fsm) {
 		}
 	} catch (e) {
 		console.warn('Could not play sound: ' + e);
-		endPromise = PromiseUtil.resolve();
+		endPromise = utilPromiseUtil_PromiseUtilsjs.resolve();
 	}
 
 	endPromise.then(function () {
@@ -71,4 +72,4 @@ SoundFadeInAction.prototype.enter = function (fsm) {
 	}.bind(this));
 };
 
-module.exports = SoundFadeInAction;
+export { SoundFadeInAction_SoundFadeInAction as SoundFadeInAction };
