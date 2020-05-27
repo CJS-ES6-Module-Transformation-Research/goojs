@@ -1,11 +1,7 @@
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var Vector3 = require('../math/Vector3');
-
-/**
- * Bounding tree node
- * @param boundType
- */
+var BoundingTree_BoundingTree = BoundingTree;
+import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere as rendererboundsBoundingSphere_BoundingSpherejs } from "../renderer/bounds/BoundingSphere";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
 function BoundingTree(boundType) {
 	this.leftTree = null;
 	this.rightTree = null;
@@ -19,7 +15,7 @@ function BoundingTree(boundType) {
 	this.boundType = boundType ? boundType : BoundingTree.BOUNDTYPE_BOX;
 }
 
-var vecStore = new Vector3();
+var vecStore = new mathVector3_Vector3js();
 
 BoundingTree.BOUNDTYPE_SPHERE = 'sphere';
 BoundingTree.BOUNDTYPE_BOX = 'box';
@@ -139,12 +135,12 @@ BoundingTree.prototype.split = function (entity, sectionStart, sectionEnd) {
 BoundingTree.prototype.createBounds = function () {
 	switch (this.boundType) {
 		case BoundingTree.BOUNDTYPE_BOX:
-			this.localBound = new BoundingBox();
-			this.worldBound = new BoundingBox();
+			this.localBound = new rendererboundsBoundingBox_BoundingBoxjs();
+			this.worldBound = new rendererboundsBoundingBox_BoundingBoxjs();
 			break;
 		case BoundingTree.BOUNDTYPE_SPHERE:
-			this.localBound = new BoundingSphere();
-			this.worldBound = new BoundingSphere();
+			this.localBound = new rendererboundsBoundingSphere_BoundingSpherejs();
+			this.worldBound = new rendererboundsBoundingSphere_BoundingSpherejs();
 			break;
 		default:
 			break;
@@ -178,7 +174,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 			if (ray.intersects(vertices, false, vecStore)) {
 				var worldTransform = entity.transformComponent.sync().worldTransform;
 
-				var point = new Vector3();
+				var point = new mathVector3_Vector3js();
 				point.set(vecStore);
 				point.applyPostPoint(worldTransform.matrix);
 
@@ -188,7 +184,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 
 				var verticesCopy = [];
 				for (var copyIndex = vertices.length - 1; copyIndex >= 0; copyIndex--) {
-					verticesCopy[copyIndex] = new Vector3().set(vertices[copyIndex]);
+					verticesCopy[copyIndex] = new mathVector3_Vector3js().set(vertices[copyIndex]);
 					verticesCopy[copyIndex].applyPostPoint(worldTransform.matrix);
 				}
 
@@ -204,4 +200,8 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 	return result;
 };
 
-module.exports = BoundingTree;
+/**
+ * Bounding tree node
+ * @param boundType
+ */
+export { BoundingTree_BoundingTree as BoundingTree };

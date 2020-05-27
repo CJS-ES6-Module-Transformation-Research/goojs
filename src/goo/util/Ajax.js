@@ -1,14 +1,9 @@
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-var StringUtils = require('../util/StringUtils');
-var RSVP = require('../util/rsvp');
-
-/**
- * Ajax helper class
- * @param {string} rootPath
- * @param {Object} options
- */
+var Ajax_Ajax = Ajax;
+import { TextureHandler as loadershandlersTextureHandler_TextureHandlerjs } from "../loaders/handlers/TextureHandler";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { StringUtils as utilStringUtils_StringUtilsjs } from "../util/StringUtils";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
 function Ajax(rootPath, options) {
 	if (rootPath) {
 		this._rootPath = rootPath;
@@ -29,7 +24,7 @@ Ajax.prototype.prefill = function (bundle, clear) {
 	if (clear) {
 		this._cache = bundle;
 	} else {
-		ObjectUtils.extend(this._cache, bundle);
+		utilObjectUtils_ObjectUtilsjs.extend(this._cache, bundle);
 	}
 };
 
@@ -61,7 +56,7 @@ Ajax.prototype.get = function (options) {
 		request.responseType = options.responseType;
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
 		var handleStateChange = function () {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
@@ -106,7 +101,7 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = StringUtils.parseURL(path).path;//! AT: dunno what to call this
+	var path2 = utilStringUtils_StringUtilsjs.parseURL(path).path;//! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
@@ -114,22 +109,22 @@ Ajax.prototype.load = function (path, reload) {
 	}
 
 	if (!path) {
-		PromiseUtils.reject('Path was undefined'); //! AT: no return?
+		utilPromiseUtils_PromiseUtilsjs.reject('Path was undefined'); //! AT: no return?
 		// anyways, the engine should not call this method without a path
 	}
 
 	if (path.indexOf(Ajax.ENGINE_SHADER_PREFIX) === 0) {
-		return PromiseUtils.resolve();
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 
 	if (this._cache[path] && !reload) {
 		if (typeInGroup(type, 'bundle')) {
 			this.prefill(this._cache[path], reload);
 		}
-		if (this._cache[path] instanceof RSVP.Promise) {
+		if (this._cache[path] instanceof utilrsvp_rsvpjsjs.Promise) {
 			return this._cache[path];
 		} else {
-			return PromiseUtils.resolve(this._cache[path]);
+			return utilPromiseUtils_PromiseUtilsjs.resolve(this._cache[path]);
 		}
 	}
 
@@ -172,7 +167,7 @@ Ajax.prototype.load = function (path, reload) {
 
 Ajax.prototype.update = function (path, config) {
 	this._cache[path] = config;
-	return PromiseUtils.resolve(config);
+	return utilPromiseUtils_PromiseUtilsjs.resolve(config);
 };
 
 /**
@@ -192,7 +187,7 @@ Ajax.prototype._loadImage = function (url) {
 		image.crossOrigin = 'anonymous';
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
 		var onLoad = function loadHandler() {
 			image.dataReady = true;
 			if (window.URL && window.URL.revokeObjectURL !== undefined) {
@@ -224,7 +219,7 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 		video.crossOrigin = 'anonymous';
 	}
 
-	var promise = PromiseUtils.createPromise(function (resolve, reject) {
+	var promise = utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
 		var timeout;
 
 		var _resolve = function () {
@@ -336,7 +331,7 @@ Ajax.types = {
 	binary: addKeys({
 		dat: true,
 		bin: true
-	}, Object.keys(TextureHandler.loaders)),
+	}, Object.keys(loadershandlersTextureHandler_TextureHandlerjs.loaders)),
 	audio: {
 		mp3: true,
 		wav: true,
@@ -353,4 +348,9 @@ Ajax.types.asset = addKeys(
 		.concat(Object.keys(Ajax.types.binary))
 );
 
-module.exports = Ajax;
+/**
+ * Ajax helper class
+ * @param {string} rootPath
+ * @param {Object} options
+ */
+export { Ajax_Ajax as Ajax };

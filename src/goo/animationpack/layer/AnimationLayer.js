@@ -1,25 +1,18 @@
-var FadeTransitionState = require('../../animationpack/state/FadeTransitionState');
-var SyncFadeTransitionState = require('../../animationpack/state/SyncFadeTransitionState');
-var FrozenTransitionState = require('../../animationpack/state/FrozenTransitionState');
-var SteadyState = require('../../animationpack/state/SteadyState');
-var LayerLerpBlender = require('../../animationpack/layer/LayerLerpBlender');
-var World = require('../../entities/World');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Animation layers are essentially independent state machines, managed by a single AnimationManager. Each maintains a set of possible
- *        "steady states" - main states that the layer can be in. The layer can only be in one state at any given time. It may transition between
- *        states, provided that a path is defined for transition from the current state to the desired one. *
- * @param {string} name Name of layer
- * @param {string} id Id of layer
- */
+var AnimationLayer_AnimationLayer = AnimationLayer;
+import {     FadeTransitionState as animationpackstateFadeTransitionState_FadeTransitionStatejs, } from "../../animationpack/state/FadeTransitionState";
+import {     SyncFadeTransitionState as animationpackstateSyncFadeTransitionState_SyncFadeTransitionStatejs, } from "../../animationpack/state/SyncFadeTransitionState";
+import {     FrozenTransitionState as animationpackstateFrozenTransitionState_FrozenTransitionStatejs, } from "../../animationpack/state/FrozenTransitionState";
+import { SteadyState as animationpackstateSteadyState_SteadyStatejs } from "../../animationpack/state/SteadyState";
+import { LayerLerpBlender as animationpacklayerLayerLerpBlender_LayerLerpBlenderjs } from "../../animationpack/layer/LayerLerpBlender";
+import { World as entitiesWorld_Worldjs } from "../../entities/World";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
 function AnimationLayer(name, id) {
 	this.id = id;
 	this._name = name;
 
 	this._steadyStates = {};
 	this._currentState = null;
-	this._layerBlender = new LayerLerpBlender();
+	this._layerBlender = new animationpacklayerLayerLerpBlender_LayerLerpBlenderjs();
 	this._transitions = {};
 	this._transitionStates = {};
 }
@@ -50,7 +43,7 @@ AnimationLayer.prototype.setState = function (stateKey, state) {
  */
 AnimationLayer.prototype.setBlendWeight = function (weight) {
 	if (this._layerBlender) {
-		this._layerBlender._blendWeight = MathUtils.clamp(weight, 0, 1);
+		this._layerBlender._blendWeight = mathMathUtils_MathUtilsjs.clamp(weight, 0, 1);
 	}
 };
 
@@ -82,7 +75,7 @@ AnimationLayer.prototype.getTransitions = function () {
  */
 AnimationLayer.prototype.update = function (globalTime) {
 	if (this._currentState) {
-		this._currentState.update(typeof globalTime !== 'undefined' ? globalTime : World.time);
+		this._currentState.update(typeof globalTime !== 'undefined' ? globalTime : entitiesWorld_Worldjs.time);
 	}
 };
 
@@ -104,7 +97,7 @@ AnimationLayer.prototype.postUpdate = function () {
  * @returns {boolean} true if a transition was found and started
  */
 AnimationLayer.prototype.transitionTo = function (state, globalTime, finishCallback) {
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : entitiesWorld_Worldjs.time;
 	var cState = this._currentState;
 	var transition;
 	if (this._steadyStates[state] === cState) {
@@ -120,7 +113,7 @@ AnimationLayer.prototype.transitionTo = function (state, globalTime, finishCallb
 	if (!transition && this._transitions) {
 		transition = this._transitions[state] || this._transitions['*'];
 	}
-	if (cState instanceof SteadyState && transition) {
+	if (cState instanceof animationpackstateSteadyState_SteadyStatejs && transition) {
 		var transitionState = this._getTransitionByType(transition.type);
 		this._doTransition(transitionState, cState, this._steadyStates[state], transition, globalTime, finishCallback);
 		return true;
@@ -161,7 +154,7 @@ AnimationLayer.prototype._doTransition = function (transition, source, target, c
  * @param {Function} finishCallback If the target state has a limited number of repeats, this callback is called when the animation finishes.
  */
 AnimationLayer.prototype.setCurrentState = function (state, rewind, globalTime, finishCallback) {
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : entitiesWorld_Worldjs.time;
 	this._currentState = state;
 	if (state) {
 		if (rewind) {
@@ -169,7 +162,7 @@ AnimationLayer.prototype.setCurrentState = function (state, rewind, globalTime, 
 		}
 		state.onFinished = function () {
 			this.setCurrentState(state._targetState || null, false, undefined, finishCallback);
-			if (state instanceof SteadyState && finishCallback instanceof Function) {
+			if (state instanceof animationpackstateSteadyState_SteadyStatejs && finishCallback instanceof Function) {
 				finishCallback();
 			}
 			this.update();
@@ -275,7 +268,7 @@ AnimationLayer.prototype.clearCurrentState = function () {
 
 AnimationLayer.prototype.resetClips = function (globalTime) {
 	if (this._currentState) {
-		this._currentState.resetClips(typeof globalTime !== 'undefined' ? globalTime : World.time);
+		this._currentState.resetClips(typeof globalTime !== 'undefined' ? globalTime : entitiesWorld_Worldjs.time);
 	}
 };
 
@@ -296,17 +289,17 @@ AnimationLayer.prototype._getTransitionByType = function (type) {
 	var transition;
 	switch (type) {
 		case 'Fade':
-			transition = new FadeTransitionState();
+			transition = new animationpackstateFadeTransitionState_FadeTransitionStatejs();
 			break;
 		case 'SyncFade':
-			transition = new SyncFadeTransitionState();
+			transition = new animationpackstateSyncFadeTransitionState_SyncFadeTransitionStatejs();
 			break;
 		case 'Frozen':
-			transition = new FrozenTransitionState();
+			transition = new animationpackstateFrozenTransitionState_FrozenTransitionStatejs();
 			break;
 		default:
 			console.log('Defaulting to frozen transition type');
-			transition = new FrozenTransitionState();
+			transition = new animationpackstateFrozenTransitionState_FrozenTransitionStatejs();
 	}
 	return this._transitionStates[type] = transition;
 };
@@ -336,4 +329,11 @@ AnimationLayer.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = AnimationLayer;
+/**
+ * Animation layers are essentially independent state machines, managed by a single AnimationManager. Each maintains a set of possible
+ *        "steady states" - main states that the layer can be in. The layer can only be in one state at any given time. It may transition between
+ *        states, provided that a path is defined for transition from the current state to the desired one. *
+ * @param {string} name Name of layer
+ * @param {string} id Id of layer
+ */
+export { AnimationLayer_AnimationLayer as AnimationLayer };

@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var InBoxAction_InBoxAction = InBoxAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function InBoxAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function InBoxAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-InBoxAction.prototype = Object.create(Action.prototype);
+InBoxAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 InBoxAction.prototype.constructor = InBoxAction;
 
 InBoxAction.external = {
@@ -107,4 +108,4 @@ InBoxAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = InBoxAction;
+export { InBoxAction_InBoxAction as InBoxAction };

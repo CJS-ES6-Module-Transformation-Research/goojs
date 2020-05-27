@@ -1,6 +1,7 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+var EntityConfigjs_EntityConfigjs;
 
-module.exports = {
+EntityConfigjs_EntityConfigjs = {
 	entity: function (components) {
 		components = components || ['transform'];
 		var entity = this.gooObject('entity', 'Dummy');
@@ -33,7 +34,7 @@ module.exports = {
 			};
 		},
 		light: function (type, options) {
-			var config = _.copyOptions({}, options, {
+			var config = srcgooutilObjectUtil_ObjectUtilsjs.copyOptions({}, options, {
 				type: type || 'PointLight',
 				color: [1, 1, 1],
 				intensity: 1,
@@ -48,7 +49,7 @@ module.exports = {
 			}
 			if (config.shadowCaster) {
 				config.shadowSettings = config.shadowSettings || {};
-				_.defaults(config.shadowSettings, {
+				srcgooutilObjectUtil_ObjectUtilsjs.defaults(config.shadowSettings, {
 					type: 'Blur',
 					projection: (config.type === 'DirectionalLight') ? 'Parallel' : 'Perspective',
 					near: 1,
@@ -214,7 +215,7 @@ module.exports = {
 			};
 		},
 		collider: function (type) {
-			return _.defaults({}, {
+			return srcgooutilObjectUtil_ObjectUtilsjs.defaults({}, {
 				shape: type || 'Box', // Box, Cylinder, Plane, Sphere
 				isTrigger: false,
 				friction: 0.3,
@@ -248,3 +249,4 @@ module.exports = {
 		};
 	}
 };
+export { EntityConfigjs_EntityConfigjs as EntityConfigjs };

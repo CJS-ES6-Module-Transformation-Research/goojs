@@ -1,9 +1,10 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+var MaterialConfigjs_MaterialConfigjs;
 
-module.exports = {
+MaterialConfigjs_MaterialConfigjs = {
 	material: function () {
 		var material = this.gooObject('material', 'Dummy');
-		_.extend(material, {
+		srcgooutilObjectUtil_ObjectUtilsjs.extend(material, {
 			uniforms: {
 				materialAmbient: {
 					value: [0, 0, 0, 1],
@@ -37,7 +38,7 @@ module.exports = {
 	},
 	texture: function () {
 		var texture = this.gooObject('texture', 'Dummy');
-		_.extend(texture, {
+		srcgooutilObjectUtil_ObjectUtilsjs.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
@@ -52,7 +53,7 @@ module.exports = {
 	},
 	textureSVG: function () {
 		var texture = this.gooObject('texture', 'Dummy');
-		_.extend(texture, {
+		srcgooutilObjectUtil_ObjectUtilsjs.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
@@ -67,7 +68,7 @@ module.exports = {
 	},
 	shader: function () {
 		var shader = this.gooObject('shader', 'Dummy');
-		_.extend(shader, {
+		srcgooutilObjectUtil_ObjectUtilsjs.extend(shader, {
 			attributes: {
 				vertexPoisition: 'POSITION',
 				vertexNormal: 'NORMAL',
@@ -100,3 +101,4 @@ module.exports = {
 		return ref;
 	}
 };
+export { MaterialConfigjs_MaterialConfigjs as MaterialConfigjs };

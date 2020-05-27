@@ -1,4 +1,4 @@
-var Ajax = require('../../../src/goo/util/Ajax');
+import { Ajax as srcgooutilAjax_Ajaxjs } from "../../../src/goo/util/Ajax";
 
 var TestResponses = {
 	'good-url': {
@@ -68,7 +68,7 @@ describe('Ajax', function () {
 			async: true
 		};
 
-		var a = new Ajax().get(ajaxSettings).then(function (data) {
+		var a = new srcgooutilAjax_Ajaxjs().get(ajaxSettings).then(function (data) {
 			expect(data.responseText).toEqual('Successful response.');
 			done();
 		});
@@ -84,7 +84,7 @@ describe('Ajax', function () {
 			async: true
 		};
 
-		var a = new Ajax().get(ajaxSettings).then(null, function (reason) {
+		var a = new srcgooutilAjax_Ajaxjs().get(ajaxSettings).then(null, function (reason) {
 			expect(reason).toEqual('Couldn\'t find a fake response: ' + ajaxSettings.url);
 			done();
 		});

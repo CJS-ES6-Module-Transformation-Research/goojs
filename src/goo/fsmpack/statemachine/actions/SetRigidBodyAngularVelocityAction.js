@@ -1,10 +1,11 @@
-var Action = require('./Action');
-var Vector3 = require('./../../../math/Vector3');
+var SetRigidBodyAngularVelocityAction_SetRigidBodyAngularVelocityAction = SetRigidBodyAngularVelocityAction;
+import { Action as Action_Actionjs } from "./Action";
+import { Vector3 as mathVector3_Vector3js } from "./../../../math/Vector3";
 
-function SetRigidBodyAngularVelocityAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetRigidBodyAngularVelocityAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
-SetRigidBodyAngularVelocityAction.prototype = Object.create(Action.prototype);
+SetRigidBodyAngularVelocityAction.prototype = Object.create(Action_Actionjs.prototype);
 SetRigidBodyAngularVelocityAction.prototype.constructor = SetRigidBodyAngularVelocityAction;
 
 SetRigidBodyAngularVelocityAction.external = {
@@ -23,7 +24,7 @@ SetRigidBodyAngularVelocityAction.external = {
 	transitions: []
 };
 
-var tmpVector = new Vector3();
+var tmpVector = new mathVector3_Vector3js();
 SetRigidBodyAngularVelocityAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	if (!entity || !entity.rigidBodyComponent) { return; }
@@ -31,4 +32,4 @@ SetRigidBodyAngularVelocityAction.prototype.enter = function (fsm) {
 	entity.rigidBodyComponent.setAngularVelocity(tmpVector);
 };
 
-module.exports = SetRigidBodyAngularVelocityAction;
+export { SetRigidBodyAngularVelocityAction_SetRigidBodyAngularVelocityAction as SetRigidBodyAngularVelocityAction };

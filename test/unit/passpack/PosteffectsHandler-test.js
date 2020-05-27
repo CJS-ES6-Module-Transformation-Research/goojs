@@ -1,17 +1,17 @@
-var Configs = require('../../../test/unit/loaders/Configs');
-var GooRunner = require('../../../src/goo/entities/GooRunner');
-var DynamicLoader = require('../../../src/goo/loaders/DynamicLoader');
-require('../../../src/goo/passpack/PosteffectsHandler');
+import { Configs as testunitloadersConfigs_Configsjs } from "../../../test/unit/loaders/Configs";
+import { GooRunner as srcgooentitiesGooRunner_GooRunnerjs } from "../../../src/goo/entities/GooRunner";
+import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../src/goo/loaders/DynamicLoader";
+import "../../../src/goo/passpack/PosteffectsHandler";
 
 describe('PosteffectsHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new GooRunner({
+		gooRunner = new srcgooentitiesGooRunner_GooRunnerjs({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new DynamicLoader({
+		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
 			world: gooRunner.world,
 			rootPath: 'loaders/res/'
 		});
@@ -24,8 +24,8 @@ describe('PosteffectsHandler', function () {
 	});
 
 	it('loads a post effect', function (done) {
-		var config = Configs.posteffects();
-		loader.preload(Configs.get());
+		var config = testunitloadersConfigs_Configsjs.posteffects();
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		loader.load(config.id).then(function (/*posteffects*/) {
 			expect(gooRunner.renderSystem.composers.length).toEqual(1);
 			done();
@@ -33,8 +33,8 @@ describe('PosteffectsHandler', function () {
 	});
 
 	it('clears posteffect buffers from the GPU', function (done) {
-		var config = Configs.posteffects();
-		loader.preload(Configs.get());
+		var config = testunitloadersConfigs_Configsjs.posteffects();
+		loader.preload(testunitloadersConfigs_Configsjs.get());
 		var composer;
 		loader.load(config.id).then(function (/*posteffects*/) {
 			expect(gooRunner.renderSystem.composers.length).toEqual(1);

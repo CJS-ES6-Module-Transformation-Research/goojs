@@ -1,14 +1,15 @@
-var Action = require('./Action');
-var BoundingPicker = require('./../../../renderer/bounds/BoundingPicker');
+var HoverExitAction_HoverExitAction = HoverExitAction;
+import { Action as Action_Actionjs } from "./Action";
+import { BoundingPicker as rendererboundsBoundingPicker_BoundingPickerjs } from "./../../../renderer/bounds/BoundingPicker";
 
-function HoverExitAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function HoverExitAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverExitAction.prototype = Object.create(Action.prototype);
+HoverExitAction.prototype = Object.create(Action_Actionjs.prototype);
 HoverExitAction.prototype.constructor = HoverExitAction;
 
 HoverExitAction.types = {
@@ -86,7 +87,7 @@ HoverExitAction.prototype.enter = function (fsm) {
 			var pickingStore = that.goo.pickSync(x, y);
 			pickedEntity = that.goo.world.entityManager.getEntityByIndex(pickingStore.id);
 		} else {
-			var pickList = BoundingPicker.pick(that.goo.world, camera, x, y);
+			var pickList = rendererboundsBoundingPicker_BoundingPickerjs.pick(that.goo.world, camera, x, y);
 			if (pickList.length > 0) {
 				pickedEntity = pickList[0].entity;
 			}
@@ -110,4 +111,4 @@ HoverExitAction.prototype.exit = function () {
 	document.removeEventListener('touchmove', this.moveListener);
 };
 
-module.exports = HoverExitAction;
+export { HoverExitAction_HoverExitAction as HoverExitAction };

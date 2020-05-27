@@ -1,15 +1,10 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicInterface = require('./LogicInterface');
-var LogicNodes = require('./LogicNodes');
-
-/**
- * Logic node implementing a time counter. Processed every frame and time is increased. Output
- * can be read through the 'Time' port
- * @private
- */
+var LogicNodeTime_LogicNodeTime = LogicNodeTime;
+import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
 function LogicNodeTime() {
-	LogicNode.call(this);
+	LogicNode_LogicNodejs.call(this);
 	this.wantsProcessCall = true;
 	this.logicInterface = LogicNodeTime.logicInterface;
 	this.type = 'LogicNodeTime';
@@ -18,10 +13,10 @@ function LogicNodeTime() {
 }
 
 // Logic interface set-up
-LogicNodeTime.prototype = Object.create(LogicNode.prototype);
+LogicNodeTime.prototype = Object.create(LogicNode_LogicNodejs.prototype);
 
 LogicNodeTime.editorName = 'Time';
-LogicNodeTime.logicInterface = new LogicInterface();
+LogicNodeTime.logicInterface = new LogicInterface_LogicInterfacejs();
 
 // ports
 LogicNodeTime.outPropTime = LogicNodeTime.logicInterface.addOutputProperty('Time', 'float');
@@ -42,10 +37,10 @@ LogicNodeTime.prototype.processLogic = function (tpf) {
 	if (this._running) {
 		var old = this._time;
 		this._time += tpf;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, this._time);
+		LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeTime.outPropTime, this._time);
 
 		if (old < 1 && this._time >= 1) {
-			LogicLayer.fireEvent(this.logicInstance, LogicNodeTime.outEventReached1);
+			LogicLayer_LogicLayerjs.fireEvent(this.logicInstance, LogicNodeTime.outEventReached1);
 		}
 	}
 };
@@ -58,10 +53,15 @@ LogicNodeTime.prototype.onEvent = function (instDesc, event) {
 		this._running = false;
 	} else if (event === LogicNodeTime.inEventReset) {
 		this._time = 0;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeTime.outPropTime, 0);
+		LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeTime.outPropTime, 0);
 	}
 };
 
-LogicNodes.registerType('LogicNodeTime', LogicNodeTime);
+LogicNodes_LogicNodesjs.registerType('LogicNodeTime', LogicNodeTime);
 
-module.exports = LogicNodeTime;
+/**
+ * Logic node implementing a time counter. Processed every frame and time is increased. Output
+ * can be read through the 'Time' port
+ * @private
+ */
+export { LogicNodeTime_LogicNodeTime as LogicNodeTime };

@@ -1,15 +1,8 @@
-var Component = require('../../../entities/components/Component');
-var Collider = require('../../../addons/physicspack/colliders/Collider');
-
-/**
- * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
- * @param {Object} [settings]
- * @param {Collider} [settings.collider]
- * @param {boolean} [settings.isTrigger=false]
- * @extends Component
- */
+var AbstractColliderComponent_AbstractColliderComponent = AbstractColliderComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../../entities/components/Component";
+import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
 function AbstractColliderComponent(settings) {
-	Component.apply(this);
+	entitiescomponentsComponent_Componentjs.apply(this);
 
 	settings = settings || {};
 
@@ -48,7 +41,7 @@ function AbstractColliderComponent(settings) {
 	 */
 	this.material = settings.material !== undefined ? settings.material : null;
 }
-AbstractColliderComponent.prototype = Object.create(Component.prototype);
+AbstractColliderComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 AbstractColliderComponent.prototype.constructor = AbstractColliderComponent;
 
 /**
@@ -99,7 +92,7 @@ AbstractColliderComponent.prototype.detached = function (/*entity*/) {
  * @returns {boolean}
  */
 AbstractColliderComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Collider) {
+	if (obj instanceof addonsphysicspackcollidersCollider_Colliderjs) {
 		entity.setComponent(new AbstractColliderComponent({
 			collider: obj
 		}));
@@ -109,4 +102,11 @@ AbstractColliderComponent.applyOnEntity = function (obj, entity) {
 
 AbstractColliderComponent.prototype.api = {};
 
-module.exports = AbstractColliderComponent;
+/**
+ * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
+ * @param {Object} [settings]
+ * @param {Collider} [settings.collider]
+ * @param {boolean} [settings.isTrigger=false]
+ * @extends Component
+ */
+export { AbstractColliderComponent_AbstractColliderComponent as AbstractColliderComponent };

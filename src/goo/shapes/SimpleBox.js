@@ -1,12 +1,5 @@
-var MeshData = require('../renderer/MeshData');
-
-/**
- * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
- * @extends MeshData
- * @param {number} [width=1] Total width of box.
- * @param {number} [height=1] Total height of box.
- * @param {number} [length=1] Total length of box.
- */
+var SimpleBox_SimpleBox = SimpleBox;
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
 function SimpleBox(width, height, length) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -19,13 +12,13 @@ function SimpleBox(width, height, length) {
 	this.yExtent = height !== undefined ? height * 0.5 : 0.5;
 	this.zExtent = length !== undefined ? length * 0.5 : 0.5;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	MeshData.call(this, attributeMap, 8, 36);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]);
+	rendererMeshData_MeshDatajs.call(this, attributeMap, 8, 36);
 
 	this.rebuild();
 }
 
-SimpleBox.prototype = Object.create(MeshData.prototype);
+SimpleBox.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
 SimpleBox.prototype.constructor = SimpleBox;
 
 /**
@@ -37,7 +30,7 @@ SimpleBox.prototype.rebuild = function () {
 	var yExtent = this.yExtent;
 	var zExtent = this.zExtent;
 
-	this.getAttributeBuffer(MeshData.POSITION).set([
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set([
 		-xExtent, -yExtent, -zExtent,
 		xExtent, -yExtent, -zExtent,
 		xExtent,  yExtent, -zExtent,
@@ -81,4 +74,11 @@ SimpleBox.prototype.clone = function () {
 	return new SimpleBox(options);
 };
 
-module.exports = SimpleBox;
+/**
+ * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
+ * @extends MeshData
+ * @param {number} [width=1] Total width of box.
+ * @param {number} [height=1] Total height of box.
+ * @param {number} [length=1] Total length of box.
+ */
+export { SimpleBox_SimpleBox as SimpleBox };

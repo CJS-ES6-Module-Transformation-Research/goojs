@@ -1,7 +1,6 @@
+import { tokenize as tokenizer_tokenizejs } from "./tokenizer";
 // jshint node:true
 'use strict';
-
-var tokenizer = require('./tokenizer');
 
 var makeTokenList = function (tokens) {
 	var pointer = 0;
@@ -254,7 +253,7 @@ var parse = function (tokenList) {
 
 var _parse = function (stringOrTokens) {
 	var tokens = typeof stringOrTokens === 'string' ?
-		tokenizer.tokenize(stringOrTokens) :
+		tokenizer_tokenizejs(stringOrTokens) :
 		stringOrTokens;
 
 	var tokenList = makeTokenList(tokens);
@@ -265,4 +264,7 @@ var _parse = function (stringOrTokens) {
 	return parsed;
 };
 
-exports.parse = _parse;
+var parse_parse;
+
+parse_parse = _parse;
+export { parse_parse as parse };

@@ -1,13 +1,9 @@
-var Component = require('../../entities/components/Component');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-var TextMeshGenerator = require('./TextMeshGenerator');
-
-/**
- * Stores a font and handles the text mesh on an entity
- * Depends on opentype.js
- */
+var TextComponent_TextComponent = TextComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import {     MeshDataComponent as entitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../../entities/components/MeshDataComponent";
+import { TextMeshGeneratorjs as TextMeshGenerator_TextMeshGeneratorjsjs } from "./TextMeshGenerator";
 function TextComponent() {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'TextComponent';
 
@@ -16,7 +12,7 @@ function TextComponent() {
 	this._entity = null;
 }
 
-TextComponent.prototype = Object.create(Component.prototype);
+TextComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 TextComponent.prototype.constructor = TextComponent;
 
 TextComponent.type = 'TextComponent';
@@ -53,12 +49,16 @@ TextComponent.prototype.setText = function (text, options) {
 	this._entity.clearComponent('MeshDataComponent');
 
 	// only short texts that can fit in one mesh for now
-	var meshData = TextMeshGenerator.meshesForText(text, this._font, options)[0];
+	var meshData = TextMeshGenerator_TextMeshGeneratorjsjs.meshesForText(text, this._font, options)[0];
 
-	var meshDataComponent = new MeshDataComponent(meshData);
+	var meshDataComponent = new entitiescomponentsMeshDataComponent_MeshDataComponentjs(meshData);
 	this._entity.setComponent(meshDataComponent);
 
 	return this;
 };
 
-module.exports = TextComponent;
+/**
+ * Stores a font and handles the text mesh on an entity
+ * Depends on opentype.js
+ */
+export { TextComponent_TextComponent as TextComponent };

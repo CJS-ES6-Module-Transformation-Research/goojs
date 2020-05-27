@@ -1,4 +1,5 @@
-module.exports = {
+var karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs;
+karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs = {
 	CustomMatchers: 'test/unit/CustomMatchers',
 	Configs: 'test/unit/loaders/Configs',
 
@@ -411,3 +412,4 @@ module.exports = {
 	TangentGenerator: 'src/goo/util/TangentGenerator',
 	TWEEN: 'src/goo/util/TWEEN',
 };
+export { karmaWebpackProvidePluginSettingsjs_karmaWebpackProvidePluginSettingsjs as karmaWebpackProvidePluginSettingsjs };

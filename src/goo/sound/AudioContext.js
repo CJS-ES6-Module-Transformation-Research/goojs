@@ -9,6 +9,8 @@ if (!AudioContext) {
 
 var context;
 
+var AudioContextjs_AudioContextjs;
+
 /**
  * AudioContext is a global to check for support and instantiate an audio context. Should not be used as a constructor.
  * @target-class AudioContext AudioContext constructor
@@ -20,7 +22,7 @@ var context;
  *     // ...operate on context...
  * }
  */
-module.exports = {
+AudioContextjs_AudioContextjs = {
 	getContext: function () {
 		// try to get a context if it's supposedly supported or not cached
 		if (!context && supported) {
@@ -38,3 +40,4 @@ module.exports = {
 		return supported;
 	}
 };
+export { AudioContextjs_AudioContextjs as AudioContextjs };
