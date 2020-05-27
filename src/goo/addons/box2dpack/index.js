@@ -1,11 +1,15 @@
-import { Box2DComponent as componentsBox2DComponent_Box2DComponent } from "./components/Box2DComponent";
-import { Box2DSystem as systemsBox2DSystem_Box2DSystem } from "./systems/Box2DSystem";
+"use strict";
+
+var _Box2DComponent = require("./components/Box2DComponent");
+
+var _Box2DSystem = require("./systems/Box2DSystem");
+
 var indexjs;
 indexjs = {
-	Box2DComponent: componentsBox2DComponent_Box2DComponent,
-	Box2DSystem: systemsBox2DSystem_Box2DSystem
+	Box2DComponent: _Box2DComponent.Box2DComponent,
+	Box2DSystem: _Box2DSystem.Box2DSystem
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

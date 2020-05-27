@@ -1,8 +1,16 @@
-import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EntityConfigjs = undefined;
+
+var _ObjectUtil = require('../../../../src/goo/util/ObjectUtil');
+
 var EntityConfigjs_EntityConfigjs;
 
-EntityConfigjs_EntityConfigjs = {
-	entity: function (components) {
+exports.EntityConfigjs = EntityConfigjs_EntityConfigjs = {
+	entity: function entity(components) {
 		components = components || ['transform'];
 		var entity = this.gooObject('entity', 'Dummy');
 		entity.components = {};
@@ -13,7 +21,7 @@ EntityConfigjs_EntityConfigjs = {
 		return entity;
 	},
 	component: {
-		transform: function (translation, rotation, scale) {
+		transform: function transform(translation, rotation, scale) {
 			translation = translation ? translation.slice() : [0, 0, 0];
 			rotation = rotation ? rotation.slice() : [0, 0, 0];
 			scale = scale ? scale.slice() : [1, 1, 1];
@@ -24,7 +32,7 @@ EntityConfigjs_EntityConfigjs = {
 				scale: scale
 			};
 		},
-		camera: function (aspect, lockedRatio, far, fov, near) {
+		camera: function camera(aspect, lockedRatio, far, fov, near) {
 			return {
 				aspect: aspect || 1,
 				lockedRatio: !!lockedRatio,
@@ -33,8 +41,8 @@ EntityConfigjs_EntityConfigjs = {
 				near: near || 1
 			};
 		},
-		light: function (type, options) {
-			var config = srcgooutilObjectUtil_ObjectUtilsjs.copyOptions({}, options, {
+		light: function light(type, options) {
+			var config = _ObjectUtil.ObjectUtils.copyOptions({}, options, {
 				type: type || 'PointLight',
 				color: [1, 1, 1],
 				intensity: 1,
@@ -49,9 +57,9 @@ EntityConfigjs_EntityConfigjs = {
 			}
 			if (config.shadowCaster) {
 				config.shadowSettings = config.shadowSettings || {};
-				srcgooutilObjectUtil_ObjectUtilsjs.defaults(config.shadowSettings, {
+				_ObjectUtil.ObjectUtils.defaults(config.shadowSettings, {
 					type: 'Blur',
-					projection: (config.type === 'DirectionalLight') ? 'Parallel' : 'Perspective',
+					projection: config.type === 'DirectionalLight' ? 'Parallel' : 'Perspective',
 					near: 1,
 					far: 1000,
 					resolution: [512, 512],
@@ -61,13 +69,13 @@ EntityConfigjs_EntityConfigjs = {
 			}
 			return config;
 		},
-		animation: function () {
+		animation: function animation() {
 			return {
 				layersRef: this.animation().id,
 				poseRef: this.skeleton().id
 			};
 		},
-		particleSystem: function () {
+		particleSystem: function particleSystem() {
 			function particleCurve() {
 				return [{
 					type: 'linear',
@@ -127,7 +135,7 @@ EntityConfigjs_EntityConfigjs = {
 				textureRef: this.texture().id
 			};
 		},
-		meshRenderer: function () {
+		meshRenderer: function meshRenderer() {
 			var config = {
 				cullMode: 'Dynamic',
 				castShadows: true,
@@ -144,7 +152,7 @@ EntityConfigjs_EntityConfigjs = {
 			}
 			return config;
 		},
-		meshData: function (shape, options) {
+		meshData: function meshData(shape, options) {
 			if (shape) {
 				return {
 					shape: shape,
@@ -156,7 +164,7 @@ EntityConfigjs_EntityConfigjs = {
 				poseRef: this.skeleton().id
 			};
 		},
-		timeline: function () {
+		timeline: function timeline() {
 			return {
 				channels: {
 					'c1': {
@@ -204,18 +212,18 @@ EntityConfigjs_EntityConfigjs = {
 				}
 			};
 		},
-		quad: function () {
+		quad: function quad() {
 			return {
 				materialRef: this.material().id
 			};
 		},
-		html: function () {
+		html: function html() {
 			return {
 				innerHTML: 'some html'
 			};
 		},
-		collider: function (type) {
-			return srcgooutilObjectUtil_ObjectUtilsjs.defaults({}, {
+		collider: function collider(type) {
+			return _ObjectUtil.ObjectUtils.defaults({}, {
 				shape: type || 'Box', // Box, Cylinder, Plane, Sphere
 				isTrigger: false,
 				friction: 0.3,
@@ -227,7 +235,7 @@ EntityConfigjs_EntityConfigjs = {
 				}
 			});
 		},
-		rigidBody: function () {
+		rigidBody: function rigidBody() {
 			return {
 				mass: 1,
 				isKinematic: false,
@@ -238,7 +246,7 @@ EntityConfigjs_EntityConfigjs = {
 			};
 		}
 	},
-	attachChild: function (parent, child) {
+	attachChild: function attachChild(parent, child) {
 		if (!parent.components.transform.children) {
 			parent.components.transform.children = {};
 		}
@@ -249,4 +257,4 @@ EntityConfigjs_EntityConfigjs = {
 		};
 	}
 };
-export { EntityConfigjs_EntityConfigjs as EntityConfigjs };
+exports.EntityConfigjs = EntityConfigjs_EntityConfigjs;

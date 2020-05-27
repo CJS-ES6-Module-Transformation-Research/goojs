@@ -1,7 +1,16 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Plane = undefined;
+
+var _Vector = require('./Vector3');
+
 var Plane_Plane = Plane;
-import { Vector3 as Vector3_Vector3js } from "./Vector3";
+
 function Plane(normal, constant) {
-	this.normal = normal ? normal.clone() : Vector3_Vector3js.UNIT_Y.clone();
+	this.normal = normal ? normal.clone() : _Vector.Vector3.UNIT_Y.clone();
 	this.constant = isNaN(constant) ? 0 : constant;
 
 	// @ifdef DEBUG
@@ -10,9 +19,9 @@ function Plane(normal, constant) {
 }
 
 // TODO: add Object.freeze? - Object.freeze is still too slow unfortunately
-Plane.XZ = new Plane(Vector3_Vector3js.UNIT_Y, 0);
-Plane.XY = new Plane(Vector3_Vector3js.UNIT_Z, 0);
-Plane.YZ = new Plane(Vector3_Vector3js.UNIT_X, 0);
+Plane.XZ = new Plane(_Vector.Vector3.UNIT_Y, 0);
+Plane.XY = new Plane(_Vector.Vector3.UNIT_Z, 0);
+Plane.YZ = new Plane(_Vector.Vector3.UNIT_X, 0);
 
 /**
  * @param {Vector3} point
@@ -32,7 +41,7 @@ Plane.prototype.pseudoDistance = function (point) {
  */
 Plane.prototype.setPlanePoints = function (pointA, pointB, pointC) {
 	this.normal.set(pointB).sub(pointA);
-	this.normal.cross(new Vector3_Vector3js(pointC.x - pointA.x, pointC.y - pointA.y, pointC.z - pointA.z)).normalize();
+	this.normal.cross(new _Vector.Vector3(pointC.x - pointA.x, pointC.y - pointA.y, pointC.z - pointA.z)).normalize();
 	this.constant = this.normal.dot(pointA);
 	return this;
 };
@@ -46,15 +55,15 @@ Plane.prototype.setPlanePoints = function (pointA, pointB, pointC) {
 Plane.prototype.reflectVector = function (unitVector, store) {
 	var result = store;
 	if (typeof result === 'undefined') {
-		result = new Vector3_Vector3js();
+		result = new _Vector.Vector3();
 	}
 
 	var dotProd = this.normal.dot(unitVector) * 2;
-	result.set(unitVector).sub(new Vector3_Vector3js(this.normal.x * dotProd, this.normal.y * dotProd, this.normal.z * dotProd));
+	result.set(unitVector).sub(new _Vector.Vector3(this.normal.x * dotProd, this.normal.y * dotProd, this.normal.z * dotProd));
 	return result;
 };
 
-var p0 = new Vector3_Vector3js();
+var p0 = new _Vector.Vector3();
 
 /**
  * Get the intersection of a ray with a plane.
@@ -67,7 +76,7 @@ var p0 = new Vector3_Vector3js();
 Plane.prototype.rayIntersect = function (ray, store, suppressWarnings, precision) {
 	//! AT: the only function with a suppressWarnings
 	precision = typeof precision === 'undefined' ? 1e-7 : precision;
-	store = store || new Vector3_Vector3js();
+	store = store || new _Vector.Vector3();
 
 	var lDotN = ray.direction.dot(this.normal);
 	if (Math.abs(lDotN) < precision) {
@@ -78,14 +87,9 @@ Plane.prototype.rayIntersect = function (ray, store, suppressWarnings, precision
 		return null;
 	}
 
-	var pMinusL0DotN = p0.set(this.normal)
-		.scale(this.constant)
-		.sub(ray.origin)
-		.dot(this.normal);
+	var pMinusL0DotN = p0.set(this.normal).scale(this.constant).sub(ray.origin).dot(this.normal);
 
-	return store.set(ray.direction)
-		.scale(pMinusL0DotN / lDotN)
-		.add(ray.origin);
+	return store.set(ray.direction).scale(pMinusL0DotN / lDotN).add(ray.origin);
 };
 
 /**
@@ -114,4 +118,4 @@ Plane.prototype.clone = function () {
  * @param {Vector3} normal Normal of the plane.
  * @param {number} constant The plane offset along the normal.
  */
-export { Plane_Plane as Plane };
+exports.Plane = Plane_Plane;

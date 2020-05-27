@@ -1,5 +1,10 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var defaultterndefinitionsjs_defaultterndefinitionsjs;
-defaultterndefinitionsjs_defaultterndefinitionsjs = {
+exports.defaultterndefinitionsjs = defaultterndefinitionsjs_defaultterndefinitionsjs = {
 	"Context": {
 		"!type": "fn()",
 		"!url": "http://goocreate.com/learn/the-ctx-object/",
@@ -49,4 +54,4 @@ defaultterndefinitionsjs_defaultterndefinitionsjs = {
 		"!doc": "To define custom parameters in a Create script, the parameter array and the args object are used."
 	}
 };
-export { defaultterndefinitionsjs_defaultterndefinitionsjs as defaultterndefinitionsjs };
+exports.defaultterndefinitionsjs = defaultterndefinitionsjs_defaultterndefinitionsjs;

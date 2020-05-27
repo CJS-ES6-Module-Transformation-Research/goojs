@@ -1,10 +1,18 @@
-import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MaterialConfigjs = undefined;
+
+var _ObjectUtil = require('../../../../src/goo/util/ObjectUtil');
+
 var MaterialConfigjs_MaterialConfigjs;
 
-MaterialConfigjs_MaterialConfigjs = {
-	material: function () {
+exports.MaterialConfigjs = MaterialConfigjs_MaterialConfigjs = {
+	material: function material() {
 		var material = this.gooObject('material', 'Dummy');
-		srcgooutilObjectUtil_ObjectUtilsjs.extend(material, {
+		_ObjectUtil.ObjectUtils.extend(material, {
 			uniforms: {
 				materialAmbient: {
 					value: [0, 0, 0, 1],
@@ -36,14 +44,14 @@ MaterialConfigjs_MaterialConfigjs = {
 		});
 		return material;
 	},
-	texture: function () {
+	texture: function texture() {
 		var texture = this.gooObject('texture', 'Dummy');
-		srcgooutilObjectUtil_ObjectUtilsjs.extend(texture, {
+		_ObjectUtil.ObjectUtils.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
 			repeat: [1, 1],
-			imageRef: (typeof(window) !== 'undefined' && window.__karma__ ? 'base/test/unit/loaders/res/' : '') + 'checker.png',
+			imageRef: (typeof window !== 'undefined' && window.__karma__ ? 'base/test/unit/loaders/res/' : '') + 'checker.png',
 			wrapS: 'Repeat',
 			wrapT: 'Repeat',
 			anisotropy: 1,
@@ -51,9 +59,9 @@ MaterialConfigjs_MaterialConfigjs = {
 		});
 		return texture;
 	},
-	textureSVG: function () {
+	textureSVG: function textureSVG() {
 		var texture = this.gooObject('texture', 'Dummy');
-		srcgooutilObjectUtil_ObjectUtilsjs.extend(texture, {
+		_ObjectUtil.ObjectUtils.extend(texture, {
 			magFilter: 'Bilinear',
 			minFilter: 'Trilinear',
 			offset: [0, 0],
@@ -66,9 +74,9 @@ MaterialConfigjs_MaterialConfigjs = {
 		});
 		return texture;
 	},
-	shader: function () {
+	shader: function shader() {
 		var shader = this.gooObject('shader', 'Dummy');
-		srcgooutilObjectUtil_ObjectUtilsjs.extend(shader, {
+		_ObjectUtil.ObjectUtils.extend(shader, {
 			attributes: {
 				vertexPoisition: 'POSITION',
 				vertexNormal: 'NORMAL',
@@ -82,23 +90,21 @@ MaterialConfigjs_MaterialConfigjs = {
 			},
 			vshaderRef: this.vshader(),
 			fshaderRef: this.fshader(),
-			processors: [
-				'uber'
-			]
+			processors: ['uber']
 		});
 		return shader;
 	},
-	vshader: function () {
+	vshader: function vshader() {
 		var ref = this.randomRef('vert');
 		var code = "void main() { gl_Position = vec4(1.0); }";
 		this.addToBundle(code, ref);
 		return ref;
 	},
-	fshader: function () {
+	fshader: function fshader() {
 		var ref = this.randomRef('frag');
 		var code = "void main() { gl_FragColor = vec4(1.0); }";
 		this.addToBundle(code, ref);
 		return ref;
 	}
 };
-export { MaterialConfigjs_MaterialConfigjs as MaterialConfigjs };
+exports.MaterialConfigjs = MaterialConfigjs_MaterialConfigjs;

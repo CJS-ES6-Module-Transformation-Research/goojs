@@ -1,27 +1,39 @@
-import { BloomPass as BloomPass_BloomPass } from "./BloomPass";
-import { BlurPass as BlurPass_BlurPass } from "./BlurPass";
-import { DepthPass as DepthPass_DepthPass } from "./DepthPass";
-import { DofPass as DofPass_DofPass } from "./DofPass";
-import { DogPass as DogPass_DogPass } from "./DogPass";
-import { MotionBlurPass as MotionBlurPass_MotionBlurPass } from "./MotionBlurPass";
-import { PassLibjs as PassLib_PassLibjs } from "./PassLib";
-import { PosteffectsHandler as PosteffectsHandler_PosteffectsHandler } from "./PosteffectsHandler";
-import { ShaderLibExtra as ShaderLibExtra_ShaderLibExtra } from "./ShaderLibExtra";
-import { SsaoPass as SsaoPass_SsaoPass } from "./SsaoPass";
+"use strict";
+
+var _BloomPass = require("./BloomPass");
+
+var _BlurPass = require("./BlurPass");
+
+var _DepthPass = require("./DepthPass");
+
+var _DofPass = require("./DofPass");
+
+var _DogPass = require("./DogPass");
+
+var _MotionBlurPass = require("./MotionBlurPass");
+
+var _PassLib = require("./PassLib");
+
+var _PosteffectsHandler = require("./PosteffectsHandler");
+
+var _ShaderLibExtra = require("./ShaderLibExtra");
+
+var _SsaoPass = require("./SsaoPass");
+
 var indexjs;
 indexjs = {
-	BloomPass: BloomPass_BloomPass,
-	BlurPass: BlurPass_BlurPass,
-	DepthPass: DepthPass_DepthPass,
-	DofPass: DofPass_DofPass,
-	DogPass: DogPass_DogPass,
-	MotionBlurPass: MotionBlurPass_MotionBlurPass,
-	PassLib: PassLib_PassLibjs,
-	PosteffectsHandler: PosteffectsHandler_PosteffectsHandler,
-	ShaderLibExtra: ShaderLibExtra_ShaderLibExtra,
-	SsaoPass: SsaoPass_SsaoPass
+	BloomPass: _BloomPass.BloomPass,
+	BlurPass: _BlurPass.BlurPass,
+	DepthPass: _DepthPass.DepthPass,
+	DofPass: _DofPass.DofPass,
+	DogPass: _DogPass.DogPass,
+	MotionBlurPass: _MotionBlurPass.MotionBlurPass,
+	PassLib: _PassLib.PassLibjs,
+	PosteffectsHandler: _PosteffectsHandler.PosteffectsHandler,
+	ShaderLibExtra: _ShaderLibExtra.ShaderLibExtra,
+	SsaoPass: _SsaoPass.SsaoPass
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

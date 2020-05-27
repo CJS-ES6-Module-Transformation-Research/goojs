@@ -1,17 +1,31 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Snow = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _ParticleLib = require("../particles/ParticleLib");
+
+var _ParticleSystemUtils = require("../util/ParticleSystemUtils");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _Vector = require("../math/Vector3");
+
 var Snow_Snow = Snow;
-import { Material as rendererMaterial_Materialjs } from "../renderer/Material";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
-import { ParticleLib as particlesParticleLib_ParticleLibjs } from "../particles/ParticleLib";
-import { ParticleSystemUtils as utilParticleSystemUtils_ParticleSystemUtilsjs } from "../util/ParticleSystemUtils";
-import { Renderer as rendererRenderer_Rendererjs } from "../renderer/Renderer";
-import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+
 function Snow(gooRunner) {
 	this.velocity = 10;
 	this.height = 25;
 
 	// put this in some subroutine
-	this.material = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.particles);
-	var texture = utilParticleSystemUtils_ParticleSystemUtilsjs.createFlareTexture(64); //Snowflake
+	this.material = new _Material.Material(_ShaderLib.ShaderLib.particles);
+	var texture = _ParticleSystemUtils.ParticleSystemUtils.createFlareTexture(64); //Snowflake
 	texture.generateMipmaps = true;
 	this.material.setTexture('DIFFUSE_MAP', texture);
 	this.material.blendState.blending = 'AdditiveBlending';
@@ -23,33 +37,29 @@ function Snow(gooRunner) {
 	var that = this;
 
 	// and this too
-	this.particleCloudEntity = utilParticleSystemUtils_ParticleSystemUtilsjs.createParticleSystemEntity(
-		gooRunner.world,
-		particlesParticleLib_ParticleLibjs.getSnow({
-			getEmissionPoint: function (vec3) {
-				// either camera or some predefined area
+	this.particleCloudEntity = _ParticleSystemUtils.ParticleSystemUtils.createParticleSystemEntity(gooRunner.world, _ParticleLib.ParticleLib.getSnow({
+		getEmissionPoint: function getEmissionPoint(vec3) {
+			// either camera or some predefined area
 
-				// camera
-				vec3.copy(rendererRenderer_Rendererjs.mainCamera ? rendererRenderer_Rendererjs.mainCamera.translation : new mathVector3_Vector3js());
-				vec3.x += Math.random() * 1000 - 500;
-				vec3.y += that.height; // put higher than camera
-				vec3.z += Math.random() * 1000 - 500;
-			},
-			getEmissionVelocity: function (vec3) {
-				vec3.x = (Math.random() - 0.5) * 2;
-				vec3.y = -(Math.random() + 1) * that.velocity;
-				vec3.z = (Math.random() - 0.5) * 2;
-			}
-		}),
-		this.material
-	);
+			// camera
+			vec3.copy(_Renderer.Renderer.mainCamera ? _Renderer.Renderer.mainCamera.translation : new _Vector.Vector3());
+			vec3.x += Math.random() * 1000 - 500;
+			vec3.y += that.height; // put higher than camera
+			vec3.z += Math.random() * 1000 - 500;
+		},
+		getEmissionVelocity: function getEmissionVelocity(vec3) {
+			vec3.x = (Math.random() - 0.5) * 2;
+			vec3.y = -(Math.random() + 1) * that.velocity;
+			vec3.z = (Math.random() - 0.5) * 2;
+		}
+	}), this.material);
 	this.particleCloudEntity.name = '_ParticleSystemSnow';
 
 	this.onCameraChange = function (newCam) {
 		newCam.entity.attachChild(this.particleCloudEntity);
 	}.bind(this);
 
-	this.particleCloudEntity.transformComponent.transform.translation.copy(rendererRenderer_Rendererjs.mainCamera ? rendererRenderer_Rendererjs.mainCamera.translation : new mathVector3_Vector3js());
+	this.particleCloudEntity.transformComponent.transform.translation.copy(_Renderer.Renderer.mainCamera ? _Renderer.Renderer.mainCamera.translation : new _Vector.Vector3());
 
 	this.particleCloudEntity.addToWorld();
 	//SystemBus.addListener('goo.setCurrentCamera', this.onCameraChange);
@@ -93,4 +103,4 @@ Snow.prototype.remove = function () {
  * Snow
  * @param {GooRunner} gooRunner
  */
-export { Snow_Snow as Snow };
+exports.Snow = Snow_Snow;

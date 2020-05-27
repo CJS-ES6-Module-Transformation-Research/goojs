@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var EventTarget_EventTarget = EventTarget;
 function EventTarget() {
 	this._listenerMap = new Map();
@@ -89,4 +94,4 @@ EventTarget.prototype.has = function (type) {
  * }
  * MyObject.prototype = Object.create(EventTarget.prototype);
  */
-export { EventTarget_EventTarget as EventTarget };
+exports.EventTarget = EventTarget_EventTarget;

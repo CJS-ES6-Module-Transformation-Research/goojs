@@ -1,10 +1,18 @@
-var StartParticleSystemAction_StartParticleSystemAction = StartParticleSystemAction;
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function StartParticleSystemAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StartParticleSystemAction = undefined;
+
+var _Action = require('./Action');
+
+var StartParticleSystemAction_StartParticleSystemAction = StartParticleSystemAction;
+
+function StartParticleSystemAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-StartParticleSystemAction.prototype = Object.create(Action_Actionjs.prototype);
+StartParticleSystemAction.prototype = Object.create(_Action.Action.prototype);
 StartParticleSystemAction.prototype.constructor = StartParticleSystemAction;
 
 StartParticleSystemAction.external = {
@@ -19,8 +27,10 @@ StartParticleSystemAction.external = {
 
 StartParticleSystemAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.particleSystemComponent) { return; }
+	if (!entity || !entity.particleSystemComponent) {
+		return;
+	}
 	entity.particleSystemComponent.play();
 };
 
-export { StartParticleSystemAction_StartParticleSystemAction as StartParticleSystemAction };
+exports.StartParticleSystemAction = StartParticleSystemAction_StartParticleSystemAction;

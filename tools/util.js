@@ -2,7 +2,8 @@
 'use strict';
 
 function isSafeIdentifier(identifier) {
-	return /^[\w_]+$/.test(identifier);
+	return (/^[\w_]+$/.test(identifier)
+	);
 }
 
 function safenIdentifier(identifier) {

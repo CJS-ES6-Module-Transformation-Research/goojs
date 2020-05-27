@@ -1,7 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Vector4 = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _MathUtils = require("./MathUtils");
+
+var _Vector = require("./Vector");
+
 var Vector4_Vector4 = Vector4;
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
-import { MathUtils as MathUtils_MathUtilsjs } from "./MathUtils";
-import { Vector as Vector_Vectorjs } from "./Vector";
+
 function Vector4(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -16,7 +29,7 @@ function Vector4(x, y, z, w) {
 		this.y = 0;
 		this.z = 0;
 		this.w = 0;
-	} else if (arguments.length === 1 && typeof arguments[0] === 'object') {
+	} else if (arguments.length === 1 && _typeof(arguments[0]) === 'object') {
 		if (arguments[0] instanceof Vector4) {
 			// Vector4
 			this.copy(arguments[0]);
@@ -40,15 +53,15 @@ function Vector4(x, y, z, w) {
 	// @endif
 }
 
-Vector4.prototype = Object.create(Vector_Vectorjs.prototype);
+Vector4.prototype = Object.create(_Vector.Vector.prototype);
 Vector4.prototype.constructor = Vector4;
 
 // @ifdef DEBUG
-Vector_Vectorjs.setupAliases(Vector4.prototype, [['x'], ['y'], ['z'], ['w']]);
-Vector_Vectorjs.setupIndices(Vector4.prototype, 4);
+_Vector.Vector.setupAliases(Vector4.prototype, [['x'], ['y'], ['z'], ['w']]);
+_Vector.Vector.setupIndices(Vector4.prototype, 4);
 // @endif
 
-Vector_Vectorjs.setupAliases(Vector4.prototype, [['r'], ['g'], ['b'], ['a']]);
+_Vector.Vector.setupAliases(Vector4.prototype, [['r'], ['g'], ['b'], ['a']]);
 
 /**
  * Zero-vector (0, 0, 0, 0)
@@ -94,10 +107,14 @@ Vector4.UNIT_W = new Vector4(0, 0, 0, 1);
  */
 Vector4.prototype.getComponent = function (index) {
 	switch (index) {
-		case 0: return this.x;
-		case 1: return this.y;
-		case 2: return this.z;
-		case 3: return this.w;
+		case 0:
+			return this.x;
+		case 1:
+			return this.y;
+		case 2:
+			return this.z;
+		case 3:
+			return this.w;
 	}
 };
 
@@ -110,10 +127,14 @@ Vector4.prototype.getComponent = function (index) {
  */
 Vector4.prototype.setComponent = function (index, value) {
 	switch (index) {
-		case 0: this.x = value; break;
-		case 1: this.y = value; break;
-		case 2: this.z = value; break;
-		case 3: this.w = value; break;
+		case 0:
+			this.x = value;break;
+		case 1:
+			this.y = value;break;
+		case 2:
+			this.z = value;break;
+		case 3:
+			this.w = value;break;
 	}
 	return this;
 };
@@ -302,10 +323,7 @@ Vector4.prototype.divDirect = function (x, y, z, w) {
  * @returns {number}
  */
 Vector4.prototype.dot = function (rhs) {
-	return this.x * rhs.x +
-		this.y * rhs.y +
-		this.z * rhs.z +
-		this.w * rhs.w;
+	return this.x * rhs.x + this.y * rhs.y + this.z * rhs.z + this.w * rhs.w;
 };
 
 /**
@@ -317,10 +335,7 @@ Vector4.prototype.dot = function (rhs) {
  * @returns {number}
  */
 Vector4.prototype.dotDirect = function (x, y, z, w) {
-	return this.x * x +
-		this.y * y +
-		this.z * z +
-		this.w * w;
+	return this.x * x + this.y * y + this.z * z + this.w * w;
 };
 
 /**
@@ -329,10 +344,7 @@ Vector4.prototype.dotDirect = function (x, y, z, w) {
  * @returns {boolean}
  */
 Vector4.prototype.equals = function (rhs) {
-	return (Math.abs(this.x - rhs.x) <= MathUtils_MathUtilsjs.EPSILON) &&
-		(Math.abs(this.y - rhs.y) <= MathUtils_MathUtilsjs.EPSILON) &&
-		(Math.abs(this.z - rhs.z) <= MathUtils_MathUtilsjs.EPSILON) &&
-		(Math.abs(this.w - rhs.w) <= MathUtils_MathUtilsjs.EPSILON);
+	return Math.abs(this.x - rhs.x) <= _MathUtils.MathUtils.EPSILON && Math.abs(this.y - rhs.y) <= _MathUtils.MathUtils.EPSILON && Math.abs(this.z - rhs.z) <= _MathUtils.MathUtils.EPSILON && Math.abs(this.w - rhs.w) <= _MathUtils.MathUtils.EPSILON;
 };
 
 /**
@@ -344,10 +356,7 @@ Vector4.prototype.equals = function (rhs) {
  * @returns {boolean}
  */
 Vector4.prototype.equalsDirect = function (x, y, z, w) {
-	return (Math.abs(this.x - x) <= MathUtils_MathUtilsjs.EPSILON) &&
-		(Math.abs(this.y - y) <= MathUtils_MathUtilsjs.EPSILON) &&
-		(Math.abs(this.z - z) <= MathUtils_MathUtilsjs.EPSILON) &&
-		(Math.abs(this.w - w) <= MathUtils_MathUtilsjs.EPSILON);
+	return Math.abs(this.x - x) <= _MathUtils.MathUtils.EPSILON && Math.abs(this.y - y) <= _MathUtils.MathUtils.EPSILON && Math.abs(this.z - z) <= _MathUtils.MathUtils.EPSILON && Math.abs(this.w - w) <= _MathUtils.MathUtils.EPSILON;
 };
 
 /**
@@ -373,10 +382,10 @@ Vector4.prototype.lerp = function (end, factor) {
 	var tmpVec = new Vector4();
 
 	/**
-	 * Reflects a vector relative to the plane obtained from the normal parameter.
-	 * @param {Vector4} normal Defines the plane that reflects the vector. Assumed to be of unit length.
-	 * @returns {Vector4} Self to allow chaining
-	 */
+  * Reflects a vector relative to the plane obtained from the normal parameter.
+  * @param {Vector4} normal Defines the plane that reflects the vector. Assumed to be of unit length.
+  * @returns {Vector4} Self to allow chaining
+  */
 	Vector4.prototype.reflect = function (normal) {
 		tmpVec.copy(normal);
 		tmpVec.scale(2 * this.dot(normal));
@@ -457,7 +466,7 @@ Vector4.prototype.length = function () {
 Vector4.prototype.normalize = function () {
 	var length = this.length();
 
-	if (length < MathUtils_MathUtilsjs.EPSILON) {
+	if (length < _MathUtils.MathUtils.EPSILON) {
 		this.x = 0;
 		this.y = 0;
 		this.z = 0;
@@ -535,9 +544,9 @@ Vector4.prototype.applyPre = function (matrix) {
 	var z = this.z;
 	var w = this.w;
 
-	this.x = source[ 0] * x + source[ 1] * y + source[ 2] * z + source[ 3] * w;
-	this.y = source[ 4] * x + source[ 5] * y + source[ 6] * z + source[ 7] * w;
-	this.z = source[ 8] * x + source[ 9] * y + source[10] * z + source[11] * w;
+	this.x = source[0] * x + source[1] * y + source[2] * z + source[3] * w;
+	this.y = source[4] * x + source[5] * y + source[6] * z + source[7] * w;
+	this.z = source[8] * x + source[9] * y + source[10] * z + source[11] * w;
 	this.w = source[12] * x + source[13] * y + source[14] * z + source[15] * w;
 
 	return this;
@@ -556,8 +565,8 @@ Vector4.prototype.applyPost = function (matrix) {
 	var z = this.z;
 	var w = this.w;
 
-	this.x = source[0] * x + source[4] * y + source[ 8] * z + source[12] * w;
-	this.y = source[1] * x + source[5] * y + source[ 9] * z + source[13] * w;
+	this.x = source[0] * x + source[4] * y + source[8] * z + source[12] * w;
+	this.y = source[1] * x + source[5] * y + source[9] * z + source[13] * w;
 	this.z = source[2] * x + source[6] * y + source[10] * z + source[14] * w;
 	this.w = source[3] * x + source[7] * y + source[11] * z + source[15] * w;
 
@@ -639,48 +648,44 @@ Vector4.prototype.toArray = function () {
 };
 
 // @ifdef DEBUG
-Vector_Vectorjs.addReturnChecks(Vector4.prototype, [
-	'dot', 'dotDirect',
-	'length', 'lengthSquared',
-	'distance', 'distanceSquared'
-]);
+_Vector.Vector.addReturnChecks(Vector4.prototype, ['dot', 'dotDirect', 'length', 'lengthSquared', 'distance', 'distanceSquared']);
 // @endif
 
 // SHIM START
 Object.defineProperty(Vector4.prototype, 'data', {
-	get: utilObjectUtils_ObjectUtilsjs.warnOnce('The .data property of Vector4 was removed. Please use the .x, .y, .z and .w properties instead.', function () {
+	get: _ObjectUtils.ObjectUtils.warnOnce('The .data property of Vector4 was removed. Please use the .x, .y, .z and .w properties instead.', function () {
 		var data = [];
 		var that = this;
 		Object.defineProperties(data, {
 			'0': {
-				get: function () {
+				get: function get() {
 					return that.x;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.x = value;
 				}
 			},
 			'1': {
-				get: function () {
+				get: function get() {
 					return that.y;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.y = value;
 				}
 			},
 			'2': {
-				get: function () {
+				get: function get() {
 					return that.z;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.z = value;
 				}
 			},
 			'3': {
-				get: function () {
+				get: function get() {
 					return that.w;
 				},
-				set: function (value) {
+				set: function set(value) {
 					that.w = value;
 				}
 			}
@@ -693,7 +698,7 @@ Object.defineProperty(Vector4.prototype, 'data', {
  * @hidden
  * @deprecated
  */
-Vector4.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce('The setVector method of Vector4 is deprecated. Please use the set method instead.', function (rhs) {
+Vector4.prototype.setVector = _ObjectUtils.ObjectUtils.warnOnce('The setVector method of Vector4 is deprecated. Please use the set method instead.', function (rhs) {
 	return this.set(rhs);
 });
 
@@ -701,7 +706,7 @@ Vector4.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce('The setVec
  * @hidden
  * @deprecated
  */
-Vector4.add = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.add is deprecated. Use Vector4.prototype.add instead.', function (lhs, rhs, target) {
+Vector4.add = _ObjectUtils.ObjectUtils.warnOnce('Vector4.add is deprecated. Use Vector4.prototype.add instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -729,7 +734,7 @@ Vector4.add = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.add is deprecated.
  * @hidden
  * @deprecated
  */
-Vector4.sub = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.sub is deprecated. Use Vector4.prototype.sub instead.', function (lhs, rhs, target) {
+Vector4.sub = _ObjectUtils.ObjectUtils.warnOnce('Vector4.sub is deprecated. Use Vector4.prototype.sub instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -757,7 +762,7 @@ Vector4.sub = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.sub is deprecated.
  * @hidden
  * @deprecated
  */
-Vector4.mul = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.mul is deprecated. Use Vector4.prototype.mul instead.', function (lhs, rhs, target) {
+Vector4.mul = _ObjectUtils.ObjectUtils.warnOnce('Vector4.mul is deprecated. Use Vector4.prototype.mul instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -785,7 +790,7 @@ Vector4.mul = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.mul is deprecated.
  * @hidden
  * @deprecated
  */
-Vector4.div = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.div is deprecated. Use Vector4.prototype.div instead.', function (lhs, rhs, target) {
+Vector4.div = _ObjectUtils.ObjectUtils.warnOnce('Vector4.div is deprecated. Use Vector4.prototype.div instead.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -813,7 +818,7 @@ Vector4.div = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.div is deprecated.
  * @hidden
  * @deprecated
  */
-Vector4.dot = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.dot is deprecated. Use Vector4.prototype.dot instead.', function (lhs, rhs) {
+Vector4.dot = _ObjectUtils.ObjectUtils.warnOnce('Vector4.dot is deprecated. Use Vector4.prototype.dot instead.', function (lhs, rhs) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs, lhs, lhs];
 	}
@@ -825,17 +830,14 @@ Vector4.dot = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.dot is deprecated.
 	var ldata = lhs.data || lhs;
 	var rdata = rhs.data || rhs;
 
-	return ldata[0] * rdata[0] +
-		ldata[1] * rdata[1] +
-		ldata[2] * rdata[2] +
-		ldata[3] * rdata[3];
+	return ldata[0] * rdata[0] + ldata[1] * rdata[1] + ldata[2] * rdata[2] + ldata[3] * rdata[3];
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector4.prototype.addVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.prototype.addVector is deprecated. Use .add instead.', function (vector) {
+Vector4.prototype.addVector = _ObjectUtils.ObjectUtils.warnOnce('Vector4.prototype.addVector is deprecated. Use .add instead.', function (vector) {
 	this.data[0] += vector.data[0];
 	this.data[1] += vector.data[1];
 	this.data[2] += vector.data[2];
@@ -848,21 +850,18 @@ Vector4.prototype.addVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.pr
  * @hidden
  * @deprecated
  */
-Vector4.prototype.dotVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.prototype.dotVector is deprecated. Use .dot instead.', function (rhs) {
+Vector4.prototype.dotVector = _ObjectUtils.ObjectUtils.warnOnce('Vector4.prototype.dotVector is deprecated. Use .dot instead.', function (rhs) {
 	var ldata = this.data;
 	var rdata = rhs.data;
 
-	return ldata[0] * rdata[0] +
-		ldata[1] * rdata[1] +
-		ldata[2] * rdata[2] +
-		ldata[3] * rdata[3];
+	return ldata[0] * rdata[0] + ldata[1] * rdata[1] + ldata[2] * rdata[2] + ldata[3] * rdata[3];
 });
 
 /**
  * @hidden
  * @deprecated
  */
-Vector4.prototype.mulVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.prototype.mulVector is deprecated. Use .mul instead.', function (vector) {
+Vector4.prototype.mulVector = _ObjectUtils.ObjectUtils.warnOnce('Vector4.prototype.mulVector is deprecated. Use .mul instead.', function (vector) {
 	this.data[0] *= vector.data[0];
 	this.data[1] *= vector.data[1];
 	this.data[2] *= vector.data[2];
@@ -875,7 +874,7 @@ Vector4.prototype.mulVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.pr
  * @hidden
  * @deprecated
  */
-Vector4.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.prototype.setVector is deprecated. Use .set instead.', function (vector) {
+Vector4.prototype.setVector = _ObjectUtils.ObjectUtils.warnOnce('Vector4.prototype.setVector is deprecated. Use .set instead.', function (vector) {
 	this.data[0] = vector.data[0];
 	this.data[1] = vector.data[1];
 	this.data[2] = vector.data[2];
@@ -888,7 +887,7 @@ Vector4.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.pr
  * @hidden
  * @deprecated
  */
-Vector4.prototype.subVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.prototype.subVector is deprecated. Use .sub instead.', function (vector) {
+Vector4.prototype.subVector = _ObjectUtils.ObjectUtils.warnOnce('Vector4.prototype.subVector is deprecated. Use .sub instead.', function (vector) {
 	this.data[0] -= vector.data[0];
 	this.data[1] -= vector.data[1];
 	this.data[2] -= vector.data[2];
@@ -908,4 +907,4 @@ Vector4.prototype.subVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector4.pr
  * var v1 = new Vector4(); // v1 == (0, 0, 0, 0)
  * var v2 = new Vector4(1, 2, 3, 4); // v2 == (1, 2, 3, 4)
  */
-export { Vector4_Vector4 as Vector4 };
+exports.Vector4 = Vector4_Vector4;

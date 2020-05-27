@@ -1,17 +1,22 @@
-import { MeshData as srcgoorendererMeshData_MeshDatajs } from "../../../../src/goo/renderer/MeshData";
-import { GooRunner as srcgooentitiesGooRunner_GooRunnerjs } from "../../../../src/goo/entities/GooRunner";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
+"use strict";
+
+var _MeshData = require("../../../../src/goo/renderer/MeshData");
+
+var _GooRunner = require("../../../../src/goo/entities/GooRunner");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
 
 describe('MeshDataHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new srcgooentitiesGooRunner_GooRunnerjs({
+		gooRunner = new _GooRunner.GooRunner({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: gooRunner.world,
 			rootPath: 'loaders/res/'
 		});
@@ -22,10 +27,10 @@ describe('MeshDataHandler', function () {
 	});
 
 	it('loads a meshdata object', function (done) {
-		var config = testunitloadersConfigs_Configsjs.mesh();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.mesh();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (mesh) {
-			expect(mesh).toEqual(jasmine.any(srcgoorendererMeshData_MeshDatajs));
+			expect(mesh).toEqual(jasmine.any(_MeshData.MeshData));
 			for (var key in config.attributes) {
 				var view = mesh.dataViews[key];
 				expect(view).toEqual(jasmine.any(Float32Array));
@@ -41,8 +46,8 @@ describe('MeshDataHandler', function () {
 	});
 
 	it('clears meshdata from the GPU', function (done) {
-		var config = testunitloadersConfigs_Configsjs.mesh();
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.mesh();
+		loader.preload(_Configs.Configs.get());
 		var m;
 		loader.load(config.id).then(function (meshdata) {
 			m = meshdata;

@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var AbstractState_AbstractState = AbstractState;
 function AbstractState() {
 	this._globalStartTime = 0;
@@ -20,4 +25,4 @@ AbstractState.prototype.shiftClipTime = function (shiftTime) {
  * Base class for a state in our animation system
  * @private
  */
-export { AbstractState_AbstractState as AbstractState };
+exports.AbstractState = AbstractState_AbstractState;

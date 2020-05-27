@@ -1,6 +1,11 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var AnimationConfigjs_AnimationConfigjs;
-AnimationConfigjs_AnimationConfigjs = {
-	skeleton: function () {
+exports.AnimationConfigjs = AnimationConfigjs_AnimationConfigjs = {
+	skeleton: function skeleton() {
 		var skeleton = this.gooObject('skeleton', 'Dummy');
 		skeleton.joints = {};
 		for (var i = 0; i < 6; i++) {
@@ -8,17 +13,12 @@ AnimationConfigjs_AnimationConfigjs = {
 				index: i,
 				parentIndex: i > 0 ? i - 1 : -32768,
 				name: 'Joint_' + i,
-				inverseBindPose: [
-					1, 0, 0, 0,
-					0, 1, 0, 0,
-					0, 0, 1, 0,
-					0, 0, 0, 1
-				]
+				inverseBindPose: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]
 			};
 		}
 		return skeleton;
 	},
-	animation: function () {
+	animation: function animation() {
 		var layers = this.gooObject('animation', 'Dummy');
 
 		layers.layers = {};
@@ -47,7 +47,7 @@ AnimationConfigjs_AnimationConfigjs = {
 		}
 		return layers;
 	},
-	animstate: function () {
+	animstate: function animstate() {
 		var state = this.gooObject('animstate', 'Dummy');
 
 		state.clipSource = {
@@ -58,7 +58,7 @@ AnimationConfigjs_AnimationConfigjs = {
 		};
 		return state;
 	},
-	clip: function () {
+	clip: function clip() {
 		var clip = this.gooObject('clip', 'Dummy');
 		clip.binaryRef = this.binary(128);
 
@@ -68,8 +68,8 @@ AnimationConfigjs_AnimationConfigjs = {
 		}
 		return clip;
 	},
-	clipChannel: function (index, samples) {
-		index = (index !== undefined) ? index : 0;
+	clipChannel: function clipChannel(index, samples) {
+		index = index !== undefined ? index : 0;
 		samples = samples || 4;
 
 		var channel = {
@@ -85,4 +85,4 @@ AnimationConfigjs_AnimationConfigjs = {
 		return channel;
 	}
 };
-export { AnimationConfigjs_AnimationConfigjs as AnimationConfigjs };
+exports.AnimationConfigjs = AnimationConfigjs_AnimationConfigjs;

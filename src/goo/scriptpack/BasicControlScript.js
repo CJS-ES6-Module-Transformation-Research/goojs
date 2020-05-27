@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BasicControlScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _Matrix = require("../math/Matrix3");
+
 var BasicControlScript_BasicControlScript = BasicControlScript;
-import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
-import { Matrix3 as mathMatrix3_Matrix3js } from "../math/Matrix3";
+
 function BasicControlScript(properties) {
 	properties = properties || {};
 	this.domElement = properties.domElement === undefined ? null : properties.domElement.domElement || properties.domElement;
@@ -8,14 +18,14 @@ function BasicControlScript(properties) {
 	this.name = 'BasicControlScript';
 
 	/** The regular speed of the entity.
-	 * @type {number}
-	 * @default
-	 */
+  * @type {number}
+  * @default
+  */
 	this.movementSpeed = 10.0;
 	/** The regular speed of the entity when rolling.
-	 * @type {number}
-	 * @default
-	 */
+  * @type {number}
+  * @default
+  */
 	this.rollSpeed = 2.0;
 	this.movementSpeedMultiplier = 1.0;
 
@@ -34,11 +44,11 @@ function BasicControlScript(properties) {
 		rollLeft: 0,
 		rollRight: 0
 	};
-	this.moveVector = new mathVector3_Vector3js(0, 0, 0);
-	this.rotationVector = new mathVector3_Vector3js(0, 0, 0);
-	this.multiplier = new mathVector3_Vector3js(1, 1, 1);
-	this.rotationMatrix = new mathMatrix3_Matrix3js();
-	this.tmpVec = new mathVector3_Vector3js();
+	this.moveVector = new _Vector.Vector3(0, 0, 0);
+	this.rotationVector = new _Vector.Vector3(0, 0, 0);
+	this.multiplier = new _Vector.Vector3(1, 1, 1);
+	this.rotationMatrix = new _Matrix.Matrix3();
+	this.tmpVec = new _Vector.Vector3();
 
 	this.handleEvent = function (event) {
 		if (typeof this[event.type] === 'function') {
@@ -53,48 +63,61 @@ function BasicControlScript(properties) {
 
 		// event.preventDefault();
 		switch (event.keyCode) {
-			case 16: /* shift */
+			case 16:
+				/* shift */
 				this.movementSpeedMultiplier = 0.1;
 				break;
 
-			case 87: /* W */
+			case 87:
+				/* W */
 				this.moveState.forward = 1;
 				break;
-			case 83: /* S */
+			case 83:
+				/* S */
 				this.moveState.back = 1;
 				break;
 
-			case 65: /* A */
+			case 65:
+				/* A */
 				this.moveState.left = 1;
 				break;
-			case 68: /* D */
+			case 68:
+				/* D */
 				this.moveState.right = 1;
 				break;
 
-			case 82: /* R */
+			case 82:
+				/* R */
 				this.moveState.up = 1;
 				break;
-			case 70: /* F */
+			case 70:
+				/* F */
 				this.moveState.down = 1;
 				break;
 
-			case 38: /* up */
+			case 38:
+				/* up */
 				this.moveState.pitchUp = 1;
 				break;
-			case 40: /* down */
+			case 40:
+				/* down */
 				this.moveState.pitchDown = 1;
 				break;
-			case 37: /* left */
+			case 37:
+				/* left */
 				this.moveState.yawLeft = 1;
 				break;
-			case 39: /* right */
+			case 39:
+				/* right */
 				this.moveState.yawRight = 1;
 				break;
 
-			case 81: /* Q */
+			case 81:
+				/* Q */
 				this.moveState.rollLeft = 1;
 				break;
-			case 69: /* E */
+			case 69:
+				/* E */
 				this.moveState.rollRight = 1;
 				break;
 		}
@@ -105,49 +128,62 @@ function BasicControlScript(properties) {
 
 	this.keyup = function (event) {
 		switch (event.keyCode) {
-			case 16: /* shift */
+			case 16:
+				/* shift */
 				this.movementSpeedMultiplier = 1;
 				break;
 
-			case 87: /* W */
+			case 87:
+				/* W */
 				this.moveState.forward = 0;
 				break;
-			case 83: /* S */
+			case 83:
+				/* S */
 				this.moveState.back = 0;
 				break;
 
-			case 65: /* A */
+			case 65:
+				/* A */
 				this.moveState.left = 0;
 				break;
-			case 68: /* D */
+			case 68:
+				/* D */
 				this.moveState.right = 0;
 				break;
 
-			case 82: /* R */
+			case 82:
+				/* R */
 				this.moveState.up = 0;
 				break;
-			case 70: /* F */
+			case 70:
+				/* F */
 				this.moveState.down = 0;
 				break;
 
-			case 38: /* up */
+			case 38:
+				/* up */
 				this.moveState.pitchUp = 0;
 				break;
-			case 40: /* down */
+			case 40:
+				/* down */
 				this.moveState.pitchDown = 0;
 				break;
 
-			case 37: /* left */
+			case 37:
+				/* left */
 				this.moveState.yawLeft = 0;
 				break;
-			case 39: /* right */
+			case 39:
+				/* right */
 				this.moveState.yawRight = 0;
 				break;
 
-			case 81: /* Q */
+			case 81:
+				/* Q */
 				this.moveState.rollLeft = 0;
 				break;
-			case 69: /* E */
+			case 69:
+				/* E */
 				this.moveState.rollRight = 0;
 				break;
 
@@ -281,7 +317,7 @@ BasicControlScript.prototype.run = function (entity, tpf, env) {
 	var moveMult = delta * this.movementSpeed * this.movementSpeedMultiplier;
 	var rotMult = delta * this.rollSpeed * this.movementSpeedMultiplier;
 
-	if (!this.moveVector.equals(mathVector3_Vector3js.ZERO) || !this.rotationVector.equals(mathVector3_Vector3js.ZERO) || this.mouseStatus > 0) {
+	if (!this.moveVector.equals(_Vector.Vector3.ZERO) || !this.rotationVector.equals(_Vector.Vector3.ZERO) || this.mouseStatus > 0) {
 		transform.translation.x += this.moveVector.x * moveMult;
 		transform.translation.y += this.moveVector.y * moveMult;
 		transform.translation.z += this.moveVector.z * moveMult;
@@ -308,4 +344,4 @@ BasicControlScript.prototype.run = function (entity, tpf, env) {
  *
  * @param {Element} domElement Element to add mouse/key listeners to
  */
-export { BasicControlScript_BasicControlScript as BasicControlScript };
+exports.BasicControlScript = BasicControlScript_BasicControlScript;

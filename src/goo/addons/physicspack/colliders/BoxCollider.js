@@ -1,17 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.BoxCollider = undefined;
+
+var _Vector = require("../../../math/Vector3");
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 var BoxCollider_BoxCollider = BoxCollider;
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
-import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
+
 function BoxCollider(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * @type {Vector3}
-	 */
-	this.halfExtents = settings.halfExtents ? new mathVector3_Vector3js(settings.halfExtents) : new mathVector3_Vector3js(0.5, 0.5, 0.5);
+  /**
+   * @type {Vector3}
+   */
+  this.halfExtents = settings.halfExtents ? new _Vector.Vector3(settings.halfExtents) : new _Vector.Vector3(0.5, 0.5, 0.5);
 
-	addonsphysicspackcollidersCollider_Colliderjs.call(this);
+  _Collider.Collider.call(this);
 }
-BoxCollider.prototype = Object.create(addonsphysicspackcollidersCollider_Colliderjs.prototype);
+BoxCollider.prototype = Object.create(_Collider.Collider.prototype);
 BoxCollider.prototype.constructor = BoxCollider;
 
 /**
@@ -20,7 +30,7 @@ BoxCollider.prototype.constructor = BoxCollider;
  * @param {Collider} targetCollider
  */
 BoxCollider.prototype.transform = function (transform, targetCollider) {
-	targetCollider.halfExtents.set(transform.scale).mul(this.halfExtents);
+  targetCollider.halfExtents.set(transform.scale).mul(this.halfExtents);
 };
 
 /**
@@ -28,9 +38,9 @@ BoxCollider.prototype.transform = function (transform, targetCollider) {
  * @returns {BoxCollider}
  */
 BoxCollider.prototype.clone = function () {
-	return new BoxCollider({
-		halfExtents: this.halfExtents
-	});
+  return new BoxCollider({
+    halfExtents: this.halfExtents
+  });
 };
 
 /**
@@ -39,4 +49,4 @@ BoxCollider.prototype.clone = function () {
  * @param {Vector3} [settings.halfExtents] The half-extents of the box collider.
  * @extends Collider
  */
-export { BoxCollider_BoxCollider as BoxCollider };
+exports.BoxCollider = BoxCollider_BoxCollider;

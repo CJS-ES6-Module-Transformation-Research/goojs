@@ -1,11 +1,19 @@
-var InBoxAction_InBoxAction = InBoxAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function InBoxAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.InBoxAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var InBoxAction_InBoxAction = InBoxAction;
+
+function InBoxAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-InBoxAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+InBoxAction.prototype = Object.create(_Action.Action.prototype);
 InBoxAction.prototype.constructor = InBoxAction;
 
 InBoxAction.external = {
@@ -47,7 +55,7 @@ var labels = {
 	outside: 'On Outside Box'
 };
 
-InBoxAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+InBoxAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -55,7 +63,7 @@ InBoxAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
 function checkInside(pos, pt1, pt2) {
 	var inside = false;
 
-	var inOnAxis = function (pos, pt1, pt2) {
+	var inOnAxis = function inOnAxis(pos, pt1, pt2) {
 		if (pt1 > pt2) {
 			if (pos < pt1 && pos > pt2) {
 				return true;
@@ -108,4 +116,4 @@ InBoxAction.prototype.update = function (fsm) {
 	}
 };
 
-export { InBoxAction_InBoxAction as InBoxAction };
+exports.InBoxAction = InBoxAction_InBoxAction;

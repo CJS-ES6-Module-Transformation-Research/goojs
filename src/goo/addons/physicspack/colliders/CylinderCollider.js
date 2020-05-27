@@ -1,21 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CylinderCollider = undefined;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 var CylinderCollider_CylinderCollider = CylinderCollider;
-import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
+
 function CylinderCollider(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * @type {number}
-	 */
-	this.radius = settings.radius !== undefined ? settings.radius : 0.5;
+  /**
+   * @type {number}
+   */
+  this.radius = settings.radius !== undefined ? settings.radius : 0.5;
 
-	/**
-	 * @type {number}
-	 */
-	this.height = settings.height !== undefined ? settings.height : 1;
+  /**
+   * @type {number}
+   */
+  this.height = settings.height !== undefined ? settings.height : 1;
 
-	addonsphysicspackcollidersCollider_Colliderjs.call(this);
+  _Collider.Collider.call(this);
 }
-CylinderCollider.prototype = Object.create(addonsphysicspackcollidersCollider_Colliderjs.prototype);
+CylinderCollider.prototype = Object.create(_Collider.Collider.prototype);
 CylinderCollider.prototype.constructor = CylinderCollider;
 
 /**
@@ -24,19 +33,19 @@ CylinderCollider.prototype.constructor = CylinderCollider;
  * @param {Collider} targetCollider
  */
 CylinderCollider.prototype.transform = function (transform, targetCollider) {
-	var s = transform.scale;
-	targetCollider.radius = Math.max(s.x, s.y) * this.radius;
-	targetCollider.height = s.z * this.height;
+  var s = transform.scale;
+  targetCollider.radius = Math.max(s.x, s.y) * this.radius;
+  targetCollider.height = s.z * this.height;
 };
 
 /**
  * @returns {CylinderCollider}
  */
 CylinderCollider.prototype.clone = function () {
-	return new CylinderCollider({
-		radius: this.radius,
-		height: this.height
-	});
+  return new CylinderCollider({
+    radius: this.radius,
+    height: this.height
+  });
 };
 
 /**
@@ -46,4 +55,4 @@ CylinderCollider.prototype.clone = function () {
  * @param {number} [settings.height=1]
  * @extends Collider
  */
-export { CylinderCollider_CylinderCollider as CylinderCollider };
+exports.CylinderCollider = CylinderCollider_CylinderCollider;
