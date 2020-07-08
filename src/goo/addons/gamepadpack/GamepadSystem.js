@@ -1,19 +1,15 @@
-var System = require('../../entities/systems/System');
-var GamepadData = require('../../addons/gamepadpack/GamepadData');
-
-/**
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Gamepad/Gamepad-example.html Working example
- */
+var GamepadSystem_GamepadSystem = GamepadSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { GamepadData as addonsgamepadpackGamepadData_GamepadDatajs } from "../../addons/gamepadpack/GamepadData";
 function GamepadSystem() {
-	System.call(this, 'GamepadSystem', ['GamepadComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'GamepadSystem', ['GamepadComponent']);
 
 	this.gamepads = [];
 
 	this.gamepadData = [];
 	var BUFFER_COUNT = 4;
 	for (var i = 0; i < BUFFER_COUNT; i++) {
-		this.gamepadData[i] = new GamepadData();
+		this.gamepadData[i] = new addonsgamepadpackGamepadData_GamepadDatajs();
 	}
 
 
@@ -39,7 +35,7 @@ GamepadSystem.prototype.checkGamepadMapping = function (gamepad) {
 	}
 };
 
-GamepadSystem.prototype = Object.create(System.prototype);
+GamepadSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 GamepadSystem.prototype.constructor = GamepadSystem;
 
 GamepadSystem.prototype.mozGamepadHandler = function (event, connecting) {
@@ -146,4 +142,8 @@ GamepadSystem.prototype.process = function (entities) {
 	this.resetGamepadData();
 };
 
-module.exports = GamepadSystem;
+/**
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Gamepad/Gamepad-example.html Working example
+ */
+export { GamepadSystem_GamepadSystem as GamepadSystem };

@@ -1,14 +1,9 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var DebugDrawHelper = require('../../debugpack/DebugDrawHelper');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+var DebugRenderSystem_DebugRenderSystem = DebugRenderSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { getRenderablesFor as DebugDrawHelperjs_getRenderablesFor } from "../../debugpack/DebugDrawHelper";
 function DebugRenderSystem() {
-	System.call(this, 'DebugRenderSystem', ['TransformComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
 	this._renderablesTree = {};
 	this.renderList = [];
@@ -41,17 +36,17 @@ function DebugRenderSystem() {
 		this.lights = lights;
 	}.bind(this);
 
-	this.selectionRenderable = DebugDrawHelper.getRenderablesFor({ type: 'MeshRendererComponent' });
+	this.selectionRenderable = DebugDrawHelperjs_getRenderablesFor({ type: 'MeshRendererComponent' });
 	this.selectionActive = false;
 	this.oldSelectionActive = false;
 }
 
-DebugRenderSystem.prototype = Object.create(System.prototype);
+DebugRenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 DebugRenderSystem.prototype.constructor = DebugRenderSystem;
 
 DebugRenderSystem.prototype.setup = function () {
-	SystemBus.addListener('goo.setCurrentCamera', this.cameraListener);
-	SystemBus.addListener('goo.setLights', this.lightsListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', this.cameraListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setLights', this.lightsListener);
 };
 
 DebugRenderSystem.prototype.inserted = function (/*entity*/) {
@@ -82,7 +77,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 				if (tree[componentName] && ((tree[componentName].length === 2 && options.full) || (tree[componentName].length === 1 && !options.full))) {
 					renderables = tree[componentName];
 				} else {
-					renderables = DebugDrawHelper.getRenderablesFor(component, options);
+					renderables = DebugDrawHelperjs_getRenderablesFor(component, options);
 					for (var k = 0; k < renderables.length; k++) {
 						var renderable = renderables[k];
 						renderable.id = entity.id;
@@ -98,7 +93,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 					renderable.transform.scale.setDirect(1, 1, 1);
 					renderable.transform.update();
 				}
-				DebugDrawHelper.update(renderables, component, this.camera, this.renderer);
+				debugpackDebugDrawHelper_DebugDrawHelperjs.update(renderables, component, this.camera, this.renderer);
 				for (var k = 0; k < renderables.length; k++) {
 					this.renderList[count++] = renderables[k];
 				}
@@ -111,7 +106,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 			if (tree.skeleton) {
 				renderables = tree.skeleton;
 			} else {
-				renderables = DebugDrawHelper.getRenderablesFor(pose);
+				renderables = DebugDrawHelperjs_getRenderablesFor(pose);
 				for (var k = 0; k < renderables.length; k++) {
 					renderables[k].id = entity.id;
 				}
@@ -174,8 +169,13 @@ DebugRenderSystem.prototype.invalidateHandles = function (renderer) {
 };
 
 DebugRenderSystem.prototype.cleanup = function () {
-	SystemBus.removeListener('goo.setCurrentCamera', this.cameraListener);
-	SystemBus.removeListener('goo.setLights', this.lightsListener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.setCurrentCamera', this.cameraListener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.setLights', this.lightsListener);
 };
 
-module.exports = DebugRenderSystem;
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { DebugRenderSystem_DebugRenderSystem as DebugRenderSystem };

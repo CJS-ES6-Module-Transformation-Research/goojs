@@ -1,11 +1,11 @@
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var Vector3 = require('../math/Vector3');
-
-/**
- * Bounding tree node
- * @param boundType
- */
+var BoundingTree_BoundingTree = BoundingTree;
+import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere as rendererboundsBoundingSphere_BoundingSpherejs } from "../renderer/bounds/BoundingSphere";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+var BoundingTree_MAX_PRIMITIVES_PER_LEAF;
+var BoundingTree_BOUNDTYPE_BOX;
+var BoundingTree_BOUNDTYPE_SPHERE;
+var BoundingTree_boundType;
 function BoundingTree(boundType) {
 	this.leftTree = null;
 	this.rightTree = null;
@@ -16,15 +16,15 @@ function BoundingTree(boundType) {
 	this.start = 0;
 	this.end = 0;
 
-	this.boundType = boundType ? boundType : BoundingTree.BOUNDTYPE_BOX;
+	BoundingTree_boundType = boundType ? boundType : BoundingTree_BOUNDTYPE_BOX;;
 }
 
-var vecStore = new Vector3();
+var vecStore = new mathVector3_Vector3js();
 
-BoundingTree.BOUNDTYPE_SPHERE = 'sphere';
-BoundingTree.BOUNDTYPE_BOX = 'box';
+BoundingTree_BOUNDTYPE_SPHERE = "sphere";;
+BoundingTree_BOUNDTYPE_BOX = "box";;
 
-BoundingTree.MAX_PRIMITIVES_PER_LEAF = 16;
+BoundingTree_MAX_PRIMITIVES_PER_LEAF = 16;;
 
 BoundingTree.prototype.construct = function (entity) {
 	// check entity has required components
@@ -65,7 +65,7 @@ BoundingTree.prototype.createTree = function (entity, section, start, end) {
 
 	// check to see if we are a leaf, if the number of primitives we reference is less than or equal to the maximum
 	// defined by the CollisionTreeManager we are done.
-	if (end - start + 1 <= BoundingTree.MAX_PRIMITIVES_PER_LEAF) {
+	if (end - start + 1 <= BoundingTree_MAX_PRIMITIVES_PER_LEAF) {
 		return;
 	}
 
@@ -138,13 +138,13 @@ BoundingTree.prototype.split = function (entity, sectionStart, sectionEnd) {
 
 BoundingTree.prototype.createBounds = function () {
 	switch (this.boundType) {
-		case BoundingTree.BOUNDTYPE_BOX:
-			this.localBound = new BoundingBox();
-			this.worldBound = new BoundingBox();
+		case BoundingTree_BOUNDTYPE_BOX:
+			this.localBound = new rendererboundsBoundingBox_BoundingBoxjs();
+			this.worldBound = new rendererboundsBoundingBox_BoundingBoxjs();
 			break;
-		case BoundingTree.BOUNDTYPE_SPHERE:
-			this.localBound = new BoundingSphere();
-			this.worldBound = new BoundingSphere();
+		case BoundingTree_BOUNDTYPE_SPHERE:
+			this.localBound = new rendererboundsBoundingSphere_BoundingSpherejs();
+			this.worldBound = new rendererboundsBoundingSphere_BoundingSpherejs();
 			break;
 		default:
 			break;
@@ -178,7 +178,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 			if (ray.intersects(vertices, false, vecStore)) {
 				var worldTransform = entity.transformComponent.sync().worldTransform;
 
-				var point = new Vector3();
+				var point = new mathVector3_Vector3js();
 				point.set(vecStore);
 				point.applyPostPoint(worldTransform.matrix);
 
@@ -188,7 +188,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 
 				var verticesCopy = [];
 				for (var copyIndex = vertices.length - 1; copyIndex >= 0; copyIndex--) {
-					verticesCopy[copyIndex] = new Vector3().set(vertices[copyIndex]);
+					verticesCopy[copyIndex] = new mathVector3_Vector3js().set(vertices[copyIndex]);
 					verticesCopy[copyIndex].applyPostPoint(worldTransform.matrix);
 				}
 
@@ -204,4 +204,8 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 	return result;
 };
 
-module.exports = BoundingTree;
+/**
+ * Bounding tree node
+ * @param boundType
+ */
+export { BoundingTree_BoundingTree as BoundingTree };

@@ -1,16 +1,10 @@
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Component = require('../../entities/components/Component');
-var EntitySelection = require('../../entities/EntitySelection');
-
-/**
- * Holds the transform of an entity. It also allows for a scene graph to be created,
- * in which transforms are inherited down the tree.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
- * @extends Component
- */
+var TransformComponent_TransformComponent = TransformComponent;
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import { EntitySelection as entitiesEntitySelection_EntitySelectionjs } from "../../entities/EntitySelection";
 function TransformComponent() {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'TransformComponent';
 
@@ -30,14 +24,14 @@ function TransformComponent() {
 	 * The entity's transform in local space.
 	 * @type {Transform}
 	 */
-	this.transform = new Transform();
+	this.transform = new mathTransform_Transformjs();
 
 	/**
 	 * The entity's transform in world space.
 	 * @readonly
 	 * @type {Transform}
 	 */
-	this.worldTransform = new Transform();
+	this.worldTransform = new mathTransform_Transformjs();
 
 	this._localTransformDirty = true;
 	this._worldTransformDirty = true;
@@ -49,7 +43,7 @@ function TransformComponent() {
 
 TransformComponent.type = 'TransformComponent';
 
-TransformComponent.prototype = Object.create(Component.prototype);
+TransformComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 TransformComponent.prototype.constructor = TransformComponent;
 
 //! AT: can this stay not on the prototype, but on the constructor?
@@ -193,7 +187,7 @@ TransformComponent.prototype.api = {
 	 * @returns {EntitySelection}
 	 */
 	children: function () {
-		return new EntitySelection(this).children();
+		return new entitiesEntitySelection_EntitySelectionjs(this).children();
 	},
 
 	/**
@@ -202,7 +196,7 @@ TransformComponent.prototype.api = {
 	 * @returns {EntitySelection}
 	 */
 	parent: function () {
-		return new EntitySelection(this).parent();
+		return new entitiesEntitySelection_EntitySelectionjs(this).parent();
 	},
 
 	/**
@@ -348,7 +342,7 @@ TransformComponent.entitySelectionAPI = {
 	show: TransformComponent.prototype.api.show
 };
 
-var tmpVec = new Vector3();
+var tmpVec = new mathVector3_Vector3js();
 
 /**
  * Returns the local translation vector. Do not modify the returned value, use .setTranslation() instead.
@@ -381,7 +375,7 @@ TransformComponent.prototype.getWorldTranslation = function () {
  * @returns {TransformComponent} Self for chaining.
  */
 TransformComponent.prototype.setTranslation = function () {
-	this.transform.translation.set(Vector3.fromAny.apply(null, arguments));
+	this.transform.translation.set(mathVector3_Vector3js.fromAny.apply(null, arguments));
 	this.setUpdated();
 	return this;
 };
@@ -397,7 +391,7 @@ TransformComponent.prototype.setTranslation = function () {
  * @returns {TransformComponent} Self for chaining.
  */
 TransformComponent.prototype.addTranslation = function () {
-	this.transform.translation.add(Vector3.fromAny.apply(null, arguments));
+	this.transform.translation.add(mathVector3_Vector3js.fromAny.apply(null, arguments));
 	this.setUpdated();
 	return this;
 };
@@ -432,7 +426,7 @@ TransformComponent.prototype.getWorldScale = function () {
  * entity.transformComponent.setScale([1, 1, 0]);
  */
 TransformComponent.prototype.setScale = function () {
-	this.transform.scale.set(Vector3.fromAny.apply(null, arguments));
+	this.transform.scale.set(mathVector3_Vector3js.fromAny.apply(null, arguments));
 	this.setUpdated();
 	return this;
 };
@@ -481,7 +475,7 @@ TransformComponent.prototype.getWorldRotationMatrix = function () {
  * entity.transformComponent.getRotation(localRotation2); // stores the result without creating a new object
  */
 TransformComponent.prototype.getRotation = function (target) {
-	target = target || new Vector3();
+	target = target || new mathVector3_Vector3js();
 	return this.sync().transform.rotation.toAngles(target);
 };
 
@@ -499,7 +493,7 @@ TransformComponent.prototype.addRotation = function () {
 	this.getRotation(tmpVec);
 	if (arguments.length === 1 && typeof (arguments[0]) === 'object') {
 		var arg0 = arguments[0];
-		if (arg0 instanceof Vector3) {
+		if (arg0 instanceof mathVector3_Vector3js) {
 			this.transform.rotation.fromAngles(tmpVec.x + arg0.x, tmpVec.y + arg0.y, tmpVec.z + arg0.z);
 		} else if (arg0.length === 3) {
 			this.transform.rotation.fromAngles(tmpVec.x + arg0[0], tmpVec.y + arg0[1], tmpVec.z + arg0[2]);
@@ -525,7 +519,7 @@ TransformComponent.prototype.addRotation = function () {
 TransformComponent.prototype.setRotation = function () {
 	if (arguments.length === 1 && typeof (arguments[0]) === 'object') {
 		var arg0 = arguments[0];
-		if (arg0 instanceof Vector3) {
+		if (arg0 instanceof mathVector3_Vector3js) {
 			this.transform.rotation.fromAngles(arg0.x, arg0.y, arg0.z);
 		} else if (arg0.length === 3) {
 			this.transform.rotation.fromAngles(arg0[0], arg0[1], arg0[2]);
@@ -560,15 +554,15 @@ TransformComponent.prototype.setRotation = function () {
  */
 TransformComponent.prototype.lookAt = function (position, up) {
 	if (arguments.length === 3) {
-		this.transform.lookAt(new Vector3(arguments[0], arguments[1], arguments[2]));
+		this.transform.lookAt(new mathVector3_Vector3js(arguments[0], arguments[1], arguments[2]));
 	} else if (position.transformComponent) {
 		this.transform.lookAt(position.transformComponent.sync().worldTransform.translation, up);
 	} else {
 		if (Array.isArray(position)) {
-			position = Vector3.fromArray(position);
+			position = mathVector3_Vector3js.fromArray(position);
 		}
 		if (Array.isArray(up)) {
-			up = Vector3.fromArray(up);
+			up = mathVector3_Vector3js.fromArray(up);
 		}
 		this.transform.lookAt(position, up);
 	}
@@ -586,9 +580,9 @@ TransformComponent.prototype.lookAt = function (position, up) {
  * spaceShip.transformComponent.move(new Vector3(0, 0, -1));
  */
 TransformComponent.prototype.move = (function () {
-	var moveWorldDirection = new Vector3();
+	var moveWorldDirection = new mathVector3_Vector3js();
 	return function () {
-		var moveLocalDirection = Vector3.fromAny.apply(null, arguments);
+		var moveLocalDirection = mathVector3_Vector3js.fromAny.apply(null, arguments);
 		this.transform.applyForwardVector(moveLocalDirection, moveWorldDirection);
 		this.addTranslation(moveWorldDirection);
 		return this;
@@ -763,14 +757,14 @@ TransformComponent.applyOnEntity = function (obj, entity) {
 	if (Array.isArray(obj) && obj.length === 3) {
 		transformComponent.transform.translation.setDirect(obj[0], obj[1], obj[2]);
 		matched = true;
-	} else if (obj instanceof Vector3) {
+	} else if (obj instanceof mathVector3_Vector3js) {
 		transformComponent.transform.translation.setDirect(obj.x, obj.y, obj.z);
 		matched = true;
 	} else if (typeof obj === 'object' &&
 		typeof obj.x !== 'undefined' && typeof obj.y !== 'undefined' && typeof obj.z !== 'undefined') {
 		transformComponent.transform.translation.setDirect(obj.x, obj.y, obj.z);
 		matched = true;
-	} else if (obj instanceof Transform) {
+	} else if (obj instanceof mathTransform_Transformjs) {
 		transformComponent.transform = obj;
 		matched = true;
 	}
@@ -782,4 +776,10 @@ TransformComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = TransformComponent;
+/**
+ * Holds the transform of an entity. It also allows for a scene graph to be created,
+ * in which transforms are inherited down the tree.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
+ * @extends Component
+ */
+export { TransformComponent_TransformComponent as TransformComponent };

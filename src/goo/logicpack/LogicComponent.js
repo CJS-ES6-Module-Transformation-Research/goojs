@@ -1,13 +1,9 @@
-var LogicLayer = require('./logic/LogicLayer');
-var LogicNodes = require('./logic/LogicNodes');
-var Component = require('../entities/components/Component');
-
-/**
- * A component that embeds a LogicLayer and processes it every frame.
- * @private
- */
+var LogicComponent_LogicComponent = LogicComponent;
+import { LogicLayer as logicLogicLayer_LogicLayerjs } from "./logic/LogicLayer";
+import { getClass as LogicNodesjs_getClass } from "./logic/LogicNodes";
+import { Component as entitiescomponentsComponent_Componentjs } from "../entities/components/Component";
 function LogicComponent(entity) {
-	Component.call(this);
+	entitiescomponentsComponent_Componentjs.call(this);
 
 	this.type = 'LogicComponent';
 	this.parent = null;
@@ -20,7 +16,7 @@ function LogicComponent(entity) {
 	this._entity = entity;
 }
 
-LogicComponent.prototype = Object.create(Component.prototype);
+LogicComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 
 LogicComponent.prototype.configure = function (conf) {
 	// cleanup.
@@ -30,13 +26,13 @@ LogicComponent.prototype.configure = function (conf) {
 		}
 	}
 
-	this.logicLayer = new LogicLayer(this._entity);
+	this.logicLayer = new logicLogicLayer_LogicLayerjs(this._entity);
 
 	this.nodes = {};
 
 	for (var k in conf.logicNodes) {
 		var ln = conf.logicNodes[k];
-		var Fn = LogicNodes.getClass(ln.type);
+		var Fn = LogicNodesjs_getClass(ln.type);
 		var obj = new Fn();
 
 		obj.configure(ln);
@@ -52,4 +48,8 @@ LogicComponent.prototype.process = function (tpf) {
 	}
 };
 
-module.exports = LogicComponent;
+/**
+ * A component that embeds a LogicLayer and processes it every frame.
+ * @private
+ */
+export { LogicComponent_LogicComponent as LogicComponent };

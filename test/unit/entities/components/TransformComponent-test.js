@@ -1,23 +1,23 @@
-var Vector3 = require('../../../../src/goo/math/Vector3');
-var Matrix3 = require('../../../../src/goo/math/Matrix3');
-var Transform = require('../../../../src/goo/math/Transform');
-var TransformSystem = require('../../../../src/goo/entities/systems/TransformSystem');
-var TransformComponent = require('../../../../src/goo/entities/components/TransformComponent');
-var MeshRendererComponent = require('../../../../src/goo/entities/components/MeshRendererComponent');
-var HtmlComponent = require('../../../../src/goo/entities/components/HtmlComponent');
-var LightComponent = require('../../../../src/goo/entities/components/LightComponent');
-var Entity = require('../../../../src/goo/entities/Entity');
-var EntitySelection = require('../../../../src/goo/entities/EntitySelection');
-var World = require('../../../../src/goo/entities/World');
-var CustomMatchers = require('../../../../test/unit/CustomMatchers');
+import { Vector3 as srcgoomathVector3_Vector3js } from "../../../../src/goo/math/Vector3";
+import { Matrix3 as srcgoomathMatrix3_Matrix3js } from "../../../../src/goo/math/Matrix3";
+import { Transform as srcgoomathTransform_Transformjs } from "../../../../src/goo/math/Transform";
+import { TransformSystem as srcgooentitiessystemsTransformSystem_TransformSystemjs } from "../../../../src/goo/entities/systems/TransformSystem";
+import {     TransformComponent as srcgooentitiescomponentsTransformComponent_TransformComponentjs, } from "../../../../src/goo/entities/components/TransformComponent";
+import {     MeshRendererComponent as srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../../../../src/goo/entities/components/MeshRendererComponent";
+import { HtmlComponent as srcgooentitiescomponentsHtmlComponent_HtmlComponentjs } from "../../../../src/goo/entities/components/HtmlComponent";
+import { LightComponent as srcgooentitiescomponentsLightComponent_LightComponentjs } from "../../../../src/goo/entities/components/LightComponent";
+import { Entity as srcgooentitiesEntity_Entityjs } from "../../../../src/goo/entities/Entity";
+import { EntitySelection as srcgooentitiesEntitySelection_EntitySelectionjs } from "../../../../src/goo/entities/EntitySelection";
+import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
+import { CustomMatchers as testunitCustomMatchers_CustomMatchersjs } from "../../../../test/unit/CustomMatchers";
 
 describe('TransformComponent', function () {
 	var world;
 
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers);
-		world = new World();
-		world.registerComponent(TransformComponent);
+		jasmine.addMatchers(testunitCustomMatchers_CustomMatchersjs);
+		world = new srcgooentitiesWorld_Worldjs();
+		world.registerComponent(srcgooentitiescomponentsTransformComponent_TransformComponentjs);
 	});
 
 	it('can attach a child component via the transformComponent', function () {
@@ -59,124 +59,124 @@ describe('TransformComponent', function () {
 	});
 
 	it('can set, add and get rotation', function () {
-		var transformComponent = new TransformComponent();
+		var transformComponent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		transformComponent.setRotation(0.2, 0.4, 0.6); // keep these values under PI / 2
 		transformComponent.addRotation(0.0, 0.0, 0.5);
-		expect(transformComponent.getRotation()).toBeCloseToVector(new Vector3(0.2, 0.4, 0.6 + 0.5));
+		expect(transformComponent.getRotation()).toBeCloseToVector(new srcgoomathVector3_Vector3js(0.2, 0.4, 0.6 + 0.5));
 	});
 
 	it('can set, add and get rotation with array', function () {
-		var transformComponent = new TransformComponent();
+		var transformComponent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		transformComponent.setRotation([0.2, 0.4, 0.6]); // keep these values under PI / 2
 		transformComponent.addRotation([0.0, 0.0, 0.5]);
-		expect(transformComponent.getRotation()).toBeCloseToVector(new Vector3(0.2, 0.4, 0.6 + 0.5));
+		expect(transformComponent.getRotation()).toBeCloseToVector(new srcgoomathVector3_Vector3js(0.2, 0.4, 0.6 + 0.5));
 	});
 
 	it('can set translation', function () {
-		var tc = new TransformComponent();
+		var tc = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		var translation;
 
 		tc.setTranslation(1, 2, 3);
 		translation = tc.getTranslation();
-		expect(translation).toEqual(new Vector3(1, 2, 3));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(1, 2, 3));
 
 		tc.setTranslation([4, 5, 6]);
 		translation = tc.getTranslation();
-		expect(translation).toEqual(new Vector3(4, 5, 6));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(4, 5, 6));
 
 		tc.setTranslation(7, 8, 9);
 		translation = tc.getTranslation();
-		expect(translation).toEqual(new Vector3(7, 8, 9));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(7, 8, 9));
 	});
 
 	it('can get world translation', function () {
-		var parent = new TransformComponent();
-		var child = new TransformComponent();
+		var parent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
+		var child = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		parent.attachChild(child);
 		var translation;
 
 		parent.setTranslation(1, 0, 0);
 		child.setTranslation(1, 2, 3);
 		translation = child.getWorldTranslation();
-		expect(translation).toEqual(new Vector3(2, 2, 3));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(2, 2, 3));
 	});
 
 	it('can add translation', function () {
-		var tc = new TransformComponent();
+		var tc = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		var translation;
 
 		tc.setTranslation(1, 2, 3);
 		tc.addTranslation(0, 0, 1);
 		translation = tc.getTranslation();
-		expect(translation).toEqual(new Vector3(1, 2, 4));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(1, 2, 4));
 
 		tc.setTranslation([1, 2, 3]);
 		tc.addTranslation([0, 0, 1]);
 		translation = tc.getTranslation();
-		expect(translation).toEqual(new Vector3(1, 2, 4));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(1, 2, 4));
 
-		tc.setTranslation(new Vector3(1, 2, 3));
-		tc.addTranslation(new Vector3(0, 0, 1));
+		tc.setTranslation(new srcgoomathVector3_Vector3js(1, 2, 3));
+		tc.addTranslation(new srcgoomathVector3_Vector3js(0, 0, 1));
 		translation = tc.getTranslation();
-		expect(translation).toEqual(new Vector3(1, 2, 4));
+		expect(translation).toEqual(new srcgoomathVector3_Vector3js(1, 2, 4));
 	});
 
 	it('can set scale', function () {
-		var tc = new TransformComponent();
+		var tc = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		var scale;
 
 		tc.setScale(1, 2, 3);
 		scale = tc.getScale();
-		expect(scale).toEqual(new Vector3(1, 2, 3));
+		expect(scale).toEqual(new srcgoomathVector3_Vector3js(1, 2, 3));
 
 		tc.setScale([4, 5, 6]);
 		scale = tc.getScale();
-		expect(scale).toEqual(new Vector3(4, 5, 6));
+		expect(scale).toEqual(new srcgoomathVector3_Vector3js(4, 5, 6));
 
 		tc.setScale(7, 8, 9);
 		scale = tc.getScale();
-		expect(scale).toEqual(new Vector3(7, 8, 9));
+		expect(scale).toEqual(new srcgoomathVector3_Vector3js(7, 8, 9));
 	});
 
 	it('can get world scale', function () {
-		var parent = new TransformComponent();
-		var child = new TransformComponent();
+		var parent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
+		var child = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		parent.attachChild(child);
 		var scale;
 
 		parent.setScale(2, 1, 1);
 		child.setScale(1, 2, 3);
 		scale = child.getWorldScale();
-		expect(scale).toEqual(new Vector3(2, 2, 3));
+		expect(scale).toEqual(new srcgoomathVector3_Vector3js(2, 2, 3));
 	});
 
 	it('can set rotation matrix', function () {
-		var tc = new TransformComponent();
+		var tc = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		var matrix;
 
-		tc.setRotationMatrix(new Matrix3([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+		tc.setRotationMatrix(new srcgoomathMatrix3_Matrix3js([1, 2, 3, 4, 5, 6, 7, 8, 9]));
 		matrix = tc.getRotationMatrix();
-		expect(matrix).toEqual(new Matrix3([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+		expect(matrix).toEqual(new srcgoomathMatrix3_Matrix3js([1, 2, 3, 4, 5, 6, 7, 8, 9]));
 	});
 
 	it('can get world rotation matrix', function () {
-		var tc = new TransformComponent();
+		var tc = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 		var matrix;
 
-		tc.setRotationMatrix(new Matrix3([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+		tc.setRotationMatrix(new srcgoomathMatrix3_Matrix3js([1, 2, 3, 4, 5, 6, 7, 8, 9]));
 		matrix = tc.getWorldRotationMatrix();
-		expect(matrix).toEqual(new Matrix3([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+		expect(matrix).toEqual(new srcgoomathMatrix3_Matrix3js([1, 2, 3, 4, 5, 6, 7, 8, 9]));
 	});
 
 	it('can move', function () {
-		var tc = new TransformComponent();
-		tc.lookAt(new Vector3(1, 0, 0)); // look along the positive x axis
+		var tc = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
+		tc.lookAt(new srcgoomathVector3_Vector3js(1, 0, 0)); // look along the positive x axis
 		tc.move(0, 0, -10); // this moves forward in a right handed coordinate system.
 		// in our case this will move us 10 unity in the direction of the positive x axis.
 		var translation = tc.getTranslation();
-		expect(translation).toBeCloseToVector(new Vector3(10, 0, 0));
-		tc.move(new Vector3(0, 0, 1));
-		expect(translation).toBeCloseToVector(new Vector3(9, 0, 0));
+		expect(translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(10, 0, 0));
+		tc.move(new srcgoomathVector3_Vector3js(0, 0, 1));
+		expect(translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(9, 0, 0));
 	});
 
 	it('can lookAt entity', function () {
@@ -193,8 +193,8 @@ describe('TransformComponent', function () {
 	});
 
 	it('handles attaching itself to an entity', function () {
-		var transformComponent = new TransformComponent();
-		var entity = new Entity(world);
+		var transformComponent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
+		var entity = new srcgooentitiesEntity_Entityjs(world);
 
 		entity.setComponent(transformComponent);
 		expect(transformComponent.entity).toBe(entity);
@@ -202,8 +202,8 @@ describe('TransformComponent', function () {
 
 	// should it ever be detached? since it's enforced and there are so many dependencies probably not
 	it('handles detaching itself from an entity', function () {
-		var transformComponent = new TransformComponent();
-		var entity = new Entity(world);
+		var transformComponent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
+		var entity = new srcgooentitiesEntity_Entityjs(world);
 
 		entity.setComponent(transformComponent);
 		entity.clearComponent('transformComponent');
@@ -212,25 +212,25 @@ describe('TransformComponent', function () {
 
 	it('returns the host entity when calling setTranslation on it', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new TransformComponent());
+		entity.setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
 
-		expect(entity.setTranslation(new Vector3(1, 2, 3))).toBe(entity);
+		expect(entity.setTranslation(new srcgoomathVector3_Vector3js(1, 2, 3))).toBe(entity);
 	});
 
 	it('handles getTranslation on host the same way as on itself', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new TransformComponent());
+		entity.setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
 		expect(entity.getTranslation()).toBe(entity.transformComponent.getTranslation());
 	});
 
 	it('returns the host entity when calling any transform related method on it', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new TransformComponent());
+		entity.setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
 
-		expect(entity.setTranslation(new Vector3(1, 2, 3))).toBe(entity);
-		expect(entity.setScale(new Vector3(1, 2, 3))).toBe(entity);
-		expect(entity.setRotation(new Vector3(1, 2, 3))).toBe(entity);
-		expect(entity.lookAt(new Vector3(1, 2, 3))).toBe(entity);
+		expect(entity.setTranslation(new srcgoomathVector3_Vector3js(1, 2, 3))).toBe(entity);
+		expect(entity.setScale(new srcgoomathVector3_Vector3js(1, 2, 3))).toBe(entity);
+		expect(entity.setRotation(new srcgoomathVector3_Vector3js(1, 2, 3))).toBe(entity);
+		expect(entity.lookAt(new srcgoomathVector3_Vector3js(1, 2, 3))).toBe(entity);
 	});
 
 	it('returns the parent host entity when calling attachChild/detachChild on it', function () {
@@ -264,52 +264,52 @@ describe('TransformComponent', function () {
 
 	describe('called from EntitySelection', function () {
 		it('sets the translation of some entities', function () {
-			var entity1 = new Entity(world).setComponent(new TransformComponent());
-			var entity2 = new Entity(world).setComponent(new TransformComponent());
+			var entity1 = new srcgooentitiesEntity_Entityjs(world).setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
+			var entity2 = new srcgooentitiesEntity_Entityjs(world).setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
 
-			new EntitySelection(entity1, entity2).setTranslation(1, 2, 3);
+			new srcgooentitiesEntitySelection_EntitySelectionjs(entity1, entity2).setTranslation(1, 2, 3);
 
-			expect(entity1.transformComponent.transform.translation).toBeCloseToVector(new Vector3(1, 2, 3));
-			expect(entity2.transformComponent.transform.translation).toBeCloseToVector(new Vector3(1, 2, 3));
+			expect(entity1.transformComponent.transform.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 2, 3));
+			expect(entity2.transformComponent.transform.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 2, 3));
 		});
 
 		it('translates some entities', function () {
-			var entity1 = new Entity(world).setComponent(new TransformComponent());
-			var entity2 = new Entity(world).setComponent(new TransformComponent());
+			var entity1 = new srcgooentitiesEntity_Entityjs(world).setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
+			var entity2 = new srcgooentitiesEntity_Entityjs(world).setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
 
 			entity1.setTranslation(11, 22, 33);
 			entity2.setTranslation(44, 55, 66);
 
-			new EntitySelection(entity1, entity2).addTranslation(1, 2, 3);
+			new srcgooentitiesEntitySelection_EntitySelectionjs(entity1, entity2).addTranslation(1, 2, 3);
 
 			expect(entity1.transformComponent.transform.translation)
-			.toBeCloseToVector(new Vector3(11 + 1, 22 + 2, 33 + 3));
+			.toBeCloseToVector(new srcgoomathVector3_Vector3js(11 + 1, 22 + 2, 33 + 3));
 
 			expect(entity2.transformComponent.transform.translation)
-			.toBeCloseToVector(new Vector3(44 + 1, 55 + 2, 66 + 3));
+			.toBeCloseToVector(new srcgoomathVector3_Vector3js(44 + 1, 55 + 2, 66 + 3));
 		});
 
 		it('hides some entities', function () {
-			var entity = new Entity(world).setComponent(new TransformComponent());
-			new EntitySelection(entity).hide();
+			var entity = new srcgooentitiesEntity_Entityjs(world).setComponent(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
+			new srcgooentitiesEntitySelection_EntitySelectionjs(entity).hide();
 			expect(entity._hidden).toBeTruthy();
 		});
 	});
 
 	describe('.applyOnEntity', function () {
 		it('sets a TransformComponent when trying to add a 3 element array', function () {
-			var entity = new Entity(world);
+			var entity = new srcgooentitiesEntity_Entityjs(world);
 			var translation = [1, 2, 3];
 			entity.set(translation);
 
 			expect(entity.transformComponent).toBeTruthy();
-			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new Vector3(1, 2, 3));
+			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 2, 3));
 		});
 
 		it('modifies the TransformComponent if it already exists when trying to add a 3 element array', function () {
-			var entity = new Entity(world);
-			var transformComponent = new TransformComponent();
-			var transformSystem = new TransformSystem();
+			var entity = new srcgooentitiesEntity_Entityjs(world);
+			var transformComponent = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
+			var transformSystem = new srcgooentitiessystemsTransformSystem_TransformSystemjs();
 
 			entity.set(transformComponent);
 			transformSystem.process([entity]);
@@ -318,52 +318,52 @@ describe('TransformComponent', function () {
 			entity.set(translation);
 
 			expect(entity.transformComponent).toBe(transformComponent);
-			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new Vector3(1, 2, 3));
+			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 2, 3));
 		});
 
 		it('sets a TransformComponent when trying to add a {x, y, z} object', function () {
-			var entity = new Entity(world);
+			var entity = new srcgooentitiesEntity_Entityjs(world);
 			var translation = { x: 1, y: 2, z: 3 };
 			entity.set(translation);
 
 			expect(entity.transformComponent).toBeTruthy();
-			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new Vector3(1, 2, 3));
+			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 2, 3));
 		});
 
 		it('sets a TransformComponent when trying to add a Transform', function () {
-			var entity = new Entity(world);
-			var transform = new Transform();
+			var entity = new srcgooentitiesEntity_Entityjs(world);
+			var transform = new srcgoomathTransform_Transformjs();
 			transform.translation.setDirect(1, 2, 3);
 			entity.set(transform);
 
 			expect(entity.transformComponent).toBeTruthy();
-			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new Vector3(1, 2, 3));
+			expect(entity.transformComponent.transform.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 2, 3));
 		});
 
 		it('applies all of the API functions correctly', function (){
-			var entity = new Entity(world);
-			var childEntity = new Entity(world);
+			var entity = new srcgooentitiesEntity_Entityjs(world);
+			var childEntity = new srcgooentitiesEntity_Entityjs(world);
 			function traverseFunction(entity){
-				expect(entity).toEqual(jasmine.any(Entity));
+				expect(entity).toEqual(jasmine.any(srcgooentitiesEntity_Entityjs));
 			}
-			entity.set(new TransformComponent());
-			childEntity.set(new TransformComponent());
+			entity.set(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
+			childEntity.set(new srcgooentitiescomponentsTransformComponent_TransformComponentjs());
 
 			entity.setTranslation(1, 2, 3);
-			expect(entity.getTranslation()).toEqual(new Vector3(1, 2, 3));
+			expect(entity.getTranslation()).toEqual(new srcgoomathVector3_Vector3js(1, 2, 3));
 
 			entity.setRotation(0, 0, 0);
-			expect(entity.getRotation()).toEqual(new Vector3(0, 0, 0));
+			expect(entity.getRotation()).toEqual(new srcgoomathVector3_Vector3js(0, 0, 0));
 
 			entity.setScale(1, 2, 3);
-			expect(entity.getScale()).toEqual(new Vector3(1, 2, 3));
+			expect(entity.getScale()).toEqual(new srcgoomathVector3_Vector3js(1, 2, 3));
 
 			entity.lookAt(0, 0, 0);
 
 			entity.addTranslation(1, 0, 0);
 
 			entity.setTranslation(1, 2, 3).addTranslation(1, 2, 3);
-			expect(entity.getTranslation()).toEqual(new Vector3(2, 4, 6));
+			expect(entity.getTranslation()).toEqual(new srcgoomathVector3_Vector3js(2, 4, 6));
 
 			entity.attachChild(childEntity);
 			expect(entity.children().size()).toEqual(1);
@@ -483,9 +483,9 @@ describe('TransformComponent', function () {
 	// it can't stay in its own describe but it uses some methods of its own
 	(function () {
 		function getEntity() {
-			return world.createEntity().set(new MeshRendererComponent())
-				.set(new LightComponent())
-				.set(new HtmlComponent());
+			return world.createEntity().set(new srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs())
+				.set(new srcgooentitiescomponentsLightComponent_LightComponentjs())
+				.set(new srcgooentitiescomponentsHtmlComponent_HtmlComponentjs());
 		}
 
 		function expectEverything(entity, entityHidden, componentsHidden) {

@@ -1,8 +1,19 @@
-var Vector3 = require('../math/Vector3');
-var Vector2 = require('../math/Vector2');
-var MathUtils = require('../math/MathUtils');
-var Camera = require('../renderer/Camera');
-var SystemBus = require('../entities/SystemBus');
+var OrbitCamControlScript_OrbitCamControlScript = OrbitCamControlScript;
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { Vector2 as mathVector2_Vector2js } from "../math/Vector2";
+
+import {
+    DEG_TO_RAD as MathUtilsjs_DEG_TO_RAD,
+    TWO_PI as MathUtilsjs_TWO_PI,
+    lerp as MathUtilsjs_lerp,
+    clamp as MathUtilsjs_clamp,
+    radialClamp as MathUtilsjs_radialClamp,
+    moduloPositive as MathUtilsjs_moduloPositive,
+    sphericalToCartesian as MathUtilsjs_sphericalToCartesian,
+} from "../math/MathUtils";
+
+import { Camera as rendererCamera_Camerajs } from "../renderer/Camera";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
 
 var ZOOM_DISTANCE_FACTOR = 0.035;
 var EPSILON = 1e-6;
@@ -34,9 +45,9 @@ function setup(args, ctx) {
 	ctx.xSamples = [0, 0, 0, 0, 0];
 	ctx.ySamples = [0, 0, 0, 0, 0];
 	ctx.sample = 0;
-	ctx.velocity = new Vector2();
-	ctx.cartesian = new Vector3();
-	ctx.worldUpVector = Vector3.UNIT_Y.clone();
+	ctx.velocity = new mathVector2_Vector2js();
+	ctx.cartesian = new mathVector3_Vector3js();
+	ctx.worldUpVector = mathVector3_Vector3js.UNIT_Y.clone();
 	ctx.maxSampleTimeMS = 200;
 
 	ctx.mouseState = {
@@ -51,38 +62,38 @@ function setup(args, ctx) {
 	if (args.lookAtDistance) {
 		// Getting script angles from transform
 		var angles = ctx.entity.getRotation();
-		spherical = ctx.spherical = new Vector3(
+		spherical = ctx.spherical = new mathVector3_Vector3js(
 			args.lookAtDistance,
 			-angles.y + Math.PI / 2,
 			-angles.x
 		);
 	} else if (args.spherical instanceof Array) {
-		var spherical = ctx.spherical = new Vector3(
+		var spherical = ctx.spherical = new mathVector3_Vector3js(
 			args.spherical[0],
-			args.spherical[1] * MathUtils.DEG_TO_RAD,
-			args.spherical[2] * MathUtils.DEG_TO_RAD
+			args.spherical[1] * MathUtilsjs_DEG_TO_RAD,
+			args.spherical[2] * MathUtilsjs_DEG_TO_RAD
 		);
 	} else if (args.spherical) {
-		var spherical = ctx.spherical = new Vector3(
+		var spherical = ctx.spherical = new mathVector3_Vector3js(
 			args.spherical.x,
-			args.spherical.y * MathUtils.DEG_TO_RAD,
-			args.spherical.z * MathUtils.DEG_TO_RAD
+			args.spherical.y * MathUtilsjs_DEG_TO_RAD,
+			args.spherical.z * MathUtilsjs_DEG_TO_RAD
 		);
 	} else {
-		var spherical = ctx.spherical = new Vector3(15, 0, 0); // Just something so the script won't crash
+		var spherical = ctx.spherical = new mathVector3_Vector3js(15, 0, 0); // Just something so the script won't crash
 	}
 	ctx.targetSpherical = spherical.clone();
 
 	if (args.lookAtDistance) {
 		// Setting look at point at a distance forward
 		var rotation = ctx.entity.transformComponent.transform.rotation;
-		ctx.lookAtPoint = new Vector3(0, 0, -args.lookAtDistance);
+		ctx.lookAtPoint = new mathVector3_Vector3js(0, 0, -args.lookAtDistance);
 		ctx.lookAtPoint.applyPost(rotation);
 		ctx.lookAtPoint.add(ctx.entity.getTranslation());
 	} else if (args.lookAtPoint) {
-		ctx.lookAtPoint = args.lookAtPoint instanceof Array ? Vector3.fromArray(args.lookAtPoint) : args.lookAtPoint.clone();
+		ctx.lookAtPoint = args.lookAtPoint instanceof Array ? mathVector3_Vector3js.fromArray(args.lookAtPoint) : args.lookAtPoint.clone();
 	} else {
-		ctx.lookAtPoint = new Vector3();
+		ctx.lookAtPoint = new mathVector3_Vector3js();
 	}
 	ctx.goingToLookAt = ctx.lookAtPoint.clone();
 
@@ -104,7 +115,7 @@ function updateButtonState(buttonIndex, down, args, ctx) {
 			mouseState.lastX = NaN;
 			mouseState.lastY = NaN;
 			ctx.velocity.setDirect(0, 0);
-			ctx.spherical.y = MathUtils.moduloPositive(ctx.spherical.y, MathUtils.TWO_PI);
+			ctx.spherical.y = MathUtilsjs_moduloPositive(ctx.spherical.y, MathUtilsjs_TWO_PI);
 			ctx.targetSpherical.set(ctx.spherical);
 		} else {
 			applyReleaseDrift(args, ctx);
@@ -148,15 +159,15 @@ function move(azimuthAccel, thetaAccel, args, ctx) {
 
 	// update our master spherical coords, using x and y movement
 	if (args.clampAzimuth) {
-		var minAzimuth = args.minAzimuth * MathUtils.DEG_TO_RAD;
-		var maxAzimuth = args.maxAzimuth * MathUtils.DEG_TO_RAD;
-		td.y = MathUtils.radialClamp(td.y - azimuthAccel, minAzimuth, maxAzimuth);
+		var minAzimuth = args.minAzimuth * MathUtilsjs_DEG_TO_RAD;
+		var maxAzimuth = args.maxAzimuth * MathUtilsjs_DEG_TO_RAD;
+		td.y = MathUtilsjs_radialClamp(td.y - azimuthAccel, minAzimuth, maxAzimuth);
 	} else {
 		td.y -= azimuthAccel;
 	}
-	var minAscent = args.minAscent * MathUtils.DEG_TO_RAD;
-	var maxAscent = args.maxAscent * MathUtils.DEG_TO_RAD;
-	td.z = MathUtils.clamp(td.z + thetaAccel, minAscent, maxAscent);
+	var minAscent = args.minAscent * MathUtilsjs_DEG_TO_RAD;
+	var maxAscent = args.maxAscent * MathUtilsjs_DEG_TO_RAD;
+	td.z = MathUtilsjs_clamp(td.z + thetaAccel, minAscent, maxAscent);
 
 	ctx.dirty = true;
 }
@@ -166,7 +177,7 @@ function updateFrustumSize(delta, ctx) {
 		return;
 	}
 	var camera = ctx.entity.cameraComponent.camera;
-	if (camera.projectionMode === Camera.Parallel) {
+	if (camera.projectionMode === rendererCamera_Camerajs.Parallel) {
 		ctx.size = camera.top;
 		ctx.size /= delta;
 		var size = ctx.size;
@@ -179,7 +190,7 @@ function applyWheel(e, args, ctx) {
 	delta *= ZOOM_DISTANCE_FACTOR * ctx.targetSpherical.x;
 
 	var td = ctx.targetSpherical;
-	td.x = MathUtils.clamp(
+	td.x = MathUtilsjs_clamp(
 		td.x + args.zoomSpeed * delta,
 		args.minZoomDistance,
 		args.maxZoomDistance
@@ -316,7 +327,7 @@ function setupMouseControls(args, ctx) {
 function updateVelocity(time, args, ctx) {
 	if (ctx.velocity.lengthSquared() > EPSILON) {
 		move(ctx.velocity.x, ctx.velocity.y, args, ctx);
-		var rate = MathUtils.lerp(ctx.inertia, 0, 1 - time / ctx.inertia);
+		var rate = MathUtilsjs_lerp(ctx.inertia, 0, 1 - time / ctx.inertia);
 		ctx.velocity.scale(rate);
 	} else {
 		ctx.velocity.setDirect(0, 0, 0);
@@ -337,7 +348,7 @@ function update(args, ctx/*, goo*/) {
 	var transformComponent = entity.transformComponent;
 	var transform = transformComponent.transform;
 
-	var delta = MathUtils.lerp(ctx.smoothness, 1, ctx.world.tpf);
+	var delta = MathUtilsjs_lerp(ctx.smoothness, 1, ctx.world.tpf);
 
 	if (goingToLookAt.distanceSquared(lookAtPoint) < EPSILON) {
 		lookAtPoint.set(goingToLookAt);
@@ -355,17 +366,17 @@ function update(args, ctx/*, goo*/) {
 	var tsd = targetSpherical;
 
 	// Move azimuth to target
-	sd.y = MathUtils.lerp(delta, sd.y, tsd.y);
+	sd.y = MathUtilsjs_lerp(delta, sd.y, tsd.y);
 	// Move ascent to target
-	sd.z = MathUtils.lerp(delta, sd.z, tsd.z);
+	sd.z = MathUtilsjs_lerp(delta, sd.z, tsd.z);
 
 	// Move distance to target
 	var deltaX = sd.x;
-	sd.x = MathUtils.lerp(delta, sd.x, tsd.x);
+	sd.x = MathUtilsjs_lerp(delta, sd.x, tsd.x);
 	deltaX /= sd.x;
 	updateFrustumSize(deltaX, ctx);
 
-	MathUtils.sphericalToCartesian(sd.x, sd.y, sd.z, cartesian);
+	MathUtilsjs_sphericalToCartesian(sd.x, sd.y, sd.z, cartesian);
 
 	transform.translation.set(cartesian.add(lookAtPoint));
 	if (!transform.translation.equals(lookAtPoint)) {
@@ -373,7 +384,7 @@ function update(args, ctx/*, goo*/) {
 	}
 
 	if (spherical.distanceSquared(targetSpherical) < EPSILON && ctx.lookAtPoint.equals(ctx.goingToLookAt)) {
-		sd.y = MathUtils.moduloPositive(sd.y, MathUtils.TWO_PI);
+		sd.y = MathUtilsjs_moduloPositive(sd.y, MathUtilsjs_TWO_PI);
 		targetSpherical.set(spherical);
 		ctx.dirty = false;
 	}
@@ -381,7 +392,7 @@ function update(args, ctx/*, goo*/) {
 	// set our component updated.
 	transformComponent.setUpdated();
 	if (ctx.entity.cameraComponent) {
-		SystemBus.emit('goo.cameraPositionChanged', {
+		entitiesSystemBus_SystemBusjsjs.emit('goo.cameraPositionChanged', {
 			spherical: ctx.spherical.toArray(),
 			translation: transform.translation.toArray(),
 			lookAtPoint: ctx.lookAtPoint.toArray(),
@@ -399,8 +410,8 @@ function cleanup(args, ctx) {
 function argsUpdated(args, ctx) {
 
 	// Making more linear perception
-	ctx.smoothness = Math.pow(MathUtils.clamp(args.smoothness, 0, 1), 0.3);
-	ctx.inertia = Math.pow(MathUtils.clamp(args.drag, 0, 1), 0.3);
+	ctx.smoothness = Math.pow(MathUtilsjs_clamp(args.smoothness, 0, 1), 0.3);
+	ctx.inertia = Math.pow(MathUtilsjs_clamp(args.drag, 0, 1), 0.3);
 
 	ctx.dragButton = ['Any', 'Left', 'Middle', 'Right', 'None'].indexOf(args.dragButton) - 1;
 	if (ctx.dragButton < -1) {
@@ -519,4 +530,4 @@ OrbitCamControlScript.externals = {
 	}]
 };
 
-module.exports = OrbitCamControlScript;
+export { OrbitCamControlScript_OrbitCamControlScript as OrbitCamControlScript };

@@ -1,23 +1,20 @@
-var Vector3 = require('./Vector3');
-var MathUtils = require('./MathUtils');
-
-/**
- * Constructs a new ray with an origin at (0, 0, 0) and a direction of (0, 0, 1).
- */
+var Ray_Ray = Ray;
+import { Vector3 as Vector3_Vector3js } from "./Vector3";
+import { EPSILON as MathUtilsjs_EPSILON } from "./MathUtils";
 function Ray(origin, direction) {
-	this.origin = origin ? origin.clone() : new Vector3();
-	this.direction = direction ? direction.clone() : Vector3.UNIT_Z.clone();
+	this.origin = origin ? origin.clone() : new Vector3_Vector3js();
+	this.direction = direction ? direction.clone() : Vector3_Vector3js.UNIT_Z.clone();
 
 	// @ifdef DEBUG
 	Object.seal(this);
 	// @endif
 }
 
-var tmpVec1 = new Vector3();
-var tmpVec2 = new Vector3();
-var tmpVec3 = new Vector3();
-var tmpVec4 = new Vector3();
-var tmpVec5 = new Vector3();
+var tmpVec1 = new Vector3_Vector3js();
+var tmpVec2 = new Vector3_Vector3js();
+var tmpVec3 = new Vector3_Vector3js();
+var tmpVec4 = new Vector3_Vector3js();
+var tmpVec5 = new Vector3_Vector3js();
 
 /**
  * Check for intersection of this ray and and a quad or triangle, either just inside the shape or for the plane defined by the shape (doPlanar == true)
@@ -54,9 +51,9 @@ Ray.prototype.intersectsTriangle = function (pointA, pointB, pointC, doPlanar, l
 
 	var dirDotNorm = this.direction.dot(norm);
 	var sign;
-	if (dirDotNorm > MathUtils.EPSILON) {
+	if (dirDotNorm > MathUtilsjs_EPSILON) {
 		sign = 1.0;
-	} else if (dirDotNorm < -MathUtils.EPSILON) {
+	} else if (dirDotNorm < -MathUtilsjs_EPSILON) {
 		if (skipBackSide) {
 			return false;
 		}
@@ -183,4 +180,7 @@ Ray.prototype.clone = function () {
 	return new Ray(this.origin.clone(), this.direction.clone());
 };
 
-module.exports = Ray;
+/**
+ * Constructs a new ray with an origin at (0, 0, 0) and a direction of (0, 0, 1).
+ */
+export { Ray_Ray as Ray };

@@ -1,24 +1,26 @@
-var MathUtils = require('../../math/MathUtils');
-var Transform = require('../../math/Transform');
-var MeshData = require('../../renderer/MeshData');
-var Material = require('../../renderer/Material');
-var Shader = require('../../renderer/Shader');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Texture = require('../../renderer/Texture');
-var Renderer = require('../../renderer/Renderer');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
-var DirectionalLight = require('../../renderer/light/DirectionalLight');
-var Quad = require('../../shapes/Quad');
+var Terrain_Terrain = Terrain;
+import { clamp as MathUtilsjs_clamp, moduloPositive as MathUtilsjs_moduloPositive } from "../../math/MathUtils";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
 
-/* global Ammo */
+import {
+    USE_FOG as ShaderBuilderjs_USE_FOG,
+    FOG_SETTINGS as ShaderBuilderjs_FOG_SETTINGS,
+    FOG_COLOR as ShaderBuilderjs_FOG_COLOR,
+    light as ShaderBuilderjs_light,
+} from "../../renderer/shaders/ShaderBuilder";
 
-/**
- * A terrain
- */
+import { screenCopy as ShaderLibjs_screenCopy } from "../../renderer/shaders/ShaderLib";
+import { methods as ShaderFragmentjs_methods } from "../../renderer/shaders/ShaderFragment";
+import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { Texture as rendererTexture_Texturejs } from "../../renderer/Texture";
+import { mainCamera as Rendererjs_mainCamera } from "../../renderer/Renderer";
+import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
+import { camera as FullscreenUtilsjs_camera } from "../../renderer/pass/FullscreenUtils";
+import { DirectionalLight as rendererlightDirectionalLight_DirectionalLightjs } from "../../renderer/light/DirectionalLight";
+import { Quad as shapesQuad_Quadjs } from "../../shapes/Quad";
 function Terrain(goo, size, count) {
 	this.world = goo.world;
 	this.renderer = goo.renderer;
@@ -28,50 +30,50 @@ function Terrain(goo, size, count) {
 
 	this._gridCache = {};
 
-	var brush = new Quad(2 / size, 2 / size);
+	var brush = new shapesQuad_Quadjs(2 / size, 2 / size);
 
-	var mat = this.drawMaterial1 = new Material(brushShader);
+	var mat = this.drawMaterial1 = new rendererMaterial_Materialjs(brushShader);
 	mat.blendState.blending = 'AdditiveBlending';
 	mat.cullState.cullFace = 'Front';
 
-	var mat2 = this.drawMaterial2 = new Material(brushShader2);
+	var mat2 = this.drawMaterial2 = new rendererMaterial_Materialjs(brushShader2);
 	mat2.cullState.cullFace = 'Front';
 
-	var mat3 = this.drawMaterial3 = new Material(brushShader3);
+	var mat3 = this.drawMaterial3 = new rendererMaterial_Materialjs(brushShader3);
 	mat3.uniforms.size = 1 / size;
 	mat3.cullState.cullFace = 'Front';
 
-	var mat4 = this.drawMaterial4 = new Material(brushShader4);
+	var mat4 = this.drawMaterial4 = new rendererMaterial_Materialjs(brushShader4);
 	mat4.cullState.cullFace = 'Front';
 
 	this.renderable = {
 		meshData: brush,
 		materials: [mat],
-		transform: new Transform()
+		transform: new mathTransform_Transformjs()
 	};
 	this.renderable.transform.setRotationXYZ(0, 0, Math.PI * 0.5);
 
-	this.copyPass = new FullscreenPass(ShaderLib.screenCopy);
+	this.copyPass = new rendererpassFullscreenPass_FullscreenPassjs(ShaderLibjs_screenCopy);
 	this.copyPass.material.depthState.enabled = false;
 
-	this.upsamplePass = new FullscreenPass(upsampleShader);
+	this.upsamplePass = new rendererpassFullscreenPass_FullscreenPassjs(upsampleShader);
 	this.upsamplePass.material.depthState.enabled = false;
 
-	this.normalmapPass = new FullscreenPass(normalmapShader);
+	this.normalmapPass = new rendererpassFullscreenPass_FullscreenPassjs(normalmapShader);
 	this.normalmapPass.material.depthState.enabled = false;
 	this.normalmapPass.material.uniforms.resolution = [size, size];
 	this.normalmapPass.material.uniforms.height = 10;
 
-	this.extractFloatPass = new FullscreenPass(extractShader);
+	this.extractFloatPass = new rendererpassFullscreenPass_FullscreenPassjs(extractShader);
 	// this.detailmapPass = new FullscreenPass(detailShader);
 
-	this.normalMap = new RenderTarget(size, size);
+	this.normalMap = new rendererpassRenderTarget_RenderTargetjs(size, size);
 	// this.detailMap = new RenderTarget(size, size);
 
 	this.textures = [];
 	this.texturesBounce = [];
 	for (var i = 0; i < count; i++) {
-		this.textures[i] = new RenderTarget(size, size, {
+		this.textures[i] = new rendererpassRenderTarget_RenderTargetjs(size, size, {
 			magFilter: 'NearestNeighbor',
 			minFilter: 'NearestNeighborNoMipMaps',
 			wrapS: 'EdgeClamp',
@@ -79,7 +81,7 @@ function Terrain(goo, size, count) {
 			generateMipmaps: false,
 			type: 'Float'
 		});
-		this.texturesBounce[i] = new RenderTarget(size, size, {
+		this.texturesBounce[i] = new rendererpassRenderTarget_RenderTargetjs(size, size, {
 			magFilter: 'NearestNeighbor',
 			minFilter: 'NearestNeighborNoMipMaps',
 			wrapS: 'EdgeClamp',
@@ -98,12 +100,12 @@ function Terrain(goo, size, count) {
 	this.gridSize = (this.n + 1) * 4 - 1;
 	console.log('grid size: ', this.gridSize);
 
-	this.splat = new RenderTarget(this.size * this.splatMult, this.size * this.splatMult, {
+	this.splat = new rendererpassRenderTarget_RenderTargetjs(this.size * this.splatMult, this.size * this.splatMult, {
 			wrapS: 'EdgeClamp',
 			wrapT: 'EdgeClamp',
 			generateMipmaps: false
 	});
-	this.splatCopy = new RenderTarget(this.size * this.splatMult, this.size * this.splatMult, {
+	this.splatCopy = new rendererpassRenderTarget_RenderTargetjs(this.size * this.splatMult, this.size * this.splatMult, {
 			wrapS: 'EdgeClamp',
 			wrapT: 'EdgeClamp',
 			generateMipmaps: false
@@ -121,7 +123,7 @@ Terrain.prototype.init = function (terrainTextures) {
 	for (var i = 0; i < count; i++) {
 		var size = Math.pow(2, i);
 
-		var material = new Material(terrainShaderDefFloat, 'clipmap' + i);
+		var material = new rendererMaterial_Materialjs(terrainShaderDefFloat, 'clipmap' + i);
 		material.uniforms.materialAmbient = [0.0, 0.0, 0.0, 1.0];
 		material.uniforms.materialDiffuse = [1.0, 1.0, 1.0, 1.0];
 		material.cullState.frontFace = 'CW';
@@ -133,7 +135,7 @@ Terrain.prototype.init = function (terrainTextures) {
 		clipmapEntity.setScale(size, 1, size);
 		entity.attachChild(clipmapEntity);
 
-		var terrainPickingMaterial = new Material(terrainPickingShader, 'terrainPickingMaterial' + i);
+		var terrainPickingMaterial = new rendererMaterial_Materialjs(terrainPickingShader, 'terrainPickingMaterial' + i);
 		terrainPickingMaterial.cullState.frontFace = 'CW';
 		terrainPickingMaterial.uniforms.resolution = [1, 1 / size, this.size, this.size];
 		terrainPickingMaterial.blendState = {
@@ -163,7 +165,7 @@ Terrain.prototype.init = function (terrainTextures) {
 	}
 
 	// edit marker
-	var light = new DirectionalLight();
+	var light = new rendererlightDirectionalLight_DirectionalLightjs();
 	light.shadowSettings.size = 10;
 	var lightEntity = this.lightEntity = world.createEntity(light);
 	lightEntity.setTranslation(200, 200, 200);
@@ -171,7 +173,7 @@ Terrain.prototype.init = function (terrainTextures) {
 	lightEntity.addToWorld();
 	this.lightEntity.lightComponent.hidden = true;
 
-	this.floatTexture = terrainTextures.heightMap instanceof Texture ? terrainTextures.heightMap : new Texture(terrainTextures.heightMap, {
+	this.floatTexture = terrainTextures.heightMap instanceof rendererTexture_Texturejs ? terrainTextures.heightMap : new rendererTexture_Texturejs(terrainTextures.heightMap, {
 		magFilter: 'NearestNeighbor',
 		minFilter: 'NearestNeighborNoMipMaps',
 		wrapS: 'EdgeClamp',
@@ -180,7 +182,7 @@ Terrain.prototype.init = function (terrainTextures) {
 		format: 'Luminance'
 	}, this.size, this.size);
 
-	this.splatTexture = terrainTextures.splatMap instanceof Texture ? terrainTextures.splatMap : new Texture(terrainTextures.splatMap, {
+	this.splatTexture = terrainTextures.splatMap instanceof rendererTexture_Texturejs ? terrainTextures.splatMap : new rendererTexture_Texturejs(terrainTextures.splatMap, {
 		magFilter: 'NearestNeighbor',
 		minFilter: 'NearestNeighborNoMipMaps',
 		wrapS: 'EdgeClamp',
@@ -262,9 +264,9 @@ Terrain.prototype.pick = function (camera, x, y, store) {
 		});
 	}
 
-	this.renderer.renderToPick(entities, Renderer.mainCamera, true, false, false, x, y, null, true);
+	this.renderer.renderToPick(entities, Rendererjs_mainCamera, true, false, false, x, y, null, true);
 	var pickStore = {};
-	this.renderer.pick(x, y, pickStore, Renderer.mainCamera);
+	this.renderer.pick(x, y, pickStore, Rendererjs_mainCamera);
 	camera.getWorldPosition(x, y, this.renderer.viewportWidth, this.renderer.viewportHeight, pickStore.depth, store);
 
 	for (var i = 0; i < this.clipmaps.length; i++) {
@@ -280,7 +282,7 @@ Terrain.prototype.pick = function (camera, x, y, store) {
 };
 
 Terrain.prototype.draw = function (mode, type, size, x, y, z, power, brushTexture, rgba) {
-	power = MathUtils.clamp(power, 0, 1);
+	power = MathUtilsjs_clamp(power, 0, 1);
 
 	x = (x - this.size / 2) * 2;
 	z = (z - this.size / 2) * 2;
@@ -298,9 +300,9 @@ Terrain.prototype.draw = function (mode, type, size, x, y, z, power, brushTextur
 		}
 
 		if (brushTexture) {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, brushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, brushTexture);
 		} else {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, this.defaultBrushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, this.defaultBrushTexture);
 		}
 
 		this.renderable.transform.translation.setDirect(x / this.size, z / this.size, 0);
@@ -310,15 +312,15 @@ Terrain.prototype.draw = function (mode, type, size, x, y, z, power, brushTextur
 		this.copyPass.render(this.renderer, this.splatCopy, this.splat);
 
 		this.renderable.materials[0].uniforms.rgba = rgba || [1, 1, 1, 1];
-		this.renderer.render(this.renderable, FullscreenUtils.camera, [], this.splat, false);
+		this.renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.splat, false);
 	} else if (mode === 'smooth') {
 		this.renderable.materials[0] = this.drawMaterial3;
 		this.renderable.materials[0].uniforms.opacity = power;
 
 		if (brushTexture) {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, brushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, brushTexture);
 		} else {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, this.defaultBrushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, this.defaultBrushTexture);
 		}
 
 		this.renderable.transform.translation.setDirect(x / this.size, z / this.size, 0);
@@ -327,16 +329,16 @@ Terrain.prototype.draw = function (mode, type, size, x, y, z, power, brushTextur
 
 		this.copyPass.render(this.renderer, this.texturesBounce[0], this.textures[0]);
 
-		this.renderer.render(this.renderable, FullscreenUtils.camera, [], this.textures[0], false);
+		this.renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.textures[0], false);
 	} else if (mode === 'flatten') {
 		this.renderable.materials[0] = this.drawMaterial4;
 		this.renderable.materials[0].uniforms.opacity = power;
 		this.renderable.materials[0].uniforms.height = y;
 
 		if (brushTexture) {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, brushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, brushTexture);
 		} else {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, this.defaultBrushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, this.defaultBrushTexture);
 		}
 
 		this.renderable.transform.translation.setDirect(x / this.size, z / this.size, 0);
@@ -345,7 +347,7 @@ Terrain.prototype.draw = function (mode, type, size, x, y, z, power, brushTextur
 
 		this.copyPass.render(this.renderer, this.texturesBounce[0], this.textures[0]);
 
-		this.renderer.render(this.renderable, FullscreenUtils.camera, [], this.textures[0], false);
+		this.renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.textures[0], false);
 	} else {
 		this.renderable.materials[0] = this.drawMaterial1;
 		this.renderable.materials[0].uniforms.opacity = power;
@@ -359,16 +361,16 @@ Terrain.prototype.draw = function (mode, type, size, x, y, z, power, brushTextur
 		}
 
 		if (brushTexture) {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, brushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, brushTexture);
 		} else {
-			this.renderable.materials[0].setTexture(Shader.DIFFUSE_MAP, this.defaultBrushTexture);
+			this.renderable.materials[0].setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, this.defaultBrushTexture);
 		}
 
 		this.renderable.transform.translation.setDirect(x / this.size, z / this.size, 0);
 		this.renderable.transform.scale.setDirect(-size, size, size);
 		this.renderable.transform.update();
 
-		this.renderer.render(this.renderable, FullscreenUtils.camera, [], this.textures[0], false);
+		this.renderer.render(this.renderable, FullscreenUtilsjs_camera, [], this.textures[0], false);
 	}
 };
 
@@ -562,12 +564,12 @@ Terrain.prototype.update = function (pos) {
 			var interior1 = clipmap.parentClipmap.clipmapEntity.interior1;
 			var interior2 = clipmap.parentClipmap.clipmapEntity.interior2;
 
-			var xxx = MathUtils.moduloPositive(xx + 1, 2);
-			var zzz = MathUtils.moduloPositive(zz + 1, 2);
+			var xxx = MathUtilsjs_moduloPositive(xx + 1, 2);
+			var zzz = MathUtilsjs_moduloPositive(zz + 1, 2);
 			var xmove = xxx % 2 === 0 ? -n : n + 1;
 			var zmove = zzz % 2 === 0 ? -n : n + 1;
 			interior1.setTranslation(-n, 0, zmove);
-			zzz = MathUtils.moduloPositive(zz, 2);
+			zzz = MathUtilsjs_moduloPositive(zz, 2);
 			zmove = zzz % 2 === 0 ? -n : -n + 1;
 			interior2.setTranslation(xmove, 0, zmove);
 		}
@@ -651,13 +653,13 @@ Terrain.prototype.createGrid = function (w, h) {
 		return this._gridCache[key];
 	}
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	var meshData = new MeshData(attributeMap, (w + 1) * (h + 1), (w * 2 + 4) * h);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]);
+	var meshData = new rendererMeshData_MeshDatajs(attributeMap, (w + 1) * (h + 1), (w * 2 + 4) * h);
 	this._gridCache[key] = meshData;
 
 	meshData.indexModes = ['TriangleStrip'];
 
-	var vertices = meshData.getAttributeBuffer(MeshData.POSITION);
+	var vertices = meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION);
 	var indices = meshData.getIndexBuffer();
 
 	for (var x = 0; x < w + 1; x++) {
@@ -695,24 +697,24 @@ var terrainShaderDefFloat = {
 		SKIP_SPECULAR: true
 	},
 	processors: [
-		ShaderBuilder.light.processor,
+		ShaderBuilderjs_light.processor,
 		function (shader) {
-			if (ShaderBuilder.USE_FOG) {
+			if (ShaderBuilderjs_USE_FOG) {
 				shader.setDefine('FOG', true);
-				shader.uniforms.fogSettings = ShaderBuilder.FOG_SETTINGS;
-				shader.uniforms.fogColor = ShaderBuilder.FOG_COLOR;
+				shader.uniforms.fogSettings = ShaderBuilderjs_FOG_SETTINGS;
+				shader.uniforms.fogColor = ShaderBuilderjs_FOG_COLOR;
 			} else {
 				shader.removeDefine('FOG');
 			}
 		}
 	],
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraPosition: Shader.CAMERA,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
 		heightMap: 'HEIGHT_MAP',
 		normalMap: 'NORMAL_MAP',
 		detailMap: 'DETAIL_MAP',
@@ -725,17 +727,17 @@ var terrainShaderDefFloat = {
 		stoneMap: 'STONE_MAP',
 		lightMap: 'LIGHT_MAP',
 		fogSettings: function () {
-			return ShaderBuilder.FOG_SETTINGS;
+			return ShaderBuilderjs_FOG_SETTINGS;
 		},
 		fogColor: function () {
-			return ShaderBuilder.FOG_COLOR;
+			return ShaderBuilderjs_FOG_COLOR;
 		},
 		resolution: [255, 1, 1024, 1024],
 		resolutionNorm: [1024, 1024],
 		col: [0, 0, 0]
 	},
 	builder: function (shader, shaderInfo) {
-		ShaderBuilder.light.builder(shader, shaderInfo);
+		ShaderBuilderjs_light.builder(shader, shaderInfo);
 	},
 	vshader: function () {
 		return [
@@ -751,7 +753,7 @@ var terrainShaderDefFloat = {
 			'varying vec3 viewPosition;',
 			'varying vec4 alphaval;',
 
-			ShaderBuilder.light.prevertex,
+			ShaderBuilderjs_light.prevertex,
 
 			'const vec2 alphaOffset = vec2(45.0);',
 			'const vec2 oneOverWidth = vec2(1.0 / 16.0);',
@@ -776,7 +778,7 @@ var terrainShaderDefFloat = {
 			'vWorldPos = worldPos.xyz;',
 			'viewPosition = cameraPosition - vWorldPos;',
 
-			ShaderBuilder.light.vertex,
+			ShaderBuilderjs_light.vertex,
 			'}'
 		].join('\n');
 	},
@@ -806,7 +808,7 @@ var terrainShaderDefFloat = {
 			'varying vec3 viewPosition;',
 			'varying vec4 alphaval;',
 
-			ShaderBuilder.light.prefragment,
+			ShaderBuilderjs_light.prefragment,
 
 			'void main(void) {',
 				'if (alphaval.w < -1000.0) discard;',
@@ -841,7 +843,7 @@ var terrainShaderDefFloat = {
 				'#ifdef LIGHTMAP',
 				'final_color = final_color * texture2D(lightMap, mapcoord);',
 				'#else',
-				ShaderBuilder.light.fragment,
+				ShaderBuilderjs_light.fragment,
 				'#endif',
 
 				'#ifdef FOG',
@@ -857,12 +859,12 @@ var terrainShaderDefFloat = {
 
 var upsampleShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
 		diffuseMap: 'MAIN_MAP',
-		childMap: Shader.DIFFUSE_MAP,
+		childMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		res: [1, 1, 1, 1]
 	},
 	vshader: [
@@ -907,14 +909,14 @@ var upsampleShader = {
 
 var brushShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0,
-		diffuseMap: Shader.DIFFUSE_MAP
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -946,15 +948,15 @@ var brushShader = {
 
 var brushShader2 = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0,
 		rgba: [1, 1, 1, 1],
-		diffuseMap: Shader.DIFFUSE_MAP,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		splatMap: 'SPLAT_MAP'
 	},
 	vshader: [
@@ -995,15 +997,15 @@ var brushShader2 = {
 
 var brushShader3 = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0,
 		size: 1/512,
-		diffuseMap: Shader.DIFFUSE_MAP,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		heightMap: 'HEIGHT_MAP'
 	},
 	vshader: [
@@ -1049,15 +1051,15 @@ var brushShader3 = {
 
 var brushShader4 = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0,
 		height: 0,
-		diffuseMap: Shader.DIFFUSE_MAP,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		heightMap: 'HEIGHT_MAP'
 	},
 	vshader: [
@@ -1098,13 +1100,13 @@ var brushShader4 = {
 
 var extractShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		diffuseMap: Shader.DIFFUSE_MAP
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -1166,14 +1168,14 @@ var extractShader = {
 
 var terrainPickingShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraFar: Shader.FAR_PLANE,
-		cameraPosition: Shader.CAMERA,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraFar: rendererShader_Shaderjs.FAR_PLANE,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
 		heightMap: 'HEIGHT_MAP',
 		resolution: [255, 1, 1, 1],
 		id: function (shaderInfo) {
@@ -1221,7 +1223,7 @@ var terrainPickingShader = {
 
 	'varying float depth;',
 
-	ShaderFragment.methods.packDepth16,
+	ShaderFragmentjs_methods.packDepth16,
 
 	'void main() {',
 		'vec2 packedId = vec2(floor(id/255.0), mod(id, 255.0)) * vec2(1.0/255.0);',
@@ -1305,14 +1307,14 @@ var terrainPickingShader = {
 
 var normalmapShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		heightMap: Shader.DIFFUSE_MAP,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		heightMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		// normalMap: Shader.NORMAL_MAP,
 		resolution: [512, 512],
 		height	: 0.05
@@ -1351,4 +1353,9 @@ var normalmapShader = {
 	].join('\n')
 };
 
-module.exports = Terrain;
+/* global Ammo */
+
+/**
+ * A terrain
+ */
+export { Terrain_Terrain as Terrain };

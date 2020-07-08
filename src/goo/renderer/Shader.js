@@ -1,30 +1,11 @@
-var ShaderCall = require('../renderer/ShaderCall');
-var Matrix3 = require('../math/Matrix3');
-var Matrix4 = require('../math/Matrix4');
-var World = require('../entities/World');
-var RenderQueue = require('../renderer/RenderQueue');
-var ObjectUtils = require('../util/ObjectUtils');
-var SystemBus = require('../entities/SystemBus');
-
-/* global WebGLRenderingContext */
-
-/**
- * Defines vertex and fragment shader and uniforms to shader callbacks
- * @param {string} name Shader name (mostly for debug/tool use)
- * @param {ShaderDefinition} shaderDefinition Shader data
- *
- * <code>
- * {
- *    vshader: [required] vertex shader source
- *    fshader: [required] fragment shader source
- *    defines : shader definitions (becomes #define)
- *    attributes : attribute bindings
- *       attribute bindings need to map to an attribute in the meshdata being rendered
- *    uniforms : uniform bindings
- *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
- * }
- * </code>
- */
+var Shader_Shader = Shader;
+import { ShaderCall as rendererShaderCall_ShaderCalljs } from "../renderer/ShaderCall";
+import { Matrix3 as mathMatrix3_Matrix3js } from "../math/Matrix3";
+import { Matrix4 as mathMatrix4_Matrix4js } from "../math/Matrix4";
+import { World as entitiesWorld_Worldjs } from "../entities/World";
+import { OPAQUE as RenderQueuejs_OPAQUE } from "../renderer/RenderQueue";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
 function Shader(name, shaderDefinition) {
 	if (!shaderDefinition.vshader || !shaderDefinition.fshader) {
 		throw new Error('Missing shader sources for shader: ' + name);
@@ -110,7 +91,7 @@ function Shader(name, shaderDefinition) {
 	 * By default materials use the render queue of the shader. See {@link RenderQueue} for more info
 	 * @type {number}
 	 */
-	this.renderQueue = RenderQueue.OPAQUE;
+	this.renderQueue = RenderQueuejs_OPAQUE;
 
 	// this._id = Shader.id++;
 	if (Shader.cache.has(shaderDefinition)) {
@@ -135,7 +116,7 @@ function Shader(name, shaderDefinition) {
 Shader.cache = new Map();
 
 Shader.prototype.clone = function () {
-	return new Shader(this.name, ObjectUtils.deepClone({
+	return new Shader(this.name, utilObjectUtils_ObjectUtilsjs.deepClone({
 		precision: this.precision,
 		processors: this.processors,
 		builder: this.builder,
@@ -477,7 +458,7 @@ Shader.prototype.compile = function (renderer) {
 	var error = context.getError();
 	if (this.shaderProgram === null || error !== 0) {
 		console.error('Shader error: ' + error + ' [shader: ' + this.name + ']');
-		SystemBus.emit('goo.shader.error');
+		entitiesSystemBus_SystemBusjsjs.emit('goo.shader.error');
 	}
 
 	context.attachShader(this.shaderProgram, this.vertexShader);
@@ -488,7 +469,7 @@ Shader.prototype.compile = function (renderer) {
 	if (!context.getProgramParameter(this.shaderProgram, (context.LINK_STATUS !== undefined ? context.LINK_STATUS : WebGLRenderingContext.LINK_STATUS))) {
 		var errInfo = context.getProgramInfoLog(this.shaderProgram);
 		console.error('Could not initialise shaders: ' + errInfo);
-		SystemBus.emit('goo.shader.error', errInfo);
+		entitiesSystemBus_SystemBusjsjs.emit('goo.shader.error', errInfo);
 	}
 
 	for (var key in this.attributeMapping) {
@@ -519,7 +500,7 @@ Shader.prototype.compile = function (renderer) {
 			continue;
 		}
 
-		this.uniformCallMapping[key] = new ShaderCall(context, uniform, this.uniformMapping[key].format);
+		this.uniformCallMapping[key] = new rendererShaderCall_ShaderCalljs(context, uniform, this.uniformMapping[key].format);
 	}
 
 	if (this.attributes) {
@@ -633,12 +614,12 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 	defaultCallbacks[Shader.WORLD_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : Matrix4.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : mathMatrix4_Matrix4js.IDENTITY;
 		uniformCall.uniformMatrix4fv(matrix);
 	};
 	defaultCallbacks[Shader.NORMAL_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : Matrix3.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : mathMatrix3_Matrix3js.IDENTITY;
 		uniformCall.uniformMatrix3fv(matrix);
 	};
 
@@ -727,10 +708,10 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 
 	defaultCallbacks[Shader.TIME] = function (uniformCall) {
-		uniformCall.uniform1f(World.time);
+		uniformCall.uniform1f(entitiesWorld_Worldjs.time);
 	};
 	defaultCallbacks[Shader.TPF] = function (uniformCall) {
-		uniformCall.uniform1f(World.tpf);
+		uniformCall.uniform1f(entitiesWorld_Worldjs.tpf);
 	};
 
 	defaultCallbacks[Shader.RESOLUTION] = function (uniformCall, shaderInfo) {
@@ -811,4 +792,23 @@ Shader.DEFAULT_SHININESS = 64.0;
 Shader.prototype.defaultCallbacks = {};
 setupDefaultCallbacks(Shader.prototype.defaultCallbacks);
 
-module.exports = Shader;
+/* global WebGLRenderingContext */
+
+/**
+ * Defines vertex and fragment shader and uniforms to shader callbacks
+ * @param {string} name Shader name (mostly for debug/tool use)
+ * @param {ShaderDefinition} shaderDefinition Shader data
+ *
+ * <code>
+ * {
+ *    vshader: [required] vertex shader source
+ *    fshader: [required] fragment shader source
+ *    defines : shader definitions (becomes #define)
+ *    attributes : attribute bindings
+ *       attribute bindings need to map to an attribute in the meshdata being rendered
+ *    uniforms : uniform bindings
+ *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
+ * }
+ * </code>
+ */
+export { Shader_Shader as Shader };

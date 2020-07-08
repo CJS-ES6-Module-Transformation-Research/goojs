@@ -1,12 +1,9 @@
-var Manager = require('../../entities/managers/Manager');
-var EntitySelection = require('../../entities/EntitySelection');
-
-/**
- * Main handler of all entities in the world.
- * @extends Manager
- */
+var EntityManager_EntityManager = EntityManager;
+import { Manager as entitiesmanagersManager_Managerjs } from "../../entities/managers/Manager";
+import { EntitySelection as entitiesEntitySelection_EntitySelectionjs } from "../../entities/EntitySelection";
+var EntityManager_api;
 function EntityManager() {
-	Manager.call(this);
+	entitiesmanagersManager_Managerjs.call(this);
 
 	this.type = 'EntityManager';
 
@@ -22,21 +19,22 @@ function EntityManager() {
 	 * var byId = gooRunner.world.by.id("2b88941938444da8afab8205b1c80616.entity").first();
 	 * var byName = gooRunner.world.by.name("Box").first();
 	 */
-	this.api = {
-		id: function () {
-			var ret = EntityManager.prototype.getEntityById.apply(this, arguments);
-			return new EntitySelection(ret);
-		}.bind(this),
-		name: function (name) {
-			var entities = this.getEntities();
-			return new EntitySelection(entities.filter(function (entity) {
-				return entity.name === name;
-			}));
-		}.bind(this)
-	};
+	EntityManager_api = {
+        id: function() {
+            var ret = EntityManager.prototype.getEntityById.apply(this, arguments);
+            return new entitiesEntitySelection_EntitySelectionjs(ret);
+        }.bind(this),
+
+        name: function(name) {
+            var entities = this.getEntities();
+            return new entitiesEntitySelection_EntitySelectionjs(entities.filter(function(entity) {
+                return entity.name === name;
+            }));
+        }.bind(this)
+    };;
 }
 
-EntityManager.prototype = Object.create(Manager.prototype);
+EntityManager.prototype = Object.create(entitiesmanagersManager_Managerjs.prototype);
 
 EntityManager.prototype.added = function (entity) {
 	if (!this.containsEntity(entity)) {
@@ -157,4 +155,8 @@ EntityManager.prototype.clear = function () {
 	this._entityCount = 0;
 };
 
-module.exports = EntityManager;
+/**
+ * Main handler of all entities in the world.
+ * @extends Manager
+ */
+export { EntityManager_EntityManager as EntityManager };

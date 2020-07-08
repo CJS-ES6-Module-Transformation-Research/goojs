@@ -1,16 +1,18 @@
-var SoundHandler = require('../loaders/handlers/SoundHandler');
-var AudioContext = require('../sound/AudioContext');
-var Ajax = require('../util/Ajax');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
+var SoundCreator_SoundCreator = SoundCreator;
+import { SoundHandler as loadershandlersSoundHandler_SoundHandlerjs } from "../loaders/handlers/SoundHandler";
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../sound/AudioContext";
+import { Ajax as utilAjax_Ajaxjs } from "../util/Ajax";
 
-/**
- * Provides a simple way to load sounds
- */
+import {
+    createUniqueId as StringUtilsjs_createUniqueId,
+    getAfterLast as StringUtilsjs_getAfterLast,
+} from "../util/StringUtils";
+
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
 function SoundCreator() {
-	var ajax = this.ajax = new Ajax();
+	var ajax = this.ajax = new utilAjax_Ajaxjs();
 
-	this.soundHandler = new SoundHandler(
+	this.soundHandler = new loadershandlersSoundHandler_SoundHandlerjs(
 		{},
 		function (ref, options) {
 			return ajax.load(ref, options ? options.noCache : false);
@@ -37,15 +39,15 @@ SoundCreator.prototype.clear = function () {
  * @returns {RSVP.Promise}
  */
 SoundCreator.prototype.loadSound = function (url, settings) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils.reject(new Error('AudioContext is not supported!'));
+	if (!soundAudioContext_AudioContextjsjs.isSupported()) {
+		return utilPromiseUtils_PromiseUtilsjs.reject(new Error('AudioContext is not supported!'));
 	}
 
-	var id = StringUtils.createUniqueId('sound');
+	var id = StringUtilsjs_createUniqueId('sound');
 	settings = settings || {};
 	settings.audioRefs = {};
 
-	var fileExtension = StringUtils.getAfterLast(url, '.');
+	var fileExtension = StringUtilsjs_getAfterLast(url, '.');
 	settings.audioRefs[fileExtension] = url;
 
 	var sound = this.soundHandler._create();
@@ -54,4 +56,7 @@ SoundCreator.prototype.loadSound = function (url, settings) {
 	return this.soundHandler.update(id, settings, {});
 };
 
-module.exports = SoundCreator;
+/**
+ * Provides a simple way to load sounds
+ */
+export { SoundCreator_SoundCreator as SoundCreator };

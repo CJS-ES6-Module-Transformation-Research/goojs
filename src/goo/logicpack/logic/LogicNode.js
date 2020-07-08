@@ -1,11 +1,9 @@
-/**
- * Base class/module for all logic boxes
- * @private
- */
+var LogicNode_LogicNode = LogicNode;
+var LogicNode__instanceCount;
 function LogicNode() {
 	// Generated the same way as entities are, except different naming.
 	Object.defineProperty(this, 'id', {
-		value: LogicNode._instanceCount++,
+		value: LogicNode__instanceCount++,
 		writable: false
 	});
 
@@ -83,6 +81,12 @@ LogicNode.prototype.onSystemStopped = function () {};
  */
 LogicNode.prototype.onInputChanged = function () {};
 
-LogicNode._instanceCount = 0;
+LogicNode__instanceCount = 0;;
 
-module.exports = LogicNode;
+export { LogicNode };
+
+/**
+ * Base class/module for all logic boxes
+ * @private
+ */
+export { LogicNode_LogicNode as LogicNode };

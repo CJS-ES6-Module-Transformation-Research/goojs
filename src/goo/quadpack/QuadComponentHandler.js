@@ -1,22 +1,19 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var QuadComponent = require('../quadpack/QuadComponent');
+var QuadComponentHandler_QuadComponentHandler = QuadComponentHandler;
 
-/**
- * For handling loading of quadcomponents
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import {
+    ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../loaders/handlers/ComponentHandler";
+
+import { QuadComponent as quadpackQuadComponent_QuadComponentjs } from "../quadpack/QuadComponent";
 function QuadComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'QuadComponent';
 }
 
-QuadComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+QuadComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
 QuadComponentHandler.prototype.constructor = QuadComponentHandler;
-ComponentHandler._registerClass('quad', QuadComponentHandler);
+ComponentHandlerjs__registerClass('quad', QuadComponentHandler);
 
 /**
  * Create a quadcomponent object.
@@ -24,7 +21,7 @@ ComponentHandler._registerClass('quad', QuadComponentHandler);
  * @private
  */
 QuadComponentHandler.prototype._create = function () {
-	return new QuadComponent();
+	return new quadpackQuadComponent_QuadComponentjs();
 };
 
 /**
@@ -48,7 +45,7 @@ QuadComponentHandler.prototype._remove = function (entity) {
  */
 QuadComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		// Load material
@@ -73,4 +70,12 @@ QuadComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = QuadComponentHandler;
+/**
+ * For handling loading of quadcomponents
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { QuadComponentHandler_QuadComponentHandler as QuadComponentHandler };

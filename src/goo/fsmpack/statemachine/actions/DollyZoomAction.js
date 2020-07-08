@@ -1,17 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var MathUtils = require('../../../math/MathUtils');
-var Easing = require('../../../util/Easing');
+var DollyZoomAction_DollyZoomAction = DollyZoomAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+import { lerp as MathUtilsjs_lerp } from "../../../math/MathUtils";
 
-function DollyZoomAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function DollyZoomAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 
-	this.from = new Vector3();
-	this.to = new Vector3();
+	this.from = new mathVector3_Vector3js();
+	this.to = new mathVector3_Vector3js();
 	this.completed = false;
 }
 
-DollyZoomAction.prototype = Object.create(Action.prototype);
+DollyZoomAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 DollyZoomAction.prototype.constructor = DollyZoomAction;
 
 DollyZoomAction.external = {
@@ -73,13 +73,13 @@ DollyZoomAction.prototype.enter = function (fsm) {
 		var translation = transformComponent.transform.translation;
 		var camera = entity.cameraComponent.camera;
 
-		this.fromDistance = new Vector3(this.lookAt).distance(camera.translation);
+		this.fromDistance = new mathVector3_Vector3js(this.lookAt).distance(camera.translation);
 		this.toDistance = this.fromDistance - this.forward;
 
 		this.eyeTargetScale = Math.tan(camera.fov * (Math.PI / 180) / 2) * this.fromDistance;
 
-		var initialTranslation = new Vector3().copy(translation);
-		var toVec = Vector3.fromArray(this.lookAt)
+		var initialTranslation = new mathVector3_Vector3js().copy(translation);
+		var toVec = mathVector3_Vector3js.fromArray(this.lookAt)
 			.sub(initialTranslation)
 			.normalize()
 			.scale(this.forward)
@@ -110,7 +110,7 @@ DollyZoomAction.prototype.update = function (fsm) {
 		transformComponent.transform.translation.set(this.from).lerp(this.to, fT);
 		transformComponent.setUpdated();
 
-		var d = MathUtils.lerp(fT, this.fromDistance, this.toDistance);
+		var d = MathUtilsjs_lerp(fT, this.fromDistance, this.toDistance);
 		var fov = (180 / Math.PI) * 2 * Math.atan(this.eyeTargetScale / d);
 		camera.setFrustumPerspective(fov);
 
@@ -121,4 +121,4 @@ DollyZoomAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = DollyZoomAction;
+export { DollyZoomAction_DollyZoomAction as DollyZoomAction };

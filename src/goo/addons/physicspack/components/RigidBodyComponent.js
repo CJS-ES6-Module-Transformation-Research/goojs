@@ -1,33 +1,23 @@
-var AbstractRigidBodyComponent = require('../../../addons/physicspack/components/AbstractRigidBodyComponent');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var BoxCollider = require('../../../addons/physicspack/colliders/BoxCollider');
-var SphereCollider = require('../../../addons/physicspack/colliders/SphereCollider');
-var MeshCollider = require('../../../addons/physicspack/colliders/MeshCollider');
-var BallJoint = require('../../../addons/physicspack/joints/BallJoint');
-var HingeJoint = require('../../../addons/physicspack/joints/HingeJoint');
-var ColliderComponent = require('../../../addons/physicspack/components/ColliderComponent');
-var MathUtils = require('../../../math/MathUtils');
+var RigidBodyComponent_RigidBodyComponent = RigidBodyComponent;
+import {     AbstractRigidBodyComponent as addonsphysicspackcomponentsAbstractRigidBodyComponent_AbstractRigidBodyComponentjs, } from "../../../addons/physicspack/components/AbstractRigidBodyComponent";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+import { Quaternion as mathQuaternion_Quaternionjs } from "../../../math/Quaternion";
+import { BoxCollider as addonsphysicspackcollidersBoxCollider_BoxColliderjs } from "../../../addons/physicspack/colliders/BoxCollider";
+import {     SphereCollider as addonsphysicspackcollidersSphereCollider_SphereColliderjs, } from "../../../addons/physicspack/colliders/SphereCollider";
+import { MeshCollider as addonsphysicspackcollidersMeshCollider_MeshColliderjs } from "../../../addons/physicspack/colliders/MeshCollider";
+import { BallJoint as addonsphysicspackjointsBallJoint_BallJointjs } from "../../../addons/physicspack/joints/BallJoint";
+import { HingeJoint as addonsphysicspackjointsHingeJoint_HingeJointjs } from "../../../addons/physicspack/joints/HingeJoint";
+import {     ColliderComponent as addonsphysicspackcomponentsColliderComponent_ColliderComponentjs, } from "../../../addons/physicspack/components/ColliderComponent";
+import { lerp as MathUtilsjs_lerp } from "../../../math/MathUtils";
 
 /* global CANNON */
-var tmpQuat = new Quaternion();
+var tmpQuat = new mathQuaternion_Quaternionjs();
 var tmpCannonVec;
 var tmpCannonVec2;
 
-/**
- * Adds rigid body dynamics the entity. To be used with the {@link PhysicsSystem}. If the entity or its children have {@link ColliderComponent}s, they are added as collision shapes to the rigid body.
- * @param {Object} [settings]
- * @param {number} [settings.mass=1]
- * @param {boolean} [settings.isKinematic=false]
- * @param {Vector3} [settings.velocity]
- * @param {Vector3} [settings.angularVelocity]
- * @param {number} [settings.linearDamping=0.01]
- * @param {number} [settings.angularDamping=0.05]
- * @extends AbstractRigidBodyComponent
- */
 function RigidBodyComponent(settings) {
 	settings = settings || {};
-	AbstractRigidBodyComponent.apply(this, arguments);
+	addonsphysicspackcomponentsAbstractRigidBodyComponent_AbstractRigidBodyComponentjs.apply(this, arguments);
 
 	this.type = 'RigidBodyComponent';
 
@@ -70,13 +60,13 @@ function RigidBodyComponent(settings) {
 	 * @private
 	 * @type {Vector3}
 	 */
-	this._velocity = settings.velocity ? settings.velocity.clone() : new Vector3();
+	this._velocity = settings.velocity ? settings.velocity.clone() : new mathVector3_Vector3js();
 
 	/**
 	 * @private
 	 * @type {Vector3}
 	 */
-	this._angularVelocity = settings.angularVelocity ? settings.angularVelocity.clone() : new Vector3();
+	this._angularVelocity = settings.angularVelocity ? settings.angularVelocity.clone() : new mathVector3_Vector3js();
 
 	/**
 	 * @private
@@ -127,7 +117,7 @@ function RigidBodyComponent(settings) {
 	this._constraints = RigidBodyComponent.FREEZE_NONE;
 }
 
-RigidBodyComponent.prototype = Object.create(AbstractRigidBodyComponent.prototype);
+RigidBodyComponent.prototype = Object.create(addonsphysicspackcomponentsAbstractRigidBodyComponent_AbstractRigidBodyComponentjs.prototype);
 RigidBodyComponent.prototype.constructor = RigidBodyComponent;
 
 RigidBodyComponent.type = 'RigidBodyComponent';
@@ -410,9 +400,9 @@ RigidBodyComponent.prototype.getInterpolatedPosition = function (targetVector) {
 	var currentPosition = this.cannonBody.position;
 	var t = this._system.world.interpolationTime;
 	targetVector.setDirect(
-		MathUtils.lerp(t, prevPosition.x, currentPosition.x),
-		MathUtils.lerp(t, prevPosition.y, currentPosition.y),
-		MathUtils.lerp(t, prevPosition.z, currentPosition.z)
+		MathUtilsjs_lerp(t, prevPosition.x, currentPosition.x),
+		MathUtilsjs_lerp(t, prevPosition.y, currentPosition.y),
+		MathUtilsjs_lerp(t, prevPosition.z, currentPosition.z)
 	);
 };
 
@@ -453,10 +443,10 @@ RigidBodyComponent.prototype.getInterpolatedQuaternion = function (targetQuat) {
 	var currentQuat = this.cannonBody.quaternion;
 	var t = this._system.world.interpolationTime;
 	targetQuat.setDirect(
-		MathUtils.lerp(t, prevQuat.x, currentQuat.x),
-		MathUtils.lerp(t, prevQuat.y, currentQuat.y),
-		MathUtils.lerp(t, prevQuat.z, currentQuat.z),
-		MathUtils.lerp(t, prevQuat.w, currentQuat.w)
+		MathUtilsjs_lerp(t, prevQuat.x, currentQuat.x),
+		MathUtilsjs_lerp(t, prevQuat.y, currentQuat.y),
+		MathUtilsjs_lerp(t, prevQuat.z, currentQuat.z),
+		MathUtilsjs_lerp(t, prevQuat.w, currentQuat.w)
 	);
 };
 
@@ -654,7 +644,7 @@ RigidBodyComponent.prototype.initializeJoint = function (joint) {
 	var bodyA = this.cannonBody;
 	var bodyB = (joint.connectedEntity.rigidBodyComponent || joint.connectedEntity.colliderComponent).cannonBody;
 	var constraint;
-	if (joint instanceof BallJoint) {
+	if (joint instanceof addonsphysicspackjointsBallJoint_BallJointjs) {
 		// Scale the joint to the world scale
 		var scaledPivotA = joint.localPivot.clone();
 		scaledPivotA.mul(this._entity.transformComponent.transform.scale);
@@ -674,7 +664,7 @@ RigidBodyComponent.prototype.initializeJoint = function (joint) {
 		}
 
 		constraint = new CANNON.PointToPointConstraint(bodyA, pivotInA, bodyB, pivotInB);
-	} else if (joint instanceof HingeJoint) {
+	} else if (joint instanceof addonsphysicspackjointsHingeJoint_HingeJointjs) {
 		var pivotInA = new CANNON.Vec3();
 		var pivotInB = new CANNON.Vec3();
 		var axisInA = new CANNON.Vec3();
@@ -723,13 +713,13 @@ RigidBodyComponent.prototype.initializeJoint = function (joint) {
 };
 
 RigidBodyComponent.copyScaleFromColliderToCannonShape = function (cannonShape, collider) {
-	if (collider instanceof SphereCollider) {
+	if (collider instanceof addonsphysicspackcollidersSphereCollider_SphereColliderjs) {
 		cannonShape.radius = collider.radius;
-	} else if (collider instanceof BoxCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersBoxCollider_BoxColliderjs) {
 		cannonShape.halfExtents.copy(collider.halfExtents);
 		cannonShape.updateConvexPolyhedronRepresentation();
 		cannonShape.updateBoundingSphereRadius();
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersMeshCollider_MeshColliderjs) {
 		var scale;
 		if (!tmpCannonVec) {
 			tmpCannonVec = new CANNON.Vec3();
@@ -761,7 +751,7 @@ RigidBodyComponent.prototype.addCollider = function (entity, position, quaternio
 	colliderComponent.updateWorldCollider(true);
 	var collider = colliderComponent.worldCollider;
 
-	var cannonShape = colliderComponent.cannonShape = ColliderComponent.getCannonShape(collider);
+	var cannonShape = colliderComponent.cannonShape = addonsphysicspackcomponentsColliderComponent_ColliderComponentjs.getCannonShape(collider);
 
 	this._system._shapeIdToColliderEntityMap.set(cannonShape.id, entity);
 
@@ -806,4 +796,15 @@ RigidBodyComponent.prototype.clone = function () {
 
 RigidBodyComponent.prototype.api = {};
 
-module.exports = RigidBodyComponent;
+/**
+ * Adds rigid body dynamics the entity. To be used with the {@link PhysicsSystem}. If the entity or its children have {@link ColliderComponent}s, they are added as collision shapes to the rigid body.
+ * @param {Object} [settings]
+ * @param {number} [settings.mass=1]
+ * @param {boolean} [settings.isKinematic=false]
+ * @param {Vector3} [settings.velocity]
+ * @param {Vector3} [settings.angularVelocity]
+ * @param {number} [settings.linearDamping=0.01]
+ * @param {number} [settings.angularDamping=0.05]
+ * @extends AbstractRigidBodyComponent
+ */
+export { RigidBodyComponent_RigidBodyComponent as RigidBodyComponent };

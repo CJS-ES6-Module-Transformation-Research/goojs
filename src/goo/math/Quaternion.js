@@ -1,21 +1,10 @@
-var Vector = require('./Vector');
-var Vector3 = require('./Vector3');
-var Vector4 = require('./Vector4');
-var Matrix3 = require('./Matrix3');
-var MathUtils = require('./MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Quaternions provide a convenient mathematical notation for
- * representing orientations and rotations of objects in three dimensions.
- * Compared to Euler angles, Quaternions are simpler to compose and can help avoid the problem of gimbal lock.
- * Compared to rotation matrices, Quaternions are more numerically stable and the representation (4 numbers) is more compact.
- * Quaternions are non-commutative and provide a convenient way to interpolate between rotations (using the <i>slerp</i> function).
- * @param {number} x
- * @param {number} y
- * @param {number} z
- * @param {number} w
- */
+var Quaternion_Quaternion = Quaternion;
+import { Vector as Vector_Vectorjs } from "./Vector";
+import { Vector3 as Vector3_Vector3js } from "./Vector3";
+import { Vector4 as Vector4_Vector4js } from "./Vector4";
+import { Matrix3 as Matrix3_Matrix3js } from "./Matrix3";
+import { EPSILON as MathUtilsjs_EPSILON } from "./MathUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function Quaternion(x, y, z, w) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -55,15 +44,15 @@ function Quaternion(x, y, z, w) {
 }
 
 // @ifdef DEBUG
-Vector.setupAliases(Quaternion.prototype, [['x'], ['y'], ['z'], ['w']]);
+Vector_Vectorjs.setupAliases(Quaternion.prototype, [['x'], ['y'], ['z'], ['w']]);
 // @endif
 
-Quaternion.prototype.setDirect = Vector4.prototype.setDirect;
-Quaternion.prototype.dot = Vector4.prototype.dot;
-Quaternion.prototype.length = Vector4.prototype.length;
-Quaternion.prototype.lengthSquared = Vector4.prototype.lengthSquared;
-Quaternion.prototype.normalize = Vector4.prototype.normalize;
-Quaternion.prototype.equals = Vector4.prototype.equals;
+Quaternion.prototype.setDirect = Vector4_Vector4js.prototype.setDirect;
+Quaternion.prototype.dot = Vector4_Vector4js.prototype.dot;
+Quaternion.prototype.length = Vector4_Vector4js.prototype.length;
+Quaternion.prototype.lengthSquared = Vector4_Vector4js.prototype.lengthSquared;
+Quaternion.prototype.normalize = Vector4_Vector4js.prototype.normalize;
+Quaternion.prototype.equals = Vector4_Vector4js.prototype.equals;
 
 Quaternion.IDENTITY = new Quaternion(0, 0, 0, 1);
 
@@ -274,7 +263,7 @@ Quaternion.prototype.fromRotationMatrix = function (matrix) {
  * @returns {Matrix3} The normalized rotation matrix representation of this quaternion.
  */
 Quaternion.prototype.toRotationMatrix = function (store) {
-	var result = store || new Matrix3();
+	var result = store || new Matrix3_Matrix3js();
 
 	var norm = this.lengthSquared();
 	var s = norm > 0.0 ? 2.0 / norm : 0.0;
@@ -307,7 +296,7 @@ Quaternion.prototype.toRotationMatrix = function (store) {
 };
 
 (function () {
-	var pivotVector = new Vector3();
+	var pivotVector = new Vector3_Vector3js();
 
 	/**
 	 * Sets this quaternion to the one that will rotate vector "from" into vector "to". Vectors do not have to be the same length.
@@ -320,12 +309,12 @@ Quaternion.prototype.toRotationMatrix = function (store) {
 		var b = to;
 
 		var factor = a.length() * b.length();
-		if (Math.abs(factor) > MathUtils.EPSILON) {
+		if (Math.abs(factor) > MathUtilsjs_EPSILON) {
 			// Vectors have length > 0
 			var dot = a.dot(b) / factor;
 			var theta = Math.acos(Math.max(-1.0, Math.min(dot, 1.0)));
 			pivotVector.copy(a).cross(b);
-			if (dot < 0.0 && pivotVector.length() < MathUtils.EPSILON) {
+			if (dot < 0.0 && pivotVector.length() < MathUtilsjs_EPSILON) {
 				// Vectors parallel and opposite direction, therefore a rotation of 180 degrees about any vector
 				// perpendicular to this vector will rotate vector a onto vector b.
 
@@ -356,7 +345,7 @@ Quaternion.prototype.toRotationMatrix = function (store) {
 })();
 
 (function () {
-	var tmpStoreVector3 = new Vector3();
+	var tmpStoreVector3 = new Vector3_Vector3js();
 	/**
 	 * Sets the values of this quaternion to the values represented by a given angle and axis of rotation.
 	 * Note that this method creates an object, so use fromAngleNormalAxis if your axis is already normalized.
@@ -379,7 +368,7 @@ Quaternion.prototype.toRotationMatrix = function (store) {
  * @returns {Quaternion} Self for chaining.
  */
 Quaternion.prototype.fromAngleNormalAxis = function (angle, axis) {
-	if (axis.equals(Vector3.ZERO)) {
+	if (axis.equals(Vector3_Vector3js.ZERO)) {
 		return this.set(Quaternion.IDENTITY);
 	}
 
@@ -401,7 +390,7 @@ Quaternion.prototype.fromAngleNormalAxis = function (angle, axis) {
 Quaternion.prototype.toAngleAxis = function (axisStore) {
 	var sqrLength = this.x * this.x + this.y * this.y + this.z * this.z;
 	var angle;
-	if (Math.abs(sqrLength) <= MathUtils.EPSILON) { // length is ~0
+	if (Math.abs(sqrLength) <= MathUtilsjs_EPSILON) { // length is ~0
 		angle = 0.0;
 		if (axisStore !== null) {
 			axisStore.x = 1.0;
@@ -439,7 +428,7 @@ Quaternion.prototype.dot = function (q) {
 };
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Quaternion.prototype, [
+Vector_Vectorjs.addReturnChecks(Quaternion.prototype, [
 	'dot', 'dotDirect',
 	'length', 'lengthSquared',
 	'distance', 'distanceSquared'
@@ -482,7 +471,7 @@ Quaternion.prototype.setArray = function (array) {
 // SHIM START
 
 Object.defineProperty(Quaternion.prototype, 'data', {
-	get: ObjectUtils.warnOnce(
+	get: utilObjectUtils_ObjectUtilsjs.warnOnce(
 		'The .data property of Quaternion was removed. Please use the .x, .y, .z and .w properties instead.',
 		function () {
 			var data = [];
@@ -530,7 +519,7 @@ Object.defineProperty(Quaternion.prototype, 'data', {
  * @hidden
  * @deprecated
  */
-Quaternion.add = ObjectUtils.warnOnce(
+Quaternion.add = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.add is deprecated.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -550,7 +539,7 @@ Quaternion.add = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.div = ObjectUtils.warnOnce(
+Quaternion.div = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.div is deprecated',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -572,7 +561,7 @@ Quaternion.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.mul = Quaternion.mul2 = ObjectUtils.warnOnce(
+Quaternion.mul = Quaternion.mul2 = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.mul is deprecated.',
 	function (a, b, out) {
 		var ax = a.x, ay = a.y, az = a.z, aw = a.w,
@@ -590,7 +579,7 @@ Quaternion.mul = Quaternion.mul2 = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.sub = ObjectUtils.warnOnce(
+Quaternion.sub = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.sub is deprecated.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -610,7 +599,7 @@ Quaternion.sub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.add = ObjectUtils.warnOnce(
+Quaternion.prototype.add = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.add is deprecated.',
 	function (rhs) {
 		return Quaternion.add(this, rhs, this);
@@ -621,7 +610,7 @@ Quaternion.prototype.add = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.div = ObjectUtils.warnOnce(
+Quaternion.prototype.div = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.div is deprecated.',
 	function (rhs) {
 		return Quaternion.div(this, rhs, this);
@@ -632,7 +621,7 @@ Quaternion.prototype.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.magnitude = ObjectUtils.warnOnce(
+Quaternion.prototype.magnitude = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.magnitude is deprecated.',
 	function () {
 		var magnitudeSQ = this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
@@ -647,7 +636,7 @@ Quaternion.prototype.magnitude = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.magnitudeSquared = ObjectUtils.warnOnce(
+Quaternion.prototype.magnitudeSquared = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.magnitudeSquared is deprecated.',
 	function () {
 		return this.x * this.x + this.y * this.y + this.z * this.z + this.w * this.w;
@@ -658,7 +647,7 @@ Quaternion.prototype.magnitudeSquared = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.scalarAdd = ObjectUtils.warnOnce(
+Quaternion.scalarAdd = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.scalarAdd is deprecated.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -678,7 +667,7 @@ Quaternion.scalarAdd = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.scalarDiv = ObjectUtils.warnOnce(
+Quaternion.scalarDiv = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.scalarDiv is deprecated.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -702,7 +691,7 @@ Quaternion.scalarDiv = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.scalarMul = ObjectUtils.warnOnce(
+Quaternion.scalarMul = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.scalarMul is deprecated.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -722,7 +711,7 @@ Quaternion.scalarMul = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.scalarSub = ObjectUtils.warnOnce(
+Quaternion.scalarSub = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.scalarSub is deprecated.',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -742,7 +731,7 @@ Quaternion.scalarSub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.setVector = ObjectUtils.warnOnce(
+Quaternion.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.setVector is deprecated.',
 	function (quat) {
 		this.x = quat.x;
@@ -758,7 +747,7 @@ Quaternion.prototype.setVector = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.sub = ObjectUtils.warnOnce(
+Quaternion.prototype.sub = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.sub is deprecated.',
 	function (rhs) {
 		return Quaternion.sub(this, rhs, this);
@@ -769,7 +758,7 @@ Quaternion.prototype.sub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarAdd = ObjectUtils.warnOnce(
+Quaternion.prototype.scalarAdd = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.scalarAdd is deprecated.',
 	function (rhs) {
 		return Quaternion.scalarAdd(this, rhs, this);
@@ -780,7 +769,7 @@ Quaternion.prototype.scalarAdd = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarSub = ObjectUtils.warnOnce(
+Quaternion.prototype.scalarSub = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.scalarSub is deprecated.',
 	function (rhs) {
 		return Quaternion.scalarSub(this, rhs, this);
@@ -791,7 +780,7 @@ Quaternion.prototype.scalarSub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarMul = ObjectUtils.warnOnce(
+Quaternion.prototype.scalarMul = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.scalarMul is deprecated.',
 	function (rhs) {
 		return Quaternion.scalarMul(this, rhs, this);
@@ -802,12 +791,22 @@ Quaternion.prototype.scalarMul = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Quaternion.prototype.scalarDiv = ObjectUtils.warnOnce(
+Quaternion.prototype.scalarDiv = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Quaternion.prototype.scalarDiv is deprecated.',
 	function (rhs) {
 		return Quaternion.scalarDiv(this, rhs, this);
 	}
 );
 
-// SHIM END
-module.exports = Quaternion;
+/**
+ * Quaternions provide a convenient mathematical notation for
+ * representing orientations and rotations of objects in three dimensions.
+ * Compared to Euler angles, Quaternions are simpler to compose and can help avoid the problem of gimbal lock.
+ * Compared to rotation matrices, Quaternions are more numerically stable and the representation (4 numbers) is more compact.
+ * Quaternions are non-commutative and provide a convenient way to interpolate between rotations (using the <i>slerp</i> function).
+ * @param {number} x
+ * @param {number} y
+ * @param {number} z
+ * @param {number} w
+ */
+export { Quaternion_Quaternion as Quaternion };

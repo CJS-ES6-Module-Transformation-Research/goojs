@@ -1,12 +1,9 @@
-var Vector2 = require('../../math/Vector2');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Used for storing derived data from gamepads
- */
+var GamepadData_GamepadData = GamepadData;
+import { Vector2 as mathVector2_Vector2js } from "../../math/Vector2";
+import { EPSILON as MathUtilsjs_EPSILON } from "../../math/MathUtils";
 function GamepadData() {
-	this.leftStickDirection = new Vector2();
-	this.rightStickDirection = new Vector2();
+	this.leftStickDirection = new mathVector2_Vector2js();
+	this.rightStickDirection = new mathVector2_Vector2js();
 
 	// TODO: Redo buttondata when Gamepad API is done. probably will be true for other things as well.
 	this.buttonData = {};
@@ -77,7 +74,7 @@ GamepadData.prototype.recalculateSticks = function (gamepad) {
 GamepadData.prototype.calculateStickDirection = function (dirVector, x, y) {
 	dirVector.setDirect(x, y);
 	var length = dirVector.length();
-	if (length > MathUtils.EPSILON) {
+	if (length > MathUtilsjs_EPSILON) {
 		dirVector.scale(1 / length);
 	}
 };
@@ -86,4 +83,7 @@ GamepadData.prototype.calculateStickAmount = function (x, y) {
 	return Math.max(Math.abs(x), Math.abs(y));
 };
 
-module.exports = GamepadData;
+/**
+ * Used for storing derived data from gamepads
+ */
+export { GamepadData_GamepadData as GamepadData };

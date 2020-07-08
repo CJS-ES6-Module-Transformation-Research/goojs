@@ -1,15 +1,12 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
+var ProjectHandler_ProjectHandler = ProjectHandler;
 
-/**
- * Handler for loading project into engine (actually loading mainScene)
- * @private
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- */
+import {
+    ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../../loaders/handlers/ConfigHandler";
+
 function ProjectHandler() {
-	ConfigHandler.apply(this, arguments);
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
 	/**
 	this._skybox = null;
 	this._skyboxTexture = null;
@@ -21,9 +18,9 @@ function ProjectHandler() {
 	*/
 }
 
-ProjectHandler.prototype = Object.create(ConfigHandler.prototype);
+ProjectHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 ProjectHandler.prototype.constructor = ProjectHandler;
-ConfigHandler._registerClass('project', ProjectHandler);
+ConfigHandlerjs__registerClass('project', ProjectHandler);
 
 /**
  * Removes project from engine, i e removes mainScene, i e removes scene entities from world
@@ -57,7 +54,7 @@ ProjectHandler.prototype._create = function () {
  */
 ProjectHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (project) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (project) {
 		if (!project) { return; }
 		function loadPromise() {
 			return that._load(config.mainSceneRef, options).then(function (scene) {
@@ -74,4 +71,12 @@ ProjectHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = ProjectHandler;
+/**
+ * Handler for loading project into engine (actually loading mainScene)
+ * @private
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ */
+export { ProjectHandler_ProjectHandler as ProjectHandler };

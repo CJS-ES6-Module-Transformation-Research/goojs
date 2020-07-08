@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+var SetRotationAction_SetRotationAction = SetRotationAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { getValue as FsmUtilsjs_getValue } from "../../../fsmpack/statemachine/FsmUtils";
 
-function SetRotationAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetRotationAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-SetRotationAction.prototype = Object.create(Action.prototype);
+SetRotationAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 SetRotationAction.prototype.constructor = SetRotationAction;
 
 SetRotationAction.prototype.configure = function (settings) {
@@ -55,9 +56,9 @@ SetRotationAction.external = {
 SetRotationAction.prototype.setRotation = function (fsm) {
 	if (this.entity !== null) {
 		this.entity.transformComponent.transform.setRotationXYZ(
-			FsmUtils.getValue(this.amountX, fsm),
-			FsmUtils.getValue(this.amountY, fsm),
-			FsmUtils.getValue(this.amountZ, fsm)
+			FsmUtilsjs_getValue(this.amountX, fsm),
+			FsmUtilsjs_getValue(this.amountY, fsm),
+			FsmUtilsjs_getValue(this.amountZ, fsm)
 		);
 		this.entity.transformComponent.setUpdated();
 	}
@@ -75,4 +76,4 @@ SetRotationAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = SetRotationAction;
+export { SetRotationAction_SetRotationAction as SetRotationAction };

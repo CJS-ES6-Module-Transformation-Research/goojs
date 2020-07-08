@@ -1,17 +1,13 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Renderer = require('../../renderer/Renderer');
-
-/**
- * Updates cameras/cameracomponents with their transform component transforms
- * @extends System
- */
+var CameraSystem_CameraSystem = CameraSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { mainCamera as Rendererjs_mainCamera } from "../../renderer/Renderer";
 function CameraSystem() {
-	System.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'CameraSystem', ['TransformComponent', 'CameraComponent']);
 	this.mainCamera = null; //! AT: what's up with this? is it unused?
 }
 
-CameraSystem.prototype = Object.create(System.prototype);
+CameraSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 CameraSystem.prototype.constructor = CameraSystem;
 
 /**
@@ -21,7 +17,7 @@ CameraSystem.prototype.constructor = CameraSystem;
 CameraSystem.prototype.findMainCamera = function () {
 	if (this._activeEntities.length) {
 		var firstEntity = this._activeEntities[0];
-		SystemBus.emit('goo.setCurrentCamera', {
+		entitiesSystemBus_SystemBusjsjs.emit('goo.setCurrentCamera', {
 			camera: firstEntity.cameraComponent.camera,
 			entity: firstEntity
 		});
@@ -29,8 +25,8 @@ CameraSystem.prototype.findMainCamera = function () {
 };
 
 CameraSystem.prototype.inserted = function (entity) {
-	if (!Renderer.mainCamera) {
-		SystemBus.emit('goo.setCurrentCamera', {
+	if (!Rendererjs_mainCamera) {
+		entitiesSystemBus_SystemBusjsjs.emit('goo.setCurrentCamera', {
 			camera: entity.cameraComponent.camera,
 			entity: entity
 		});
@@ -56,4 +52,8 @@ CameraSystem.prototype.onPreRender = function () {
 	}
 };
 
-module.exports = CameraSystem;
+/**
+ * Updates cameras/cameracomponents with their transform component transforms
+ * @extends System
+ */
+export { CameraSystem_CameraSystem as CameraSystem };

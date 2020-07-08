@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var MouseUpAction_MouseUpAction = MouseUpAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function MouseUpAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function MouseUpAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-MouseUpAction.prototype = Object.create(Action.prototype);
+MouseUpAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 MouseUpAction.prototype.constructor = MouseUpAction;
 
 MouseUpAction.external = {
@@ -70,4 +71,4 @@ MouseUpAction.prototype.exit = function () {
 	document.removeEventListener('touchend', this.touchEventListener);
 };
 
-module.exports = MouseUpAction;
+export { MouseUpAction_MouseUpAction as MouseUpAction };

@@ -1,19 +1,10 @@
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Base class for resource handlers, used to load all types of resources into the engine.
- * All the resource types in the bundle (noted by their extension) need to have a registered config
- * handler.
- * To handle a new type of component, create a class that inherits from this class, and override {update}.
- * In your class, call <code>@_register('yourResourceExtension')</code> to _register
- * the handler with the loader.
- *
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
- * @hidden
- */
+var ConfigHandler_ConfigHandler = ConfigHandler;
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+var ConfigHandler__registerClass;
+var ConfigHandler_getHandler;
+var ConfigHandler_handlerClasses;
+var ConfigHandler_getTypeForRef;
 function ConfigHandler(world, getConfig, updateObject, loadObject) {
 	this.world = world;
 	this.getConfig = getConfig;
@@ -70,10 +61,10 @@ ConfigHandler.prototype.load = function (ref, options) {
 		options = {};
 	}
 
-	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler_getTypeForRef(ref) === 'machine')) {
 		return this._loading.get(ref);
 	} else if (this._objects.has(ref) && !options.reload) {
-		return PromiseUtils.resolve(this._objects.get(ref));
+		return utilPromiseUtils_PromiseUtilsjs.resolve(this._objects.get(ref));
 	} else {
 		var promise = this.getConfig(ref, options).then(function (config) {
 			return this.update(ref, config, options);
@@ -100,7 +91,7 @@ ConfigHandler.prototype.clear = function () {
 	this._objects.clear();
 	this._loading.clear();
 
-	return RSVP.all(promises);
+	return utilrsvp_rsvpjsjs.all(promises);
 };
 
 /**
@@ -122,46 +113,61 @@ ConfigHandler.prototype.update = function (ref, config, options) {
 	return promise;
 };
 
-ConfigHandler.getTypeForRef = function (ref) {
-	return ref.substr(ref.lastIndexOf('.') + 1).toLowerCase();
-};
+ConfigHandler_getTypeForRef = function(ref) {
+    return ref.substr(ref.lastIndexOf(".") + 1).toLowerCase();
+};;
 
 ConfigHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref, options);
-		return PromiseUtils.resolve();
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 
 	if (!options) {
 		options = {};
 	}
 
-	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler_getTypeForRef(ref) === 'machine')) {
 		this._objects.set(ref, this._create());
 	}
 	this._prepare(config);
-	return PromiseUtils.resolve(this._objects.get(ref));
+	return utilPromiseUtils_PromiseUtilsjs.resolve(this._objects.get(ref));
 };
 
-ConfigHandler.handlerClasses = {};
+ConfigHandler_handlerClasses = {};;
 
 /**
  * Get a handler class for the specified type of resource. The resource can be e.g. 'texture', 'mesh', etc.
  * @param {string} type
  * @returns {Class} A subclass of {ConfigHandler}, or null if no registered handler for the given type was found.
  */
-ConfigHandler.getHandler = function (type) {
-	return ConfigHandler.handlerClasses[type];
-};
+ConfigHandler_getHandler = function(type) {
+    return ConfigHandler_handlerClasses[type];
+};;
 
 /**
  * Register a handler for a component type. Called in the class body of subclasses.
  * @param {string} type
  * @param {Class} klass the class to register for this component type
  */
-ConfigHandler._registerClass = function (type, klass) {
-	klass._type = type;
-	return ConfigHandler.handlerClasses[type] = klass;
-};
+ConfigHandler__registerClass = function(type, klass) {
+    klass._type = type;
+    return ConfigHandler_handlerClasses[type] = klass;
+};;
 
-module.exports = ConfigHandler;
+export { ConfigHandler_getHandler as getHandler, ConfigHandler__registerClass as _registerClass, ConfigHandler };
+
+/**
+ * Base class for resource handlers, used to load all types of resources into the engine.
+ * All the resource types in the bundle (noted by their extension) need to have a registered config
+ * handler.
+ * To handle a new type of component, create a class that inherits from this class, and override {update}.
+ * In your class, call <code>@_register('yourResourceExtension')</code> to _register
+ * the handler with the loader.
+ *
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
+ * @hidden
+ */
+export { ConfigHandler_ConfigHandler as ConfigHandler };

@@ -1,26 +1,23 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var SoundComponent = require('../../entities/components/SoundComponent');
-var AudioContext = require('../../sound/AudioContext');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
+var SoundComponentHandler_SoundComponentHandler = SoundComponentHandler;
 
-/**
- * For handling loading of sound components
- * @param {World} world The goo world
- * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
- * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
- * @extends ComponentHandler
- * @hidden
- */
+import {
+    ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../../loaders/handlers/ComponentHandler";
+
+import { SoundComponent as entitiescomponentsSoundComponent_SoundComponentjs } from "../../entities/components/SoundComponent";
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../../sound/AudioContext";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
 function SoundComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'SoundComponent';
 }
 
-SoundComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+SoundComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
 SoundComponentHandler.prototype.constructor = SoundComponentHandler;
-ComponentHandler._registerClass('sound', SoundComponentHandler);
+ComponentHandlerjs__registerClass('sound', SoundComponentHandler);
 
 /**
  * Removes the souncomponent and stops all connected sounds
@@ -42,7 +39,7 @@ SoundComponentHandler.prototype._remove = function (entity) {
  * @param {Object} config
  */
 SoundComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	utilObjectUtils_ObjectUtilsjs.defaults(config, {
 		volume: 1.0,
 		reverb: 0.0
 	});
@@ -54,7 +51,7 @@ SoundComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundComponentHandler.prototype._create = function () {
-	return new SoundComponent();
+	return new entitiescomponentsSoundComponent_SoundComponentjs();
 };
 
 /**
@@ -65,12 +62,12 @@ SoundComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 SoundComponentHandler.prototype.update = function (entity, config, options) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils.resolve(); //! AT: we're not really using reject
+	if (!soundAudioContext_AudioContextjsjs.isSupported()) {
+		return utilPromiseUtils_PromiseUtilsjs.resolve(); //! AT: we're not really using reject
 	}
 
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 		component.updateConfig(config);
 
@@ -84,11 +81,11 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 
 		var promises = [];
 		// Load all sounds
-		ObjectUtils.forEach(config.sounds, function (soundCfg) {
+		utilObjectUtils_ObjectUtilsjs.forEach(config.sounds, function (soundCfg) {
 			promises.push(that._load(soundCfg.soundRef, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (sounds) {
+		return utilrsvp_rsvpjsjs.all(promises).then(function (sounds) {
 			// Add new sounds
 			for (var i = 0; i < sounds.length; i++) {
 				if (component.sounds.indexOf(sounds[i]) === -1) {
@@ -100,4 +97,12 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = SoundComponentHandler;
+/**
+ * For handling loading of sound components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { SoundComponentHandler_SoundComponentHandler as SoundComponentHandler };

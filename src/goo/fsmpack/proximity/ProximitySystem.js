@@ -1,16 +1,9 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var StringUtils = require('../../util/StringUtils');
-
-/**
- * Processes all entities with a proximity component
- * @param {Renderer} renderer
- * @param {RenderSystem} renderSystem
- * @private
- * @extends System
- */
+var ProximitySystem_ProximitySystem = ProximitySystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { capitalize as StringUtilsjs_capitalize } from "../../util/StringUtils";
 function ProximitySystem() {
-	System.call(this, 'ProximitySystem', ['ProximityComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'ProximitySystem', ['ProximityComponent']);
 
 	this.collections = {
 		Red: { name: 'Red', collection: [] },
@@ -20,7 +13,7 @@ function ProximitySystem() {
 	};
 }
 
-ProximitySystem.prototype = Object.create(System.prototype);
+ProximitySystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 
 ProximitySystem.prototype._collides = function (first, second) {
 	// really non-optimal
@@ -30,14 +23,14 @@ ProximitySystem.prototype._collides = function (first, second) {
 			var secondElement = second.collection[j];
 
 			if (firstElement.meshRendererComponent.worldBound.intersects(secondElement.meshRendererComponent.worldBound)) {
-				SystemBus.send('collides.' + first.name + '.' + second.name);
+				entitiesSystemBus_SystemBusjsjs.send('collides.' + first.name + '.' + second.name);
 			}
 		}
 	}
 };
 
 function formatTag(tag) {
-	return StringUtils.capitalize(tag);
+	return StringUtilsjs_capitalize(tag);
 }
 
 ProximitySystem.prototype.getFor = function (tag) {
@@ -77,4 +70,11 @@ ProximitySystem.prototype.process = function (/*entities*/) {
 	*/
 };
 
-module.exports = ProximitySystem;
+/**
+ * Processes all entities with a proximity component
+ * @param {Renderer} renderer
+ * @param {RenderSystem} renderSystem
+ * @private
+ * @extends System
+ */
+export { ProximitySystem_ProximitySystem as ProximitySystem };
