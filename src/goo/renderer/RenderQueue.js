@@ -1,10 +1,9 @@
-var Vector3 = require('../math/Vector3');
-
-/**
- * The RenderQueue handles sorting of entities. Entities are ordered by their renderQueue value into buckets.
- * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
- * back to front.
- */
+var RenderQueue_RenderQueue = RenderQueue;
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+var RenderQueue_OVERLAY;
+var RenderQueue_TRANSPARENT;
+var RenderQueue_OPAQUE;
+var RenderQueue_BACKGROUND;
 function RenderQueue() {
 	this.opaqueSorter = function (a, b) {
 		var shader1 = a.meshRendererComponent.materials[0].shader;
@@ -36,7 +35,7 @@ function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3();
+var tmpVec = new mathVector3_Vector3js();
 
 /**
  * @param {Array<Entity>} renderList
@@ -84,7 +83,7 @@ RenderQueue.prototype.sort = function (renderList, camera) {
 		var bucket = buckets[key];
 		var bl = bucket.length;
 		if (bl > 1 && key >= 0) {
-			if (key < RenderQueue.TRANSPARENT) {
+			if (key < RenderQueue_TRANSPARENT) {
 				bucket.sort(this.opaqueSorter);
 			} else {
 				bucket.sort(this.transparentSorter);
@@ -102,24 +101,31 @@ RenderQueue.prototype.sort = function (renderList, camera) {
  * @readonly
  * @default
  */
-RenderQueue.BACKGROUND = 0;
+RenderQueue_BACKGROUND = 0;;
 /** Used for most objects, typically opaque geometry. Rendered front to back
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue.OPAQUE = 1000;
+RenderQueue_OPAQUE = 1000;;
 /** For all alpha-blended objects. Rendered back to front
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue.TRANSPARENT = 2000;
+RenderQueue_TRANSPARENT = 2000;;
 /** For overlay effects like lens-flares etc
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue.OVERLAY = 3000;
+RenderQueue_OVERLAY = 3000;;
 
-module.exports = RenderQueue;
+export { RenderQueue_OPAQUE as OPAQUE, RenderQueue_TRANSPARENT as TRANSPARENT };
+
+/**
+ * The RenderQueue handles sorting of entities. Entities are ordered by their renderQueue value into buckets.
+ * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
+ * back to front.
+ */
+export { RenderQueue_RenderQueue as RenderQueue };

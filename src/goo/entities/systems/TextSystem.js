@@ -1,17 +1,12 @@
-var System = require('../../entities/systems/System');
-var TextureGrid = require('../../shapes/TextureGrid');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
-
-/**
- * Processes all entities with a text component<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
- * @extends System
- */
+var TextSystem_TextSystem = TextSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { TextureGrid as shapesTextureGrid_TextureGridjs } from "../../shapes/TextureGrid";
+import {     MeshDataComponent as entitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../../entities/components/MeshDataComponent";
 function TextSystem() {
-	System.call(this, 'TextSystem', ['TextComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'TextSystem', ['TextComponent']);
 }
 
-TextSystem.prototype = Object.create(System.prototype);
+TextSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 TextSystem.prototype.constructor = TextSystem;
 
 TextSystem.prototype.process = function (entities) {
@@ -20,11 +15,11 @@ TextSystem.prototype.process = function (entities) {
 		var textComponent = entity.textComponent;
 		if (textComponent.dirty) {
 			if (entity.hasComponent('MeshDataComponent')) {
-				entity.getComponent('MeshDataComponent').meshData = TextureGrid.fromString(textComponent.text);
+				entity.getComponent('MeshDataComponent').meshData = shapesTextureGrid_TextureGridjs.fromString(textComponent.text);
 			}
 			else {
-				var meshData = TextureGrid.fromString(textComponent.text);
-				var meshDataComponent = new MeshDataComponent(meshData);
+				var meshData = shapesTextureGrid_TextureGridjs.fromString(textComponent.text);
+				var meshDataComponent = new entitiescomponentsMeshDataComponent_MeshDataComponentjs(meshData);
 				entity.setComponent(meshDataComponent);
 			}
 			this.dirty = false;
@@ -32,4 +27,9 @@ TextSystem.prototype.process = function (entities) {
 	}
 };
 
-module.exports = TextSystem;
+/**
+ * Processes all entities with a text component<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
+ * @extends System
+ */
+export { TextSystem_TextSystem as TextSystem };

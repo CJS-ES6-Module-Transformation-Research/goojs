@@ -1,37 +1,31 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var Matrix3 = require('../../math/Matrix3');
-var Matrix4 = require('../../math/Matrix4');
-var Vector2 = require('../../math/Vector2');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var TranslationGizmo = require('../../util/gizmopack/TranslationGizmo');
-var GlobalTranslationGizmo = require('../../util/gizmopack/GlobalTranslationGizmo');
-var RotationGizmo = require('../../util/gizmopack/RotationGizmo');
-var GlobalRotationGizmo = require('../../util/gizmopack/GlobalRotationGizmo');
-var ScaleGizmo = require('../../util/gizmopack/ScaleGizmo');
-
-/**
- * Renders transform gizmos<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+var GizmoRenderSystem_GizmoRenderSystem = GizmoRenderSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { methods as ShaderFragmentjs_methods } from "../../renderer/shaders/ShaderFragment";
+import { Matrix3 as mathMatrix3_Matrix3js } from "../../math/Matrix3";
+import { Matrix4 as mathMatrix4_Matrix4js } from "../../math/Matrix4";
+import { Vector2 as mathVector2_Vector2js } from "../../math/Vector2";
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { getHandle as Gizmojs_getHandle } from "../../util/gizmopack/Gizmo";
+import { TranslationGizmo as utilgizmopackTranslationGizmo_TranslationGizmojs } from "../../util/gizmopack/TranslationGizmo";
+import {     GlobalTranslationGizmo as utilgizmopackGlobalTranslationGizmo_GlobalTranslationGizmojs, } from "../../util/gizmopack/GlobalTranslationGizmo";
+import { RotationGizmo as utilgizmopackRotationGizmo_RotationGizmojs } from "../../util/gizmopack/RotationGizmo";
+import {     GlobalRotationGizmo as utilgizmopackGlobalRotationGizmo_GlobalRotationGizmojs, } from "../../util/gizmopack/GlobalRotationGizmo";
+import { ScaleGizmo as utilgizmopackScaleGizmo_ScaleGizmojs } from "../../util/gizmopack/ScaleGizmo";
 function GizmoRenderSystem(callbacks) {
-	System.call(this, 'GizmoRenderSystem', null);
+	entitiessystemsSystem_Systemjs.call(this, 'GizmoRenderSystem', null);
 
 	this.renderables = [];
 	this.camera = null;
 
 	this.gizmos = [
-		new TranslationGizmo(),
-		new GlobalTranslationGizmo(),
-		new RotationGizmo(),
-		new GlobalRotationGizmo(),
-		new ScaleGizmo()
+		new utilgizmopackTranslationGizmo_TranslationGizmojs(),
+		new utilgizmopackGlobalTranslationGizmo_GlobalTranslationGizmojs(),
+		new utilgizmopackRotationGizmo_RotationGizmojs(),
+		new utilgizmopackGlobalRotationGizmo_GlobalRotationGizmojs(),
+		new utilgizmopackScaleGizmo_ScaleGizmojs()
 	];
 
 	this.active = false;
@@ -43,7 +37,7 @@ function GizmoRenderSystem(callbacks) {
 	this.viewportHeight = 0;
 	this.domElement = null;
 
-	this.pickingMaterial = Material.createEmptyMaterial(customPickingShader, 'pickingMaterial');
+	this.pickingMaterial = rendererMaterial_Materialjs.createEmptyMaterial(customPickingShader, 'pickingMaterial');
 	this.pickingMaterial.blendState = {
 		blending: 'NoBlending',
 		blendEquation: 'AddEquation',
@@ -53,8 +47,8 @@ function GizmoRenderSystem(callbacks) {
 
 	this._devicePixelRatio = 1;
 
-	this._mouseState = new Vector2();
-	this._oldMouseState = new Vector2();
+	this._mouseState = new mathVector2_Vector2js();
+	this._oldMouseState = new mathVector2_Vector2js();
 
 	this._dirty = false;
 
@@ -72,17 +66,17 @@ function GizmoRenderSystem(callbacks) {
 		this._dirty = true;
 	}.bind(this);
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 }
 
-GizmoRenderSystem.prototype = Object.create(System.prototype);
+GizmoRenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 GizmoRenderSystem.prototype.constructor = GizmoRenderSystem;
 
 GizmoRenderSystem.prototype.activate = function (id, x, y) {
 	this.active = true;
-	var handle = Gizmo.getHandle(id);
+	var handle = Gizmojs_getHandle(id);
 	if (handle && this.activeGizmo) {
 		this._oldMouseState.setDirect(
 			x / (this.viewportWidth / this._devicePixelRatio),
@@ -171,8 +165,8 @@ GizmoRenderSystem.prototype.setupCallbacks = function (callbacks) {
 		return;
 	}
 
-	var inverseRotation = new Matrix3();
-	var inverseTransformation = new Matrix4();
+	var inverseRotation = new mathMatrix3_Matrix3js();
+	var inverseTransformation = new mathMatrix4_Matrix4js();
 
 
 	var onTranslationChange = function (change) {
@@ -297,8 +291,8 @@ GizmoRenderSystem.prototype.renderToPick = function (renderer, skipUpdateBuffer)
 
 var customPickingShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL
 	},
 	processors: [
 		function (shader, shaderInfo) {
@@ -312,10 +306,10 @@ var customPickingShader = {
 		}
 	],
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraFar: Shader.FAR_PLANE,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraFar: rendererShader_Shaderjs.FAR_PLANE,
 		thickness: 0.0,
 		id: function (shaderInfo) {
 			return shaderInfo.renderable.id + 1;
@@ -350,7 +344,7 @@ var customPickingShader = {
 
 		'varying float depth;',
 
-		ShaderFragment.methods.packDepth16,
+		ShaderFragmentjs_methods.packDepth16,
 
 		'void main() {',
 		'  vec2 packedId = vec2(floor(id/255.0), mod(id, 255.0)) * vec2(1.0/255.0);',
@@ -360,4 +354,10 @@ var customPickingShader = {
 	].join('\n')
 };
 
-module.exports = GizmoRenderSystem;
+/**
+ * Renders transform gizmos<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { GizmoRenderSystem_GizmoRenderSystem as GizmoRenderSystem };

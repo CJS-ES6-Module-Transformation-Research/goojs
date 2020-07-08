@@ -1,44 +1,45 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Material = require('../../renderer/Material');
-var Renderer = require('../../renderer/Renderer');
-var Transform = require('../../math/Transform');
-var Plane = require('../../math/Plane');
-var Vector3 = require('../../math/Vector3');
-var Camera = require('../../renderer/Camera');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * @hidden
- */
+var Gizmo_Gizmo = Gizmo;
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { mainCamera as Rendererjs_mainCamera } from "../../renderer/Renderer";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { Plane as mathPlane_Planejs } from "../../math/Plane";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Camera as rendererCamera_Camerajs } from "../../renderer/Camera";
+import { DEG_TO_RAD as MathUtilsjs_DEG_TO_RAD } from "../../math/MathUtils";
+var Gizmo_buildMaterialForAxis;
+var Gizmo_getHandle;
+var Gizmo_registerHandle;
+var Gizmo_handleStore;
 function Gizmo(name) {
 	this.name = name;
 
-	this._plane = new Plane();
-	this._line = new Vector3();
+	this._plane = new mathPlane_Planejs();
+	this._line = new mathVector3_Vector3js();
 	this._activeHandle = null;
 
 	this.visible = false;
 
-	this.transform = new Transform();
+	this.transform = new mathTransform_Transformjs();
 	this.renderables = [];
 	this.onChange = null;
 }
 
-Gizmo.handleStore = [];
+Gizmo_handleStore = [];;
 
-Gizmo.registerHandle = function (handle) {
-	var retVal = Gizmo.handleStore.length + 16000;
-	Gizmo.handleStore.push(handle);
-	return retVal;
-};
+Gizmo_registerHandle = function(handle) {
+    var retVal = Gizmo_handleStore.length + 16000;
+    Gizmo_handleStore.push(handle);
+    return retVal;
+};;
 
-Gizmo.getHandle = function (id) {
-	if (id < 16000) {
-		return null;
-	}
-	return Gizmo.handleStore[id - 16000];
-};
+Gizmo_getHandle = function(id) {
+    if (id < 16000) {
+        return null;
+    }
+    return Gizmo_handleStore[id - 16000];
+};;
 
 Gizmo.prototype.getRenderable = function (id) {
 	for (var i = 0; i < this.renderables.length; i++) {
@@ -107,13 +108,13 @@ var GIZMO_SIZE = 1 / 60;
  * Scale adjustment is also performed.
  */
 Gizmo.prototype.updateTransforms = function () {
-	if (Renderer.mainCamera) {
-		var camera = Renderer.mainCamera;
+	if (Rendererjs_mainCamera) {
+		var camera = Rendererjs_mainCamera;
 		var scale;
-		if (camera.projectionMode === Camera.Perspective) {
+		if (camera.projectionMode === rendererCamera_Camerajs.Perspective) {
 			var dist = camera.translation.distance(this.transform.translation);
 			scale = dist * GIZMO_SIZE;
-			scale *= Math.tan(camera.fov * MathUtils.DEG_TO_RAD / 2) * 2;
+			scale *= Math.tan(camera.fov * MathUtilsjs_DEG_TO_RAD / 2) * 2;
 		} else {
 			scale = (camera._frustumTop - camera._frustumBottom) / 30;
 		}
@@ -129,50 +130,50 @@ Gizmo.prototype.updateTransforms = function () {
 };
 
 (function () {
-	var worldCenter = new Vector3();
-	var worldX = new Vector3();
-	var worldY = new Vector3();
-	var worldZ = new Vector3();
-	var screenCenter = new Vector3();
-	var screenX = new Vector3();
-	var screenY = new Vector3();
-	var screenZ = new Vector3();
+	var worldCenter = new mathVector3_Vector3js();
+	var worldX = new mathVector3_Vector3js();
+	var worldY = new mathVector3_Vector3js();
+	var worldZ = new mathVector3_Vector3js();
+	var screenCenter = new mathVector3_Vector3js();
+	var screenX = new mathVector3_Vector3js();
+	var screenY = new mathVector3_Vector3js();
+	var screenZ = new mathVector3_Vector3js();
 
 	Gizmo.prototype._setPlane = function () {
 		var normal = this._plane.normal;
 
 		if (this._activeHandle.type === 'Plane') {
 			// Calculate plane's normal in world space
-			normal.copy([Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z][this._activeHandle.axis]);
+			normal.copy([mathVector3_Vector3js.UNIT_X, mathVector3_Vector3js.UNIT_Y, mathVector3_Vector3js.UNIT_Z][this._activeHandle.axis]);
 			normal.applyPostVector(this.transform.matrix);
 			normal.normalize();
 
 			// Set plane distance from world origin by projecting world translation to plane normal
-			worldCenter.copy(Vector3.ZERO);
+			worldCenter.copy(mathVector3_Vector3js.ZERO);
 			worldCenter.applyPostPoint(this.transform.matrix);
 
 			this._plane.constant = worldCenter.dot(normal);
 		} else {
 			// Get gizmo handle points in world space
-			worldCenter.copy(Vector3.ZERO);
+			worldCenter.copy(mathVector3_Vector3js.ZERO);
 			worldCenter.applyPostPoint(this.transform.matrix);
 
-			worldX.copy(Vector3.UNIT_X);
+			worldX.copy(mathVector3_Vector3js.UNIT_X);
 			worldX.applyPostPoint(this.transform.matrix);
 
-			worldY.copy(Vector3.UNIT_Y);
+			worldY.copy(mathVector3_Vector3js.UNIT_Y);
 			worldY.applyPostPoint(this.transform.matrix);
 
-			worldZ.copy(Vector3.UNIT_Z);
+			worldZ.copy(mathVector3_Vector3js.UNIT_Z);
 			worldZ.applyPostPoint(this.transform.matrix);
 
 			// Gizmo handle points in screen space
-			Renderer.mainCamera.getScreenCoordinates(worldCenter, 1, 1, screenCenter);
-			Renderer.mainCamera.getScreenCoordinates(worldX, 1, 1, screenX);
+			Rendererjs_mainCamera.getScreenCoordinates(worldCenter, 1, 1, screenCenter);
+			Rendererjs_mainCamera.getScreenCoordinates(worldX, 1, 1, screenX);
 			screenX.sub(screenCenter);
-			Renderer.mainCamera.getScreenCoordinates(worldY, 1, 1, screenY);
+			Rendererjs_mainCamera.getScreenCoordinates(worldY, 1, 1, screenY);
 			screenY.sub(screenCenter);
-			Renderer.mainCamera.getScreenCoordinates(worldZ, 1, 1, screenZ);
+			Rendererjs_mainCamera.getScreenCoordinates(worldZ, 1, 1, screenZ);
 			screenZ.sub(screenCenter);
 
 			// when dragging on a line
@@ -211,7 +212,7 @@ Gizmo.prototype.updateTransforms = function () {
 
 Gizmo.prototype._setLine = function () {
 	// If translating or scaling along a line, set current line
-	this._line.copy([Vector3.UNIT_X, Vector3.UNIT_Y, Vector3.UNIT_Z][this._activeHandle.axis]);
+	this._line.copy([mathVector3_Vector3js.UNIT_X, mathVector3_Vector3js.UNIT_Y, mathVector3_Vector3js.UNIT_Z][this._activeHandle.axis]);
 	this._line.applyPostVector(this.transform.matrix);
 	this._line.normalize();
 };
@@ -221,19 +222,19 @@ Gizmo.prototype.addRenderable = function (renderable) {
 	this.renderables.push(renderable);
 };
 
-Gizmo.buildMaterialForAxis = function (axis, opacity) {
-	var material = new Material(SHADER_DEF, axis + 'Material');
-	material.uniforms.color = COLORS[axis].slice();
+Gizmo_buildMaterialForAxis = function(axis, opacity) {
+    var material = new rendererMaterial_Materialjs(SHADER_DEF, axis + "Material");
+    material.uniforms.color = COLORS[axis].slice();
 
-	if (opacity !== undefined && opacity < 1.0) {
-		material.blendState.blending = 'TransparencyBlending';
-		material.uniforms.opacity = opacity;
-		material.renderQueue = 3000;
-	}
-	material.cullState.enabled = false;
+    if (opacity !== undefined && opacity < 1.0) {
+        material.blendState.blending = "TransparencyBlending";
+        material.uniforms.opacity = opacity;
+        material.renderQueue = 3000;
+    }
+    material.cullState.enabled = false;
 
-	return material;
-};
+    return material;
+};;
 
 var COLORS = [
 	[1, 0.1, 0.3],
@@ -244,12 +245,12 @@ var COLORS = [
 
 var SHADER_DEF = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		color: [1.0, 1.0, 1.0],
 		opacity: 1.0
 	},
@@ -291,4 +292,4 @@ var SHADER_DEF = {
 	].join('\n')
 };
 
-module.exports = Gizmo;
+export { Gizmo_registerHandle as registerHandle, Gizmo_getHandle as getHandle, Gizmo_buildMaterialForAxis as buildMaterialForAxis, Gizmo };

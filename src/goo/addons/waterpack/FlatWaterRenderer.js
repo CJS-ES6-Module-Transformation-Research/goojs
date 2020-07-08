@@ -1,26 +1,16 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Camera = require('../../renderer/Camera');
-var Plane = require('../../math/Plane');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Vector3 = require('../../math/Vector3');
-var Vector4 = require('../../math/Vector4');
-var Material = require('../../renderer/Material');
-var Texture = require('../../renderer/Texture');
-var TextureCreator = require('../../renderer/TextureCreator');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-
-/**
- * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
- * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Water/water-vtest.html Working example
- * @param {Object} [settings] Water settings passed in a JSON object
- * @param {boolean} [settings.useRefraction=true] Render refraction in water
- * @param {boolean} [settings.divider=2] Resolution divider for reflection/refraction
- * @param {boolean} [settings.normalsUrl] Url to texture to use as normalmap
- * @param {boolean} [settings.normalsTexture] Texture instance to use as normalmap
- * @param {boolean} [settings.updateWaterPlaneFromEntity=true] Use water entity y for water plane position
- */
+var FlatWaterRenderer_FlatWaterRenderer = FlatWaterRenderer;
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { Camera as rendererCamera_Camerajs } from "../../renderer/Camera";
+import { Plane as mathPlane_Planejs } from "../../math/Plane";
+import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Vector4 as mathVector4_Vector4js } from "../../math/Vector4";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { Texture as rendererTexture_Texturejs } from "../../renderer/Texture";
+import { TextureCreator as rendererTextureCreator_TextureCreatorjs } from "../../renderer/TextureCreator";
+import { animation as ShaderBuilderjs_animation } from "../../renderer/shaders/ShaderBuilder";
+import { methods as ShaderFragmentjs_methods } from "../../renderer/shaders/ShaderFragment";
 function FlatWaterRenderer(settings) {
 	settings = settings || {};
 
@@ -30,12 +20,12 @@ function FlatWaterRenderer(settings) {
 	this.width = -1;
 	this.height = -1;
 
-	this.waterCamera = new Camera(45, 1, 0.1, 2000);
+	this.waterCamera = new rendererCamera_Camerajs(45, 1, 0.1, 2000);
 	this.renderList = [];
 
-	this.waterPlane = new Plane();
+	this.waterPlane = new mathPlane_Planejs();
 
-	var waterMaterial = new Material(waterShaderDef, 'WaterMaterial');
+	var waterMaterial = new rendererMaterial_Materialjs(waterShaderDef, 'WaterMaterial');
 	waterMaterial.shader.setDefine('REFRACTION', this.useRefraction);
 	waterMaterial.cullState.enabled = false;
 
@@ -45,12 +35,12 @@ function FlatWaterRenderer(settings) {
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	} else if (settings.normalsUrl) {
 		var normalsTextureUrl = settings.normalsUrl || '../resources/water/waternormals3.png';
-		new TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
+		new rendererTextureCreator_TextureCreatorjs().loadTexture2D(normalsTextureUrl).then(function (texture) {
 			waterMaterial.setTexture('NORMAL_MAP', texture);
 		});
 	} else {
 		var flatNormalData = new Uint8Array([127, 127, 255, 255]);
-		texture = new Texture(flatNormalData, null, 1, 1);
+		texture = new rendererTexture_Texturejs(flatNormalData, null, 1, 1);
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	}
 	this.waterMaterial = waterMaterial;
@@ -59,19 +49,19 @@ function FlatWaterRenderer(settings) {
 	this.followCam = true;
 	this.updateWaterPlaneFromEntity = settings.updateWaterPlaneFromEntity !== undefined ? this.updateWaterPlaneFromEntity : true;
 
-	this.calcVect = new Vector3();
-	this.camReflectDir = new Vector3();
-	this.camReflectUp = new Vector3();
-	this.camReflectLeft = new Vector3();
-	this.camLocation = new Vector3();
-	this.camReflectPos = new Vector3();
+	this.calcVect = new mathVector3_Vector3js();
+	this.camReflectDir = new mathVector3_Vector3js();
+	this.camReflectUp = new mathVector3_Vector3js();
+	this.camReflectLeft = new mathVector3_Vector3js();
+	this.camLocation = new mathVector3_Vector3js();
+	this.camReflectPos = new mathVector3_Vector3js();
 
-	this.offset = new Vector3();
-	this.clipPlane = new Vector4();
+	this.offset = new mathVector3_Vector3js();
+	this.clipPlane = new mathVector4_Vector4js();
 
 	this.waterEntity = null;
 
-	this.depthMaterial = new Material(packDepthY, 'depth');
+	this.depthMaterial = new rendererMaterial_Materialjs(packDepthY, 'depth');
 }
 
 FlatWaterRenderer.prototype.updateSize = function (renderer) {
@@ -86,7 +76,7 @@ FlatWaterRenderer.prototype.updateSize = function (renderer) {
 	if (this.reflectionTarget) {
 		renderer._deallocateRenderTarget(this.reflectionTarget);
 	}
-	this.reflectionTarget = new RenderTarget(width, height);
+	this.reflectionTarget = new rendererpassRenderTarget_RenderTargetjs(width, height);
 
 	if (this.useRefraction) {
 		if (this.refractionTarget) {
@@ -95,8 +85,8 @@ FlatWaterRenderer.prototype.updateSize = function (renderer) {
 		if (this.depthTarget) {
 			renderer._deallocateRenderTarget(this.depthTarget);
 		}
-		this.refractionTarget = new RenderTarget(width, height);
-		this.depthTarget = new RenderTarget(width, height);
+		this.refractionTarget = new rendererpassRenderTarget_RenderTargetjs(width, height);
+		this.depthTarget = new rendererpassRenderTarget_RenderTargetjs(width, height);
 	}
 };
 
@@ -243,15 +233,15 @@ var waterShaderDef = {
 	},
 	// timeMultiplier: 1.0,
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		normalMatrix: Shader.NORMAL_MATRIX,
-		cameraPosition: Shader.CAMERA,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		normalMatrix: rendererShader_Shaderjs.NORMAL_MATRIX,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
 
 		normalMap: 'NORMAL_MAP',
 		reflection: 'REFLECTION_MAP',
@@ -279,14 +269,14 @@ var waterShaderDef = {
 		fogStart: 0.0,
 		fogScale: 2000.0,
 		timeMultiplier: 1.0,
-		time: Shader.TIME,
+		time: rendererShader_Shaderjs.TIME,
 		distortionMultiplier: 0.025,
 		fresnelPow: 2.0,
 		normalMultiplier: 3.0,
 		fresnelMultiplier: 1.0,
 		waterScale: 5.0,
 		doFog: true,
-		resolution: Shader.RESOLUTION
+		resolution: rendererShader_Shaderjs.RESOLUTION
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -363,7 +353,7 @@ var waterShaderDef = {
 		'}',
 
 		'#ifdef REFRACTION',
-		ShaderFragment.methods.unpackDepth,
+		ShaderFragmentjs_methods.unpackDepth,
 		'#endif',
 
 		'void main(void) {',
@@ -435,21 +425,21 @@ var waterShaderDef = {
 
 var packDepthY = {
 	processors: [
-		ShaderBuilder.animation.processor
+		ShaderBuilderjs_animation.processor
 	],
 	defines: {
 		WEIGHTS: true,
 		JOINTIDS: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexJointIDs: MeshData.JOINTIDS,
-		vertexWeights: MeshData.WEIGHTS
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexJointIDs: rendererMeshData_MeshDatajs.JOINTIDS,
+		vertexWeights: rendererMeshData_MeshDatajs.WEIGHTS
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		waterHeight: 0,
 		waterDensity: 0.05
 	},
@@ -462,11 +452,11 @@ var packDepthY = {
 
 		'varying vec4 worldPosition;',
 
-		ShaderBuilder.animation.prevertex,
+		ShaderBuilderjs_animation.prevertex,
 
 		'void main(void) {',
 			'mat4 wMatrix = worldMatrix;',
-			ShaderBuilder.animation.vertex,
+			ShaderBuilderjs_animation.vertex,
 			'worldPosition = wMatrix * vec4(vertexPosition, 1.0);',
 			'gl_Position = projectionMatrix * viewMatrix * worldPosition;',
 		'}'
@@ -475,7 +465,7 @@ var packDepthY = {
 		'uniform float waterHeight;',
 		'uniform float waterDensity;',
 
-		ShaderFragment.methods.packDepth,
+		ShaderFragmentjs_methods.packDepth,
 
 		'varying vec4 worldPosition;',
 
@@ -487,4 +477,14 @@ var packDepthY = {
 	].join('\n')
 };
 
-module.exports = FlatWaterRenderer;
+/**
+ * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Water/water-vtest.html Working example
+ * @param {Object} [settings] Water settings passed in a JSON object
+ * @param {boolean} [settings.useRefraction=true] Render refraction in water
+ * @param {boolean} [settings.divider=2] Resolution divider for reflection/refraction
+ * @param {boolean} [settings.normalsUrl] Url to texture to use as normalmap
+ * @param {boolean} [settings.normalsTexture] Texture instance to use as normalmap
+ * @param {boolean} [settings.updateWaterPlaneFromEntity=true] Use water entity y for water plane position
+ */
+export { FlatWaterRenderer_FlatWaterRenderer as FlatWaterRenderer };

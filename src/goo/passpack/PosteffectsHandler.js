@@ -1,34 +1,31 @@
-var ConfigHandler = require('../loaders/handlers/ConfigHandler');
-var ArrayUtils = require('../util/ArrayUtils');
-var RSVP = require('../util/rsvp');
-var ObjectUtils = require('../util/ObjectUtils');
-var Composer = require('../renderer/pass/Composer');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var PassLib = require('../passpack/PassLib');
+var PosteffectsHandler_PosteffectsHandler = PosteffectsHandler;
 
-/**
- * Handler for loading posteffects into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import {
+    ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../loaders/handlers/ConfigHandler";
+
+import { remove as ArrayUtilsjs_remove } from "../util/ArrayUtils";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { Composer as rendererpassComposer_Composerjs } from "../renderer/pass/Composer";
+import { RenderPass as rendererpassRenderPass_RenderPassjs } from "../renderer/pass/RenderPass";
+import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../renderer/pass/FullscreenPass";
+import { copy as ShaderLibjs_copy } from "../renderer/shaders/ShaderLib";
+import { PassLibjs as passpackPassLib_PassLibjsjs } from "../passpack/PassLib";
 function PosteffectsHandler() {
-	ConfigHandler.apply(this, arguments);
-	this._composer = new Composer();
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	this._composer = new rendererpassComposer_Composerjs();
 	var renderSystem = this.world.getSystem('RenderSystem');
-	this._renderPass = new RenderPass(renderSystem.renderList);
-	this._outPass = new FullscreenPass(ObjectUtils.deepClone(ShaderLib.copy));
+	this._renderPass = new rendererpassRenderPass_RenderPassjs(renderSystem.renderList);
+	this._outPass = new rendererpassFullscreenPass_FullscreenPassjs(utilObjectUtils_ObjectUtilsjs.deepClone(ShaderLibjs_copy));
 	this._outPass.renderToScreen = true;
 }
 
 
-PosteffectsHandler.prototype = Object.create(ConfigHandler.prototype);
+PosteffectsHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 PosteffectsHandler.prototype.constructor = PosteffectsHandler;
-ConfigHandler._registerClass('posteffects', PosteffectsHandler);
+ConfigHandlerjs__registerClass('posteffects', PosteffectsHandler);
 
 /**
  * Removes the posteffects, i e removes the composer from rendersystem.
@@ -36,7 +33,7 @@ ConfigHandler._registerClass('posteffects', PosteffectsHandler);
  */
 PosteffectsHandler.prototype._remove = function (ref) {
 	var renderSystem = this.world.getSystem('RenderSystem');
-	ArrayUtils.remove(renderSystem.composers, this._composer);
+	ArrayUtilsjs_remove(renderSystem.composers, this._composer);
 
 	this._objects.delete(ref);
 
@@ -44,7 +41,7 @@ PosteffectsHandler.prototype._remove = function (ref) {
 		this._composer.destroy(this.world.gooRunner.renderer);
 	}
 
-	this._composer = new Composer();
+	this._composer = new rendererpassComposer_Composerjs();
 };
 
 /**
@@ -65,16 +62,16 @@ PosteffectsHandler.prototype._create = function () {
  */
 PosteffectsHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (posteffects) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (posteffects) {
 		if (!posteffects) { return; }
 
 		var oldEffects = posteffects.slice();
 		var promises = [];
-		ObjectUtils.forEach(config.posteffects, function (effectConfig) {
+		utilObjectUtils_ObjectUtilsjs.forEach(config.posteffects, function (effectConfig) {
 			promises.push(that._updateEffect(effectConfig, oldEffects, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (effects) {
+		return utilrsvp_rsvpjsjs.all(promises).then(function (effects) {
 			for (var i = 0; i < effects.length; i++) {
 				posteffects[i] = effects[i];
 			}
@@ -105,7 +102,7 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
 			}
 		} else {
 			// No posteffects, remove composer
-			ArrayUtils.remove(renderSystem.composers, that._composer);
+			ArrayUtilsjs_remove(renderSystem.composers, that._composer);
 		}
 
 		return posteffects;
@@ -122,7 +119,7 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
  */
 PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffects, options) {
 	// this gets mutated
-	var config = ObjectUtils.deepClone(originalConfig);
+	var config = utilObjectUtils_ObjectUtilsjs.deepClone(originalConfig);
 
 	var that = this;
 	function loadConfig(key, id) {
@@ -141,15 +138,15 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 	}
 
 	if (!effect) {
-		if (!PassLib[config.type]) {
+		if (!passpackPassLib_PassLibjsjs[config.type]) {
 			return null;
 		}
-		effect = new PassLib[config.type](config.id);
+		effect = new passpackPassLib_PassLibjsjs[config.type](config.id);
 	}
 
 	var promises = [];
-	for (var i = 0; i < PassLib[config.type].options.length; i++) {
-		var option = PassLib[config.type].options[i];
+	for (var i = 0; i < passpackPassLib_PassLibjsjs[config.type].options.length; i++) {
+		var option = passpackPassLib_PassLibjsjs[config.type].options[i];
 		var key = option.key;
 		var type = option.type;
 
@@ -168,10 +165,18 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 		}
 	}
 
-	return RSVP.all(promises).then(function () {
+	return utilrsvp_rsvpjsjs.all(promises).then(function () {
 		effect.update(config);
 		return effect;
 	});
 };
 
-module.exports = PosteffectsHandler;
+/**
+ * Handler for loading posteffects into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { PosteffectsHandler_PosteffectsHandler as PosteffectsHandler };

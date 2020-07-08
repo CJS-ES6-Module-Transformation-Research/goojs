@@ -1,7 +1,4 @@
-/**
- * The entity counter utility class creates a panel and updates it with data on the systems in the world and how many entities each contains
- * @param {number} [skipFrames] Sets how many frames should it skip between refreshes
- */
+var EntityCounter_EntityCounter = EntityCounter;
 function EntityCounter(skipFrames) {
 	this.goo = null;
 	this.skipFrames = skipFrames || 20;
@@ -71,4 +68,8 @@ function createPanel() {
 	return document.getElementById('_entitycountertex');
 }
 
-module.exports = EntityCounter;
+/**
+ * The entity counter utility class creates a panel and updates it with data on the systems in the world and how many entities each contains
+ * @param {number} [skipFrames] Sets how many frames should it skip between refreshes
+ */
+export { EntityCounter_EntityCounter as EntityCounter };

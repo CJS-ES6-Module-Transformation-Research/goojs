@@ -1,9 +1,4 @@
-/**
- * Shows render statistics
- * @example
- * this.stats = new Stats();
- * document.body.appendChild(this.stats.domElement);
- */
+var Stats_Stats = Stats;
 function Stats() {
 	var startTime = Date.now(), prevTime = startTime, prevTimeMs = startTime;
 	var ms = 0, msMin = Infinity, msMax = 0;
@@ -144,4 +139,10 @@ function Stats() {
 	};
 }
 
-module.exports = Stats;
+/**
+ * Shows render statistics
+ * @example
+ * this.stats = new Stats();
+ * document.body.appendChild(this.stats.domElement);
+ */
+export { Stats_Stats as Stats };

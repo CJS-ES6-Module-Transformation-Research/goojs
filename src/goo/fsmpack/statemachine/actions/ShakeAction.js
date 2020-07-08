@@ -1,18 +1,19 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var MathUtils = require('../../../math/MathUtils');
-var Easing = require('../../../util/Easing');
+var ShakeAction_ShakeAction = ShakeAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+import { lerp as MathUtilsjs_lerp } from "../../../math/MathUtils";
+import { Quadratic as Easingjs_Quadratic } from "../../../util/Easing";
 
-function ShakeAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ShakeAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 
-	this.oldVal = new Vector3();
-	this.target = new Vector3();
-	this.vel = new Vector3();
+	this.oldVal = new mathVector3_Vector3js();
+	this.target = new mathVector3_Vector3js();
+	this.vel = new mathVector3_Vector3js();
 	this.completed = false;
 }
 
-ShakeAction.prototype = Object.create(Action.prototype);
+ShakeAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 ShakeAction.prototype.constructor = ShakeAction;
 
 ShakeAction.external = {
@@ -67,14 +68,14 @@ ShakeAction.prototype.configure = function (settings) {
 	this.endLevel = settings.endLevel;
 	this.time = settings.time;
 	this.speed = { Fast: 1, Medium: 2, Slow: 4 }[settings.speed];
-	this.easing = Easing.Quadratic.InOut;
+	this.easing = Easingjs_Quadratic.InOut;
 	this.eventToEmit = settings.transitions.complete;
 };
 
 ShakeAction.prototype.enter = function (fsm) {
-	this.oldVal.set(Vector3.ZERO);
-	this.target.set(Vector3.ZERO);
-	this.vel.set(Vector3.ZERO);
+	this.oldVal.set(mathVector3_Vector3js.ZERO);
+	this.target.set(mathVector3_Vector3js.ZERO);
+	this.vel.set(mathVector3_Vector3js.ZERO);
 	this.iter = 0;
 	this.startTime = fsm.getTime();
 	this.completed = false;
@@ -91,7 +92,7 @@ ShakeAction.prototype.update = function (fsm) {
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = this.easing(t);
 
-	var level = MathUtils.lerp(fT, this.startLevel, this.endLevel);
+	var level = MathUtilsjs_lerp(fT, this.startLevel, this.endLevel);
 
 	this.iter++;
 	if (this.iter > this.speed) {
@@ -122,4 +123,4 @@ ShakeAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = ShakeAction;
+export { ShakeAction_ShakeAction as ShakeAction };

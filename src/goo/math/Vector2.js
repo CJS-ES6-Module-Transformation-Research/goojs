@@ -1,18 +1,9 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('./MathUtils');
-var Vector = require('./Vector');
-var Vector3 = require('./Vector3');
-var Vector4 = require('./Vector4');
-
-/**
- * Vector with 2 components
- * @extends Vector
- * @param {number} x
- * @param {number} y
- * @example
- * var v1 = new Vector2(); // v1 == (0, 0)
- * var v2 = new Vector2(1, 2); // v2 == (1, 2)
- */
+var Vector2_Vector2 = Vector2;
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { EPSILON as MathUtilsjs_EPSILON } from "./MathUtils";
+import { Vector as Vector_Vectorjs } from "./Vector";
+import { Vector3 as Vector3_Vector3js } from "./Vector3";
+import { Vector4 as Vector4_Vector4js } from "./Vector4";
 function Vector2(x, y) {
 	// @ifdef DEBUG
 	this._x = 0;
@@ -43,15 +34,15 @@ function Vector2(x, y) {
 	// @endif
 }
 
-Vector2.prototype = Object.create(Vector.prototype);
+Vector2.prototype = Object.create(Vector_Vectorjs.prototype);
 Vector2.prototype.constructor = Vector2;
 
 // @ifdef DEBUG
-Vector.setupAliases(Vector2.prototype, [['x'], ['y']]);
-Vector.setupIndices(Vector2.prototype, 2);
+Vector_Vectorjs.setupAliases(Vector2.prototype, [['x'], ['y']]);
+Vector_Vectorjs.setupIndices(Vector2.prototype, 2);
 // @endif
 
-Vector.setupAliases(Vector2.prototype, [['u'], ['v']]);
+Vector_Vectorjs.setupAliases(Vector2.prototype, [['u'], ['v']]);
 
 /**
  * Zero-vector (0, 0)
@@ -282,8 +273,8 @@ Vector2.prototype.dotDirect = function (x, y) {
  * @returns {boolean}
  */
 Vector2.prototype.equals = function (rhs) {
-	return (Math.abs(this.x - rhs.x) <= MathUtils.EPSILON) &&
-		(Math.abs(this.y - rhs.y) <= MathUtils.EPSILON);
+	return (Math.abs(this.x - rhs.x) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.y - rhs.y) <= MathUtilsjs_EPSILON);
 };
 
 /**
@@ -293,8 +284,8 @@ Vector2.prototype.equals = function (rhs) {
  * @returns {boolean}
  */
 Vector2.prototype.equalsDirect = function (x, y) {
-	return (Math.abs(this.x - x) <= MathUtils.EPSILON) &&
-		(Math.abs(this.y - y) <= MathUtils.EPSILON);
+	return (Math.abs(this.x - x) <= MathUtilsjs_EPSILON) &&
+		(Math.abs(this.y - y) <= MathUtilsjs_EPSILON);
 };
 
 /**
@@ -339,7 +330,7 @@ Vector2.prototype.lerp = function (end, factor) {
  * v.set(new Vector2(2, 4)); // v == (2, 4)
  */
 Vector2.prototype.set = function (rhs) {
-	if (rhs instanceof Vector2 || rhs instanceof Vector3 || rhs instanceof Vector4) {
+	if (rhs instanceof Vector2 || rhs instanceof Vector3_Vector3js || rhs instanceof Vector4_Vector4js) {
 		this.x = rhs.x;
 		this.y = rhs.y;
 	} else {
@@ -394,7 +385,7 @@ Vector2.prototype.length = function () {
 Vector2.prototype.normalize = function () {
 	var length = this.length();
 
-	if (length < MathUtils.EPSILON) {
+	if (length < MathUtilsjs_EPSILON) {
 		this.x = 0;
 		this.y = 0;
 	} else {
@@ -557,7 +548,7 @@ Vector2.prototype.toArray = function () {
 };
 
 // @ifdef DEBUG
-Vector.addReturnChecks(Vector2.prototype, [
+Vector_Vectorjs.addReturnChecks(Vector2.prototype, [
 	'dot', 'dotDirect',
 	'length', 'lengthSquared',
 	'distance', 'distanceSquared'
@@ -566,7 +557,7 @@ Vector.addReturnChecks(Vector2.prototype, [
 
 // SHIM START
 Object.defineProperty(Vector2.prototype, 'data', {
-	get: ObjectUtils.warnOnce('The .data property of Vector2 was removed. Please use the .x and .y properties instead.', function () {
+	get: utilObjectUtils_ObjectUtilsjs.warnOnce('The .data property of Vector2 was removed. Please use the .x and .y properties instead.', function () {
 		var data = [];
 		var that = this;
 		Object.defineProperties(data, {
@@ -591,7 +582,7 @@ Object.defineProperty(Vector2.prototype, 'data', {
 	})
 });
 
-Vector2.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vector2 was removed. Please use the set method instead.', function (rhs) {
+Vector2.prototype.setVector = utilObjectUtils_ObjectUtilsjs.warnOnce('The setVector method of Vector2 was removed. Please use the set method instead.', function (rhs) {
 	return this.set(rhs);
 });
 
@@ -599,7 +590,7 @@ Vector2.prototype.setVector = ObjectUtils.warnOnce('The setVector method of Vect
  * @hidden
  * @deprecated
  */
-Vector2.add = ObjectUtils.warnOnce('Vector2.add is deprecated.', function (lhs, rhs, target) {
+Vector2.add = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.add is deprecated.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs];
 	}
@@ -625,7 +616,7 @@ Vector2.add = ObjectUtils.warnOnce('Vector2.add is deprecated.', function (lhs, 
  * @hidden
  * @deprecated
  */
-Vector2.sub = ObjectUtils.warnOnce('Vector2.sub is deprecated.', function (lhs, rhs, target) {
+Vector2.sub = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.sub is deprecated.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs];
 	}
@@ -652,7 +643,7 @@ Vector2.sub = ObjectUtils.warnOnce('Vector2.sub is deprecated.', function (lhs, 
  * @hidden
  * @deprecated
  */
-Vector2.mul = ObjectUtils.warnOnce('Vector2.mul is deprecated.', function (lhs, rhs, target) {
+Vector2.mul = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.mul is deprecated.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs];
 	}
@@ -678,7 +669,7 @@ Vector2.mul = ObjectUtils.warnOnce('Vector2.mul is deprecated.', function (lhs, 
  * @hidden
  * @deprecated
  */
-Vector2.div = ObjectUtils.warnOnce('Vector2.div is deprecated.', function (lhs, rhs, target) {
+Vector2.div = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.div is deprecated.', function (lhs, rhs, target) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs];
 	}
@@ -704,7 +695,7 @@ Vector2.div = ObjectUtils.warnOnce('Vector2.div is deprecated.', function (lhs, 
  * @hidden
  * @deprecated
  */
-Vector2.dot = ObjectUtils.warnOnce('Vector2.dot is deprecated.', function (lhs, rhs) {
+Vector2.dot = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.dot is deprecated.', function (lhs, rhs) {
 	if (typeof lhs === 'number') {
 		lhs = [lhs, lhs];
 	}
@@ -724,7 +715,7 @@ Vector2.dot = ObjectUtils.warnOnce('Vector2.dot is deprecated.', function (lhs, 
  * @hidden
  * @deprecated
  */
-Vector2.prototype.dotVector = ObjectUtils.warnOnce('Vector2.prototype.dotVector is deprecated.', function (rhs) {
+Vector2.prototype.dotVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.prototype.dotVector is deprecated.', function (rhs) {
 	var ldata = this.data;
 	var rdata = rhs.data;
 
@@ -736,7 +727,7 @@ Vector2.prototype.dotVector = ObjectUtils.warnOnce('Vector2.prototype.dotVector 
  * @hidden
  * @deprecated
  */
-Vector2.prototype.addVector = ObjectUtils.warnOnce('Vector2.prototype.addVector is deprecated.', function (vector) {
+Vector2.prototype.addVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.prototype.addVector is deprecated.', function (vector) {
 	this.data[0] += vector.data[0];
 	this.data[1] += vector.data[1];
 
@@ -747,7 +738,7 @@ Vector2.prototype.addVector = ObjectUtils.warnOnce('Vector2.prototype.addVector 
  * @hidden
  * @deprecated
  */
-Vector2.prototype.mulVector = ObjectUtils.warnOnce('Vector2.prototype.mulVector is deprecated.', function (vector) {
+Vector2.prototype.mulVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.prototype.mulVector is deprecated.', function (vector) {
 	this.data[0] *= vector.data[0];
 	this.data[1] *= vector.data[1];
 
@@ -758,17 +749,20 @@ Vector2.prototype.mulVector = ObjectUtils.warnOnce('Vector2.prototype.mulVector 
  * @hidden
  * @deprecated
  */
-Vector2.prototype.subVector = ObjectUtils.warnOnce('Vector2.prototype.subVector is deprecated.', function (vector) {
+Vector2.prototype.subVector = utilObjectUtils_ObjectUtilsjs.warnOnce('Vector2.prototype.subVector is deprecated.', function (vector) {
 	this.data[0] -= vector.data[0];
 	this.data[1] -= vector.data[1];
 
 	return this;
 });
 
-//!schteppe: not shimming Vector2.prototype.seta, it's been warned about forever
-//!schteppe: not shimming Vector2.prototype.setd, it's been warned about forever
-//!schteppe: not shimming Vector2.prototype.setv, it's been warned about forever
-
-// SHIM END
-
-module.exports = Vector2;
+/**
+ * Vector with 2 components
+ * @extends Vector
+ * @param {number} x
+ * @param {number} y
+ * @example
+ * var v1 = new Vector2(); // v1 == (0, 0)
+ * var v2 = new Vector2(1, 2); // v2 == (1, 2)
+ */
+export { Vector2_Vector2 as Vector2 };

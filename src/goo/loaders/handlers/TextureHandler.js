@@ -1,26 +1,23 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Texture = require('../../renderer/Texture');
-var DdsLoader = require('../../loaders/dds/DdsLoader');
-var CrunchLoader = require('../../loaders/crunch/CrunchLoader');
-var TgaLoader = require('../../loaders/tga/TgaLoader');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var CanvasUtils = require('../../util/CanvasUtils');
-var StringUtils = require('../../util/StringUtils');
-var SystemBus = require('../../entities/SystemBus');
-var MathUtils = require('../../math/MathUtils');
+var TextureHandler_TextureHandler = TextureHandler;
 
-/**
- * Handler for loading materials into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+import {
+    ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../../loaders/handlers/ConfigHandler";
+
+import { Texture as rendererTexture_Texturejs } from "../../renderer/Texture";
+import { DdsLoader as loadersddsDdsLoader_DdsLoaderjs } from "../../loaders/dds/DdsLoader";
+import { CrunchLoader as loaderscrunchCrunchLoader_CrunchLoaderjs } from "../../loaders/crunch/CrunchLoader";
+import { TgaLoader as loaderstgaTgaLoader_TgaLoaderjs } from "../../loaders/tga/TgaLoader";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+import { renderSvgToCanvas as CanvasUtilsjs_renderSvgToCanvas } from "../../util/CanvasUtils";
+import { parseURL as StringUtilsjs_parseURL } from "../../util/StringUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { isPowerOfTwo as MathUtilsjs_isPowerOfTwo } from "../../math/MathUtils";
 function TextureHandler() {
-	ConfigHandler.apply(this, arguments);
-	SystemBus.addListener('playStateChanged', function (playState) {
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
+	entitiesSystemBus_SystemBusjsjs.addListener('playStateChanged', function (playState) {
 		this._objects.forEach(function (texture) {
 			if (texture.image && texture.image.play && texture.image.pause) {
 				var video = texture.image;
@@ -37,9 +34,9 @@ function TextureHandler() {
 	}.bind(this));
 }
 
-TextureHandler.prototype = Object.create(ConfigHandler.prototype);
+TextureHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 TextureHandler.prototype.constructor = TextureHandler;
-ConfigHandler._registerClass('texture', TextureHandler);
+ConfigHandlerjs__registerClass('texture', TextureHandler);
 
 TextureHandler.minFilters = [
 	'NearestNeighborNoMipMaps',
@@ -65,9 +62,9 @@ TextureHandler.noMipMapAlternatives = {
 };
 
 TextureHandler.loaders = {
-	dds: DdsLoader,
-	crn: CrunchLoader, // TODO: not working atm.
-	tga: TgaLoader
+	dds: loadersddsDdsLoader_DdsLoaderjs,
+	crn: loaderscrunchCrunchLoader_CrunchLoaderjs, // TODO: not working atm.
+	tga: loaderstgaTgaLoader_TgaLoaderjs
 };
 
 // Dummy textures to use while loading image
@@ -80,7 +77,7 @@ TextureHandler.BLACK = new Uint8Array([0, 0, 0, 255]);
  * @private
  */
 TextureHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	utilObjectUtils_ObjectUtilsjs.defaults(config, {
 		wrapS: 'Repeat',
 		wrapT: 'Repeat',
 		magFilter: 'Bilinear',
@@ -113,7 +110,7 @@ TextureHandler.prototype._remove = function (ref) {
  * @private
  */
 TextureHandler.prototype._create = function () {
-	return new Texture();
+	return new rendererTexture_Texturejs();
 };
 
 
@@ -133,7 +130,7 @@ TextureHandler.prototype._loadSpecialImage = function (texture, config, type/*, 
 	return this.loadObject(imageRef)
 	.then(function (data) {
 		if (data && data.preloaded) {
-			ObjectUtils.extend(texture.image, data.image);
+			utilObjectUtils_ObjectUtilsjs.extend(texture.image, data.image);
 			texture.format = data.format;
 			texture.setNeedsUpdate();
 			return texture;
@@ -151,7 +148,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 		video.height = video.videoHeight;
 		video.loop = config.loop !== undefined ? config.loop : true;
 
-		if (!(MathUtils.isPowerOfTwo(video.width) && MathUtils.isPowerOfTwo(video.height))) {
+		if (!(MathUtilsjs_isPowerOfTwo(video.width) && MathUtilsjs_isPowerOfTwo(video.height))) {
 			texture.generateMipmaps = false;
 			texture.minFilter = 'BilinearNoMipMaps';
 		}
@@ -172,7 +169,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 
 TextureHandler.prototype._loadImage = function (texture, config, options) {
 	var imageRef = config.imageRef;
-	var path = StringUtils.parseURL(imageRef).path;
+	var path = StringUtilsjs_parseURL(imageRef).path;
 	var type = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 	if (TextureHandler.loaders[type]) {
 		return this._loadSpecialImage(texture, config, type, options);
@@ -184,7 +181,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
 		return this._loadVideo(texture, config, options);
 	}
 
-	return PromiseUtils.reject(new Error('Unknown image type: ' + type));
+	return utilPromiseUtils_PromiseUtilsjs.reject(new Error('Unknown image type: ' + type));
 };
 
 /**
@@ -196,7 +193,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
  */
 TextureHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (texture) {
 		if (!texture) { return; }
 		var ret;
 
@@ -246,8 +243,8 @@ TextureHandler.prototype._update = function (ref, config, options) {
 			}
 		} else if (config.svgData) {
 			// Load SVG data
-			ret = PromiseUtils.createPromise(function (resolve, reject) {
-				CanvasUtils.renderSvgToCanvas(config.svgData, {}, function (canvas) {
+			ret = utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
+				CanvasUtilsjs_renderSvgToCanvas(config.svgData, {}, function (canvas) {
 					if (canvas) {
 						texture.setImage(canvas);
 						resolve(texture);
@@ -270,4 +267,12 @@ TextureHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = TextureHandler;
+/**
+ * Handler for loading materials into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { TextureHandler_TextureHandler as TextureHandler };

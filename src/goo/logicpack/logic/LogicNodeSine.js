@@ -1,32 +1,32 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Logic node that calculates sin & cos.
- * @private
- */
+var LogicNodeSine_LogicNodeSine = LogicNodeSine;
+import { writeValue as LogicLayerjs_writeValue } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
+import { registerType as LogicNodesjs_registerType } from "./LogicNodes";
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
 function LogicNodeSine() {
-	LogicNode.call(this);
+	LogicNode_LogicNodejs.call(this);
 	this.logicInterface = LogicNodeSine.logicInterface;
 	this.type = 'LogicNodeSine';
 	this._time = 0;
 }
 
-LogicNodeSine.prototype = Object.create(LogicNode.prototype);
+LogicNodeSine.prototype = Object.create(LogicNode_LogicNodejs.prototype);
 LogicNodeSine.editorName = 'Sine';
 
 LogicNodeSine.prototype.onInputChanged = function (instDesc, portID, value) {
-	LogicLayer.writeValue(this.logicInstance, LogicNodeSine.outportSin, Math.sin(value));
-	LogicLayer.writeValue(this.logicInstance, LogicNodeSine.outportCos, Math.cos(value));
+	LogicLayerjs_writeValue(this.logicInstance, LogicNodeSine.outportSin, Math.sin(value));
+	LogicLayerjs_writeValue(this.logicInstance, LogicNodeSine.outportCos, Math.cos(value));
 };
 
-LogicNodeSine.logicInterface = new LogicInterface();
+LogicNodeSine.logicInterface = new LogicInterface_LogicInterfacejs();
 LogicNodeSine.outportSin = LogicNodeSine.logicInterface.addOutputProperty('Sine', 'float');
 LogicNodeSine.outportCos = LogicNodeSine.logicInterface.addOutputProperty('Cosine', 'float');
 LogicNodeSine.inportPhase = LogicNodeSine.logicInterface.addInputProperty('Phase', 'float', 0);
 
-LogicNodes.registerType('LogicNodeSine', LogicNodeSine);
+LogicNodesjs_registerType('LogicNodeSine', LogicNodeSine);
 
-module.exports = LogicNodeSine;
+/**
+ * Logic node that calculates sin & cos.
+ * @private
+ */
+export { LogicNodeSine_LogicNodeSine as LogicNodeSine };

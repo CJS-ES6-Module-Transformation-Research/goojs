@@ -1,16 +1,8 @@
-var MeshData = require('../renderer/MeshData');
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A 3D object with all points equi-distance from a center point.
- * @extends MeshData
- * @param {number} [zSamples=8] Number of segments.
- * @param {number} [radialSamples=8] Number of slices.
- * @param {number} [radius=0.5] Radius.
- * @param {Enum} [textureMode=Sphere.TextureModes.Polar] Texture wrapping mode.
- */
+var Sphere_Sphere = Sphere;
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { HALF_PI as MathUtilsjs_HALF_PI, TWO_PI as MathUtilsjs_TWO_PI } from "../math/MathUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function Sphere(zSamples, radialSamples, radius, textureMode) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -49,7 +41,7 @@ function Sphere(zSamples, radialSamples, radius, textureMode) {
 	 */
 	this.viewInside = false;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION, rendererMeshData_MeshDatajs.NORMAL, rendererMeshData_MeshDatajs.TEXCOORD0]);
 
 	var samples = (this.textureMode === Sphere.TextureModes.Chromeball) ? this.zSamples + 1 : this.zSamples;
 
@@ -64,12 +56,12 @@ function Sphere(zSamples, radialSamples, radius, textureMode) {
 	var verts = (samples - sharedVerts) * (this.radialSamples + 1) + sharedVerts;
 	var tris = 6 * ((samples) - 2) * this.radialSamples;
 
-	MeshData.call(this, attributeMap, verts, tris);
+	rendererMeshData_MeshDatajs.call(this, attributeMap, verts, tris);
 
 	this.rebuild();
 }
 
-Sphere.prototype = Object.create(MeshData.prototype);
+Sphere.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
 Sphere.prototype.constructor = Sphere;
 
 /**
@@ -77,9 +69,9 @@ Sphere.prototype.constructor = Sphere;
  * @returns {Sphere} Self for chaining.
  */
 Sphere.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshData.POSITION);
-	var norms = this.getAttributeBuffer(MeshData.NORMAL);
-	var texs = this.getAttributeBuffer(MeshData.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION);
+	var norms = this.getAttributeBuffer(rendererMeshData_MeshDatajs.NORMAL);
+	var texs = this.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	// generate geometry
@@ -91,7 +83,7 @@ Sphere.prototype.rebuild = function () {
 	var afSin = [];
 	var afCos = [];
 	for (var iR = 0; iR < this.radialSamples; iR++) {
-		var fAngle = MathUtils.TWO_PI * fInvRS * iR;
+		var fAngle = MathUtilsjs_TWO_PI * fInvRS * iR;
 		afCos[iR] = Math.cos(fAngle);
 		afSin[iR] = Math.sin(fAngle);
 	}
@@ -109,11 +101,11 @@ Sphere.prototype.rebuild = function () {
 
 	// generate the sphere itself
 	var i = 0;
-	var tempVa = new Vector3();
-	var tempVb = new Vector3();
-	var tempVc = new Vector3();
+	var tempVa = new mathVector3_Vector3js();
+	var tempVb = new mathVector3_Vector3js();
+	var tempVc = new mathVector3_Vector3js();
 	for (var iZ = zBegin; iZ < zEnd; iZ++) {
-		var fAFraction = MathUtils.HALF_PI * (-1.0 + fZFactor * iZ); // in (-pi / 2, pi / 2)
+		var fAFraction = MathUtilsjs_HALF_PI * (-1.0 + fZFactor * iZ); // in (-pi / 2, pi / 2)
 		var fZFraction = Math.sin(fAFraction); // in (-1, 1)
 		var fZ = this.radius * fZFraction;
 
@@ -160,15 +152,15 @@ Sphere.prototype.rebuild = function () {
 				texs[i * 2 + 1] = 0.5 * (fZFraction + 1.0);
 			} else if (this.textureMode === Sphere.TextureModes.Projected) {
 				texs[i * 2 + 0] = fRadialFraction + uOffset;
-				texs[i * 2 + 1] = (MathUtils.HALF_PI + Math.asin(fZFraction)) / Math.PI;
+				texs[i * 2 + 1] = (MathUtilsjs_HALF_PI + Math.asin(fZFraction)) / Math.PI;
 			} else if (this.textureMode === Sphere.TextureModes.Polar) {
-				var r = (MathUtils.HALF_PI - Math.abs(fAFraction)) / Math.PI;
+				var r = (MathUtilsjs_HALF_PI - Math.abs(fAFraction)) / Math.PI;
 				var u = r * afCos[iR] + 0.5;
 				var v = r * afSin[iR] + 0.5;
 				texs[i * 2 + 0] = u;
 				texs[i * 2 + 1] = v;
 			} else if (this.textureMode === Sphere.TextureModes.Chromeball) {
-				var r = Math.sin((MathUtils.HALF_PI + fAFraction) / 2);
+				var r = Math.sin((MathUtilsjs_HALF_PI + fAFraction) / 2);
 				r /= 2;
 				var u = r * afCos[iR] + 0.5;
 				var v = r * afSin[iR] + 0.5;
@@ -187,13 +179,13 @@ Sphere.prototype.rebuild = function () {
 			texs[i * 2 + 1] = 0.5 * (fZFraction + 1.0);
 		} else if (this.textureMode === Sphere.TextureModes.Projected) {
 			texs[i * 2 + 0] = 1.0;
-			texs[i * 2 + 1] = (MathUtils.HALF_PI + Math.asin(fZFraction)) / Math.PI;
+			texs[i * 2 + 1] = (MathUtilsjs_HALF_PI + Math.asin(fZFraction)) / Math.PI;
 		} else if (this.textureMode === Sphere.TextureModes.Polar) {
-			var r = (MathUtils.HALF_PI - Math.abs(fAFraction)) / Math.PI;
+			var r = (MathUtilsjs_HALF_PI - Math.abs(fAFraction)) / Math.PI;
 			texs[i * 2 + 0] = r + 0.5;
 			texs[i * 2 + 1] = 0.5;
 		} else if (this.textureMode === Sphere.TextureModes.Chromeball) {
-			var r = Math.sin((MathUtils.HALF_PI + fAFraction) / 2);
+			var r = Math.sin((MathUtilsjs_HALF_PI + fAFraction) / 2);
 			r /= 2;
 			texs[i * 2 + 0] = r + 0.5;
 			texs[i * 2 + 1] = 0.5;
@@ -203,7 +195,7 @@ Sphere.prototype.rebuild = function () {
 	}
 	// We need to add an extra slice so the north pole doesn't look freake
 	if (this.textureMode === Sphere.TextureModes.Chromeball) {
-		var epsilonAngle = MathUtils.HALF_PI - 1e-3;
+		var epsilonAngle = MathUtilsjs_HALF_PI - 1e-3;
 		var z = this.radius * Math.sin(epsilonAngle);
 		var sliceR = Math.sqrt(Math.abs(this.radius * this.radius - z * z));
 		var iSave = i;
@@ -223,7 +215,7 @@ Sphere.prototype.rebuild = function () {
 				norms[i * 3 + 1] = -kNormal.y;
 				norms[i * 3 + 2] = -kNormal.z;
 			}
-			var r = Math.sin((MathUtils.HALF_PI + epsilonAngle) / 2);
+			var r = Math.sin((MathUtilsjs_HALF_PI + epsilonAngle) / 2);
 			r /= 2;
 			var u = r * afCos[iR] + 0.5;
 			var v = r * afSin[iR] + 0.5;
@@ -233,7 +225,7 @@ Sphere.prototype.rebuild = function () {
 		}
 		copyInternal(vbuf, iSave, i);
 		copyInternal(norms, iSave, i);
-		var r = Math.sin((MathUtils.HALF_PI + epsilonAngle) / 2);
+		var r = Math.sin((MathUtilsjs_HALF_PI + epsilonAngle) / 2);
 		r /= 2;
 		texs[i * 2 + 0] = r + 0.5;
 		texs[i * 2 + 1] = 0.5;
@@ -398,7 +390,7 @@ function copyInternal(buf, from, to) {
  * @returns {Sphere}
  */
 Sphere.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['zSamples', 'radialSamples', 'radius', 'textureMode']);
+	var options = utilObjectUtils_ObjectUtilsjs.shallowSelectiveClone(this, ['zSamples', 'radialSamples', 'radius', 'textureMode']);
 
 	return new Sphere(options);
 };
@@ -413,4 +405,12 @@ Sphere.TextureModes = {
 	Chromeball: 'Chromeball'
 };
 
-module.exports = Sphere;
+/**
+ * A 3D object with all points equi-distance from a center point.
+ * @extends MeshData
+ * @param {number} [zSamples=8] Number of segments.
+ * @param {number} [radialSamples=8] Number of slices.
+ * @param {number} [radius=0.5] Radius.
+ * @param {Enum} [textureMode=Sphere.TextureModes.Polar] Texture wrapping mode.
+ */
+export { Sphere_Sphere as Sphere };

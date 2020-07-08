@@ -1,9 +1,28 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var ObjectUtils = require('../../util/ObjectUtils');
-var SystemBus = require('../../entities/SystemBus');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var Snow = require('../../util/Snow'); // TODO Should move!
-var RSVP = require('../../util/rsvp');
+var EnvironmentHandler_EnvironmentHandler = EnvironmentHandler;
+
+import {
+    ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../../loaders/handlers/ConfigHandler";
+
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+
+import {
+    GLOBAL_AMBIENT as ShaderBuilderjs_GLOBAL_AMBIENT,
+    CLEAR_COLOR as ShaderBuilderjs_CLEAR_COLOR,
+    USE_FOG as ShaderBuilderjs_USE_FOG,
+    FOG_SETTINGS as ShaderBuilderjs_FOG_SETTINGS,
+    FOG_COLOR as ShaderBuilderjs_FOG_COLOR,
+} from "../../renderer/shaders/ShaderBuilder";
+
+import { Snow as utilSnow_Snowjs } from "../../util/Snow";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+var ShaderBuilderjs_FOG_COLOR_binding = ShaderBuilderjs_FOG_COLOR;
+var ShaderBuilderjs_FOG_SETTINGS_binding = ShaderBuilderjs_FOG_SETTINGS;
+var ShaderBuilderjs_USE_FOG_binding = ShaderBuilderjs_USE_FOG;
+var ShaderBuilderjs_CLEAR_COLOR_binding = ShaderBuilderjs_CLEAR_COLOR;
+var ShaderBuilderjs_GLOBAL_AMBIENT_binding = ShaderBuilderjs_GLOBAL_AMBIENT;
 
 var defaults = {
 	backgroundColor: [0.3, 0.3, 0.3, 1],
@@ -22,23 +41,16 @@ var soundDefaults = {
 	maxDistance: 100
 };
 
-/**
- * Handling environments
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
 function EnvironmentHandler() {
-	ConfigHandler.apply(this, arguments);
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
 }
 
-EnvironmentHandler.prototype = Object.create(ConfigHandler.prototype);
+EnvironmentHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 EnvironmentHandler.prototype.constructor = EnvironmentHandler;
-ConfigHandler._registerClass('environment', EnvironmentHandler);
+ConfigHandlerjs__registerClass('environment', EnvironmentHandler);
 
 EnvironmentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, defaults);
+	utilObjectUtils_ObjectUtilsjs.defaults(config, defaults);
 };
 
 EnvironmentHandler.prototype._create = function () {
@@ -60,12 +72,12 @@ EnvironmentHandler.prototype._remove = function (ref) {
 	}
 
 	// Reset environment
-	SystemBus.emit('goo.setClearColor', defaults.backgroundColor);
-	ShaderBuilder.CLEAR_COLOR = defaults.backgroundColor;
-	ShaderBuilder.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
-	ShaderBuilder.USE_FOG = defaults.fog.enabled;
-	ShaderBuilder.FOG_COLOR = defaults.fog.color.slice(0, 3);
-	ShaderBuilder.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
+	entitiesSystemBus_SystemBusjsjs.emit('goo.setClearColor', defaults.backgroundColor);
+	ShaderBuilderjs_CLEAR_COLOR_binding = defaults.backgroundColor;
+	ShaderBuilderjs_GLOBAL_AMBIENT_binding = defaults.globalAmbient.slice(0, 3);
+	ShaderBuilderjs_USE_FOG_binding = defaults.fog.enabled;
+	ShaderBuilderjs_FOG_COLOR_binding = defaults.fog.color.slice(0, 3);
+	ShaderBuilderjs_FOG_SETTINGS_binding = [defaults.fog.near, defaults.fog.far];
 
 	// Reset Sound
 	var soundSystem = this.world.getSystem('SoundSystem');
@@ -84,7 +96,7 @@ EnvironmentHandler.prototype._remove = function (ref) {
  */
 EnvironmentHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (object) {
 		if (!object) { return; }
 
 		var backgroundColor = config.backgroundColor;
@@ -97,17 +109,17 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 		];
 		object.globalAmbient = config.globalAmbient.slice(0, 3);
 
-		object.fog = ObjectUtils.deepClone(config.fog);
+		object.fog = utilObjectUtils_ObjectUtilsjs.deepClone(config.fog);
 
 		// Background color
-		SystemBus.emit('goo.setClearColor', object.backgroundColor);
+		entitiesSystemBus_SystemBusjsjs.emit('goo.setClearColor', object.backgroundColor);
 
 		// Fog and ambient
-		ShaderBuilder.CLEAR_COLOR = object.backgroundColor;
-		ShaderBuilder.GLOBAL_AMBIENT = object.globalAmbient;
-		ShaderBuilder.USE_FOG = object.fog.enabled;
-		ShaderBuilder.FOG_COLOR = object.fog.color.slice(0, 3);
-		ShaderBuilder.FOG_SETTINGS = [object.fog.near, config.fog.far];
+		ShaderBuilderjs_CLEAR_COLOR_binding = object.backgroundColor;
+		ShaderBuilderjs_GLOBAL_AMBIENT_binding = object.globalAmbient;
+		ShaderBuilderjs_USE_FOG_binding = object.fog.enabled;
+		ShaderBuilderjs_FOG_COLOR_binding = object.fog.color.slice(0, 3);
+		ShaderBuilderjs_FOG_SETTINGS_binding = [object.fog.near, config.fog.far];
 
 		// Weather
 		for (var key in config.weather) {
@@ -144,7 +156,7 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 				soundSystem.setReverb(null);
 			}
 		}
-		return RSVP.all(promises).then(function () { return object; });
+		return utilrsvp_rsvpjsjs.all(promises).then(function () { return object; });
 	});
 };
 
@@ -157,7 +169,7 @@ EnvironmentHandler.weatherHandlers = {
 					// add snow
 					weatherState.snow = weatherState.snow || {};
 					weatherState.snow.enabled = true;
-					weatherState.snow.snow = new Snow(this.world.gooRunner);
+					weatherState.snow.snow = new utilSnow_Snowjs(this.world.gooRunner);
 				}
 
 				weatherState.snow.snow.setEmissionVelocity(config.velocity);
@@ -180,4 +192,11 @@ EnvironmentHandler.weatherHandlers = {
 	}
 };
 
-module.exports = EnvironmentHandler;
+/**
+ * Handling environments
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { EnvironmentHandler_EnvironmentHandler as EnvironmentHandler };

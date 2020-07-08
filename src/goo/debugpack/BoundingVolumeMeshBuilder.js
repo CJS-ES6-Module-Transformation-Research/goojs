@@ -1,8 +1,11 @@
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var MeshBuilder = require('../util/MeshBuilder');
-var MeshData = require('../renderer/MeshData');
-var Transform = require('../math/Transform');
+import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere as rendererboundsBoundingSphere_BoundingSpherejs } from "../renderer/bounds/BoundingSphere";
+import { MeshBuilder as utilMeshBuilder_MeshBuilderjs } from "../util/MeshBuilder";
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+import { Transform as mathTransform_Transformjs } from "../math/Transform";
+var BoundingVolumeMeshBuilder_build;
+var BoundingVolumeMeshBuilder_buildSphere;
+var BoundingVolumeMeshBuilder_buildBox;
 
 /**
  * Provides methods for building bounding volume debug meshes
@@ -38,9 +41,9 @@ function buildBox(dx, dy, dz) {
 		3, 7
 	];
 
-	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
+	var meshData = new rendererMeshData_MeshDatajs(rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]), verts.length / 3, indices.length);
 
-	meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -49,11 +52,11 @@ function buildBox(dx, dy, dz) {
 	return meshData;
 }
 
-BoundingVolumeMeshBuilder.buildBox = function (boundingBox) {
-	var boxMeshData = buildBox(boundingBox.xExtent, boundingBox.yExtent, boundingBox.zExtent);
-	// translate vertices to center
-	return boxMeshData;
-};
+BoundingVolumeMeshBuilder_buildBox = function(boundingBox) {
+    var boxMeshData = buildBox(boundingBox.xExtent, boundingBox.yExtent, boundingBox.zExtent);
+    // translate vertices to center
+    return boxMeshData;
+};;
 
 function buildCircle(radius, nSegments) {
 	radius = radius || 1;
@@ -69,9 +72,9 @@ function buildCircle(radius, nSegments) {
 	}
 	indices[indices.length - 1] = 0;
 
-	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), nSegments, indices.length);
+	var meshData = new rendererMeshData_MeshDatajs(rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]), nSegments, indices.length);
 
-	meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -83,20 +86,20 @@ function buildCircle(radius, nSegments) {
 function buildSphere(radius) {
 	radius = radius || 1;
 
-	var meshBuilder = new MeshBuilder();
+	var meshBuilder = new utilMeshBuilder_MeshBuilderjs();
 	var nSegments = 128;
 	var circle = buildCircle(radius, nSegments);
 	var transform;
 
-	transform = new Transform();
+	transform = new mathTransform_Transformjs();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transform();
+	transform = new mathTransform_Transformjs();
 	transform.rotation.fromAngles(0, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transform();
+	transform = new mathTransform_Transformjs();
 	transform.rotation.fromAngles(Math.PI / 2, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
@@ -105,18 +108,18 @@ function buildSphere(radius) {
 	return meshDatas[0];
 }
 
-BoundingVolumeMeshBuilder.buildSphere = function (boundingSphere) {
-	var sphereMeshData = buildSphere(boundingSphere.radius);
-	// translate vertices to center
-	return sphereMeshData;
-};
+BoundingVolumeMeshBuilder_buildSphere = function(boundingSphere) {
+    var sphereMeshData = buildSphere(boundingSphere.radius);
+    // translate vertices to center
+    return sphereMeshData;
+};;
 
-BoundingVolumeMeshBuilder.build = function (boundingVolume) {
-	if (boundingVolume instanceof BoundingBox) {
-		return BoundingVolumeMeshBuilder.buildBox(boundingVolume);
-	} else if (boundingVolume instanceof BoundingSphere) {
-		return BoundingVolumeMeshBuilder.buildSphere(boundingVolume);
-	}
-};
+BoundingVolumeMeshBuilder_build = function(boundingVolume) {
+    if (boundingVolume instanceof rendererboundsBoundingBox_BoundingBoxjs) {
+        return BoundingVolumeMeshBuilder_buildBox(boundingVolume);
+    } else if (boundingVolume instanceof rendererboundsBoundingSphere_BoundingSpherejs) {
+        return BoundingVolumeMeshBuilder_buildSphere(boundingVolume);
+    }
+};;
 
-module.exports = BoundingVolumeMeshBuilder;
+export { BoundingVolumeMeshBuilder_build as build, BoundingVolumeMeshBuilder };

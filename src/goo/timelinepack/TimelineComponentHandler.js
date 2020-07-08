@@ -1,57 +1,59 @@
-var ComponentHandler = require('../loaders/handlers/ComponentHandler');
-var TimelineComponent = require('../timelinepack/TimelineComponent');
-var ValueChannel = require('../timelinepack/ValueChannel');
-var EventChannel = require('../timelinepack/EventChannel');
-var ArrayUtils = require('../util/ArrayUtils');
-var SystemBus = require('../entities/SystemBus');
-var ObjectUtils = require('../util/ObjectUtils');
-var Easing = require('../util/Easing');
+var TimelineComponentHandler_TimelineComponentHandler = TimelineComponentHandler;
 
-/**
- * @hidden
- */
+import {
+    ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../loaders/handlers/ComponentHandler";
+
+import { TimelineComponent as timelinepackTimelineComponent_TimelineComponentjs } from "../timelinepack/TimelineComponent";
+import { ValueChannel as timelinepackValueChannel_ValueChanneljs } from "../timelinepack/ValueChannel";
+import { EventChannel as timelinepackEventChannel_EventChanneljs } from "../timelinepack/EventChannel";
+import { find as ArrayUtilsjs_find } from "../util/ArrayUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+import { Linear as Easingjs_Linear } from "../util/Easing";
 function TimelineComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
 	this._type = 'TimelineComponent';
 }
 
-TimelineComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+TimelineComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
 TimelineComponentHandler.prototype.constructor = TimelineComponentHandler;
-ComponentHandler._registerClass('timeline', TimelineComponentHandler);
+ComponentHandlerjs__registerClass('timeline', TimelineComponentHandler);
 
 TimelineComponentHandler.prototype._prepare = function (/*config*/) {};
 
 TimelineComponentHandler.prototype._create = function () {
-	var component = new TimelineComponent();
+	var component = new timelinepackTimelineComponent_TimelineComponentjs();
 	return component;
 };
 
 TimelineComponentHandler.tweenMap = {
-	translationX: ValueChannel.getSimpleTransformTweener.bind(null, 'translation', 'x'),
-	translationY: ValueChannel.getSimpleTransformTweener.bind(null, 'translation', 'y'),
-	translationZ: ValueChannel.getSimpleTransformTweener.bind(null, 'translation', 'z'),
-	scaleX: ValueChannel.getSimpleTransformTweener.bind(null, 'scale', 'x'),
-	scaleY: ValueChannel.getSimpleTransformTweener.bind(null, 'scale', 'y'),
-	scaleZ: ValueChannel.getSimpleTransformTweener.bind(null, 'scale', 'z'),
-	rotationX: ValueChannel.getRotationTweener.bind(null, 0),
-	rotationY: ValueChannel.getRotationTweener.bind(null, 1),
-	rotationZ: ValueChannel.getRotationTweener.bind(null, 2)
+	translationX: timelinepackValueChannel_ValueChanneljs.getSimpleTransformTweener.bind(null, 'translation', 'x'),
+	translationY: timelinepackValueChannel_ValueChanneljs.getSimpleTransformTweener.bind(null, 'translation', 'y'),
+	translationZ: timelinepackValueChannel_ValueChanneljs.getSimpleTransformTweener.bind(null, 'translation', 'z'),
+	scaleX: timelinepackValueChannel_ValueChanneljs.getSimpleTransformTweener.bind(null, 'scale', 'x'),
+	scaleY: timelinepackValueChannel_ValueChanneljs.getSimpleTransformTweener.bind(null, 'scale', 'y'),
+	scaleZ: timelinepackValueChannel_ValueChanneljs.getSimpleTransformTweener.bind(null, 'scale', 'z'),
+	rotationX: timelinepackValueChannel_ValueChanneljs.getRotationTweener.bind(null, 0),
+	rotationY: timelinepackValueChannel_ValueChanneljs.getRotationTweener.bind(null, 1),
+	rotationZ: timelinepackValueChannel_ValueChanneljs.getRotationTweener.bind(null, 2)
 };
 
 function getEasingFunction(easingString) {
 	if (!easingString) {
-		return Easing.Linear.None;
+		return Easingjs_Linear.None;
 	}
 	var separator = easingString.indexOf('.');
 	var easingType = easingString.substr(0, separator);
 	var easingDirection = easingString.substr(separator + 1);
-	return Easing[easingType][easingDirection];
+	return utilEasing_Easingjs[easingType][easingDirection];
 }
 
 function updateValueChannelKeyframe(keyframeConfig, keyframeId, channel) {
 	var needsResorting = false;
 
-	var keyframe = ArrayUtils.find(channel.keyframes, function (keyframe) {
+	var keyframe = ArrayUtilsjs_find(channel.keyframes, function (keyframe) {
 		return keyframe.id === keyframeId;
 	});
 
@@ -83,13 +85,13 @@ function updateValueChannelKeyframe(keyframeConfig, keyframeId, channel) {
 function updateEventChannelKeyFrame(keyframeConfig, keyframeId, channel, channelConfig) {
 	var needsResorting = false;
 
-	var callbackEntry = ArrayUtils.find(channel.keyframes, function (callbackEntry) {
+	var callbackEntry = ArrayUtilsjs_find(channel.keyframes, function (callbackEntry) {
 		return callbackEntry.id === keyframeId;
 	});
 
 	// create the event emitter callback, we're gonna use it anyway
 	var eventEmitter = function () {
-		SystemBus.emit(channelConfig.eventName, keyframeConfig.value);
+		entitiesSystemBus_SystemBusjsjs.emit(channelConfig.eventName, keyframeConfig.value);
 	};
 
 	// create a new callback entry in the callback agenda if it does not exist already or update it if it exists
@@ -111,7 +113,7 @@ function updateEventChannelKeyFrame(keyframeConfig, keyframeId, channel, channel
 
 function updateChannel(channelConfig, channelId, component, entityResolver, rotationMap) {
 	// search for existing one
-	var channel = ArrayUtils.find(component.channels, function (channel) {
+	var channel = ArrayUtilsjs_find(component.channels, function (channel) {
 		return channel.id === channelId;
 	});
 
@@ -126,11 +128,11 @@ function updateChannel(channelConfig, channelId, component, entityResolver, rota
 			var updateCallback =
 				TimelineComponentHandler.tweenMap[key](entityId, entityResolver, rotationMap[entityId]);
 
-			channel = new ValueChannel(channelId, {
+			channel = new timelinepackValueChannel_ValueChanneljs(channelId, {
 				callbackUpdate: updateCallback
 			});
 		} else {
-			channel = new EventChannel(channelId);
+			channel = new timelinepackEventChannel_EventChanneljs(channelId);
 		}
 		component.channels.push(channel);
 	} else if (channelConfig.entityId && channel.callbackUpdate && channel.callbackUpdate.rotation) {
@@ -174,7 +176,7 @@ function updateChannel(channelConfig, channelId, component, entityResolver, rota
 
 TimelineComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 
 		if (!isNaN(config.duration)) {
@@ -199,7 +201,7 @@ TimelineComponentHandler.prototype.update = function (entity, config, options) {
 		};
 		var rotationMap = {};
 
-		ObjectUtils.forEach(config.channels, function (channelConfig) {
+		utilObjectUtils_ObjectUtilsjs.forEach(config.channels, function (channelConfig) {
 			updateChannel(channelConfig, channelConfig.id, component, entityResolver, rotationMap);
 		}, null, 'sortValue');
 
@@ -207,4 +209,7 @@ TimelineComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = TimelineComponentHandler;
+/**
+ * @hidden
+ */
+export { TimelineComponentHandler_TimelineComponentHandler as TimelineComponentHandler };

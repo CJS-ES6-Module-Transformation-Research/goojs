@@ -1,20 +1,15 @@
-var System = require('../entities/systems/System');
-var LogicLayer = require('./logic/LogicLayer');
-var LogicInterface = require('./logic/LogicInterface');
-
-// REVIEW: this description seems inaccurate
-/**
- * Updates cameras/cameracomponents with ther transform component transforms
- * @private
- */
+var LogicSystem_LogicSystem = LogicSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../entities/systems/System";
+import { writeValue as LogicLayerjs_writeValue } from "./logic/LogicLayer";
+import { makePortDataName as LogicInterfacejs_makePortDataName } from "./logic/LogicInterface";
 function LogicSystem() {
-	System.call(this, 'LogicSystem', null);
+	entitiessystemsSystem_Systemjs.call(this, 'LogicSystem', null);
 
 	this.passive = true;
 	this._entities = {};
 }
 
-LogicSystem.prototype = Object.create(System.prototype);
+LogicSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 
 LogicSystem.prototype.inserted = function (entity) {
 	this._entities[entity.name] = {
@@ -70,14 +65,14 @@ LogicSystem.prototype.makeOutputWriteFn = function (sourceEntity, outPortDesc) {
 	this.forEachLogicObject(function (o) {
 		// Look for entities that point to this here.
 		if (o.type === 'LogicNodeEntityProxy' && o.entityRef === sourceEntity.name) {
-			matches.push([o.logicInstance, LogicInterface.makePortDataName(outPortDesc)]);
+			matches.push([o.logicInstance, LogicInterfacejs_makePortDataName(outPortDesc)]);
 			// REVIEW: use objects instead of arrays when representing pairs ('0' and '1' are harder to read than some proper names)
 		}
 	});
 
 	return function (v) {
 		for (var i = 0; i < matches.length; i++) {
-			LogicLayer.writeValue(matches[i][0], matches[i][1], v);
+			LogicLayerjs_writeValue(matches[i][0], matches[i][1], v);
 		}
 	};
 };
@@ -129,4 +124,9 @@ LogicSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = LogicSystem;
+// REVIEW: this description seems inaccurate
+/**
+ * Updates cameras/cameracomponents with ther transform component transforms
+ * @private
+ */
+export { LogicSystem_LogicSystem as LogicSystem };

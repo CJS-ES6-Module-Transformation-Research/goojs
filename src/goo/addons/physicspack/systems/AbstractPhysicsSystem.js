@@ -1,12 +1,8 @@
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
-
-/**
- * Base class for physics systems.
- * @extends System
- */
+var AbstractPhysicsSystem_AbstractPhysicsSystem = AbstractPhysicsSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 function AbstractPhysicsSystem() {
-	System.apply(this, arguments);
+	entitiessystemsSystem_Systemjs.apply(this, arguments);
 
 	this.priority = -1;
 
@@ -33,11 +29,11 @@ function AbstractPhysicsSystem() {
 		this._colliderDeletedComponent(event.entity, event.component);
 	}.bind(this);
 
-	SystemBus.addListener('goo.collider.inserted', this._colliderInsertedListener);
-	SystemBus.addListener('goo.collider.deleted', this._colliderDeletedListener);
-	SystemBus.addListener('goo.collider.deletedComponent', this._colliderDeletedComponentListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.collider.inserted', this._colliderInsertedListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.collider.deleted', this._colliderDeletedListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.collider.deletedComponent', this._colliderDeletedComponentListener);
 }
-AbstractPhysicsSystem.prototype = Object.create(System.prototype);
+AbstractPhysicsSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 AbstractPhysicsSystem.prototype.constructor = AbstractPhysicsSystem;
 
 /**
@@ -55,7 +51,7 @@ var event = {
  * @private
  */
 AbstractPhysicsSystem.prototype.emitSubStepEvent = function () {
-	SystemBus.emit('goo.physics.substep');
+	entitiesSystemBus_SystemBusjsjs.emit('goo.physics.substep');
 };
 
 /**
@@ -115,7 +111,7 @@ AbstractPhysicsSystem.prototype.emitTriggerExit = function (triggerEntity, other
 AbstractPhysicsSystem.prototype._emitEvent = function (channel, entityA, entityB) {
 	event.entityA = entityA;
 	event.entityB = entityB;
-	SystemBus.emit(channel, event);
+	entitiesSystemBus_SystemBusjsjs.emit(channel, event);
 	event.entityA = null;
 	event.entityB = null;
 };
@@ -124,4 +120,8 @@ AbstractPhysicsSystem.prototype._colliderInserted = function (/*entity*/) {};
 AbstractPhysicsSystem.prototype._colliderDeleted = function (/*entity*/) {};
 AbstractPhysicsSystem.prototype._colliderDeletedComponent = function (/*entity*/) {};
 
-module.exports = AbstractPhysicsSystem;
+/**
+ * Base class for physics systems.
+ * @extends System
+ */
+export { AbstractPhysicsSystem_AbstractPhysicsSystem as AbstractPhysicsSystem };

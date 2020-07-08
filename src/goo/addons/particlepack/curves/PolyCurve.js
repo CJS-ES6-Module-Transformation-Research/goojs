@@ -1,16 +1,14 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
+var PolyCurve_PolyCurve = PolyCurve;
 
-/**
- * A collection of Curve instances. Used to connect different types curves, joining them at their given time offsets.
- * @constructor
- * @extends Curve
- * @param {object} [options]
- * @param {Array<Curve>} [options.segments]
- */
+import {
+    Curve as addonsparticlepackcurvesCurve_Curvejs,
+    numberToGLSL as Curvejs_numberToGLSL,
+} from "../../../addons/particlepack/curves/Curve";
+
 function PolyCurve(options) {
 	options = options || {};
 
-	Curve.call(this, options);
+	addonsparticlepackcurvesCurve_Curvejs.call(this, options);
 
 	/**
 	 * @type {Array<Curve>}
@@ -60,10 +58,10 @@ PolyCurve.prototype = {
 		var glsl = [];
 		for (var i = 0; i < segments.length; i++) {
 			var a = segments[i];
-			var t0 = Curve.numberToGLSL(a.timeOffset);
+			var t0 = Curvejs_numberToGLSL(a.timeOffset);
 			var t1 = "1.0";
 			if (i < segments.length - 1) {
-				t1 = Curve.numberToGLSL(segments[i + 1].timeOffset);
+				t1 = Curvejs_numberToGLSL(segments[i + 1].timeOffset);
 			}
 			glsl.push(
 				'step(' + t0 + ',t)*step(-' + t1 + ',-t)*' + a.toGLSL(timeVariableName, lerpValueVariableName)
@@ -82,10 +80,10 @@ PolyCurve.prototype = {
 		var glsl = [];
 		for (var i = 0; i < segments.length; i++) {
 			var a = segments[i];
-			var t0 = Curve.numberToGLSL(a.timeOffset);
+			var t0 = Curvejs_numberToGLSL(a.timeOffset);
 			var t1 = "1.0";
 			if (i < segments.length - 1) {
-				t1 = Curve.numberToGLSL(segments[i + 1].timeOffset);
+				t1 = Curvejs_numberToGLSL(segments[i + 1].timeOffset);
 			}
 			glsl.push(
 				a.integralToGLSL(
@@ -143,4 +141,11 @@ PolyCurve.prototype = {
 	}
 };
 
-module.exports = PolyCurve;
+/**
+ * A collection of Curve instances. Used to connect different types curves, joining them at their given time offsets.
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {Array<Curve>} [options.segments]
+ */
+export { PolyCurve_PolyCurve as PolyCurve };

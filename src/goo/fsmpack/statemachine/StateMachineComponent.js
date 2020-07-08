@@ -1,13 +1,12 @@
-var Component = require('../../entities/components/Component');
-var ArrayUtils = require('../../util/ArrayUtils');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * StateMachineComponent
- * @private
- */
+var StateMachineComponent_StateMachineComponent = StateMachineComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import { remove as ArrayUtilsjs_remove } from "../../util/ArrayUtils";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+var StateMachineComponent_applyOnVariable;
+var StateMachineComponent_getVariable;
+var StateMachineComponent_vars;
 function StateMachineComponent() {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -22,31 +21,31 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component.prototype);
+StateMachineComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 
-StateMachineComponent.vars = {};
+StateMachineComponent_vars = {};;
 
-StateMachineComponent.getVariable = function (name) {
-	return StateMachineComponent.vars[name];
-};
+StateMachineComponent_getVariable = function(name) {
+    return StateMachineComponent_vars[name];
+};;
 
 StateMachineComponent.prototype.getVariable = function (name) {
 	if (this.vars[name] !== undefined) {
 		return this.vars[name];
 	} else {
-		return StateMachineComponent.getVariable(name);
+		return StateMachineComponent_getVariable(name);
 	}
 };
 
-StateMachineComponent.applyOnVariable = function (name, fun) {
-	StateMachineComponent.vars[name] = fun(StateMachineComponent.vars[name]);
-};
+StateMachineComponent_applyOnVariable = function(name, fun) {
+    StateMachineComponent_vars[name] = fun(StateMachineComponent_vars[name]);
+};;
 
 StateMachineComponent.prototype.applyOnVariable = function (name, fun) {
 	if (this.vars[name] !== undefined) {
 		this.vars[name] = fun(this.vars[name]);
 	} else {
-		StateMachineComponent.applyOnVariable(name, fun);
+		StateMachineComponent_applyOnVariable(name, fun);
 	}
 };
 
@@ -58,11 +57,11 @@ StateMachineComponent.prototype.removeVariable = function (name) {
 	delete this.vars[name];
 };
 
-StateMachineComponent.applyOnVariable = function (name, fun) {
+StateMachineComponent_applyOnVariable = function (name, fun) {
 	if (this.vars[name]) {
 		this.vars[name] = fun(this.vars[name]);
-	} else if (StateMachineComponent.vars[name]) {
-		StateMachineComponent.applyOnVariable(name, fun);
+	} else if (StateMachineComponent_vars[name]) {
+		StateMachineComponent_applyOnVariable(name, fun);
 	}
 };
 
@@ -75,7 +74,7 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);
+	ArrayUtilsjs_remove(this._machines, machine);
 	delete this._machinesById[machine.id];
 };
 
@@ -149,7 +148,7 @@ StateMachineComponent.prototype.update = function () {
  */
 StateMachineComponent.prototype.pause = function () {
 	this.active = false;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.pause');
+	entitiesSystemBus_SystemBusjsjs.emit('goo.entity.' + this.entity.name + '.fsm.pause');
 };
 
 /**
@@ -157,7 +156,11 @@ StateMachineComponent.prototype.pause = function () {
  */
 StateMachineComponent.prototype.play = function () {
 	this.active = true;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.play');
+	entitiesSystemBus_SystemBusjsjs.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
 
-module.exports = StateMachineComponent;
+/**
+ * StateMachineComponent
+ * @private
+ */
+export { StateMachineComponent_StateMachineComponent as StateMachineComponent };

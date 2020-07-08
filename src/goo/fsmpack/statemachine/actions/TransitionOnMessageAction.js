@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+var TransitionOnMessageAction_TransitionOnMessageAction = TransitionOnMessageAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-function TransitionOnMessageAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TransitionOnMessageAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-TransitionOnMessageAction.prototype = Object.create(Action.prototype);
+TransitionOnMessageAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 TransitionOnMessageAction.prototype.constructor = TransitionOnMessageAction;
 
 TransitionOnMessageAction.external = {
@@ -36,11 +37,11 @@ TransitionOnMessageAction.prototype.enter = function (fsm) {
 	this.eventListener = function (/*data*/) {
 		fsm.send(this.transitions.transition);
 	}.bind(this);
-	SystemBus.addListener(this.channel, this.eventListener, false);
+	entitiesSystemBus_SystemBusjsjs.addListener(this.channel, this.eventListener, false);
 };
 
 TransitionOnMessageAction.prototype.exit = function (/*fsm*/) {
-	SystemBus.removeListener(this.channel, this.eventListener);
+	entitiesSystemBus_SystemBusjsjs.removeListener(this.channel, this.eventListener);
 };
 
-module.exports = TransitionOnMessageAction;
+export { TransitionOnMessageAction_TransitionOnMessageAction as TransitionOnMessageAction };

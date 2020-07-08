@@ -1,59 +1,50 @@
-var World = require('./World');
-var Renderer = require('../renderer/Renderer');
-var TransformSystem = require('./systems/TransformSystem');
-var RenderSystem = require('./systems/RenderSystem');
-var BoundingUpdateSystem = require('./systems/BoundingUpdateSystem');
-var ScriptSystem = require('./systems/ScriptSystem');
-var LightingSystem = require('./systems/LightingSystem');
-var CameraSystem = require('./systems/CameraSystem');
-var ParticlesSystem = require('./systems/ParticlesSystem');
-var Stats = require('../util/Stats');
-var AudioContext = require('../sound/AudioContext');
-var SoundSystem = require('./systems/SoundSystem');
-var TransformComponent = require('./components/TransformComponent');
-var MeshDataComponent = require('./components/MeshDataComponent');
-var MeshRendererComponent = require('./components/MeshRendererComponent');
-var CameraComponent = require('./components/CameraComponent');
-var LightComponent = require('./components/LightComponent');
-var ScriptComponent = require('./components/ScriptComponent');
-var GameUtils = require('../util/GameUtils');
-var Logo = require('../util/Logo');
-var SystemBus = require('./SystemBus');
-var Material = require('../renderer/Material');
+var GooRunner_GooRunner = GooRunner;
+import { World as World_Worldjs } from "./World";
 
-/**
- * The main class that updates the world and calls the renderers.
- * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
- *
- * @param {Object} [parameters] GooRunner settings passed in a JSON object
- * @param {boolean} [parameters.alpha=false] Specifies if the canvas should have an alpha channel or not.
- * @param {boolean} [parameters.premultipliedAlpha=true] Enables or disables premultiplication of color by alpha
- * @param {boolean} [parameters.antialias=true] Specifies if antialiasing should be turned on or no
- * @param {boolean} [parameters.stencil=false] Enables the stencil buffer
- * @param {boolean} [parameters.preserveDrawingBuffer=false] By default the drawing buffer will be cleared after it is presented to the HTML compositor. Enable this option to not clear the drawing buffer
- * @param {HTMLCanvasElement}  [parameters.canvas] If not supplied, Renderer will create a new canvas
- * @param {boolean} [parameters.showStats=false] If enabled a small stats widget showing stats will be displayed
- * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc)
- * @param {boolean} [parameters.manuallyStartGameLoop=false] By default the 'game loop' will start automatically. Enable this option to manually start the game loop at any time
- * @param {(boolean | string | { position, color })} [parameters.logo='topright'] Specifies whether the Goo logo is visible or not and where should and be placed and what color should it have.
- * If the parameter is not specified then the logo is placed in the top right corner.
- * If no logo is desired then this parameter should have the 'false' value.
- * If the supplied parameter is one of the following: 'topleft', 'topright', 'bottomleft', 'bottomright' then the logo will be positioned in the according corner
- * If the parameter is of type object then the logo will be positioned according to the 'position' key and will be colored according to the 'color' key
- * @param {boolean} [parameters.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
- * @param {boolean} [parameters.debugKeys=false] If enabled the hotkeys Shift+[1..6] will be enabled
- * @param {boolean} [parameters.useTryCatch=true]
- */
+import {
+    Renderer as rendererRenderer_Rendererjs,
+    mainCamera as Rendererjs_mainCamera,
+} from "../renderer/Renderer";
+
+import { TransformSystem as systemsTransformSystem_TransformSystemjs } from "./systems/TransformSystem";
+import { RenderSystem as systemsRenderSystem_RenderSystemjs } from "./systems/RenderSystem";
+import { BoundingUpdateSystem as systemsBoundingUpdateSystem_BoundingUpdateSystemjs } from "./systems/BoundingUpdateSystem";
+import { ScriptSystem as systemsScriptSystem_ScriptSystemjs } from "./systems/ScriptSystem";
+import { LightingSystem as systemsLightingSystem_LightingSystemjs } from "./systems/LightingSystem";
+import { CameraSystem as systemsCameraSystem_CameraSystemjs } from "./systems/CameraSystem";
+import { ParticlesSystem as systemsParticlesSystem_ParticlesSystemjs } from "./systems/ParticlesSystem";
+import { Stats as utilStats_Statsjs } from "../util/Stats";
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../sound/AudioContext";
+import { SoundSystem as systemsSoundSystem_SoundSystemjs } from "./systems/SoundSystem";
+import { TransformComponent as componentsTransformComponent_TransformComponentjs } from "./components/TransformComponent";
+import { MeshDataComponent as componentsMeshDataComponent_MeshDataComponentjs } from "./components/MeshDataComponent";
+import {     MeshRendererComponent as componentsMeshRendererComponent_MeshRendererComponentjs, } from "./components/MeshRendererComponent";
+import { CameraComponent as componentsCameraComponent_CameraComponentjs } from "./components/CameraComponent";
+import { LightComponent as componentsLightComponent_LightComponentjs } from "./components/LightComponent";
+import { ScriptComponent as componentsScriptComponent_ScriptComponentjs } from "./components/ScriptComponent";
+
+import {
+    toggleFullScreen as GameUtilsjs_toggleFullScreen,
+    togglePointerLock as GameUtilsjs_togglePointerLock,
+    addVisibilityChangeListener as GameUtilsjs_addVisibilityChangeListener,
+    clearVisibilityChangeListeners as GameUtilsjs_clearVisibilityChangeListeners,
+    initAllShims as GameUtilsjs_initAllShims,
+} from "../util/GameUtils";
+
+import { white as Logojs_white, getLogo as Logojs_getLogo } from "../util/Logo";
+import { SystemBusjs as SystemBus_SystemBusjsjs } from "./SystemBus";
+import { Material as rendererMaterial_Materialjs } from "../renderer/Material";
+var Rendererjs_mainCamera_binding = Rendererjs_mainCamera;
 function GooRunner(parameters) {
 	parameters = parameters || {};
 
-	GameUtils.initAllShims();
+	GameUtilsjs_initAllShims();
 
 	/**
 	 * The Goo world.
 	 * @type {World}
 	 */
-	this.world = new World({
+	this.world = new World_Worldjs({
 		gooRunner: this,
 		tpfSmoothingCount: parameters.tpfSmoothingCount
 	});
@@ -62,7 +53,7 @@ function GooRunner(parameters) {
 	 * Automatically created renderer.
 	 * @type {Renderer}
 	 */
-	this.renderer = new Renderer(parameters);
+	this.renderer = new rendererRenderer_Rendererjs(parameters);
 
 	/**
 	 * Set to true to run user-defined callbacks within try/catch statements. Errors will be printed to console.
@@ -154,7 +145,7 @@ function GooRunner(parameters) {
 		touchmove: null
 	};
 
-	GameUtils.addVisibilityChangeListener(function (paused) {
+	GameUtilsjs_addVisibilityChangeListener(function (paused) {
 		if (paused) {
 			this._stopGameLoop();
 		} else {
@@ -180,7 +171,7 @@ function GooRunner(parameters) {
 }
 
 GooRunner.prototype._setupContextLost = function () {
-	SystemBus.addListener('goo.contextLost', function () {
+	SystemBus_SystemBusjsjs.addListener('goo.contextLost', function () {
 		for (var i = 0; i < this.renderSystems.length; i++) {
 			var renderSystem = this.renderSystems[i];
 			if (renderSystem.invalidateHandles) {
@@ -203,7 +194,7 @@ GooRunner.prototype._setupContextLost = function () {
 		this.stopGameLoop();
 	}.bind(this));
 
-	SystemBus.addListener('goo.contextRestored', function () {
+	SystemBus_SystemBusjsjs.addListener('goo.contextRestored', function () {
 		this.startGameLoop();
 	}.bind(this));
 };
@@ -213,18 +204,18 @@ GooRunner.prototype._setupContextLost = function () {
  * @private
  */
 GooRunner.prototype._setBaseSystems = function () {
-	this.world.setSystem(new ScriptSystem(this.world));
-	this.world.setSystem(new TransformSystem());
-	this.world.setSystem(new CameraSystem());
-	this.world.setSystem(new ParticlesSystem());
-	this.world.setSystem(new BoundingUpdateSystem());
-	this.world.setSystem(new LightingSystem());
+	this.world.setSystem(new systemsScriptSystem_ScriptSystemjs(this.world));
+	this.world.setSystem(new systemsTransformSystem_TransformSystemjs());
+	this.world.setSystem(new systemsCameraSystem_CameraSystemjs());
+	this.world.setSystem(new systemsParticlesSystem_ParticlesSystemjs());
+	this.world.setSystem(new systemsBoundingUpdateSystem_BoundingUpdateSystemjs());
+	this.world.setSystem(new systemsLightingSystem_LightingSystemjs());
 
-	if (AudioContext.isSupported()) {
-		this.world.setSystem(new SoundSystem());
+	if (soundAudioContext_AudioContextjsjs.isSupported()) {
+		this.world.setSystem(new systemsSoundSystem_SoundSystemjs());
 	}
 
-	this.renderSystem = new RenderSystem();
+	this.renderSystem = new systemsRenderSystem_RenderSystemjs();
 	this.renderSystems = [this.renderSystem];
 	this.world.setSystem(this.renderSystem);
 };
@@ -234,12 +225,12 @@ GooRunner.prototype._setBaseSystems = function () {
  * @private
  */
 GooRunner.prototype._registerBaseComponents = function () {
-	this.world.registerComponent(TransformComponent);
-	this.world.registerComponent(MeshDataComponent);
-	this.world.registerComponent(MeshRendererComponent);
-	this.world.registerComponent(CameraComponent);
-	this.world.registerComponent(LightComponent);
-	this.world.registerComponent(ScriptComponent);
+	this.world.registerComponent(componentsTransformComponent_TransformComponentjs);
+	this.world.registerComponent(componentsMeshDataComponent_MeshDataComponentjs);
+	this.world.registerComponent(componentsMeshRendererComponent_MeshRendererComponentjs);
+	this.world.registerComponent(componentsCameraComponent_CameraComponentjs);
+	this.world.registerComponent(componentsLightComponent_LightComponentjs);
+	this.world.registerComponent(componentsScriptComponent_ScriptComponentjs);
 };
 
 /**
@@ -340,7 +331,7 @@ GooRunner.prototype._updateFrame = function (time) {
 	this.renderer.info.reset();
 
 	if (this.doRender) {
-		this.renderer.checkResize(Renderer.mainCamera);
+		this.renderer.checkResize(Rendererjs_mainCamera_binding);
 		this.renderer.setRenderTarget();
 		//this.renderer.clear();
 
@@ -358,7 +349,7 @@ GooRunner.prototype._updateFrame = function (time) {
 			}
 		}
 		// handle pick requests
-		if (this._picking.doPick && Renderer.mainCamera) {
+		if (this._picking.doPick && Rendererjs_mainCamera_binding) {
 			var clearColor = this.renderer.clearColor;
 			this._picking.clearColorStore[0] = clearColor.r;
 			this._picking.clearColorStore[1] = clearColor.g;
@@ -371,7 +362,7 @@ GooRunner.prototype._updateFrame = function (time) {
 					this.renderSystems[i].renderToPick(this.renderer, this._picking.skipUpdateBuffer);
 				}
 			}
-			this.renderer.pick(this._picking.x, this._picking.y, this._picking.pickingStore, Renderer.mainCamera);
+			this.renderer.pick(this._picking.x, this._picking.y, this._picking.pickingStore, Rendererjs_mainCamera_binding);
 			if (this.useTryCatch) {
 				this._callSafe(this._picking.pickingCallback, this._picking.pickingStore.id, this._picking.pickingStore.depth);
 			} else {
@@ -434,9 +425,9 @@ GooRunner.prototype._updateFrame = function (time) {
 GooRunner.prototype._buildLogo = function (settings) {
 	var div = document.createElement('div');
 
-	var color = settings && settings.color ? settings.color : Logo.white;
+	var color = settings && settings.color ? settings.color : Logojs_white;
 
-	var svg = Logo.getLogo({
+	var svg = Logojs_getLogo({
 		width: '70px',
 		height: '50px',
 		color: color
@@ -515,10 +506,10 @@ GooRunner.prototype._addDebugKeys = function () {
 
 		switch (event.which) {
 			case 32: // Space
-				GameUtils.toggleFullScreen();
+				GameUtilsjs_toggleFullScreen();
 				break;
 			case 13: // Enter
-				GameUtils.togglePointerLock();
+				GameUtilsjs_togglePointerLock();
 				break;
 			case 49: // 1
 				this.renderSystem.setDebugMaterial();
@@ -610,7 +601,7 @@ GooRunner.prototype.triggerEvent = function (type, evt) {
 	evt.type = type;
 	this._eventTriggered[type] = evt.domEvent;
 	this._dispatchEvent(evt);
-	SystemBus.emit('goo.trigger.' + type, evt);
+	SystemBus_SystemBusjsjs.emit('goo.trigger.' + type, evt);
 };
 
 
@@ -668,7 +659,7 @@ GooRunner.prototype._enableEvent = function (type) {
 		this.pick(x, y, function (index, depth) {
 			var dpx = this.renderer.devicePixelRatio;
 			var entity = this.world.entityManager.getEntityByIndex(index);
-			var intersection = Renderer.mainCamera.getWorldPosition(x * dpx, y * dpx, this.renderer.viewportWidth, this.renderer.viewportHeight, depth);
+			var intersection = Rendererjs_mainCamera_binding.getWorldPosition(x * dpx, y * dpx, this.renderer.viewportWidth, this.renderer.viewportHeight, depth);
 			this._dispatchEvent({
 				entity: entity,
 				depth: depth,
@@ -784,7 +775,7 @@ GooRunner.prototype.pickSync = function (x, y, skipUpdateBuffer) {
 
 	// get the picking data from the buffer
 	var pickingStore = {};
-	this.renderer.pick(x, y, pickingStore, Renderer.mainCamera);
+	this.renderer.pick(x, y, pickingStore, Rendererjs_mainCamera_binding);
 	return pickingStore;
 };
 
@@ -802,17 +793,17 @@ GooRunner.prototype.clear = function () {
 	}
 
 	// a lot of stuff may reside in here
-	SystemBus.clear();
+	SystemBus_SystemBusjsjs.clear();
 
 	// clearing cached materials
-	Material.store = [];
-	Material.hash = [];
+	rendererMaterial_Materialjs.store = [];
+	rendererMaterial_Materialjs.hash = [];
 
 	// this should never have existed in the first place
-	Renderer.mainCamera = null;
+	Rendererjs_mainCamera_binding = null;
 
 	// clears out whatever visibility-change listeners were attached to document
-	GameUtils.clearVisibilityChangeListeners();
+	GameUtilsjs_clearVisibilityChangeListeners();
 
 	// severe some more connections
 	this.world = null;
@@ -833,7 +824,7 @@ GooRunner.prototype.clear = function () {
  * Adds a small stats widget showing fps, rendercalls, vertices, indices, transform updates and cached shaders
  */
 GooRunner.prototype.addStats = function () {
-	this.stats = new Stats();
+	this.stats = new utilStats_Statsjs();
 	this.stats.domElement.style.position = 'absolute';
 	this.stats.domElement.style.left = '10px';
 	this.stats.domElement.style.top = '10px';
@@ -850,4 +841,27 @@ GooRunner.prototype.removeStats = function () {
 	}
 };
 
-module.exports = GooRunner;
+/**
+ * The main class that updates the world and calls the renderers.
+ * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
+ *
+ * @param {Object} [parameters] GooRunner settings passed in a JSON object
+ * @param {boolean} [parameters.alpha=false] Specifies if the canvas should have an alpha channel or not.
+ * @param {boolean} [parameters.premultipliedAlpha=true] Enables or disables premultiplication of color by alpha
+ * @param {boolean} [parameters.antialias=true] Specifies if antialiasing should be turned on or no
+ * @param {boolean} [parameters.stencil=false] Enables the stencil buffer
+ * @param {boolean} [parameters.preserveDrawingBuffer=false] By default the drawing buffer will be cleared after it is presented to the HTML compositor. Enable this option to not clear the drawing buffer
+ * @param {HTMLCanvasElement}  [parameters.canvas] If not supplied, Renderer will create a new canvas
+ * @param {boolean} [parameters.showStats=false] If enabled a small stats widget showing stats will be displayed
+ * @param {boolean} [parameters.useDevicePixelRatio=false] Take into account the device pixel ratio (for retina screens etc)
+ * @param {boolean} [parameters.manuallyStartGameLoop=false] By default the 'game loop' will start automatically. Enable this option to manually start the game loop at any time
+ * @param {(boolean | string | { position, color })} [parameters.logo='topright'] Specifies whether the Goo logo is visible or not and where should and be placed and what color should it have.
+ * If the parameter is not specified then the logo is placed in the top right corner.
+ * If no logo is desired then this parameter should have the 'false' value.
+ * If the supplied parameter is one of the following: 'topleft', 'topright', 'bottomleft', 'bottomright' then the logo will be positioned in the according corner
+ * If the parameter is of type object then the logo will be positioned according to the 'position' key and will be colored according to the 'color' key
+ * @param {boolean} [parameters.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
+ * @param {boolean} [parameters.debugKeys=false] If enabled the hotkeys Shift+[1..6] will be enabled
+ * @param {boolean} [parameters.useTryCatch=true]
+ */
+export { GooRunner_GooRunner as GooRunner };

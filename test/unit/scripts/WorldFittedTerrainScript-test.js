@@ -1,5 +1,5 @@
-var WorldFittedTerrainScript = require('../../../src/goo/scriptpack/WorldFittedTerrainScript');
-var Vector3 = require('../../../src/goo/math/Vector3');
+import {     WorldFittedTerrainScript as srcgooscriptpackWorldFittedTerrainScript_WorldFittedTerrainScriptjs, } from "../../../src/goo/scriptpack/WorldFittedTerrainScript";
+import { Vector3 as srcgoomathVector3_Vector3js } from "../../../src/goo/math/Vector3";
 
 xdescribe('WorldFittedTerrainScript', function () {
 	describe('Uses default dimensions', function () {
@@ -8,36 +8,36 @@ xdescribe('WorldFittedTerrainScript', function () {
 
 		beforeEach(function () {
 			heightAtPos = undefined;
-			terrainScript = new WorldFittedTerrainScript();
+			terrainScript = new srcgooscriptpackWorldFittedTerrainScript_WorldFittedTerrainScriptjs();
 		});
 
 		var heightMatrix = [[0, 0, 0, 0], [0, 0.5, 0.5, 0], [0.5, 1, 1, 0.5], [1, 1, 1, 1]];
 
 		it('adds bad heightmap and gets exception', function () {
-			var terrainScript = new WorldFittedTerrainScript();
+			var terrainScript = new srcgooscriptpackWorldFittedTerrainScript_WorldFittedTerrainScriptjs();
 			expect(function () { terrainScript.addHeightData(); }).toThrow();
 		});
 
 		it('finds the registered heightMatrix', function () {
 			var heightData;
 			terrainScript.addHeightData(heightMatrix);
-			heightData = terrainScript.getHeightDataForPosition(new Vector3(1, 1, 1));
+			heightData = terrainScript.getHeightDataForPosition(new srcgoomathVector3_Vector3js(1, 1, 1));
 			expect(heightData.script.getMatrixData()).toBe(heightMatrix);
 		});
 
 		it('looks for positions on a default dimensions heightMatrix', function () {
 			terrainScript.addHeightData(heightMatrix);
-			heightAtPos = terrainScript.getTerrainHeightAt(new Vector3(1, 1, 1));
+			heightAtPos = terrainScript.getTerrainHeightAt(new srcgoomathVector3_Vector3js(1, 1, 1));
 			expect(heightAtPos).toEqual(0);
-			heightAtPos = terrainScript.getTerrainHeightAt(new Vector3(99.99, 49, 99.99));
+			heightAtPos = terrainScript.getTerrainHeightAt(new srcgoomathVector3_Vector3js(99.99, 49, 99.99));
 			expect(heightAtPos).toBeCloseTo(49.9924);
 		});
 
 		it('looks outside default dimensions', function () {
 			terrainScript.addHeightData(heightMatrix);
-			heightAtPos = terrainScript.getTerrainHeightAt(new Vector3(-1, 0, 0));
+			heightAtPos = terrainScript.getTerrainHeightAt(new srcgoomathVector3_Vector3js(-1, 0, 0));
 			expect(heightAtPos).toEqual(null);
-			heightAtPos = terrainScript.getTerrainHeightAt(new Vector3(100, 50, 101));
+			heightAtPos = terrainScript.getTerrainHeightAt(new srcgoomathVector3_Vector3js(100, 50, 101));
 			expect(heightAtPos).toEqual(null);
 		});
 	});
@@ -48,7 +48,7 @@ xdescribe('WorldFittedTerrainScript', function () {
 
 		beforeEach(function () {
 			heightAtPos = undefined;
-			terrainScript = new WorldFittedTerrainScript();
+			terrainScript = new srcgooscriptpackWorldFittedTerrainScript_WorldFittedTerrainScriptjs();
 		});
 
 		var heightMatrix = [[0, 0, 0, 0], [0, 0.5, 0.5, 0], [0.5, 1, 1, 0.5], [1, 1, 1, 1]];
