@@ -1,11 +1,19 @@
-var ScaleAction_ScaleAction = ScaleAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function ScaleAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScaleAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var ScaleAction_ScaleAction = ScaleAction;
+
+function ScaleAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-ScaleAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+ScaleAction.prototype = Object.create(_Action.Action.prototype);
 ScaleAction.prototype.constructor = ScaleAction;
 
 ScaleAction.external = {
@@ -83,4 +91,4 @@ ScaleAction.prototype.update = function (fsm) {
 	}
 };
 
-export { ScaleAction_ScaleAction as ScaleAction };
+exports.ScaleAction = ScaleAction_ScaleAction;

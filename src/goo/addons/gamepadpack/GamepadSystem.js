@@ -1,17 +1,26 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GamepadSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _GamepadData = require("../../addons/gamepadpack/GamepadData");
+
 var GamepadSystem_GamepadSystem = GamepadSystem;
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
-import { GamepadData as addonsgamepadpackGamepadData_GamepadDatajs } from "../../addons/gamepadpack/GamepadData";
+
 function GamepadSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'GamepadSystem', ['GamepadComponent']);
+	_System.System.call(this, 'GamepadSystem', ['GamepadComponent']);
 
 	this.gamepads = [];
 
 	this.gamepadData = [];
 	var BUFFER_COUNT = 4;
 	for (var i = 0; i < BUFFER_COUNT; i++) {
-		this.gamepadData[i] = new addonsgamepadpackGamepadData_GamepadDatajs();
+		this.gamepadData[i] = new _GamepadData.GamepadData();
 	}
-
 
 	if (navigator.webkitGetGamepads) {
 		this.updateGamepads = this.chromeGamepadUpdate;
@@ -35,7 +44,7 @@ GamepadSystem.prototype.checkGamepadMapping = function (gamepad) {
 	}
 };
 
-GamepadSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+GamepadSystem.prototype = Object.create(_System.System.prototype);
 GamepadSystem.prototype.constructor = GamepadSystem;
 
 GamepadSystem.prototype.mozGamepadHandler = function (event, connecting) {
@@ -58,7 +67,6 @@ GamepadSystem.prototype.chromeGamepadUpdate = function () {
 		}
 	}
 };
-
 
 GamepadSystem.prototype.updateGamepadData = function () {
 	this.updateGamepads();
@@ -146,4 +154,4 @@ GamepadSystem.prototype.process = function (entities) {
  * @extends System
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Gamepad/Gamepad-example.html Working example
  */
-export { GamepadSystem_GamepadSystem as GamepadSystem };
+exports.GamepadSystem = GamepadSystem_GamepadSystem;

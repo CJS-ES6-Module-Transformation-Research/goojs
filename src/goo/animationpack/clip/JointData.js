@@ -1,11 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.JointData = undefined;
+
+var _TransformData = require("../../animationpack/clip/TransformData");
+
 var JointData_JointData = JointData;
-import { TransformData as animationpackclipTransformData_TransformDatajs } from "../../animationpack/clip/TransformData";
+
 function JointData(source) {
-	animationpackclipTransformData_TransformDatajs.call(this, source);
+	_TransformData.TransformData.call(this, source);
 	this._jointIndex = source ? source._jointIndex : 0;
 }
 
-JointData.prototype = Object.create(animationpackclipTransformData_TransformDatajs.prototype);
+JointData.prototype = Object.create(_TransformData.TransformData.prototype);
 JointData.prototype.constructor = JointData;
 
 /**
@@ -13,7 +22,7 @@ JointData.prototype.constructor = JointData;
  * @param {JointData} jointData our source to copy. Must not be null.
  */
 JointData.prototype.set = function (jointData) {
-	animationpackclipTransformData_TransformDatajs.prototype.set.call(this, jointData);
+	_TransformData.TransformData.prototype.set.call(this, jointData);
 	this._jointIndex = jointData._jointIndex;
 };
 
@@ -32,7 +41,7 @@ JointData.prototype.blend = function (blendTo, blendWeight, store) {
 	} else if (rVal instanceof JointData) {
 		rVal._jointIndex = this._jointIndex;
 	}
-	return animationpackclipTransformData_TransformDatajs.prototype.blend.call(this, blendTo, blendWeight, rVal);
+	return _TransformData.TransformData.prototype.blend.call(this, blendTo, blendWeight, rVal);
 };
 
 JointData.prototype.clone = function () {
@@ -43,4 +52,4 @@ JointData.prototype.clone = function () {
  * Describes transform of a joint.
  * @param {JointData} [source] source to copy
  */
-export { JointData_JointData as JointData };
+exports.JointData = JointData_JointData;

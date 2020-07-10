@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ConfigHandler = undefined;
+
+var _rsvp = require("../../util/rsvp");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 var ConfigHandler_ConfigHandler = ConfigHandler;
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
-import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+
 function ConfigHandler(world, getConfig, updateObject, loadObject) {
 	this.world = world;
 	this.getConfig = getConfig;
@@ -35,7 +45,7 @@ ConfigHandler.prototype._remove = function (ref) {
  * @param {Object} config
  * @private
  */
-ConfigHandler.prototype._prepare = function (/*config*/) {};
+ConfigHandler.prototype._prepare = function () /*config*/{};
 
 /**
  * Loads object for given ref
@@ -60,16 +70,14 @@ ConfigHandler.prototype.load = function (ref, options) {
 	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
 		return this._loading.get(ref);
 	} else if (this._objects.has(ref) && !options.reload) {
-		return utilPromiseUtils_PromiseUtilsjs.resolve(this._objects.get(ref));
+		return _PromiseUtils.PromiseUtils.resolve(this._objects.get(ref));
 	} else {
 		var promise = this.getConfig(ref, options).then(function (config) {
 			return this.update(ref, config, options);
-		}.bind(this))
-		.then(function (object) {
+		}.bind(this)).then(function (object) {
 			this._loading.delete(ref);
 			return object;
-		}.bind(this))
-		.then(null, function (err) {
+		}.bind(this)).then(null, function (err) {
 			this._loading.delete(ref);
 			throw err;
 		}.bind(this));
@@ -87,7 +95,7 @@ ConfigHandler.prototype.clear = function () {
 	this._objects.clear();
 	this._loading.clear();
 
-	return utilrsvp_rsvpjsjs.all(promises);
+	return _rsvp.rsvpjs.all(promises);
 };
 
 /**
@@ -116,18 +124,18 @@ ConfigHandler.getTypeForRef = function (ref) {
 ConfigHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref, options);
-		return utilPromiseUtils_PromiseUtilsjs.resolve();
+		return _PromiseUtils.PromiseUtils.resolve();
 	}
 
 	if (!options) {
 		options = {};
 	}
 
-	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (!this._objects.has(ref) || options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine') {
 		this._objects.set(ref, this._create());
 	}
 	this._prepare(config);
-	return utilPromiseUtils_PromiseUtilsjs.resolve(this._objects.get(ref));
+	return _PromiseUtils.PromiseUtils.resolve(this._objects.get(ref));
 };
 
 ConfigHandler.handlerClasses = {};
@@ -164,4 +172,4 @@ ConfigHandler._registerClass = function (type, klass) {
  * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
  * @hidden
  */
-export { ConfigHandler_ConfigHandler as ConfigHandler };
+exports.ConfigHandler = ConfigHandler_ConfigHandler;

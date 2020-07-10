@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Skeleton = undefined;
+
+var _Joint = require("./Joint");
+
 var Skeleton_Skeleton = Skeleton;
-import { Joint as Joint_Jointjs } from "./Joint";
+
 function Skeleton(name, joints) {
 	this.id = '';
 	this._name = name;
@@ -14,7 +23,7 @@ Skeleton.prototype.clone = function () {
 	for (var j = 0, maxJ = jointArray.length; j < maxJ; j++) {
 		var jointObj = jointArray[j];
 		var jName = jointObj._name;
-		var joint = new Joint_Jointjs(jName);
+		var joint = new _Joint.Joint(jName);
 
 		joint._index = jointObj._index;
 		joint._parentIndex = jointObj._parentIndex;
@@ -31,4 +40,4 @@ Skeleton.prototype.clone = function () {
  * @param {string} name
  * @param {Array<Joint>} joints
  */
-export { Skeleton_Skeleton as Skeleton };
+exports.Skeleton = Skeleton_Skeleton;

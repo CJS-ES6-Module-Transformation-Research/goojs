@@ -1,15 +1,27 @@
-var SetRenderTargetAction_SetRenderTargetAction = SetRenderTargetAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { PortalComponent as entitiescomponentsPortalComponent_PortalComponentjs } from "../../../entities/components/PortalComponent";
-import { PortalSystem as entitiessystemsPortalSystem_PortalSystemjs } from "../../../entities/systems/PortalSystem";
-import { Material as rendererMaterial_Materialjs } from "../../../renderer/Material";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
+"use strict";
 
-function SetRenderTargetAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetRenderTargetAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _PortalComponent = require("../../../entities/components/PortalComponent");
+
+var _PortalSystem = require("../../../entities/systems/PortalSystem");
+
+var _Material = require("../../../renderer/Material");
+
+var _ShaderLib = require("../../../renderer/shaders/ShaderLib");
+
+var SetRenderTargetAction_SetRenderTargetAction = SetRenderTargetAction;
+
+function SetRenderTargetAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetRenderTargetAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+SetRenderTargetAction.prototype = Object.create(_Action.Action.prototype);
 SetRenderTargetAction.prototype.constructor = SetRenderTargetAction;
 
 SetRenderTargetAction.external = {
@@ -33,7 +45,7 @@ SetRenderTargetAction.prototype.ready = function (fsm) {
 	if (!world.getSystem('PortalSystem')) {
 		var renderSystem = world.getSystem('RenderSystem');
 		var renderer = world.gooRunner.renderer;
-		world.setSystem(new entitiessystemsPortalSystem_PortalSystemjs(renderer, renderSystem));
+		world.setSystem(new _PortalSystem.PortalSystem(renderer, renderSystem));
 	}
 };
 
@@ -43,16 +55,20 @@ SetRenderTargetAction.prototype.enter = function (fsm) {
 
 	var cameraEntity = world.entityManager.getEntityById(this.cameraEntityRef);
 
-	if (!cameraEntity || !cameraEntity.cameraComponent || !cameraEntity.cameraComponent.camera) { return; }
+	if (!cameraEntity || !cameraEntity.cameraComponent || !cameraEntity.cameraComponent.camera) {
+		return;
+	}
 	var camera = cameraEntity.cameraComponent.camera;
 
-	var portalMaterial = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.textured);
+	var portalMaterial = new _Material.Material(_ShaderLib.ShaderLib.textured);
 
-	if (!entity.meshRendererComponent) { return; }
+	if (!entity.meshRendererComponent) {
+		return;
+	}
 	this.oldMaterials = entity.meshRendererComponent.materials;
 	entity.meshRendererComponent.materials = [portalMaterial];
 
-	var portalComponent = new entitiescomponentsPortalComponent_PortalComponentjs(camera, 500, { preciseRecursion: true });
+	var portalComponent = new _PortalComponent.PortalComponent(camera, 500, { preciseRecursion: true });
 	entity.setComponent(portalComponent);
 };
 
@@ -70,4 +86,4 @@ SetRenderTargetAction.prototype.cleanup = function (fsm) {
 	// would remove the entire system, but the engine does not support that
 };
 
-export { SetRenderTargetAction_SetRenderTargetAction as SetRenderTargetAction };
+exports.SetRenderTargetAction = SetRenderTargetAction_SetRenderTargetAction;

@@ -1,9 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StateMachineComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
+
 var StateMachineComponent_StateMachineComponent = StateMachineComponent;
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { ArrayUtils as utilArrayUtils_ArrayUtilsjs } from "../../util/ArrayUtils";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+
 function StateMachineComponent() {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -18,7 +29,7 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+StateMachineComponent.prototype = Object.create(_Component.Component.prototype);
 
 StateMachineComponent.vars = {};
 
@@ -71,7 +82,7 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	utilArrayUtils_ArrayUtilsjs.remove(this._machines, machine);
+	_ArrayUtils.ArrayUtils.remove(this._machines, machine);
 	delete this._machinesById[machine.id];
 };
 
@@ -145,7 +156,7 @@ StateMachineComponent.prototype.update = function () {
  */
 StateMachineComponent.prototype.pause = function () {
 	this.active = false;
-	entitiesSystemBus_SystemBusjsjs.emit('goo.entity.' + this.entity.name + '.fsm.pause');
+	_SystemBus.SystemBusjs.emit('goo.entity.' + this.entity.name + '.fsm.pause');
 };
 
 /**
@@ -153,11 +164,11 @@ StateMachineComponent.prototype.pause = function () {
  */
 StateMachineComponent.prototype.play = function () {
 	this.active = true;
-	entitiesSystemBus_SystemBusjsjs.emit('goo.entity.' + this.entity.name + '.fsm.play');
+	_SystemBus.SystemBusjs.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
 
 /**
  * StateMachineComponent
  * @private
  */
-export { StateMachineComponent_StateMachineComponent as StateMachineComponent };
+exports.StateMachineComponent = StateMachineComponent_StateMachineComponent;

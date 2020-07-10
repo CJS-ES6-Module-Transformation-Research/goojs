@@ -1,11 +1,19 @@
-var SetHtmlTextAction_SetHtmlTextAction = SetHtmlTextAction;
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function SetHtmlTextAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetHtmlTextAction = undefined;
+
+var _Action = require('./Action');
+
+var SetHtmlTextAction_SetHtmlTextAction = SetHtmlTextAction;
+
+function SetHtmlTextAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-SetHtmlTextAction.prototype = Object.create(Action_Actionjs.prototype);
+SetHtmlTextAction.prototype = Object.create(_Action.Action.prototype);
 SetHtmlTextAction.prototype.constructor = SetHtmlTextAction;
 
 SetHtmlTextAction.external = {
@@ -41,10 +49,10 @@ SetHtmlTextAction.external = {
 };
 
 SetHtmlTextAction.prototype.enter = function (fsm) {
-	var entity = (this.entity && fsm.getEntityById(this.entity.entityRef)) || fsm.getOwnerEntity();
+	var entity = this.entity && fsm.getEntityById(this.entity.entityRef) || fsm.getOwnerEntity();
 	if (entity && entity.htmlComponent && this.selector.length > 0) {
 		var elements = entity.htmlComponent.domElement.querySelectorAll(this.selector);
-		for (var i=0; i<elements.length; i++) {
+		for (var i = 0; i < elements.length; i++) {
 			var element = elements[i];
 			if (this.html) {
 				element.innerHTML = this.content;
@@ -55,4 +63,4 @@ SetHtmlTextAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { SetHtmlTextAction_SetHtmlTextAction as SetHtmlTextAction };
+exports.SetHtmlTextAction = SetHtmlTextAction_SetHtmlTextAction;

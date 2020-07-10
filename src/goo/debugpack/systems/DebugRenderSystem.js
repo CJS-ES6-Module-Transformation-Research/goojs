@@ -1,9 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DebugRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _DebugDrawHelper = require("../../debugpack/DebugDrawHelper");
+
 var DebugRenderSystem_DebugRenderSystem = DebugRenderSystem;
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
-import { getRenderablesFor as DebugDrawHelperjs_getRenderablesFor } from "../../debugpack/DebugDrawHelper";
+
 function DebugRenderSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'DebugRenderSystem', ['TransformComponent']);
+	_System.System.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
 	this._renderablesTree = {};
 	this.renderList = [];
@@ -17,10 +28,8 @@ function DebugRenderSystem() {
 	};
 	this.inserted();
 
-	this._interestComponents = [
-		'CameraComponent',
-		'LightComponent'
-		//'MeshRendererComponent'
+	this._interestComponents = ['CameraComponent', 'LightComponent'
+	//'MeshRendererComponent'
 	];
 
 	this.camera = null;
@@ -36,21 +45,20 @@ function DebugRenderSystem() {
 		this.lights = lights;
 	}.bind(this);
 
-	this.selectionRenderable = DebugDrawHelperjs_getRenderablesFor({ type: 'MeshRendererComponent' });
+	this.selectionRenderable = (0, _DebugDrawHelper.getRenderablesFor)({ type: 'MeshRendererComponent' });
 	this.selectionActive = false;
 	this.oldSelectionActive = false;
 }
 
-DebugRenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+DebugRenderSystem.prototype = Object.create(_System.System.prototype);
 DebugRenderSystem.prototype.constructor = DebugRenderSystem;
 
 DebugRenderSystem.prototype.setup = function () {
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', this.cameraListener);
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.setLights', this.lightsListener);
+	_SystemBus.SystemBusjs.addListener('goo.setCurrentCamera', this.cameraListener);
+	_SystemBus.SystemBusjs.addListener('goo.setLights', this.lightsListener);
 };
 
-DebugRenderSystem.prototype.inserted = function (/*entity*/) {
-};
+DebugRenderSystem.prototype.inserted = function () /*entity*/{};
 
 DebugRenderSystem.prototype.deleted = function (entity) {
 	delete this._renderablesTree[entity.id];
@@ -74,10 +82,10 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 				var options = { full: this.doRender[componentName] || component.debugLevel === 'full' };
 				var tree = this._renderablesTree[entity.id] = this._renderablesTree[entity.id] || {};
 
-				if (tree[componentName] && ((tree[componentName].length === 2 && options.full) || (tree[componentName].length === 1 && !options.full))) {
+				if (tree[componentName] && (tree[componentName].length === 2 && options.full || tree[componentName].length === 1 && !options.full)) {
 					renderables = tree[componentName];
 				} else {
-					renderables = DebugDrawHelperjs_getRenderablesFor(component, options);
+					renderables = (0, _DebugDrawHelper.getRenderablesFor)(component, options);
 					for (var k = 0; k < renderables.length; k++) {
 						var renderable = renderables[k];
 						renderable.id = entity.id;
@@ -106,7 +114,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 			if (tree.skeleton) {
 				renderables = tree.skeleton;
 			} else {
-				renderables = DebugDrawHelperjs_getRenderablesFor(pose);
+				renderables = (0, _DebugDrawHelper.getRenderablesFor)(pose);
 				for (var k = 0; k < renderables.length; k++) {
 					renderables[k].id = entity.id;
 				}
@@ -169,8 +177,8 @@ DebugRenderSystem.prototype.invalidateHandles = function (renderer) {
 };
 
 DebugRenderSystem.prototype.cleanup = function () {
-	entitiesSystemBus_SystemBusjsjs.removeListener('goo.setCurrentCamera', this.cameraListener);
-	entitiesSystemBus_SystemBusjsjs.removeListener('goo.setLights', this.lightsListener);
+	_SystemBus.SystemBusjs.removeListener('goo.setCurrentCamera', this.cameraListener);
+	_SystemBus.SystemBusjs.removeListener('goo.setLights', this.lightsListener);
 };
 
 /**
@@ -178,4 +186,4 @@ DebugRenderSystem.prototype.cleanup = function () {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { DebugRenderSystem_DebugRenderSystem as DebugRenderSystem };
+exports.DebugRenderSystem = DebugRenderSystem_DebugRenderSystem;

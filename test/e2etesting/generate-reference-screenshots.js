@@ -1,30 +1,41 @@
-import ext_path_path from "path";
-import ext_commander_program from "commander";
-import { ScreenShooter as ScreenShooter_ScreenShooterjs } from "./ScreenShooter";
-import ext_child_process_child_process from "child_process";
-import { filterList as filterList_filterList } from "./filterList";
+"use strict";
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _commander = require("commander");
+
+var _commander2 = _interopRequireDefault(_commander);
+
+var _ScreenShooter = require("./ScreenShooter");
+
+var _child_process = require("child_process");
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+var _filterList = require("./filterList");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var exec = ext_child_process_child_process.exec;
-var filterList = filterList_filterList.filterList;
+var exec = _child_process2.default.exec;
+var filterList = _filterList.filterList.filterList;
 
-ext_commander_program
-	.version('0.0.0')
-	.option('-u, --url [url]',				'URL of the goojs root folder')
-	.option('-w, --wait [milliseconds]',	'Number of milliseconds to wait for the test to run before taking a screenshot.')
-	.parse(process.argv);
+_commander2.default.version('0.0.0').option('-u, --url [url]', 'URL of the goojs root folder').option('-w, --wait [milliseconds]', 'Number of milliseconds to wait for the test to run before taking a screenshot.').parse(process.argv);
 
-ext_commander_program.url = ext_commander_program.url || process.env.GOOJS_ROOT_URL || 'http://localhost:8003';
+_commander2.default.url = _commander2.default.url || process.env.GOOJS_ROOT_URL || 'http://localhost:8003';
 
-var gooRootPath = ext_path_path.join(__dirname, '..', '..');
+var gooRootPath = _path2.default.join(__dirname, '..', '..');
 
-console.log('Using test URL: ' + ext_commander_program.url);
+console.log('Using test URL: ' + _commander2.default.url);
 
-var shooter = new ScreenShooter_ScreenShooterjs({
-	script : ScreenShooter_ScreenShooterjs.removeGooStuffScript
+var shooter = new _ScreenShooter.ScreenShooter({
+	script: _ScreenShooter.ScreenShooter.removeGooStuffScript
 });
 
-if (typeof ext_commander_program.wait !== 'undefined') {
-	shooter.wait = ext_commander_program.wait;
+if (typeof _commander2.default.wait !== 'undefined') {
+	shooter.wait = _commander2.default.wait;
 }
 
 shooter.on('shoot', function (evt) {
@@ -39,18 +50,20 @@ var files = toc.getFilesSync(__dirname + '/../../visual-test');
 var urlToPathMap = {};
 for (var i = 0; i < files.length; i++) {
 	var file = files[i];
-	if (filterList.some(function (term) { return file.indexOf(term) !== -1; })) {
+	if (filterList.some(function (term) {
+		return file.indexOf(term) !== -1;
+	})) {
 		continue;
 	}
 
-	var pngPath = ext_path_path.join(__dirname, 'screenshots', ext_path_path.relative(ext_path_path.join(gooRootPath, 'visual-test'), file)).replace(/\.html$/, '.png');
+	var pngPath = _path2.default.join(__dirname, 'screenshots', _path2.default.relative(_path2.default.join(gooRootPath, 'visual-test'), file)).replace(/\.html$/, '.png');
 
-	var url = ext_commander_program.url + '/' + ext_path_path.relative(gooRootPath, file) + '?deterministic=1';
+	var url = _commander2.default.url + '/' + _path2.default.relative(gooRootPath, file) + '?deterministic=1';
 
 	urlToPathMap[url] = pngPath;
 }
 
-exec('rm -rf ' + __dirname + '/screenshots',function (err) {
+exec('rm -rf ' + __dirname + '/screenshots', function (err) {
 	if (err) {
 		throw err;
 	}

@@ -1,7 +1,16 @@
-var GroundBoundMovementScript_GroundBoundMovementScript = GroundBoundMovementScript;
-import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+"use strict";
 
-var calcVec = new mathVector3_Vector3js();
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GroundBoundMovementScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var GroundBoundMovementScript_GroundBoundMovementScript = GroundBoundMovementScript;
+
+
+var calcVec = new _Vector.Vector3();
 var _defaults = {
 	gravity: -9.81,
 	worldFloor: -Infinity,
@@ -21,20 +30,20 @@ function GroundBoundMovementScript(properties) {
 			this[key] = properties[key] !== undefined ? properties[key] === true : _defaults[key];
 		} else if (!isNaN(_defaults[key])) {
 			this[key] = !isNaN(properties[key]) ? properties[key] : _defaults[key];
-		} else if (_defaults[key] instanceof mathVector3_Vector3js) {
-			this[key] = (properties[key]) ? new mathVector3_Vector3js(properties[key]) : new mathVector3_Vector3js().set(_defaults[key]);
+		} else if (_defaults[key] instanceof _Vector.Vector3) {
+			this[key] = properties[key] ? new _Vector.Vector3(properties[key]) : new _Vector.Vector3().set(_defaults[key]);
 		} else {
 			this[key] = properties[key] || _defaults[key];
 		}
 	}
 
 	this.groundContact = 1;
-	this.targetVelocity = new mathVector3_Vector3js();
-	this.targetHeading = new mathVector3_Vector3js();
-	this.acceleration = new mathVector3_Vector3js();
-	this.torque = new mathVector3_Vector3js();
+	this.targetVelocity = new _Vector.Vector3();
+	this.targetHeading = new _Vector.Vector3();
+	this.acceleration = new _Vector.Vector3();
+	this.torque = new _Vector.Vector3();
 	this.groundHeight = 0;
-	this.groundNormal = new mathVector3_Vector3js();
+	this.groundNormal = new _Vector.Vector3();
 	this.controlState = {
 		run: 0,
 		strafe: 0,
@@ -55,7 +64,6 @@ GroundBoundMovementScript.prototype.setTerrainSystem = function (terrainScript) 
 	this.terrainScript = terrainScript;
 };
 
-
 /**
  * Returns the terrain system.
  * @returns {WorldFittedTerrainScript} terrainScript
@@ -63,7 +71,6 @@ GroundBoundMovementScript.prototype.setTerrainSystem = function (terrainScript) 
 GroundBoundMovementScript.prototype.getTerrainSystem = function () {
 	return this.terrainScript;
 };
-
 
 /**
  * Get the terrain height for a given translation. Or if no terrain is present
@@ -142,7 +149,6 @@ GroundBoundMovementScript.prototype.applyJumpImpulse = function (up) {
 	return up;
 };
 
-
 /**
  * Modulates the movement state with given circumstances and input
  * @private
@@ -186,7 +192,6 @@ GroundBoundMovementScript.prototype.applyGroundNormalInfluence = function () {
 	this.targetVelocity.z *= groundModZ;
 };
 
-
 /**
  * Updates the movement vectors for this frame
  * @private
@@ -215,7 +220,6 @@ GroundBoundMovementScript.prototype.computeAcceleration = function (entity, curr
 	calcVec.y = target.y; // Ground is not soft...
 	return calcVec;
 };
-
 
 /**
  * Computes the torque for the frame.
@@ -311,4 +315,4 @@ GroundBoundMovementScript.prototype.run = function (entity) {
  * A script for handling basic movement and jumping over a terrain.
  * The standard usage of this script will likely also need some input listener and camera handling.
  */
-export { GroundBoundMovementScript_GroundBoundMovementScript as GroundBoundMovementScript };
+exports.GroundBoundMovementScript = GroundBoundMovementScript_GroundBoundMovementScript;

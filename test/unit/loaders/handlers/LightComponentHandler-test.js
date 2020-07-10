@@ -1,17 +1,25 @@
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
-import { LightComponent as srcgooentitiescomponentsLightComponent_LightComponentjs } from "../../../../src/goo/entities/components/LightComponent";
-import { PointLight as srcgoorendererlightPointLight_PointLightjs } from "../../../../src/goo/renderer/light/PointLight";
-import { SpotLight as srcgoorendererlightSpotLight_SpotLightjs } from "../../../../src/goo/renderer/light/SpotLight";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/loaders/handlers/LightComponentHandler";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _LightComponent = require("../../../../src/goo/entities/components/LightComponent");
+
+var _PointLight = require("../../../../src/goo/renderer/light/PointLight");
+
+var _SpotLight = require("../../../../src/goo/renderer/light/SpotLight");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/loaders/handlers/LightComponentHandler");
 
 describe('LightComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -19,30 +27,30 @@ describe('LightComponentHandler', function () {
 	});
 
 	it('loads an entity with a lightComponent', function (done) {
-		var config = testunitloadersConfigs_Configsjs.entity(['light']);
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.entity(['light']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.lightComponent).toEqual(jasmine.any(srcgooentitiescomponentsLightComponent_LightComponentjs));
+			expect(entity.lightComponent).toEqual(jasmine.any(_LightComponent.LightComponent));
 			done();
 		});
 	});
 
 	it('manages to update between light types', function (done) {
 		var component;
-		var config = testunitloadersConfigs_Configsjs.entity();
-		var pointLight = testunitloadersConfigs_Configsjs.component.light('PointLight');
-		var spotLight = testunitloadersConfigs_Configsjs.component.light('SpotLight');
+		var config = _Configs.Configs.entity();
+		var pointLight = _Configs.Configs.component.light('PointLight');
+		var spotLight = _Configs.Configs.component.light('SpotLight');
 		config.components.light = pointLight;
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
 			component = entity.lightComponent;
-			expect(component.light).toEqual(jasmine.any(srcgoorendererlightPointLight_PointLightjs));
+			expect(component.light).toEqual(jasmine.any(_PointLight.PointLight));
 
 			config.components.light = spotLight;
 			return loader.update(config.id, config);
 		}).then(function (entity) {
 			expect(entity.lightComponent).toBe(component);
-			expect(entity.lightComponent.light).toEqual(jasmine.any(srcgoorendererlightSpotLight_SpotLightjs));
+			expect(entity.lightComponent.light).toEqual(jasmine.any(_SpotLight.SpotLight));
 			done();
 		});
 	});

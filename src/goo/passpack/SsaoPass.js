@@ -1,19 +1,38 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SsaoPass = undefined;
+
+var _Material = require("../renderer/Material");
+
+var _RenderTarget = require("../renderer/pass/RenderTarget");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Shader = require("../renderer/Shader");
+
+var _ShaderFragment = require("../renderer/shaders/ShaderFragment");
+
+var _RenderPass = require("../renderer/pass/RenderPass");
+
+var _FullscreenPass = require("../renderer/pass/FullscreenPass");
+
+var _BlurPass = require("../passpack/BlurPass");
+
+var _ShaderLibExtra = require("../passpack/ShaderLibExtra");
+
+var _Pass = require("../renderer/pass/Pass");
+
 var SsaoPass_SsaoPass = SsaoPass;
-import { Material as rendererMaterial_Materialjs } from "../renderer/Material";
-import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../renderer/pass/RenderTarget";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
-import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
-import { Shader as rendererShader_Shaderjs } from "../renderer/Shader";
-import { ShaderFragment as renderershadersShaderFragment_ShaderFragmentjs } from "../renderer/shaders/ShaderFragment";
-import { RenderPass as rendererpassRenderPass_RenderPassjs } from "../renderer/pass/RenderPass";
-import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../renderer/pass/FullscreenPass";
-import { BlurPass as passpackBlurPass_BlurPassjs } from "../passpack/BlurPass";
-import { ShaderLibExtra as passpackShaderLibExtra_ShaderLibExtrajs } from "../passpack/ShaderLibExtra";
-import { Pass as rendererpassPass_Passjs } from "../renderer/pass/Pass";
+
 function SsaoPass(renderList) {
-	this.depthPass = new rendererpassRenderPass_RenderPassjs(renderList);
+	this.depthPass = new _RenderPass.RenderPass(renderList);
 	this.depthPass.clearColor.setDirect(1, 1, 1, 1);
-	var packDepthMaterial = new rendererMaterial_Materialjs(packDepth);
+	var packDepthMaterial = new _Material.Material(packDepth);
 	this.depthPass.overrideMaterial = packDepthMaterial;
 
 	this.downsampleAmount = 4;
@@ -28,26 +47,26 @@ function SsaoPass(renderList) {
 	this.needsSwap = true;
 }
 
-SsaoPass.prototype = Object.create(rendererpassPass_Passjs.prototype);
+SsaoPass.prototype = Object.create(_Pass.Pass.prototype);
 SsaoPass.prototype.constructor = SsaoPass;
 
 SsaoPass.prototype.updateSize = function (size) {
 	var width = Math.floor(size.width / this.downsampleAmount);
 	var height = Math.floor(size.height / this.downsampleAmount);
-	var shader = utilObjectUtils_ObjectUtilsjs.deepClone(passpackShaderLibExtra_ShaderLibExtrajs.ssao);
+	var shader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLibExtra.ShaderLibExtra.ssao);
 	shader.uniforms.size = [width, height];
-	this.outPass = new rendererpassFullscreenPass_FullscreenPassjs(shader);
+	this.outPass = new _FullscreenPass.FullscreenPass(shader);
 	this.outPass.useReadBuffer = false;
-//			 this.outPass.clear = true;
-//			this.outPass.renderToScreen = true;
+	//			 this.outPass.clear = true;
+	//			this.outPass.renderToScreen = true;
 
-	this.blurPass = new passpackBlurPass_BlurPassjs({
+	this.blurPass = new _BlurPass.BlurPass({
 		sizeX: width,
 		sizeY: height
 	});
-//			this.blurPass.needsSwap = true;
+	//			this.blurPass.needsSwap = true;
 
-	this.depthTarget = new rendererpassRenderTarget_RenderTargetjs(width, height, {
+	this.depthTarget = new _RenderTarget.RenderTarget(width, height, {
 		magFilter: 'NearestNeighbor',
 		minFilter: 'NearestNeighborNoMipMaps'
 	});
@@ -59,44 +78,30 @@ SsaoPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta) 
 
 	// this.blurPass.render(renderer, this.depthTarget, this.depthTarget, delta);
 
-	this.outPass.material.setTexture(rendererShader_Shaderjs.DIFFUSE_MAP, readBuffer);
-	this.outPass.material.setTexture(rendererShader_Shaderjs.DEPTH_MAP, this.depthTarget);
+	this.outPass.material.setTexture(_Shader.Shader.DIFFUSE_MAP, readBuffer);
+	this.outPass.material.setTexture(_Shader.Shader.DEPTH_MAP, this.depthTarget);
 	this.outPass.render(renderer, writeBuffer, readBuffer, delta);
 };
 
 var packDepth = {
 	attributes: {
-		vertexPosition: rendererMeshData_MeshDatajs.POSITION
+		vertexPosition: _MeshData.MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
-		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
-		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX
-//				nearPlane: Shader.NEAR_PLANE,
-//				farPlane: Shader.FAR_PLANE
+		viewMatrix: _Shader.Shader.VIEW_MATRIX,
+		projectionMatrix: _Shader.Shader.PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX
+		//				nearPlane: Shader.NEAR_PLANE,
+		//				farPlane: Shader.FAR_PLANE
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-
-		'void main(void) {',
-		'	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);',
-		'}'//
+	vshader: ['attribute vec3 vertexPosition;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'void main(void) {', '	gl_Position = projectionMatrix * viewMatrix * worldMatrix * vec4(vertexPosition, 1.0);', '}' //
 	].join('\n'),
-	fshader: [
-		'precision mediump float;',
+	fshader: ['precision mediump float;',
 
-//				'uniform float nearPlane;',
-//				'uniform float farPlane;',
+	//				'uniform float nearPlane;',
+	//				'uniform float farPlane;',
 
-		renderershadersShaderFragment_ShaderFragmentjs.methods.packDepth,
-
-		'void main(void) {',
-		'	gl_FragColor = packDepth(gl_FragCoord.z);',
-		'}'//
+	_ShaderFragment.ShaderFragment.methods.packDepth, 'void main(void) {', '	gl_FragColor = packDepth(gl_FragCoord.z);', '}' //
 	].join('\n')
 };
 
@@ -104,4 +109,4 @@ var packDepth = {
  * Screen Space Ambient Occlusion pass
  * @param renderList
  */
-export { SsaoPass_SsaoPass as SsaoPass };
+exports.SsaoPass = SsaoPass_SsaoPass;
