@@ -1,25 +1,21 @@
-var System = require('../../entities/systems/System');
-var Renderer = require('../../renderer/Renderer');
-var Vector3 = require('../../math/Vector3');
-
-/**
- * @extends System
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
- */
+var HtmlSystem_HtmlSystem = HtmlSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { Renderer as rendererRenderer_Rendererjs } from "../../renderer/Renderer";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
 function HtmlSystem(renderer) {
-	System.call(this, 'HtmlSystem', ['TransformComponent', 'HtmlComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'HtmlSystem', ['TransformComponent', 'HtmlComponent']);
 	this.renderer = renderer;
 
 	this.styleCache = new Map();
 }
 
-HtmlSystem.prototype = Object.create(System.prototype);
+HtmlSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 HtmlSystem.prototype.constructor = HtmlSystem;
 
 // Browsers implement z-index as signed 32bit int.
 // Overflowing pushes the element to the back.
 var MAX_Z_INDEX = 2147483647;
-var tmpVector = new Vector3();
+var tmpVector = new mathVector3_Vector3js();
 
 HtmlSystem.prototype.setStyle = function (element, property, style, doPrefix) {
 	var elementCache = this.styleCache.get(element);
@@ -47,7 +43,7 @@ HtmlSystem.prototype.process = function (entities) {
 		return;
 	}
 
-	var camera = Renderer.mainCamera;
+	var camera = rendererRenderer_Rendererjs.mainCamera;
 	var renderer = this.renderer;
 
 	var screenWidth = renderer.viewportWidth;
@@ -121,4 +117,8 @@ HtmlSystem.prototype.deleted = function (entity) {
 	component.domElement = null;
 };
 
-module.exports = HtmlSystem;
+/**
+ * @extends System
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/HTMLComponent/HTMLComponent-vtest.html Working example
+ */
+export { HtmlSystem_HtmlSystem as HtmlSystem };

@@ -1,7 +1,4 @@
-/**
- * Get logo svg in different formats
- * Only used to define the class. Should never be instantiated.
- */
+var Logo_Logo = Logo;
 function Logo() {}
 
 /** @type {string} */
@@ -113,4 +110,8 @@ Logo.getLogo = function (properties) {
 	return str;
 };
 
-module.exports = Logo;
+/**
+ * Get logo svg in different formats
+ * Only used to define the class. Should never be instantiated.
+ */
+export { Logo_Logo as Logo };

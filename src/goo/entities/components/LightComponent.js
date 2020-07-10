@@ -1,14 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Light = require('../../renderer/light/Light');
-
-/**
- * Defines a light<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @param {Light} light Light to contain in this component (directional, spot, point)
- * @extends Component
- */
+var LightComponent_LightComponent = LightComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import { Light as rendererlightLight_Lightjs } from "../../renderer/light/Light";
 function LightComponent(light) {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'LightComponent';
 
@@ -33,7 +27,7 @@ function LightComponent(light) {
 
 LightComponent.type = 'LightComponent';
 
-LightComponent.prototype = Object.create(Component.prototype);
+LightComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 LightComponent.prototype.constructor = LightComponent;
 
 LightComponent.prototype.attached = function () {
@@ -71,11 +65,17 @@ LightComponent.prototype.clone = function () {
 };
 
 LightComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Light) {
+	if (obj instanceof rendererlightLight_Lightjs) {
 		var lightComponent = new LightComponent(obj);
 		entity.setComponent(lightComponent);
 		return true;
 	}
 };
 
-module.exports = LightComponent;
+/**
+ * Defines a light<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @param {Light} light Light to contain in this component (directional, spot, point)
+ * @extends Component
+ */
+export { LightComponent_LightComponent as LightComponent };

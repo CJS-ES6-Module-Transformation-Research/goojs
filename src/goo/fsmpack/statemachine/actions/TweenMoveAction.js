@@ -1,18 +1,18 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+var TweenMoveAction_TweenMoveAction = TweenMoveAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
 
-function TweenMoveAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenMoveAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 
-	this.fromPos = new Vector3();
-	this.toPos = new Vector3();
-	this.deltaPos = new Vector3();
-	this.oldPos = new Vector3();
+	this.fromPos = new mathVector3_Vector3js();
+	this.toPos = new mathVector3_Vector3js();
+	this.deltaPos = new mathVector3_Vector3js();
+	this.oldPos = new mathVector3_Vector3js();
 	this.completed = false;
 }
 
-TweenMoveAction.prototype = Object.create(Action.prototype);
+TweenMoveAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 TweenMoveAction.prototype.constructor = TweenMoveAction;
 
 TweenMoveAction.external = {
@@ -105,4 +105,4 @@ TweenMoveAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenMoveAction;
+export { TweenMoveAction_TweenMoveAction as TweenMoveAction };

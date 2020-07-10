@@ -1,16 +1,13 @@
-var Component = require('../../../entities/components/Component');
-var Quaternion = require('../../../math/Quaternion');
-var Transform = require('../../../math/Transform');
-var SystemBus = require('../../../entities/SystemBus');
+var AbstractRigidBodyComponent_AbstractRigidBodyComponent = AbstractRigidBodyComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../../entities/components/Component";
+import { Quaternion as mathQuaternion_Quaternionjs } from "../../../math/Quaternion";
+import { Transform as mathTransform_Transformjs } from "../../../math/Transform";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-var tmpQuat = new Quaternion();
+var tmpQuat = new mathQuaternion_Quaternionjs();
 
-/**
- * Base class for rigid bodies.
- * @extends Component
- */
 function AbstractRigidBodyComponent() {
-	Component.call(this, arguments);
+	entitiescomponentsComponent_Componentjs.call(this, arguments);
 
 	/**
 	 * Joints on the body. Use .addJoint to add one, or .removeJoint to remove.
@@ -18,7 +15,7 @@ function AbstractRigidBodyComponent() {
 	 */
 	this.joints = [];
 }
-AbstractRigidBodyComponent.prototype = Object.create(Component.prototype);
+AbstractRigidBodyComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 AbstractRigidBodyComponent.prototype.constructor = AbstractRigidBodyComponent;
 
 /**
@@ -50,7 +47,7 @@ AbstractRigidBodyComponent.initializedEvent = {
 AbstractRigidBodyComponent.prototype.emitInitialized = function (entity) {
 	var event = AbstractRigidBodyComponent.initializedEvent;
 	event.entity = entity;
-	SystemBus.emit('goo.physics.initialized', event);
+	entitiesSystemBus_SystemBusjsjs.emit('goo.physics.initialized', event);
 	event.entity = null; // Remove reference, don't need it any more
 };
 
@@ -81,9 +78,9 @@ AbstractRigidBodyComponent.prototype.initializeJoint = function (/*joint, entity
  */
 AbstractRigidBodyComponent.prototype.destroyJoint = function (/*joint*/) {};
 
-var inverseBodyTransform = new Transform();
-var trans = new Transform();
-var trans2 = new Transform();
+var inverseBodyTransform = new mathTransform_Transformjs();
+var trans = new mathTransform_Transformjs();
+var trans2 = new mathTransform_Transformjs();
 
 /**
  * Traverse the tree of colliders from a root entity and down.
@@ -106,7 +103,7 @@ AbstractRigidBodyComponent.prototype.traverseColliders = function (entity, callb
 
 			// Look at the world transform and then get the transform relative to the root entity. This is needed for compounds with more than one level of recursion
 			trans.copy(childEntity.transformComponent.worldTransform);
-			Transform.combine(inverseBodyTransform, trans, trans2);
+			mathTransform_Transformjs.combine(inverseBodyTransform, trans, trans2);
 
 			var offset = trans2.translation;
 			var rot = trans2.rotation;
@@ -152,4 +149,8 @@ AbstractRigidBodyComponent.prototype.detached = function (/*entity*/) {
 	this._system = null;
 };
 
-module.exports = AbstractRigidBodyComponent;
+/**
+ * Base class for rigid bodies.
+ * @extends Component
+ */
+export { AbstractRigidBodyComponent_AbstractRigidBodyComponent as AbstractRigidBodyComponent };

@@ -1,26 +1,18 @@
-var AbstractColliderComponent = require('../../../addons/physicspack/components/AbstractColliderComponent');
-var BoxCollider = require('../../../addons/physicspack/colliders/BoxCollider');
-var SphereCollider = require('../../../addons/physicspack/colliders/SphereCollider');
-var MeshCollider = require('../../../addons/physicspack/colliders/MeshCollider');
-var PlaneCollider = require('../../../addons/physicspack/colliders/PlaneCollider');
-var CylinderCollider = require('../../../addons/physicspack/colliders/CylinderCollider');
-var Collider = require('../../../addons/physicspack/colliders/Collider');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
+var ColliderComponent_ColliderComponent = ColliderComponent;
+import {     AbstractColliderComponent as addonsphysicspackcomponentsAbstractColliderComponent_AbstractColliderComponentjs, } from "../../../addons/physicspack/components/AbstractColliderComponent";
+import { BoxCollider as addonsphysicspackcollidersBoxCollider_BoxColliderjs } from "../../../addons/physicspack/colliders/BoxCollider";
+import {     SphereCollider as addonsphysicspackcollidersSphereCollider_SphereColliderjs, } from "../../../addons/physicspack/colliders/SphereCollider";
+import { MeshCollider as addonsphysicspackcollidersMeshCollider_MeshColliderjs } from "../../../addons/physicspack/colliders/MeshCollider";
+import { PlaneCollider as addonsphysicspackcollidersPlaneCollider_PlaneColliderjs } from "../../../addons/physicspack/colliders/PlaneCollider";
+import {     CylinderCollider as addonsphysicspackcollidersCylinderCollider_CylinderColliderjs, } from "../../../addons/physicspack/colliders/CylinderCollider";
+import { Collider as addonsphysicspackcollidersCollider_Colliderjs } from "../../../addons/physicspack/colliders/Collider";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+import { Quaternion as mathQuaternion_Quaternionjs } from "../../../math/Quaternion";
 
-var tmpQuat = new Quaternion();
+var tmpQuat = new mathQuaternion_Quaternionjs();
 
-/* global CANNON */
-
-/**
- * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
- * @param {Object} [settings]
- * @param {Collider} [settings.collider]
- * @param {boolean} [settings.isTrigger=false]
- * @extends AbstractColliderComponent
- */
 function ColliderComponent(settings) {
-	AbstractColliderComponent.apply(this, arguments);
+	addonsphysicspackcomponentsAbstractColliderComponent_AbstractColliderComponentjs.apply(this, arguments);
 	this.type = 'ColliderComponent';
 	settings = settings || {};
 
@@ -37,7 +29,7 @@ function ColliderComponent(settings) {
 	this.cannonShape = null;
 }
 
-ColliderComponent.prototype = Object.create(AbstractColliderComponent.prototype);
+ColliderComponent.prototype = Object.create(addonsphysicspackcomponentsAbstractColliderComponent_AbstractColliderComponentjs.prototype);
 ColliderComponent.prototype.constructor = ColliderComponent;
 
 ColliderComponent.type = 'ColliderComponent';
@@ -79,12 +71,12 @@ ColliderComponent.prototype.initialize = function () {
 	this.system._shapeIdToColliderEntityMap.set(cannonShape.id, entity);
 
 	var collider = this.worldCollider;
-	if (collider instanceof SphereCollider) {
+	if (collider instanceof addonsphysicspackcollidersSphereCollider_SphereColliderjs) {
 		cannonShape.radius = collider.radius;
-	} else if (collider instanceof BoxCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersBoxCollider_BoxColliderjs) {
 		cannonShape.halfExtents.copy(collider.halfExtents);
 		cannonShape.updateConvexPolyhedronRepresentation();
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersMeshCollider_MeshColliderjs) {
 		var scale = new CANNON.Vec3();
 		scale.copy(collider.scale);
 		cannonShape.setScale(scale);
@@ -118,15 +110,15 @@ ColliderComponent.numCylinderSegments = 10;
  */
 ColliderComponent.getCannonShape = function (collider) {
 	var shape;
-	if (collider instanceof BoxCollider) {
+	if (collider instanceof addonsphysicspackcollidersBoxCollider_BoxColliderjs) {
 		var halfExtents = new CANNON.Vec3();
 		halfExtents.copy(collider.halfExtents);
 		shape = new CANNON.Box(halfExtents);
-	} else if (collider instanceof SphereCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersSphereCollider_SphereColliderjs) {
 		shape = new CANNON.Sphere(collider.radius);
-	} else if (collider instanceof PlaneCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersPlaneCollider_PlaneColliderjs) {
 		shape = new CANNON.Plane();
-	} else if (collider instanceof CylinderCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersCylinderCollider_CylinderColliderjs) {
 		shape = new CANNON.Cylinder(
 			collider.radius,
 			collider.radius,
@@ -134,11 +126,11 @@ ColliderComponent.getCannonShape = function (collider) {
 			ColliderComponent.numCylinderSegments
 		);
 		var quat = new CANNON.Quaternion();
-		quat.setFromAxisAngle(new Vector3(0, 0, 1), -Math.PI / 2);
-		shape.transformAllPoints(new Vector3(), quat);
+		quat.setFromAxisAngle(new mathVector3_Vector3js(0, 0, 1), -Math.PI / 2);
+		shape.transformAllPoints(new mathVector3_Vector3js(), quat);
 		shape.computeEdges();
 		shape.updateBoundingSphereRadius();
-	} else if (collider instanceof MeshCollider) {
+	} else if (collider instanceof addonsphysicspackcollidersMeshCollider_MeshColliderjs) {
 		// Assume triangles
 		if (collider.meshData.indexModes[0] !== 'Triangles') {
 			throw new Error('MeshCollider data must be a triangle mesh!');
@@ -160,7 +152,7 @@ ColliderComponent.getCannonShape = function (collider) {
  * @returns {boolean}
  */
 ColliderComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Collider) {
+	if (obj instanceof addonsphysicspackcollidersCollider_Colliderjs) {
 		entity.setComponent(new ColliderComponent({
 			collider: obj
 		}));
@@ -168,4 +160,13 @@ ColliderComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = ColliderComponent;
+/* global CANNON */
+
+/**
+ * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
+ * @param {Object} [settings]
+ * @param {Collider} [settings.collider]
+ * @param {boolean} [settings.isTrigger=false]
+ * @extends AbstractColliderComponent
+ */
+export { ColliderComponent_ColliderComponent as ColliderComponent };
