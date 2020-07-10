@@ -1,12 +1,13 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+var TriggerEnterAction_TriggerEnterAction = TriggerEnterAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-function TriggerEnterAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TriggerEnterAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerEnterAction.prototype = Object.create(Action.prototype);
+TriggerEnterAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 TriggerEnterAction.prototype.constructor = TriggerEnterAction;
 
 TriggerEnterAction.external = {
@@ -36,12 +37,12 @@ TriggerEnterAction.prototype.enter = function (fsm) {
 			fsm.send(that.transitions.enter);
 		}
 	};
-	SystemBus.addListener('goo.physics.triggerEnter', this.listener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.physics.triggerEnter', this.listener);
 };
 
 TriggerEnterAction.prototype.exit = function (/*fsm*/) {
-	SystemBus.removeListener('goo.physics.triggerEnter', this.listener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.physics.triggerEnter', this.listener);
 	this.entity = null;
 };
 
-module.exports = TriggerEnterAction;
+export { TriggerEnterAction_TriggerEnterAction as TriggerEnterAction };

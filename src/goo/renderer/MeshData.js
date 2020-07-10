@@ -1,39 +1,11 @@
-var BufferData = require('../renderer/BufferData');
-var RendererUtils = require('../renderer/RendererUtils');
-var BufferUtils = require('../renderer/BufferUtils');
-var Vector2 = require('../math/Vector2');
-var Vector3 = require('../math/Vector3');
-var Vector4 = require('../math/Vector4');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Stores all buffers for geometric data and similar attributes
- * @param {Object} attributeMap Describes which buffers to use and their format/sizes
- * @param {number} vertexCount Number of vertices in buffer
- * @param {number} indexCount Number of indices in buffer
- * @example
- * // Constructing a quad entity
- * var attributes = [MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0];
- * var attributeMap = MeshData.defaultMap(attributes);
- * var vertexCount = 4;
- * var indexCount = 6;
- * var meshData = new MeshData(attributeMap, vertexCount, indexCount);
- * meshData.getAttributeBuffer(MeshData.POSITION).set([
- *     -1, -1, 0, // 0
- *     -1, 1, 0,  // 1
- *      1, 1, 0,  // 2
- *      1, -1, 0  // 3
- * ]);
- * meshData.getAttributeBuffer(MeshData.NORMAL).set([
- *     0,0,1,  0,0,1,  0,0,1,  0,0,1
- * ]);
- * meshData.getAttributeBuffer(MeshData.TEXCOORD0).set([
- *     0,0,  0,1,  1,1,  1,0
- * ]);
- * meshData.getIndexBuffer().set([0,3,1, 1,3,2]);
- *
- * var quadEntity = world.createEntity(meshData, new Material(ShaderLib.textured)).addToWorld();
- */
+var MeshData_MeshData = MeshData;
+import { BufferData as rendererBufferData_BufferDatajs } from "../renderer/BufferData";
+import { RendererUtils as rendererRendererUtils_RendererUtilsjs } from "../renderer/RendererUtils";
+import { BufferUtils as rendererBufferUtils_BufferUtilsjs } from "../renderer/BufferUtils";
+import { Vector2 as mathVector2_Vector2js } from "../math/Vector2";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { Vector4 as mathVector4_Vector4js } from "../math/Vector4";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function MeshData(attributeMap, vertexCount, indexCount) {
 	this.attributeMap = attributeMap;
 
@@ -146,9 +118,9 @@ MeshData.prototype.rebuildVertexData = function (vertexCount) {
 		var keys = Object.keys(this.attributeMap);
 		for (var i = 0; i < keys.length; i++) {
 			var attribute = this.attributeMap[keys[i]];
-			vertexByteSize += RendererUtils.getByteSize(attribute.type) * attribute.count;
+			vertexByteSize += rendererRendererUtils_RendererUtilsjs.getByteSize(attribute.type) * attribute.count;
 		}
-		this.vertexData = new BufferData(new ArrayBuffer(vertexByteSize * this.vertexCount), 'ArrayBuffer');
+		this.vertexData = new rendererBufferData_BufferDatajs(new ArrayBuffer(vertexByteSize * this.vertexCount), 'ArrayBuffer');
 
 		this.generateAttributeData();
 	}
@@ -164,8 +136,8 @@ MeshData.prototype.rebuildIndexData = function (indexCount) {
 		this.indexCount = indexCount;
 	}
 	if (this.indexCount > 0) {
-		var indices = BufferUtils.createIndexBuffer(this.indexCount, this.vertexCount);
-		this.indexData = new BufferData(indices, 'ElementArrayBuffer');
+		var indices = rendererBufferUtils_BufferUtilsjs.createIndexBuffer(this.indexCount, this.vertexCount);
+		this.indexData = new rendererBufferData_BufferDatajs(indices, 'ElementArrayBuffer');
 	} else {
 		this.indexData = null;
 		this.indexLengths = null;
@@ -230,7 +202,7 @@ MeshData.prototype.getPrimitiveVertices = function (primitiveIndex, section, sto
 	var verts = this.getAttributeBuffer(MeshData.POSITION);
 	for (var i = 0; i < rSize; i++) {
 		if (!result[i]) {
-			result[i] = new Vector3();
+			result[i] = new mathVector3_Vector3js();
 		}
 		if (this.getIndexBuffer()) {
 			// indexed geometry
@@ -377,7 +349,7 @@ MeshData.prototype.generateAttributeData = function () {
 		var attribute = this.attributeMap[key];
 		attribute.offset = offset;
 		var length = this.vertexCount * attribute.count;
-		offset += length * RendererUtils.getByteSize(attribute.type);
+		offset += length * rendererRendererUtils_RendererUtilsjs.getByteSize(attribute.type);
 
 		var ArrayType = ArrayTypes[attribute.type];
 		if (ArrayType) {
@@ -433,10 +405,10 @@ MeshData.prototype.makeInterleavedData = function () {
 	for (var key in this.attributeMap) {
 		var attribute = this.attributeMap[key];
 		attribute.offset = stride;
-		stride += attribute.count * RendererUtils.getByteSize(attribute.type);
+		stride += attribute.count * rendererRendererUtils_RendererUtilsjs.getByteSize(attribute.type);
 	}
 
-	var newVertexData = new BufferData(new ArrayBuffer(stride * this.vertexCount), this.vertexData.target);
+	var newVertexData = new rendererBufferData_BufferDatajs(new ArrayBuffer(stride * this.vertexCount), this.vertexData.target);
 	newVertexData._dataUsage = this.vertexData._dataUsage;
 	newVertexData._dataNeedsRefresh = true;
 
@@ -447,7 +419,7 @@ MeshData.prototype.makeInterleavedData = function () {
 		attribute.stride = stride;
 		var offset = attribute.offset;
 		var count = attribute.count;
-		var size = RendererUtils.getByteSize(attribute.type);
+		var size = rendererRendererUtils_RendererUtilsjs.getByteSize(attribute.type);
 
 		var method = this.getDataMethod(attribute.type);
 		var fun = targetView[method];
@@ -518,7 +490,7 @@ MeshData.prototype.resetVertexCount = function () {
  * @returns {MeshData} Self to allow chaining
  */
 MeshData.prototype.applyTransform = function (attributeName, transform) {
-	var vert = new Vector3();
+	var vert = new mathVector3_Vector3js();
 	var view = this.getAttributeBuffer(attributeName);
 	var viewLength = view.length;
 
@@ -573,7 +545,7 @@ MeshData.prototype.applyFunction = function (attributeName, fun) {
 			}
 			break;
 		case 2:
-			vert = new Vector2();
+			vert = new mathVector2_Vector2js();
 			for (var i = 0; i < viewLength; i += 2) {
 				vert.setDirect(view[i + 0], view[i + 1]);
 
@@ -584,7 +556,7 @@ MeshData.prototype.applyFunction = function (attributeName, fun) {
 			}
 			break;
 		case 3:
-			vert = new Vector3();
+			vert = new mathVector3_Vector3js();
 			for (var i = 0; i < viewLength; i += 3) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2]);
 
@@ -596,7 +568,7 @@ MeshData.prototype.applyFunction = function (attributeName, fun) {
 			}
 			break;
 		case 4:
-			vert = new Vector4();
+			vert = new mathVector4_Vector4js();
 			for (var i = 0; i < viewLength; i += 4) {
 				vert.setDirect(view[i + 0], view[i + 1], view[i + 2], view[i + 3]);
 
@@ -661,7 +633,7 @@ MeshData.prototype.getNormalsMeshData = function (size) {
  * @returns {MeshData}
  */
 MeshData.prototype.buildWireframeData = function () {
-	var attributeMap = ObjectUtils.deepClone(this.attributeMap);
+	var attributeMap = utilObjectUtils_ObjectUtilsjs.deepClone(this.attributeMap);
 	var wireframeData = new MeshData(attributeMap, this.vertexCount, 0);
 	wireframeData.indexModes[0] = 'Lines';
 
@@ -746,9 +718,9 @@ MeshData.prototype.buildWireframeData = function () {
 
 
 // Calculation helpers
-var v1 = new Vector3();
-var v2 = new Vector3();
-var v3 = new Vector3();
+var v1 = new mathVector3_Vector3js();
+var v2 = new mathVector3_Vector3js();
+var v3 = new mathVector3_Vector3js();
 /**
  * Builds flat meshdata from mesh
  * @returns {MeshData}
@@ -760,7 +732,7 @@ MeshData.prototype.buildFlatMeshData = function () {
 		return this;
 	}
 
-	var attributeMap = ObjectUtils.deepClone(this.attributeMap);
+	var attributeMap = utilObjectUtils_ObjectUtilsjs.deepClone(this.attributeMap);
 	var attribs = {};
 	for (var key in attributeMap) {
 		attribs[key] = {
@@ -872,7 +844,7 @@ MeshData.prototype.destroy = function (context) {
  * @returns {MeshData}
  */
 MeshData.prototype.clone = function () {
-	var attributeMapClone = ObjectUtils.deepClone(this.attributeMap);
+	var attributeMapClone = utilObjectUtils_ObjectUtilsjs.deepClone(this.attributeMap);
 
 	var clone = new MeshData(attributeMapClone, this.vertexCount, this.indexCount);
 
@@ -982,7 +954,7 @@ function buildMap(types) {
 	for (var i = 0; i < types.length; i++) {
 		var type = types[i];
 		if (defaults[type] !== undefined) {
-			map[type] = ObjectUtils.deepClone(defaults[type]);
+			map[type] = utilObjectUtils_ObjectUtilsjs.deepClone(defaults[type]);
 		} else {
 			throw new Error('No default attribute named: ' + type);
 		}
@@ -1004,4 +976,32 @@ MeshData.defaultMap = function (types) {
 	}
 };
 
-module.exports = MeshData;
+/**
+ * Stores all buffers for geometric data and similar attributes
+ * @param {Object} attributeMap Describes which buffers to use and their format/sizes
+ * @param {number} vertexCount Number of vertices in buffer
+ * @param {number} indexCount Number of indices in buffer
+ * @example
+ * // Constructing a quad entity
+ * var attributes = [MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0];
+ * var attributeMap = MeshData.defaultMap(attributes);
+ * var vertexCount = 4;
+ * var indexCount = 6;
+ * var meshData = new MeshData(attributeMap, vertexCount, indexCount);
+ * meshData.getAttributeBuffer(MeshData.POSITION).set([
+ *     -1, -1, 0, // 0
+ *     -1, 1, 0,  // 1
+ *      1, 1, 0,  // 2
+ *      1, -1, 0  // 3
+ * ]);
+ * meshData.getAttributeBuffer(MeshData.NORMAL).set([
+ *     0,0,1,  0,0,1,  0,0,1,  0,0,1
+ * ]);
+ * meshData.getAttributeBuffer(MeshData.TEXCOORD0).set([
+ *     0,0,  0,1,  1,1,  1,0
+ * ]);
+ * meshData.getIndexBuffer().set([0,3,1, 1,3,2]);
+ *
+ * var quadEntity = world.createEntity(meshData, new Material(ShaderLib.textured)).addToWorld();
+ */
+export { MeshData_MeshData as MeshData };

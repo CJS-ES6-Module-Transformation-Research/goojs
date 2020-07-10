@@ -1,11 +1,12 @@
-var Action = require('./Action');
-var PromiseUtil = require('./../../../util/PromiseUtil');
+var PlaySoundAction_PlaySoundAction = PlaySoundAction;
+import { Action as Action_Actionjs } from "./Action";
+import { PromiseUtils as utilPromiseUtil_PromiseUtilsjs } from "./../../../util/PromiseUtil";
 
-function PlaySoundAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function PlaySoundAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-PlaySoundAction.prototype = Object.create(Action.prototype);
+PlaySoundAction.prototype = Object.create(Action_Actionjs.prototype);
 PlaySoundAction.prototype.constructor = PlaySoundAction;
 
 PlaySoundAction.external = {
@@ -47,7 +48,7 @@ PlaySoundAction.prototype.enter = function (fsm) {
 		endPromise = sound.play();
 	} catch (e) {
 		console.warn('Could not play sound: ' + e);
-		endPromise = PromiseUtil.resolve();
+		endPromise = utilPromiseUtil_PromiseUtilsjs.resolve();
 	}
 
 	endPromise.then(function () {
@@ -55,4 +56,4 @@ PlaySoundAction.prototype.enter = function (fsm) {
 	}.bind(this));
 };
 
-module.exports = PlaySoundAction;
+export { PlaySoundAction_PlaySoundAction as PlaySoundAction };

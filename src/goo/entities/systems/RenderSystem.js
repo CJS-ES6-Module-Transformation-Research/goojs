@@ -1,22 +1,17 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var SimplePartitioner = require('../../renderer/SimplePartitioner');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Renders entities/renderables using a configurable partitioner for culling
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+var RenderSystem_RenderSystem = RenderSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { SimplePartitioner as rendererSimplePartitioner_SimplePartitionerjs } from "../../renderer/SimplePartitioner";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
 function RenderSystem() {
-	System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
 	this.entities = [];
 	this.renderList = [];
 	this.postRenderables = [];
-	this.partitioner = new SimplePartitioner();
+	this.partitioner = new rendererSimplePartitioner_SimplePartitionerjs();
 	this.preRenderers = [];
 	this.composers = [];
 	this._composersActive = true;
@@ -30,11 +25,11 @@ function RenderSystem() {
 	this.lights = [];
 	this.currentTpf = 0.0;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 
-	SystemBus.addListener('goo.setLights', function (lights) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setLights', function (lights) {
 		this.lights = lights;
 	}.bind(this));
 
@@ -50,7 +45,7 @@ function RenderSystem() {
 	};
 }
 
-RenderSystem.prototype = Object.create(System.prototype);
+RenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 
 RenderSystem.prototype.pick = function (x, y, callback, skipUpdateBuffer) {
@@ -126,25 +121,25 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 	switch (key) {
 		case 'wireframe':
 		case 'color':
-			fshader = ObjectUtils.deepClone(ShaderLib.simpleColored.fshader);
+			fshader = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.simpleColored.fshader);
 			break;
 		case 'lit':
-			fshader = ObjectUtils.deepClone(ShaderLib.simpleLit.fshader);
+			fshader = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.simpleLit.fshader);
 			break;
 		case 'texture':
-			fshader = ObjectUtils.deepClone(ShaderLib.textured.fshader);
+			fshader = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.textured.fshader);
 			break;
 		case 'normals':
-			fshader = ObjectUtils.deepClone(ShaderLib.showNormals.fshader);
+			fshader = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.showNormals.fshader);
 			break;
 		case 'simple':
-			fshader = ObjectUtils.deepClone(ShaderLib.simple.fshader);
+			fshader = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.simple.fshader);
 			break;
 	}
-	var shaderDef = ObjectUtils.deepClone(ShaderLib.uber);
+	var shaderDef = utilObjectUtils_ObjectUtilsjs.deepClone(renderershadersShaderLib_ShaderLibjs.uber);
 	shaderDef.fshader = fshader;
 	if (key !== 'flat') {
-		this._debugMaterials[key] = new Material(shaderDef, key);
+		this._debugMaterials[key] = new rendererMaterial_Materialjs(shaderDef, key);
 		if (key === 'wireframe') {
 			this._debugMaterials[key].wireframe = true;
 		}
@@ -160,7 +155,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 			};
 		}
 	} else {
-		this._debugMaterials[key] = Material.createEmptyMaterial(null, key);
+		this._debugMaterials[key] = rendererMaterial_Materialjs.createEmptyMaterial(null, key);
 		this._debugMaterials[key].flat = true;
 	}
 };
@@ -205,4 +200,9 @@ RenderSystem.prototype.invalidateHandles = function (renderer) {
 	renderer.rendererRecord = null; // might hold on to stuff
 };
 
-module.exports = RenderSystem;
+/**
+ * Renders entities/renderables using a configurable partitioner for culling
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { RenderSystem_RenderSystem as RenderSystem };

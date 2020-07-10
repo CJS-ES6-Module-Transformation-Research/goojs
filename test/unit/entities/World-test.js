@@ -1,33 +1,33 @@
-var Manager = require('../../../src/goo/entities/managers/Manager');
-var Entity = require('../../../src/goo/entities/Entity');
-var System = require('../../../src/goo/entities/systems/System');
-var World = require('../../../src/goo/entities/World');
-var TransformComponent = require('../../../src/goo/entities/components/TransformComponent');
-var MeshDataComponent = require('../../../src/goo/entities/components/MeshDataComponent');
-var MeshRendererComponent = require('../../../src/goo/entities/components/MeshRendererComponent');
-var CameraComponent = require('../../../src/goo/entities/components/CameraComponent');
-var LightComponent = require('../../../src/goo/entities/components/LightComponent');
-var ScriptComponent = require('../../../src/goo/entities/components/ScriptComponent');
-var Component = require('../../../src/goo/entities/components/Component');
-var ScriptSystem = require('../../../src/goo/entities/systems/ScriptSystem');
-var TransformSystem = require('../../../src/goo/entities/systems/TransformSystem');
-var Box = require('../../../src/goo/shapes/Box');
-var Camera = require('../../../src/goo/renderer/Camera');
-var PointLight = require('../../../src/goo/renderer/light/PointLight');
-var ShaderLib = require('../../../src/goo/renderer/shaders/ShaderLib');
-var Material = require('../../../src/goo/renderer/Material');
-var EntitySelection = require('../../../src/goo/entities/EntitySelection');
+import { Manager as srcgooentitiesmanagersManager_Managerjs } from "../../../src/goo/entities/managers/Manager";
+import { Entity as srcgooentitiesEntity_Entityjs } from "../../../src/goo/entities/Entity";
+import { System as srcgooentitiessystemsSystem_Systemjs } from "../../../src/goo/entities/systems/System";
+import { World as srcgooentitiesWorld_Worldjs } from "../../../src/goo/entities/World";
+import {     TransformComponent as srcgooentitiescomponentsTransformComponent_TransformComponentjs, } from "../../../src/goo/entities/components/TransformComponent";
+import {     MeshDataComponent as srcgooentitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../../../src/goo/entities/components/MeshDataComponent";
+import {     MeshRendererComponent as srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../../../src/goo/entities/components/MeshRendererComponent";
+import {     CameraComponent as srcgooentitiescomponentsCameraComponent_CameraComponentjs, } from "../../../src/goo/entities/components/CameraComponent";
+import { LightComponent as srcgooentitiescomponentsLightComponent_LightComponentjs } from "../../../src/goo/entities/components/LightComponent";
+import {     ScriptComponent as srcgooentitiescomponentsScriptComponent_ScriptComponentjs, } from "../../../src/goo/entities/components/ScriptComponent";
+import { Component as srcgooentitiescomponentsComponent_Componentjs } from "../../../src/goo/entities/components/Component";
+import { ScriptSystem as srcgooentitiessystemsScriptSystem_ScriptSystemjs } from "../../../src/goo/entities/systems/ScriptSystem";
+import { TransformSystem as srcgooentitiessystemsTransformSystem_TransformSystemjs } from "../../../src/goo/entities/systems/TransformSystem";
+import { Box as srcgooshapesBox_Boxjs } from "../../../src/goo/shapes/Box";
+import { Camera as srcgoorendererCamera_Camerajs } from "../../../src/goo/renderer/Camera";
+import { PointLight as srcgoorendererlightPointLight_PointLightjs } from "../../../src/goo/renderer/light/PointLight";
+import { ShaderLib as srcgoorenderershadersShaderLib_ShaderLibjs } from "../../../src/goo/renderer/shaders/ShaderLib";
+import { Material as srcgoorendererMaterial_Materialjs } from "../../../src/goo/renderer/Material";
+import { EntitySelection as srcgooentitiesEntitySelection_EntitySelectionjs } from "../../../src/goo/entities/EntitySelection";
 
 describe('World with Systems', function () {
 
 	var world;
 
 	beforeEach(function () {
-		world = new World();
+		world = new srcgooentitiesWorld_Worldjs();
 	});
 
 	it('cannot add the same system twice', function () {
-		var systemA = new System('A', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
 
 		world.setSystem(systemA);
 		world.setSystem(systemA);
@@ -36,8 +36,8 @@ describe('World with Systems', function () {
 	});
 
 	it('adds a system with default priority to the world', function () {
-		var systemA = new System('A', []);
-		var systemB = new System('B', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
+		var systemB = new srcgooentitiessystemsSystem_Systemjs('B', []);
 
 		world.setSystem(systemA);
 		world.setSystem(systemB);
@@ -46,9 +46,9 @@ describe('World with Systems', function () {
 	});
 
 	it ('adds a system with high priority to the world', function () {
-		var systemA = new System('A', []);
-		var systemB = new System('B', []);
-		var systemC = new System('A', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
+		var systemB = new srcgooentitiessystemsSystem_Systemjs('B', []);
+		var systemC = new srcgooentitiessystemsSystem_Systemjs('A', []);
 		systemC.priority = -1;
 
 		world.setSystem(systemA);
@@ -59,11 +59,11 @@ describe('World with Systems', function () {
 	});
 
 	it('adds a system with low priority to the world', function () {
-		var world = new World();
+		var world = new srcgooentitiesWorld_Worldjs();
 
-		var systemA = new System('A', []);
-		var systemB = new System('B', []);
-		var systemC = new System('C', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
+		var systemB = new srcgooentitiessystemsSystem_Systemjs('B', []);
+		var systemC = new srcgooentitiessystemsSystem_Systemjs('C', []);
 		systemC.priority = 5;
 
 		world.setSystem(systemA);
@@ -74,11 +74,11 @@ describe('World with Systems', function () {
 	});
 
 	it('adds a system with medium priority to the world', function () {
-		var systemA = new System('A', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
 		systemA.priority = 3;
-		var systemB = new System('B', []);
+		var systemB = new srcgooentitiessystemsSystem_Systemjs('B', []);
 		systemB.priority = 1;
-		var systemC = new System('C', []);
+		var systemC = new srcgooentitiessystemsSystem_Systemjs('C', []);
 		systemC.priority = 2;
 
 		world.setSystem(systemA);
@@ -89,9 +89,9 @@ describe('World with Systems', function () {
 	});
 
 	it('removes a system', function () {
-		var systemA = new System('A', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
 		systemA.priority = 3;
-		var systemB = new System('B', []);
+		var systemB = new srcgooentitiessystemsSystem_Systemjs('B', []);
 		systemB.priority = 1;
 
 		world.setSystem(systemA);
@@ -103,7 +103,7 @@ describe('World with Systems', function () {
 	});
 
 	it('calls the cleanup function of a system when removing it from the world', function () {
-		var systemA = new System('A', []);
+		var systemA = new srcgooentitiessystemsSystem_Systemjs('A', []);
 		spyOn(systemA, 'cleanup').and.callThrough();
 
 		world.setSystem(systemA);
@@ -115,20 +115,20 @@ describe('World with Systems', function () {
 
 	it('tries to add existing entities to a late added system', function () {
 		function SystemA() {
-			System.call(this, 'SystemA', ['ComponentA']);
+			srcgooentitiessystemsSystem_Systemjs.call(this, 'SystemA', ['ComponentA']);
 		}
 
-		SystemA.prototype = Object.create(System.prototype);
+		SystemA.prototype = Object.create(srcgooentitiessystemsSystem_Systemjs.prototype);
 		var systemA = new SystemA();
 		spyOn(systemA, '_check').and.callThrough();
 
 		// ---
 		function ComponentA() {
-			Component.apply(this, arguments);
+			srcgooentitiescomponentsComponent_Componentjs.apply(this, arguments);
 			this.type = 'ComponentA';
 		}
 
-		ComponentA.prototype = Object.create(Component.prototype);
+		ComponentA.prototype = Object.create(srcgooentitiescomponentsComponent_Componentjs.prototype);
 
 		// ---
 		var entity1 = world.createEntity(new ComponentA()).addToWorld();
@@ -146,20 +146,20 @@ describe('World with Systems', function () {
 describe('World with Components', function () {
 	var world;
 	beforeEach(function () {
-		world = new World();
-		world.registerComponent(TransformComponent);
-		world.registerComponent(MeshDataComponent);
-		world.registerComponent(MeshRendererComponent);
-		world.registerComponent(CameraComponent);
-		world.registerComponent(LightComponent);
-		world.registerComponent(ScriptComponent);
+		world = new srcgooentitiesWorld_Worldjs();
+		world.registerComponent(srcgooentitiescomponentsTransformComponent_TransformComponentjs);
+		world.registerComponent(srcgooentitiescomponentsMeshDataComponent_MeshDataComponentjs);
+		world.registerComponent(srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs);
+		world.registerComponent(srcgooentitiescomponentsCameraComponent_CameraComponentjs);
+		world.registerComponent(srcgooentitiescomponentsLightComponent_LightComponentjs);
+		world.registerComponent(srcgooentitiescomponentsScriptComponent_ScriptComponentjs);
 	});
 
 	// Cucumber system
 	function CucumberSystem() {
-		System.call(this, 'CucumberSystem', ['CucumberComponent']);
+		srcgooentitiessystemsSystem_Systemjs.call(this, 'CucumberSystem', ['CucumberComponent']);
 	}
-	CucumberSystem.prototype = Object.create(System.prototype);
+	CucumberSystem.prototype = Object.create(srcgooentitiessystemsSystem_Systemjs.prototype);
 	CucumberSystem.prototype.inserted = function () {};
 	CucumberSystem.prototype.deleted = function () {};
 	CucumberSystem.prototype.addedComponent = function () {};
@@ -167,7 +167,7 @@ describe('World with Components', function () {
 
 	// Cucumber component
 	function CucumberComponent() {
-		Component.apply(this, arguments);
+		srcgooentitiescomponentsComponent_Componentjs.apply(this, arguments);
 		this.type = 'CucumberComponent';
 	}
 
@@ -189,7 +189,7 @@ describe('World with Components', function () {
 		spyOn(cucumberSystem, 'removedComponent');
 	});
 
-	CucumberComponent.prototype = Object.create(Component.prototype);
+	CucumberComponent.prototype = Object.create(srcgooentitiescomponentsComponent_Componentjs.prototype);
 
 	it('get added call when components in the interest list are added', function () {
 		entity.setComponent(cucumberComponent);
@@ -224,12 +224,12 @@ describe('World with Components', function () {
 				viewportHeight: null
 			}
 		};
-		world.add(new ScriptSystem(world));
+		world.add(new srcgooentitiessystemsScriptSystem_ScriptSystemjs(world));
 
-		var camera = new Camera();
-		var meshData = new Box();
-		var material = new Material(ShaderLib.simple);
-		var light = new PointLight();
+		var camera = new srcgoorendererCamera_Camerajs();
+		var meshData = new srcgooshapesBox_Boxjs();
+		var material = new srcgoorendererMaterial_Materialjs(srcgoorenderershadersShaderLib_ShaderLibjs.simple);
+		var light = new srcgoorendererlightPointLight_PointLightjs();
 		var script = { run: function () {} };
 
 		var entity = world.createEntity(camera, meshData, script, 'entitate', material, light);
@@ -248,7 +248,7 @@ describe('World with Components', function () {
 	});
 
 	it('adds an entity using the \'add\' function', function () {
-		var entity = new Entity(world);
+		var entity = new srcgooentitiesEntity_Entityjs(world);
 
 		world.add(entity);
 		world.process();
@@ -256,7 +256,7 @@ describe('World with Components', function () {
 	});
 
 	it('adds a system using the \'add\' function', function () {
-		var system = new TransformSystem();
+		var system = new srcgooentitiessystemsTransformSystem_TransformSystemjs();
 
 		world.add(system);
 		expect(world._systems).toContain(system);
@@ -264,9 +264,9 @@ describe('World with Components', function () {
 
 	it('adds a manager using the \'add\' function', function () {
 		function FishManager() {
-			Manager.call(this);
+			srcgooentitiesmanagersManager_Managerjs.call(this);
 		}
-		FishManager.prototype = Object.create(Manager.prototype);
+		FishManager.prototype = Object.create(srcgooentitiesmanagersManager_Managerjs.prototype);
 
 		var manager = new FishManager();
 
@@ -275,7 +275,7 @@ describe('World with Components', function () {
 	});
 
 	it('registers a component using the \'add\' function', function () {
-		var component = new TransformComponent();
+		var component = new srcgooentitiescomponentsTransformComponent_TransformComponentjs();
 
 		world.add(component);
 		expect(world._components).toContain(component);
@@ -283,7 +283,7 @@ describe('World with Components', function () {
 
 	// api installing
 	it('installs the api of a manager', function () {
-		var world = new World();
+		var world = new srcgooentitiesWorld_Worldjs();
 		expect(world.by.id).toBeTruthy();
 		expect(world.by.name).toBeTruthy();
 	});
@@ -291,13 +291,13 @@ describe('World with Components', function () {
 	it('does not override existing methods on install', function () {
 		var a = 0;
 		function FishManager() {
-			Manager.call(this);
+			srcgooentitiesmanagersManager_Managerjs.call(this);
 			this.type = 'FishManager';
 			this.api = {
 				color: function () { a += 123; }
 			};
 		}
-		FishManager.prototype = Object.create(Manager.prototype);
+		FishManager.prototype = Object.create(srcgooentitiesmanagersManager_Managerjs.prototype);
 
 
 		var b = 0;
@@ -307,10 +307,10 @@ describe('World with Components', function () {
 				color: function () { b += 234; }
 			};
 		}
-		BananaManager.prototype = Object.create(Manager.prototype);
+		BananaManager.prototype = Object.create(srcgooentitiesmanagersManager_Managerjs.prototype);
 
 
-		var world = new World();
+		var world = new srcgooentitiesWorld_Worldjs();
 
 		world.setManager(new FishManager());
 		expect(function () {
@@ -368,17 +368,17 @@ describe('World with Components', function () {
 				b: spyB
 			};
 
-			CoconutComponent.prototype = Object.create(Component.prototype);
+			CoconutComponent.prototype = Object.create(srcgooentitiescomponentsComponent_Componentjs.prototype);
 			CoconutComponent.prototype.constructor = CoconutComponent;
 
-			var world = new World();
+			var world = new srcgooentitiesWorld_Worldjs();
 			world.registerComponent(CoconutComponent);
 
-			var entity1 = new Entity().setComponent(new CoconutComponent());
-			var entity2 = new Entity();
-			var entity3 = new Entity().setComponent(new CoconutComponent());
+			var entity1 = new srcgooentitiesEntity_Entityjs().setComponent(new CoconutComponent());
+			var entity2 = new srcgooentitiesEntity_Entityjs();
+			var entity3 = new srcgooentitiesEntity_Entityjs().setComponent(new CoconutComponent());
 
-			var entitySelection = new EntitySelection(entity1, entity2, entity3);
+			var entitySelection = new srcgooentitiesEntitySelection_EntitySelectionjs(entity1, entity2, entity3);
 			var result = entitySelection.a(123, 456);
 
 			expect(spyA.calls.count()).toEqual(2);
@@ -396,10 +396,10 @@ describe('Default selectors', function () {
 			this.type = 'programmerComponent';
 		}
 
-		ProgrammerComponent.prototype = Object.create(Component.prototype);
+		ProgrammerComponent.prototype = Object.create(srcgooentitiescomponentsComponent_Componentjs.prototype);
 		ProgrammerComponent.constructor = ProgrammerComponent;
 
-		var world = new World();
+		var world = new srcgooentitiesWorld_Worldjs();
 
 		var entity1 = world.createEntity().set(new ProgrammerComponent()).addToWorld();
 		world.createEntity().addToWorld();
@@ -415,11 +415,11 @@ describe('Default selectors', function () {
 	});
 
 	it('gets a list of entities that are tracked by the TransformSystem', function () {
-		var world = new World();
-		world.add(new TransformSystem());
+		var world = new srcgooentitiesWorld_Worldjs();
+		world.add(new srcgooentitiessystemsTransformSystem_TransformSystemjs());
 
 		var entity1 = world.createEntity().addToWorld();
-		new Entity(world).addToWorld();
+		new srcgooentitiesEntity_Entityjs(world).addToWorld();
 		var entity3 = world.createEntity().addToWorld();
 
 		world.process();
@@ -429,7 +429,7 @@ describe('Default selectors', function () {
 	});
 
 	it('gets a list of entities that have a specific tag', function () {
-		var world = new World();
+		var world = new srcgooentitiesWorld_Worldjs();
 
 		var entity1 = world.createEntity().setTag('t1').addToWorld();
 		world.createEntity().setTag('t2').addToWorld();
@@ -442,7 +442,7 @@ describe('Default selectors', function () {
 	});
 
 	it('gets a list of entities that have a specific attribute', function () {
-		var world = new World();
+		var world = new srcgooentitiesWorld_Worldjs();
 
 		var entity1 = world.createEntity().setAttribute('a1', 10).addToWorld();
 		world.createEntity().setAttribute('a2', {}).addToWorld();

@@ -1,10 +1,11 @@
-var Action = require('./Action');
+var SetTimelineTimeAction_SetTimelineTimeAction = SetTimelineTimeAction;
+import { Action as Action_Actionjs } from "./Action";
 
-function SetTimelineTimeAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SetTimelineTimeAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-SetTimelineTimeAction.prototype = Object.create(Action.prototype);
+SetTimelineTimeAction.prototype = Object.create(Action_Actionjs.prototype);
 SetTimelineTimeAction.prototype.constructor = SetTimelineTimeAction;
 
 SetTimelineTimeAction.external = {
@@ -31,4 +32,4 @@ SetTimelineTimeAction.prototype.enter = function (fsm) {
 	entity.timelineComponent.setTime(this.time);
 };
 
-module.exports = SetTimelineTimeAction;
+export { SetTimelineTimeAction_SetTimelineTimeAction as SetTimelineTimeAction };

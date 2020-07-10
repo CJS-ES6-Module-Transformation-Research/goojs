@@ -1,25 +1,17 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var RSVP = require('../../util/rsvp');
-var StringUtils = require('../../util/StringUtils');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Handler for loading entities into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+var EntityHandler_EntityHandler = EntityHandler;
+import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
+import { StringUtils as utilStringUtils_StringUtilsjs } from "../../util/StringUtils";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
 function EntityHandler() {
-	ConfigHandler.apply(this, arguments);
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
 	this._componentHandlers = {};
 }
 
-EntityHandler.prototype = Object.create(ConfigHandler.prototype);
+EntityHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 EntityHandler.prototype.constructor = EntityHandler;
-ConfigHandler._registerClass('entity', EntityHandler);
+loadershandlersConfigHandler_ConfigHandlerjs._registerClass('entity', EntityHandler);
 
 /**
  * Creates an empty entity
@@ -46,11 +38,11 @@ EntityHandler.prototype._remove = function (ref) {
 		for (var i = 0; i < components.length; i++) {
 			var type = this._getComponentType(components[i]);
 			var p = this._updateComponent(entity, type, null);
-			if (p instanceof RSVP.Promise) {
+			if (p instanceof utilrsvp_rsvpjsjs.Promise) {
 				promises.push(p);
 			}
 		}
-		return RSVP.all(promises)
+		return utilrsvp_rsvpjsjs.all(promises)
 		.then(function () {
 			entity.removeFromWorld();
 			that._objects.delete(ref);
@@ -85,7 +77,7 @@ function updateAttributes(entity, attributes) {
  */
 EntityHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (entity) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (entity) {
 		if (!entity) { return; }
 		entity.id = ref;
 		entity.name = config.name;
@@ -116,7 +108,7 @@ EntityHandler.prototype._update = function (ref, config, options) {
 			}
 		}
 		// When all is done, hide or show and return
-		return PromiseUtils.optimisticAll(promises).then(function (/*components*/) {
+		return utilPromiseUtils_PromiseUtilsjs.optimisticAll(promises).then(function (/*components*/) {
 			if (config.hidden) {
 				entity.hide();
 			} else {
@@ -156,7 +148,7 @@ EntityHandler.prototype._updateComponent = function (entity, type, config, optio
 EntityHandler.prototype._getComponentType = function (component) {
 	var type = component.type;
 	type = type.slice(0, type.lastIndexOf('Component'));
-	type = StringUtils.uncapitalize(type);
+	type = utilStringUtils_StringUtilsjs.uncapitalize(type);
 	if (type === 'howler') { type = 'sound'; } // HowlerComponent should be renamed
 	return type;
 };
@@ -168,7 +160,7 @@ EntityHandler.prototype._getComponentType = function (component) {
  */
 EntityHandler.prototype._getHandler = function (type) {
 	if (!this._componentHandlers[type]) {
-		var Handler = ComponentHandler.getHandler(type);
+		var Handler = loadershandlersComponentHandler_ComponentHandlerjs.getHandler(type);
 		if (Handler) {
 			this._componentHandlers[type] = new Handler(
 				this.world,
@@ -181,4 +173,12 @@ EntityHandler.prototype._getHandler = function (type) {
 	return this._componentHandlers[type];
 };
 
-module.exports = EntityHandler;
+/**
+ * Handler for loading entities into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { EntityHandler_EntityHandler as EntityHandler };

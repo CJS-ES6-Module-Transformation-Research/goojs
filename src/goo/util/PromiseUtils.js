@@ -1,8 +1,5 @@
-var RSVP = require('../util/rsvp');
-
-/**
- * Provides promise-related utility methods
- */
+var PromiseUtils_PromiseUtils = PromiseUtils;
+import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
 function PromiseUtils() {}
 
 //! AT: converting from PromiseUtils.createPromise to new RSVP.Promise is going to be trivial
@@ -12,7 +9,7 @@ function PromiseUtils() {}
  * @returns {RSVP.Promise}
  */
 PromiseUtils.createPromise = function (fun) {
-	var promise = new RSVP.Promise();
+	var promise = new utilrsvp_rsvpjsjs.Promise();
 
 	fun(function (value) {
 		promise.resolve(value);
@@ -29,7 +26,7 @@ PromiseUtils.createPromise = function (fun) {
  * @param value
  */
 PromiseUtils.resolve = function (value) {
-	var promise = new RSVP.Promise();
+	var promise = new utilrsvp_rsvpjsjs.Promise();
 	promise.resolve(value);
 	return promise;
 };
@@ -40,7 +37,7 @@ PromiseUtils.resolve = function (value) {
  * @param reason
  */
 PromiseUtils.reject = function (reason) {
-	var promise = new RSVP.Promise();
+	var promise = new utilrsvp_rsvpjsjs.Promise();
 	promise.reject(reason);
 	return promise;
 };
@@ -60,7 +57,7 @@ PromiseUtils.createDummyPromise = function (arg, error) {
 		console.warn('PromiseUtils.createDummyPromise is deprecated; please consider using PromiseUtils.resolve/reject instead');
 	}
 
-	var promise = new RSVP.Promise();
+	var promise = new utilrsvp_rsvpjsjs.Promise();
 	if (error) {
 		promise.reject(error);
 	} else {
@@ -83,7 +80,7 @@ PromiseUtils.optimisticAll = function (promises) {
 	var resolved = 0,
 		len = promises.length,
 		results = [],
-		promise = new RSVP.Promise();
+		promise = new utilrsvp_rsvpjsjs.Promise();
 
 	if (len > 0) {
 		for (var i = 0; i < len; i++) {
@@ -118,7 +115,7 @@ PromiseUtils.optimisticAll = function (promises) {
  * @returns {Promise}
  */
 PromiseUtils.delay = function (value, time) {
-	var promise = new RSVP.Promise();
+	var promise = new utilrsvp_rsvpjsjs.Promise();
 	setTimeout(function () {
 		promise.resolve(value);
 	}, time);
@@ -135,9 +132,9 @@ PromiseUtils.delay = function (value, time) {
  */
 PromiseUtils.defer = function (delay, arg) {
 	var p1, p2, promise;
-	promise = new RSVP.Promise();
+	promise = new utilrsvp_rsvpjsjs.Promise();
 	if (arg.apply) {
-		p1 = new RSVP.Promise();
+		p1 = new utilrsvp_rsvpjsjs.Promise();
 		p2 = p1.then(function () {
 			return arg();
 		});
@@ -153,4 +150,7 @@ PromiseUtils.defer = function (delay, arg) {
 	return promise;
 };
 
-module.exports = PromiseUtils;
+/**
+ * Provides promise-related utility methods
+ */
+export { PromiseUtils_PromiseUtils as PromiseUtils };
