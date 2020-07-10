@@ -1,13 +1,23 @@
-var ApplyForceAction_ApplyForceAction = ApplyForceAction;
-import { Action as Action_Actionjs } from "./Action";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
+"use strict";
 
-function ApplyForceAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ApplyForceAction = undefined;
+
+var _Action = require("./Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var ApplyForceAction_ApplyForceAction = ApplyForceAction;
+
+function ApplyForceAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-ApplyForceAction.prototype = Object.create(Action_Actionjs.prototype);
+ApplyForceAction.prototype = Object.create(_Action.Action.prototype);
 ApplyForceAction.prototype.constructor = ApplyForceAction;
 
 ApplyForceAction.external = {
@@ -40,12 +50,14 @@ ApplyForceAction.external = {
 	transitions: []
 };
 
-var forceVector = new mathVector3_Vector3js();
-var applyPoint = new mathVector3_Vector3js();
+var forceVector = new _Vector.Vector3();
+var applyPoint = new _Vector.Vector3();
 ApplyForceAction.prototype.enter = function (fsm) {
-	entitiesSystemBus_SystemBusjsjs.addListener('goo.physics.substep', this.substepListener = function () {
+	_SystemBus.SystemBusjs.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
-		if (!entity || !entity.rigidBodyComponent) { return; }
+		if (!entity || !entity.rigidBodyComponent) {
+			return;
+		}
 
 		forceVector.setArray(this.force);
 		applyPoint.setArray(this.point);
@@ -58,7 +70,7 @@ ApplyForceAction.prototype.enter = function (fsm) {
 };
 
 ApplyForceAction.prototype.exit = function () {
-	entitiesSystemBus_SystemBusjsjs.removeListener('goo.physics.substep', this.substepListener);
+	_SystemBus.SystemBusjs.removeListener('goo.physics.substep', this.substepListener);
 };
 
-export { ApplyForceAction_ApplyForceAction as ApplyForceAction };
+exports.ApplyForceAction = ApplyForceAction_ApplyForceAction;

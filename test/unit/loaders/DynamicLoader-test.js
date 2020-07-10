@@ -1,17 +1,32 @@
-import { World as srcgooentitiesWorld_Worldjs } from "../../../src/goo/entities/World";
-import { TransformSystem as srcgooentitiessystemsTransformSystem_TransformSystemjs } from "../../../src/goo/entities/systems/TransformSystem";
-import { CameraSystem as srcgooentitiessystemsCameraSystem_CameraSystemjs } from "../../../src/goo/entities/systems/CameraSystem";
-import { ParticlesSystem as srcgooentitiessystemsParticlesSystem_ParticlesSystemjs } from "../../../src/goo/entities/systems/ParticlesSystem";
-import {     BoundingUpdateSystem as srcgooentitiessystemsBoundingUpdateSystem_BoundingUpdateSystemjs, } from "../../../src/goo/entities/systems/BoundingUpdateSystem";
-import { LightingSystem as srcgooentitiessystemsLightingSystem_LightingSystemjs } from "../../../src/goo/entities/systems/LightingSystem";
-import {     AnimationSystem as srcgooanimationpacksystemsAnimationSystem_AnimationSystemjs, } from "../../../src/goo/animationpack/systems/AnimationSystem";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../src/goo/loaders/DynamicLoader";
-import { AudioContextjs as srcgoosoundAudioContext_AudioContextjsjs } from "../../../src/goo/sound/AudioContext";
-import { SoundSystem as srcgooentitiessystemsSoundSystem_SoundSystemjs } from "../../../src/goo/entities/systems/SoundSystem";
-import { RenderSystem as srcgooentitiessystemsRenderSystem_RenderSystemjs } from "../../../src/goo/entities/systems/RenderSystem";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../test/unit/loaders/Configs";
-import "../../../src/goo/loaders/handlers/EntityHandler";
-import "../../../src/goo/animationpack/handlers/AnimationHandlers";
+"use strict";
+
+var _World = require("../../../src/goo/entities/World");
+
+var _TransformSystem = require("../../../src/goo/entities/systems/TransformSystem");
+
+var _CameraSystem = require("../../../src/goo/entities/systems/CameraSystem");
+
+var _ParticlesSystem = require("../../../src/goo/entities/systems/ParticlesSystem");
+
+var _BoundingUpdateSystem = require("../../../src/goo/entities/systems/BoundingUpdateSystem");
+
+var _LightingSystem = require("../../../src/goo/entities/systems/LightingSystem");
+
+var _AnimationSystem = require("../../../src/goo/animationpack/systems/AnimationSystem");
+
+var _DynamicLoader = require("../../../src/goo/loaders/DynamicLoader");
+
+var _AudioContext = require("../../../src/goo/sound/AudioContext");
+
+var _SoundSystem = require("../../../src/goo/entities/systems/SoundSystem");
+
+var _RenderSystem = require("../../../src/goo/entities/systems/RenderSystem");
+
+var _Configs = require("../../../test/unit/loaders/Configs");
+
+require("../../../src/goo/loaders/handlers/EntityHandler");
+
+require("../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('DynamicLoader', function () {
 	var loader;
@@ -21,20 +36,20 @@ describe('DynamicLoader', function () {
 	var imageRef = 'ccccddddccccddddccccddddccccddddccccdddd.jpg';
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		world.setSystem(new srcgooentitiessystemsTransformSystem_TransformSystemjs());
-		world.setSystem(new srcgooentitiessystemsCameraSystem_CameraSystemjs());
-		world.setSystem(new srcgooentitiessystemsParticlesSystem_ParticlesSystemjs());
-		world.setSystem(new srcgooentitiessystemsBoundingUpdateSystem_BoundingUpdateSystemjs());
-		world.setSystem(new srcgooentitiessystemsLightingSystem_LightingSystemjs());
-		world.setSystem(new srcgooanimationpacksystemsAnimationSystem_AnimationSystemjs());
-		if (srcgoosoundAudioContext_AudioContextjsjs) {
-			world.setSystem(new srcgooentitiessystemsSoundSystem_SoundSystemjs());
+		var world = new _World.World();
+		world.setSystem(new _TransformSystem.TransformSystem());
+		world.setSystem(new _CameraSystem.CameraSystem());
+		world.setSystem(new _ParticlesSystem.ParticlesSystem());
+		world.setSystem(new _BoundingUpdateSystem.BoundingUpdateSystem());
+		world.setSystem(new _LightingSystem.LightingSystem());
+		world.setSystem(new _AnimationSystem.AnimationSystem());
+		if (_AudioContext.AudioContextjs) {
+			world.setSystem(new _SoundSystem.SoundSystem());
 		}
 
-		world.setSystem(new srcgooentitiessystemsRenderSystem_RenderSystemjs());
+		world.setSystem(new _RenderSystem.RenderSystem());
 
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './'
 		});
@@ -42,12 +57,12 @@ describe('DynamicLoader', function () {
 
 	it('loads bundle', function (done) {
 		// Create a bundlewrapper to preload and skip ajax
-		var config = testunitloadersConfigs_Configsjs.entity();
-		var bundleRef = testunitloadersConfigs_Configsjs.randomRef('bundle');
+		var config = _Configs.Configs.entity();
+		var bundleRef = _Configs.Configs.randomRef('bundle');
 
-		loader.update(bundleRef, testunitloadersConfigs_Configsjs.get());
+		loader.update(bundleRef, _Configs.Configs.get());
 		// Load bundle
-		loader.load(bundleRef).then(function (/* bundle */) {
+		loader.load(bundleRef).then(function () /* bundle */{
 			var keys = Object.keys(loader._ajax._cache); // this needs to change when _cache becomes a map
 
 			expect(keys).toContain(config.id);
@@ -60,9 +75,9 @@ describe('DynamicLoader', function () {
 	});
 
 	it('clears the engine', function (done) {
-		var config = testunitloadersConfigs_Configsjs.project(true);
+		var config = _Configs.Configs.project(true);
 		var world = loader._world;
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function () {
 			world.process();
 			// We have some entities
@@ -111,14 +126,14 @@ describe('DynamicLoader', function () {
 	it('preloads all binaries in json structure', function (done) {
 		var entities = [];
 		for (var i = 0; i < 4; i++) {
-			entities[i] = testunitloadersConfigs_Configsjs.entity(['transform', 'meshData']);
+			entities[i] = _Configs.Configs.entity(['transform', 'meshData']);
 			if (i > 0) {
-				testunitloadersConfigs_Configsjs.attachChild(entities[i - 1], entities[i]);
+				_Configs.Configs.attachChild(entities[i - 1], entities[i]);
 			}
 		}
 
-		var bundleRef = testunitloadersConfigs_Configsjs.randomRef('bundle');
-		loader.update(bundleRef, testunitloadersConfigs_Configsjs.get());
+		var bundleRef = _Configs.Configs.randomRef('bundle');
+		loader.update(bundleRef, _Configs.Configs.get());
 
 		var progress = jasmine.createSpy('progress');
 		loader.load(bundleRef).then(function () {
@@ -143,8 +158,7 @@ describe('DynamicLoader', function () {
 				bref: materialRef
 			};
 
-			expect(srcgooloadersDynamicLoader_DynamicLoaderjs._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 
 		it('gets individual references several levels deep', function () {
@@ -159,8 +173,7 @@ describe('DynamicLoader', function () {
 				}
 			};
 
-			expect(srcgooloadersDynamicLoader_DynamicLoaderjs._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 
 		it('gets packed references', function () {
@@ -171,8 +184,7 @@ describe('DynamicLoader', function () {
 				}
 			};
 
-			expect(srcgooloadersDynamicLoader_DynamicLoaderjs._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 
 		it('ignores thumbnailRef', function () {
@@ -182,8 +194,7 @@ describe('DynamicLoader', function () {
 				thumbnailRef: imageRef
 			};
 
-			expect(srcgooloadersDynamicLoader_DynamicLoaderjs._getRefsFromConfig(config))
-				.toEqual([entityRef, materialRef]);
+			expect(_DynamicLoader.DynamicLoader._getRefsFromConfig(config)).toEqual([entityRef, materialRef]);
 		});
 	});
 });

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var LogicNodes_LogicNodes = LogicNodes;
 function LogicNodes() {}
 
@@ -45,4 +50,4 @@ LogicNodes.getAllTypes = function () {
  * Base class/module for all logic boxes
  * @private
  */
-export { LogicNodes_LogicNodes as LogicNodes };
+exports.LogicNodes = LogicNodes_LogicNodes;

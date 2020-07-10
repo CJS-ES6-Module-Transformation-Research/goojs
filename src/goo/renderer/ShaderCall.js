@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var ShaderCall_ShaderCall = ShaderCall;
 function ShaderCall(context, uniform, type) {
 	this.context = context;
@@ -368,4 +373,4 @@ ShaderCall.prototype.uniformMatrix4fv = function (matrix, transpose) {
 /**
  * Makes sure shader calls are not done when already set
  */
-export { ShaderCall_ShaderCall as ShaderCall };
+exports.ShaderCall = ShaderCall_ShaderCall;

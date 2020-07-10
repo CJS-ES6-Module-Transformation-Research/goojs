@@ -1,16 +1,21 @@
-import { Matrix2 as Matrix2_Matrix2js } from "./Matrix2";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+"use strict";
 
-var Matrix2x2 = utilObjectUtils_ObjectUtilsjs.warnOnce(
-	'Matrix2x2 has been renamed to Matrix2.',
-	function () {
-		Matrix2_Matrix2js.apply(this, arguments);
-	}
-);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Matrix2x2 = undefined;
 
-Matrix2x2.prototype = Object.create(Matrix2_Matrix2js.prototype);
+var _Matrix = require("./Matrix2");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var Matrix2x2 = _ObjectUtils.ObjectUtils.warnOnce('Matrix2x2 has been renamed to Matrix2.', function () {
+	_Matrix.Matrix2.apply(this, arguments);
+});
+
+Matrix2x2.prototype = Object.create(_Matrix.Matrix2.prototype);
 Matrix2x2.prototype.constructor = Matrix2x2;
-for (var x in Matrix2_Matrix2js) {}
+for (var x in _Matrix.Matrix2) {}
 
-var Matrix2x2_x = Matrix2_Matrix2js[x];
-export { Matrix2x2 };
+var Matrix2x2_x = _Matrix.Matrix2[x];
+exports.Matrix2x2 = Matrix2x2;

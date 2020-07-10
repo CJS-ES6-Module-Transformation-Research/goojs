@@ -1,48 +1,69 @@
-import {     AxisAlignedCamControlScript as AxisAlignedCamControlScript_AxisAlignedCamControlScript, } from "./AxisAlignedCamControlScript";
-import { BasicControlScript as BasicControlScript_BasicControlScript } from "./BasicControlScript";
-import { ButtonScript as ButtonScript_ButtonScript } from "./ButtonScript";
-import { CannonPickScript as CannonPickScript_CannonPickScript } from "./CannonPickScript";
-import { FlyControlScript as FlyControlScript_FlyControlScript } from "./FlyControlScript";
-import {     GroundBoundMovementScript as GroundBoundMovementScript_GroundBoundMovementScript, } from "./GroundBoundMovementScript";
-import { HeightMapBoundingScript as HeightMapBoundingScript_HeightMapBoundingScript } from "./HeightMapBoundingScript";
-import { LensFlareScript as LensFlareScript_LensFlareScript } from "./LensFlareScript";
-import { MouseLookControlScript as MouseLookControlScript_MouseLookControlScript } from "./MouseLookControlScript";
-import { OrbitNPan as OrbitNPanControlScript_OrbitNPan } from "./OrbitNPanControlScript";
-import { PanCamScript as PanCamScript_PanCamScript } from "./PanCamScript";
-import { PickAndRotateScript as PickAndRotateScript_PickAndRotateScript } from "./PickAndRotateScript";
-import { PolyBoundingScript as PolyBoundingScript_PolyBoundingScript } from "./PolyBoundingScript";
-import { RotationScript as RotationScript_RotationScript } from "./RotationScript";
-import { ScriptComponentHandler as ScriptComponentHandler_ScriptComponentHandler } from "./ScriptComponentHandler";
-import { ScriptHandler as ScriptHandler_ScriptHandler } from "./ScriptHandler";
-import {     SparseHeightMapBoundingScript as SparseHeightMapBoundingScript_SparseHeightMapBoundingScript, } from "./SparseHeightMapBoundingScript";
-import { WasdControlScript as WasdControlScript_WasdControlScript } from "./WasdControlScript";
-import {     WorldFittedTerrainScript as WorldFittedTerrainScript_WorldFittedTerrainScript, } from "./WorldFittedTerrainScript";
+"use strict";
+
+var _AxisAlignedCamControlScript = require("./AxisAlignedCamControlScript");
+
+var _BasicControlScript = require("./BasicControlScript");
+
+var _ButtonScript = require("./ButtonScript");
+
+var _CannonPickScript = require("./CannonPickScript");
+
+var _FlyControlScript = require("./FlyControlScript");
+
+var _GroundBoundMovementScript = require("./GroundBoundMovementScript");
+
+var _HeightMapBoundingScript = require("./HeightMapBoundingScript");
+
+var _LensFlareScript = require("./LensFlareScript");
+
+var _MouseLookControlScript = require("./MouseLookControlScript");
+
+var _OrbitNPanControlScript = require("./OrbitNPanControlScript");
+
+var _PanCamScript = require("./PanCamScript");
+
+var _PickAndRotateScript = require("./PickAndRotateScript");
+
+var _PolyBoundingScript = require("./PolyBoundingScript");
+
+var _RotationScript = require("./RotationScript");
+
+var _ScriptComponentHandler = require("./ScriptComponentHandler");
+
+var _ScriptHandler = require("./ScriptHandler");
+
+var _SparseHeightMapBoundingScript = require("./SparseHeightMapBoundingScript");
+
+var _WasdControlScript = require("./WasdControlScript");
+
+var _WorldFittedTerrainScript = require("./WorldFittedTerrainScript");
+
 var indexjs;
 indexjs = {
-	AxisAlignedCamControlScript: AxisAlignedCamControlScript_AxisAlignedCamControlScript,
-	BasicControlScript: BasicControlScript_BasicControlScript,
-	ButtonScript: ButtonScript_ButtonScript,
-	CannonPickScript: CannonPickScript_CannonPickScript,
-	FlyControlScript: FlyControlScript_FlyControlScript,
-	GroundBoundMovementScript: GroundBoundMovementScript_GroundBoundMovementScript,
-	HeightMapBoundingScript: HeightMapBoundingScript_HeightMapBoundingScript,
-	LensFlareScript: LensFlareScript_LensFlareScript,
-	MouseLookControlScript: MouseLookControlScript_MouseLookControlScript,
-	OrbitNPanControlScript: OrbitNPanControlScript_OrbitNPan,
-	PanCamScript: PanCamScript_PanCamScript,
-	PickAndRotateScript: PickAndRotateScript_PickAndRotateScript,
-	PolyBoundingScript: PolyBoundingScript_PolyBoundingScript,
-	RotationScript: RotationScript_RotationScript,
-	ScriptComponentHandler: ScriptComponentHandler_ScriptComponentHandler,
-	ScriptHandler: ScriptHandler_ScriptHandler,
+	AxisAlignedCamControlScript: _AxisAlignedCamControlScript.AxisAlignedCamControlScript,
+	BasicControlScript: _BasicControlScript.BasicControlScript,
+	ButtonScript: _ButtonScript.ButtonScript,
+	CannonPickScript: _CannonPickScript.CannonPickScript,
+	FlyControlScript: _FlyControlScript.FlyControlScript,
+	GroundBoundMovementScript: _GroundBoundMovementScript.GroundBoundMovementScript,
+	HeightMapBoundingScript: _HeightMapBoundingScript.HeightMapBoundingScript,
+	LensFlareScript: _LensFlareScript.LensFlareScript,
+	MouseLookControlScript: _MouseLookControlScript.MouseLookControlScript,
+	OrbitNPanControlScript: _OrbitNPanControlScript.OrbitNPan,
+	PanCamScript: _PanCamScript.PanCamScript,
+	PickAndRotateScript: _PickAndRotateScript.PickAndRotateScript,
+	PolyBoundingScript: _PolyBoundingScript.PolyBoundingScript,
+	RotationScript: _RotationScript.RotationScript,
+	ScriptComponentHandler: _ScriptComponentHandler.ScriptComponentHandler,
+	ScriptHandler: _ScriptHandler.ScriptHandler,
 	ScriptHandlers: {},
 	ScriptRegister: {},
-	SparseHeightMapBoundingScript: SparseHeightMapBoundingScript_SparseHeightMapBoundingScript,
-	WasdControlScript: WasdControlScript_WasdControlScript,
-	WorldFittedTerrainScript: WorldFittedTerrainScript_WorldFittedTerrainScript
+	SparseHeightMapBoundingScript: _SparseHeightMapBoundingScript.SparseHeightMapBoundingScript,
+	WasdControlScript: _WasdControlScript.WasdControlScript,
+	WorldFittedTerrainScript: _WorldFittedTerrainScript.WorldFittedTerrainScript
 };
 
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

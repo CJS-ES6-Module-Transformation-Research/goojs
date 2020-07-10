@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var Rc4Random_Rc4Random = Rc4Random;
 function Rc4Random(seed) {
 	var keySchedule = [];
@@ -45,4 +50,4 @@ function Rc4Random(seed) {
 /**
  * Rc4 random generator with seeding
  */
-export { Rc4Random_Rc4Random as Rc4Random };
+exports.Rc4Random = Rc4Random_Rc4Random;
