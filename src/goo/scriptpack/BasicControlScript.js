@@ -1,13 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var Matrix3 = require('../math/Matrix3');
-
-/**
- * Make an entity controllable via mouse and keyboard. WASD keys move the entity towards the back, left,
- * front and right respectively. Shift causes speed to drop to a tenth. R and F move it up or down. Q and E roll it
- * towards the left or right. The arrow keys cause the entity to rotate, as does dragging with the mouse.
- *
- * @param {Element} domElement Element to add mouse/key listeners to
- */
+var BasicControlScript_BasicControlScript = BasicControlScript;
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { Matrix3 as mathMatrix3_Matrix3js } from "../math/Matrix3";
 function BasicControlScript(properties) {
 	properties = properties || {};
 	this.domElement = properties.domElement === undefined ? null : properties.domElement.domElement || properties.domElement;
@@ -41,11 +34,11 @@ function BasicControlScript(properties) {
 		rollLeft: 0,
 		rollRight: 0
 	};
-	this.moveVector = new Vector3(0, 0, 0);
-	this.rotationVector = new Vector3(0, 0, 0);
-	this.multiplier = new Vector3(1, 1, 1);
-	this.rotationMatrix = new Matrix3();
-	this.tmpVec = new Vector3();
+	this.moveVector = new mathVector3_Vector3js(0, 0, 0);
+	this.rotationVector = new mathVector3_Vector3js(0, 0, 0);
+	this.multiplier = new mathVector3_Vector3js(1, 1, 1);
+	this.rotationMatrix = new mathMatrix3_Matrix3js();
+	this.tmpVec = new mathVector3_Vector3js();
 
 	this.handleEvent = function (event) {
 		if (typeof this[event.type] === 'function') {
@@ -288,7 +281,7 @@ BasicControlScript.prototype.run = function (entity, tpf, env) {
 	var moveMult = delta * this.movementSpeed * this.movementSpeedMultiplier;
 	var rotMult = delta * this.rollSpeed * this.movementSpeedMultiplier;
 
-	if (!this.moveVector.equals(Vector3.ZERO) || !this.rotationVector.equals(Vector3.ZERO) || this.mouseStatus > 0) {
+	if (!this.moveVector.equals(mathVector3_Vector3js.ZERO) || !this.rotationVector.equals(mathVector3_Vector3js.ZERO) || this.mouseStatus > 0) {
 		transform.translation.x += this.moveVector.x * moveMult;
 		transform.translation.y += this.moveVector.y * moveMult;
 		transform.translation.z += this.moveVector.z * moveMult;
@@ -308,4 +301,11 @@ BasicControlScript.prototype.run = function (entity, tpf, env) {
 	}
 };
 
-module.exports = BasicControlScript;
+/**
+ * Make an entity controllable via mouse and keyboard. WASD keys move the entity towards the back, left,
+ * front and right respectively. Shift causes speed to drop to a tenth. R and F move it up or down. Q and E roll it
+ * towards the left or right. The arrow keys cause the entity to rotate, as does dragging with the mouse.
+ *
+ * @param {Element} domElement Element to add mouse/key listeners to
+ */
+export { BasicControlScript_BasicControlScript as BasicControlScript };

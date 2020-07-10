@@ -1,16 +1,12 @@
-var MeshData = require('../../../renderer/MeshData');
-
-/**
- * A wireframe mesh indicating the position and orientation of a BoxCollider.
- * @extends MeshData
- */
+var PhysicsBoxDebugShape_PhysicsBoxDebugShape = PhysicsBoxDebugShape;
+import { MeshData as rendererMeshData_MeshDatajs } from "../../../renderer/MeshData";
 function PhysicsBoxDebugShape() {
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	MeshData.call(this, attributeMap, 3 * 8, 2 * 4 * 3);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]);
+	rendererMeshData_MeshDatajs.call(this, attributeMap, 3 * 8, 2 * 4 * 3);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsBoxDebugShape.prototype = Object.create(MeshData.prototype);
+PhysicsBoxDebugShape.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
 PhysicsBoxDebugShape.prototype.constructor = PhysicsBoxDebugShape;
 
 /**
@@ -55,11 +51,15 @@ PhysicsBoxDebugShape.prototype.rebuild = function () {
 		3, 7
 	);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
 
 	this.getIndexBuffer().set(indices);
 
 	return this;
 };
 
-module.exports = PhysicsBoxDebugShape;
+/**
+ * A wireframe mesh indicating the position and orientation of a BoxCollider.
+ * @extends MeshData
+ */
+export { PhysicsBoxDebugShape_PhysicsBoxDebugShape as PhysicsBoxDebugShape };

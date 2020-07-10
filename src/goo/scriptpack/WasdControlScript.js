@@ -1,5 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var ScriptUtils = require('../scripts/ScriptUtils');
+var WasdControlScript_WasdControlScript = WasdControlScript;
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { ScriptUtils as scriptsScriptUtils_ScriptUtilsjs } from "../scripts/ScriptUtils";
 
 function WasdControlScript() {
 	var entity, transformComponent, transform;
@@ -8,12 +9,12 @@ function WasdControlScript() {
 	var moveState;
 	var bypass = false;
 
-	var fwdVector = new Vector3(0, 0, -1);
-	var leftVector = new Vector3(-1, 0, 0);
+	var fwdVector = new mathVector3_Vector3js(0, 0, -1);
+	var leftVector = new mathVector3_Vector3js(-1, 0, 0);
 
-	var moveVector = new Vector3();
-	var calcVector = new Vector3();
-	var translation = new Vector3();
+	var moveVector = new mathVector3_Vector3js();
+	var calcVector = new mathVector3_Vector3js();
+	var translation = new mathVector3_Vector3js();
 
 	// ---
 	function updateMovementVector() {
@@ -24,7 +25,7 @@ function WasdControlScript() {
 	function keyDown(event) {
 		if (event.altKey) {	return;	}
 
-		switch (ScriptUtils.keyForCode(event.keyCode)) {
+		switch (scriptsScriptUtils_ScriptUtilsjs.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = true;
 				break;
@@ -52,7 +53,7 @@ function WasdControlScript() {
 	function keyUp(event) {
 		if (event.altKey) {	return;	}
 
-		switch (ScriptUtils.keyForCode(event.keyCode)) {
+		switch (scriptsScriptUtils_ScriptUtilsjs.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = false;
 				break;
@@ -102,7 +103,7 @@ function WasdControlScript() {
 	}
 
 	function update(parameters, environment) {
-		if (!bypass && moveVector.equals(Vector3.ZERO)) {
+		if (!bypass && moveVector.equals(mathVector3_Vector3js.ZERO)) {
 			return;
 		}
 
@@ -211,4 +212,4 @@ WasdControlScript.externals = {
 	}]
 };
 
-module.exports = WasdControlScript;
+export { WasdControlScript_WasdControlScript as WasdControlScript };

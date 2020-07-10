@@ -1,3 +1,4 @@
+var ObjectUtils_ObjectUtils = ObjectUtils;
 function ObjectUtils() {}
 
 /**
@@ -339,4 +340,4 @@ ObjectUtils.getExtension = function (value) {
 	return '';
 };
 
-module.exports = ObjectUtils;
+export { ObjectUtils_ObjectUtils as ObjectUtils };

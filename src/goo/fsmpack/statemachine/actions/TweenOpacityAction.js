@@ -1,13 +1,13 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Easing = require('../../../util/Easing');
-var MathUtils = require('../../../math/MathUtils');
+var TweenOpacityAction_TweenOpacityAction = TweenOpacityAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../../../math/MathUtils";
 
-function TweenOpacityAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TweenOpacityAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 	this.completed = false;
 }
 
-TweenOpacityAction.prototype = Object.create(Action.prototype);
+TweenOpacityAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 TweenOpacityAction.prototype.constructor = TweenOpacityAction;
 
 TweenOpacityAction.external = {
@@ -94,7 +94,7 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = Easing[this.easing1][this.easing2](t);
 
-	this.uniforms.opacity = MathUtils.lerp(fT, this.from, this.to);
+	this.uniforms.opacity = mathMathUtils_MathUtilsjs.lerp(fT, this.from, this.to);
 
 	if (t >= 1) {
 		fsm.send(this.transitions.complete);
@@ -102,4 +102,4 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenOpacityAction;
+export { TweenOpacityAction_TweenOpacityAction as TweenOpacityAction };

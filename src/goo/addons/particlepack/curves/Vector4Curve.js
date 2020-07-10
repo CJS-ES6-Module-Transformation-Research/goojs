@@ -1,34 +1,24 @@
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var Curve = require('../../../addons/particlepack/curves/Curve');
-var ObjectUtils = require('../../../util/ObjectUtils');
-
-/**
- * Three scalar curves. Can be converted to a vec4-valued expression in GLSL code.
- * @class
- * @constructor
- * @param {object} [options]
- * @param {Curve} [options.x]
- * @param {Curve} [options.y]
- * @param {Curve} [options.z]
- * @param {Curve} [options.w]
- */
+var Vector4Curve_Vector4Curve = Vector4Curve;
+import { ConstantCurve as addonsparticlepackcurvesConstantCurve_ConstantCurvejs } from "../../../addons/particlepack/curves/ConstantCurve";
+import { Curve as addonsparticlepackcurvesCurve_Curvejs } from "../../../addons/particlepack/curves/Curve";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../../util/ObjectUtils";
 function Vector4Curve(options) {
 	options = options || {};
 
-	options = ObjectUtils.clone(options);
+	options = utilObjectUtils_ObjectUtilsjs.clone(options);
 	options.type = 'vec4';
-	Curve.call(this, options);
+	addonsparticlepackcurvesCurve_Curvejs.call(this, options);
 
-	this.x = options.x ? options.x.clone() : new ConstantCurve();
-	this.y = options.y ? options.y.clone() : new ConstantCurve();
-	this.z = options.z ? options.z.clone() : new ConstantCurve();
-	this.w = options.w ? options.w.clone() : new ConstantCurve({ value: 1 });
+	this.x = options.x ? options.x.clone() : new addonsparticlepackcurvesConstantCurve_ConstantCurvejs();
+	this.y = options.y ? options.y.clone() : new addonsparticlepackcurvesConstantCurve_ConstantCurvejs();
+	this.z = options.z ? options.z.clone() : new addonsparticlepackcurvesConstantCurve_ConstantCurvejs();
+	this.w = options.w ? options.w.clone() : new addonsparticlepackcurvesConstantCurve_ConstantCurvejs({ value: 1 });
 
 	if (this.x.type !== 'float' || this.y.type !== 'float' || this.z.type !== 'float' || this.w.type !== 'float') {
 		throw new Error('Vector4Curve must have scalar components.');
 	}
 }
-Vector4Curve.prototype = Object.create(Curve.prototype);
+Vector4Curve.prototype = Object.create(addonsparticlepackcurvesCurve_Curvejs.prototype);
 Vector4Curve.prototype.constructor = Vector4Curve;
 
 Vector4Curve.prototype.toGLSL = function (timeVariableName, lerpValueVariableName) {
@@ -57,4 +47,14 @@ Vector4Curve.prototype.getVec4IntegralValueAt = function (t, lerpValue, store) {
 	);
 };
 
-module.exports = Vector4Curve;
+/**
+ * Three scalar curves. Can be converted to a vec4-valued expression in GLSL code.
+ * @class
+ * @constructor
+ * @param {object} [options]
+ * @param {Curve} [options.x]
+ * @param {Curve} [options.y]
+ * @param {Curve} [options.z]
+ * @param {Curve} [options.w]
+ */
+export { Vector4Curve_Vector4Curve as Vector4Curve };

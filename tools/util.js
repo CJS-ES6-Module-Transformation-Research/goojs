@@ -21,7 +21,12 @@ function stripEnding(ending, string) {
 	return string;
 }
 
-exports.isSafeIdentifier = isSafeIdentifier;
-exports.safenIdentifier = safenIdentifier;
-exports.extractModuleName = extractModuleName;
-exports.stripEnding = stripEnding;
+var isSafeIdentifier;
+
+isSafeIdentifier = isSafeIdentifier;
+var safenIdentifier;
+safenIdentifier = safenIdentifier;
+var extractModuleName;
+extractModuleName = extractModuleName;
+var stripEnding;
+stripEnding = stripEnding;

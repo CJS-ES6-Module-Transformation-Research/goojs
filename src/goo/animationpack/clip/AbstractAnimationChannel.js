@@ -1,13 +1,5 @@
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * Base class for animation channels. An animation channel describes a single element of an animation (such as the movement of a single
- *        joint, or the play back of a specific sound, etc.) These channels are grouped together in an {@link AnimationClip} to describe a full animation.
- * @param {string} channelName the name of our channel. This is immutable to this instance of the class.
- * @param {Array<number>} times our time indices. Copied into the channel.
- * @param {string} blendType the blendtype between transform keyframes of the channel. Defaults to AbstractAnimationChannel.BLENDTYPES.LINEAR
- * @private
- */
+var AbstractAnimationChannel_AbstractAnimationChannel = AbstractAnimationChannel;
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
 function AbstractAnimationChannel(channelName, times, blendType) {
 	this._blendType = blendType || AbstractAnimationChannel.BLENDTYPES.LINEAR;
 	this._channelName = channelName;
@@ -79,10 +71,10 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
 
 		switch (this._blendType) {
 			case AbstractAnimationChannel.BLENDTYPES.CUBIC:
-				progressPercent = MathUtils.scurve3(progressPercent);
+				progressPercent = mathMathUtils_MathUtilsjs.scurve3(progressPercent);
 				break;
 			case AbstractAnimationChannel.BLENDTYPES.QUINTIC:
-				progressPercent = MathUtils.scurve5(progressPercent);
+				progressPercent = mathMathUtils_MathUtilsjs.scurve5(progressPercent);
 				break;
 			default:
 		}
@@ -93,4 +85,12 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
 	}
 };
 
-module.exports = AbstractAnimationChannel;
+/**
+ * Base class for animation channels. An animation channel describes a single element of an animation (such as the movement of a single
+ *        joint, or the play back of a specific sound, etc.) These channels are grouped together in an {@link AnimationClip} to describe a full animation.
+ * @param {string} channelName the name of our channel. This is immutable to this instance of the class.
+ * @param {Array<number>} times our time indices. Copied into the channel.
+ * @param {string} blendType the blendtype between transform keyframes of the channel. Defaults to AbstractAnimationChannel.BLENDTYPES.LINEAR
+ * @private
+ */
+export { AbstractAnimationChannel_AbstractAnimationChannel as AbstractAnimationChannel };

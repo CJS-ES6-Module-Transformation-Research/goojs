@@ -1,23 +1,13 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var PromiseUtils = require('../../util/PromiseUtils');
-
-/**
- * Handler for loading json objects.
- *
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- *
- * @extends ConfigHandler
- * @private
- */
+var JsonHandler_JsonHandler = JsonHandler;
+import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
 function JsonHandler() {
-	ConfigHandler.apply(this, arguments);
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
 }
 
-JsonHandler.prototype = Object.create(ConfigHandler.prototype);
+JsonHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 JsonHandler.prototype.constructor = JsonHandler;
-ConfigHandler._registerClass('json', JsonHandler);
+loadershandlersConfigHandler_ConfigHandlerjs._registerClass('json', JsonHandler);
 
 /**
  * Adds/updates/removes a json data object.
@@ -29,7 +19,7 @@ ConfigHandler._registerClass('json', JsonHandler);
 JsonHandler.prototype._update = function (ref, config) {
 	if (!config) {
 		this._remove(ref);
-		return PromiseUtils.resolve();
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 
 	var data;
@@ -39,7 +29,17 @@ JsonHandler.prototype._update = function (ref, config) {
 		data = {};
 	}
 
-	return PromiseUtils.resolve(data)
+	return utilPromiseUtils_PromiseUtilsjs.resolve(data);
 };
 
-module.exports = JsonHandler;
+/**
+ * Handler for loading json objects.
+ *
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ *
+ * @extends ConfigHandler
+ * @private
+ */
+export { JsonHandler_JsonHandler as JsonHandler };

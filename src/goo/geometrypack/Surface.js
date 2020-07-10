@@ -1,26 +1,21 @@
-var MeshData = require('../renderer/MeshData');
-var MathUtils = require('../math/MathUtils');
-
-/**
- * A grid-like surface shape
- * @param {Array<number>} verts The vertices data array
- * @param {number} [verticesPerLine=2] The number of vertices
- */
+var Surface_Surface = Surface;
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
 function Surface(verts, vertsPerLine, verticallyClosed) {
 	this.verts = verts;
 	this.vertsPerLine = vertsPerLine || 2;
 	this.verticallyClosed = !!verticallyClosed;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION, rendererMeshData_MeshDatajs.NORMAL, rendererMeshData_MeshDatajs.TEXCOORD0]);
 
 	var nVerts = this.verts.length / 3;
 	var nLines = nVerts / this.vertsPerLine;
-	MeshData.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
+	rendererMeshData_MeshDatajs.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
 
 	this.rebuild();
 }
 
-Surface.prototype = Object.create(MeshData.prototype);
+Surface.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
 Surface.prototype.constructor = Surface;
 
 /**
@@ -28,7 +23,7 @@ Surface.prototype.constructor = Surface;
  * @returns {Surface} Self for chaining
  */
 Surface.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(this.verts);
 
 	var indices = [];
 
@@ -47,7 +42,7 @@ Surface.prototype.rebuild = function () {
 
 			indices.push(upLeft, downLeft, upRight, upRight, downLeft, downRight);
 
-			normals = MathUtils.getTriangleNormal(
+			normals = mathMathUtils_MathUtilsjs.getTriangleNormal(
 				this.verts[upLeft * 3 + 0],
 				this.verts[upLeft * 3 + 1],
 				this.verts[upLeft * 3 + 2],
@@ -68,7 +63,7 @@ Surface.prototype.rebuild = function () {
 			var downLeft = (i + 1) * this.vertsPerLine + (0 + 0);
 			var upRight = (i + 0) * this.vertsPerLine + (0 + 1);
 
-			normals = MathUtils.getTriangleNormal(
+			normals = mathMathUtils_MathUtilsjs.getTriangleNormal(
 				this.verts[upLeft * 3 + 0],
 				this.verts[upLeft * 3 + 1],
 				this.verts[upLeft * 3 + 2],
@@ -94,7 +89,7 @@ Surface.prototype.rebuild = function () {
 		var downLeft = (i + 1) * this.vertsPerLine + (j + 0);
 		var upRight = (i + 0) * this.vertsPerLine + (j + 1);
 
-		normals = MathUtils.getTriangleNormal(
+		normals = mathMathUtils_MathUtilsjs.getTriangleNormal(
 			this.verts[upLeft * 3 + 0],
 			this.verts[upLeft * 3 + 1],
 			this.verts[upLeft * 3 + 2],
@@ -112,7 +107,7 @@ Surface.prototype.rebuild = function () {
 
 	norms.push(normals[0], normals[1], normals[2]);
 
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.NORMAL).set(norms);
 	this.getIndexBuffer().set(indices);
 
 	// compute texture coordinates
@@ -127,7 +122,7 @@ Surface.prototype.rebuild = function () {
 		tex.push(x, y);
 	}
 
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0).set(tex);
 
 	return this;
 };
@@ -207,4 +202,9 @@ Surface.createTessellatedFlat = function (xSize, zSize, xCount, zCount) {
 	return new Surface(verts, xCount);
 };
 
-module.exports = Surface;
+/**
+ * A grid-like surface shape
+ * @param {Array<number>} verts The vertices data array
+ * @param {number} [verticesPerLine=2] The number of vertices
+ */
+export { Surface_Surface as Surface };
