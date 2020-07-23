@@ -1,10 +1,17 @@
-import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+'use strict';
 
-MeshConfigjs_MeshConfigjs = {
-	mesh: function () {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshConfigjs = undefined;
+
+var _ObjectUtil = require('../../../../src/goo/util/ObjectUtil');
+
+exports.MeshConfigjs = MeshConfigjs_MeshConfigjs = {
+	mesh: function mesh() {
 		var config = this.gooObject('mesh', 'Dummy');
 		var samples = 3;
-		srcgooutilObjectUtil_ObjectUtilsjs.extend(config, {
+		_ObjectUtil.ObjectUtils.extend(config, {
 			binaryRef: this.binary(128),
 			type: 'Mesh',
 			indexLengths: [samples],
@@ -30,4 +37,4 @@ MeshConfigjs_MeshConfigjs = {
 	}
 };
 var MeshConfigjs_MeshConfigjs;
-export { MeshConfigjs_MeshConfigjs as MeshConfigjs };
+exports.MeshConfigjs = MeshConfigjs_MeshConfigjs;

@@ -1,15 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeLightComponent = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 var LogicNodeLightComponent_LogicNodeLightComponent = LogicNodeLightComponent;
-import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
+
 function LogicNodeLightComponent() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeLightComponent.logicInterface;
 	this.type = 'LightComponent';
 }
 
-LogicNodeLightComponent.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeLightComponent.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeLightComponent.editorName = 'LightComponent';
 
 LogicNodeLightComponent.prototype.onConfigure = function (config) {
@@ -17,12 +29,12 @@ LogicNodeLightComponent.prototype.onConfigure = function (config) {
 };
 
 // Logic interface set-up
-LogicNodeLightComponent.logicInterface = new LogicInterface_LogicInterfacejs('LightComponent');
+LogicNodeLightComponent.logicInterface = new _LogicInterface.LogicInterface('LightComponent');
 LogicNodeLightComponent.inportIntensity = LogicNodeLightComponent.logicInterface.addInputProperty('Intensity', 'float');
 LogicNodeLightComponent.inportRange = LogicNodeLightComponent.logicInterface.addInputProperty('Range', 'float');
 
 LogicNodeLightComponent.prototype.onInputChanged = function (instDesc, propID, value) {
-	var entity = LogicLayer_LogicLayerjs.resolveEntityRef(instDesc, this.entityRef);
+	var entity = _LogicLayer.LogicLayer.resolveEntityRef(instDesc, this.entityRef);
 	if (propID === LogicNodeLightComponent.inportIntensity) {
 		entity.lightComponent.light.intensity = value;
 	} else if (propID === LogicNodeLightComponent.inportRange) {
@@ -30,11 +42,11 @@ LogicNodeLightComponent.prototype.onInputChanged = function (instDesc, propID, v
 	}
 };
 
-LogicNodeLightComponent.logicInterface.addConfigEntry({ name: 'entityRef', type: 'entityRef', label: 'Entity'});
-LogicNodes_LogicNodesjs.registerType('LightComponent', LogicNodeLightComponent);
+LogicNodeLightComponent.logicInterface.addConfigEntry({ name: 'entityRef', type: 'entityRef', label: 'Entity' });
+_LogicNodes.LogicNodes.registerType('LightComponent', LogicNodeLightComponent);
 
 /**
  * Logic node connecting to the LightComponent of an entity.
  * @private
  */
-export { LogicNodeLightComponent_LogicNodeLightComponent as LogicNodeLightComponent };
+exports.LogicNodeLightComponent = LogicNodeLightComponent_LogicNodeLightComponent;

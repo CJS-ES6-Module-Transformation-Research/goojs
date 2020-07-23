@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CanvasUtils = undefined;
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var CanvasUtils_CanvasUtils = CanvasUtils;
-import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+
 function CanvasUtils() {}
 
 // REVIEW: add documentation about what happens if the image is corrupt
@@ -52,7 +62,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			return callback();
 		}
 
-		utilObjectUtils_ObjectUtilsjs.defaults(options, {
+		_ObjectUtils.ObjectUtils.defaults(options, {
 			// Canvas size
 			width: img.width,
 			height: img.height,
@@ -68,7 +78,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			destY: 0
 		});
 
-		utilObjectUtils_ObjectUtilsjs.defaults(options, {
+		_ObjectUtils.ObjectUtils.defaults(options, {
 			destWidth: options.width,
 			destHeight: options.height
 		});
@@ -90,13 +100,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 		canvas.height = options.height;
 
 		// Render to canvas
-		context.drawImage(
-			img,
-			options.sourceX, options.sourceY,
-			options.sourceWidth, options.sourceHeight,
-			options.destX, options.destY,
-			options.destWidth, options.destHeight
-		);
+		context.drawImage(img, options.sourceX, options.sourceY, options.sourceWidth, options.sourceHeight, options.destX, options.destY, options.destWidth, options.destHeight);
 
 		callback(canvas);
 	};
@@ -134,7 +138,7 @@ CanvasUtils.renderSvgToCanvas = function (svgSource, options, callback) {
 CanvasUtils.getMatrixFromCanvas = function (canvas) {
 	var context = canvas.getContext('2d');
 
-	var getAt = function (x, y) {
+	var getAt = function getAt(x, y) {
 		if (x < 0 || x > canvas.width || y < 0 || y > canvas.height) {
 			return 0;
 		} else {
@@ -166,7 +170,7 @@ CanvasUtils.svgDataToImage = function (data) {
 	var img = new Image();
 	img.src = DOMURL.createObjectURL(svg);
 
-	return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
+	return _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
 		img.onload = function () {
 			resolve(img);
 		};
@@ -181,4 +185,4 @@ CanvasUtils.svgDataToImage = function (data) {
 /**
  * Provides useful canvas-related methods
  */
-export { CanvasUtils_CanvasUtils as CanvasUtils };
+exports.CanvasUtils = CanvasUtils_CanvasUtils;

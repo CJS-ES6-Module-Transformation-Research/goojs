@@ -1,37 +1,51 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeApplyMatrix = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
+var _Vector = require("../../math/Vector3");
+
+var _Matrix = require("../../math/Matrix3");
+
 var LogicNodeApplyMatrix_LogicNodeApplyMatrix = LogicNodeApplyMatrix;
-import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
-import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
-import { Matrix3 as mathMatrix3_Matrix3js } from "../../math/Matrix3";
+
 function LogicNodeApplyMatrix() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeApplyMatrix.logicInterface;
 	this.type = 'LogicNodeApplyMatrix';
-	this.vec = new mathVector3_Vector3js();
+	this.vec = new _Vector.Vector3();
 }
 
-LogicNodeApplyMatrix.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeApplyMatrix.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeApplyMatrix.editorName = 'ApplyMatrix';
 
 LogicNodeApplyMatrix.prototype.onInputChanged = function (instDesc) {
-	var vec = LogicLayer_LogicLayerjs.readPort(instDesc, LogicNodeApplyMatrix.inportX);
-	var mat = LogicLayer_LogicLayerjs.readPort(instDesc, LogicNodeApplyMatrix.inportY);
+	var vec = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeApplyMatrix.inportX);
+	var mat = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeApplyMatrix.inportY);
 	this.vec.copy(vec);
 	mat.applyPost(this.vec);
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeApplyMatrix.outportProduct, this.vec);
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeApplyMatrix.outportProduct, this.vec);
 };
 
-LogicNodeApplyMatrix.logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeApplyMatrix.logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeApplyMatrix.outportProduct = LogicNodeApplyMatrix.logicInterface.addOutputProperty('product', 'Vector3');
-LogicNodeApplyMatrix.inportX = LogicNodeApplyMatrix.logicInterface.addInputProperty('vec', 'Vector3', new mathVector3_Vector3js());
-LogicNodeApplyMatrix.inportY = LogicNodeApplyMatrix.logicInterface.addInputProperty('mat', 'Matrix3', new mathMatrix3_Matrix3js());
+LogicNodeApplyMatrix.inportX = LogicNodeApplyMatrix.logicInterface.addInputProperty('vec', 'Vector3', new _Vector.Vector3());
+LogicNodeApplyMatrix.inportY = LogicNodeApplyMatrix.logicInterface.addInputProperty('mat', 'Matrix3', new _Matrix.Matrix3());
 
-LogicNodes_LogicNodesjs.registerType('LogicNodeApplyMatrix', LogicNodeApplyMatrix);
+_LogicNodes.LogicNodes.registerType('LogicNodeApplyMatrix', LogicNodeApplyMatrix);
 
 /**
  * Logic node for vector < matrix computation
  * @private
  */
-export { LogicNodeApplyMatrix_LogicNodeApplyMatrix as LogicNodeApplyMatrix };
+exports.LogicNodeApplyMatrix = LogicNodeApplyMatrix_LogicNodeApplyMatrix;

@@ -1,5 +1,14 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScriptUtils = undefined;
+
+var _ObjectUtils = require('../util/ObjectUtils');
+
 var ScriptUtils_ScriptUtils = ScriptUtils;
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+
 
 function ScriptUtils() {}
 
@@ -22,31 +31,22 @@ ScriptUtils.DEFAULTS_BY_TYPE = {
 	'text': null
 };
 
-ScriptUtils.REF_TYPES = [
-	'animation',
-	'camera',
-	'entity',
-	'image',
-	'sound',
-	'texture',
-	'json',
-	'text'
-];
+ScriptUtils.REF_TYPES = ['animation', 'camera', 'entity', 'image', 'sound', 'texture', 'json', 'text'];
 
 ScriptUtils.isRefType = function (type) {
-	return utilObjectUtils_ObjectUtilsjs.contains(ScriptUtils.REF_TYPES, type);
+	return _ObjectUtils.ObjectUtils.contains(ScriptUtils.REF_TYPES, type);
 };
 
-ScriptUtils.TYPE_VALIDATORS = (function () {
-	var isVec = function (length) {
+ScriptUtils.TYPE_VALIDATORS = function () {
+	var isVec = function isVec(length) {
 		return function (data) {
 			return Array.isArray(data) && data.length === length;
 		};
 	};
 
-	var isRef = function (type) {
+	var isRef = function isRef(type) {
 		function isDirectRef(data) {
-			return utilObjectUtils_ObjectUtilsjs.isString(data) && utilObjectUtils_ObjectUtilsjs.getExtension(data) === type;
+			return _ObjectUtils.ObjectUtils.isString(data) && _ObjectUtils.ObjectUtils.getExtension(data) === type;
 		}
 
 		// Checks for references passed like:
@@ -64,12 +64,12 @@ ScriptUtils.TYPE_VALIDATORS = (function () {
 	};
 
 	return {
-		'array': utilObjectUtils_ObjectUtilsjs.isArray,
-		'float': utilObjectUtils_ObjectUtilsjs.isNumber,
-		'number': utilObjectUtils_ObjectUtilsjs.isNumber,
-		'string': utilObjectUtils_ObjectUtilsjs.isString,
-		'boolean': utilObjectUtils_ObjectUtilsjs.isBoolean,
-		'int': utilObjectUtils_ObjectUtilsjs.isInteger,
+		'array': _ObjectUtils.ObjectUtils.isArray,
+		'float': _ObjectUtils.ObjectUtils.isNumber,
+		'number': _ObjectUtils.ObjectUtils.isNumber,
+		'string': _ObjectUtils.ObjectUtils.isString,
+		'boolean': _ObjectUtils.ObjectUtils.isBoolean,
+		'int': _ObjectUtils.ObjectUtils.isInteger,
 		'vec2': isVec(2),
 		'vec3': isVec(3),
 		'vec4': isVec(4),
@@ -82,28 +82,13 @@ ScriptUtils.TYPE_VALIDATORS = (function () {
 		'json': isRef('json'),
 		'text': isRef('text')
 	};
-})();
+}();
 
 // The types that are allowed for script parameters.
-ScriptUtils.PARAMETER_TYPES = [
-	'string',
-	'int',
-	'float',
-	'vec2',
-	'vec3',
-	'vec4',
-	'boolean',
-	'texture',
-	'sound',
-	'camera',
-	'entity',
-	'animation',
-	'json',
-	'text'
-];
+ScriptUtils.PARAMETER_TYPES = ['string', 'int', 'float', 'vec2', 'vec3', 'vec4', 'boolean', 'texture', 'sound', 'camera', 'entity', 'animation', 'json', 'text'];
 
 // Specifies which controls can be used with each type.
-ScriptUtils.PARAMETER_CONTROLS = (function () {
+ScriptUtils.PARAMETER_CONTROLS = function () {
 	var typeControls = {
 		'string': ['key'],
 		'int': ['spinner', 'slider', 'jointSelector'],
@@ -128,41 +113,30 @@ ScriptUtils.PARAMETER_CONTROLS = (function () {
 	}
 
 	return typeControls;
-})();
+}();
 
 // Types used to validate the properties of a script parameter config.
-ScriptUtils.PROPERTY_TYPES = [
-	{
-		prop: 'key',
-		type: 'string',
-		mustBeDefined: true,
-		minLength: 1
-	},
-	{
-		prop: 'type',
-		type: 'string',
-		mustBeDefined: true,
-		minLength: 1,
-		getAllowedValues: function () {
-			return ScriptUtils.PARAMETER_TYPES;
-		}
-	},
-	{
-		prop: 'control',
-		type: 'string',
-		getAllowedValues: function (parameter) {
-			// Allowed controls depend on the parameter type.
-			return ScriptUtils.PARAMETER_CONTROLS[parameter.type];
-		}
-	},
-	{ prop: 'name', type: 'string' },
-	{ prop: 'min', type: 'number' },
-	{ prop: 'max', type: 'number' },
-	{ prop: 'scale', type: 'number' },
-	{ prop: 'decimals', type: 'number' },
-	{ prop: 'precision', type: 'number' },
-	{ prop: 'exponential', type: 'boolean' }
-];
+ScriptUtils.PROPERTY_TYPES = [{
+	prop: 'key',
+	type: 'string',
+	mustBeDefined: true,
+	minLength: 1
+}, {
+	prop: 'type',
+	type: 'string',
+	mustBeDefined: true,
+	minLength: 1,
+	getAllowedValues: function getAllowedValues() {
+		return ScriptUtils.PARAMETER_TYPES;
+	}
+}, {
+	prop: 'control',
+	type: 'string',
+	getAllowedValues: function getAllowedValues(parameter) {
+		// Allowed controls depend on the parameter type.
+		return ScriptUtils.PARAMETER_CONTROLS[parameter.type];
+	}
+}, { prop: 'name', type: 'string' }, { prop: 'min', type: 'number' }, { prop: 'max', type: 'number' }, { prop: 'scale', type: 'number' }, { prop: 'decimals', type: 'number' }, { prop: 'precision', type: 'number' }, { prop: 'exponential', type: 'boolean' }];
 
 /**
  * Fill a passed parameters object with defaults from spec
@@ -171,7 +145,9 @@ ScriptUtils.PROPERTY_TYPES = [
  * @param specs {Array<{key, name, default, description}>}
  */
 ScriptUtils.fillDefaultValues = function (parameters, specs) {
-	if (!(specs instanceof Array)) { return; }
+	if (!(specs instanceof Array)) {
+		return;
+	}
 
 	var keys = [];
 	specs.forEach(function (spec) {
@@ -180,12 +156,12 @@ ScriptUtils.fillDefaultValues = function (parameters, specs) {
 		}
 
 		if (spec.default === null || spec.default === undefined) {
-			spec.default = utilObjectUtils_ObjectUtilsjs.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[spec.type]);
+			spec.default = _ObjectUtils.ObjectUtils.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[spec.type]);
 		}
 
 		keys.push(spec.key);
 		if (typeof parameters[spec.key] === 'undefined') {
-			parameters[spec.key] = utilObjectUtils_ObjectUtilsjs.clone(spec.default);
+			parameters[spec.key] = _ObjectUtils.ObjectUtils.clone(spec.default);
 		}
 	});
 
@@ -203,16 +179,22 @@ ScriptUtils.fillDefaultValues = function (parameters, specs) {
  * @param specs {Array<{key, name, default, description}>}
  */
 ScriptUtils.fillDefaultNames = function (specs) {
-	if (!(specs instanceof Array)) { return; }
+	if (!(specs instanceof Array)) {
+		return;
+	}
 
 	function getNameFromKey(key) {
-		if (typeof key !== 'string' || key.length === 0) { return ''; }
+		if (typeof key !== 'string' || key.length === 0) {
+			return '';
+		}
 		var capitalisedKey = key[0].toUpperCase() + key.slice(1);
 		return capitalisedKey.replace(/(.)([A-Z])/g, '$1 $2');
 	}
 
 	specs.forEach(function (spec) {
-		if (!spec) { return; }
+		if (!spec) {
+			return;
+		}
 		if (typeof spec.name === 'undefined') {
 			spec.name = getNameFromKey(spec.key);
 		}
@@ -346,7 +328,7 @@ ScriptUtils._keys = {
 	'Backslash': 220
 };
 
-ScriptUtils._keyInverse = (function (assoc) {
+ScriptUtils._keyInverse = function (assoc) {
 	var inverseAssoc = {};
 
 	var keys = Object.keys(assoc);
@@ -354,10 +336,10 @@ ScriptUtils._keyInverse = (function (assoc) {
 		inverseAssoc[assoc[keys[i]]] = keys[i];
 	}
 	return inverseAssoc;
-}(ScriptUtils._keys));
+}(ScriptUtils._keys);
 
 ScriptUtils.keyForCode = function (code) {
 	return ScriptUtils._keyInverse[code];
 };
 
-export { ScriptUtils_ScriptUtils as ScriptUtils };
+exports.ScriptUtils = ScriptUtils_ScriptUtils;

@@ -1,12 +1,23 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _TextureGrid = require("../../shapes/TextureGrid");
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
 var TextSystem_TextSystem = TextSystem;
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
-import { TextureGrid as shapesTextureGrid_TextureGridjs } from "../../shapes/TextureGrid";
-import {     MeshDataComponent as entitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../../entities/components/MeshDataComponent";
+
 function TextSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'TextSystem', ['TextComponent']);
+	_System.System.call(this, 'TextSystem', ['TextComponent']);
 }
 
-TextSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+TextSystem.prototype = Object.create(_System.System.prototype);
 TextSystem.prototype.constructor = TextSystem;
 
 TextSystem.prototype.process = function (entities) {
@@ -15,11 +26,10 @@ TextSystem.prototype.process = function (entities) {
 		var textComponent = entity.textComponent;
 		if (textComponent.dirty) {
 			if (entity.hasComponent('MeshDataComponent')) {
-				entity.getComponent('MeshDataComponent').meshData = shapesTextureGrid_TextureGridjs.fromString(textComponent.text);
-			}
-			else {
-				var meshData = shapesTextureGrid_TextureGridjs.fromString(textComponent.text);
-				var meshDataComponent = new entitiescomponentsMeshDataComponent_MeshDataComponentjs(meshData);
+				entity.getComponent('MeshDataComponent').meshData = _TextureGrid.TextureGrid.fromString(textComponent.text);
+			} else {
+				var meshData = _TextureGrid.TextureGrid.fromString(textComponent.text);
+				var meshDataComponent = new _MeshDataComponent.MeshDataComponent(meshData);
 				entity.setComponent(meshDataComponent);
 			}
 			this.dirty = false;
@@ -32,4 +42,4 @@ TextSystem.prototype.process = function (entities) {
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
  * @extends System
  */
-export { TextSystem_TextSystem as TextSystem };
+exports.TextSystem = TextSystem_TextSystem;

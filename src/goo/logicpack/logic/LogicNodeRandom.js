@@ -1,33 +1,45 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeRandom = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicInterface = require("./LogicInterface");
+
+var _LogicNodes = require("./LogicNodes");
+
 var LogicNodeRandom_LogicNodeRandom = LogicNodeRandom;
-import { LogicLayer as LogicLayer_LogicLayerjs } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNodejs } from "./LogicNode";
-import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
-import { LogicNodes as LogicNodes_LogicNodesjs } from "./LogicNodes";
+
 function LogicNodeRandom() {
-	LogicNode_LogicNodejs.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.wantsProcessCall = true;
 	this.logicInterface = LogicNodeRandom.logicInterface;
 	this.type = 'LogicNodeRandom';
 }
 
 // Logic interface set-up
-LogicNodeRandom.prototype = Object.create(LogicNode_LogicNodejs.prototype);
+LogicNodeRandom.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeRandom.editorName = 'Random';
-LogicNodeRandom.logicInterface = new LogicInterface_LogicInterfacejs();
+LogicNodeRandom.logicInterface = new _LogicInterface.LogicInterface();
 
 // ports
 LogicNodeRandom.outPropRandom = LogicNodeRandom.logicInterface.addOutputProperty('Random0_1', 'float');
 
 // Process
 LogicNodeRandom.prototype.processLogic = function () {
-	LogicLayer_LogicLayerjs.writeValue(this.logicInstance, LogicNodeRandom.outPropRandom, Math.random());
+	_LogicLayer.LogicLayer.writeValue(this.logicInstance, LogicNodeRandom.outPropRandom, Math.random());
 };
 
-LogicNodes_LogicNodesjs.registerType('LogicNodeRandom', LogicNodeRandom);
+_LogicNodes.LogicNodes.registerType('LogicNodeRandom', LogicNodeRandom);
 
 /**
  * Logic node implementing a random value. Every frame a new random value is written
  * to its output.
  * @private
  */
-export { LogicNodeRandom_LogicNodeRandom as LogicNodeRandom };
+exports.LogicNodeRandom = LogicNodeRandom_LogicNodeRandom;

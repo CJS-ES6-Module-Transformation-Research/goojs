@@ -1,32 +1,43 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshDataComponent = undefined;
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _Component = require("../../entities/components/Component");
+
+var _MeshData = require("../../renderer/MeshData");
+
 var MeshDataComponent_MeshDataComponent = MeshDataComponent;
-import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../../renderer/bounds/BoundingBox";
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+
 function MeshDataComponent(meshData) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'MeshDataComponent';
 
 	/**
-	 * @type {MeshData}
-	 */
+  * @type {MeshData}
+  */
 	this.meshData = meshData;
 
 	/** Bounding volume in local space.
-	 * @type {BoundingVolume}
-	 */
-	this.modelBound = new rendererboundsBoundingBox_BoundingBoxjs();
+  * @type {BoundingVolume}
+  */
+	this.modelBound = new _BoundingBox.BoundingBox();
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.modelBoundDirty = true;
 
 	/**
-	 * @type {SkeletonPose}
-	 * @default
-	 */
+  * @type {SkeletonPose}
+  * @default
+  */
 	this.currentPose = null; // SkeletonPose
 
 	// @ifdef DEBUG
@@ -36,7 +47,7 @@ function MeshDataComponent(meshData) {
 
 MeshDataComponent.type = 'MeshDataComponent';
 
-MeshDataComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+MeshDataComponent.prototype = Object.create(_Component.Component.prototype);
 MeshDataComponent.prototype.constructor = MeshDataComponent;
 
 /**
@@ -93,7 +104,7 @@ MeshDataComponent.prototype.clone = function (options) {
 };
 
 MeshDataComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof rendererMeshData_MeshDatajs) {
+	if (obj instanceof _MeshData.MeshData) {
 		var meshDataComponent = new MeshDataComponent(obj);
 		entity.setComponent(meshDataComponent);
 		return true;
@@ -106,4 +117,4 @@ MeshDataComponent.applyOnEntity = function (obj, entity) {
  * @param {MeshData} meshData Target mesh data for this component.
  * @extends Component
  */
-export { MeshDataComponent_MeshDataComponent as MeshDataComponent };
+exports.MeshDataComponent = MeshDataComponent_MeshDataComponent;

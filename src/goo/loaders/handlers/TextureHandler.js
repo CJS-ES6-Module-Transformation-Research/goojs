@@ -1,18 +1,37 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextureHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _Texture = require("../../renderer/Texture");
+
+var _DdsLoader = require("../../loaders/dds/DdsLoader");
+
+var _CrunchLoader = require("../../loaders/crunch/CrunchLoader");
+
+var _TgaLoader = require("../../loaders/tga/TgaLoader");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _CanvasUtils = require("../../util/CanvasUtils");
+
+var _StringUtils = require("../../util/StringUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _MathUtils = require("../../math/MathUtils");
+
 var TextureHandler_TextureHandler = TextureHandler;
-import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { Texture as rendererTexture_Texturejs } from "../../renderer/Texture";
-import { DdsLoader as loadersddsDdsLoader_DdsLoaderjs } from "../../loaders/dds/DdsLoader";
-import { CrunchLoader as loaderscrunchCrunchLoader_CrunchLoaderjs } from "../../loaders/crunch/CrunchLoader";
-import { TgaLoader as loaderstgaTgaLoader_TgaLoaderjs } from "../../loaders/tga/TgaLoader";
-import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
-import { CanvasUtils as utilCanvasUtils_CanvasUtilsjs } from "../../util/CanvasUtils";
-import { StringUtils as utilStringUtils_StringUtilsjs } from "../../util/StringUtils";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
+
 function TextureHandler() {
-	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
-	entitiesSystemBus_SystemBusjsjs.addListener('playStateChanged', function (playState) {
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+	_SystemBus.SystemBusjs.addListener('playStateChanged', function (playState) {
 		this._objects.forEach(function (texture) {
 			if (texture.image && texture.image.play && texture.image.pause) {
 				var video = texture.image;
@@ -29,23 +48,13 @@ function TextureHandler() {
 	}.bind(this));
 }
 
-TextureHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
+TextureHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 TextureHandler.prototype.constructor = TextureHandler;
-loadershandlersConfigHandler_ConfigHandlerjs._registerClass('texture', TextureHandler);
+_ConfigHandler.ConfigHandler._registerClass('texture', TextureHandler);
 
-TextureHandler.minFilters = [
-	'NearestNeighborNoMipMaps',
-	'NearestNeighborNearestMipMap',
-	'NearestNeighborLinearMipMap',
-	'BilinearNoMipMaps',
-	'BilinearNearestMipMap',
-	'Trilinear'
-];
+TextureHandler.minFilters = ['NearestNeighborNoMipMaps', 'NearestNeighborNearestMipMap', 'NearestNeighborLinearMipMap', 'BilinearNoMipMaps', 'BilinearNearestMipMap', 'Trilinear'];
 
-TextureHandler.magFilters = [
-	'NearestNeighbor',
-	'Bilinear'
-];
+TextureHandler.magFilters = ['NearestNeighbor', 'Bilinear'];
 
 TextureHandler.noMipMapAlternatives = {
 	'NearestNeighborNoMipMaps': 'NearestNeighborNoMipMaps',
@@ -57,9 +66,9 @@ TextureHandler.noMipMapAlternatives = {
 };
 
 TextureHandler.loaders = {
-	dds: loadersddsDdsLoader_DdsLoaderjs,
-	crn: loaderscrunchCrunchLoader_CrunchLoaderjs, // TODO: not working atm.
-	tga: loaderstgaTgaLoader_TgaLoaderjs
+	dds: _DdsLoader.DdsLoader,
+	crn: _CrunchLoader.CrunchLoader, // TODO: not working atm.
+	tga: _TgaLoader.TgaLoader
 };
 
 // Dummy textures to use while loading image
@@ -72,7 +81,7 @@ TextureHandler.BLACK = new Uint8Array([0, 0, 0, 255]);
  * @private
  */
 TextureHandler.prototype._prepare = function (config) {
-	utilObjectUtils_ObjectUtilsjs.defaults(config, {
+	_ObjectUtils.ObjectUtils.defaults(config, {
 		wrapS: 'Repeat',
 		wrapT: 'Repeat',
 		magFilter: 'Bilinear',
@@ -105,9 +114,8 @@ TextureHandler.prototype._remove = function (ref) {
  * @private
  */
 TextureHandler.prototype._create = function () {
-	return new rendererTexture_Texturejs();
+	return new _Texture.Texture();
 };
-
 
 TextureHandler.prototype._loadWebSupportedImage = function (texture, config, options) {
 	return this.loadObject(config.imageRef, options).then(function (image) {
@@ -118,14 +126,13 @@ TextureHandler.prototype._loadWebSupportedImage = function (texture, config, opt
 	});
 };
 
-TextureHandler.prototype._loadSpecialImage = function (texture, config, type/*, options*/) {
+TextureHandler.prototype._loadSpecialImage = function (texture, config, type /*, options*/) {
 	// Special (dds, tga, crn)
 	var Loader = TextureHandler.loaders[type];
 	var imageRef = config.imageRef;
-	return this.loadObject(imageRef)
-	.then(function (data) {
+	return this.loadObject(imageRef).then(function (data) {
 		if (data && data.preloaded) {
-			utilObjectUtils_ObjectUtilsjs.extend(texture.image, data.image);
+			_ObjectUtils.ObjectUtils.extend(texture.image, data.image);
 			texture.format = data.format;
 			texture.setNeedsUpdate();
 			return texture;
@@ -143,7 +150,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 		video.height = video.videoHeight;
 		video.loop = config.loop !== undefined ? config.loop : true;
 
-		if (!(mathMathUtils_MathUtilsjs.isPowerOfTwo(video.width) && mathMathUtils_MathUtilsjs.isPowerOfTwo(video.height))) {
+		if (!(_MathUtils.MathUtils.isPowerOfTwo(video.width) && _MathUtils.MathUtils.isPowerOfTwo(video.height))) {
 			texture.generateMipmaps = false;
 			texture.minFilter = 'BilinearNoMipMaps';
 		}
@@ -153,8 +160,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 		};
 		if (config.autoPlay !== false && !options.editMode) {
 			video.play();
-		}
-		else {
+		} else {
 			video.pause();
 			video.currentTime = 0;
 		}
@@ -164,7 +170,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 
 TextureHandler.prototype._loadImage = function (texture, config, options) {
 	var imageRef = config.imageRef;
-	var path = utilStringUtils_StringUtilsjs.parseURL(imageRef).path;
+	var path = _StringUtils.StringUtils.parseURL(imageRef).path;
 	var type = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
 	if (TextureHandler.loaders[type]) {
 		return this._loadSpecialImage(texture, config, type, options);
@@ -176,7 +182,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
 		return this._loadVideo(texture, config, options);
 	}
 
-	return utilPromiseUtils_PromiseUtilsjs.reject(new Error('Unknown image type: ' + type));
+	return _PromiseUtils.PromiseUtils.reject(new Error('Unknown image type: ' + type));
 };
 
 /**
@@ -188,8 +194,10 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
  */
 TextureHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (texture) {
-		if (!texture) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
+		if (!texture) {
+			return;
+		}
 		var ret;
 
 		// Wrap
@@ -204,9 +212,7 @@ TextureHandler.prototype._update = function (ref, config, options) {
 			texture.magFilter = config.magFilter;
 		}
 		if (TextureHandler.minFilters.indexOf(config.minFilter) !== -1) {
-			texture.minFilter = config.generateMipmaps !== false ?
-				config.minFilter :
-				TextureHandler.noMipMapAlternatives[config.minFilter];
+			texture.minFilter = config.generateMipmaps !== false ? config.minFilter : TextureHandler.noMipMapAlternatives[config.minFilter];
 		}
 
 		texture.anisotropy = Math.max(config.anisotropy, 1);
@@ -238,8 +244,8 @@ TextureHandler.prototype._update = function (ref, config, options) {
 			}
 		} else if (config.svgData) {
 			// Load SVG data
-			ret = utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
-				utilCanvasUtils_CanvasUtilsjs.renderSvgToCanvas(config.svgData, {}, function (canvas) {
+			ret = _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
+				_CanvasUtils.CanvasUtils.renderSvgToCanvas(config.svgData, {}, function (canvas) {
 					if (canvas) {
 						texture.setImage(canvas);
 						resolve(texture);
@@ -270,4 +276,4 @@ TextureHandler.prototype._update = function (ref, config, options) {
  * @param {Function} updateObject
  * @private
  */
-export { TextureHandler_TextureHandler as TextureHandler };
+exports.TextureHandler = TextureHandler_TextureHandler;

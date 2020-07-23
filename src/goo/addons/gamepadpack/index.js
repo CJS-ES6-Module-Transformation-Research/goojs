@@ -1,13 +1,18 @@
-import { GamepadComponent as GamepadComponent_GamepadComponent } from "./GamepadComponent";
-import { GamepadData as GamepadData_GamepadData } from "./GamepadData";
-import { GamepadSystem as GamepadSystem_GamepadSystem } from "./GamepadSystem";
+"use strict";
+
+var _GamepadComponent = require("./GamepadComponent");
+
+var _GamepadData = require("./GamepadData");
+
+var _GamepadSystem = require("./GamepadSystem");
+
 var indexjs;
 indexjs = {
-	GamepadComponent: GamepadComponent_GamepadComponent,
-	GamepadData: GamepadData_GamepadData,
-	GamepadSystem: GamepadSystem_GamepadSystem
+	GamepadComponent: _GamepadComponent.GamepadComponent,
+	GamepadData: _GamepadData.GamepadData,
+	GamepadSystem: _GamepadSystem.GamepadSystem
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

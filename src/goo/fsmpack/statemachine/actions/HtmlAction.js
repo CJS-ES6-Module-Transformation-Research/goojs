@@ -1,11 +1,19 @@
-var HtmlAction_HtmlAction = HtmlAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function HtmlAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HtmlAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var HtmlAction_HtmlAction = HtmlAction;
+
+function HtmlAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-HtmlAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+HtmlAction.prototype = Object.create(_Action.Action.prototype);
 HtmlAction.prototype.constructor = HtmlAction;
 
 HtmlAction.external = {
@@ -21,7 +29,7 @@ HtmlAction.external = {
 	}]
 };
 
-HtmlAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HtmlAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On HTML Pick';
 };
 
@@ -43,4 +51,4 @@ HtmlAction.prototype.exit = function (fsm) {
 	}
 };
 
-export { HtmlAction_HtmlAction as HtmlAction };
+exports.HtmlAction = HtmlAction_HtmlAction;

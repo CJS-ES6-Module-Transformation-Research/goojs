@@ -1,14 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.QuadComponent = undefined;
+
+var _Component = require("../entities/components/Component");
+
+var _DoubleQuad = require("../quadpack/DoubleQuad");
+
+var _MeshDataComponent = require("../entities/components/MeshDataComponent");
+
+var _MeshRendererComponent = require("../entities/components/MeshRendererComponent");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _Material = require("../renderer/Material");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _Texture = require("../renderer/Texture");
+
 var QuadComponent_QuadComponent = QuadComponent;
-import { Component as entitiescomponentsComponent_Componentjs } from "../entities/components/Component";
-import { DoubleQuad as quadpackDoubleQuad_DoubleQuadjs } from "../quadpack/DoubleQuad";
-import {     MeshDataComponent as entitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../entities/components/MeshDataComponent";
-import {     MeshRendererComponent as entitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../entities/components/MeshRendererComponent";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../renderer/shaders/ShaderLib";
-import { Material as rendererMaterial_Materialjs } from "../renderer/Material";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
-import { Texture as rendererTexture_Texturejs } from "../renderer/Texture";
+
 function QuadComponent(image, settings) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	settings = settings || {};
 	var defaults = {
@@ -16,73 +32,73 @@ function QuadComponent(image, settings) {
 		height: 1,
 		tileX: 1,
 		tileY: 1,
-		preserveAspectRatio : true
+		preserveAspectRatio: true
 	};
-	utilObjectUtils_ObjectUtilsjs.defaults(settings, defaults); //! AT: this will mutate settings which is BAD!!!
+	_ObjectUtils.ObjectUtils.defaults(settings, defaults); //! AT: this will mutate settings which is BAD!!!
 
 	this.type = 'QuadComponent';
 
 	/**
-	 * The width of the component in 3D space
-	 */
+  * The width of the component in 3D space
+  */
 	this.width = settings.width;
 	this.oldWidth = 0;
 
 	/**
-	 * The height of the component in 3D space
-	 */
+  * The height of the component in 3D space
+  */
 	this.height = settings.height;
 	this.oldHeight = 0;
 
 	/**
-	 * Tiling in x direction
-	 */
+  * Tiling in x direction
+  */
 	this.tileX = settings.tileX;
 	this.oldTileX = 0;
 
 	/**
-	 * Tiling in y direction
-	 */
+  * Tiling in y direction
+  */
 	this.tileY = settings.tileY;
 	this.oldTileY = 0;
 
 	/**
-	 * Whether to preserve aspect ratio or not. If this property is true, the component will have a maximum dimension of 1 in the 3D space.
-	 */
+  * Whether to preserve aspect ratio or not. If this property is true, the component will have a maximum dimension of 1 in the 3D space.
+  */
 	this.preserveAspectRatio = settings.preserveAspectRatio;
 
 	/** Mesh renderer component that this component creates and adds to the entity.
-	 * @type {MeshRendererComponent}
-	 * @private
-	 */
-	this.meshRendererComponent = new entitiescomponentsMeshRendererComponent_MeshRendererComponentjs();
+  * @type {MeshRendererComponent}
+  * @private
+  */
+	this.meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
 
 	/** The material currently used by the component.
-	 * @type {Material}
-	 */
-	this.material = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.uber, 'QuadComponent default material');
+  * @type {Material}
+  */
+	this.material = new _Material.Material(_ShaderLib.ShaderLib.uber, 'QuadComponent default material');
 
 	/** The quad meshdata.
-	 * @type {Quad}
-	 * @private
-	 */
-	this.meshData = new quadpackDoubleQuad_DoubleQuadjs(settings.width, settings.height, settings.tileX, settings.tileY);
+  * @type {Quad}
+  * @private
+  */
+	this.meshData = new _DoubleQuad.DoubleQuad(settings.width, settings.height, settings.tileX, settings.tileY);
 
 	/** Mesh data component that this component creates and adds to the entity.
-	 * @type {MeshDataComponent}
-	 * @private
-	 */
-	this.meshDataComponent = new entitiescomponentsMeshDataComponent_MeshDataComponentjs(this.meshData);
+  * @type {MeshDataComponent}
+  * @private
+  */
+	this.meshDataComponent = new _MeshDataComponent.MeshDataComponent(this.meshData);
 
 	// Set the material as current
 	var material = this.material;
-	material.blendState.blending = 'TransparencyBlending';	// Needed if the quad has transparency
+	material.blendState.blending = 'TransparencyBlending'; // Needed if the quad has transparency
 	material.renderQueue = 2000;
 	material.uniforms.discardThreshold = 0.1;
 	this.setMaterial(material);
 
 	if (image) {
-		var texture = new rendererTexture_Texturejs(image);
+		var texture = new _Texture.Texture(image);
 		texture.anisotropy = 16;
 		texture.wrapS = 'EdgeClamp';
 		texture.wrapT = 'EdgeClamp';
@@ -91,7 +107,7 @@ function QuadComponent(image, settings) {
 
 	this.rebuildMeshData();
 }
-QuadComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+QuadComponent.prototype = Object.create(_Component.Component.prototype);
 QuadComponent.prototype.constructor = QuadComponent;
 
 QuadComponent.prototype.attached = function (entity) {
@@ -144,11 +160,7 @@ QuadComponent.prototype.rebuildMeshData = function () {
 	}
 
 	// Only rebuild the mesh if any of its properties actually changed.
-	if (this.width !== this.oldWidth ||
-		this.height !== this.oldHeight ||
-		this.tileX !== this.oldTileX ||
-		this.tileY !== this.oldTileY
-	) {
+	if (this.width !== this.oldWidth || this.height !== this.oldHeight || this.tileX !== this.oldTileX || this.tileY !== this.oldTileY) {
 		this.oldWidth = this.width;
 		this.oldHeight = this.height;
 		this.oldTileX = this.tileX;
@@ -177,5 +189,4 @@ QuadComponent.prototype.rebuildMeshData = function () {
  * @extends {Component}
  * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/QuadComponent/QuadComponent-vtest.html Working example
  */
-export { QuadComponent_QuadComponent as QuadComponent };
-
+exports.QuadComponent = QuadComponent_QuadComponent;

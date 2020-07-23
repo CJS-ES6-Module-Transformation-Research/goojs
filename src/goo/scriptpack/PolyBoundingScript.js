@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var PolyBoundingScript_PolyBoundingScript = PolyBoundingScript;
 function PolyBoundingScript(collidables) {
 	this.collidables = collidables || [];
@@ -60,11 +65,7 @@ PolyBoundingScript.prototype.run = function (entity) {
 
 		if (collidable.bottom <= translation.y && collidable.top >= translation.y) {
 			if (window.PolyK.ContainsPoint(collidable.poly, translation.x, translation.z)) {
-				var pointOutside = window.PolyK.ClosestEdge(
-					collidable.poly,
-					translation.x,
-					translation.z
-				);
+				var pointOutside = window.PolyK.ClosestEdge(collidable.poly, translation.x, translation.z);
 
 				translation.x = pointOutside.point.x;
 				translation.z = pointOutside.point.y;
@@ -85,4 +86,4 @@ PolyBoundingScript.prototype.run = function (entity) {
  * @param {number} collidables[].bottom The bottom Y coordinate of the collidable
  * @param {number} collidables[].top The top Y coordinate of the collidable
  */
-export { PolyBoundingScript_PolyBoundingScript as PolyBoundingScript };
+exports.PolyBoundingScript = PolyBoundingScript_PolyBoundingScript;

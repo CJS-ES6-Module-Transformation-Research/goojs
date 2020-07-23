@@ -1,11 +1,20 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticlesSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 var ParticlesSystem_ParticlesSystem = ParticlesSystem;
-import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+
 function ParticlesSystem() {
-	entitiessystemsSystem_Systemjs.call(this, 'ParticlesSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent', 'ParticleComponent']);
+	_System.System.call(this, 'ParticlesSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent', 'ParticleComponent']);
 	this.passive = false;
 }
 
-ParticlesSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
+ParticlesSystem.prototype = Object.create(_System.System.prototype);
 ParticlesSystem.prototype.constructor = ParticlesSystem;
 
 ParticlesSystem.prototype.process = function (entities, tpf) {
@@ -71,7 +80,7 @@ ParticlesSystem.prototype.updateParticles = function (particleEntity, particleCo
 
 		// if this particle is alive and we have influences, apply them
 		if (particle.alive && particle.emitter && particle.emitter.influences.length) {
-			for ( var j = 0, max = particle.emitter.influences.length; j < max; j++) {
+			for (var j = 0, max = particle.emitter.influences.length; j < max; j++) {
 				if (particle.emitter.influences[j].enabled) {
 					particle.emitter.influences[j].apply(tpf, particle, particleIndex);
 				}
@@ -127,4 +136,4 @@ ParticlesSystem.prototype.stop = ParticlesSystem.prototype.pause;
  * Manages and reacts to particle components on entities.
  * @extends System
  */
-export { ParticlesSystem_ParticlesSystem as ParticlesSystem };
+exports.ParticlesSystem = ParticlesSystem_ParticlesSystem;

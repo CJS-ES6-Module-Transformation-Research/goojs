@@ -1,19 +1,25 @@
-import { CustomMatchers as testunitCustomMatchers_CustomMatchersjs } from "../../../test/unit/CustomMatchers";
-import { Camera as srcgoorendererCamera_Camerajs } from "../../../src/goo/renderer/Camera";
-import { BoundingSphere as srcgoorendererboundsBoundingSphere_BoundingSpherejs } from "../../../src/goo/renderer/bounds/BoundingSphere";
-import { BoundingBox as srcgoorendererboundsBoundingBox_BoundingBoxjs } from "../../../src/goo/renderer/bounds/BoundingBox";
-import { Vector3 as srcgoomathVector3_Vector3js } from "../../../src/goo/math/Vector3";
+"use strict";
+
+var _CustomMatchers = require("../../../test/unit/CustomMatchers");
+
+var _Camera = require("../../../src/goo/renderer/Camera");
+
+var _BoundingSphere = require("../../../src/goo/renderer/bounds/BoundingSphere");
+
+var _BoundingBox = require("../../../src/goo/renderer/bounds/BoundingBox");
+
+var _Vector = require("../../../src/goo/math/Vector3");
 
 describe('Camera', function () {
 	var camera;
 
 	beforeEach(function () {
-		camera = new srcgoorendererCamera_Camerajs(90, 1, 1, 100);
-		jasmine.addMatchers(testunitCustomMatchers_CustomMatchersjs);
+		camera = new _Camera.Camera(90, 1, 1, 100);
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
 	});
 
 	it('can pack frustum around bounds', function () {
-		var bound = new srcgoorendererboundsBoundingSphere_BoundingSpherejs();
+		var bound = new _BoundingSphere.BoundingSphere();
 		bound.radius = 10.0;
 		bound.center.setDirect(0, 0, -20);
 
@@ -29,8 +35,8 @@ describe('Camera', function () {
 
 	it('can pick a ray', function () {
 		var ray = camera.getPickRay(50, 50, 100, 100);
-		expect(ray.origin).toBeCloseToVector(new srcgoomathVector3_Vector3js(0, 0, -1)); // from nearplane (with negative z direction)
-		expect(ray.direction).toBeCloseToVector(new srcgoomathVector3_Vector3js(0, 0, -1));
+		expect(ray.origin).toBeCloseToVector(new _Vector.Vector3(0, 0, -1)); // from nearplane (with negative z direction)
+		expect(ray.direction).toBeCloseToVector(new _Vector.Vector3(0, 0, -1));
 	});
 
 	it('can get the world position', function () {
@@ -44,52 +50,51 @@ describe('Camera', function () {
 	});
 
 	it('can lookAt', function () {
-		camera.lookAt(new srcgoomathVector3_Vector3js(-1, 0, 0), srcgoomathVector3_Vector3js.UNIT_Y);
-		expect(camera.translation).toBeCloseToVector(new srcgoomathVector3_Vector3js(0, 0, 0)); // from nearplane (with negative z direction)
-		expect(camera._left).toBeCloseToVector(new srcgoomathVector3_Vector3js(0, 0, 1)); // from nearplane (with negative z direction)
-		expect(camera._up).toBeCloseToVector(new srcgoomathVector3_Vector3js(0, 1, 0)); // from nearplane (with negative z direction)
-		expect(camera._direction).toBeCloseToVector(new srcgoomathVector3_Vector3js(-1, 0, 0)); // from nearplane (with negative z direction)
+		camera.lookAt(new _Vector.Vector3(-1, 0, 0), _Vector.Vector3.UNIT_Y);
+		expect(camera.translation).toBeCloseToVector(new _Vector.Vector3(0, 0, 0)); // from nearplane (with negative z direction)
+		expect(camera._left).toBeCloseToVector(new _Vector.Vector3(0, 0, 1)); // from nearplane (with negative z direction)
+		expect(camera._up).toBeCloseToVector(new _Vector.Vector3(0, 1, 0)); // from nearplane (with negative z direction)
+		expect(camera._direction).toBeCloseToVector(new _Vector.Vector3(-1, 0, 0)); // from nearplane (with negative z direction)
 	});
 
 	it('does correct intersection calculations against boundingbox and boundingsphere', function () {
-		var tests = [
-			[-10, 0, -10, srcgoorendererCamera_Camerajs.Intersects], // place to intersect with left plane
-			[10, 0, -10, srcgoorendererCamera_Camerajs.Intersects], // place to intersect with right plane
-			[0, 10, -10, srcgoorendererCamera_Camerajs.Intersects], // place to intersect with top plane
-			[0, -10, -10, srcgoorendererCamera_Camerajs.Intersects], // place to intersect with bottom plane
-			[0, 0, -1, srcgoorendererCamera_Camerajs.Intersects], // place to intersect with near plane
-			[0, 0, -100, srcgoorendererCamera_Camerajs.Intersects], // place to intersect with far plane
+		var tests = [[-10, 0, -10, _Camera.Camera.Intersects], // place to intersect with left plane
+		[10, 0, -10, _Camera.Camera.Intersects], // place to intersect with right plane
+		[0, 10, -10, _Camera.Camera.Intersects], // place to intersect with top plane
+		[0, -10, -10, _Camera.Camera.Intersects], // place to intersect with bottom plane
+		[0, 0, -1, _Camera.Camera.Intersects], // place to intersect with near plane
+		[0, 0, -100, _Camera.Camera.Intersects], // place to intersect with far plane
 
-			[0, 0, -10, srcgoorendererCamera_Camerajs.Inside], // place to be inside
+		[0, 0, -10, _Camera.Camera.Inside], // place to be inside
 
-			[-100, 0, -10, srcgoorendererCamera_Camerajs.Outside], // place to be outside left plane
-			[100, 0, -10, srcgoorendererCamera_Camerajs.Outside], // place to be outside right plane
-			[0, 100, -10, srcgoorendererCamera_Camerajs.Outside], // place to be outside top plane
-			[0, -100, -10, srcgoorendererCamera_Camerajs.Outside], // place to be outside bottom plane
-			[0, 0, 10, srcgoorendererCamera_Camerajs.Outside], // place to be outside near plane
-			[0, 0, -1000, srcgoorendererCamera_Camerajs.Outside] // place to be outside far plane
+		[-100, 0, -10, _Camera.Camera.Outside], // place to be outside left plane
+		[100, 0, -10, _Camera.Camera.Outside], // place to be outside right plane
+		[0, 100, -10, _Camera.Camera.Outside], // place to be outside top plane
+		[0, -100, -10, _Camera.Camera.Outside], // place to be outside bottom plane
+		[0, 0, 10, _Camera.Camera.Outside], // place to be outside near plane
+		[0, 0, -1000, _Camera.Camera.Outside] // place to be outside far plane
 		];
-		var testBounds = function (bounding, testdata) {
+		var testBounds = function testBounds(bounding, testdata) {
 			for (var i = 0; i < testdata.length; i++) {
 				var data = testdata[i];
 				bounding.center.setDirect(data[0], data[1], data[2]);
 				expect(camera.contains(bounding)).toBe(data[3]);
 			}
 		};
-		testBounds(new srcgoorendererboundsBoundingBox_BoundingBoxjs(), tests);
-		testBounds(new srcgoorendererboundsBoundingSphere_BoundingSpherejs(), tests);
+		testBounds(new _BoundingBox.BoundingBox(), tests);
+		testBounds(new _BoundingSphere.BoundingSphere(), tests);
 	});
 
 	it('can calculate corners of frustum', function () {
 		var corners = camera.calculateFrustumCorners();
-		expect(corners[0]).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, -1, -1));
-		expect(corners[1]).toBeCloseToVector(new srcgoomathVector3_Vector3js(-1, -1, -1));
-		expect(corners[2]).toBeCloseToVector(new srcgoomathVector3_Vector3js(-1, 1, -1));
-		expect(corners[3]).toBeCloseToVector(new srcgoomathVector3_Vector3js(1, 1, -1));
-		expect(corners[4]).toBeCloseToVector(new srcgoomathVector3_Vector3js(100, -100, -100));
-		expect(corners[5]).toBeCloseToVector(new srcgoomathVector3_Vector3js(-100, -100, -100));
-		expect(corners[6]).toBeCloseToVector(new srcgoomathVector3_Vector3js(-100, 100, -100));
-		expect(corners[7]).toBeCloseToVector(new srcgoomathVector3_Vector3js(100, 100, -100));
+		expect(corners[0]).toBeCloseToVector(new _Vector.Vector3(1, -1, -1));
+		expect(corners[1]).toBeCloseToVector(new _Vector.Vector3(-1, -1, -1));
+		expect(corners[2]).toBeCloseToVector(new _Vector.Vector3(-1, 1, -1));
+		expect(corners[3]).toBeCloseToVector(new _Vector.Vector3(1, 1, -1));
+		expect(corners[4]).toBeCloseToVector(new _Vector.Vector3(100, -100, -100));
+		expect(corners[5]).toBeCloseToVector(new _Vector.Vector3(-100, -100, -100));
+		expect(corners[6]).toBeCloseToVector(new _Vector.Vector3(-100, 100, -100));
+		expect(corners[7]).toBeCloseToVector(new _Vector.Vector3(100, 100, -100));
 	});
 
 	describe('setFrustumPerspective', function () {
@@ -128,8 +133,8 @@ describe('Camera', function () {
 
 	describe('copy', function () {
 		it('can copy everything from another camera', function () {
-			var original = new srcgoorendererCamera_Camerajs(50, 2, 2, 2000);
-			var copy = new srcgoorendererCamera_Camerajs();
+			var original = new _Camera.Camera(50, 2, 2, 2000);
+			var copy = new _Camera.Camera();
 			copy.copy(original);
 
 			expect(copy).toBeCloned(original);
@@ -138,7 +143,7 @@ describe('Camera', function () {
 
 	describe('clone', function () {
 		it('clones a camera', function () {
-			var original = new srcgoorendererCamera_Camerajs(50, 2, 2, 2000);
+			var original = new _Camera.Camera(50, 2, 2, 2000);
 			var clone = original.clone();
 
 			expect(clone).toBeCloned(original);

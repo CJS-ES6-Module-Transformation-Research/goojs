@@ -1,19 +1,29 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.InterpolatedFloatChannel = undefined;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _MathUtils = require("../../math/MathUtils");
+
 var InterpolatedFloatChannel_InterpolatedFloatChannel = InterpolatedFloatChannel;
-import {  AbstractAnimationChannel as animationpackclipAbstractAnimationChannel_AbstractAnimationChanneljs, } from "../../animationpack/clip/AbstractAnimationChannel";
-import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
+
 function InterpolatedFloatChannel(channelName, times, values, blendType) {
-	animationpackclipAbstractAnimationChannel_AbstractAnimationChanneljs.call(this, channelName, times, blendType);
-	this._values = values ? values.slice(0) : null;
+  _AbstractAnimationChannel.AbstractAnimationChannel.call(this, channelName, times, blendType);
+  this._values = values ? values.slice(0) : null;
 }
 
-InterpolatedFloatChannel.prototype = Object.create(animationpackclipAbstractAnimationChannel_AbstractAnimationChanneljs.prototype);
+InterpolatedFloatChannel.prototype = Object.create(_AbstractAnimationChannel.AbstractAnimationChannel.prototype);
 
 /*
  * Creates a data item for this type of channel
  * @returns {Array<number>}
  */
 InterpolatedFloatChannel.prototype.createStateDataObject = function () {
-	return [0.0];
+  return [0.0];
 };
 
 /*
@@ -23,7 +33,7 @@ InterpolatedFloatChannel.prototype.createStateDataObject = function () {
  * @param {Array<number>} value The data item to apply animation to
  */
 InterpolatedFloatChannel.prototype.setCurrentSample = function (sampleIndex, progressPercent, value) {
-	value[0] = mathMathUtils_MathUtilsjs.lerp(progressPercent, this._values[sampleIndex], this._values[sampleIndex + 1]);
+  value[0] = _MathUtils.MathUtils.lerp(progressPercent, this._values[sampleIndex], this._values[sampleIndex + 1]);
 };
 
 /**
@@ -33,9 +43,9 @@ InterpolatedFloatChannel.prototype.setCurrentSample = function (sampleIndex, pro
  * @returns {Array<number>} our resulting TransformData.
  */
 InterpolatedFloatChannel.prototype.getData = function (index, store) {
-	var rVal = store || [];
-	rVal[0] = this._values[index];
-	return rVal;
+  var rVal = store || [];
+  rVal[0] = this._values[index];
+  return rVal;
 };
 
 /**
@@ -46,4 +56,4 @@ InterpolatedFloatChannel.prototype.getData = function (index, store) {
  * @param {Array<number>} values our value samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export { InterpolatedFloatChannel_InterpolatedFloatChannel as InterpolatedFloatChannel };
+exports.InterpolatedFloatChannel = InterpolatedFloatChannel_InterpolatedFloatChannel;
