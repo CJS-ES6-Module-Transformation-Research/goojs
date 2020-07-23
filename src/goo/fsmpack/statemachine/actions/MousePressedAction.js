@@ -1,10 +1,11 @@
-var Action = require('./Action');
+var MousePressedAction_MousePressedAction = MousePressedAction;
+import { Action as Action_Actionjs } from "./Action";
 
-function MousePressedAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function MousePressedAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-MousePressedAction.prototype = Object.create(Action.prototype);
+MousePressedAction.prototype = Object.create(Action_Actionjs.prototype);
 MousePressedAction.prototype.constructor = MousePressedAction;
 
 MousePressedAction.external = {
@@ -50,4 +51,4 @@ MousePressedAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = MousePressedAction;
+export { MousePressedAction_MousePressedAction as MousePressedAction };

@@ -1,7 +1,4 @@
-/**
- * A collection of useful math-related functions, constants and helpers.
- * Only used to define the class. Should never be instantiated.
- */
+var MathUtils_MathUtils = MathUtils;
 function MathUtils() {}
 
 /** @type {number}
@@ -409,4 +406,8 @@ MathUtils.warnNaN = function (object, property) {
 	});
 };
 
-module.exports = MathUtils;
+/**
+ * A collection of useful math-related functions, constants and helpers.
+ * Only used to define the class. Should never be instantiated.
+ */
+export { MathUtils_MathUtils as MathUtils };

@@ -1,12 +1,7 @@
-var Component = require('../../entities/components/Component');
-
-/**
- * Provides ways for the entity to display text
- * @extends Component
- * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
- */
+var TextComponent_TextComponent = TextComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
 function TextComponent(text) {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'TextComponent';
 
@@ -20,7 +15,7 @@ function TextComponent(text) {
 
 TextComponent.type = 'TextComponent';
 
-TextComponent.prototype = Object.create(Component.prototype);
+TextComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 TextComponent.prototype.constructor = TextComponent;
 
 /**
@@ -36,4 +31,9 @@ TextComponent.prototype.setText = function (text) {
 	return this;
 };
 
-module.exports = TextComponent;
+/**
+ * Provides ways for the entity to display text
+ * @extends Component
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
+ */
+export { TextComponent_TextComponent as TextComponent };

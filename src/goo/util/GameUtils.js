@@ -1,7 +1,4 @@
-/**
- * Shims for standard gaming features
- * Only used to define the class. Should never be instantiated.
- */
+var GameUtils_GameUtils = GameUtils;
 function GameUtils() {}
 
 /** Supported features. All true by default.
@@ -412,4 +409,8 @@ GameUtils.initPointerLockShims = function (global) {
 	}
 };
 
-module.exports = GameUtils;
+/**
+ * Shims for standard gaming features
+ * Only used to define the class. Should never be instantiated.
+ */
+export { GameUtils_GameUtils as GameUtils };

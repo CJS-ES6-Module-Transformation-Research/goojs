@@ -1,12 +1,13 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+var TriggerLeaveAction_TriggerLeaveAction = TriggerLeaveAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-function TriggerLeaveAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function TriggerLeaveAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 	this.entity = null;
 }
 
-TriggerLeaveAction.prototype = Object.create(Action.prototype);
+TriggerLeaveAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 TriggerLeaveAction.prototype.constructor = TriggerLeaveAction;
 
 TriggerLeaveAction.external = {
@@ -36,12 +37,12 @@ TriggerLeaveAction.prototype.enter = function (fsm) {
 			fsm.send(that.transitions.leave);
 		}
 	};
-	SystemBus.addListener('goo.physics.triggerExit', this.listener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.physics.triggerExit', this.listener);
 };
 
 TriggerLeaveAction.prototype.exit = function (/*fsm*/) {
-	SystemBus.removeListener('goo.physics.triggerExit', this.listener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.physics.triggerExit', this.listener);
 	this.entity = null;
 };
 
-module.exports = TriggerLeaveAction;
+export { TriggerLeaveAction_TriggerLeaveAction as TriggerLeaveAction };

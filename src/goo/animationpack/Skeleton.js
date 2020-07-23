@@ -1,11 +1,5 @@
-var Joint = require('./Joint');
-
-/**
- * Describes a collection of Joints. This class represents the hierarchy of a Skeleton and its original aspect (via the {@link Joint} class). This
- *        does not support posing the joints in any way... Use with a SkeletonPose to describe a skeleton in a specific pose.
- * @param {string} name
- * @param {Array<Joint>} joints
- */
+var Skeleton_Skeleton = Skeleton;
+import { Joint as Joint_Jointjs } from "./Joint";
 function Skeleton(name, joints) {
 	this.id = '';
 	this._name = name;
@@ -20,7 +14,7 @@ Skeleton.prototype.clone = function () {
 	for (var j = 0, maxJ = jointArray.length; j < maxJ; j++) {
 		var jointObj = jointArray[j];
 		var jName = jointObj._name;
-		var joint = new Joint(jName);
+		var joint = new Joint_Jointjs(jName);
 
 		joint._index = jointObj._index;
 		joint._parentIndex = jointObj._parentIndex;
@@ -31,4 +25,10 @@ Skeleton.prototype.clone = function () {
 	return new Skeleton(name, joints);
 };
 
-module.exports = Skeleton;
+/**
+ * Describes a collection of Joints. This class represents the hierarchy of a Skeleton and its original aspect (via the {@link Joint} class). This
+ *        does not support posing the joints in any way... Use with a SkeletonPose to describe a skeleton in a specific pose.
+ * @param {string} name
+ * @param {Array<Joint>} joints
+ */
+export { Skeleton_Skeleton as Skeleton };

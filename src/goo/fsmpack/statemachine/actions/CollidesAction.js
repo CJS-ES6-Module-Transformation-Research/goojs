@@ -1,12 +1,13 @@
-var EntitySelection = require('../../../entities/EntitySelection');
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var ProximitySystem = require('../../../fsmpack/proximity/ProximitySystem');
+var CollidesAction_CollidesAction = CollidesAction;
+import { EntitySelection as entitiesEntitySelection_EntitySelectionjs } from "../../../entities/EntitySelection";
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { ProximitySystem as fsmpackproximityProximitySystem_ProximitySystemjs } from "../../../fsmpack/proximity/ProximitySystem";
 
-function CollidesAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function CollidesAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-CollidesAction.prototype = Object.create(Action.prototype);
+CollidesAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 CollidesAction.prototype.constructor = CollidesAction;
 
 CollidesAction.external = {
@@ -44,7 +45,7 @@ CollidesAction.prototype.ready = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 	var world = entity._world;
 	if (!world.getSystem('ProximitySystem')) {
-		world.setSystem(new ProximitySystem());
+		world.setSystem(new fsmpackproximityProximitySystem_ProximitySystemjs());
 	}
 };
 
@@ -53,7 +54,7 @@ CollidesAction.prototype.update = function (fsm) {
 	var world = entity._world;
 	var proximitySystem = world.getSystem('ProximitySystem');
 
-	var entities = new EntitySelection(proximitySystem.getFor(this.tag))
+	var entities = new entitiesEntitySelection_EntitySelectionjs(proximitySystem.getFor(this.tag))
 		.and(world.by.tag(this.tag))
 		.toArray();
 
@@ -89,4 +90,4 @@ CollidesAction.prototype.update = function (fsm) {
 	fsm.send(collides ? this.transitions.collides : this.transitions.notCollides);
 };
 
-module.exports = CollidesAction;
+export { CollidesAction_CollidesAction as CollidesAction };

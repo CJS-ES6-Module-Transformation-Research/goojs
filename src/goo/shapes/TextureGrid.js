@@ -1,24 +1,18 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * Meshdata for a grid; useful for displaying tiles
- * @extends MeshData
- * @param matrix
- * @param textureUnitsPerLine
- */
+var TextureGrid_TextureGrid = TextureGrid;
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function TextureGrid(matrix, textureUnitsPerLine) {
 	this.matrix = matrix;
 	this.textureUnitsPerLine = textureUnitsPerLine || 8;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION, rendererMeshData_MeshDatajs.NORMAL, rendererMeshData_MeshDatajs.TEXCOORD0]);
 	var nCells = countCells(matrix);
-	MeshData.call(this, attributeMap, nCells * 4, nCells * 6);
+	rendererMeshData_MeshDatajs.call(this, attributeMap, nCells * 4, nCells * 6);
 
 	this.rebuild();
 }
 
-TextureGrid.prototype = Object.create(MeshData.prototype);
+TextureGrid.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
 TextureGrid.prototype.constructor = TextureGrid;
 
 function countCells(matrix) {
@@ -78,9 +72,9 @@ TextureGrid.prototype.rebuild = function () {
 		}
 	}
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.NORMAL).set(norms);
+	this.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0).set(tex);
 
 	this.getIndexBuffer().set(indices);
 
@@ -92,7 +86,7 @@ TextureGrid.prototype.rebuild = function () {
  * @returns {TextureGrid}
  */
 TextureGrid.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
+	var options = utilObjectUtils_ObjectUtilsjs.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
 
 	return new TextureGrid(options);
 };
@@ -114,4 +108,10 @@ TextureGrid.fromString = function (str) {
 	return new TextureGrid(stringToMatrix(str), 16);
 };
 
-module.exports = TextureGrid;
+/**
+ * Meshdata for a grid; useful for displaying tiles
+ * @extends MeshData
+ * @param matrix
+ * @param textureUnitsPerLine
+ */
+export { TextureGrid_TextureGrid as TextureGrid };

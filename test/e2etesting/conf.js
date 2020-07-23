@@ -1,5 +1,6 @@
+var config;
 // An example configuration file.
-exports.config = {
+config = {
 	// The address of a running selenium server.
 	//seleniumAddress: 'http://localhost:4444/wd/hub'
 
