@@ -1,3 +1,5 @@
+'use strict';
+
 require.config({
 	paths: {
 		'goo': '../src/goo',
@@ -7,9 +9,6 @@ require.config({
 	waitSeconds: 5
 });
 
-require([
-	'trials/Vector3-vs-Vector',
-	'trials/EntityManager-stress'
-], function () {
+require(['trials/Vector3-vs-Vector', 'trials/EntityManager-stress'], function () {
 	stress();
 });

@@ -1,16 +1,28 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RigidBodyComponentHandler = undefined;
+
+var _ComponentHandler = require("../../../loaders/handlers/ComponentHandler");
+
+var _RigidBodyComponent = require("../../../addons/physicspack/components/RigidBodyComponent");
+
+var _ObjectUtils = require("../../../util/ObjectUtils");
+
+var _Vector = require("../../../math/Vector3");
+
 var RigidBodyComponentHandler_RigidBodyComponentHandler = RigidBodyComponentHandler;
-import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../../../loaders/handlers/ComponentHandler";
-import {     RigidBodyComponent as addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs, } from "../../../addons/physicspack/components/RigidBodyComponent";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../../util/ObjectUtils";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+
 function RigidBodyComponentHandler() {
-	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'RigidBodyComponent';
 }
 
-RigidBodyComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
+RigidBodyComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 RigidBodyComponentHandler.prototype.constructor = RigidBodyComponentHandler;
-loadershandlersComponentHandler_ComponentHandlerjs._registerClass('rigidBody', RigidBodyComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('rigidBody', RigidBodyComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -19,7 +31,7 @@ loadershandlersComponentHandler_ComponentHandlerjs._registerClass('rigidBody', R
  * @private
  */
 RigidBodyComponentHandler.prototype._prepare = function (config) {
-	return utilObjectUtils_ObjectUtilsjs.defaults(config, {
+	return _ObjectUtils.ObjectUtils.defaults(config, {
 		mass: 1,
 		isKinematic: false,
 		velocity: [0, 0, 0],
@@ -41,7 +53,7 @@ RigidBodyComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 RigidBodyComponentHandler.prototype._create = function () {
-	return new addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs();
+	return new _RigidBodyComponent.RigidBodyComponent();
 };
 
 /**
@@ -60,24 +72,19 @@ RigidBodyComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 RigidBodyComponentHandler.prototype.update = function (entity, config, options) {
-	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		component.mass = config.mass;
 		component.isKinematic = config.isKinematic;
-		component.setVelocity(new mathVector3_Vector3js(config.velocity));
-		component.setAngularVelocity(new mathVector3_Vector3js(config.angularVelocity));
+		component.setVelocity(new _Vector.Vector3(config.velocity));
+		component.setAngularVelocity(new _Vector.Vector3(config.angularVelocity));
 		component.linearDamping = config.linearDrag;
 		component.angularDamping = config.angularDrag;
 
-		component.constraints = (
-			(config.freezePositionX ? addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.FREEZE_POSITION_X : 0) |
-			(config.freezePositionY ? addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.FREEZE_POSITION_Y : 0) |
-			(config.freezePositionZ ? addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.FREEZE_POSITION_Z : 0) |
-			(config.freezeRotationX ? addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.FREEZE_ROTATION_X : 0) |
-			(config.freezeRotationY ? addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.FREEZE_ROTATION_Y : 0) |
-			(config.freezeRotationZ ? addonsphysicspackcomponentsRigidBodyComponent_RigidBodyComponentjs.FREEZE_ROTATION_Z : 0)
-		);
+		component.constraints = (config.freezePositionX ? _RigidBodyComponent.RigidBodyComponent.FREEZE_POSITION_X : 0) | (config.freezePositionY ? _RigidBodyComponent.RigidBodyComponent.FREEZE_POSITION_Y : 0) | (config.freezePositionZ ? _RigidBodyComponent.RigidBodyComponent.FREEZE_POSITION_Z : 0) | (config.freezeRotationX ? _RigidBodyComponent.RigidBodyComponent.FREEZE_ROTATION_X : 0) | (config.freezeRotationY ? _RigidBodyComponent.RigidBodyComponent.FREEZE_ROTATION_Y : 0) | (config.freezeRotationZ ? _RigidBodyComponent.RigidBodyComponent.FREEZE_ROTATION_Z : 0);
 
 		return component;
 	});
@@ -88,4 +95,4 @@ RigidBodyComponentHandler.prototype.update = function (entity, config, options) 
  * @extends ComponentHandler
  * @hidden
  */
-export { RigidBodyComponentHandler_RigidBodyComponentHandler as RigidBodyComponentHandler };
+exports.RigidBodyComponentHandler = RigidBodyComponentHandler_RigidBodyComponentHandler;

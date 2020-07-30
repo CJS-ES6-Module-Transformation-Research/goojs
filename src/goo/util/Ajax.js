@@ -1,9 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Ajax = undefined;
+
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _rsvp = require("../util/rsvp");
+
 var Ajax_Ajax = Ajax;
-import { TextureHandler as loadershandlersTextureHandler_TextureHandlerjs } from "../loaders/handlers/TextureHandler";
-import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../util/PromiseUtils";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
-import { StringUtils as utilStringUtils_StringUtilsjs } from "../util/StringUtils";
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
+
 function Ajax(rootPath, options) {
 	if (rootPath) {
 		this._rootPath = rootPath;
@@ -24,7 +37,7 @@ Ajax.prototype.prefill = function (bundle, clear) {
 	if (clear) {
 		this._cache = bundle;
 	} else {
-		utilObjectUtils_ObjectUtilsjs.extend(this._cache, bundle);
+		_ObjectUtils.ObjectUtils.extend(this._cache, bundle);
 	}
 };
 
@@ -56,8 +69,8 @@ Ajax.prototype.get = function (options) {
 		request.responseType = options.responseType;
 	}
 
-	return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
-		var handleStateChange = function () {
+	return _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
+		var handleStateChange = function handleStateChange() {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
 					request.removeEventListener('readystatechange', handleStateChange);
@@ -83,7 +96,6 @@ Ajax.ARRAY_BUFFER = 'arraybuffer';
  */
 Ajax.crossOrigin = false;
 
-
 var MIME_TYPES = {
 	mp4: 'video/mp4',
 	ogv: 'video/ogg',
@@ -101,7 +113,7 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = utilStringUtils_StringUtilsjs.parseURL(path).path;//! AT: dunno what to call this
+	var path2 = _StringUtils.StringUtils.parseURL(path).path; //! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
@@ -109,22 +121,22 @@ Ajax.prototype.load = function (path, reload) {
 	}
 
 	if (!path) {
-		utilPromiseUtils_PromiseUtilsjs.reject('Path was undefined'); //! AT: no return?
+		_PromiseUtils.PromiseUtils.reject('Path was undefined'); //! AT: no return?
 		// anyways, the engine should not call this method without a path
 	}
 
 	if (path.indexOf(Ajax.ENGINE_SHADER_PREFIX) === 0) {
-		return utilPromiseUtils_PromiseUtilsjs.resolve();
+		return _PromiseUtils.PromiseUtils.resolve();
 	}
 
 	if (this._cache[path] && !reload) {
 		if (typeInGroup(type, 'bundle')) {
 			this.prefill(this._cache[path], reload);
 		}
-		if (this._cache[path] instanceof utilrsvp_rsvpjsjs.Promise) {
+		if (this._cache[path] instanceof _rsvp.rsvpjs.Promise) {
 			return this._cache[path];
 		} else {
-			return utilPromiseUtils_PromiseUtilsjs.resolve(this._cache[path]);
+			return _PromiseUtils.PromiseUtils.resolve(this._cache[path]);
 		}
 	}
 
@@ -149,8 +161,7 @@ Ajax.prototype.load = function (path, reload) {
 		ajaxProperties.responseType = Ajax.ARRAY_BUFFER;
 	}
 
-	return this._cache[path] = this.get(ajaxProperties)
-	.then(function (request) {
+	return this._cache[path] = this.get(ajaxProperties).then(function (request) {
 		if (typeInGroup(type, 'bundle')) {
 			var bundle = JSON.parse(request.response);
 			that.prefill(bundle, reload);
@@ -167,7 +178,7 @@ Ajax.prototype.load = function (path, reload) {
 
 Ajax.prototype.update = function (path, config) {
 	this._cache[path] = config;
-	return utilPromiseUtils_PromiseUtilsjs.resolve(config);
+	return _PromiseUtils.PromiseUtils.resolve(config);
 };
 
 /**
@@ -187,7 +198,7 @@ Ajax.prototype._loadImage = function (url) {
 		image.crossOrigin = 'anonymous';
 	}
 
-	return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
+	return _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
 		var onLoad = function loadHandler() {
 			image.dataReady = true;
 			if (window.URL && window.URL.revokeObjectURL !== undefined) {
@@ -219,10 +230,10 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 		video.crossOrigin = 'anonymous';
 	}
 
-	var promise = utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve, reject) {
+	var promise = _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
 		var timeout;
 
-		var _resolve = function () {
+		var _resolve = function _resolve() {
 			if (!video.dataReady) {
 				console.warn('Video is not ready');
 			}
@@ -232,16 +243,15 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 			resolve(video);
 		};
 
-		var canPlay = function () {
+		var canPlay = function canPlay() {
 			video.dataReady = true;
 			_resolve();
 		};
 
-		var loadStart = function () {
+		var loadStart = function loadStart() {
 			if (iOS) {
 				_resolve();
-			}
-			else {
+			} else {
 				timeout = setTimeout(_resolve, VIDEO_LOAD_TIMEOUT);
 			}
 		};
@@ -276,8 +286,7 @@ Ajax.prototype._loadAudio = function (url) {
 	};
 	return this.get(ajaxProperties).then(function (request) {
 		return request.response;
-	})
-	.then(null, function (err) {
+	}).then(null, function (err) {
 		throw new Error('Could not load data from ' + url + ', ' + err);
 	});
 };
@@ -331,7 +340,7 @@ Ajax.types = {
 	binary: addKeys({
 		dat: true,
 		bin: true
-	}, Object.keys(loadershandlersTextureHandler_TextureHandlerjs.loaders)),
+	}, Object.keys(_TextureHandler.TextureHandler.loaders)),
 	audio: {
 		mp3: true,
 		wav: true,
@@ -342,15 +351,11 @@ Ajax.types = {
 	}
 };
 
-Ajax.types.asset = addKeys(
-	{},
-	Object.keys(Ajax.types.image)
-		.concat(Object.keys(Ajax.types.binary))
-);
+Ajax.types.asset = addKeys({}, Object.keys(Ajax.types.image).concat(Object.keys(Ajax.types.binary)));
 
 /**
  * Ajax helper class
  * @param {string} rootPath
  * @param {Object} options
  */
-export { Ajax_Ajax as Ajax };
+exports.Ajax = Ajax_Ajax;

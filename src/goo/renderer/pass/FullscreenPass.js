@@ -1,16 +1,28 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.FullscreenPass = undefined;
+
+var _Material = require("../../renderer/Material");
+
+var _FullscreenUtils = require("../../renderer/pass/FullscreenUtils");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _Pass = require("../../renderer/pass/Pass");
+
 var FullscreenPass_FullscreenPass = FullscreenPass;
-import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
-import { FullscreenUtils as rendererpassFullscreenUtils_FullscreenUtilsjs } from "../../renderer/pass/FullscreenUtils";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
-import { Pass as rendererpassPass_Passjs } from "../../renderer/pass/Pass";
+
 function FullscreenPass(shader) {
-	this.material = new rendererMaterial_Materialjs(shader || renderershadersShaderLib_ShaderLibjs.simple);
+	this.material = new _Material.Material(shader || _ShaderLib.ShaderLib.simple);
 	this.useReadBuffer = true;
 
 	this.renderToScreen = false;
 
 	this.renderable = {
-		meshData: rendererpassFullscreenUtils_FullscreenUtilsjs.quad,
+		meshData: _FullscreenUtils.FullscreenUtils.quad,
 		materials: [this.material]
 	};
 
@@ -20,7 +32,7 @@ function FullscreenPass(shader) {
 	this.viewportSize = undefined;
 }
 
-FullscreenPass.prototype = Object.create(rendererpassPass_Passjs.prototype);
+FullscreenPass.prototype = Object.create(_Pass.Pass.prototype);
 FullscreenPass.prototype.constructor = FullscreenPass;
 
 FullscreenPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -29,13 +41,13 @@ FullscreenPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	}
 
 	if (this.renderToScreen) {
-		renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], null, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], null, this.clear);
 	} else {
-		renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], writeBuffer, this.clear);
+		renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], writeBuffer, this.clear);
 	}
 };
 
-FullscreenPass.prototype.destroy = function (/* renderer */) {
+FullscreenPass.prototype.destroy = function () /* renderer */{
 	this.material.shader.destroy();
 };
 
@@ -48,4 +60,4 @@ FullscreenPass.prototype.invalidateHandles = function (renderer) {
  * Fullscreen pass
  * @param shader
  */
-export { FullscreenPass_FullscreenPass as FullscreenPass };
+exports.FullscreenPass = FullscreenPass_FullscreenPass;

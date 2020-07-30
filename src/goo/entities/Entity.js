@@ -1,62 +1,73 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Entity = undefined;
+
+var _Component = require("../entities/components/Component");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _EventTarget = require("../util/EventTarget");
+
 var Entity_Entity = Entity;
-import { Component as entitiescomponentsComponent_Componentjs } from "../entities/components/Component";
-import { StringUtils as utilStringUtils_StringUtilsjs } from "../util/StringUtils";
-import { EventTarget as utilEventTarget_EventTargetjs } from "../util/EventTarget";
+
 function Entity(world, name, id) {
-	utilEventTarget_EventTargetjs.apply(this);
+	_EventTarget.EventTarget.apply(this);
 
 	this._world = world;
 	this._components = [];
-	this.id = id !== undefined ? id : utilStringUtils_StringUtilsjs.createUniqueId('entity');
+	this.id = id !== undefined ? id : _StringUtils.StringUtils.createUniqueId('entity');
 	this._index = Entity.entityCount;
 
 	this._tags = new Set();
 	this._attributes = new Map();
 
 	/*Object.defineProperty(this, 'id', {
-		value : Entity.entityCount++,
-		writable : false
-	});*/
+ 	value : Entity.entityCount++,
+ 	writable : false
+ });*/
 	this.name = name !== undefined ? name : 'Entity_' + this._index;
 
 	// (move to meshrenderercomponent)
 	/** Set to true to skip all processing (rendering, script updating, et cetera) of the entity.
-	 * @type {boolean}
-	 * @default false
-	 */
+  * @type {boolean}
+  * @default false
+  */
 	this.skip = false;
 
 	/** Holds the hidden status of the entity. The hidden status will not however propagate to components or child entities.
-	 * @deprecated The usage of this flag changed. Please use entity.hide/show() instead to change the hidden status of the entity and entity.isHidden/isVisiblyHidden() to query the status
-	 * @type {boolean}
-	 * @default false
-	 */
+  * @deprecated The usage of this flag changed. Please use entity.hide/show() instead to change the hidden status of the entity and entity.isHidden/isVisiblyHidden() to query the status
+  * @type {boolean}
+  * @default false
+  */
 	this.hidden = false;
 	//! AT: users are always confused about this - I'll have to hide it
 
 	/**
-	 * Has the same function as the `hidden` property, except it's now private.
-	 * @type {boolean}
-	 * @private
-	 */
+  * Has the same function as the `hidden` property, except it's now private.
+  * @type {boolean}
+  * @private
+  */
 	this._hidden = false;
 
 	/**
-	 * True if the entity is within the frustum
-	 * @type {boolean}
-	 */
+  * True if the entity is within the frustum
+  * @type {boolean}
+  */
 	this.isVisible = false;
 
 	/** Mark entity as static.
-	 * Non static entities become roots in the tree of combined ones so one can have statics under a moving node that combines but you can still move the parent node.
-	 * @type {boolean}
-	 * @default false
-	 */
+  * Non static entities become roots in the tree of combined ones so one can have statics under a moving node that combines but you can still move the parent node.
+  * @type {boolean}
+  * @default false
+  */
 	this.static = false;
 
 	Entity.entityCount++;
 }
-Entity.prototype = Object.create(utilEventTarget_EventTargetjs.prototype);
+Entity.prototype = Object.create(_EventTarget.EventTarget.prototype);
 Entity.prototype.constructor = Entity;
 
 //! AT: not sure if 'add' is a better name - need to search for something short and compatible with the other 'set' methods
@@ -74,11 +85,13 @@ Entity.prototype.constructor = Entity;
 Entity.prototype.set = function () {
 	for (var i = 0; i < arguments.length; i++) {
 		var argument = arguments[i];
-		if (argument instanceof entitiescomponentsComponent_Componentjs) {
+		if (argument instanceof _Component.Component) {
 			this.setComponent(argument);
 		} else {
 			// ask all components if they are compatible with the given data
-			if (!this._world) { return this; }
+			if (!this._world) {
+				return this;
+			}
 			var components = this._world._components;
 			for (var j = 0; j < components.length; j++) {
 				var component = components[j];
@@ -328,4 +341,4 @@ Entity.entityCount = 0;
  * @param {string} [name] Entity name.
  * @param {number} [id] Entity id.
  */
-export { Entity_Entity as Entity };
+exports.Entity = Entity_Entity;

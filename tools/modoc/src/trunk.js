@@ -1,19 +1,41 @@
-import ext_fs_fs from "fs";
-import ext_glob_glob from "glob";
-import ext_underscore__ from "underscore";
-import { extract } from "./extractor";
-import { all, link, compileComment } from "./jsdoc-processor";
-import { getFileName as util_getFileNamejs } from "./util";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.compileDoc = exports.getFiles = undefined;
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _glob = require("glob");
+
+var _glob2 = _interopRequireDefault(_glob);
+
+var _underscore = require("underscore");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+var _extractor = require("./extractor");
+
+var _jsdocProcessor = require("./jsdoc-processor");
+
+var _util = require("./util");
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
 // jshint node:true
 'use strict';
-
 
 function getFiles(sourcePath, ignore) {
 	if (/\.js$/.test(sourcePath)) {
 		return [sourcePath];
 	}
 
-	return ext_glob_glob.sync(sourcePath + '/**/*.js').filter(function (file) {
+	return _glob2.default.sync(sourcePath + '/**/*.js').filter(function (file) {
 		return ignore.every(function (term) {
 			return file.indexOf(term) === -1;
 		});
@@ -21,7 +43,7 @@ function getFiles(sourcePath, ignore) {
 }
 
 function filterPrivates(class_) {
-	var isPrivateOrHidden = function (entry) {
+	var isPrivateOrHidden = function isPrivateOrHidden(entry) {
 		return !entry.comment || !(entry.comment.private || entry.comment.hidden);
 	};
 
@@ -30,7 +52,7 @@ function filterPrivates(class_) {
 	class_.methods = class_.methods.filter(isPrivateOrHidden);
 	class_.staticMethods = class_.staticMethods.filter(isPrivateOrHidden);
 
-	class_.hasMembers = class_.members.length > 0 || (class_.constructor.comment && class_.constructor.comment.property);
+	class_.hasMembers = class_.members.length > 0 || class_.constructor.comment && class_.constructor.comment.property;
 	class_.hasStaticMethods = class_.staticMethods.length > 0;
 	class_.hasStaticMembers = class_.staticMembers.length > 0;
 	class_.hasMethods = class_.methods.length > 0;
@@ -42,16 +64,16 @@ function compileDoc(files) {
 
 	// extract information from classes
 	files.forEach(function (file) {
-		console.log('compiling doc for ' + util_getFileNamejs(file));
+		console.log('compiling doc for ' + (0, _util.getFileName)(file));
 
-		var source = ext_fs_fs.readFileSync(file, { encoding: 'utf8' });
+		var source = _fs2.default.readFileSync(file, { encoding: 'utf8' });
 
-		var class_ = extract(source, file);
+		var class_ = (0, _extractor.extract)(source, file);
 
 		Array.prototype.push.apply(extraComments, class_.extraComments);
 
 		if (class_.constructor) {
-			all(class_, files);
+			(0, _jsdocProcessor.all)(class_, files);
 
 			filterPrivates(class_);
 
@@ -62,17 +84,17 @@ function compileDoc(files) {
 	});
 
 	// --- should stay elsewhere
-	var constructorFromComment = function (comment) {
-		link(comment);
+	var constructorFromComment = function constructorFromComment(comment) {
+		(0, _jsdocProcessor.link)(comment);
 		return {
 			name: comment.targetClass.itemName,
-			params: ext_underscore__.pluck(comment.param, 'name'),
+			params: _underscore2.default.pluck(comment.param, 'name'),
 			comment: comment
 		};
 	};
 
-	var memberFromComment = function (comment) {
-		link(comment);
+	var memberFromComment = function memberFromComment(comment) {
+		(0, _jsdocProcessor.link)(comment);
 		return {
 			name: comment.targetClass.itemName,
 			comment: comment
@@ -86,52 +108,52 @@ function compileDoc(files) {
 
 	// copy over the extra info from other classes
 	// adding extras mentioned in @target-class
-	extraComments.map(compileComment)
-		.forEach(function (extraComment) {
-			var targetClassName = extraComment.targetClass.className;
-			var targetClass = classes[targetClassName];
+	extraComments.map(_jsdocProcessor.compileComment).forEach(function (extraComment) {
+		var targetClassName = extraComment.targetClass.className;
+		var targetClass = classes[targetClassName];
 
-			if (!targetClass) {
-				targetClass = {
-					constructor: null,
-					staticMethods: [],
-					staticMembers: [],
-					methods: [],
-					members: []
-				};
-				classes[targetClassName] = targetClass;
-			}
+		if (!targetClass) {
+			targetClass = {
+				constructor: null,
+				staticMethods: [],
+				staticMembers: [],
+				methods: [],
+				members: []
+			};
+			classes[targetClassName] = targetClass;
+		}
 
-			switch (extraComment.targetClass.itemType) {
-				case 'constructor':
-					targetClass.constructor = constructorFromComment(extraComment);
-					//! schteppe: had to comment out this, to make it work for commonjs. Require paths still sort of works though?
-					targetClass.requirePath = '';//extraComment.requirePath.requirePath;
-					targetClass.group = extraComment.group.group;
-					break;
-				case 'member':
-					targetClass.members.push(memberFromComment(extraComment));
-					break;
-				case 'method':
-					targetClass.methods.push(methodFromComment(extraComment));
-					break;
-				case 'static-member':
-					targetClass.staticMembers.push(staticMemberFromComment(extraComment));
-					break;
-				case 'static-method':
-					targetClass.staticMethods.push(staticMethodFromComment(extraComment));
-					break;
-			}
-		});
+		switch (extraComment.targetClass.itemType) {
+			case 'constructor':
+				targetClass.constructor = constructorFromComment(extraComment);
+				//! schteppe: had to comment out this, to make it work for commonjs. Require paths still sort of works though?
+				targetClass.requirePath = ''; //extraComment.requirePath.requirePath;
+				targetClass.group = extraComment.group.group;
+				break;
+			case 'member':
+				targetClass.members.push(memberFromComment(extraComment));
+				break;
+			case 'method':
+				targetClass.methods.push(methodFromComment(extraComment));
+				break;
+			case 'static-member':
+				targetClass.staticMembers.push(staticMemberFromComment(extraComment));
+				break;
+			case 'static-method':
+				targetClass.staticMethods.push(staticMethodFromComment(extraComment));
+				break;
+		}
+	});
 
 	return classes;
 }
 
-getFiles_getFiles = getFiles;
+exports.getFiles = getFiles_getFiles = getFiles;
 var filterPrivates;
 filterPrivates = filterPrivates;
-compileDoc_compileDoc = compileDoc;
+exports.compileDoc = compileDoc_compileDoc = compileDoc;
 var getFiles_getFiles;
-export { getFiles_getFiles as getFiles };
+exports.getFiles = getFiles_getFiles;
+
 var compileDoc_compileDoc;
-export { compileDoc_compileDoc as compileDoc };
+exports.compileDoc = compileDoc_compileDoc;

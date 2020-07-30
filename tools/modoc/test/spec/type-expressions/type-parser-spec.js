@@ -302,7 +302,7 @@ describe('type-parser', function () {
 		});
 
 		describe('throws', function () {
-			var delay = function (string) {
+			var delay = function delay(string) {
 				return parse.bind(null, string);
 			};
 

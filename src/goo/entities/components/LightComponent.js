@@ -1,8 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LightComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Light = require("../../renderer/light/Light");
+
 var LightComponent_LightComponent = LightComponent;
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { Light as rendererlightLight_Lightjs } from "../../renderer/light/Light";
+
 function LightComponent(light) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'LightComponent';
 
@@ -12,9 +22,9 @@ function LightComponent(light) {
 	this.light = light;
 
 	/**
-	 * @type {boolean}
-	 * @default
-	 */
+  * @type {boolean}
+  * @default
+  */
 	this.hidden = false;
 
 	this._transformDirty = true;
@@ -27,7 +37,7 @@ function LightComponent(light) {
 
 LightComponent.type = 'LightComponent';
 
-LightComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+LightComponent.prototype = Object.create(_Component.Component.prototype);
 LightComponent.prototype.constructor = LightComponent;
 
 LightComponent.prototype.attached = function () {
@@ -65,7 +75,7 @@ LightComponent.prototype.clone = function () {
 };
 
 LightComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof rendererlightLight_Lightjs) {
+	if (obj instanceof _Light.Light) {
 		var lightComponent = new LightComponent(obj);
 		entity.setComponent(lightComponent);
 		return true;
@@ -78,4 +88,4 @@ LightComponent.applyOnEntity = function (obj, entity) {
  * @param {Light} light Light to contain in this component (directional, spot, point)
  * @extends Component
  */
-export { LightComponent_LightComponent as LightComponent };
+exports.LightComponent = LightComponent_LightComponent;

@@ -9,11 +9,11 @@ describe('tern-serializer', function () {
 	var serialize = ternSerializer.serialize;
 
 	// would like a compose function
-	var convert = function (string) {
+	var convert = function convert(string) {
 		return serialize(parse(string), { _forceCounter: 0 });
 	};
 
-	var pair = function (serialized, definitions) {
+	var pair = function pair(serialized, definitions) {
 		return {
 			serialized: serialized,
 			definitions: definitions || {}
@@ -50,22 +50,18 @@ describe('tern-serializer', function () {
 		});
 
 		it('serializes objects', function () {
-			expect(convert('{ a }')).toEqual(pair(
-				'_t_0',
-				{
-					'_t_0': {
-						'a': '?'
-					}
-				}));
+			expect(convert('{ a }')).toEqual(pair('_t_0', {
+				'_t_0': {
+					'a': '?'
+				}
+			}));
 
-			expect(convert('{ a: number, b: boolean }')).toEqual(pair(
-				'_t_0',
-				{
-					'_t_0': {
-						'a': 'number',
-						'b': 'bool'
-					}
-				}));
+			expect(convert('{ a: number, b: boolean }')).toEqual(pair('_t_0', {
+				'_t_0': {
+					'a': 'number',
+					'b': 'bool'
+				}
+			}));
 		});
 
 		it('serializes functions', function () {
@@ -82,30 +78,25 @@ describe('tern-serializer', function () {
 		it('serializes composed types', function () {
 			expect(convert('Array<Array<number>>')).toEqual(pair('[[number]]'));
 
-			expect(convert('function (a: Array, b: function (c) : *) : *'))
-				.toEqual(pair('fn(a: [?], b: fn(c: ?) -> ?) -> ?'));
+			expect(convert('function (a: Array, b: function (c) : *) : *')).toEqual(pair('fn(a: [?], b: fn(c: ?) -> ?) -> ?'));
 
-			expect(convert('Array<{ a: Array<number> }>')).toEqual(pair(
-				'[_t_0]',
-				{
-					'_t_0' : {
-						'a': '[number]'
-					}
-				}));
+			expect(convert('Array<{ a: Array<number> }>')).toEqual(pair('[_t_0]', {
+				'_t_0': {
+					'a': '[number]'
+				}
+			}));
 
-			expect(convert('{ a: { b: { c: number } } }')).toEqual(pair(
-				'_t_0',
-				{
-					'_t_0' : {
-						'a': '_t_1'
-					},
-					'_t_1' : {
-						'b': '_t_2'
-					},
-					'_t_2' : {
-						'c': 'number'
-					}
-				}));
+			expect(convert('{ a: { b: { c: number } } }')).toEqual(pair('_t_0', {
+				'_t_0': {
+					'a': '_t_1'
+				},
+				'_t_1': {
+					'b': '_t_2'
+				},
+				'_t_2': {
+					'c': 'number'
+				}
+			}));
 		});
 	});
 });

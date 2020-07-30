@@ -1,15 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ManagedTransformSource = undefined;
+
+var _TransformData = require("../../animationpack/clip/TransformData");
+
+var _Vector = require("../../math/Vector3");
+
+var _Quaternion = require("../../math/Quaternion");
+
+var _Source = require("../../animationpack/blendtree/Source");
+
 var ManagedTransformSource_ManagedTransformSource = ManagedTransformSource;
-import { TransformData as animationpackclipTransformData_TransformDatajs } from "../../animationpack/clip/TransformData";
-import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
-import { Quaternion as mathQuaternion_Quaternionjs } from "../../math/Quaternion";
-import { Source as animationpackblendtreeSource_Sourcejs } from "../../animationpack/blendtree/Source";
+
 function ManagedTransformSource(sourceName) {
-	animationpackblendtreeSource_Sourcejs.call(this);
+	_Source.Source.call(this);
 	this._sourceName = sourceName ? sourceName : null;
 	this._data = {};
 }
 
-ManagedTransformSource.prototype = Object.create(animationpackblendtreeSource_Sourcejs.prototype);
+ManagedTransformSource.prototype = Object.create(_Source.Source.prototype);
 ManagedTransformSource.prototype.constructor = ManagedTransformSource;
 
 /**
@@ -19,7 +31,7 @@ ManagedTransformSource.prototype.constructor = ManagedTransformSource;
  */
 ManagedTransformSource.prototype.setTranslation = function (channelName, translation) {
 	var channel = this._data[channelName];
-	if (channel instanceof animationpackclipTransformData_TransformDatajs) {
+	if (channel instanceof _TransformData.TransformData) {
 		channel._translation.set(translation);
 	}
 };
@@ -32,8 +44,8 @@ ManagedTransformSource.prototype.setTranslation = function (channelName, transla
  */
 ManagedTransformSource.prototype.getTranslation = function (channelName, store) {
 	var channel = this._data[channelName];
-	if (channel instanceof animationpackclipTransformData_TransformDatajs) {
-		store = store || new mathVector3_Vector3js();
+	if (channel instanceof _TransformData.TransformData) {
+		store = store || new _Vector.Vector3();
 		store.set(channel._translation);
 	}
 	return store;
@@ -46,7 +58,7 @@ ManagedTransformSource.prototype.getTranslation = function (channelName, store) 
  */
 ManagedTransformSource.prototype.setScale = function (channelName, scale) {
 	var channel = this._data[channelName];
-	if (channel instanceof animationpackclipTransformData_TransformDatajs) {
+	if (channel instanceof _TransformData.TransformData) {
 		channel._scale.set(scale);
 	}
 };
@@ -59,8 +71,8 @@ ManagedTransformSource.prototype.setScale = function (channelName, scale) {
  */
 ManagedTransformSource.prototype.getScale = function (channelName, store) {
 	var channel = this._data[channelName];
-	if (channel instanceof animationpackclipTransformData_TransformDatajs) {
-		store = store || new mathVector3_Vector3js();
+	if (channel instanceof _TransformData.TransformData) {
+		store = store || new _Vector.Vector3();
 		store.set(channel._scale);
 	}
 	return store;
@@ -73,7 +85,7 @@ ManagedTransformSource.prototype.getScale = function (channelName, store) {
  */
 ManagedTransformSource.prototype.setRotation = function (channelName, rotation) {
 	var channel = this._data[channelName];
-	if (channel instanceof animationpackclipTransformData_TransformDatajs) {
+	if (channel instanceof _TransformData.TransformData) {
 		channel._rotation.set(rotation);
 	}
 };
@@ -85,8 +97,8 @@ ManagedTransformSource.prototype.setRotation = function (channelName, rotation) 
  */
 ManagedTransformSource.prototype.getRotation = function (channelName, store) {
 	var channel = this._data[channelName];
-	if (channel instanceof animationpackclipTransformData_TransformDatajs) {
-		store = store || new mathQuaternion_Quaternionjs();
+	if (channel instanceof _TransformData.TransformData) {
+		store = store || new _Quaternion.Quaternion();
 		store.set(channel._rotation);
 	}
 	return store;
@@ -99,7 +111,7 @@ ManagedTransformSource.prototype.getRotation = function (channelName, store) {
  */
 ManagedTransformSource.prototype.initFromClip = function (clip, filter, channelNames) {
 	if (filter === 'Include' && channelNames && channelNames.length) {
-		for ( var i = 0, max = channelNames.length; i < max; i++) {
+		for (var i = 0, max = channelNames.length; i < max; i++) {
 			var channelName = channelNames[i];
 			var channel = clip.findChannelByName(channelName);
 			if (channel) {
@@ -110,14 +122,10 @@ ManagedTransformSource.prototype.initFromClip = function (clip, filter, channelN
 			}
 		}
 	} else {
-		for ( var i = 0, max = clip._channels.length; i < max; i++) {
+		for (var i = 0, max = clip._channels.length; i < max; i++) {
 			var channel = clip._channels[i];
 			var channelName = channel._channelName;
-			if (filter === 'Exclude'
-				&& channelNames
-				&& channelNames.length
-				&& channelNames.indexOf(channelName) > -1
-			) {
+			if (filter === 'Exclude' && channelNames && channelNames.length && channelNames.indexOf(channelName) > -1) {
 				var data = channel.getData(0);
 				this._data[channelName] = data;
 			}
@@ -135,7 +143,6 @@ ManagedTransformSource.prototype.getChannelData = function (channelName) {
 ManagedTransformSource.prototype.getSourceData = function () {
 	return this._data;
 };
-
 
 /**
 * @returns {ManagedTransformSource}
@@ -155,4 +162,4 @@ ManagedTransformSource.prototype.clone = function () {
  * @param {string} [sourceName] Name of source we were initialized from, if given.
  * @extends Source
  */
-export { ManagedTransformSource_ManagedTransformSource as ManagedTransformSource };
+exports.ManagedTransformSource = ManagedTransformSource_ManagedTransformSource;

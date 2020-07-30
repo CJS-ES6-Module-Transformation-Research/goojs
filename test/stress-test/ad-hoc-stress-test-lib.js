@@ -1,32 +1,29 @@
+'use strict';
+
 (function () {
 	'use strict';
 
 	// can be anything form console.log() to send via webstockets if launched on another computer, to an html reporter
+
 	var ConsoleReporter = {
-		post: function (description, measurement) {
-			var message = description + ' took {' +
-				' min: ' + measurement.min +
-				', avg: ' + measurement.avg +
-				', max: ' + measurement.max + ' } milliseconds to execute';
+		post: function post(description, measurement) {
+			var message = description + ' took {' + ' min: ' + measurement.min + ', avg: ' + measurement.avg + ', max: ' + measurement.max + ' } milliseconds to execute';
 			console.log(message);
 		}
 	};
 
 	var HtmlReporter = {
-		post: function (description, measurement) {
+		post: function post(description, measurement) {
 			var entry = document.createElement('div');
 			entry.classList.add('entry');
 
 			// quick-n-dirty
-			entry.innerHTML = description + ' <span class="entry-measurements">min: ' + measurement.min.toFixed(3) +
-				' avg: ' + measurement.avg.toFixed(3) +
-				' max: ' + measurement.max.toFixed(3) +
-				'</span>';
+			entry.innerHTML = description + ' <span class="entry-measurements">min: ' + measurement.min.toFixed(3) + ' avg: ' + measurement.avg.toFixed(3) + ' max: ' + measurement.max.toFixed(3) + '</span>';
 
 			document.body.appendChild(entry);
 		}
 	};
-// =====================================================================================================================
+	// =====================================================================================================================
 	var reporter = HtmlReporter;
 
 	// keeps the list of tasks to execute
@@ -51,7 +48,8 @@
 
 		// run to measure
 		var min = Number.MAX_VALUE;
-		var avg, sum = 0;
+		var avg,
+		    sum = 0;
 		var max = Number.MIN_VALUE;
 		for (var i = 0; i < times; i++) {
 			var duration = measureDuration(fun);

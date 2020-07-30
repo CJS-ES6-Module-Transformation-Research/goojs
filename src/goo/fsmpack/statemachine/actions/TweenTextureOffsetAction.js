@@ -1,17 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenTextureOffsetAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector2");
+
+var _Easing = require("../../../util/Easing");
+
 var TweenTextureOffsetAction_TweenTextureOffsetAction = TweenTextureOffsetAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector2 as mathVector2_Vector2js } from "../../../math/Vector2";
-import { Easing as utilEasing_Easingjs } from "../../../util/Easing";
 
-function TweenTextureOffsetAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+function TweenTextureOffsetAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.fromOffset = new mathVector2_Vector2js();
-	this.toOffset = new mathVector2_Vector2js();
+	this.fromOffset = new _Vector.Vector2();
+	this.toOffset = new _Vector.Vector2();
 	this.completed = false;
 }
 
-TweenTextureOffsetAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+TweenTextureOffsetAction.prototype = Object.create(_Action.Action.prototype);
 TweenTextureOffsetAction.prototype.constructor = TweenTextureOffsetAction;
 
 TweenTextureOffsetAction.external = {
@@ -61,7 +71,7 @@ TweenTextureOffsetAction.external = {
 	}]
 };
 
-TweenTextureOffsetAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenTextureOffsetAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On UV Tween Complete' : undefined;
 };
 
@@ -97,7 +107,7 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = utilEasing_Easingjs[this.easing1][this.easing2](t);
+	var fT = _Easing.Easing[this.easing1][this.easing2](t);
 
 	this.texture.offset.set(this.fromOffset).lerp(this.toOffset, fT);
 
@@ -107,4 +117,4 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 	}
 };
 
-export { TweenTextureOffsetAction_TweenTextureOffsetAction as TweenTextureOffsetAction };
+exports.TweenTextureOffsetAction = TweenTextureOffsetAction_TweenTextureOffsetAction;

@@ -1,5 +1,13 @@
-import { ScriptUtils as scriptsScriptUtils_ScriptUtilsjs } from "../scripts/ScriptUtils";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Scripts = undefined;
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
 
 // the collection of scripts
 var _scripts = {};
@@ -14,23 +22,17 @@ Scripts.register = function (factoryFunction) {
 		return;
 	}
 	//! AT: this will modify the external object but that's ok
-	scriptsScriptUtils_ScriptUtilsjs.fillDefaultNames(factoryFunction.externals.parameters);
+	_ScriptUtils.ScriptUtils.fillDefaultNames(factoryFunction.externals.parameters);
 	_scripts[key] = factoryFunction;
 };
 
-Scripts.addClass = utilObjectUtils_ObjectUtilsjs.warnOnce(
-	'Scripts.addClass is deprecated; please consider using the global goo object instead',
-	function (/* name, klass */) {
-		// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
-	}
-);
+Scripts.addClass = _ObjectUtils.ObjectUtils.warnOnce('Scripts.addClass is deprecated; please consider using the global goo object instead', function () /* name, klass */{
+	// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
+});
 
-Scripts.getClasses = utilObjectUtils_ObjectUtilsjs.warnOnce(
-	'Scripts.getClasses is deprecated; please consider using the global goo object instead',
-	function () {
-		return window.goo;
-	}
-);
+Scripts.getClasses = _ObjectUtils.ObjectUtils.warnOnce('Scripts.getClasses is deprecated; please consider using the global goo object instead', function () {
+	return window.goo;
+});
 
 Scripts.getScript = function (key) {
 	return _scripts[key];
@@ -53,12 +55,12 @@ Scripts.create = function (key, options) {
 	script.externals = factoryFunction.externals;
 
 	if (factoryFunction.externals) {
-		scriptsScriptUtils_ScriptUtilsjs.fillDefaultNames(script.externals.parameters);
-		scriptsScriptUtils_ScriptUtilsjs.fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
+		_ScriptUtils.ScriptUtils.fillDefaultNames(script.externals.parameters);
+		_ScriptUtils.ScriptUtils.fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
 	}
 
 	if (options) {
-		utilObjectUtils_ObjectUtilsjs.extend(script.parameters, options);
+		_ObjectUtils.ObjectUtils.extend(script.parameters, options);
 	}
 
 	return script;
@@ -77,5 +79,5 @@ Scripts.allScripts = function () {
 
 var Scripts_Scripts;
 
-Scripts_Scripts = Scripts;
-export { Scripts_Scripts as Scripts };
+exports.Scripts = Scripts_Scripts = Scripts;
+exports.Scripts = Scripts_Scripts;
