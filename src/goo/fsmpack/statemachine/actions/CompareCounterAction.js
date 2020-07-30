@@ -1,9 +1,10 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var CompareCounterAction_CompareCounterAction = CompareCounterAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
-function CompareCounterAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function CompareCounterAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
-CompareCounterAction.prototype = Object.create(Action.prototype);
+CompareCounterAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 CompareCounterAction.prototype.constructor = CompareCounterAction;
 
 CompareCounterAction.external = {
@@ -82,4 +83,4 @@ CompareCounterAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = CompareCounterAction;
+export { CompareCounterAction_CompareCounterAction as CompareCounterAction };

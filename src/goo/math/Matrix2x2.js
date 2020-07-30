@@ -1,17 +1,20 @@
-var Matrix2 = require('./Matrix2');
-var ObjectUtils = require('../util/ObjectUtils');
+import { Matrix2 as Matrix2_Matrix2js } from "./Matrix2";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 
-var Matrix2x2 = ObjectUtils.warnOnce(
+var Matrix2x2 = utilObjectUtils_ObjectUtilsjs.warnOnce(
 	'Matrix2x2 has been renamed to Matrix2.',
 	function () {
-		Matrix2.apply(this, arguments);
+		Matrix2_Matrix2js.apply(this, arguments);
 	}
 );
 
-Matrix2x2.prototype = Object.create(Matrix2.prototype);
+Matrix2x2.prototype = Object.create(Matrix2_Matrix2js.prototype);
 Matrix2x2.prototype.constructor = Matrix2x2;
-for (var x in Matrix2) {
-	Matrix2x2[x] = Matrix2[x];
+for (var x in Matrix2_Matrix2js) {
+	Matrix2x2[x] = Matrix2_Matrix2js[x];
 }
 
-module.exports = Matrix2x2;
+var Matrix2x2_Matrix2x2;
+
+Matrix2x2_Matrix2x2 = Matrix2x2;
+export { Matrix2x2_Matrix2x2 as Matrix2x2 };

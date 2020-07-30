@@ -1,10 +1,5 @@
-var LogicInterface = require('./LogicInterface');
-
-/**
- * Handles a logic layer, which is a container for Logic Nodes and connections. It handles resolving and executing
- *        connections, as well as cross-layer connections (through LogicSystem). Each LogicLayer has an entity owner.
- * @private
- */
+var LogicLayer_LogicLayer = LogicLayer;
+import { LogicInterface as LogicInterface_LogicInterfacejs } from "./LogicInterface";
 function LogicLayer(ownerEntity) {
 	this._logicInterfaces = {};
 	this._connectionsBySource = {}; // REVIEW: unused?
@@ -101,7 +96,7 @@ LogicLayer.resolvePortID = function (instDesc, portName) {
 		return portName;
 	}
 
-	if (LogicInterface.isDynamicPortName(portName)) {
+	if (LogicInterface_LogicInterfacejs.isDynamicPortName(portName)) {
 		return portName;
 	}
 
@@ -109,7 +104,7 @@ LogicLayer.resolvePortID = function (instDesc, portName) {
 	// if realPortid is a number, no need to do all this
 	var ports = instDesc.getPorts();
 	for (var j = 0; j < ports.length; j++) {
-		if (LogicInterface.makePortDataName(ports[j]) === portName) {
+		if (LogicInterface_LogicInterfacejs.makePortDataName(ports[j]) === portName) {
 			return ports[j].id;
 		}
 	}
@@ -127,7 +122,7 @@ LogicLayer.prototype.resolveTargetAndPortID = function (targetRef, portName) {
 	}
 
 	// First check the proxy cases.
-	if (tgt.obj.entityRef !== undefined && LogicInterface.isDynamicPortName(portName)) {
+	if (tgt.obj.entityRef !== undefined && LogicInterface_LogicInterfacejs.isDynamicPortName(portName)) {
 		var logicLayer2 = this.logicSystem.getLayerByEntity(tgt.obj.entityRef);
 		for (var n in logicLayer2._logicInterfaces) {
 			var l = logicLayer2._logicInterfaces[n];
@@ -135,7 +130,7 @@ LogicLayer.prototype.resolveTargetAndPortID = function (targetRef, portName) {
 			// 	console.log(l);
 			// }
 
-			if (l.obj.type === 'LogicNodeInput' && l.obj.dummyInport !== null && LogicInterface.makePortDataName(l.obj.dummyInport)) {
+			if (l.obj.type === 'LogicNodeInput' && l.obj.dummyInport !== null && LogicInterface_LogicInterfacejs.makePortDataName(l.obj.dummyInport)) {
 				return {
 					target: l,
 					portID: portName
@@ -367,4 +362,9 @@ LogicLayer.prototype.connectEndpoints = function (sourceInst, sourcePort, destIn
 	this.addConnectionByName(sourceInst, sourcePort, destInst.name, destPort);
 };
 
-module.exports = LogicLayer;
+/**
+ * Handles a logic layer, which is a container for Logic Nodes and connections. It handles resolving and executing
+ *        connections, as well as cross-layer connections (through LogicSystem). Each LogicLayer has an entity owner.
+ * @private
+ */
+export { LogicLayer_LogicLayer as LogicLayer };

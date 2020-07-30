@@ -1,14 +1,15 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var LightComponent = require('../../../entities/components/LightComponent');
-var PointLight = require('../../../renderer/light/PointLight');
-var DirectionalLight = require('../../../renderer/light/DirectionalLight');
-var SpotLight = require('../../../renderer/light/SpotLight');
+var AddLightAction_AddLightAction = AddLightAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { LightComponent as entitiescomponentsLightComponent_LightComponentjs } from "../../../entities/components/LightComponent";
+import { PointLight as rendererlightPointLight_PointLightjs } from "../../../renderer/light/PointLight";
+import { DirectionalLight as rendererlightDirectionalLight_DirectionalLightjs } from "../../../renderer/light/DirectionalLight";
+import { SpotLight as rendererlightSpotLight_SpotLightjs } from "../../../renderer/light/SpotLight";
 
-function AddLightAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function AddLightAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-AddLightAction.prototype = Object.create(Action.prototype);
+AddLightAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 AddLightAction.prototype.constructor = AddLightAction;
 
 AddLightAction.external = {
@@ -71,20 +72,20 @@ AddLightAction.prototype.enter = function (fsm) {
 
 	var light;
 	if (this.type === 'Directional') {
-		light = new DirectionalLight();
+		light = new rendererlightDirectionalLight_DirectionalLightjs();
 	} else if (this.type === 'Spot') {
-		light = new SpotLight();
+		light = new rendererlightSpotLight_SpotLightjs();
 		light.range = +this.range;
 		light.angle = +this.angle;
 		light.penumbra = +this.penumbra;
 	} else {
-		light = new PointLight();
+		light = new rendererlightPointLight_PointLightjs();
 		light.range = +this.range;
 	}
 
 	light.color.setDirect(this.color[0], this.color[1], this.color[2]);
 
-	entity.setComponent(new LightComponent(light));
+	entity.setComponent(new entitiescomponentsLightComponent_LightComponentjs(light));
 };
 
 AddLightAction.prototype.cleanup = function (fsm) {
@@ -96,4 +97,4 @@ AddLightAction.prototype.cleanup = function (fsm) {
 	}
 };
 
-module.exports = AddLightAction;
+export { AddLightAction_AddLightAction as AddLightAction };

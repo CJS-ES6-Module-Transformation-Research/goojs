@@ -1,17 +1,18 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
-var ParticleLib = require('../../../particles/ParticleLib');
-var ParticleSystemUtils = require('../../../util/ParticleSystemUtils');
+var SmokeAction_SmokeAction = SmokeAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Material as rendererMaterial_Materialjs } from "../../../renderer/Material";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
+import { ParticleLib as particlesParticleLib_ParticleLibjs } from "../../../particles/ParticleLib";
+import { ParticleSystemUtils as utilParticleSystemUtils_ParticleSystemUtilsjs } from "../../../util/ParticleSystemUtils";
 
-function SmokeAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function SmokeAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 	this.smokeEntity = null;
 }
 
 SmokeAction.material = null;
 
-SmokeAction.prototype = Object.create(Action.prototype);
+SmokeAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 SmokeAction.prototype.constructor = SmokeAction;
 
 SmokeAction.external = {
@@ -39,8 +40,8 @@ SmokeAction.prototype.enter = function (fsm) {
 	var gooRunner = entity._world.gooRunner;
 
 	if (!SmokeAction.material) {
-		SmokeAction.material = new Material(ShaderLib.particles);
-		var texture = ParticleSystemUtils.createFlareTexture();
+		SmokeAction.material = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.particles);
+		var texture = utilParticleSystemUtils_ParticleSystemUtilsjs.createFlareTexture();
 		texture.generateMipmaps = true;
 		SmokeAction.material.setTexture('DIFFUSE_MAP', texture);
 		SmokeAction.material.blendState.blending = 'TransparencyBlending';
@@ -51,9 +52,9 @@ SmokeAction.prototype.enter = function (fsm) {
 
 	var entityScale = entity.transformComponent.sync().worldTransform.scale;
 	var scale = (entityScale.x + entityScale.y + entityScale.z) / 3;
-	this.smokeEntity = ParticleSystemUtils.createParticleSystemEntity(
+	this.smokeEntity = utilParticleSystemUtils_ParticleSystemUtilsjs.createParticleSystemEntity(
 		gooRunner.world,
-		ParticleLib.getSmoke({
+		particlesParticleLib_ParticleLibjs.getSmoke({
 			scale: scale,
 			color: this.color
 		}),
@@ -75,4 +76,4 @@ SmokeAction.prototype.cleanup = function (/*fsm*/) {
 	}
 };
 
-module.exports = SmokeAction;
+export { SmokeAction_SmokeAction as SmokeAction };

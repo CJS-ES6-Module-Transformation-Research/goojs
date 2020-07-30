@@ -1,26 +1,18 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AnimationClip = require('../../animationpack/clip/AnimationClip');
-var JointChannel = require('../../animationpack/clip/JointChannel');
-var TransformChannel = require('../../animationpack/clip/TransformChannel');
-var InterpolatedFloatChannel = require('../../animationpack/clip/InterpolatedFloatChannel');
-var TriggerChannel = require('../../animationpack/clip/TriggerChannel');
-var ArrayUtils = require('../../util/ArrayUtils');
-
-/**
- * Handler for loading animation clips into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+var AnimationClipHandler_AnimationClipHandler = AnimationClipHandler;
+import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { AnimationClip as animationpackclipAnimationClip_AnimationClipjs } from "../../animationpack/clip/AnimationClip";
+import { JointChannel as animationpackclipJointChannel_JointChanneljs } from "../../animationpack/clip/JointChannel";
+import { TransformChannel as animationpackclipTransformChannel_TransformChanneljs } from "../../animationpack/clip/TransformChannel";
+import {     InterpolatedFloatChannel as animationpackclipInterpolatedFloatChannel_InterpolatedFloatChanneljs, } from "../../animationpack/clip/InterpolatedFloatChannel";
+import { TriggerChannel as animationpackclipTriggerChannel_TriggerChanneljs } from "../../animationpack/clip/TriggerChannel";
+import { ArrayUtils as utilArrayUtils_ArrayUtilsjs } from "../../util/ArrayUtils";
 function AnimationClipHandler() {
-	ConfigHandler.apply(this, arguments);
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
 }
 
-AnimationClipHandler.prototype = Object.create(ConfigHandler.prototype);
+AnimationClipHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 AnimationClipHandler.prototype.constructor = AnimationClipHandler;
-ConfigHandler._registerClass('clip', AnimationClipHandler);
+loadershandlersConfigHandler_ConfigHandlerjs._registerClass('clip', AnimationClipHandler);
 
 /**
  * Creates an empty animation clip
@@ -29,7 +21,7 @@ ConfigHandler._registerClass('clip', AnimationClipHandler);
  * @private
  */
 AnimationClipHandler.prototype._create = function () {
-	return new AnimationClip();
+	return new animationpackclipAnimationClip_AnimationClipjs();
 };
 
 /**
@@ -41,7 +33,7 @@ AnimationClipHandler.prototype._create = function () {
  */
 AnimationClipHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (clip) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (clip) {
 		if (!clip) { return clip; }
 		return that.loadObject(config.binaryRef, options).then(function (bindata) {
 			if (!bindata) {
@@ -68,7 +60,7 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 		for (var i = 0; i < keys.length; i++) {
 			var channelConfig = clipConfig.channels[keys[i]];
 			// Time samples
-			var times = ArrayUtils.getTypedArray(bindata, channelConfig.times);
+			var times = utilArrayUtils_ArrayUtilsjs.getTypedArray(bindata, channelConfig.times);
 
 			var blendType = channelConfig.blendType;
 			var type = channelConfig.type;
@@ -79,12 +71,12 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 				case 'Transform':
 					// Transform samples
 					var rots, trans, scales;
-					rots = ArrayUtils.getTypedArray(bindata, channelConfig.rotationSamples);
-					trans = ArrayUtils.getTypedArray(bindata, channelConfig.translationSamples);
-					scales = ArrayUtils.getTypedArray(bindata, channelConfig.scaleSamples);
+					rots = utilArrayUtils_ArrayUtilsjs.getTypedArray(bindata, channelConfig.rotationSamples);
+					trans = utilArrayUtils_ArrayUtilsjs.getTypedArray(bindata, channelConfig.translationSamples);
+					scales = utilArrayUtils_ArrayUtilsjs.getTypedArray(bindata, channelConfig.scaleSamples);
 
 					if (type === 'Joint') {
-						channel = new JointChannel(
+						channel = new animationpackclipJointChannel_JointChanneljs(
 							channelConfig.jointIndex,
 							channelConfig.name,
 							times,
@@ -94,7 +86,7 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 							blendType
 						);
 					} else {
-						channel = new TransformChannel(
+						channel = new animationpackclipTransformChannel_TransformChanneljs(
 							channelConfig.name,
 							times,
 							rots,
@@ -105,7 +97,7 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 					}
 					break;
 				case 'FloatLERP':
-					channel = new InterpolatedFloatChannel(
+					channel = new animationpackclipInterpolatedFloatChannel_InterpolatedFloatChanneljs(
 						channelConfig.name,
 						times,
 						channelConfig.values,
@@ -113,7 +105,7 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 					);
 					break;
 				case 'Trigger':
-					channel = new TriggerChannel(
+					channel = new animationpackclipTriggerChannel_TriggerChanneljs(
 						channelConfig.name,
 						times,
 						channelConfig.keys
@@ -130,4 +122,12 @@ AnimationClipHandler.prototype._updateAnimationClip = function (clipConfig, bind
 	return clip;
 };
 
-module.exports = AnimationClipHandler;
+/**
+ * Handler for loading animation clips into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { AnimationClipHandler_AnimationClipHandler as AnimationClipHandler };

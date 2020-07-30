@@ -1,13 +1,8 @@
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Post processing handler
- * @param {RenderTarget} renderTarget Data to wrap
- * @property {RenderTarget} renderTarget Data to wrap
- */
+var Composer_Composer = Composer;
+import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
 function Composer(renderTarget) {
 	this._passedWriteBuffer = !!renderTarget;
 	this.writeBuffer = renderTarget;
@@ -16,14 +11,14 @@ function Composer(renderTarget) {
 		var width = window.innerWidth || 1;
 		var height = window.innerHeight || 1;
 
-		this.writeBuffer = new RenderTarget(width, height);
+		this.writeBuffer = new rendererpassRenderTarget_RenderTargetjs(width, height);
 	}
 
 	this.readBuffer = this.writeBuffer.clone();
 
 	this.passes = [];
 	this._clearColor = [0, 0, 0, 1];
-	this.copyPass = new FullscreenPass(ShaderLib.copy);
+	this.copyPass = new rendererpassFullscreenPass_FullscreenPassjs(renderershadersShaderLib_ShaderLibjs.copy);
 
 	this.size = null;
 	this.dirty = false;
@@ -33,7 +28,7 @@ function Composer(renderTarget) {
 		this.size = size;
 	}.bind(this);
 
-	SystemBus.addListener('goo.viewportResize', this._viewportResizeHandler, true);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.viewportResize', this._viewportResizeHandler, true);
 }
 
 /**
@@ -46,7 +41,7 @@ Composer.prototype.destroy = function (renderer) {
 		var pass = this.passes[i];
 		pass.destroy(renderer);
 	}
-	SystemBus.removeListener('goo.viewportResize', this._viewportResizeHandler);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.viewportResize', this._viewportResizeHandler);
 };
 
 /**
@@ -102,7 +97,7 @@ Composer.prototype.updateSize = function (renderer) {
 
 	this.deallocateBuffers(renderer);
 
-	this.writeBuffer = new RenderTarget(width, height);
+	this.writeBuffer = new rendererpassRenderTarget_RenderTargetjs(width, height);
 	this.readBuffer = this.writeBuffer.clone();
 
 	for (var i = 0, il = this.passes.length; i < il; i++) {
@@ -143,4 +138,9 @@ Composer.prototype.render = function (renderer, delta, camera, lights) {
 	}
 };
 
-module.exports = Composer;
+/**
+ * Post processing handler
+ * @param {RenderTarget} renderTarget Data to wrap
+ * @property {RenderTarget} renderTarget Data to wrap
+ */
+export { Composer_Composer as Composer };

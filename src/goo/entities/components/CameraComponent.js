@@ -1,15 +1,10 @@
-var Component = require('../../entities/components/Component');
-var Vector3 = require('../../math/Vector3');
-var Camera = require('../../renderer/Camera');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Holds a camera.
- * @param {Camera} camera Camera to contain in this component.
- * @extends Component
- */
+var CameraComponent_CameraComponent = CameraComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Camera as rendererCamera_Camerajs } from "../../renderer/Camera";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
 function CameraComponent(camera) {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'CameraComponent';
 
@@ -24,21 +19,21 @@ function CameraComponent(camera) {
 	 * @type {Vector3}
 	 * @default (-1, 0, 0)
 	 */
-	this.leftVec = new Vector3(-1, 0, 0);
+	this.leftVec = new mathVector3_Vector3js(-1, 0, 0);
 
 	/**
 	 * Up vector.
 	 * @type {Vector3}
 	 * @default (0, 1, 0)
 	 */
-	this.upVec = new Vector3(0, 1, 0);
+	this.upVec = new mathVector3_Vector3js(0, 1, 0);
 
 	/**
 	 * Direction vector.
 	 * @type {Vector3}
 	 * @default (0, 0, -1)
 	 */
-	this.dirVec = new Vector3(0, 0, -1);
+	this.dirVec = new mathVector3_Vector3js(0, 0, -1);
 
 	this._transformUpdatedListener = null;
 	this._transformDirty = true;
@@ -50,13 +45,13 @@ function CameraComponent(camera) {
 
 CameraComponent.type = 'CameraComponent';
 
-CameraComponent.prototype = Object.create(Component.prototype);
+CameraComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 CameraComponent.prototype.constructor = CameraComponent;
 
 CameraComponent.prototype.api = {
 	//! AT: the component holds no reference to its entity therefore this method could never stay on the component
 	setAsMainCamera: function () {
-		SystemBus.emit('goo.setCurrentCamera', {
+		entitiesSystemBus_SystemBusjsjs.emit('goo.setCurrentCamera', {
 			camera: this.cameraComponent.camera,
 			entity: this
 		});
@@ -139,11 +134,16 @@ CameraComponent.prototype.clone = function () {
 };
 
 CameraComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Camera) {
+	if (obj instanceof rendererCamera_Camerajs) {
 		var cameraComponent = new CameraComponent(obj);
 		entity.setComponent(cameraComponent);
 		return true;
 	}
 };
 
-module.exports = CameraComponent;
+/**
+ * Holds a camera.
+ * @param {Camera} camera Camera to contain in this component.
+ * @extends Component
+ */
+export { CameraComponent_CameraComponent as CameraComponent };

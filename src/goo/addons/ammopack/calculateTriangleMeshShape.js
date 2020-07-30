@@ -1,6 +1,4 @@
-/* global Ammo */
-
-module.exports = function (entity, scale) {
+var exportedObject = function (entity, scale) {
 	scale = scale || [1, 1, 1];
 	var floatByteSize = 4;
 	var use32bitIndices = true;
@@ -36,3 +34,7 @@ module.exports = function (entity, scale) {
 	// bvh = Bounding Volume Hierarchy
 	return new Ammo.btBvhTriangleMeshShape( triangleIndexVertexArray, true, true ); // btStridingMeshInterface, useQuantizedAabbCompression, buildBvh
 };
+
+/* global Ammo */
+
+export { exportedObject as calculateTriangleMeshShapejs };

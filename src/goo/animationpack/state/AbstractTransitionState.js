@@ -1,15 +1,10 @@
-var AbstractState = require('../../animationpack/state/AbstractState');
-var BinaryLerpSource = require('../../animationpack/blendtree/BinaryLerpSource');
-var MathUtils = require('../../math/MathUtils');
-
-/**
- * An abstract transition state that blends between two other states.
- * @extends AbstractState
- * @private
- */
+var AbstractTransitionState_AbstractTransitionState = AbstractTransitionState;
+import { AbstractState as animationpackstateAbstractState_AbstractStatejs } from "../../animationpack/state/AbstractState";
+import {     BinaryLerpSource as animationpackblendtreeBinaryLerpSource_BinaryLerpSourcejs, } from "../../animationpack/blendtree/BinaryLerpSource";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../../math/MathUtils";
 
 function AbstractTransitionState() {
-	AbstractState.call(this);
+	animationpackstateAbstractState_AbstractStatejs.call(this);
 
 	this._sourceState = null;
 	this._targetState = null;
@@ -19,7 +14,7 @@ function AbstractTransitionState() {
 	this._blendType = AbstractTransitionState.BLENDTYPES.LINEAR;
 }
 
-AbstractTransitionState.prototype = Object.create(AbstractState.prototype);
+AbstractTransitionState.prototype = Object.create(animationpackstateAbstractState_AbstractStatejs.prototype);
 AbstractTransitionState.prototype.constructor = AbstractTransitionState;
 
 AbstractTransitionState.BLENDTYPES = {};
@@ -45,10 +40,10 @@ AbstractTransitionState.prototype.update = function (globalTime) {
 	var percent = currentTime / this._fadeTime;
 	switch (this._blendType) {
 		case AbstractTransitionState.BLENDTYPES.CUBIC:
-			this._percent = MathUtils.scurve3(percent);
+			this._percent = mathMathUtils_MathUtilsjs.scurve3(percent);
 			break;
 		case AbstractTransitionState.BLENDTYPES.QUINTIC:
-			this._percent = MathUtils.scurve5(percent);
+			this._percent = mathMathUtils_MathUtilsjs.scurve5(percent);
 			break;
 		default:
 			this._percent = percent;
@@ -81,7 +76,7 @@ AbstractTransitionState.prototype.getCurrentSourceData = function () {
 	if (!this._sourceData) {
 		this._sourceData = {};
 	}
-	return BinaryLerpSource.combineSourceData(sourceAData, sourceBData, this._percent, this._sourceData);
+	return animationpackblendtreeBinaryLerpSource_BinaryLerpSourcejs.combineSourceData(sourceAData, sourceBData, this._percent, this._sourceData);
 };
 
 /**
@@ -120,13 +115,13 @@ AbstractTransitionState.prototype.isValid = function (timeWindow, globalTime) {
 };
 
 AbstractTransitionState.prototype.resetClips = function (globalTime) {
-	AbstractState.prototype.resetClips.call(this, globalTime);
+	animationpackstateAbstractState_AbstractStatejs.prototype.resetClips.call(this, globalTime);
 	//this._sourceData = {};
 	this._percent = 0.0;
 };
 
 AbstractTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractState.prototype.shiftClipTime.call(this, shiftTime);
+	animationpackstateAbstractState_AbstractStatejs.prototype.shiftClipTime.call(this, shiftTime);
 	//this._percent = 0.0;  // definitely not 0, or maybe 0
 };
 
@@ -139,4 +134,10 @@ AbstractTransitionState.prototype.setTimeScale = function (timeScale) {
 	}
 };
 
-module.exports = AbstractTransitionState;
+/**
+ * An abstract transition state that blends between two other states.
+ * @extends AbstractState
+ * @private
+ */
+
+export { AbstractTransitionState_AbstractTransitionState as AbstractTransitionState };

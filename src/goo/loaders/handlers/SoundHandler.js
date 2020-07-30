@@ -1,19 +1,11 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AudioContext = require('../../sound/AudioContext');
-var Sound = require('../../sound/Sound');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-
-/**
- * Handler for loading sounds into engine
- * @extends ConfigHandler
- * @param {World} world
- * @param {Function} getConfig
- * @param {Function} updateObject
- * @private
- */
+var SoundHandler_SoundHandler = SoundHandler;
+import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
+import { AudioContextjs as soundAudioContext_AudioContextjsjs } from "../../sound/AudioContext";
+import { Sound as soundSound_Soundjs } from "../../sound/Sound";
+import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
 function SoundHandler() {
-	ConfigHandler.apply(this, arguments);
+	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
 	this._audioCache = {};
 
 	if (window.Audio !== undefined) {
@@ -36,9 +28,9 @@ function SoundHandler() {
 	}
 }
 
-SoundHandler.prototype = Object.create(ConfigHandler.prototype);
+SoundHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
 SoundHandler.prototype.constructor = SoundHandler;
-ConfigHandler._registerClass('sound', SoundHandler);
+loadershandlersConfigHandler_ConfigHandlerjs._registerClass('sound', SoundHandler);
 
 /**
  * Removes a sound
@@ -59,7 +51,7 @@ SoundHandler.prototype._remove = function (ref) {
  * @private
  */
 SoundHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	utilObjectUtils_ObjectUtilsjs.defaults(config, {
 		loop: false,
 		audioRefs: {},
 		volume: 1.0,
@@ -75,7 +67,7 @@ SoundHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundHandler.prototype._create = function () {
-	return new Sound();
+	return new soundSound_Soundjs();
 };
 
 /**
@@ -86,11 +78,11 @@ SoundHandler.prototype._create = function () {
  * @returns {RSVP.Promise} Resolves with the updated sound or null if removed
  */
 SoundHandler.prototype._update = function (ref, config, options) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils.resolve();
+	if (!soundAudioContext_AudioContextjsjs.isSupported()) {
+		return utilPromiseUtils_PromiseUtilsjs.resolve();
 	}
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (sound) {
+	return loadershandlersConfigHandler_ConfigHandlerjs.prototype._update.call(this, ref, config, options).then(function (sound) {
 		if (!sound) { return; }
 		sound.update(config);
 		for (var i = 0; i < that._codecs.length; i++) {
@@ -103,8 +95,8 @@ SoundHandler.prototype._update = function (ref, config, options) {
 					return sound;
 				} else {
 					return that.loadObject(ref).then(function (buffer) {
-						return PromiseUtils.createPromise(function (resolve) {
-							AudioContext.getContext().decodeAudioData(buffer, function (audioBuffer) {
+						return utilPromiseUtils_PromiseUtilsjs.createPromise(function (resolve) {
+							soundAudioContext_AudioContextjsjs.getContext().decodeAudioData(buffer, function (audioBuffer) {
 								resolve(audioBuffer);
 							}, function (/*err*/) {
 								console.error('Could not decode audio ' + ref);
@@ -127,4 +119,12 @@ SoundHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = SoundHandler;
+/**
+ * Handler for loading sounds into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { SoundHandler_SoundHandler as SoundHandler };
