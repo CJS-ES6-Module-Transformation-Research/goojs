@@ -1,73 +1,82 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleData = undefined;
+
+var _Vector = require("../../math/Vector3");
+
 var ParticleData_ParticleData = ParticleData;
-import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+
 function ParticleData(particleComponent) {
 
 	/**
-	 * The owner component
-	 * @type {number}
-	 */
+  * The owner component
+  * @type {number}
+  */
 	this.component = particleComponent;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.index = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.lifeTime = 1;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.emitTime = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.active = 1;
 
 	/**
-	 * @type {Vector3}
-	 */
-	this.startPosition = new mathVector3_Vector3js();
+  * @type {Vector3}
+  */
+	this.startPosition = new _Vector.Vector3();
 
 	/**
-	 * @type {Vector3}
-	 */
-	this.startDirection = new mathVector3_Vector3js();
+  * @type {Vector3}
+  */
+	this.startDirection = new _Vector.Vector3();
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.startAngle = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.startSize = 1;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.sortValue = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.emitRandom = 0;
 
 	/**
-	 * @type {number}
-	 */
+  * @type {number}
+  */
 	this.loopAfter = 0;
 }
 
-var dirDelta = new mathVector3_Vector3js();
-var gravityDelta = new mathVector3_Vector3js();
-var localVelocityDelta = new mathVector3_Vector3js();
-var worldVelocityDelta = new mathVector3_Vector3js();
+var dirDelta = new _Vector.Vector3();
+var gravityDelta = new _Vector.Vector3();
+var localVelocityDelta = new _Vector.Vector3();
+var worldVelocityDelta = new _Vector.Vector3();
 
 /**
  * Get the world position of the particle
@@ -122,4 +131,4 @@ ParticleData.prototype.getWorldPosition = function (store) {
  * @constructor
  * @param {ParticleSystemComponent} particleComponent
  */
-export { ParticleData_ParticleData as ParticleData };
+exports.ParticleData = ParticleData_ParticleData;

@@ -1,7 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonPlaneColliderComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
 var CannonPlaneColliderComponent_CannonPlaneColliderComponent = CannonPlaneColliderComponent;
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+
 function CannonPlaneColliderComponent(settings) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'CannonPlaneColliderComponent';
 
@@ -11,7 +20,7 @@ function CannonPlaneColliderComponent(settings) {
 	this.cannonShape = new CANNON.Plane();
 }
 
-CannonPlaneColliderComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+CannonPlaneColliderComponent.prototype = Object.create(_Component.Component.prototype);
 CannonPlaneColliderComponent.constructor = CannonPlaneColliderComponent;
 
 /* global CANNON */
@@ -21,4 +30,4 @@ CannonPlaneColliderComponent.constructor = CannonPlaneColliderComponent;
  * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
  * @param {Object} [settings]
  */
-export { CannonPlaneColliderComponent_CannonPlaneColliderComponent as CannonPlaneColliderComponent };
+exports.CannonPlaneColliderComponent = CannonPlaneColliderComponent_CannonPlaneColliderComponent;

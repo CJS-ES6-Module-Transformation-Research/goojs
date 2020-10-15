@@ -1,11 +1,19 @@
-var LogMessageAction_LogMessageAction = LogMessageAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function LogMessageAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogMessageAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var LogMessageAction_LogMessageAction = LogMessageAction;
+
+function LogMessageAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-LogMessageAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+LogMessageAction.prototype = Object.create(_Action.Action.prototype);
 LogMessageAction.prototype.constructor = LogMessageAction;
 
 LogMessageAction.external = {
@@ -28,16 +36,16 @@ LogMessageAction.external = {
 	transitions: []
 };
 
-LogMessageAction.prototype.enter = function (/*fsm*/) {
+LogMessageAction.prototype.enter = function () /*fsm*/{
 	if (!this.everyFrame) {
 		console.log(this.message);
 	}
 };
 
-LogMessageAction.prototype.update = function (/*fsm*/) {
+LogMessageAction.prototype.update = function () /*fsm*/{
 	if (this.everyFrame) {
 		console.log(this.message);
 	}
 };
 
-export { LogMessageAction_LogMessageAction as LogMessageAction };
+exports.LogMessageAction = LogMessageAction_LogMessageAction;

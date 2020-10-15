@@ -1,7 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EntityUtils = undefined;
+
+var _Scripts = require("../scripts/Scripts");
+
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var EntityUtils_EntityUtils = EntityUtils;
-import { getScript as Scriptsjs_getScript, create as Scriptsjs_create } from "../scripts/Scripts";
-import { BoundingBox as rendererboundsBoundingBox_BoundingBoxjs } from "../renderer/bounds/BoundingBox";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+
 function EntityUtils() {}
 
 /**
@@ -34,8 +45,8 @@ function cloneEntity(world, entity, settings) {
 	// settings is also used to store stuff on it, like animation skeletons
 	var newEntity = world.createEntity(entity.name);
 
-	newEntity._tags = utilObjectUtils_ObjectUtilsjs.cloneSet(entity._tags);
-	newEntity._attributes = utilObjectUtils_ObjectUtilsjs.cloneMap(entity._attributes);
+	newEntity._tags = _ObjectUtils.ObjectUtils.cloneSet(entity._tags);
+	newEntity._attributes = _ObjectUtils.ObjectUtils.cloneMap(entity._attributes);
 	newEntity._hidden = entity._hidden;
 	newEntity.static = entity.static;
 
@@ -59,24 +70,44 @@ function cloneEntity(world, entity, settings) {
 				var newScript;
 				var script = component.scripts[j];
 				var key = script.externals ? script.externals.key || script.externals.name : null;
-				if (key && Scriptsjs_getScript(key)) { // Engine script
-					newScript = Scriptsjs_create(key, script.parameters);
-				} else { // Custom script
+				if (key && (0, _Scripts.getScript)(key)) {
+					// Engine script
+					newScript = (0, _Scripts.create)(key, script.parameters);
+				} else {
+					// Custom script
 					newScript = {
 						externals: script.externals,
 						name: (script.name || '') + '_clone',
 						enabled: !!script.enabled
 					};
-					if (script.parameters) { newScript.parameters = utilObjectUtils_ObjectUtilsjs.deepClone(script.parameters); }
+					if (script.parameters) {
+						newScript.parameters = _ObjectUtils.ObjectUtils.deepClone(script.parameters);
+					}
 
-					if (script.setup) { newScript.setup = script.setup; }
-					if (script.update) { newScript.update = script.update; }
-					if (script.cleanup) { newScript.cleanup = script.cleanup; }
-					if (script.fixedUpdate) { newScript.fixedUpdate = script.fixedUpdate; }
-					if (script.lateUpdate) { newScript.lateUpdate = script.lateUpdate; }
-					if (script.argsUpdated) { newScript.argsUpdated = script.argsUpdated; }
-					if (script.enter) { newScript.enter = script.enter; }
-					if (script.exit) { newScript.exit = script.exit; }
+					if (script.setup) {
+						newScript.setup = script.setup;
+					}
+					if (script.update) {
+						newScript.update = script.update;
+					}
+					if (script.cleanup) {
+						newScript.cleanup = script.cleanup;
+					}
+					if (script.fixedUpdate) {
+						newScript.fixedUpdate = script.fixedUpdate;
+					}
+					if (script.lateUpdate) {
+						newScript.lateUpdate = script.lateUpdate;
+					}
+					if (script.argsUpdated) {
+						newScript.argsUpdated = script.argsUpdated;
+					}
+					if (script.enter) {
+						newScript.enter = script.enter;
+					}
+					if (script.exit) {
+						newScript.exit = script.exit;
+					}
 
 					scriptComponent.scripts.push(newScript);
 				}
@@ -157,7 +188,7 @@ EntityUtils.getRoot = function (entity) {
 /**
  * @deprecated Deprecated with warning on 2016-04-06
  */
-EntityUtils.updateWorldTransform = utilObjectUtils_ObjectUtilsjs.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
+EntityUtils.updateWorldTransform = _ObjectUtils.ObjectUtils.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
 	transformComponent.updateWorldTransform();
 
 	for (var i = 0; i < transformComponent.children.length; i++) {
@@ -170,13 +201,13 @@ EntityUtils.updateWorldTransform = utilObjectUtils_ObjectUtilsjs.warnOnce('Entit
  * @param entity
  */
 EntityUtils.getTotalBoundingBox = function (entity) {
-	var mergedWorldBound = new rendererboundsBoundingBox_BoundingBoxjs();
+	var mergedWorldBound = new _BoundingBox.BoundingBox();
 	var first = true;
 	entity.traverse(function (entity) {
 		if (entity.meshRendererComponent) {
 			if (first) {
 				var boundingVolume = entity.meshRendererComponent.worldBound;
-				if (boundingVolume instanceof rendererboundsBoundingBox_BoundingBoxjs) {
+				if (boundingVolume instanceof _BoundingBox.BoundingBox) {
 					mergedWorldBound.copy(boundingVolume);
 				} else {
 					mergedWorldBound.center.set(boundingVolume.center);
@@ -193,7 +224,7 @@ EntityUtils.getTotalBoundingBox = function (entity) {
 	// a tiny bounding box centered around the coordinates of the parent
 	if (first) {
 		var translation = entity.transformComponent.worldTransform.translation;
-		mergedWorldBound = new rendererboundsBoundingBox_BoundingBoxjs(translation.clone(), 0.001, 0.001, 0.001);
+		mergedWorldBound = new _BoundingBox.BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
 	}
 
 	return mergedWorldBound;
@@ -203,4 +234,4 @@ EntityUtils.getTotalBoundingBox = function (entity) {
  * Utilities for entity creation etc
  * Only used to define the class. Should never be instantiated.
  */
-export { EntityUtils_EntityUtils as EntityUtils };
+exports.EntityUtils = EntityUtils_EntityUtils;

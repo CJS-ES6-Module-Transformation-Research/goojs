@@ -1,11 +1,19 @@
-var ResumeAnimationAction_ResumeAnimationAction = ResumeAnimationAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function ResumeAnimationAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ResumeAnimationAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var ResumeAnimationAction_ResumeAnimationAction = ResumeAnimationAction;
+
+function ResumeAnimationAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-ResumeAnimationAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+ResumeAnimationAction.prototype = Object.create(_Action.Action.prototype);
 ResumeAnimationAction.prototype.constructor = ResumeAnimationAction;
 
 ResumeAnimationAction.external = {
@@ -36,4 +44,4 @@ ResumeAnimationAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { ResumeAnimationAction_ResumeAnimationAction as ResumeAnimationAction };
+exports.ResumeAnimationAction = ResumeAnimationAction_ResumeAnimationAction;

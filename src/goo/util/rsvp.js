@@ -1,10 +1,17 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var config = {};
 
-var browserGlobal = (typeof window !== 'undefined') ? window : {};
+var browserGlobal = typeof window !== 'undefined' ? window : {};
 var MutationObserver = browserGlobal.MutationObserver || browserGlobal.WebKitMutationObserver;
 
-if (typeof process !== 'undefined' &&
-	{}.toString.call(process) === '[object process]') {
+if (typeof process !== 'undefined' && {}.toString.call(process) === '[object process]') {
 	config.async = function (callback, binding) {
 		process.nextTick(function () {
 			callback.call(binding);
@@ -18,7 +25,8 @@ if (typeof process !== 'undefined' &&
 		queue = [];
 
 		toProcess.forEach(function (tuple) {
-			var callback = tuple[0], binding = tuple[1];
+			var callback = tuple[0],
+			    binding = tuple[1];
 			callback.call(binding);
 		});
 	});
@@ -44,7 +52,7 @@ if (typeof process !== 'undefined' &&
 	};
 }
 
-var Event = function (type, options) {
+var Event = function Event(type, options) {
 	this.type = type;
 
 	for (var option in options) {
@@ -56,7 +64,7 @@ var Event = function (type, options) {
 	}
 };
 
-var indexOf = function (callbacks, callback) {
+var indexOf = function indexOf(callbacks, callback) {
 	for (var i = 0, l = callbacks.length; i < l; i++) {
 		if (callbacks[i][0] === callback) {
 			return i;
@@ -66,7 +74,7 @@ var indexOf = function (callbacks, callback) {
 	return -1;
 };
 
-var callbacksFor = function (object) {
+var callbacksFor = function callbacksFor(object) {
 	var callbacks = object._promiseCallbacks;
 
 	if (!callbacks) {
@@ -77,15 +85,17 @@ var callbacksFor = function (object) {
 };
 
 var EventTarget = {
-	mixin: function (object) {
+	mixin: function mixin(object) {
 		object.on = this.on;
 		object.off = this.off;
 		object.trigger = this.trigger;
 		return object;
 	},
 
-	on: function (eventNames, callback, binding) {
-		var allCallbacks = callbacksFor(this), callbacks, eventName;
+	on: function on(eventNames, callback, binding) {
+		var allCallbacks = callbacksFor(this),
+		    callbacks,
+		    eventName;
 		eventNames = eventNames.split(/\s+/);
 		binding = binding || this;
 
@@ -102,8 +112,11 @@ var EventTarget = {
 		}
 	},
 
-	off: function (eventNames, callback) {
-		var allCallbacks = callbacksFor(this), callbacks, eventName, index;
+	off: function off(eventNames, callback) {
+		var allCallbacks = callbacksFor(this),
+		    callbacks,
+		    eventName,
+		    index;
 		eventNames = eventNames.split(/\s+/);
 
 		while (eventName = eventNames.shift()) {
@@ -122,9 +135,13 @@ var EventTarget = {
 		}
 	},
 
-	trigger: function (eventName, options) {
+	trigger: function trigger(eventName, options) {
 		var allCallbacks = callbacksFor(this),
-			callbacks, callbackTuple, callback, binding, event;
+		    callbacks,
+		    callbackTuple,
+		    callback,
+		    binding,
+		    event;
 
 		if (callbacks = allCallbacks[eventName]) {
 			for (var i = 0, l = callbacks.length; i < l; i++) {
@@ -132,7 +149,7 @@ var EventTarget = {
 				callback = callbackTuple[0];
 				binding = callbackTuple[1];
 
-				if (typeof options !== 'object') {
+				if ((typeof options === 'undefined' ? 'undefined' : _typeof(options)) !== 'object') {
 					options = { detail: options };
 				}
 
@@ -143,7 +160,7 @@ var EventTarget = {
 	}
 };
 
-var Promise = function () {
+var Promise = function Promise() {
 	this.on('promise:resolved', function (event) {
 		this.trigger('success', { detail: event.detail });
 	}, this);
@@ -153,12 +170,14 @@ var Promise = function () {
 	}, this);
 };
 
-var noop = function () {
-};
+var noop = function noop() {};
 
-var invokeCallback = function (type, promise, callback, event) {
+var invokeCallback = function invokeCallback(type, promise, callback, event) {
 	var hasCallback = typeof callback === 'function',
-		value, error, succeeded, failed;
+	    value,
+	    error,
+	    succeeded,
+	    failed;
 
 	if (hasCallback) {
 		try {
@@ -189,7 +208,7 @@ var invokeCallback = function (type, promise, callback, event) {
 };
 
 Promise.prototype = {
-	then: function (done, fail) {
+	then: function then(done, fail) {
 		var thenPromise = new Promise();
 
 		if (this.isResolved) {
@@ -215,22 +234,22 @@ Promise.prototype = {
 		return thenPromise;
 	},
 
-	resolve: function (value) {
-		resolve(this, value);
+	resolve: function resolve(value) {
+		_resolve(this, value);
 
 		this.resolve = noop;
 		this.reject = noop;
 	},
 
-	reject: function (value) {
-		reject(this, value);
+	reject: function reject(value) {
+		_reject(this, value);
 
 		this.resolve = noop;
 		this.reject = noop;
 	}
 };
 
-function resolve(promise, value) {
+function _resolve(promise, value) {
 	config.async(function () {
 		promise.trigger('promise:resolved', { detail: value });
 		promise.isResolved = true;
@@ -238,7 +257,7 @@ function resolve(promise, value) {
 	});
 }
 
-function reject(promise, value) {
+function _reject(promise, value) {
 	config.async(function () {
 		promise.trigger('promise:failed', { detail: value });
 		promise.isRejected = true;
@@ -247,7 +266,8 @@ function reject(promise, value) {
 }
 
 function all(promises) {
-	var i, results = [];
+	var i,
+	    results = [];
 	var allPromise = new Promise();
 	var remaining = promises.length;
 
@@ -255,20 +275,20 @@ function all(promises) {
 		allPromise.resolve([]);
 	}
 
-	var resolve = function (index, value) {
+	var resolve = function resolve(index, value) {
 		results[index] = value;
 		if (--remaining === 0) {
 			allPromise.resolve(results);
 		}
 	};
 
-	var resolver = function (index) {
+	var resolver = function resolver(index) {
 		return function (value) {
 			resolve(index, value);
 		};
 	};
 
-	var reject = function (error) {
+	var reject = function reject(error) {
 		allPromise.reject(error);
 	};
 
@@ -284,7 +304,7 @@ function configure(name, value) {
 	config[name] = value;
 }
 
-rsvpjs_rsvpjs = {
+exports.rsvpjs = rsvpjs_rsvpjs = {
 	Promise: Promise,
 	Event: Event,
 	EventTarget: EventTarget,
@@ -292,4 +312,4 @@ rsvpjs_rsvpjs = {
 	configure: configure
 };
 var rsvpjs_rsvpjs;
-export { rsvpjs_rsvpjs as rsvpjs };
+exports.rsvpjs = rsvpjs_rsvpjs;

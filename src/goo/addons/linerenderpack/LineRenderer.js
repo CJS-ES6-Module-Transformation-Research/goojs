@@ -1,14 +1,26 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LineRenderer = undefined;
+
+var _Material = require("../../renderer/Material");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Shader = require("../../renderer/Shader");
+
+var _Transform = require("../../math/Transform");
+
 var LineRenderer_LineRenderer = LineRenderer;
-import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
-import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
-import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
-import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+
 function LineRenderer(world) {
 	this.world = world;
 
-	this._material = new rendererMaterial_Materialjs(LineRenderer.COLORED_LINE_SHADER);
+	this._material = new _Material.Material(LineRenderer.COLORED_LINE_SHADER);
 
-	this._meshData = new rendererMeshData_MeshDatajs(LineRenderer.ATTRIBUTE_MAP, LineRenderer.MAX_NUM_LINES * 2);
+	this._meshData = new _MeshData.MeshData(LineRenderer.ATTRIBUTE_MAP, LineRenderer.MAX_NUM_LINES * 2);
 	this._meshData.indexModes = ['Lines'];
 
 	this._positions = this._meshData.getAttributeBuffer('POSITION');
@@ -16,7 +28,7 @@ function LineRenderer(world) {
 
 	this._renderObject = {
 		meshData: this._meshData,
-		transform: new mathTransform_Transformjs(),
+		transform: new _Transform.Transform(),
 		materials: [this._material]
 	};
 
@@ -29,8 +41,8 @@ function LineRenderer(world) {
 }
 
 LineRenderer.ATTRIBUTE_MAP = {
-	POSITION: rendererMeshData_MeshDatajs.createAttribute(3, 'Float'),
-	RGB_COLOR: rendererMeshData_MeshDatajs.createAttribute(3, 'Float')
+	POSITION: _MeshData.MeshData.createAttribute(3, 'Float'),
+	RGB_COLOR: _MeshData.MeshData.createAttribute(3, 'Float')
 };
 
 LineRenderer.COLORED_LINE_SHADER = {
@@ -39,29 +51,10 @@ LineRenderer.COLORED_LINE_SHADER = {
 		vertexColor: 'RGB_COLOR'
 	},
 	uniforms: {
-		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX
+		viewProjectionMatrix: _Shader.Shader.VIEW_PROJECTION_MATRIX
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'attribute vec3 vertexColor;',
-
-		'uniform mat4 viewProjectionMatrix;',
-
-		'varying vec3 color;',
-
-		'void main(void) {',
-		'gl_Position = viewProjectionMatrix * vec4(vertexPosition, 1.0);',
-		'color = vertexColor;',
-		'}'
-	].join('\n'),
-	fshader: [
-		'varying vec3 color;',
-
-		'void main(void)',
-		'{',
-		'gl_FragColor = vec4(color, 1.0);',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', 'attribute vec3 vertexColor;', 'uniform mat4 viewProjectionMatrix;', 'varying vec3 color;', 'void main(void) {', 'gl_Position = viewProjectionMatrix * vec4(vertexPosition, 1.0);', 'color = vertexColor;', '}'].join('\n'),
+	fshader: ['varying vec3 color;', 'void main(void)', '{', 'gl_FragColor = vec4(color, 1.0);', '}'].join('\n')
 };
 
 LineRenderer.MAX_NUM_LINES = 65536;
@@ -93,8 +86,7 @@ LineRenderer.prototype._manageRenderList = function (renderList) {
 	if (!this._rendering && this._numRenderingLines !== 0) {
 		renderList.push(this._renderObject);
 		this._rendering = true;
-	}
-	else if (this._rendering && this._numRenderingLines === 0) {
+	} else if (this._rendering && this._numRenderingLines === 0) {
 		renderList.splice(renderList.indexOf(this._renderObject), 1);
 		this._rendering = false;
 	}
@@ -140,4 +132,4 @@ LineRenderer.prototype._addLine = function (start, end, color) {
  * Used internally to render a batch of lines all with the same color.
  * @param {World} world The world lines are rendered in.
  */
-export { LineRenderer_LineRenderer as LineRenderer };
+exports.LineRenderer = LineRenderer_LineRenderer;

@@ -1,56 +1,47 @@
 // jshint node:true
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var serializers = {
-	'primitive': function (node) {
+	'primitive': function primitive(node) {
 		return node.name.data;
 	},
-	'any': function (node) {
+	'any': function any(node) {
 		return '*';
 	},
-	'class': function (node) {
+	'class': function _class(node) {
 		// general generic types are not supported by tern (yet), only arrays for now
 		if (node.name.data === 'Array') {
-			return node.parameters.length === 1 ?
-				serialize(node.parameters[0]) + '[]' :
-				'Array';
+			return node.parameters.length === 1 ? serialize(node.parameters[0]) + '[]' : 'Array';
 		}
 
 		return node.name.data;
 	},
-	'list-item': function (node, definitions) {
+	'list-item': function listItem(node, definitions) {
 		var name = node.name;
 
 		// serializing both as '?'
-		var decoratedName = name.nullable || name.optional ?
-			name.data + '?':
-			name.data;
+		var decoratedName = name.nullable || name.optional ? name.data + '?' : name.data;
 
-		return decoratedName + ': ' +
-			(node.type ? serialize(node.type, definitions) : '?');
+		return decoratedName + ': ' + (node.type ? serialize(node.type, definitions) : '?');
 	},
-	'object': function (node) {
+	'object': function object(node) {
 		var list = node.members.map(function (member) {
-			return member.name.data +
-				(member.type ?
-				serialize(member.type) :
-				'?');
+			return member.name.data + (member.type ? serialize(member.type) : '?');
 		}).join(', ');
 
 		return '{ ' + list + ' }';
 	},
-	'function': function (node, definitions) {
-		var fun = 'function (' +
-			node.parameters.map(function (parameter) {
-				return serialize(parameter, definitions);
-			}).join(', ') +
-			')';
+	'function': function _function(node, definitions) {
+		var fun = 'function (' + node.parameters.map(function (parameter) {
+			return serialize(parameter, definitions);
+		}).join(', ') + ')';
 
-		return node.return ?
-			fun + ' -> ' + serialize(node.return, definitions) :
-			fun;
+		return node.return ? fun + ' -> ' + serialize(node.return, definitions) : fun;
 	},
-	'either': function (node, definitions) {
+	'either': function either(node, definitions) {
 		// might need parens
 		// tern doesn't mention parens but without them the expression can be ambiguous
 		return node.choices.map(function (parameter) {
@@ -59,11 +50,10 @@ var serializers = {
 	}
 };
 
-var serialize = function (node) {
+var serialize = function serialize(node) {
 	return serializers[node.nodeType](node);
 };
 
-
-serialize_serialize = serialize;
+exports.serialize = serialize_serialize = serialize;
 var serialize_serialize;
-export { serialize_serialize as serialize };
+exports.serialize = serialize_serialize;

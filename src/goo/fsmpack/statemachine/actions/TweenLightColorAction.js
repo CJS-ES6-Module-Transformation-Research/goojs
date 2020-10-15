@@ -1,17 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenLightColorAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Easing = require("../../../util/Easing");
+
 var TweenLightColorAction_TweenLightColorAction = TweenLightColorAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
-import { Easing as utilEasing_Easingjs } from "../../../util/Easing";
 
-function TweenLightColorAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+function TweenLightColorAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.fromCol = new mathVector3_Vector3js();
-	this.toCol = new mathVector3_Vector3js();
+	this.fromCol = new _Vector.Vector3();
+	this.toCol = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenLightColorAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+TweenLightColorAction.prototype = Object.create(_Action.Action.prototype);
 TweenLightColorAction.prototype.constructor = TweenLightColorAction;
 
 TweenLightColorAction.external = {
@@ -55,7 +65,7 @@ TweenLightColorAction.external = {
 	}]
 };
 
-TweenLightColorAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenLightColorAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Light Complete' : undefined;
 };
 
@@ -84,7 +94,7 @@ TweenLightColorAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = utilEasing_Easingjs[this.easing1][this.easing2](t);
+	var fT = _Easing.Easing[this.easing1][this.easing2](t);
 
 	var color = entity.lightComponent.light.color;
 	color.set(this.fromCol).lerp(this.toCol, fT);
@@ -95,4 +105,4 @@ TweenLightColorAction.prototype.update = function (fsm) {
 	}
 };
 
-export { TweenLightColorAction_TweenLightColorAction as TweenLightColorAction };
+exports.TweenLightColorAction = TweenLightColorAction_TweenLightColorAction;

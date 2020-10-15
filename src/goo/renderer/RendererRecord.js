@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var RendererRecord_RendererRecord = RendererRecord;
 function RendererRecord() {
 	this.currentBuffer = {
@@ -49,4 +54,4 @@ RendererRecord.prototype.invalidateBuffer = function (target) {
  * Holds the renderer's state
  * @hidden
  */
-export { RendererRecord_RendererRecord as RendererRecord };
+exports.RendererRecord = RendererRecord_RendererRecord;

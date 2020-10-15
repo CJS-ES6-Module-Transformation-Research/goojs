@@ -1,5 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ArrowsAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
 var ArrowsAction_ArrowsAction = ArrowsAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
 var keys = {
 	38: 'up',
@@ -8,11 +16,11 @@ var keys = {
 	39: 'right'
 };
 
-function ArrowsAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+function ArrowsAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-ArrowsAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+ArrowsAction.prototype = Object.create(_Action.Action.prototype);
 ArrowsAction.prototype.constructor = ArrowsAction;
 
 ArrowsAction.prototype.configure = function (settings) {
@@ -48,7 +56,7 @@ var labels = {
 	right: 'On key RIGHT'
 };
 
-ArrowsAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+ArrowsAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -67,4 +75,4 @@ ArrowsAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
 
-export { ArrowsAction_ArrowsAction as ArrowsAction };
+exports.ArrowsAction = ArrowsAction_ArrowsAction;

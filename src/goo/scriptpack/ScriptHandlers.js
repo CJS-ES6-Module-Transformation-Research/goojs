@@ -1,2 +1,5 @@
-import "./ScriptHandler";
-import "./ScriptComponentHandler";
+"use strict";
+
+require("./ScriptHandler");
+
+require("./ScriptComponentHandler");

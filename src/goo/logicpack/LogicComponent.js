@@ -1,9 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicComponent = undefined;
+
+var _LogicLayer = require("./logic/LogicLayer");
+
+var _LogicNodes = require("./logic/LogicNodes");
+
+var _Component = require("../entities/components/Component");
+
 var LogicComponent_LogicComponent = LogicComponent;
-import { LogicLayer as logicLogicLayer_LogicLayerjs } from "./logic/LogicLayer";
-import { LogicNodes as logicLogicNodes_LogicNodesjs } from "./logic/LogicNodes";
-import { Component as entitiescomponentsComponent_Componentjs } from "../entities/components/Component";
+
 function LogicComponent(entity) {
-	entitiescomponentsComponent_Componentjs.call(this);
+	_Component.Component.call(this);
 
 	this.type = 'LogicComponent';
 	this.parent = null;
@@ -16,7 +27,7 @@ function LogicComponent(entity) {
 	this._entity = entity;
 }
 
-LogicComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+LogicComponent.prototype = Object.create(_Component.Component.prototype);
 
 LogicComponent.prototype.configure = function (conf) {
 	// cleanup.
@@ -26,13 +37,13 @@ LogicComponent.prototype.configure = function (conf) {
 		}
 	}
 
-	this.logicLayer = new logicLogicLayer_LogicLayerjs(this._entity);
+	this.logicLayer = new _LogicLayer.LogicLayer(this._entity);
 
 	this.nodes = {};
 
 	for (var k in conf.logicNodes) {
 		var ln = conf.logicNodes[k];
-		var Fn = logicLogicNodes_LogicNodesjs.getClass(ln.type);
+		var Fn = _LogicNodes.LogicNodes.getClass(ln.type);
 		var obj = new Fn();
 
 		obj.configure(ln);
@@ -52,4 +63,4 @@ LogicComponent.prototype.process = function (tpf) {
  * A component that embeds a LogicLayer and processes it every frame.
  * @private
  */
-export { LogicComponent_LogicComponent as LogicComponent };
+exports.LogicComponent = LogicComponent_LogicComponent;

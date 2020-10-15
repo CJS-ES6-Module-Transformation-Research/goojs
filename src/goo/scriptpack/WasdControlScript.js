@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.WasdControlScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
 var WasdControlScript_WasdControlScript = WasdControlScript;
-import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
-import { ScriptUtils as scriptsScriptUtils_ScriptUtilsjs } from "../scripts/ScriptUtils";
+
 
 function WasdControlScript() {
 	var entity, transformComponent, transform;
@@ -9,12 +19,12 @@ function WasdControlScript() {
 	var moveState;
 	var bypass = false;
 
-	var fwdVector = new mathVector3_Vector3js(0, 0, -1);
-	var leftVector = new mathVector3_Vector3js(-1, 0, 0);
+	var fwdVector = new _Vector.Vector3(0, 0, -1);
+	var leftVector = new _Vector.Vector3(-1, 0, 0);
 
-	var moveVector = new mathVector3_Vector3js();
-	var calcVector = new mathVector3_Vector3js();
-	var translation = new mathVector3_Vector3js();
+	var moveVector = new _Vector.Vector3();
+	var calcVector = new _Vector.Vector3();
+	var translation = new _Vector.Vector3();
 
 	// ---
 	function updateMovementVector() {
@@ -23,9 +33,11 @@ function WasdControlScript() {
 	}
 
 	function keyDown(event) {
-		if (event.altKey) {	return;	}
+		if (event.altKey) {
+			return;
+		}
 
-		switch (scriptsScriptUtils_ScriptUtilsjs.keyForCode(event.keyCode)) {
+		switch (_ScriptUtils.ScriptUtils.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = true;
 				break;
@@ -51,9 +63,11 @@ function WasdControlScript() {
 	}
 
 	function keyUp(event) {
-		if (event.altKey) {	return;	}
+		if (event.altKey) {
+			return;
+		}
 
-		switch (scriptsScriptUtils_ScriptUtilsjs.keyForCode(event.keyCode)) {
+		switch (_ScriptUtils.ScriptUtils.keyForCode(event.keyCode)) {
 			case _parameters.crawlKey:
 				moveState.crawling = false;
 				break;
@@ -103,22 +117,18 @@ function WasdControlScript() {
 	}
 
 	function update(parameters, environment) {
-		if (!bypass && moveVector.equals(mathVector3_Vector3js.ZERO)) {
+		if (!bypass && moveVector.equals(_Vector.Vector3.ZERO)) {
 			return;
 		}
 
-		if (!bypass && (parameters.whenUsed && environment.entity !== environment.activeCameraEntity)) {
+		if (!bypass && parameters.whenUsed && environment.entity !== environment.activeCameraEntity) {
 			return;
 		}
 
 		bypass = false;
 
 		// direction of movement in local coords
-		calcVector.setDirect(
-			fwdVector.x * moveVector.z + leftVector.x * moveVector.x,
-			fwdVector.y * moveVector.z + leftVector.y * moveVector.x,
-			fwdVector.z * moveVector.z + leftVector.z * moveVector.x
-		);
+		calcVector.setDirect(fwdVector.x * moveVector.z + leftVector.x * moveVector.x, fwdVector.y * moveVector.z + leftVector.y * moveVector.x, fwdVector.z * moveVector.z + leftVector.z * moveVector.x);
 		calcVector.normalize();
 
 		// move speed for this run...
@@ -212,4 +222,4 @@ WasdControlScript.externals = {
 	}]
 };
 
-export { WasdControlScript_WasdControlScript as WasdControlScript };
+exports.WasdControlScript = WasdControlScript_WasdControlScript;

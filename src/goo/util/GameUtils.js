@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var GameUtils_GameUtils = GameUtils;
 function GameUtils() {}
 
@@ -99,9 +104,8 @@ GameUtils.addVisibilityChangeListener = function (callback) {
 		}
 	}
 
-	if (typeof document.addEventListener !== 'undefined' &&
-		typeof hidden !== 'undefined') {
-		var eventListener = function () {
+	if (typeof document.addEventListener !== 'undefined' && typeof hidden !== 'undefined') {
+		var eventListener = function eventListener() {
 			if (document[hidden]) {
 				callback(true);
 			} else {
@@ -155,10 +159,11 @@ GameUtils.initAnimationShims = function () {
 
 	if (window.requestAnimationFrame === undefined) {
 		window.requestAnimationFrame = function (callback) {
-			var currTime = Date.now(), timeToCall = Math.max(0, 16 - (currTime - lastTime));
+			var currTime = Date.now(),
+			    timeToCall = Math.max(0, 16 - (currTime - lastTime));
 			var id = window.setTimeout(function () {
-					callback(currTime + timeToCall);
-				}, timeToCall);
+				callback(currTime + timeToCall);
+			}, timeToCall);
 			lastTime = currTime + timeToCall;
 			return id;
 		};
@@ -180,7 +185,7 @@ GameUtils.initFullscreenShims = function (global) {
 	var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
 	if (!document.hasOwnProperty('fullscreenEnabled')) {
-		var getter = (function () {
+		var getter = function () {
 			if ('webkitIsFullScreen' in document) {
 				return function () {
 					return document.webkitFullscreenEnabled;
@@ -197,7 +202,7 @@ GameUtils.initFullscreenShims = function (global) {
 			return function () {
 				return false;
 			};
-		})();
+		}();
 
 		Object.defineProperty(document, 'fullscreenEnabled', {
 			enumerable: true,
@@ -208,10 +213,10 @@ GameUtils.initFullscreenShims = function (global) {
 	}
 
 	if (!document.hasOwnProperty('fullscreenElement')) {
-		var getter = (function () {
+		var getter = function () {
 			var name = ['webkitCurrentFullScreenElement', 'webkitFullscreenElement', 'mozFullScreenElement'];
 
-			var getNameInDocument = function (i) {
+			var getNameInDocument = function getNameInDocument(i) {
 				return function () {
 					return document[name[i]];
 				};
@@ -225,7 +230,7 @@ GameUtils.initFullscreenShims = function (global) {
 			return function () {
 				return null;
 			};
-		})();
+		}();
 
 		Object.defineProperty(document, 'fullscreenElement', {
 			enumerable: true,
@@ -252,7 +257,7 @@ GameUtils.initFullscreenShims = function (global) {
 	document.addEventListener('mozfullscreenerror', fullscreenerror, false);
 
 	if (!elementPrototype.requestFullScreen) {
-		elementPrototype.requestFullScreen = (function () {
+		elementPrototype.requestFullScreen = function () {
 			if (elementPrototype.msRequestFullscreen) {
 				return function () {
 					this.msRequestFullscreen();
@@ -278,14 +283,13 @@ GameUtils.initFullscreenShims = function (global) {
 			}
 
 			return function () {};
-		})();
+		}();
 	}
 
 	if (!document.cancelFullScreen) {
-		document.cancelFullScreen = (function () {
-			return document.webkitCancelFullScreen || document.mozCancelFullScreen || function () {
-			};
-		})();
+		document.cancelFullScreen = function () {
+			return document.webkitCancelFullScreen || document.mozCancelFullScreen || function () {};
+		}();
 	}
 };
 
@@ -308,7 +312,7 @@ GameUtils.initPointerLockShims = function (global) {
 			enumerable: true,
 			configurable: false,
 			writeable: false,
-			get: function () {
+			get: function get() {
 				return this.webkitMovementX || this.mozMovementX || 0;
 			}
 		});
@@ -319,7 +323,7 @@ GameUtils.initPointerLockShims = function (global) {
 			enumerable: true,
 			configurable: false,
 			writeable: false,
-			get: function () {
+			get: function get() {
 				return this.webkitMovementY || this.mozMovementY || 0;
 			}
 		});
@@ -348,7 +352,7 @@ GameUtils.initPointerLockShims = function (global) {
 	document.addEventListener('mozpointerlockerror', pointerlockerror, false);
 
 	if (!("pointerLockElement" in document)) {
-		var getter = (function () {
+		var getter = function () {
 			if ('webkitPointerLockElement' in document) {
 				return function () {
 					return document.webkitPointerLockElement;
@@ -362,7 +366,7 @@ GameUtils.initPointerLockShims = function (global) {
 			return function () {
 				return null;
 			};
-		})();
+		}();
 
 		Object.defineProperty(document, 'pointerLockElement', {
 			enumerable: true,
@@ -373,7 +377,7 @@ GameUtils.initPointerLockShims = function (global) {
 	}
 
 	if (!elementPrototype.requestPointerLock) {
-		elementPrototype.requestPointerLock = (function () {
+		elementPrototype.requestPointerLock = function () {
 			if (elementPrototype.webkitRequestPointerLock) {
 				return function () {
 					this.webkitRequestPointerLock();
@@ -395,17 +399,17 @@ GameUtils.initPointerLockShims = function (global) {
 			GameUtils.supported.pointerLock = false;
 
 			return function () {};
-		})();
+		}();
 	}
 
 	if (!document.exitPointerLock) {
-		document.exitPointerLock = (function () {
+		document.exitPointerLock = function () {
 			return document.webkitExitPointerLock || document.mozExitPointerLock || function () {
 				if (navigator.pointer) {
 					navigator.pointer.unlock();
 				}
 			};
-		})();
+		}();
 	}
 };
 
@@ -413,4 +417,4 @@ GameUtils.initPointerLockShims = function (global) {
  * Shims for standard gaming features
  * Only used to define the class. Should never be instantiated.
  */
-export { GameUtils_GameUtils as GameUtils };
+exports.GameUtils = GameUtils_GameUtils;

@@ -1,11 +1,28 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Shader = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _ShaderCall = require("../renderer/ShaderCall");
+
+var _Matrix = require("../math/Matrix3");
+
+var _Matrix2 = require("../math/Matrix4");
+
+var _World = require("../entities/World");
+
+var _RenderQueue = require("../renderer/RenderQueue");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _SystemBus = require("../entities/SystemBus");
+
 var Shader_Shader = Shader;
-import { ShaderCall as rendererShaderCall_ShaderCalljs } from "../renderer/ShaderCall";
-import { Matrix3 as mathMatrix3_Matrix3js } from "../math/Matrix3";
-import { Matrix4 as mathMatrix4_Matrix4js } from "../math/Matrix4";
-import { World as entitiesWorld_Worldjs } from "../entities/World";
-import { RenderQueue as rendererRenderQueue_RenderQueuejs } from "../renderer/RenderQueue";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
-import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
+
 function Shader(name, shaderDefinition) {
 	if (!shaderDefinition.vshader || !shaderDefinition.fshader) {
 		throw new Error('Missing shader sources for shader: ' + name);
@@ -18,8 +35,8 @@ function Shader(name, shaderDefinition) {
 	this.origFragmentSource = shaderDefinition.fshader;
 
 	/** The shader name
-	 * @type {string}
-	 */
+  * @type {string}
+  */
 	this.name = name;
 
 	this.shaderProgram = null;
@@ -27,42 +44,42 @@ function Shader(name, shaderDefinition) {
 	this.fragmentShader = null;
 
 	/**
-	 * The renderer where the program and shaders were allocated.
-	 * @type {WebGLRenderingContext}
-	 */
+  * The renderer where the program and shaders were allocated.
+  * @type {WebGLRenderingContext}
+  */
 	this.renderer = null;
 
 	/**
-	 * Attributes detected in the shader source code.
-	 * Maps attribute variable's name to <code>{format: string}</code>
-	 * @type {Object<string, object>}}
-	 */
+  * Attributes detected in the shader source code.
+  * Maps attribute variable's name to <code>{format: string}</code>
+  * @type {Object<string, object>}}
+  */
 	this.attributeMapping = {};
 
 	/**
-	 * Maps attribute variable's name to attribute location (from getAttribLocation).
-	 * @type {Object<string, number>}
-	 */
+  * Maps attribute variable's name to attribute location (from getAttribLocation).
+  * @type {Object<string, number>}
+  */
 	this.attributeIndexMapping = {};
 
 	/**
-	 * Uniforms detected in the shader source code.
-	 * Maps variable name to <code>{format: string}</code>.
-	 * @type {Object<string, object>}
-	 */
+  * Uniforms detected in the shader source code.
+  * Maps variable name to <code>{format: string}</code>.
+  * @type {Object<string, object>}
+  */
 	this.uniformMapping = {};
 
 	/**
-	 * Maps uniform variable name to ShaderCall object.
-	 * @type {Object<string, ShaderCall>}
-	 */
+  * Maps uniform variable name to ShaderCall object.
+  * @type {Object<string, ShaderCall>}
+  */
 	this.uniformCallMapping = {};
 
 	/**
-	 * Texture slots detected in the shader source code.
-	 * Will be an array of <code>{format: string, name: string}</code>
-	 * @type {Array}
-	 */
+  * Texture slots detected in the shader source code.
+  * Will be an array of <code>{format: string, name: string}</code>
+  * @type {Array}
+  */
 	this.textureSlots = [];
 	this.textureSlotsNaming = {};
 	this.textureIndex = 0;
@@ -82,16 +99,16 @@ function Shader(name, shaderDefinition) {
 	this.matchedUniforms = [];
 
 	/** Determines the order in which an object is drawn. There are four pre-defined render queues:
-	 *		<ul>
-	 *			<li>RenderQueue.BACKGROUND = Rendered before any other objects. Commonly used for skyboxes and the likes (0-999)
-	 *			<li>RenderQueue.OPAQUE = Used for most objects, typically opaque geometry. Rendered front to back (1000-1999)
-	 *			<li>RenderQueue.TRANSPARENT = For all alpha-blended objects. Rendered back to front (2000-2999)
-	 *			<li>RenderQueue.OVERLAY = For overlay effects like lens-flares etc (3000+)
-	 *		</ul>
-	 * By default materials use the render queue of the shader. See {@link RenderQueue} for more info
-	 * @type {number}
-	 */
-	this.renderQueue = rendererRenderQueue_RenderQueuejs.OPAQUE;
+  *		<ul>
+  *			<li>RenderQueue.BACKGROUND = Rendered before any other objects. Commonly used for skyboxes and the likes (0-999)
+  *			<li>RenderQueue.OPAQUE = Used for most objects, typically opaque geometry. Rendered front to back (1000-1999)
+  *			<li>RenderQueue.TRANSPARENT = For all alpha-blended objects. Rendered back to front (2000-2999)
+  *			<li>RenderQueue.OVERLAY = For overlay effects like lens-flares etc (3000+)
+  *		</ul>
+  * By default materials use the render queue of the shader. See {@link RenderQueue} for more info
+  * @type {number}
+  */
+	this.renderQueue = _RenderQueue.RenderQueue.OPAQUE;
 
 	// this._id = Shader.id++;
 	if (Shader.cache.has(shaderDefinition)) {
@@ -116,7 +133,7 @@ function Shader(name, shaderDefinition) {
 Shader.cache = new Map();
 
 Shader.prototype.clone = function () {
-	return new Shader(this.name, utilObjectUtils_ObjectUtilsjs.deepClone({
+	return new Shader(this.name, _ObjectUtils.ObjectUtils.deepClone({
 		precision: this.precision,
 		processors: this.processors,
 		builder: this.builder,
@@ -259,7 +276,6 @@ Shader.prototype.defineValue = function (shaderInfo, name) {
 	return defValue;
 };
 
-
 Shader.prototype.mapSlot = function (shaderInfo, mapping, slot) {
 	var maps = shaderInfo.material.getTexture(slot.mapping);
 	if (maps instanceof Array) {
@@ -294,7 +310,7 @@ Shader.prototype.stringType = function (shaderInfo, name, mapping) {
 
 Shader.prototype.callMapping = function (shaderInfo, name, mapping) {
 	var defValue = this.defineValue(shaderInfo, name);
-	var type = typeof defValue;
+	var type = typeof defValue === "undefined" ? "undefined" : _typeof(defValue);
 	if (type === 'string') {
 		this.stringType(shaderInfo, name, mapping, defValue);
 	} else {
@@ -372,7 +388,6 @@ Shader.prototype.getDefineKey = function (definesIndices) {
 	return this.defineKey;
 };
 
-
 Shader.prototype.rebuild = function () {
 	this.shaderProgram = null;
 	this.attributeMapping = {};
@@ -410,7 +425,7 @@ Shader.investigateShader = function (source, target) {
 			// data type: float, int, ...
 			format: matcher[2]
 		};
-		var type = matcher[1];  // "attribute" or "uniform"
+		var type = matcher[1]; // "attribute" or "uniform"
 		var variableName = matcher[3];
 		var arrayDeclaration = matcher[4];
 		if (arrayDeclaration) {
@@ -458,7 +473,7 @@ Shader.prototype.compile = function (renderer) {
 	var error = context.getError();
 	if (this.shaderProgram === null || error !== 0) {
 		console.error('Shader error: ' + error + ' [shader: ' + this.name + ']');
-		entitiesSystemBus_SystemBusjsjs.emit('goo.shader.error');
+		_SystemBus.SystemBusjs.emit('goo.shader.error');
 	}
 
 	context.attachShader(this.shaderProgram, this.vertexShader);
@@ -466,10 +481,10 @@ Shader.prototype.compile = function (renderer) {
 
 	// Link the Shader Program
 	context.linkProgram(this.shaderProgram);
-	if (!context.getProgramParameter(this.shaderProgram, (context.LINK_STATUS !== undefined ? context.LINK_STATUS : WebGLRenderingContext.LINK_STATUS))) {
+	if (!context.getProgramParameter(this.shaderProgram, context.LINK_STATUS !== undefined ? context.LINK_STATUS : WebGLRenderingContext.LINK_STATUS)) {
 		var errInfo = context.getProgramInfoLog(this.shaderProgram);
 		console.error('Could not initialise shaders: ' + errInfo);
-		entitiesSystemBus_SystemBusjsjs.emit('goo.shader.error', errInfo);
+		_SystemBus.SystemBusjs.emit('goo.shader.error', errInfo);
 	}
 
 	for (var key in this.attributeMapping) {
@@ -500,7 +515,7 @@ Shader.prototype.compile = function (renderer) {
 			continue;
 		}
 
-		this.uniformCallMapping[key] = new rendererShaderCall_ShaderCalljs(context, uniform, this.uniformMapping[key].format);
+		this.uniformCallMapping[key] = new _ShaderCall.ShaderCall(context, uniform, this.uniformMapping[key].format);
 	}
 
 	if (this.attributes) {
@@ -614,12 +629,12 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 	defaultCallbacks[Shader.WORLD_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : mathMatrix4_Matrix4js.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : _Matrix2.Matrix4.IDENTITY;
 		uniformCall.uniformMatrix4fv(matrix);
 	};
 	defaultCallbacks[Shader.NORMAL_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : mathMatrix3_Matrix3js.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : _Matrix.Matrix3.IDENTITY;
 		uniformCall.uniformMatrix3fv(matrix);
 	};
 
@@ -637,15 +652,15 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 
 	for (var i = 0; i < 16; i++) {
-		defaultCallbacks[Shader['TEXTURE' + i]] = (function (i) {
+		defaultCallbacks[Shader['TEXTURE' + i]] = function (i) {
 			return function (uniformCall) {
 				uniformCall.uniform1i(i);
 			};
-		})(i);
+		}(i);
 	}
 
 	for (var i = 0; i < 8; i++) {
-		defaultCallbacks[Shader['LIGHT' + i]] = (function (i) {
+		defaultCallbacks[Shader['LIGHT' + i]] = function (i) {
 			return function (uniformCall, shaderInfo) {
 				var light = shaderInfo.lights[i];
 				if (light !== undefined) {
@@ -654,7 +669,7 @@ function setupDefaultCallbacks(defaultCallbacks) {
 					uniformCall.uniform3f(-20, 20, 20);
 				}
 			};
-		})(i);
+		}(i);
 	}
 	defaultCallbacks[Shader.LIGHTCOUNT] = function (uniformCall, shaderInfo) {
 		uniformCall.uniform1i(shaderInfo.lights.length);
@@ -679,7 +694,6 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	defaultCallbacks[Shader.MAIN_DEPTH_SCALE] = function (uniformCall, shaderInfo) {
 		uniformCall.uniform1f(1.0 / (shaderInfo.mainCamera.far - shaderInfo.mainCamera.near));
 	};
-
 
 	defaultCallbacks[Shader.AMBIENT] = function (uniformCall, shaderInfo) {
 		var materialState = shaderInfo.material.materialState !== undefined ? shaderInfo.material.materialState.ambient : Shader.DEFAULT_AMBIENT;
@@ -708,10 +722,10 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 
 	defaultCallbacks[Shader.TIME] = function (uniformCall) {
-		uniformCall.uniform1f(entitiesWorld_Worldjs.time);
+		uniformCall.uniform1f(_World.World.time);
 	};
 	defaultCallbacks[Shader.TPF] = function (uniformCall) {
-		uniformCall.uniform1f(entitiesWorld_Worldjs.tpf);
+		uniformCall.uniform1f(_World.World.tpf);
 	};
 
 	defaultCallbacks[Shader.RESOLUTION] = function (uniformCall, shaderInfo) {
@@ -811,4 +825,4 @@ setupDefaultCallbacks(Shader.prototype.defaultCallbacks);
  * }
  * </code>
  */
-export { Shader_Shader as Shader };
+exports.Shader = Shader_Shader;

@@ -1,45 +1,49 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.create = exports.getScript = exports.register = undefined;
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var Scripts_allScripts;
 var Scripts_create;
 var Scripts_getScript;
 var Scripts_getClasses;
 var Scripts_addClass;
 var Scripts_register;
-import { ScriptUtils as scriptsScriptUtils_ScriptUtilsjs } from "../scripts/ScriptUtils";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+
 
 // the collection of scripts
 var _scripts = {};
 
-Scripts_register = function (factoryFunction) {
+exports.register = Scripts_register = function Scripts_register(factoryFunction) {
 	var key = factoryFunction.externals.key || factoryFunction.externals.name;
 	if (_scripts[key]) {
 		console.warn('Script already registered for key ' + key);
 		return;
 	}
 	//! AT: this will modify the external object but that's ok
-	scriptsScriptUtils_ScriptUtilsjs.fillDefaultNames(factoryFunction.externals.parameters);
+	_ScriptUtils.ScriptUtils.fillDefaultNames(factoryFunction.externals.parameters);
 	_scripts[key] = factoryFunction;
 };
 
-Scripts_addClass = utilObjectUtils_ObjectUtilsjs.warnOnce(
-	'Scripts.addClass is deprecated; please consider using the global goo object instead',
-	function (/* name, klass */) {
-		// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
-	}
-);
+Scripts_addClass = _ObjectUtils.ObjectUtils.warnOnce('Scripts.addClass is deprecated; please consider using the global goo object instead', function () /* name, klass */{
+	// deprecated as of v0.15.3 and scheduled for removal in version 0.17.0
+});
 
-Scripts_getClasses = utilObjectUtils_ObjectUtilsjs.warnOnce(
-	'Scripts.getClasses is deprecated; please consider using the global goo object instead',
-	function () {
-		return window.goo;
-	}
-);
+Scripts_getClasses = _ObjectUtils.ObjectUtils.warnOnce('Scripts.getClasses is deprecated; please consider using the global goo object instead', function () {
+	return window.goo;
+});
 
-Scripts_getScript = function (key) {
+exports.getScript = Scripts_getScript = function Scripts_getScript(key) {
 	return _scripts[key];
 };
 
-Scripts_create = function (key, options) {
+exports.create = Scripts_create = function Scripts_create(key, options) {
 	var factoryFunction;
 	if (typeof key === 'string') {
 		factoryFunction = _scripts[key];
@@ -56,18 +60,18 @@ Scripts_create = function (key, options) {
 	script.externals = factoryFunction.externals;
 
 	if (factoryFunction.externals) {
-		scriptsScriptUtils_ScriptUtilsjs.fillDefaultNames(script.externals.parameters);
-		scriptsScriptUtils_ScriptUtilsjs.fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
+		_ScriptUtils.ScriptUtils.fillDefaultNames(script.externals.parameters);
+		_ScriptUtils.ScriptUtils.fillDefaultValues(script.parameters, factoryFunction.externals.parameters);
 	}
 
 	if (options) {
-		utilObjectUtils_ObjectUtilsjs.extend(script.parameters, options);
+		_ObjectUtils.ObjectUtils.extend(script.parameters, options);
 	}
 
 	return script;
 };
 
-Scripts_allScripts = function () {
+Scripts_allScripts = function Scripts_allScripts() {
 	// REVIEW: Why not return _scripts? Document this function.
 	var scripts = {};
 	var keys = Object.keys(_scripts);
@@ -78,4 +82,6 @@ Scripts_allScripts = function () {
 	return scripts;
 };
 
-export { Scripts_register as register, Scripts_getScript as getScript, Scripts_create as create };
+exports.register = Scripts_register;
+exports.getScript = Scripts_getScript;
+exports.create = Scripts_create;

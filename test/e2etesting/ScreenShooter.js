@@ -1,21 +1,49 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScreenShooter = undefined;
+
+var _seleniumWebdriver = require("selenium-webdriver");
+
+var _seleniumWebdriver2 = _interopRequireDefault(_seleniumWebdriver);
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _path = require("path");
+
+var _path2 = _interopRequireDefault(_path);
+
+var _async = require("async");
+
+var _async2 = _interopRequireDefault(_async);
+
+var _mkdirp = require("mkdirp");
+
+var _mkdirp2 = _interopRequireDefault(_mkdirp);
+
+var _events = require("events");
+
+var _events2 = _interopRequireDefault(_events);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var ScreenShooter_ScreenShooter = ScreenShooter;
-import ext_seleniumwebdriver_webdriver from "selenium-webdriver";
-import ext_fs_fs from "fs";
-import ext_path_path from "path";
-import ext_async_async from "async";
-import ext_mkdirp_mkdirp from "mkdirp";
-import ext_events_events from "events";
+
 'use strict';
 
-var EventEmitter = ext_events_events.EventEmitter;
+var EventEmitter = _events2.default.EventEmitter;
 
 function ScreenShooter(options) {
 	options = options || {};
 
 	var settings = this.settings = {
-		wait   : 100, // Milliseconds to wait if example is not done rendering
-		width  : 400, // This is sort of the smallest possible in Chrome
-		height : 300
+		wait: 100, // Milliseconds to wait if example is not done rendering
+		width: 400, // This is sort of the smallest possible in Chrome
+		height: 300
 	};
 
 	for (var key in options) {
@@ -25,7 +53,7 @@ function ScreenShooter(options) {
 	}
 
 	// Init driver
-	this.driver = new ext_seleniumwebdriver_webdriver.Builder().withCapabilities(ext_seleniumwebdriver_webdriver.Capabilities.chrome()).build();
+	this.driver = new _seleniumWebdriver2.default.Builder().withCapabilities(_seleniumWebdriver2.default.Capabilities.chrome()).build();
 
 	// Will update whenever needed.
 	this.browserLog = [];
@@ -40,18 +68,18 @@ ScreenShooter.prototype._storeImage = function (data, url, pngPath, callback) {
 	data = data.replace(/^data:image\/\w+;base64,/, '');
 
 	// Create out folder if it does not exist
-	ext_mkdirp_mkdirp.mkdirp(ext_path_path.dirname(pngPath), function (err) {
+	_mkdirp2.default.mkdirp(_path2.default.dirname(pngPath), function (err) {
 		if (err) {
 			return callback(err);
 		}
 
 		// Get the console log
-		var logs = new ext_seleniumwebdriver_webdriver.WebDriver.Logs(driver);
+		var logs = new _seleniumWebdriver2.default.WebDriver.Logs(driver);
 		logs.get('browser').then(function (browserLog) {
 			self.browserLog = browserLog;
 
 			// Save screenshot
-			ext_fs_fs.writeFileSync(pngPath, data, 'base64');
+			_fs2.default.writeFileSync(pngPath, data, 'base64');
 
 			self.emit('shoot', {
 				url: url,
@@ -107,12 +135,11 @@ ScreenShooter.prototype.takeScreenshots = function (urlToPathMap, callback) {
 	}
 
 	// Loop asynchronously over all files
-	ext_async_async.eachSeries(urls, function (url, done) {
+	_async2.default.eachSeries(urls, function (url, done) {
 		// Take screenshot
 		self.takeScreenshot(url, urlToPathMap[url], function () {
 			done();
 		});
-
 	}, function () {
 		if (callback) {
 			callback();
@@ -137,4 +164,4 @@ ScreenShooter.prototype.shutdown = function (callback) {
  * @param {number} [options.width]	Width of the browser window
  * @param {number} [options.height]	Height of the window
  */
-export { ScreenShooter_ScreenShooter as ScreenShooter };
+exports.ScreenShooter = ScreenShooter_ScreenShooter;
