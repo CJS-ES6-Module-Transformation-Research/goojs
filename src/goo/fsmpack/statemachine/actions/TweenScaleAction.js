@@ -1,17 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenScaleAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Easing = require("../../../util/Easing");
+
 var TweenScaleAction_TweenScaleAction = TweenScaleAction;
-import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
-import { Easing as utilEasing_Easingjs } from "../../../util/Easing";
 
-function TweenScaleAction/*id, settings*/() {
-	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
+function TweenScaleAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 
-	this.fromScale = new mathVector3_Vector3js();
-	this.toScale = new mathVector3_Vector3js();
+	this.fromScale = new _Vector.Vector3();
+	this.toScale = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
+TweenScaleAction.prototype = Object.create(_Action.Action.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -61,7 +71,7 @@ TweenScaleAction.external = {
 	}]
 };
 
-TweenScaleAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenScaleAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Scale Complete' : undefined;
 };
 
@@ -85,7 +95,7 @@ TweenScaleAction.prototype.update = function (fsm) {
 	var transformComponent = fsm.getOwnerEntity().transformComponent;
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = utilEasing_Easingjs[this.easing1][this.easing2](t);
+	var fT = _Easing.Easing[this.easing1][this.easing2](t);
 
 	transformComponent.transform.scale.set(this.fromScale).lerp(this.toScale, fT);
 	transformComponent.setUpdated();
@@ -96,4 +106,4 @@ TweenScaleAction.prototype.update = function (fsm) {
 	}
 };
 
-export { TweenScaleAction_TweenScaleAction as TweenScaleAction };
+exports.TweenScaleAction = TweenScaleAction_TweenScaleAction;

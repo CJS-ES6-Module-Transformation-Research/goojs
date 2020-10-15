@@ -1,4 +1,12 @@
-import { StringUtils as utilStringUtils_StringUtilsjs } from "../util/StringUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.StringUtils = undefined;
+
+var _StringUtils = require("../util/StringUtils");
+
 var StringUtil_StringUtils;
 
 /**
@@ -8,5 +16,5 @@ var StringUtil_StringUtils;
  * @group util
  * @deprecated Deprecated as of 0.14.x and scheduled for removal in 0.16.0; The class has been renamed to `goo/util/StringUtils`
  */
-StringUtil_StringUtils = utilStringUtils_StringUtilsjs;
-export { StringUtil_StringUtils as StringUtils };
+exports.StringUtils = StringUtil_StringUtils = _StringUtils.StringUtils;
+exports.StringUtils = StringUtil_StringUtils;

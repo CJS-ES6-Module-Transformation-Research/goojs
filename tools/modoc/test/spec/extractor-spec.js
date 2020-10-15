@@ -101,10 +101,7 @@ describe('extractor', function () {
 	describe('extraComments', function () {
 		it('extracts all extra comments with an @target-class', function () {
 			var result = extract('/** @target-class asd */\nA.a = 123;\n/** @target-class dsa */', 'A.js');
-			expect(result.extraComments).toEqual([
-				'* @target-class asd ',
-				'* @target-class dsa '
-			]);
+			expect(result.extraComments).toEqual(['* @target-class asd ', '* @target-class dsa ']);
 		});
 
 		it('ignores the rest', function () {

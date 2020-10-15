@@ -1,16 +1,28 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StateMachineComponentHandler = undefined;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _StateMachineComponent = require("../fsmpack/statemachine/StateMachineComponent");
+
+var _rsvp = require("../util/rsvp");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var StateMachineComponentHandler_StateMachineComponentHandler = StateMachineComponentHandler;
-import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../loaders/handlers/ComponentHandler";
-import {     StateMachineComponent as fsmpackstatemachineStateMachineComponent_StateMachineComponentjs, } from "../fsmpack/statemachine/StateMachineComponent";
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../util/rsvp";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
+
 function StateMachineComponentHandler() {
-	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'StateMachineComponent';
 }
 
-StateMachineComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
+StateMachineComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 StateMachineComponentHandler.prototype.constructor = StateMachineComponentHandler;
-loadershandlersComponentHandler_ComponentHandlerjs._registerClass('stateMachine', StateMachineComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('stateMachine', StateMachineComponentHandler);
 
 /**
  * Create statemachine component
@@ -18,7 +30,7 @@ loadershandlersComponentHandler_ComponentHandlerjs._registerClass('stateMachine'
  * @hidden
  */
 StateMachineComponentHandler.prototype._create = function () {
-	return new fsmpackstatemachineStateMachineComponent_StateMachineComponentjs();
+	return new _StateMachineComponent.StateMachineComponent();
 };
 
 StateMachineComponentHandler.prototype._remove = function (entity) {
@@ -49,15 +61,17 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
 	options.reload = true;
 	options.instantiate = true;
 
-	return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		var promises = [];
-		utilObjectUtils_ObjectUtilsjs.forEach(config.machines, function (machineConfig) {
+		_ObjectUtils.ObjectUtils.forEach(config.machines, function (machineConfig) {
 			promises.push(that._load(machineConfig.machineRef, options));
 		}, null, 'sortValue');
 
-		return utilrsvp_rsvpjsjs.all(promises).then(function (machines) {
+		return _rsvp.rsvpjs.all(promises).then(function (machines) {
 			// Adding new machines
 			for (var i = 0; i < machines.length; i++) {
 				if (component._machines.indexOf(machines[i]) === -1) {
@@ -83,4 +97,4 @@ StateMachineComponentHandler.prototype.update = function (entity, config, option
  * @extends ComponentHandler
  * @hidden
  */
-export { StateMachineComponentHandler_StateMachineComponentHandler as StateMachineComponentHandler };
+exports.StateMachineComponentHandler = StateMachineComponentHandler_StateMachineComponentHandler;

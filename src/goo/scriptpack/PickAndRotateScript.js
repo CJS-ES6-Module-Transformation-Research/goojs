@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var PickAndRotateScript_PickAndRotateScript = PickAndRotateScript;
 function PickAndRotateScript() {
 	var gooRunner;
@@ -19,7 +24,9 @@ function PickAndRotateScript() {
 	}
 
 	function mouseDown(event) {
-		if (args.disable) { return; }
+		if (args.disable) {
+			return;
+		}
 
 		var pressedButton = getButton(event.domEvent);
 		if ((pressedButton === ctx.dragButton || ctx.dragButton === -1) && event.entity) {
@@ -65,7 +72,7 @@ function PickAndRotateScript() {
 		}
 	}
 
-	function updateRotation(){
+	function updateRotation() {
 		ctx.entity.transformComponent.transform.rotation.setIdentity();
 		ctx.entity.transformComponent.transform.rotation.rotateX(mouseState.ay / 300 * args.yMultiplier);
 		ctx.entity.transformComponent.transform.rotation.rotateY(mouseState.ax / 200 * args.xMultiplier);
@@ -108,7 +115,7 @@ function PickAndRotateScript() {
 		argsUpdated(_args, _ctx);
 	}
 
-	function update(/* args, ctx */) {}
+	function update() /* args, ctx */{}
 
 	function cleanup(args, ctx) {
 		ctx.domElement.removeEventListener('mousemove', mouseMove);
@@ -118,7 +125,6 @@ function PickAndRotateScript() {
 		gooRunner.removeEventListener('mousedown', mouseDown);
 		gooRunner.removeEventListener('touchstart', mouseDown);
 	}
-
 
 	return {
 		setup: setup,
@@ -163,4 +169,4 @@ PickAndRotateScript.externals = {
 	}]
 };
 
-export { PickAndRotateScript_PickAndRotateScript as PickAndRotateScript };
+exports.PickAndRotateScript = PickAndRotateScript_PickAndRotateScript;

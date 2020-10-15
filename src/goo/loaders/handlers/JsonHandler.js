@@ -1,13 +1,23 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.JsonHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 var JsonHandler_JsonHandler = JsonHandler;
-import { ConfigHandler as loadershandlersConfigHandler_ConfigHandlerjs } from "../../loaders/handlers/ConfigHandler";
-import { PromiseUtils as utilPromiseUtils_PromiseUtilsjs } from "../../util/PromiseUtils";
+
 function JsonHandler() {
-	loadershandlersConfigHandler_ConfigHandlerjs.apply(this, arguments);
+  _ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-JsonHandler.prototype = Object.create(loadershandlersConfigHandler_ConfigHandlerjs.prototype);
+JsonHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 JsonHandler.prototype.constructor = JsonHandler;
-loadershandlersConfigHandler_ConfigHandlerjs._registerClass('json', JsonHandler);
+_ConfigHandler.ConfigHandler._registerClass('json', JsonHandler);
 
 /**
  * Adds/updates/removes a json data object.
@@ -17,19 +27,19 @@ loadershandlersConfigHandler_ConfigHandlerjs._registerClass('json', JsonHandler)
  * @returns {RSVP.Promise} Resolves with the updated shader or null if removed
  */
 JsonHandler.prototype._update = function (ref, config) {
-	if (!config) {
-		this._remove(ref);
-		return utilPromiseUtils_PromiseUtilsjs.resolve();
-	}
+  if (!config) {
+    this._remove(ref);
+    return _PromiseUtils.PromiseUtils.resolve();
+  }
 
-	var data;
-	try {
-		data = JSON.parse(config.body);
-	} catch (error) {
-		data = {};
-	}
+  var data;
+  try {
+    data = JSON.parse(config.body);
+  } catch (error) {
+    data = {};
+  }
 
-	return utilPromiseUtils_PromiseUtilsjs.resolve(data);
+  return _PromiseUtils.PromiseUtils.resolve(data);
 };
 
 /**
@@ -42,4 +52,4 @@ JsonHandler.prototype._update = function (ref, config) {
  * @extends ConfigHandler
  * @private
  */
-export { JsonHandler_JsonHandler as JsonHandler };
+exports.JsonHandler = JsonHandler_JsonHandler;

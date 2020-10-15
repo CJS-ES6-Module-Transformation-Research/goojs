@@ -1,18 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Dom3dComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Quad = require("../../shapes/Quad");
+
+var _MeshRendererComponent = require("../../entities/components/MeshRendererComponent");
+
+var _MeshDataComponent = require("../../entities/components/MeshDataComponent");
+
 var Dom3dComponent_Dom3dComponent = Dom3dComponent;
-import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
-import { Quad as shapesQuad_Quadjs } from "../../shapes/Quad";
-import {     MeshRendererComponent as entitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../../entities/components/MeshRendererComponent";
-import {     MeshDataComponent as entitiescomponentsMeshDataComponent_MeshDataComponentjs, } from "../../entities/components/MeshDataComponent";
+
 function Dom3dComponent(domElement, settings) {
-	entitiescomponentsComponent_Componentjs.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'Dom3dComponent';
 
 	settings = settings || {};
 
 	/**
-	 * @type {boolean}
-	 */
+  * @type {boolean}
+  */
 	this.hidden = false;
 
 	this.width = settings.width || 500;
@@ -23,9 +35,9 @@ function Dom3dComponent(domElement, settings) {
 	this.entity = null;
 	this.initDom(domElement);
 
-	this.meshData = new shapesQuad_Quadjs(1, 1);
-	this.meshDataComponent = new entitiescomponentsMeshDataComponent_MeshDataComponentjs(this.meshData);
-	this.meshRendererComponent = new entitiescomponentsMeshRendererComponent_MeshRendererComponentjs();
+	this.meshData = new _Quad.Quad(1, 1);
+	this.meshDataComponent = new _MeshDataComponent.MeshDataComponent(this.meshData);
+	this.meshRendererComponent = new _MeshRendererComponent.MeshRendererComponent();
 
 	this._transformDirty = true;
 	this._transformUpdatedListener = null;
@@ -37,7 +49,7 @@ function Dom3dComponent(domElement, settings) {
 
 Dom3dComponent.type = 'Dom3dComponent';
 
-Dom3dComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
+Dom3dComponent.prototype = Object.create(_Component.Component.prototype);
 Dom3dComponent.prototype.constructor = Dom3dComponent;
 
 Dom3dComponent.prototype.attached = function (entity) {
@@ -101,4 +113,4 @@ Dom3dComponent.prototype.destroy = function (context) {
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/Dom3dComponent/Dom3dComponent-vtest.html Working example
  */
-export { Dom3dComponent_Dom3dComponent as Dom3dComponent };
+exports.Dom3dComponent = Dom3dComponent_Dom3dComponent;

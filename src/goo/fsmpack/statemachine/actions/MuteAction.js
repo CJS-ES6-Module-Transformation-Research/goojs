@@ -1,10 +1,18 @@
-var MuteAction_MuteAction = MuteAction;
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function MuteAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MuteAction = undefined;
+
+var _Action = require('./Action');
+
+var MuteAction_MuteAction = MuteAction;
+
+function MuteAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-MuteAction.prototype = Object.create(Action_Actionjs.prototype);
+MuteAction.prototype = Object.create(_Action.Action.prototype);
 MuteAction.prototype.constructor = MuteAction;
 
 MuteAction.external = {
@@ -19,7 +27,9 @@ MuteAction.external = {
 
 MuteAction.prototype.enter = function (fsm) {
 	var world = fsm.getWorld();
-	if (!world) { return; }
+	if (!world) {
+		return;
+	}
 
 	var soundSystem = world.getSystem('SoundSystem');
 	if (soundSystem) {
@@ -27,4 +37,4 @@ MuteAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { MuteAction_MuteAction as MuteAction };
+exports.MuteAction = MuteAction_MuteAction;

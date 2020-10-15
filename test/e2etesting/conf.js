@@ -1,3 +1,5 @@
+'use strict';
+
 var config;
 // An example configuration file.
 config = {

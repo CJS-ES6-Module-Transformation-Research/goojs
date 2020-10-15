@@ -1,29 +1,42 @@
-import {     BoundingVolumeMeshBuilder as BoundingVolumeMeshBuilder_BoundingVolumeMeshBuilder, } from "./BoundingVolumeMeshBuilder";
-import { MarkerComponent as componentsMarkerComponent_MarkerComponent } from "./components/MarkerComponent";
-import { DebugDrawHelper as DebugDrawHelper_DebugDrawHelper } from "./DebugDrawHelper";
-import { Debugger as Debugger_Debugger } from "./Debugger";
-import { EntityCounter as EntityCounter_EntityCounter } from "./EntityCounter";
-import { CameraDebug as shapesCameraDebug_CameraDebug } from "./shapes/CameraDebug";
-import { LightDebug as shapesLightDebug_LightDebug } from "./shapes/LightDebug";
-import { MeshRendererDebug as shapesMeshRendererDebug_MeshRendererDebug } from "./shapes/MeshRendererDebug";
-import { SkeletonDebug as shapesSkeletonDebug_SkeletonDebug } from "./shapes/SkeletonDebug";
-import { DebugRenderSystem as systemsDebugRenderSystem_DebugRenderSystem } from "./systems/DebugRenderSystem";
-import { MarkerSystem as systemsMarkerSystem_MarkerSystem } from "./systems/MarkerSystem";
+"use strict";
+
+var _BoundingVolumeMeshBuilder = require("./BoundingVolumeMeshBuilder");
+
+var _MarkerComponent = require("./components/MarkerComponent");
+
+var _DebugDrawHelper = require("./DebugDrawHelper");
+
+var _Debugger = require("./Debugger");
+
+var _EntityCounter = require("./EntityCounter");
+
+var _CameraDebug = require("./shapes/CameraDebug");
+
+var _LightDebug = require("./shapes/LightDebug");
+
+var _MeshRendererDebug = require("./shapes/MeshRendererDebug");
+
+var _SkeletonDebug = require("./shapes/SkeletonDebug");
+
+var _DebugRenderSystem = require("./systems/DebugRenderSystem");
+
+var _MarkerSystem = require("./systems/MarkerSystem");
+
 var indexjs;
 indexjs = {
-	BoundingVolumeMeshBuilder: BoundingVolumeMeshBuilder_BoundingVolumeMeshBuilder,
-	MarkerComponent: componentsMarkerComponent_MarkerComponent,
-	DebugDrawHelper: DebugDrawHelper_DebugDrawHelper,
-	Debugger: Debugger_Debugger,
-	EntityCounter: EntityCounter_EntityCounter,
-	CameraDebug: shapesCameraDebug_CameraDebug,
-	LightDebug: shapesLightDebug_LightDebug,
-	MeshRendererDebug: shapesMeshRendererDebug_MeshRendererDebug,
-	SkeletonDebug: shapesSkeletonDebug_SkeletonDebug,
-	DebugRenderSystem: systemsDebugRenderSystem_DebugRenderSystem,
-	MarkerSystem: systemsMarkerSystem_MarkerSystem
+	BoundingVolumeMeshBuilder: _BoundingVolumeMeshBuilder.BoundingVolumeMeshBuilder,
+	MarkerComponent: _MarkerComponent.MarkerComponent,
+	DebugDrawHelper: _DebugDrawHelper.DebugDrawHelper,
+	Debugger: _Debugger.Debugger,
+	EntityCounter: _EntityCounter.EntityCounter,
+	CameraDebug: _CameraDebug.CameraDebug,
+	LightDebug: _LightDebug.LightDebug,
+	MeshRendererDebug: _MeshRendererDebug.MeshRendererDebug,
+	SkeletonDebug: _SkeletonDebug.SkeletonDebug,
+	DebugRenderSystem: _DebugRenderSystem.DebugRenderSystem,
+	MarkerSystem: _MarkerSystem.MarkerSystem
 };
-if (typeof(window) !== 'undefined') {
+if (typeof window !== 'undefined') {
 	for (var key in module.exports) {
 		window.goo[key] = module.exports[key];
 	}

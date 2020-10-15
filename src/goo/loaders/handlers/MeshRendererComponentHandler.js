@@ -1,20 +1,34 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MeshRendererComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _MeshRendererComponent = require("../../entities/components/MeshRendererComponent");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _rsvp = require("../../util/rsvp");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var MeshRendererComponentHandler_MeshRendererComponentHandler = MeshRendererComponentHandler;
-import { ComponentHandler as loadershandlersComponentHandler_ComponentHandlerjs } from "../../loaders/handlers/ComponentHandler";
-import {     MeshRendererComponent as entitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../../entities/components/MeshRendererComponent";
-import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
-import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
-import { rsvpjs as utilrsvp_rsvpjsjs } from "../../util/rsvp";
-import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../../util/ObjectUtils";
+
 function MeshRendererComponentHandler() {
-	loadershandlersComponentHandler_ComponentHandlerjs.apply(this, arguments);
-	this._type = 'MeshRendererComponent';
+  _ComponentHandler.ComponentHandler.apply(this, arguments);
+  this._type = 'MeshRendererComponent';
 }
 
-MeshRendererComponentHandler.prototype = Object.create(loadershandlersComponentHandler_ComponentHandlerjs.prototype);
+MeshRendererComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 MeshRendererComponentHandler.prototype.constructor = MeshRendererComponentHandler;
-loadershandlersComponentHandler_ComponentHandlerjs._registerClass('meshRenderer', MeshRendererComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('meshRenderer', MeshRendererComponentHandler);
 
-MeshRendererComponentHandler.DEFAULT_MATERIAL = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.uber, 'Default material');
+MeshRendererComponentHandler.DEFAULT_MATERIAL = new _Material.Material(_ShaderLib.ShaderLib.uber, 'Default material');
 
 /**
  * Prepare component. Set defaults on config here.
@@ -23,12 +37,12 @@ MeshRendererComponentHandler.DEFAULT_MATERIAL = new rendererMaterial_Materialjs(
  * @private
  */
 MeshRendererComponentHandler.prototype._prepare = function (config) {
-	return utilObjectUtils_ObjectUtilsjs.defaults(config, {
-		cullMode: 'Dynamic',
-		castShadows: true,
-		receiveShadows: true,
-		reflectable: true
-	});
+  return _ObjectUtils.ObjectUtils.defaults(config, {
+    cullMode: 'Dynamic',
+    castShadows: true,
+    receiveShadows: true,
+    reflectable: true
+  });
 };
 
 /**
@@ -37,7 +51,7 @@ MeshRendererComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 MeshRendererComponentHandler.prototype._create = function () {
-	return new entitiescomponentsMeshRendererComponent_MeshRendererComponentjs();
+  return new _MeshRendererComponent.MeshRendererComponent();
 };
 
 /**
@@ -48,39 +62,41 @@ MeshRendererComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
-   var that = this;
+  var that = this;
 
-   return loadershandlersComponentHandler_ComponentHandlerjs.prototype.update.call(this, entity, config, options).then(function (component) {
-       if (!component) { return; }
-       // Component settings
-       component.cullMode = config.cullMode;
-       component.castShadows = config.castShadows;
-       component.receiveShadows = config.receiveShadows;
-       component.isReflectable = config.reflectable;
-       //component.isPickable = config.pickable;
+  return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+    if (!component) {
+      return;
+    }
+    // Component settings
+    component.cullMode = config.cullMode;
+    component.castShadows = config.castShadows;
+    component.receiveShadows = config.receiveShadows;
+    component.isReflectable = config.reflectable;
+    //component.isPickable = config.pickable;
 
-       // Materials
-       var materials = config.materials;
-       if (!materials || !Object.keys(materials).length) {
-           var selectionMaterial = component.materials.filter(function (material) {
-               return material.name === 'gooSelectionIndicator';
-           });
-           component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
-           return component;
-       }
+    // Materials
+    var materials = config.materials;
+    if (!materials || !Object.keys(materials).length) {
+      var selectionMaterial = component.materials.filter(function (material) {
+        return material.name === 'gooSelectionIndicator';
+      });
+      component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
+      return component;
+    }
 
-       var promises = [];
-       utilObjectUtils_ObjectUtilsjs.forEach(materials, function (item) {
-           promises.push(that._load(item.materialRef, options));
-       }, null, 'sortValue');
-       return utilrsvp_rsvpjsjs.all(promises).then(function (materials) {
-           var selectionMaterial = component.materials.filter(function (material) {
-               return material.name === 'gooSelectionIndicator';
-           });
-           component.materials = materials.concat(selectionMaterial);
-           return component;
-       });
-   });
+    var promises = [];
+    _ObjectUtils.ObjectUtils.forEach(materials, function (item) {
+      promises.push(that._load(item.materialRef, options));
+    }, null, 'sortValue');
+    return _rsvp.rsvpjs.all(promises).then(function (materials) {
+      var selectionMaterial = component.materials.filter(function (material) {
+        return material.name === 'gooSelectionIndicator';
+      });
+      component.materials = materials.concat(selectionMaterial);
+      return component;
+    });
+  });
 };
 
 /**
@@ -91,4 +107,4 @@ MeshRendererComponentHandler.prototype.update = function (entity, config, option
  * @extends ComponentHandler
  * @hidden
  */
-export { MeshRendererComponentHandler_MeshRendererComponentHandler as MeshRendererComponentHandler };
+exports.MeshRendererComponentHandler = MeshRendererComponentHandler_MeshRendererComponentHandler;

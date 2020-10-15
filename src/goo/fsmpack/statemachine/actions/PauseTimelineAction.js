@@ -1,11 +1,19 @@
-var PauseTimelineAction_PauseTimelineAction = PauseTimelineAction;
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function PauseTimelineAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PauseTimelineAction = undefined;
+
+var _Action = require('./Action');
+
+var PauseTimelineAction_PauseTimelineAction = PauseTimelineAction;
+
+function PauseTimelineAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
 
-PauseTimelineAction.prototype = Object.create(Action_Actionjs.prototype);
+PauseTimelineAction.prototype = Object.create(_Action.Action.prototype);
 PauseTimelineAction.prototype.constructor = PauseTimelineAction;
 
 PauseTimelineAction.external = {
@@ -21,9 +29,11 @@ PauseTimelineAction.external = {
 PauseTimelineAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('TimelineComponent')) { return; }
+	if (!entity.hasComponent('TimelineComponent')) {
+		return;
+	}
 
 	entity.timelineComponent.pause();
 };
 
-export { PauseTimelineAction_PauseTimelineAction as PauseTimelineAction };
+exports.PauseTimelineAction = PauseTimelineAction_PauseTimelineAction;

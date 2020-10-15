@@ -1,15 +1,21 @@
-import {     MeshRendererComponent as srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs, } from "../../../../src/goo/entities/components/MeshRendererComponent";
-import { Material as srcgoorendererMaterial_Materialjs } from "../../../../src/goo/renderer/Material";
-import { World as srcgooentitiesWorld_Worldjs } from "../../../../src/goo/entities/World";
-import { DynamicLoader as srcgooloadersDynamicLoader_DynamicLoaderjs } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as testunitloadersConfigs_Configsjs } from "../../../../test/unit/loaders/Configs";
+"use strict";
+
+var _MeshRendererComponent = require("../../../../src/goo/entities/components/MeshRendererComponent");
+
+var _Material = require("../../../../src/goo/renderer/Material");
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
 
 describe('MeshRendererComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new srcgooentitiesWorld_Worldjs();
-		loader = new srcgooloadersDynamicLoader_DynamicLoaderjs({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -17,19 +23,19 @@ describe('MeshRendererComponentHandler', function () {
 	});
 
 	it('loads an entity with a meshRendererComponent', function (done) {
-		var config = testunitloadersConfigs_Configsjs.entity(['meshRenderer']);
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		var config = _Configs.Configs.entity(['meshRenderer']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.meshRendererComponent).toEqual(jasmine.any(srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs));
-			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(srcgoorendererMaterial_Materialjs));
+			expect(entity.meshRendererComponent).toEqual(jasmine.any(_MeshRendererComponent.MeshRendererComponent));
+			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(_Material.Material));
 			done();
 		});
 	});
 
 	it('loads materials in right order', function (done) {
-		var config = testunitloadersConfigs_Configsjs.entity(['meshRenderer']);
+		var config = _Configs.Configs.entity(['meshRenderer']);
 		var materialConfigs = config.components.meshRenderer.materials;
-		loader.preload(testunitloadersConfigs_Configsjs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
 			var materials = entity.meshRendererComponent.materials;
 			var sortMaterials = {};
@@ -43,8 +49,8 @@ describe('MeshRendererComponentHandler', function () {
 			for (var i = 0; i < keys.length; i++) {
 				expect(sortMaterials[keys[i]]).toBe(materials[i].id);
 			}
-			expect(entity.meshRendererComponent).toEqual(jasmine.any(srcgooentitiescomponentsMeshRendererComponent_MeshRendererComponentjs));
-			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(srcgoorendererMaterial_Materialjs));
+			expect(entity.meshRendererComponent).toEqual(jasmine.any(_MeshRendererComponent.MeshRendererComponent));
+			expect(entity.meshRendererComponent.materials[0]).toEqual(jasmine.any(_Material.Material));
 			done();
 		});
 	});

@@ -1,22 +1,29 @@
-import { RendererRecord as srcgoorendererRendererRecord_RendererRecordjs } from "../../../src/goo/renderer/RendererRecord";
-import { Renderer as srcgoorendererRenderer_Rendererjs } from "../../../src/goo/renderer/Renderer";
+"use strict";
+
+var _RendererRecord = require("../../../src/goo/renderer/RendererRecord");
+
+var _Renderer = require("../../../src/goo/renderer/Renderer");
 
 describe('Renderer', function () {
 	describe('findOrCacheMaterialShader', function () {
 		var renderer;
 		beforeEach(function () {
 			renderer = {};
-			renderer.rendererRecord = new srcgoorendererRendererRecord_RendererRecordjs();
-			renderer.findOrCacheMaterialShader = srcgoorendererRenderer_Rendererjs.prototype.findOrCacheMaterialShader.bind(renderer);
+			renderer.rendererRecord = new _RendererRecord.RendererRecord();
+			renderer.findOrCacheMaterialShader = _Renderer.Renderer.prototype.findOrCacheMaterialShader.bind(renderer);
 		});
 
 		function getShader(key, uniforms) {
 			return {
 				defineKey: key,
-				getDefineKey: function () { return key; },
-				endFrame: function () {},
+				getDefineKey: function getDefineKey() {
+					return key;
+				},
+				endFrame: function endFrame() {},
 				uniforms: uniforms,
-				clone: function () { return { key: 'phony' }; }
+				clone: function clone() {
+					return { key: 'phony' };
+				}
 			};
 		}
 

@@ -1,10 +1,18 @@
-var PauseParticleSystemAction_PauseParticleSystemAction = PauseParticleSystemAction;
-import { Action as Action_Actionjs } from "./Action";
+'use strict';
 
-function PauseParticleSystemAction/*id, settings*/() {
-	Action_Actionjs.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PauseParticleSystemAction = undefined;
+
+var _Action = require('./Action');
+
+var PauseParticleSystemAction_PauseParticleSystemAction = PauseParticleSystemAction;
+
+function PauseParticleSystemAction /*id, settings*/() {
+	_Action.Action.apply(this, arguments);
 }
-PauseParticleSystemAction.prototype = Object.create(Action_Actionjs.prototype);
+PauseParticleSystemAction.prototype = Object.create(_Action.Action.prototype);
 PauseParticleSystemAction.prototype.constructor = PauseParticleSystemAction;
 
 PauseParticleSystemAction.external = {
@@ -19,8 +27,10 @@ PauseParticleSystemAction.external = {
 
 PauseParticleSystemAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.particleSystemComponent) { return; }
+	if (!entity || !entity.particleSystemComponent) {
+		return;
+	}
 	entity.particleSystemComponent.pause();
 };
 
-export { PauseParticleSystemAction_PauseParticleSystemAction as PauseParticleSystemAction };
+exports.PauseParticleSystemAction = PauseParticleSystemAction_PauseParticleSystemAction;

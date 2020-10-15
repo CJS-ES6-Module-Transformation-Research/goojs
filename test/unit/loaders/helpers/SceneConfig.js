@@ -1,7 +1,14 @@
-import { ObjectUtils as srcgooutilObjectUtil_ObjectUtilsjs } from "../../../../src/goo/util/ObjectUtil";
+'use strict';
 
-SceneConfigjs_SceneConfigjs = {
-	scene: function (complex) {
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SceneConfigjs = undefined;
+
+var _ObjectUtil = require('../../../../src/goo/util/ObjectUtil');
+
+exports.SceneConfigjs = SceneConfigjs_SceneConfigjs = {
+	scene: function scene(complex) {
 		var entities = {};
 		var components = complex ? ['transform', 'meshRenderer', 'meshData', 'animation', 'camera', 'light'] : null;
 		for (var i = 0; i < 5; i++) {
@@ -15,7 +22,7 @@ SceneConfigjs_SceneConfigjs = {
 		scene.entities = entities;
 		return scene;
 	},
-	project: function (complex) {
+	project: function project(complex) {
 		var project = this.gooObject('project', 'Dummy');
 		project.scenes = {};
 
@@ -31,7 +38,7 @@ SceneConfigjs_SceneConfigjs = {
 		project.mainSceneRef = sceneWrapper.sceneRef;
 		return project;
 	},
-	skybox: function (type) {
+	skybox: function skybox(type) {
 		var config = this.gooObject('skybox', 'Dummy');
 		if (type === 'sphere') {
 			config.sphere = {
@@ -51,9 +58,9 @@ SceneConfigjs_SceneConfigjs = {
 		}
 		return config;
 	},
-	environment: function () {
+	environment: function environment() {
 		var config = this.gooObject('environment', 'Dummy');
-		srcgooutilObjectUtil_ObjectUtilsjs.extend(config, {
+		_ObjectUtil.ObjectUtils.extend(config, {
 			backgroundColor: [1, 1, 1],
 			globalAmbient: [0.5, 0.5, 0.5],
 			skyboxRef: this.skybox().id,
@@ -76,4 +83,4 @@ SceneConfigjs_SceneConfigjs = {
 	}
 };
 var SceneConfigjs_SceneConfigjs;
-export { SceneConfigjs_SceneConfigjs as SceneConfigjs };
+exports.SceneConfigjs = SceneConfigjs_SceneConfigjs;
