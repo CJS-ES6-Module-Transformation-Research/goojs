@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var SystemBus = require('../../../entities/SystemBus');
+var PickAction_PickAction = PickAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-function PickAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function PickAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-PickAction.prototype = Object.create(Action.prototype);
+PickAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 PickAction.prototype.constructor = PickAction;
 
 PickAction.external = {
@@ -66,15 +67,15 @@ PickAction.prototype.enter = function (fsm) {
 
 	document.addEventListener('click', this.eventListener);
 	document.addEventListener('touchstart', this.eventListener);
-	SystemBus.addListener('goo.trigger.click', this.eventListener);
-	SystemBus.addListener('goo.trigger.touchstart', this.eventListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.trigger.click', this.eventListener);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.trigger.touchstart', this.eventListener);
 };
 
 PickAction.prototype.exit = function () {
 	document.removeEventListener('click', this.eventListener);
 	document.removeEventListener('touchstart', this.eventListener);
-	SystemBus.removeListener('goo.trigger.click', this.eventListener);
-	SystemBus.removeListener('goo.trigger.touchstart', this.eventListener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.trigger.click', this.eventListener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.trigger.touchstart', this.eventListener);
 };
 
-module.exports = PickAction;
+export { PickAction_PickAction as PickAction };

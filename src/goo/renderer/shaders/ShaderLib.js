@@ -1,15 +1,8 @@
-/*eslint indent: "off" */
-
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-
-/**
- * Collection of useful shaders<br>
- * Details of each can be printed like this for example: console.log(ShaderLib.texturedLit).<br>
- * There are more special purpose shaders in {@link ShaderLibExtra}
- */
+var ShaderLib_ShaderLib = ShaderLib;
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { ShaderFragment as renderershadersShaderFragment_ShaderFragmentjs } from "../../renderer/shaders/ShaderFragment";
+import { ShaderBuilder as renderershadersShaderBuilder_ShaderBuilderjs } from "../../renderer/shaders/ShaderBuilder";
 function ShaderLib() {}
 
 /**
@@ -18,33 +11,33 @@ function ShaderLib() {}
  */
 ShaderLib.uber = {
 	processors: [
-		ShaderBuilder.uber.processor,
-		ShaderBuilder.light.processor,
-		ShaderBuilder.animation.processor
+		renderershadersShaderBuilder_ShaderBuilderjs.uber.processor,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.processor,
+		renderershadersShaderBuilder_ShaderBuilderjs.animation.processor
 	],
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL,
-		vertexTangent: MeshData.TANGENT,
-		vertexColor: MeshData.COLOR,
-		vertexUV0: MeshData.TEXCOORD0,
-		vertexUV1: MeshData.TEXCOORD1,
-		vertexJointIDs: MeshData.JOINTIDS,
-		vertexWeights: MeshData.WEIGHTS
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL,
+		vertexTangent: rendererMeshData_MeshDatajs.TANGENT,
+		vertexColor: rendererMeshData_MeshDatajs.COLOR,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0,
+		vertexUV1: rendererMeshData_MeshDatajs.TEXCOORD1,
+		vertexJointIDs: rendererMeshData_MeshDatajs.JOINTIDS,
+		vertexWeights: rendererMeshData_MeshDatajs.WEIGHTS
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		normalMatrix: Shader.NORMAL_MATRIX,
-		cameraPosition: Shader.CAMERA,
-		diffuseMap: Shader.DIFFUSE_MAP,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		normalMatrix: rendererShader_Shaderjs.NORMAL_MATRIX,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		offsetRepeat: [0, 0, 1, 1],
-		normalMap: Shader.NORMAL_MAP,
+		normalMap: rendererShader_Shaderjs.NORMAL_MAP,
 		normalMultiplier: 1.0,
-		specularMap: Shader.SPECULAR_MAP,
-		emissiveMap: Shader.EMISSIVE_MAP,
-		aoMap: Shader.AO_MAP,
-		lightMap: Shader.LIGHT_MAP,
+		specularMap: rendererShader_Shaderjs.SPECULAR_MAP,
+		emissiveMap: rendererShader_Shaderjs.EMISSIVE_MAP,
+		aoMap: rendererShader_Shaderjs.AO_MAP,
+		lightMap: rendererShader_Shaderjs.LIGHT_MAP,
 		environmentCube: 'ENVIRONMENT_CUBE',
 		environmentSphere: 'ENVIRONMENT_SPHERE',
 		reflectionMap: 'REFLECTION_MAP',
@@ -62,7 +55,7 @@ ShaderLib.uber = {
 		wrapSettings: [0.5, 0.0]
 	},
 	builder: function (shader, shaderInfo) {
-		ShaderBuilder.light.builder(shader, shaderInfo);
+		renderershadersShaderBuilder_ShaderBuilderjs.light.builder(shader, shaderInfo);
 	},
 	vshader: function () {
 		return [
@@ -105,16 +98,16 @@ ShaderLib.uber = {
 		'varying vec4 color;',
 		'#endif',
 
-		ShaderBuilder.light.prevertex,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.prevertex,
 
-		ShaderBuilder.animation.prevertex,
+		renderershadersShaderBuilder_ShaderBuilderjs.animation.prevertex,
 
 		'void main(void) {',
 			'mat4 wMatrix = worldMatrix;',
 			'#ifdef NORMAL',
 				'mat3 nMatrix = normalMatrix;',
 			'#endif',
-			ShaderBuilder.animation.vertex,
+			renderershadersShaderBuilder_ShaderBuilderjs.animation.vertex,
 			'vec4 worldPos = wMatrix * vec4(vertexPosition, 1.0);',
 			'vWorldPos = worldPos.xyz;',
 			'gl_Position = viewProjectionMatrix * worldPos;',
@@ -138,7 +131,7 @@ ShaderLib.uber = {
 			'	texCoord1 = vertexUV1;',
 			'#endif',
 
-			ShaderBuilder.light.vertex,
+			renderershadersShaderBuilder_ShaderBuilderjs.light.vertex,
 		'}'
 	].join('\n');
 	},
@@ -217,7 +210,7 @@ ShaderLib.uber = {
 
 		'#define M_PI 3.14159265358979323846264338328',
 
-		ShaderBuilder.light.prefragment,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.prefragment,
 
 		'void main(void)',
 		'{',
@@ -275,7 +268,7 @@ ShaderLib.uber = {
 
 				'N = N * (-1.0 + 2.0 * float(gl_FrontFacing));',
 
-				ShaderBuilder.light.fragment,
+				renderershadersShaderBuilder_ShaderBuilderjs.light.fragment,
 			'#endif',
 
 			'#ifdef REFLECTIVE',
@@ -349,11 +342,11 @@ ShaderLib.uber = {
 // only terrain depends on this
 ShaderLib.screenCopy = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		diffuseMap: Shader.DIFFUSE_MAP
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -380,14 +373,14 @@ ShaderLib.screenCopy = {
 
 ShaderLib.copy = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0,
-		diffuseMap: Shader.DIFFUSE_MAP
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -418,14 +411,14 @@ ShaderLib.copy = {
 
 ShaderLib.copyPure = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0,
-		diffuseMap: Shader.DIFFUSE_MAP
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -457,11 +450,11 @@ ShaderLib.copyPure = {
 
 ShaderLib.simple = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -483,11 +476,11 @@ ShaderLib.simple = {
 
 ShaderLib.simpleColored = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		color: [1.0, 1.0, 1.0],
 		opacity: 1.0
 	},
@@ -517,23 +510,23 @@ ShaderLib.simpleColored = {
 
 ShaderLib.simpleLit = {
 	processors: [
-		ShaderBuilder.light.processor
+		renderershadersShaderBuilder_ShaderBuilderjs.light.processor
 	],
 	defines: {
 		NORMAL: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraPosition: Shader.CAMERA,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
 		opacity: 1.0
 	},
 	builder: function (shader, shaderInfo) {
-		ShaderBuilder.light.builder(shader, shaderInfo);
+		renderershadersShaderBuilder_ShaderBuilderjs.light.builder(shader, shaderInfo);
 	},
 	vshader: function () {
 		return [
@@ -544,7 +537,7 @@ ShaderLib.simpleLit = {
 	'uniform mat4 worldMatrix;',
 	'uniform vec3 cameraPosition;',
 
-	ShaderBuilder.light.prevertex,
+	renderershadersShaderBuilder_ShaderBuilderjs.light.prevertex,
 	'varying vec3 normal;',
 	'varying vec3 vWorldPos;',
 	'varying vec3 viewPosition;',
@@ -554,7 +547,7 @@ ShaderLib.simpleLit = {
 		'vWorldPos = worldPos.xyz;',
 		'gl_Position = viewProjectionMatrix * worldPos;',
 
-		ShaderBuilder.light.vertex,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.vertex,
 
 		'normal = (worldMatrix * vec4(vertexNormal, 0.0)).xyz;',
 		'viewPosition = cameraPosition - worldPos.xyz;',
@@ -572,7 +565,7 @@ ShaderLib.simpleLit = {
 
 	'uniform float opacity;',
 
-	ShaderBuilder.light.prefragment,
+	renderershadersShaderBuilder_ShaderBuilderjs.light.prefragment,
 
 	'#ifdef NORMAL',
 	'varying vec3 normal;',
@@ -593,7 +586,7 @@ ShaderLib.simpleLit = {
 	'#endif',
 		'vec4 final_color = vec4(1.0);',
 
-		ShaderBuilder.light.fragment,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.fragment,
 
 		'final_color.a = opacity;',
 		'gl_FragColor = final_color;',
@@ -608,13 +601,13 @@ ShaderLib.textured = {
 		DIFFUSE_MAP: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		diffuseMap: Shader.DIFFUSE_MAP
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -650,21 +643,21 @@ ShaderLib.textured = {
 
 ShaderLib.texturedLit = {
 	processors: [
-		ShaderBuilder.light.processor
+		renderershadersShaderBuilder_ShaderBuilderjs.light.processor
 	],
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraPosition: Shader.CAMERA,
-		diffuseMap: Shader.DIFFUSE_MAP
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraPosition: rendererShader_Shaderjs.CAMERA,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	builder: function (shader, shaderInfo) {
-		ShaderBuilder.light.builder(shader, shaderInfo);
+		renderershadersShaderBuilder_ShaderBuilderjs.light.builder(shader, shaderInfo);
 	},
 	vshader: function () {
 		return [
@@ -676,7 +669,7 @@ ShaderLib.texturedLit = {
 	'uniform mat4 worldMatrix;',
 	'uniform vec3 cameraPosition;',
 
-	ShaderBuilder.light.prevertex,
+	renderershadersShaderBuilder_ShaderBuilderjs.light.prevertex,
 
 	'varying vec3 normal;',
 	'varying vec3 vWorldPos;',
@@ -688,7 +681,7 @@ ShaderLib.texturedLit = {
 		'vWorldPos = worldPos.xyz;',
 		'gl_Position = viewProjectionMatrix * worldPos;',
 
-		ShaderBuilder.light.vertex,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.vertex,
 
 		'normal = (worldMatrix * vec4(vertexNormal, 0.0)).xyz;',
 		'texCoord0 = vertexUV0;',
@@ -700,7 +693,7 @@ ShaderLib.texturedLit = {
 		return [
 	'uniform sampler2D diffuseMap;',
 
-	ShaderBuilder.light.prefragment,
+	renderershadersShaderBuilder_ShaderBuilderjs.light.prefragment,
 
 	'varying vec3 normal;',
 	'varying vec3 vWorldPos;',
@@ -712,7 +705,7 @@ ShaderLib.texturedLit = {
 		'vec3 N = normalize(normal);',
 		'vec4 final_color = texture2D(diffuseMap, texCoord0);',
 
-		ShaderBuilder.light.fragment,
+		renderershadersShaderBuilder_ShaderBuilderjs.light.fragment,
 
 		'gl_FragColor = final_color;',
 	'}'
@@ -726,14 +719,14 @@ ShaderLib.convolution = {
 		KERNEL_SIZE_INT: '25'
 	},
 	attributes: {
-		position: MeshData.POSITION,
-		uv: MeshData.TEXCOORD0
+		position: rendererMeshData_MeshDatajs.POSITION,
+		uv: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		tDiffuse: Shader.DIFFUSE_MAP,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		tDiffuse: rendererShader_Shaderjs.DIFFUSE_MAP,
 		uImageIncrement: [0.001953125, 0.0],
 		cKernel: [],
 		size: 1.0
@@ -817,14 +810,14 @@ ShaderLib.showNormals = {
 		NORMAL: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		opacity: 1.0
 	},
 	vshader: [
@@ -857,14 +850,14 @@ ShaderLib.showNormals = {
 
 ShaderLib.particles = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexColor: MeshData.COLOR,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexColor: rendererMeshData_MeshDatajs.COLOR,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		diffuseMap: Shader.DIFFUSE_MAP
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -900,13 +893,13 @@ ShaderLib.particles = {
 
 ShaderLib.normalmap = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		heightMap: Shader.DIFFUSE_MAP,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		heightMap: rendererShader_Shaderjs.DIFFUSE_MAP,
 		resolution: [512, 512],
 		height: 0.05
 	},
@@ -942,12 +935,12 @@ ShaderLib.normalmap = {
 
 ShaderLib.point = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexColor: MeshData.COLOR
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexColor: rendererMeshData_MeshDatajs.COLOR
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
 		pointSize: 2.0
 	},
 	vshader: [
@@ -978,14 +971,14 @@ ShaderLib.point = {
 
 ShaderLib.downsample = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		tDiffuse: Shader.DIFFUSE_MAP
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		tDiffuse: rendererShader_Shaderjs.DIFFUSE_MAP
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -1014,7 +1007,7 @@ ShaderLib.downsample = {
 
 ShaderLib.lightDepth = {
 	processors: [
-		ShaderBuilder.animation.processor
+		renderershadersShaderBuilder_ShaderBuilderjs.animation.processor
 	],
 	defines: {
 		SHADOW_TYPE: 0,
@@ -1022,15 +1015,15 @@ ShaderLib.lightDepth = {
 		JOINTIDS: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexJointIDs: MeshData.JOINTIDS,
-		vertexWeights: MeshData.WEIGHTS
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexJointIDs: rendererMeshData_MeshDatajs.JOINTIDS,
+		vertexWeights: rendererMeshData_MeshDatajs.WEIGHTS
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraScale: Shader.MAIN_DEPTH_SCALE
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraScale: rendererShader_Shaderjs.MAIN_DEPTH_SCALE
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -1040,11 +1033,11 @@ ShaderLib.lightDepth = {
 	'uniform mat4 worldMatrix;',
 
 	'varying vec4 worldPosition;',
-	ShaderBuilder.animation.prevertex,
+	renderershadersShaderBuilder_ShaderBuilderjs.animation.prevertex,
 
 	'void main(void) {',
 		'mat4 wMatrix = worldMatrix;',
-		ShaderBuilder.animation.vertex,
+		renderershadersShaderBuilder_ShaderBuilderjs.animation.vertex,
 		'worldPosition = viewMatrix * (wMatrix * vec4(vertexPosition, 1.0));',
 		'gl_Position = projectionMatrix * worldPosition;',
 	'}'
@@ -1056,7 +1049,7 @@ ShaderLib.lightDepth = {
 
 	'varying vec4 worldPosition;',
 
-	ShaderFragment.methods.packDepth,
+	renderershadersShaderFragment_ShaderFragmentjs.methods.packDepth,
 
 	'void main(void)',
 	'{',
@@ -1078,17 +1071,17 @@ ShaderLib.pickingShader = {
 		JOINTIDS: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexJointIDs: MeshData.JOINTIDS,
-		vertexWeights: MeshData.WEIGHTS,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexJointIDs: rendererMeshData_MeshDatajs.JOINTIDS,
+		vertexWeights: rendererMeshData_MeshDatajs.WEIGHTS,
+		vertexNormal: rendererMeshData_MeshDatajs.NORMAL
 	},
 	uniforms: {
-		normalMatrix: Shader.NORMAL_MATRIX,
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraFar: Shader.FAR_PLANE,
+		normalMatrix: rendererShader_Shaderjs.NORMAL_MATRIX,
+		viewMatrix: rendererShader_Shaderjs.VIEW_MATRIX,
+		projectionMatrix: rendererShader_Shaderjs.PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		cameraFar: rendererShader_Shaderjs.FAR_PLANE,
 		thickness: 0.0,
 		id: function (shaderInfo) {
 			return shaderInfo.renderable._index != null ? shaderInfo.renderable._index + 1 : shaderInfo.renderable.id + 1;
@@ -1096,7 +1089,7 @@ ShaderLib.pickingShader = {
 	},
 	processors: [
 		// ShaderBuilder.uber.processor,
-		ShaderBuilder.animation.processor,
+		renderershadersShaderBuilder_ShaderBuilderjs.animation.processor,
 
 		function (shader) {
 			shader.setDefine('NORMAL', true);
@@ -1116,7 +1109,7 @@ ShaderLib.pickingShader = {
 	'uniform float thickness;',
 	'uniform mat3 normalMatrix;',
 
-	ShaderBuilder.animation.prevertex,
+	renderershadersShaderBuilder_ShaderBuilderjs.animation.prevertex,
 
 	'varying float depth;',
 
@@ -1127,7 +1120,7 @@ ShaderLib.pickingShader = {
 		'#endif',
 
 		'mat4 wMatrix = worldMatrix;',
-		ShaderBuilder.animation.vertex,
+		renderershadersShaderBuilder_ShaderBuilderjs.animation.vertex,
 
 		'#ifdef NORMAL',
 			'vec4 mvPosition = viewMatrix * (wMatrix * vec4( vertexPosition + vertexNormal * thickness, 1.0 ));',
@@ -1144,7 +1137,7 @@ ShaderLib.pickingShader = {
 
 	'varying float depth;',
 
-	ShaderFragment.methods.packDepth16,
+	renderershadersShaderFragment_ShaderFragmentjs.methods.packDepth16,
 
 	'void main() {',
 		'vec2 packedId = vec2(floor(id/255.0), mod(id, 255.0)) * vec2(1.0/255.0);',
@@ -1154,4 +1147,9 @@ ShaderLib.pickingShader = {
 	].join('\n')
 };
 
-module.exports = ShaderLib;
+/**
+ * Collection of useful shaders<br>
+ * Details of each can be printed like this for example: console.log(ShaderLib.texturedLit).<br>
+ * There are more special purpose shaders in {@link ShaderLibExtra}
+ */
+export { ShaderLib_ShaderLib as ShaderLib };

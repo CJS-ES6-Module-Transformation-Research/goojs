@@ -1,6 +1,4 @@
-/**
- * Utilities for arrays and typed arrays
- */
+var ArrayUtils_ArrayUtils = ArrayUtils;
 function ArrayUtils() {}
 
 /**
@@ -114,4 +112,7 @@ ArrayUtils.fromValues = function (collection) {
 	return array;
 };
 
-module.exports = ArrayUtils;
+/**
+ * Utilities for arrays and typed arrays
+ */
+export { ArrayUtils_ArrayUtils as ArrayUtils };

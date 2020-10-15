@@ -1,37 +1,31 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Quad = require('../../shapes/Quad');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
-
-/**
- * Renders transform gizmos<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
- * @property {boolean} doRender Only render if set to true
- * @extends System
- */
+var PipRenderSystem_PipRenderSystem = PipRenderSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { Shader as rendererShader_Shaderjs } from "../../renderer/Shader";
+import { Quad as shapesQuad_Quadjs } from "../../shapes/Quad";
+import { RenderTarget as rendererpassRenderTarget_RenderTargetjs } from "../../renderer/pass/RenderTarget";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../renderer/shaders/ShaderLib";
+import { FullscreenPass as rendererpassFullscreenPass_FullscreenPassjs } from "../../renderer/pass/FullscreenPass";
+import { FullscreenUtils as rendererpassFullscreenUtils_FullscreenUtilsjs } from "../../renderer/pass/FullscreenUtils";
 function PipRenderSystem(renderSystem) {
-	System.call(this, 'PipRenderSystem', null);
+	entitiessystemsSystem_Systemjs.call(this, 'PipRenderSystem', null);
 
 	this.renderSystem = renderSystem;
 
-	this.target = new RenderTarget(512, 512);
+	this.target = new rendererpassRenderTarget_RenderTargetjs(512, 512);
 
-	this.outPass = new FullscreenPass(ShaderLib.copy);
+	this.outPass = new rendererpassFullscreenPass_FullscreenPassjs(renderershadersShaderLib_ShaderLibjs.copy);
 	var that = this;
 	this.outPass.render = function (renderer, writeBuffer, readBuffer) {
 		this.material.setTexture('DIFFUSE_MAP', readBuffer);
-		renderer.render(this.renderable, FullscreenUtils.camera, [], that.target, true);
+		renderer.render(this.renderable, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], that.target, true);
 	};
 
-	var material = new Material(renderPipQuad);
+	var material = new rendererMaterial_Materialjs(renderPipQuad);
 	material.setTexture('DIFFUSE_MAP', this.target);
-	this.quad = new Quad(1, 1);
+	this.quad = new shapesQuad_Quadjs(1, 1);
 	this.aspect = null;
 	this.width = null;
 	this.height = null;
@@ -46,7 +40,7 @@ function PipRenderSystem(renderSystem) {
 	this.size = null;
 	this.dirty = false;
 
-	SystemBus.addListener('goo.setPipCamera', function (newCam) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setPipCamera', function (newCam) {
 		this.camera = newCam.camera;
 		this.usePostEffects = newCam.usePostEffects !== undefined ? newCam.usePostEffects : false;
 		this.dirty = true;
@@ -57,14 +51,14 @@ function PipRenderSystem(renderSystem) {
 		this.dirty = true;
 	}.bind(this);
 
-	SystemBus.addListener('goo.viewportResize', this._viewportResizeHandler, true);
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.viewportResize', this._viewportResizeHandler, true);
 }
 
-PipRenderSystem.prototype = Object.create(System.prototype);
+PipRenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 PipRenderSystem.prototype.constructor = PipRenderSystem;
 
 PipRenderSystem.prototype.updateQuad = function (quad, x, y, width, height) {
-	quad.getAttributeBuffer(MeshData.POSITION).set([
+	quad.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set([
 		x, y, 0,
 		x, y + height, 0,
 		x + width, y + height, 0,
@@ -122,7 +116,7 @@ PipRenderSystem.prototype.render = function (renderer) {
 		renderer.render(this.renderList, this.camera, this.renderSystem.lights, this.target, true, overrideMaterial);
 	}
 
-	renderer.render(this.renderableQuad, FullscreenUtils.camera, [], null, false);
+	renderer.render(this.renderableQuad, rendererpassFullscreenUtils_FullscreenUtilsjs.camera, [], null, false);
 };
 
 var renderPipQuad = {
@@ -130,14 +124,14 @@ var renderPipQuad = {
 		EDGE: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: rendererMeshData_MeshDatajs.POSITION,
+		vertexUV0: rendererMeshData_MeshDatajs.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		diffuseMap: Shader.DIFFUSE_MAP,
-		resolution: Shader.RESOLUTION
+		viewProjectionMatrix: rendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+		worldMatrix: rendererShader_Shaderjs.WORLD_MATRIX,
+		diffuseMap: rendererShader_Shaderjs.DIFFUSE_MAP,
+		resolution: rendererShader_Shaderjs.RESOLUTION
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -179,4 +173,10 @@ var renderPipQuad = {
 	].join('\n')
 };
 
-module.exports = PipRenderSystem;
+/**
+ * Renders transform gizmos<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { PipRenderSystem_PipRenderSystem as PipRenderSystem };

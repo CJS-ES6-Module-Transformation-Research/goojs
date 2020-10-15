@@ -1,9 +1,10 @@
-var MeshData = require('../../renderer/MeshData');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Box = require('../../shapes/Box');
-var Cylinder = require('../../shapes/Cylinder');
+var CameraDebug_CameraDebug = CameraDebug;
+import { MeshData as rendererMeshData_MeshDatajs } from "../../renderer/MeshData";
+import { MeshBuilder as utilMeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { Vector3 as mathVector3_Vector3js } from "../../math/Vector3";
+import { Box as shapesBox_Boxjs } from "../../shapes/Box";
+import { Cylinder as shapesCylinder_Cylinderjs } from "../../shapes/Cylinder";
 
 function CameraDebug() {
 	this._camera = CameraDebug.buildCamera();
@@ -106,9 +107,9 @@ CameraDebug.buildFrustum = function (camera) {
 	indices.push(2, 6);
 	indices.push(3, 7);
 
-	var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), 8, 24);
+	var meshData = new rendererMeshData_MeshDatajs(rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION]), 8, 24);
 
-	meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -118,16 +119,16 @@ CameraDebug.buildFrustum = function (camera) {
 };
 
 CameraDebug.buildCamera = function () {
-	var meshBuilder = new MeshBuilder();
-	var transform = new Transform();
+	var meshBuilder = new utilMeshBuilder_MeshBuilderjs();
+	var transform = new mathTransform_Transformjs();
 
-	var cameraBox1 = new Cylinder(32, 0.6);
-	var cameraBox2 = new Cylinder(32, 0.6);
-	var cameraBox3 = new Box(0.3, 1, 1.6);
+	var cameraBox1 = new shapesCylinder_Cylinderjs(32, 0.6);
+	var cameraBox2 = new shapesCylinder_Cylinderjs(32, 0.6);
+	var cameraBox3 = new shapesBox_Boxjs(0.3, 1, 1.6);
 
-	var cameraBox4 = new Box(0.2, 0.15, 0.7);
-	cameraBox4.applyFunction(MeshData.POSITION, function (vert) {
-		return new Vector3(
+	var cameraBox4 = new shapesBox_Boxjs(0.2, 0.15, 0.7);
+	cameraBox4.applyFunction(rendererMeshData_MeshDatajs.POSITION, function (vert) {
+		return new mathVector3_Vector3js(
 			vert.x + vert.x / ((vert.z + 1.1) * 0.3),
 			vert.y + vert.y / ((vert.z + 1.1) * 0.3),
 			vert.z
@@ -157,4 +158,4 @@ CameraDebug.buildCamera = function () {
 	return meshDatas[0];
 };
 
-module.exports = CameraDebug;
+export { CameraDebug_CameraDebug as CameraDebug };

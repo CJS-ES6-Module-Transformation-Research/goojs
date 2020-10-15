@@ -65,16 +65,32 @@ var createIdGenerator = function (prefix) {
 	};
 };
 
-exports.getFileName = getFileName;
-exports.stringUntil = stringUntil;
-exports.stringFrom = stringFrom;
-exports.pipe = pipe;
-exports.deepClone = deepClone;
+getFileName_getFileName = getFileName;
+stringUntil_stringUntil = stringUntil;
+stringFrom_stringFrom = stringFrom;
+var pipe;
+pipe = pipe;
+var deepClone;
+deepClone = deepClone;
 
-exports.tagToIdentifier = tagToIdentifier;
-exports.upperFirst = upperFirst;
-exports.lowerFirst = lowerFirst;
+tagToIdentifier_tagToIdentifier = tagToIdentifier;
+var upperFirst;
+upperFirst = upperFirst;
+var lowerFirst;
+lowerFirst = lowerFirst;
 
-exports.createIdGenerator = createIdGenerator;
+createIdGenerator_createIdGenerator = createIdGenerator;
 
-exports.PATH_SEPARATOR = PATH_SEPARATOR;
+PATH_SEPARATOR_PATH_SEPARATOR = PATH_SEPARATOR;
+var PATH_SEPARATOR_PATH_SEPARATOR;
+export { PATH_SEPARATOR_PATH_SEPARATOR as PATH_SEPARATOR };
+var getFileName_getFileName;
+export { getFileName_getFileName as getFileName };
+var stringUntil_stringUntil;
+export { stringUntil_stringUntil as stringUntil };
+var stringFrom_stringFrom;
+export { stringFrom_stringFrom as stringFrom };
+var tagToIdentifier_tagToIdentifier;
+export { tagToIdentifier_tagToIdentifier as tagToIdentifier };
+var createIdGenerator_createIdGenerator;
+export { createIdGenerator_createIdGenerator as createIdGenerator };

@@ -1,13 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Material = require('../../renderer/Material');
-
-/**
- * Defines the appearance of a mesh, through materials. Using several materials results in multi-pass rendering.
- * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshRendererComponent/MeshRendererComponent-example.html Working example
- * @extends Component
- */
+var MeshRendererComponent_MeshRendererComponent = MeshRendererComponent;
+import { Component as entitiescomponentsComponent_Componentjs } from "../../entities/components/Component";
+import { Material as rendererMaterial_Materialjs } from "../../renderer/Material";
 function MeshRendererComponent(materials) {
-	Component.apply(this, arguments);
+	entitiescomponentsComponent_Componentjs.apply(this, arguments);
 
 	this.type = 'MeshRendererComponent';
 
@@ -67,7 +62,7 @@ function MeshRendererComponent(materials) {
 
 MeshRendererComponent.type = 'MeshRendererComponent';
 
-MeshRendererComponent.prototype = Object.create(Component.prototype);
+MeshRendererComponent.prototype = Object.create(entitiescomponentsComponent_Componentjs.prototype);
 MeshRendererComponent.prototype.constructor = MeshRendererComponent;
 
 MeshRendererComponent.prototype.api = {
@@ -168,7 +163,7 @@ MeshRendererComponent.applyOnEntity = function (obj, entity) {
 	// or a texture
 	// or a {r, g, b} object
 	var matched = false;
-	if (obj instanceof Material) {
+	if (obj instanceof rendererMaterial_Materialjs) {
 		meshRendererComponent.materials.push(obj);
 		matched = true;
 	}
@@ -179,4 +174,9 @@ MeshRendererComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = MeshRendererComponent;
+/**
+ * Defines the appearance of a mesh, through materials. Using several materials results in multi-pass rendering.
+ * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshRendererComponent/MeshRendererComponent-example.html Working example
+ * @extends Component
+ */
+export { MeshRendererComponent_MeshRendererComponent as MeshRendererComponent };

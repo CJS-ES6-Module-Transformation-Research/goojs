@@ -1,16 +1,8 @@
-var MeshData = require('../renderer/MeshData');
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-
-/**
- * A donut-shaped model.
- * @extends MeshData
- * @param {number} [circleSamples=8] Number of segments.
- * @param {number} [radialSamples=8] Number of slices.
- * @param {number} [tubeRadius=1] Radius of tube.
- * @param {number} [centerRadius=2] Radius from center.
- */
+var Torus_Torus = Torus;
+import { MeshData as rendererMeshData_MeshDatajs } from "../renderer/MeshData";
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { MathUtils as mathMathUtils_MathUtilsjs } from "../math/MathUtils";
+import { ObjectUtils as utilObjectUtils_ObjectUtilsjs } from "../util/ObjectUtils";
 function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	if (arguments.length === 1 && arguments[0] instanceof Object) {
 		var props = arguments[0];
@@ -30,15 +22,15 @@ function Torus(circleSamples, radialSamples, tubeRadius, centerRadius) {
 	 */
 	this.viewInside = false;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = rendererMeshData_MeshDatajs.defaultMap([rendererMeshData_MeshDatajs.POSITION, rendererMeshData_MeshDatajs.NORMAL, rendererMeshData_MeshDatajs.TEXCOORD0]);
 	var vertices = (this.circleSamples + 1) * (this.radialSamples + 1);
 	var indices = 6 * this.circleSamples * this.radialSamples;
-	MeshData.call(this, attributeMap, vertices, indices);
+	rendererMeshData_MeshDatajs.call(this, attributeMap, vertices, indices);
 
 	this.rebuild();
 }
 
-Torus.prototype = Object.create(MeshData.prototype);
+Torus.prototype = Object.create(rendererMeshData_MeshDatajs.prototype);
 Torus.prototype.constructor = Torus;
 
 /**
@@ -46,9 +38,9 @@ Torus.prototype.constructor = Torus;
  * @returns {Torus} Self for chaining.
  */
 Torus.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshData.POSITION);
-	var norms = this.getAttributeBuffer(MeshData.NORMAL);
-	var texs = this.getAttributeBuffer(MeshData.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(rendererMeshData_MeshDatajs.POSITION);
+	var norms = this.getAttributeBuffer(rendererMeshData_MeshDatajs.NORMAL);
+	var texs = this.getAttributeBuffer(rendererMeshData_MeshDatajs.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	// generate geometry
@@ -56,11 +48,11 @@ Torus.prototype.rebuild = function () {
 	var inverseRadialSamples = 1.0 / this.radialSamples;
 	var i = 0;
 	// generate the cylinder itself
-	var radialAxis = new Vector3(), torusMiddle = new Vector3(), tempNormal = new Vector3();
+	var radialAxis = new mathVector3_Vector3js(), torusMiddle = new mathVector3_Vector3js(), tempNormal = new mathVector3_Vector3js();
 	for (var circleCount = 0; circleCount < this.circleSamples; circleCount++) {
 		// compute center point on torus circle at specified angle
 		var circleFraction = circleCount * inverseCircleSamples;
-		var theta = MathUtils.TWO_PI * circleFraction;
+		var theta = mathMathUtils_MathUtilsjs.TWO_PI * circleFraction;
 		var cosTheta = Math.cos(theta);
 		var sinTheta = Math.sin(theta);
 		radialAxis.setDirect(cosTheta, sinTheta, 0);
@@ -71,7 +63,7 @@ Torus.prototype.rebuild = function () {
 		for (var radialCount = 0; radialCount < this.radialSamples; radialCount++) {
 			var radialFraction = radialCount * inverseRadialSamples;
 			// in [0, 1)
-			var phi = MathUtils.TWO_PI * radialFraction;
+			var phi = mathMathUtils_MathUtilsjs.TWO_PI * radialFraction;
 			var cosPhi = Math.cos(phi);
 			var sinPhi = Math.sin(phi);
 
@@ -166,10 +158,18 @@ function copyInternal2(buf, from, to) {
  * @returns {Torus}
  */
 Torus.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this,
+	var options = utilObjectUtils_ObjectUtilsjs.shallowSelectiveClone(this,
 		['circleSamples', 'radialSamples', 'tubeRadius', 'centerRadius']);
 
 	return new Torus(options);
 };
 
-module.exports = Torus;
+/**
+ * A donut-shaped model.
+ * @extends MeshData
+ * @param {number} [circleSamples=8] Number of segments.
+ * @param {number} [radialSamples=8] Number of slices.
+ * @param {number} [tubeRadius=1] Radius of tube.
+ * @param {number} [centerRadius=2] Radius from center.
+ */
+export { Torus_Torus as Torus };
