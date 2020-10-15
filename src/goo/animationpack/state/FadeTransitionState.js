@@ -1,14 +1,10 @@
-var AbstractTransitionState = require('../../animationpack/state/AbstractTransitionState');
-
-/**
- * A transition that blends over a given time from one animation state to another, beginning the target clip from local time 0 at the start of the transition. This is best used with two clips that have similar motions.
- * @extends AbstractTransitionState
- */
+var FadeTransitionState_FadeTransitionState = FadeTransitionState;
+import {     AbstractTransitionState as animationpackstateAbstractTransitionState_AbstractTransitionStatejs, } from "../../animationpack/state/AbstractTransitionState";
 function FadeTransitionState() {
-	AbstractTransitionState.call(this);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.call(this);
 }
 
-FadeTransitionState.prototype = Object.create(AbstractTransitionState.prototype);
+FadeTransitionState.prototype = Object.create(animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype);
 FadeTransitionState.prototype.constructor = FadeTransitionState;
 
 /**
@@ -17,7 +13,7 @@ FadeTransitionState.prototype.constructor = FadeTransitionState;
  * @param layer the layer this state belongs to.
  */
 FadeTransitionState.prototype.update = function (globalTime) {
-	AbstractTransitionState.prototype.update.call(this, globalTime);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype.update.call(this, globalTime);
 
 	// update both of our states
 	if (this._sourceState) {
@@ -49,14 +45,14 @@ FadeTransitionState.prototype.postUpdate = function () {
 };
 
 FadeTransitionState.prototype.resetClips = function (globalTime) {
-	AbstractTransitionState.prototype.resetClips.call(this, globalTime);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype.resetClips.call(this, globalTime);
 	if (this._targetState) {
 		this._targetState.resetClips(globalTime);
 	}
 };
 
 FadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	AbstractTransitionState.prototype.shiftClipTime.call(this, shiftTime);
+	animationpackstateAbstractTransitionState_AbstractTransitionStatejs.prototype.shiftClipTime.call(this, shiftTime);
 	if (this._targetState) {
 		this._targetState.shiftClipTime(shiftTime);
 	}
@@ -65,4 +61,8 @@ FadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
 	}
 };
 
-module.exports = FadeTransitionState;
+/**
+ * A transition that blends over a given time from one animation state to another, beginning the target clip from local time 0 at the start of the transition. This is best used with two clips that have similar motions.
+ * @extends AbstractTransitionState
+ */
+export { FadeTransitionState_FadeTransitionState as FadeTransitionState };

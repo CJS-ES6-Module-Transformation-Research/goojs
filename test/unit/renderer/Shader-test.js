@@ -1,21 +1,21 @@
-var DirectionalLight = require('../../../src/goo/renderer/light/DirectionalLight');
-var Texture = require('../../../src/goo/renderer/Texture');
-var Camera = require('../../../src/goo/renderer/Camera');
-var Box = require('../../../src/goo/shapes/Box');
-var Material = require('../../../src/goo/renderer/Material');
-var MeshData = require('../../../src/goo/renderer/MeshData');
-var Shader = require('../../../src/goo/renderer/Shader');
-var ShaderLib = require('../../../src/goo/renderer/shaders/ShaderLib');
-var ShaderCall = require('../../../src/goo/renderer/ShaderCall');
-var RendererRecord = require('../../../src/goo/renderer/RendererRecord');
-var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
+import { DirectionalLight as srcgoorendererlightDirectionalLight_DirectionalLightjs } from "../../../src/goo/renderer/light/DirectionalLight";
+import { Texture as srcgoorendererTexture_Texturejs } from "../../../src/goo/renderer/Texture";
+import { Camera as srcgoorendererCamera_Camerajs } from "../../../src/goo/renderer/Camera";
+import { Box as srcgooshapesBox_Boxjs } from "../../../src/goo/shapes/Box";
+import { Material as srcgoorendererMaterial_Materialjs } from "../../../src/goo/renderer/Material";
+import { MeshData as srcgoorendererMeshData_MeshDatajs } from "../../../src/goo/renderer/MeshData";
+import { Shader as srcgoorendererShader_Shaderjs } from "../../../src/goo/renderer/Shader";
+import { ShaderLib as srcgoorenderershadersShaderLib_ShaderLibjs } from "../../../src/goo/renderer/shaders/ShaderLib";
+import { ShaderCall as srcgoorendererShaderCall_ShaderCalljs } from "../../../src/goo/renderer/ShaderCall";
+import { RendererRecord as srcgoorendererRendererRecord_RendererRecordjs } from "../../../src/goo/renderer/RendererRecord";
+import { ObjectUtils as srcgooutilObjectUtils_ObjectUtilsjs } from "../../../src/goo/util/ObjectUtils";
 
 (function () {
 	describe('Shader', function () {
 		describe('DefineKey', function () {
 			var shader;
 			beforeEach(function () {
-				shader = new Shader('TestName', ObjectUtils.clone(ShaderLib.simple));
+				shader = new srcgoorendererShader_Shaderjs('TestName', srcgooutilObjectUtils_ObjectUtilsjs.clone(srcgoorenderershadersShaderLib_ShaderLibjs.simple));
 			});
 
 			it('can generate define key when no defines', function () {
@@ -92,7 +92,7 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 			};
 
 			var testShaderCall = function (context, method, type, value1, value2) {
-				var shaderCall = new ShaderCall(context, {}, type);
+				var shaderCall = new srcgoorendererShaderCall_ShaderCalljs(context, {}, type);
 				spyOn(context, method);
 
 				// check that methods are correctly called for value1
@@ -144,19 +144,19 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 				return {
 					context: createContext(),
 					bindVertexAttribute: function () {},
-					rendererRecord: new RendererRecord()
+					rendererRecord: new srcgoorendererRendererRecord_RendererRecordjs()
 				};
 			};
 
 			var createShaderInfo = function (shaderDefinition) {
-				var material = new Material('test', shaderDefinition);
-				material.setTexture(Shader.DIFFUSE_MAP, new Texture());
+				var material = new srcgoorendererMaterial_Materialjs('test', shaderDefinition);
+				material.setTexture(srcgoorendererShader_Shaderjs.DIFFUSE_MAP, new srcgoorendererTexture_Texturejs());
 				var renderer = createRenderer(shaderDefinition);
 				return {
-					meshData: new Box(),
+					meshData: new srcgooshapesBox_Boxjs(),
 					material: material,
-					lights: [new DirectionalLight()],
-					camera: new Camera(),
+					lights: [new srcgoorendererlightDirectionalLight_DirectionalLightjs()],
+					camera: new srcgoorendererCamera_Camerajs(),
 					renderer: renderer
 				};
 			};
@@ -217,7 +217,7 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 			});
 
 			it('has applied the correct mappings to complex shader (uber)', function () {
-				var shaderDefinition = ShaderLib.uber;
+				var shaderDefinition = srcgoorenderershadersShaderLib_ShaderLibjs.uber;
 				var shaderInfo = createShaderInfo(shaderDefinition);
 
 
@@ -263,7 +263,7 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 
 			it('can parse a uniform declaration', function () {
 				var source = 'uniform vec3 foo;';
-				Shader.investigateShader(source, target);
+				srcgoorendererShader_Shaderjs.investigateShader(source, target);
 				expect(target.uniformMapping).toEqual({
 					foo: {
 						format: 'vec3'
@@ -273,7 +273,7 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 
 			it('can parse an attribute declaration', function () {
 				var source = 'attribute float foo;';
-				Shader.investigateShader(source, target);
+				srcgoorendererShader_Shaderjs.investigateShader(source, target);
 				expect(target.attributeMapping).toEqual({
 					foo: {
 						format: 'float'
@@ -283,7 +283,7 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 
 			it('can parse a texture sampler', function () {
 				var source = 'uniform sampler2D tex;';
-				Shader.investigateShader(source, target);
+				srcgoorendererShader_Shaderjs.investigateShader(source, target);
 				expect(target.uniformMapping).toEqual({
 					tex: {
 						format: 'sampler2D'
@@ -347,11 +347,11 @@ var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 	function miniShaderDefinition(){
 		return {
 			attributes : {
-				vertexPosition : MeshData.POSITION
+				vertexPosition : srcgoorendererMeshData_MeshDatajs.POSITION
 			},
 			uniforms : {
-				viewProjectionMatrix : Shader.VIEW_PROJECTION_MATRIX,
-				worldMatrix : Shader.WORLD_MATRIX
+				viewProjectionMatrix : srcgoorendererShader_Shaderjs.VIEW_PROJECTION_MATRIX,
+				worldMatrix : srcgoorendererShader_Shaderjs.WORLD_MATRIX
 			},
 			vshader : [
 			'attribute vec3 vertexPosition;',

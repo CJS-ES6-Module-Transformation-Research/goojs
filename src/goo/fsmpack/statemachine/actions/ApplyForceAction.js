@@ -1,12 +1,13 @@
-var Action = require('./Action');
-var Vector3 = require('../../../math/Vector3');
-var SystemBus = require('../../../entities/SystemBus');
+var ApplyForceAction_ApplyForceAction = ApplyForceAction;
+import { Action as Action_Actionjs } from "./Action";
+import { Vector3 as mathVector3_Vector3js } from "../../../math/Vector3";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
 
-function ApplyForceAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function ApplyForceAction/*id, settings*/() {
+	Action_Actionjs.apply(this, arguments);
 }
 
-ApplyForceAction.prototype = Object.create(Action.prototype);
+ApplyForceAction.prototype = Object.create(Action_Actionjs.prototype);
 ApplyForceAction.prototype.constructor = ApplyForceAction;
 
 ApplyForceAction.external = {
@@ -39,10 +40,10 @@ ApplyForceAction.external = {
 	transitions: []
 };
 
-var forceVector = new Vector3();
-var applyPoint = new Vector3();
+var forceVector = new mathVector3_Vector3js();
+var applyPoint = new mathVector3_Vector3js();
 ApplyForceAction.prototype.enter = function (fsm) {
-	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
 		if (!entity || !entity.rigidBodyComponent) { return; }
 
@@ -57,7 +58,7 @@ ApplyForceAction.prototype.enter = function (fsm) {
 };
 
 ApplyForceAction.prototype.exit = function () {
-	SystemBus.removeListener('goo.physics.substep', this.substepListener);
+	entitiesSystemBus_SystemBusjsjs.removeListener('goo.physics.substep', this.substepListener);
 };
 
-module.exports = ApplyForceAction;
+export { ApplyForceAction_ApplyForceAction as ApplyForceAction };

@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var CopyJointTransformAction_CopyJointTransformAction = CopyJointTransformAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
 
 function CopyJointTransformAction() {
-	Action.apply(this, arguments);
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 	this.everyFrame = true;
 }
 
-CopyJointTransformAction.prototype = Object.create(Action.prototype);
+CopyJointTransformAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 CopyJointTransformAction.prototype.constructor = CopyJointTransformAction;
 
 CopyJointTransformAction.external = {
@@ -60,4 +61,4 @@ function updateWorldTransform(transformComponent) {
 	}
 }
 
-module.exports = CopyJointTransformAction;
+export { CopyJointTransformAction_CopyJointTransformAction as CopyJointTransformAction };

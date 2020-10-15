@@ -1,10 +1,8 @@
-/* global poly2tri */
-
-var Vector2 = require('../../math/Vector2');
-var Transform = require('../../math/Transform');
-var MeshBuilder = require('../../util/MeshBuilder');
-var FilledPolygon = require('../../geometrypack/FilledPolygon');
-var PolyLine = require('../../geometrypack/PolyLine');
+import { Vector2 as mathVector2_Vector2js } from "../../math/Vector2";
+import { Transform as mathTransform_Transformjs } from "../../math/Transform";
+import { MeshBuilder as utilMeshBuilder_MeshBuilderjs } from "../../util/MeshBuilder";
+import { FilledPolygon as geometrypackFilledPolygon_FilledPolygonjs } from "../../geometrypack/FilledPolygon";
+import { PolyLine as geometrypackPolyLine_PolyLinejs } from "../../geometrypack/PolyLine";
 
 /**
  * Serializes an svg path command
@@ -124,7 +122,7 @@ function simplifyPath(polygon) {
  * @returns {{ min: Vector2, max: Vector2 }}
  */
 function getBoundingVolume(polygon) {
-	var min = new Vector2(polygon[0].x, polygon[0].y);
+	var min = new mathVector2_Vector2js(polygon[0].x, polygon[0].y);
 	var max = min.clone();
 
 	for (var i = 1; i < polygon.length; i++) {
@@ -162,8 +160,8 @@ function containsBox(a, b) {
 
 function mergeBoxes(a, b) {
 	return {
-		min: new Vector2(Math.min(a.min.x, b.min.x), Math.min(a.min.y, b.min.y)),
-		max: new Vector2(Math.max(a.max.x, b.max.x), Math.max(a.max.y, b.max.y))
+		min: new mathVector2_Vector2js(Math.min(a.min.x, b.min.x), Math.min(a.min.y, b.min.y)),
+		max: new mathVector2_Vector2js(Math.max(a.max.x, b.max.x), Math.max(a.max.y, b.max.y))
 	};
 }
 
@@ -380,12 +378,12 @@ function meshesForText(text, font, options) {
 	});
 
 
-	var meshBuilder = new MeshBuilder();
+	var meshBuilder = new utilMeshBuilder_MeshBuilderjs();
 
 	function meshForGlyph(data, x, y, options) {
 		function frontFace() {
-			var meshData = new FilledPolygon(data.surfaceVerts, data.surfaceIndices);
-			var transform = new Transform();
+			var meshData = new geometrypackFilledPolygon_FilledPolygonjs(data.surfaceVerts, data.surfaceIndices);
+			var transform = new mathTransform_Transformjs();
 			transform.translation.setDirect(x, y, -options.extrusion / 2);
 			transform.scale.setDirect(1, -1, 1);
 			transform.update();
@@ -393,8 +391,8 @@ function meshesForText(text, font, options) {
 		}
 
 		function backFace() {
-			var meshData = new FilledPolygon(data.surfaceVerts, invertWinding(data.surfaceIndices));
-			var transform = new Transform();
+			var meshData = new geometrypackFilledPolygon_FilledPolygonjs(data.surfaceVerts, invertWinding(data.surfaceIndices));
+			var transform = new mathTransform_Transformjs();
 			transform.translation.setDirect(x, y, options.extrusion / 2);
 			transform.scale.setDirect(1, -1, 1);
 			transform.update();
@@ -409,11 +407,11 @@ function meshesForText(text, font, options) {
 				var contourVerts = getVerts(polygon);
 				contourVerts.push(contourVerts[0], contourVerts[1], contourVerts[2]);
 
-				var contourPolyLine = new PolyLine(contourVerts, true);
-				var extrusionPolyLine = new PolyLine([0, 0, -options.extrusion / 2, 0, 0, options.extrusion / 2]);
+				var contourPolyLine = new geometrypackPolyLine_PolyLinejs(contourVerts, true);
+				var extrusionPolyLine = new geometrypackPolyLine_PolyLinejs([0, 0, -options.extrusion / 2, 0, 0, options.extrusion / 2]);
 				var meshData = contourPolyLine.mul(extrusionPolyLine);
 
-				var transform = new Transform();
+				var transform = new mathTransform_Transformjs();
 				transform.translation.setDirect(x, y, 0);
 				transform.scale.setDirect(1, -1, -1);
 				transform.update();
@@ -442,6 +440,8 @@ function meshesForText(text, font, options) {
 	return meshBuilder.build();
 }
 
-module.exports = {
+TextMeshGeneratorjs_TextMeshGeneratorjs = {
 	meshesForText: meshesForText
 };
+var TextMeshGeneratorjs_TextMeshGeneratorjs;
+export { TextMeshGeneratorjs_TextMeshGeneratorjs as TextMeshGeneratorjs };

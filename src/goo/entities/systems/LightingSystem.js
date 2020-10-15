@@ -1,14 +1,9 @@
-var Capabilities = require('../../renderer/Capabilities');
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-
-/**
- * Processes all entities with a light component making sure that lights are placed according to its transforms<br>
- * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
- * @extends System
- */
+var LightingSystem_LightingSystem = LightingSystem;
+import { Capabilities as rendererCapabilities_Capabilitiesjs } from "../../renderer/Capabilities";
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../entities/SystemBus";
 function LightingSystem() {
-	System.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'LightingSystem', ['LightComponent', 'TransformComponent']);
 
 	this.overrideLights = null;
 
@@ -17,7 +12,7 @@ function LightingSystem() {
 	this._needsUpdate = true;
 }
 
-LightingSystem.prototype = Object.create(System.prototype);
+LightingSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 LightingSystem.prototype.constructor = LightingSystem;
 
 /**
@@ -26,7 +21,7 @@ LightingSystem.prototype.constructor = LightingSystem;
  */
 LightingSystem.prototype.setOverrideLights = function (overrideLights) {
 	this.overrideLights = overrideLights;
-	SystemBus.emit('goo.setLights', this.overrideLights);
+	entitiesSystemBus_SystemBusjsjs.emit('goo.setLights', this.overrideLights);
 	this._needsUpdate = true;
 };
 
@@ -61,12 +56,12 @@ LightingSystem.prototype.process = function (entities) {
 
 			if (!lightComponent.hidden) {
 				var light = lightComponent.light;
-				light.shadowCaster = light.shadowCaster && Capabilities.TextureFloat; // Needs float texture for shadows (for now)
+				light.shadowCaster = light.shadowCaster && rendererCapabilities_Capabilitiesjs.TextureFloat; // Needs float texture for shadows (for now)
 				this.lights.push(light);
 			}
 		}
 		this._needsUpdate = false;
-		SystemBus.emit('goo.setLights', this.lights);
+		entitiesSystemBus_SystemBusjsjs.emit('goo.setLights', this.lights);
 	}
 };
 
@@ -76,4 +71,9 @@ LightingSystem.prototype.invalidateHandles = function (renderer) {
 	});
 };
 
-module.exports = LightingSystem;
+/**
+ * Processes all entities with a light component making sure that lights are placed according to its transforms<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @extends System
+ */
+export { LightingSystem_LightingSystem as LightingSystem };

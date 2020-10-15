@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+var NumberCompareAction_NumberCompareAction = NumberCompareAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { FsmUtils as fsmpackstatemachineFsmUtils_FsmUtilsjs } from "../../../fsmpack/statemachine/FsmUtils";
 
-function NumberCompareAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function NumberCompareAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-NumberCompareAction.prototype = Object.create(Action.prototype);
+NumberCompareAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 NumberCompareAction.prototype.constructor = NumberCompareAction;
 
 NumberCompareAction.prototype.configure = function (settings) {
@@ -62,8 +63,8 @@ NumberCompareAction.getTransitionLabel = function (transitionKey /*, actionConfi
 };
 
 NumberCompareAction.prototype.compare = function (fsm) {
-	var leftHand = FsmUtils.getValue(this.leftHand, fsm);
-	var rightHand = FsmUtils.getValue(this.rightHand, fsm);
+	var leftHand = fsmpackstatemachineFsmUtils_FsmUtilsjs.getValue(this.leftHand, fsm);
+	var rightHand = fsmpackstatemachineFsmUtils_FsmUtilsjs.getValue(this.rightHand, fsm);
 	var diff = rightHand - leftHand;
 
 	if (Math.abs(diff) <= this.tolerance) {
@@ -87,4 +88,4 @@ NumberCompareAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = NumberCompareAction;
+export { NumberCompareAction_NumberCompareAction as NumberCompareAction };

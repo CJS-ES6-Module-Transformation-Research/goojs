@@ -1,26 +1,22 @@
-var EntitySelection = require('../../../entities/EntitySelection');
-var System = require('../../../entities/systems/System');
-var SystemBus = require('../../../entities/SystemBus');
-var Transform = require('../../../math/Transform');
-var Material = require('../../../renderer/Material');
-var ShaderLib = require('../../../renderer/shaders/ShaderLib');
-var Sphere = require('../../../shapes/Sphere');
-var Box = require('../../../shapes/Box');
-var Cylinder = require('../../../shapes/Cylinder');
-
-/**
- * Renders all ParticleSystemComponents in the scene.
- * @extends System
- */
+var ParticleDebugRenderSystem_ParticleDebugRenderSystem = ParticleDebugRenderSystem;
+import { EntitySelection as entitiesEntitySelection_EntitySelectionjs } from "../../../entities/EntitySelection";
+import { System as entitiessystemsSystem_Systemjs } from "../../../entities/systems/System";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../../../entities/SystemBus";
+import { Transform as mathTransform_Transformjs } from "../../../math/Transform";
+import { Material as rendererMaterial_Materialjs } from "../../../renderer/Material";
+import { ShaderLib as renderershadersShaderLib_ShaderLibjs } from "../../../renderer/shaders/ShaderLib";
+import { Sphere as shapesSphere_Spherejs } from "../../../shapes/Sphere";
+import { Box as shapesBox_Boxjs } from "../../../shapes/Box";
+import { Cylinder as shapesCylinder_Cylinderjs } from "../../../shapes/Cylinder";
 function ParticleDebugRenderSystem() {
-	System.call(this, 'ParticleDebugRenderSystem', ['ParticleSystemComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'ParticleDebugRenderSystem', ['ParticleSystemComponent']);
 
 	this.priority = 3;
 
 	this.renderList = [];
 	this.camera = null;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	entitiesSystemBus_SystemBusjsjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 
@@ -34,28 +30,28 @@ function ParticleDebugRenderSystem() {
 	 * The selected entities to be rendered.
 	 * @type {EntitySelection}
 	 */
-	this.selection = new EntitySelection();
+	this.selection = new entitiesEntitySelection_EntitySelectionjs();
 
-	var material = new Material(ShaderLib.simpleColored);
+	var material = new rendererMaterial_Materialjs(renderershadersShaderLib_ShaderLibjs.simpleColored);
 	material.uniforms.color = [0, 1, 0];
 	this.sphereRenderable = {
 		materials: [material],
-		transform: new Transform(),
-		meshData: new Sphere(12,12,1)
+		transform: new mathTransform_Transformjs(),
+		meshData: new shapesSphere_Spherejs(12,12,1)
 	};
 	this.boxRenderable = {
 		materials: [material],
-		transform: new Transform(),
-		meshData: new Box(1,1,1)
+		transform: new mathTransform_Transformjs(),
+		meshData: new shapesBox_Boxjs(1,1,1)
 	};
 	this.coneRenderable = {
 		materials: [material],
-		transform: new Transform(),
-		meshData: new Cylinder(16, 1, 1, 1)
+		transform: new mathTransform_Transformjs(),
+		meshData: new shapesCylinder_Cylinderjs(16, 1, 1, 1)
 	};
-	this.offsetTransform = new Transform();
+	this.offsetTransform = new mathTransform_Transformjs();
 }
-ParticleDebugRenderSystem.prototype = Object.create(System.prototype);
+ParticleDebugRenderSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 ParticleDebugRenderSystem.prototype.constructor = ParticleDebugRenderSystem;
 
 /**
@@ -173,4 +169,8 @@ ParticleDebugRenderSystem.prototype.update = function () {
 	this.process(this._activeEntities);
 };
 
-module.exports = ParticleDebugRenderSystem;
+/**
+ * Renders all ParticleSystemComponents in the scene.
+ * @extends System
+ */
+export { ParticleDebugRenderSystem_ParticleDebugRenderSystem as ParticleDebugRenderSystem };

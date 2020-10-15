@@ -1,12 +1,13 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Camera = require('../../../renderer/Camera');
-var BoundingSphere = require('../../../renderer/bounds/BoundingSphere');
+var InFrustumAction_InFrustumAction = InFrustumAction;
+import { Action as fsmpackstatemachineactionsAction_Actionjs } from "../../../fsmpack/statemachine/actions/Action";
+import { Camera as rendererCamera_Camerajs } from "../../../renderer/Camera";
+import { BoundingSphere as rendererboundsBoundingSphere_BoundingSpherejs } from "../../../renderer/bounds/BoundingSphere";
 
-function InFrustumAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+function InFrustumAction/*id, settings*/() {
+	fsmpackstatemachineactionsAction_Actionjs.apply(this, arguments);
 }
 
-InFrustumAction.prototype = Object.create(Action.prototype);
+InFrustumAction.prototype = Object.create(fsmpackstatemachineactionsAction_Actionjs.prototype);
 InFrustumAction.prototype.constructor = InFrustumAction;
 
 InFrustumAction.external = {
@@ -62,8 +63,8 @@ InFrustumAction.prototype.checkFrustum = function (fsm) {
 			fsm.send(this.transitions.outside);
 		}
 	} else {
-		var boundingVolume = entity.meshRendererComponent ? entity.meshRendererComponent.worldBound : new BoundingSphere(entity.transformComponent.sync().worldTransform.translation, 0.001);
-		if (this.camera.contains(boundingVolume) === Camera.Outside) {
+		var boundingVolume = entity.meshRendererComponent ? entity.meshRendererComponent.worldBound : new rendererboundsBoundingSphere_BoundingSpherejs(entity.transformComponent.sync().worldTransform.translation, 0.001);
+		if (this.camera.contains(boundingVolume) === rendererCamera_Camerajs.Outside) {
 			fsm.send(this.transitions.outside);
 		} else {
 			fsm.send(this.transitions.inside);
@@ -89,4 +90,4 @@ InFrustumAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = InFrustumAction;
+export { InFrustumAction_InFrustumAction as InFrustumAction };

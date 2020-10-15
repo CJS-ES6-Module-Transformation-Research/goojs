@@ -64,4 +64,6 @@ var serialize = function (node) {
 };
 
 
-exports.serialize = serialize;
+serialize_serialize = serialize;
+var serialize_serialize;
+export { serialize_serialize as serialize };

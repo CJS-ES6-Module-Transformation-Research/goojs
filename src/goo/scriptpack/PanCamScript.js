@@ -1,7 +1,8 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var SystemBus = require('../entities/SystemBus');
-var Camera = require('../renderer/Camera');
+var PanCamScript_PanCamScript = PanCamScript;
+import { Vector3 as mathVector3_Vector3js } from "../math/Vector3";
+import { Renderer as rendererRenderer_Rendererjs } from "../renderer/Renderer";
+import { SystemBusjs as entitiesSystemBus_SystemBusjsjs } from "../entities/SystemBus";
+import { Camera as rendererCamera_Camerajs } from "../renderer/Camera";
 
 function PanCamScript() {
 	var fwdVector, leftVector, calcVector, calcVector2;
@@ -32,10 +33,10 @@ function PanCamScript() {
 		argsUpdated(parameters, environment);
 
 		lookAtPoint = environment.goingToLookAt;
-		fwdVector = Vector3.UNIT_Y.clone();
-		leftVector = Vector3.UNIT_X.clone().negate();
-		calcVector = new Vector3();
-		calcVector2 = new Vector3();
+		fwdVector = mathVector3_Vector3js.UNIT_Y.clone();
+		leftVector = mathVector3_Vector3js.UNIT_X.clone().negate();
+		calcVector = new mathVector3_Vector3js();
+		calcVector2 = new mathVector3_Vector3js();
 		environment.translation = environment.entity.transformComponent.transform.translation.clone();
 
 		var renderer = environment.world.gooRunner.renderer;
@@ -154,7 +155,7 @@ function PanCamScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Renderer.mainCamera;
+		var mainCam = rendererRenderer_Rendererjs.mainCamera;
 
 		var entity = environment.entity;
 		var transform = entity.transformComponent.transform;
@@ -200,7 +201,7 @@ function PanCamScript() {
 			calcVector.applyPost(transform.rotation);
 			//if (!parameters.screenMove) {
 				// panSpeed should be 1 in the screenMove case, to make movement sync properly
-			if (camera.projectionMode === Camera.Perspective) {
+			if (camera.projectionMode === rendererCamera_Camerajs.Perspective) {
 				// RB: I know, very arbitrary but looks ok
 				calcVector.scale(parameters.panSpeed * 20);
 			} else {
@@ -210,7 +211,7 @@ function PanCamScript() {
 			entity.transformComponent.setTranslation(environment.translation);
 			environment.dirty = false;
 		}
-		SystemBus.emit('goo.cameraPositionChanged', {
+		entitiesSystemBus_SystemBusjsjs.emit('goo.cameraPositionChanged', {
 			translation: transform.translation.toArray(),
 			lookAtPoint: lookAtPoint ? lookAtPoint.toArray() : null,
 			id: entity.id
@@ -278,4 +279,4 @@ PanCamScript.externals = {
 	}*/]
 };
 
-module.exports = PanCamScript;
+export { PanCamScript_PanCamScript as PanCamScript };

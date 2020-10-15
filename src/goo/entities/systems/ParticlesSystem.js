@@ -1,15 +1,11 @@
-var System = require('../../entities/systems/System');
-
-/**
- * Manages and reacts to particle components on entities.
- * @extends System
- */
+var ParticlesSystem_ParticlesSystem = ParticlesSystem;
+import { System as entitiessystemsSystem_Systemjs } from "../../entities/systems/System";
 function ParticlesSystem() {
-	System.call(this, 'ParticlesSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent', 'ParticleComponent']);
+	entitiessystemsSystem_Systemjs.call(this, 'ParticlesSystem', ['TransformComponent', 'MeshRendererComponent', 'MeshDataComponent', 'ParticleComponent']);
 	this.passive = false;
 }
 
-ParticlesSystem.prototype = Object.create(System.prototype);
+ParticlesSystem.prototype = Object.create(entitiessystemsSystem_Systemjs.prototype);
 ParticlesSystem.prototype.constructor = ParticlesSystem;
 
 ParticlesSystem.prototype.process = function (entities, tpf) {
@@ -127,4 +123,8 @@ ParticlesSystem.prototype.resume = ParticlesSystem.prototype.play;
 
 ParticlesSystem.prototype.stop = ParticlesSystem.prototype.pause;
 
-module.exports = ParticlesSystem;
+/**
+ * Manages and reacts to particle components on entities.
+ * @extends System
+ */
+export { ParticlesSystem_ParticlesSystem as ParticlesSystem };
