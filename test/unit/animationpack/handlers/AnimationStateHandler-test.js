@@ -1,17 +1,25 @@
-import { World as World_World } from "../../../../src/goo/entities/World";
-import { DynamicLoader as DynamicLoader_DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { SteadyState as SteadyState_SteadyState } from "../../../../src/goo/animationpack/state/SteadyState";
-import { ClipSource as ClipSource_ClipSource } from "../../../../src/goo/animationpack/blendtree/ClipSource";
-import { AnimationClip as AnimationClip_AnimationClip } from "../../../../src/goo/animationpack/clip/AnimationClip";
-import { Configs as Configs_Configs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/animationpack/handlers/AnimationHandlers";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _SteadyState = require("../../../../src/goo/animationpack/state/SteadyState");
+
+var _ClipSource = require("../../../../src/goo/animationpack/blendtree/ClipSource");
+
+var _AnimationClip = require("../../../../src/goo/animationpack/clip/AnimationClip");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/animationpack/handlers/AnimationHandlers");
 
 describe('AnimationStateHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_World();
-		loader = new DynamicLoader_DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -19,12 +27,12 @@ describe('AnimationStateHandler', function () {
 	});
 
 	it('loads an animation state', function (done) {
-		var stateConfig = Configs_Configs.animstate();
-		loader.preload(Configs_Configs.get());
+		var stateConfig = _Configs.Configs.animstate();
+		loader.preload(_Configs.Configs.get());
 		loader.load(stateConfig.id).then(function (state) {
-			expect(state).toEqual(jasmine.any(SteadyState_SteadyState));
-			expect(state._sourceTree).toEqual(jasmine.any(ClipSource_ClipSource));
-			expect(state._sourceTree._clip).toEqual(jasmine.any(AnimationClip_AnimationClip));
+			expect(state).toEqual(jasmine.any(_SteadyState.SteadyState));
+			expect(state._sourceTree).toEqual(jasmine.any(_ClipSource.ClipSource));
+			expect(state._sourceTree._clip).toEqual(jasmine.any(_AnimationClip.AnimationClip));
 			done();
 		});
 	});

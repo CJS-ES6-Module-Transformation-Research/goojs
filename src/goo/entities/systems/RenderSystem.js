@@ -1,10 +1,23 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _SimplePartitioner = require("../../renderer/SimplePartitioner");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var mod_RenderSystem = RenderSystem;
-import { System as System_System } from "../../entities/systems/System";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { SimplePartitioner as SimplePartitioner_SimplePartitioner } from "../../renderer/SimplePartitioner";
-import { Material as Material_Material } from "../../renderer/Material";
-import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * Renders entities/renderables using a configurable partitioner for culling
@@ -12,12 +25,12 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
  * @extends System
  */
 function RenderSystem() {
-	System_System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
+	_System.System.call(this, 'RenderSystem', ['MeshRendererComponent', 'MeshDataComponent']);
 
 	this.entities = [];
 	this.renderList = [];
 	this.postRenderables = [];
-	this.partitioner = new SimplePartitioner_SimplePartitioner();
+	this.partitioner = new _SimplePartitioner.SimplePartitioner();
 	this.preRenderers = [];
 	this.composers = [];
 	this._composersActive = true;
@@ -31,11 +44,11 @@ function RenderSystem() {
 	this.lights = [];
 	this.currentTpf = 0.0;
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	_SystemBus.SystemBusjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 
-	SystemBus.addListener('goo.setLights', function (lights) {
+	_SystemBus.SystemBusjs.addListener('goo.setLights', function (lights) {
 		this.lights = lights;
 	}.bind(this));
 
@@ -44,14 +57,14 @@ function RenderSystem() {
 		x: 0,
 		y: 0,
 		pickingStore: {},
-		pickingCallback: function (id, depth) {
+		pickingCallback: function pickingCallback(id, depth) {
 			console.log(id, depth);
 		},
 		skipUpdateBuffer: false
 	};
 }
 
-RenderSystem.prototype = Object.create(System_System.prototype);
+RenderSystem.prototype = Object.create(_System.System.prototype);
 RenderSystem.prototype.constructor = RenderSystem;
 
 RenderSystem.prototype.pick = function (x, y, callback, skipUpdateBuffer) {
@@ -127,25 +140,25 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 	switch (key) {
 		case 'wireframe':
 		case 'color':
-			fshader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.simpleColored.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.simpleColored.fshader);
 			break;
 		case 'lit':
-			fshader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.simpleLit.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.simpleLit.fshader);
 			break;
 		case 'texture':
-			fshader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.textured.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.textured.fshader);
 			break;
 		case 'normals':
-			fshader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.showNormals.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.showNormals.fshader);
 			break;
 		case 'simple':
-			fshader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.simple.fshader);
+			fshader = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.simple.fshader);
 			break;
 	}
-	var shaderDef = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.uber);
+	var shaderDef = _ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.uber);
 	shaderDef.fshader = fshader;
 	if (key !== 'flat') {
-		this._debugMaterials[key] = new Material_Material(shaderDef, key);
+		this._debugMaterials[key] = new _Material.Material(shaderDef, key);
 		if (key === 'wireframe') {
 			this._debugMaterials[key].wireframe = true;
 		}
@@ -161,7 +174,7 @@ RenderSystem.prototype._createDebugMaterial = function (key) {
 			};
 		}
 	} else {
-		this._debugMaterials[key] = Material_Material.createEmptyMaterial(null, key);
+		this._debugMaterials[key] = _Material.Material.createEmptyMaterial(null, key);
 		this._debugMaterials[key].flat = true;
 	}
 };
@@ -211,4 +224,4 @@ RenderSystem.prototype.invalidateHandles = function (renderer) {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { mod_RenderSystem as RenderSystem };
+exports.RenderSystem = mod_RenderSystem;

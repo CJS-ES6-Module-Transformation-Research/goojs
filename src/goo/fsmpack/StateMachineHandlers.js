@@ -1,2 +1,5 @@
-import "./StateMachineComponentHandler";
-import "./MachineHandler";
+"use strict";
+
+require("./StateMachineComponentHandler");
+
+require("./MachineHandler");

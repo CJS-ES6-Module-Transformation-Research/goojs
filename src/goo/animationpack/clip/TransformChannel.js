@@ -1,7 +1,17 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TransformChannel = undefined;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _TransformData = require("../../animationpack/clip/TransformData");
+
+var _Quaternion = require("../../math/Quaternion");
+
 var mod_TransformChannel = TransformChannel;
-import {     AbstractAnimationChannel as AbstractAnimationChannel_AbstractAnimationChannel, } from "../../animationpack/clip/AbstractAnimationChannel";
-import { TransformData as TransformData_TransformData } from "../../animationpack/clip/TransformData";
-import { Quaternion as Quaternion_Quaternion } from "../../math/Quaternion";
 
 /**
  * An animation channel consisting of a series of transforms interpolated over time.
@@ -12,7 +22,7 @@ import { Quaternion as Quaternion_Quaternion } from "../../math/Quaternion";
  * @param {Array} scales the scales to set on this channel at each time offset.
  */
 function TransformChannel(channelName, times, rotations, translations, scales, blendType) {
-	AbstractAnimationChannel_AbstractAnimationChannel.call(this, channelName, times, blendType);
+	_AbstractAnimationChannel.AbstractAnimationChannel.call(this, channelName, times, blendType);
 
 	if (rotations.length / 4 !== times.length || translations.length / 3 !== times.length || scales.length / 3 !== times.length) {
 		throw new Error('All provided arrays must be the same length (accounting for type)! Channel: ' + channelName);
@@ -23,17 +33,17 @@ function TransformChannel(channelName, times, rotations, translations, scales, b
 	this._scales = new Float32Array(scales);
 }
 
-var tmpQuat = new Quaternion_Quaternion();
-var tmpQuat2 = new Quaternion_Quaternion();
+var tmpQuat = new _Quaternion.Quaternion();
+var tmpQuat2 = new _Quaternion.Quaternion();
 
-TransformChannel.prototype = Object.create(AbstractAnimationChannel_AbstractAnimationChannel.prototype);
+TransformChannel.prototype = Object.create(_AbstractAnimationChannel.AbstractAnimationChannel.prototype);
 
 /*
  * Creates a data item for this type of channel
  * @returns {TransformData}
  */
 TransformChannel.prototype.createStateDataObject = function () {
-	return new TransformData_TransformData();
+	return new _TransformData.TransformData();
 };
 
 /*
@@ -47,8 +57,10 @@ TransformChannel.prototype.setCurrentSample = function (sampleIndex, fraction, a
 	var transformData = applyTo;
 
 	// shortcut if we are fully on one sample or the next
-	var index4A = sampleIndex * 4, index3A = sampleIndex * 3;
-	var index4B = (sampleIndex + 1) * 4, index3B = (sampleIndex + 1) * 3;
+	var index4A = sampleIndex * 4,
+	    index3A = sampleIndex * 3;
+	var index4B = (sampleIndex + 1) * 4,
+	    index3B = (sampleIndex + 1) * 3;
 	if (fraction === 0.0) {
 		transformData._rotation.x = this._rotations[index4A + 0];
 		transformData._rotation.y = this._rotations[index4A + 1];
@@ -91,21 +103,13 @@ TransformChannel.prototype.setCurrentSample = function (sampleIndex, fraction, a
 	tmpQuat.w = this._rotations[index4B + 3];
 
 	if (!transformData._rotation.equals(tmpQuat)) {
-		Quaternion_Quaternion.slerp(transformData._rotation, tmpQuat, fraction, tmpQuat2);
+		_Quaternion.Quaternion.slerp(transformData._rotation, tmpQuat, fraction, tmpQuat2);
 		transformData._rotation.set(tmpQuat2);
 	}
 
-	transformData._translation.setDirect(
-		(1 - fraction) * this._translations[index3A + 0] + fraction * this._translations[index3B + 0],
-		(1 - fraction) * this._translations[index3A + 1] + fraction * this._translations[index3B + 1],
-		(1 - fraction) * this._translations[index3A + 2] + fraction * this._translations[index3B + 2]
-	);
+	transformData._translation.setDirect((1 - fraction) * this._translations[index3A + 0] + fraction * this._translations[index3B + 0], (1 - fraction) * this._translations[index3A + 1] + fraction * this._translations[index3B + 1], (1 - fraction) * this._translations[index3A + 2] + fraction * this._translations[index3B + 2]);
 
-	transformData._scale.setDirect(
-		(1 - fraction) * this._scales[index3A + 0] + fraction * this._scales[index3B + 0],
-		(1 - fraction) * this._scales[index3A + 1] + fraction * this._scales[index3B + 1],
-		(1 - fraction) * this._scales[index3A + 2] + fraction * this._scales[index3B + 2]
-	);
+	transformData._scale.setDirect((1 - fraction) * this._scales[index3A + 0] + fraction * this._scales[index3B + 0], (1 - fraction) * this._scales[index3A + 1] + fraction * this._scales[index3B + 1], (1 - fraction) * this._scales[index3A + 2] + fraction * this._scales[index3B + 2]);
 };
 
 /**
@@ -115,7 +119,7 @@ TransformChannel.prototype.setCurrentSample = function (sampleIndex, fraction, a
  * @returns {TransformData} our resulting TransformData.
  */
 TransformChannel.prototype.getData = function (index, store) {
-	var rVal = store ? store : new TransformData_TransformData();
+	var rVal = store ? store : new _TransformData.TransformData();
 	this.setCurrentSample(index, 0.0, rVal);
 	return rVal;
 };
@@ -128,4 +132,4 @@ TransformChannel.prototype.getData = function (index, store) {
  * @param {Array} translations the translations to set on this channel at each time offset.
  * @param {Array} scales the scales to set on this channel at each time offset.
  */
-export { mod_TransformChannel as TransformChannel };
+exports.TransformChannel = mod_TransformChannel;

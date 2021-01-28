@@ -1,32 +1,48 @@
-import { Entity as Entity_Entity } from "../../../src/goo/entities/Entity";
-import { World as World_World } from "../../../src/goo/entities/World";
-import { TransformComponent as TransformComponent_TransformComponent } from "../../../src/goo/entities/components/TransformComponent";
-import { MeshDataComponent as MeshDataComponent_MeshDataComponent } from "../../../src/goo/entities/components/MeshDataComponent";
-import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponent } from "../../../src/goo/entities/components/MeshRendererComponent";
-import { CameraComponent as CameraComponent_CameraComponent } from "../../../src/goo/entities/components/CameraComponent";
-import { LightComponent as LightComponent_LightComponent } from "../../../src/goo/entities/components/LightComponent";
-import { ScriptComponent as ScriptComponent_ScriptComponent } from "../../../src/goo/entities/components/ScriptComponent";
-import { Component as Component_Component } from "../../../src/goo/entities/components/Component";
-import { ScriptSystem as ScriptSystem_ScriptSystem } from "../../../src/goo/entities/systems/ScriptSystem";
-import { Box as Box_Box } from "../../../src/goo/shapes/Box";
-import { Camera as Camera_Camera } from "../../../src/goo/renderer/Camera";
-import { PointLight as PointLight_PointLight } from "../../../src/goo/renderer/light/PointLight";
-import { ShaderLib as ShaderLib_ShaderLib } from "../../../src/goo/renderer/shaders/ShaderLib";
-import { Material as Material_Material } from "../../../src/goo/renderer/Material";
+"use strict";
+
+var _Entity = require("../../../src/goo/entities/Entity");
+
+var _World = require("../../../src/goo/entities/World");
+
+var _TransformComponent = require("../../../src/goo/entities/components/TransformComponent");
+
+var _MeshDataComponent = require("../../../src/goo/entities/components/MeshDataComponent");
+
+var _MeshRendererComponent = require("../../../src/goo/entities/components/MeshRendererComponent");
+
+var _CameraComponent = require("../../../src/goo/entities/components/CameraComponent");
+
+var _LightComponent = require("../../../src/goo/entities/components/LightComponent");
+
+var _ScriptComponent = require("../../../src/goo/entities/components/ScriptComponent");
+
+var _Component = require("../../../src/goo/entities/components/Component");
+
+var _ScriptSystem = require("../../../src/goo/entities/systems/ScriptSystem");
+
+var _Box = require("../../../src/goo/shapes/Box");
+
+var _Camera = require("../../../src/goo/renderer/Camera");
+
+var _PointLight = require("../../../src/goo/renderer/light/PointLight");
+
+var _ShaderLib = require("../../../src/goo/renderer/shaders/ShaderLib");
+
+var _Material = require("../../../src/goo/renderer/Material");
 
 describe('Entity', function () {
 	var world;
 
 	beforeEach(function () {
-		world = new World_World();
-		Entity_Entity.entityCount = 0;
+		world = new _World.World();
+		_Entity.Entity.entityCount = 0;
 
-		world.registerComponent(TransformComponent_TransformComponent);
-		world.registerComponent(MeshDataComponent_MeshDataComponent);
-		world.registerComponent(MeshRendererComponent_MeshRendererComponent);
-		world.registerComponent(CameraComponent_CameraComponent);
-		world.registerComponent(LightComponent_LightComponent);
-		world.registerComponent(ScriptComponent_ScriptComponent);
+		world.registerComponent(_TransformComponent.TransformComponent);
+		world.registerComponent(_MeshDataComponent.MeshDataComponent);
+		world.registerComponent(_MeshRendererComponent.MeshRendererComponent);
+		world.registerComponent(_CameraComponent.CameraComponent);
+		world.registerComponent(_LightComponent.LightComponent);
+		world.registerComponent(_ScriptComponent.ScriptComponent);
 
 		//
 		world.gooRunner = {
@@ -36,7 +52,7 @@ describe('Entity', function () {
 				viewportHeight: null
 			}
 		};
-		world.add(new ScriptSystem_ScriptSystem(world));
+		world.add(new _ScriptSystem.ScriptSystem(world));
 	});
 
 	it('addToWorld', function () {
@@ -148,13 +164,13 @@ describe('Entity', function () {
 
 	it('setComponent', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new MeshDataComponent_MeshDataComponent());
+		entity.setComponent(new _MeshDataComponent.MeshDataComponent());
 		expect(entity.meshDataComponent !== undefined).toBe(true);
 	});
 
 	it('cannot add the same component twice', function () {
 		var entity = world.createEntity();
-		var component = new MeshDataComponent_MeshDataComponent();
+		var component = new _MeshDataComponent.MeshDataComponent();
 		entity.setComponent(component);
 		entity.setComponent(component);
 		expect(entity._components.length).toBe(2);
@@ -162,15 +178,15 @@ describe('Entity', function () {
 
 	it('cannot add more than one component of the same type to the same entity', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new MeshDataComponent_MeshDataComponent());
-		entity.setComponent(new MeshDataComponent_MeshDataComponent());
+		entity.setComponent(new _MeshDataComponent.MeshDataComponent());
+		entity.setComponent(new _MeshDataComponent.MeshDataComponent());
 		expect(entity._components.length).toBe(2);
 	});
 
 	it('discards the second added component of the same type', function () {
 		var entity = world.createEntity();
-		var component1 = new MeshDataComponent_MeshDataComponent();
-		var component2 = new MeshDataComponent_MeshDataComponent();
+		var component1 = new _MeshDataComponent.MeshDataComponent();
+		var component2 = new _MeshDataComponent.MeshDataComponent();
 		entity.setComponent(component1);
 		entity.setComponent(component2);
 		var gotComponent = entity.getComponent('MeshDataComponent');
@@ -179,7 +195,7 @@ describe('Entity', function () {
 
 	it('getComponent', function () {
 		var entity = world.createEntity();
-		var mdc = new MeshDataComponent_MeshDataComponent();
+		var mdc = new _MeshDataComponent.MeshDataComponent();
 		entity.setComponent(mdc);
 		expect(entity.getComponent('meshDataComponent')).toBe(mdc);
 		expect(entity.getComponent('MeshDataComponent')).toBe(mdc);
@@ -188,7 +204,7 @@ describe('Entity', function () {
 
 	it('hasComponent', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new MeshDataComponent_MeshDataComponent());
+		entity.setComponent(new _MeshDataComponent.MeshDataComponent());
 		expect(entity.hasComponent('alabalaportocala')).toBe(false);
 		expect(entity.hasComponent('TransformComponent')).toBe(true);
 		expect(entity.hasComponent('MeshDataComponent')).toBe(true);
@@ -196,8 +212,8 @@ describe('Entity', function () {
 
 	it('clears a component', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new MeshDataComponent_MeshDataComponent());
-		entity.setComponent(new MeshRendererComponent_MeshRendererComponent());
+		entity.setComponent(new _MeshDataComponent.MeshDataComponent());
+		entity.setComponent(new _MeshRendererComponent.MeshRendererComponent());
 		world.process();
 		entity.clearComponent('MeshRendererComponent');
 		world.process();
@@ -207,7 +223,7 @@ describe('Entity', function () {
 
 	it('installs the api of a component', function () {
 		var entity = world.createEntity();
-		entity.setComponent(new TransformComponent_TransformComponent());
+		entity.setComponent(new _TransformComponent.TransformComponent());
 		expect(entity.setTranslation).toBeTruthy();
 	});
 
@@ -220,27 +236,29 @@ describe('Entity', function () {
 	it('does not override existing methods on install', function () {
 		var a = 0;
 		function FishComponent() {
-			Component_Component.apply(this, arguments);
+			_Component.Component.apply(this, arguments);
 			this.type = 'FishComponent';
 			this.api = {
-				swim: function () { a += 123; }
+				swim: function swim() {
+					a += 123;
+				}
 			};
 		}
-		FishComponent.prototype = Object.create(Component_Component.prototype);
-
+		FishComponent.prototype = Object.create(_Component.Component.prototype);
 
 		var b = 0;
 		function BananaComponent() {
-			Component_Component.apply(this, arguments);
+			_Component.Component.apply(this, arguments);
 			this.type = 'BananaComponent';
 			this.api = {
-				swim: function () { b += 234; }
+				swim: function swim() {
+					b += 234;
+				}
 			};
 		}
-		BananaComponent.prototype = Object.create(Component_Component.prototype);
+		BananaComponent.prototype = Object.create(_Component.Component.prototype);
 
-
-		var entity = new Entity_Entity(world);
+		var entity = new _Entity.Entity(world);
 
 		entity.setComponent(new FishComponent());
 
@@ -257,27 +275,29 @@ describe('Entity', function () {
 	it('does not remove what it did not manage to install', function () {
 		var a = 0;
 		function FishComponent() {
-			Component_Component.apply(this, arguments);
+			_Component.Component.apply(this, arguments);
 			this.type = 'FishComponent';
 			this.api = {
-				swim: function () { a += 123; }
+				swim: function swim() {
+					a += 123;
+				}
 			};
 		}
-		FishComponent.prototype = Object.create(Component_Component.prototype);
-
+		FishComponent.prototype = Object.create(_Component.Component.prototype);
 
 		var b = 0;
 		function BananaComponent() {
-			Component_Component.apply(this, arguments);
+			_Component.Component.apply(this, arguments);
 			this.type = 'BananaComponent';
 			this.api = {
-				swim: function () { b += 234; }
+				swim: function swim() {
+					b += 234;
+				}
 			};
 		}
-		BananaComponent.prototype = Object.create(Component_Component.prototype);
+		BananaComponent.prototype = Object.create(_Component.Component.prototype);
 
-
-		var entity = new Entity_Entity(world);
+		var entity = new _Entity.Entity(world);
 
 		entity.setComponent(new FishComponent());
 
@@ -296,7 +316,7 @@ describe('Entity', function () {
 
 	//! AT: these should stay in their respective component test files
 	it('returns itself after calling set()', function () {
-		var entity = new Entity_Entity(world);
+		var entity = new _Entity.Entity(world);
 		var translation = [1, 2, 3];
 		var sameEntity = entity.set(translation);
 
@@ -304,8 +324,8 @@ describe('Entity', function () {
 	});
 
 	it('sets a TransformComponent', function () {
-		var entity = new Entity_Entity(world);
-		var transformComponent = new TransformComponent_TransformComponent();
+		var entity = new _Entity.Entity(world);
+		var transformComponent = new _TransformComponent.TransformComponent();
 		entity.set(transformComponent);
 
 		expect(entity.transformComponent).toBe(transformComponent);
@@ -313,8 +333,8 @@ describe('Entity', function () {
 
 	// ---
 	it('sets a MeshDataComponent when trying to add a mesh', function () {
-		var entity = new Entity_Entity(world);
-		var meshData = new Box_Box();
+		var entity = new _Entity.Entity(world);
+		var meshData = new _Box.Box();
 		entity.set(meshData);
 
 		expect(entity.meshDataComponent).toBeTruthy();
@@ -322,8 +342,8 @@ describe('Entity', function () {
 	});
 
 	it('sets a MeshRendererComponent when trying to add a material', function () {
-		var entity = new Entity_Entity(world);
-		var material = new Material_Material(ShaderLib_ShaderLib.simple);
+		var entity = new _Entity.Entity(world);
+		var material = new _Material.Material(_ShaderLib.ShaderLib.simple);
 		entity.set(material);
 
 		expect(entity.meshRendererComponent).toBeTruthy();
@@ -331,8 +351,8 @@ describe('Entity', function () {
 	});
 
 	it('sets a CameraComponent when trying to add a camera', function () {
-		var entity = new Entity_Entity(world);
-		var camera = new Camera_Camera();
+		var entity = new _Entity.Entity(world);
+		var camera = new _Camera.Camera();
 		entity.set(camera);
 
 		expect(entity.cameraComponent).toBeTruthy();
@@ -340,8 +360,8 @@ describe('Entity', function () {
 	});
 
 	it('sets a LightComponent when trying to add a light', function () {
-		var entity = new Entity_Entity(world);
-		var light = new PointLight_PointLight();
+		var entity = new _Entity.Entity(world);
+		var light = new _PointLight.PointLight();
 		entity.set(light);
 
 		expect(entity.lightComponent).toBeTruthy();
@@ -349,9 +369,9 @@ describe('Entity', function () {
 	});
 
 	it('sets a ScriptComponent when trying to some functions / objects with a run function', function () {
-		var entity = new Entity_Entity(world);
-		var script1 = { run: function () { } };
-		var script2 = function () { };
+		var entity = new _Entity.Entity(world);
+		var script1 = { run: function run() {} };
+		var script2 = function script2() {};
 
 		entity.set(script1, script2);
 
@@ -360,33 +380,33 @@ describe('Entity', function () {
 	});
 
 	/*
-	//! AT: disputed
-	it('cannot clear a transform component', function () {
-		var entity = world.createEntity();
-		entity.setComponent(new MeshDataComponent());
-		world.process();
-		entity.clearComponent('transformComponent');
-		world.process();
-		expect(entity.hasComponent('MeshDataComponent')).toBe(true);
-		expect(entity.hasComponent('TransformComponent')).toBe(true);
-	});
-	*/
+ //! AT: disputed
+ it('cannot clear a transform component', function () {
+ 	var entity = world.createEntity();
+ 	entity.setComponent(new MeshDataComponent());
+ 	world.process();
+ 	entity.clearComponent('transformComponent');
+ 	world.process();
+ 	expect(entity.hasComponent('MeshDataComponent')).toBe(true);
+ 	expect(entity.hasComponent('TransformComponent')).toBe(true);
+ });
+ */
 
 	it('can add components on a world-less entity', function () {
-		var entity = new Entity_Entity();
-		entity.setComponent(new CameraComponent_CameraComponent());
+		var entity = new _Entity.Entity();
+		entity.setComponent(new _CameraComponent.CameraComponent());
 		expect(entity.cameraComponent).toBeTruthy();
 	});
 
 	it('can remove components on a world-less entity', function () {
-		var entity = new Entity_Entity();
-		entity.setComponent(new CameraComponent_CameraComponent());
+		var entity = new _Entity.Entity();
+		entity.setComponent(new _CameraComponent.CameraComponent());
 		entity.clearComponent('CameraComponent');
 		expect(entity.cameraComponent).toBeFalsy();
 	});
 
 	it("can pass a 'primitive engine object' to .set of a world-less entity", function () {
-		var entity = new Entity_Entity();
+		var entity = new _Entity.Entity();
 		entity.set([1, 2, 3]);
 		// if we get here at least it doesn't blow up (like it used to)
 		expect(true).toBeTruthy();
@@ -398,14 +418,14 @@ describe('Entity', function () {
 
 	describe('tags', function () {
 		it('sets a tag on an entity', function () {
-			var entity = new Entity_Entity();
+			var entity = new _Entity.Entity();
 			entity.setTag('t1');
 			expect(entity.hasTag('t1')).toBeTruthy();
 			expect(entity.hasTag('t2')).toBeFalsy();
 		});
 
 		it('clears a tag on an entity', function () {
-			var entity = new Entity_Entity();
+			var entity = new _Entity.Entity();
 			entity.setTag('t1').setTag('t3');
 			entity.clearTag('t1').clearTag('t2');
 			expect(entity.hasTag('t1')).toBeFalsy();
@@ -416,7 +436,7 @@ describe('Entity', function () {
 
 	describe('attributes', function () {
 		it('sets an attribute on an entity', function () {
-			var entity = new Entity_Entity();
+			var entity = new _Entity.Entity();
 			entity.setAttribute('a1', 123);
 
 			expect(entity.hasAttribute('a1')).toBeTruthy();
@@ -427,7 +447,7 @@ describe('Entity', function () {
 		});
 
 		it('clears an attribute on an entity', function () {
-			var entity = new Entity_Entity();
+			var entity = new _Entity.Entity();
 			entity.setAttribute('a1', 123).setAttribute('a3', 'asd');
 			entity.clearAttribute('a1').clearAttribute('a2');
 

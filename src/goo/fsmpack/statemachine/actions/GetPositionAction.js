@@ -1,11 +1,19 @@
-var mod_GetPositionAction = GetPositionAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function GetPositionAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GetPositionAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var mod_GetPositionAction = GetPositionAction;
+
+function GetPositionAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-GetPositionAction.prototype = Object.create(Action_Action.prototype);
+GetPositionAction.prototype = Object.create(_Action.Action.prototype);
 GetPositionAction.prototype.constructor = GetPositionAction;
 
 GetPositionAction.prototype.configure = function (settings) {
@@ -42,7 +50,8 @@ GetPositionAction.external = {
 GetPositionAction.prototype.update = function (fsm) {
 	var translation = this.entity.transformComponent.transform.translation;
 	if (this.entity !== null) {
-		if (this.variableX) {  // !== undefined
+		if (this.variableX) {
+			// !== undefined
 			fsm.applyOnVariable(this.variableX, function () {
 				return translation.x;
 			});
@@ -60,4 +69,4 @@ GetPositionAction.prototype.update = function (fsm) {
 	}
 };
 
-export { mod_GetPositionAction as GetPositionAction };
+exports.GetPositionAction = mod_GetPositionAction;

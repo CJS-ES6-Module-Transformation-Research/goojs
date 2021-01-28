@@ -1,24 +1,34 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Ray = undefined;
+
+var _Vector = require("./Vector3");
+
+var _MathUtils = require("./MathUtils");
+
 var mod_Ray = Ray;
-import { Vector3 as Vector3_Vector3 } from "./Vector3";
-import { MathUtils as MathUtils_MathUtils } from "./MathUtils";
+
 
 /**
  * Constructs a new ray with an origin at (0, 0, 0) and a direction of (0, 0, 1).
  */
 function Ray(origin, direction) {
-	this.origin = origin ? origin.clone() : new Vector3_Vector3();
-	this.direction = direction ? direction.clone() : Vector3_Vector3.UNIT_Z.clone();
+	this.origin = origin ? origin.clone() : new _Vector.Vector3();
+	this.direction = direction ? direction.clone() : _Vector.Vector3.UNIT_Z.clone();
 
 	// @ifdef DEBUG
 	Object.seal(this);
 	// @endif
 }
 
-var tmpVec1 = new Vector3_Vector3();
-var tmpVec2 = new Vector3_Vector3();
-var tmpVec3 = new Vector3_Vector3();
-var tmpVec4 = new Vector3_Vector3();
-var tmpVec5 = new Vector3_Vector3();
+var tmpVec1 = new _Vector.Vector3();
+var tmpVec2 = new _Vector.Vector3();
+var tmpVec3 = new _Vector.Vector3();
+var tmpVec4 = new _Vector.Vector3();
+var tmpVec5 = new _Vector.Vector3();
 
 /**
  * Check for intersection of this ray and and a quad or triangle, either just inside the shape or for the plane defined by the shape (doPlanar == true)
@@ -32,8 +42,7 @@ Ray.prototype.intersects = function (polygonVertices, doPlanar, locationStore, s
 	if (polygonVertices.length === 3) {
 		return this.intersectsTriangle(polygonVertices[0], polygonVertices[1], polygonVertices[2], doPlanar, locationStore, skipBackSide);
 	} else if (polygonVertices.length === 4) {
-		return this.intersectsTriangle(polygonVertices[0], polygonVertices[1], polygonVertices[2], doPlanar, locationStore, skipBackSide)
-			|| this.intersectsTriangle(polygonVertices[0], polygonVertices[2], polygonVertices[3], doPlanar, locationStore, skipBackSide);
+		return this.intersectsTriangle(polygonVertices[0], polygonVertices[1], polygonVertices[2], doPlanar, locationStore, skipBackSide) || this.intersectsTriangle(polygonVertices[0], polygonVertices[2], polygonVertices[3], doPlanar, locationStore, skipBackSide);
 	}
 	return false;
 };
@@ -55,9 +64,9 @@ Ray.prototype.intersectsTriangle = function (pointA, pointB, pointC, doPlanar, l
 
 	var dirDotNorm = this.direction.dot(norm);
 	var sign;
-	if (dirDotNorm > MathUtils_MathUtils.EPSILON) {
+	if (dirDotNorm > _MathUtils.MathUtils.EPSILON) {
 		sign = 1.0;
-	} else if (dirDotNorm < -MathUtils_MathUtils.EPSILON) {
+	} else if (dirDotNorm < -_MathUtils.MathUtils.EPSILON) {
 		if (skipBackSide) {
 			return false;
 		}
@@ -187,4 +196,4 @@ Ray.prototype.clone = function () {
 /**
  * Constructs a new ray with an origin at (0, 0, 0) and a direction of (0, 0, 1).
  */
-export { mod_Ray as Ray };
+exports.Ray = mod_Ray;

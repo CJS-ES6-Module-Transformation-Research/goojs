@@ -1,14 +1,24 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StateMachineComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
+
 var mod_StateMachineComponent = StateMachineComponent;
-import { Component as Component_Component } from "../../entities/components/Component";
-import { ArrayUtils as ArrayUtils_ArrayUtils } from "../../util/ArrayUtils";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
 
 /**
  * StateMachineComponent
  * @private
  */
 function StateMachineComponent() {
-	Component_Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -23,7 +33,7 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component_Component.prototype);
+StateMachineComponent.prototype = Object.create(_Component.Component.prototype);
 
 StateMachineComponent.vars = {};
 
@@ -76,7 +86,7 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils_ArrayUtils.remove(this._machines, machine);
+	_ArrayUtils.ArrayUtils.remove(this._machines, machine);
 	delete this._machinesById[machine.id];
 };
 
@@ -150,7 +160,7 @@ StateMachineComponent.prototype.update = function () {
  */
 StateMachineComponent.prototype.pause = function () {
 	this.active = false;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.pause');
+	_SystemBus.SystemBusjs.emit('goo.entity.' + this.entity.name + '.fsm.pause');
 };
 
 /**
@@ -158,11 +168,11 @@ StateMachineComponent.prototype.pause = function () {
  */
 StateMachineComponent.prototype.play = function () {
 	this.active = true;
-	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.play');
+	_SystemBus.SystemBusjs.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
 
 /**
  * StateMachineComponent
  * @private
  */
-export { mod_StateMachineComponent as StateMachineComponent };
+exports.StateMachineComponent = mod_StateMachineComponent;

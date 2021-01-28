@@ -1,10 +1,18 @@
-var mod_UnmuteAction = UnmuteAction;
-import { Action as Action_Action } from "./Action";
+'use strict';
 
-function UnmuteAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.UnmuteAction = undefined;
+
+var _Action = require('./Action');
+
+var mod_UnmuteAction = UnmuteAction;
+
+function UnmuteAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
-UnmuteAction.prototype = Object.create(Action_Action.prototype);
+UnmuteAction.prototype = Object.create(_Action.Action.prototype);
 UnmuteAction.prototype.constructor = UnmuteAction;
 
 UnmuteAction.external = {
@@ -19,7 +27,9 @@ UnmuteAction.external = {
 
 UnmuteAction.prototype.enter = function (fsm) {
 	var world = fsm.getWorld();
-	if (!world) { return; }
+	if (!world) {
+		return;
+	}
 
 	var soundSystem = world.getSystem('SoundSystem');
 	if (soundSystem) {
@@ -27,4 +37,4 @@ UnmuteAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { mod_UnmuteAction as UnmuteAction };
+exports.UnmuteAction = mod_UnmuteAction;

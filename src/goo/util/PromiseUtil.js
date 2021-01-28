@@ -1,4 +1,12 @@
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PromiseUtils = undefined;
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
 var mod_PromiseUtils;
 
 /**
@@ -8,5 +16,5 @@ var mod_PromiseUtils;
  * @group util
  * @deprecated Deprecated as of 0.14.x and scheduled for removal in 0.16.0; The class has been renamed to `goo/util/PromiseUtils`
  */
-mod_PromiseUtils = PromiseUtils_PromiseUtils;
-export { mod_PromiseUtils as PromiseUtils };
+exports.PromiseUtils = mod_PromiseUtils = _PromiseUtils.PromiseUtils;
+exports.PromiseUtils = mod_PromiseUtils;

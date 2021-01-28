@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var mod_PhysicsJoint = PhysicsJoint;
 /**
  * Base class for physics joints, for example hinge or balljoint.
@@ -6,19 +11,19 @@ var mod_PhysicsJoint = PhysicsJoint;
  * @param {boolean} [settings.collideConnected=false]
  */
 function PhysicsJoint(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * The entity connected
-	 * @type {Entity}
-	 */
-	this.connectedEntity = settings.connectedEntity || null;
+  /**
+   * The entity connected
+   * @type {Entity}
+   */
+  this.connectedEntity = settings.connectedEntity || null;
 
-	/**
-	 * Indicates if the connected entities should collide.
-	 * @type {boolean}
-	 */
-	this.collideConnected = settings.collideConnected !== undefined ? settings.collideConnected : false;
+  /**
+   * Indicates if the connected entities should collide.
+   * @type {boolean}
+   */
+  this.collideConnected = settings.collideConnected !== undefined ? settings.collideConnected : false;
 }
 
 /**
@@ -27,4 +32,4 @@ function PhysicsJoint(settings) {
  * @param {Entity} [settings.connectedEntity]
  * @param {boolean} [settings.collideConnected=false]
  */
-export { mod_PhysicsJoint as PhysicsJoint };
+exports.PhysicsJoint = mod_PhysicsJoint;

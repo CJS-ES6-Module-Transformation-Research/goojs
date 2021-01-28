@@ -1,17 +1,22 @@
-import { MeshData as MeshData_MeshData } from "../../../../src/goo/renderer/MeshData";
-import { GooRunner as GooRunner_GooRunner } from "../../../../src/goo/entities/GooRunner";
-import { DynamicLoader as DynamicLoader_DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as Configs_Configs } from "../../../../test/unit/loaders/Configs";
+"use strict";
+
+var _MeshData = require("../../../../src/goo/renderer/MeshData");
+
+var _GooRunner = require("../../../../src/goo/entities/GooRunner");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
 
 describe('MeshDataHandler', function () {
 	var gooRunner, loader;
 
 	beforeEach(function () {
-		gooRunner = new GooRunner_GooRunner({
+		gooRunner = new _GooRunner.GooRunner({
 			logo: false,
 			manuallyStartGameLoop: true
 		});
-		loader = new DynamicLoader_DynamicLoader({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: gooRunner.world,
 			rootPath: 'loaders/res/'
 		});
@@ -22,10 +27,10 @@ describe('MeshDataHandler', function () {
 	});
 
 	it('loads a meshdata object', function (done) {
-		var config = Configs_Configs.mesh();
-		loader.preload(Configs_Configs.get());
+		var config = _Configs.Configs.mesh();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (mesh) {
-			expect(mesh).toEqual(jasmine.any(MeshData_MeshData));
+			expect(mesh).toEqual(jasmine.any(_MeshData.MeshData));
 			for (var key in config.attributes) {
 				var view = mesh.dataViews[key];
 				expect(view).toEqual(jasmine.any(Float32Array));
@@ -41,8 +46,8 @@ describe('MeshDataHandler', function () {
 	});
 
 	it('clears meshdata from the GPU', function (done) {
-		var config = Configs_Configs.mesh();
-		loader.preload(Configs_Configs.get());
+		var config = _Configs.Configs.mesh();
+		loader.preload(_Configs.Configs.get());
 		var m;
 		loader.load(config.id).then(function (meshdata) {
 			m = meshdata;

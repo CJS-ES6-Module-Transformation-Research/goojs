@@ -1,12 +1,21 @@
-var mod_ToggleFullscreenAction = ToggleFullscreenAction;
-import { Action as Action_Action } from "./Action";
-import { GameUtils as GameUtils_GameUtils } from "./../../../util/GameUtils";
+"use strict";
 
-function ToggleFullscreenAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ToggleFullscreenAction = undefined;
+
+var _Action = require("./Action");
+
+var _GameUtils = require("./../../../util/GameUtils");
+
+var mod_ToggleFullscreenAction = ToggleFullscreenAction;
+
+function ToggleFullscreenAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-ToggleFullscreenAction.prototype = Object.create(Action_Action.prototype);
+ToggleFullscreenAction.prototype = Object.create(_Action.Action.prototype);
 ToggleFullscreenAction.prototype.constructor = ToggleFullscreenAction;
 
 ToggleFullscreenAction.external = {
@@ -18,8 +27,8 @@ ToggleFullscreenAction.external = {
 	transitions: []
 };
 
-ToggleFullscreenAction.prototype.enter = function (/*fsm*/) {
-	GameUtils_GameUtils.toggleFullScreen();
+ToggleFullscreenAction.prototype.enter = function () /*fsm*/{
+	_GameUtils.GameUtils.toggleFullScreen();
 };
 
-export { mod_ToggleFullscreenAction as ToggleFullscreenAction };
+exports.ToggleFullscreenAction = mod_ToggleFullscreenAction;

@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Skeleton = undefined;
+
+var _Joint = require("./Joint");
+
 var mod_Skeleton = Skeleton;
-import { Joint as Joint_Joint } from "./Joint";
+
 
 /**
  * Describes a collection of Joints. This class represents the hierarchy of a Skeleton and its original aspect (via the {@link Joint} class). This
@@ -21,7 +30,7 @@ Skeleton.prototype.clone = function () {
 	for (var j = 0, maxJ = jointArray.length; j < maxJ; j++) {
 		var jointObj = jointArray[j];
 		var jName = jointObj._name;
-		var joint = new Joint_Joint(jName);
+		var joint = new _Joint.Joint(jName);
 
 		joint._index = jointObj._index;
 		joint._parentIndex = jointObj._parentIndex;
@@ -38,4 +47,4 @@ Skeleton.prototype.clone = function () {
  * @param {string} name
  * @param {Array<Joint>} joints
  */
-export { mod_Skeleton as Skeleton };
+exports.Skeleton = mod_Skeleton;

@@ -1,12 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScriptHandler = undefined;
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+var _ConfigHandler = require("../loaders/handlers/ConfigHandler");
+
+var _rsvp = require("../util/rsvp");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _ArrayUtils = require("../util/ArrayUtils");
+
+var _SystemBus = require("../entities/SystemBus");
+
+var _ScriptUtils = require("../scripts/ScriptUtils");
+
+var _Scripts = require("../scripts/Scripts");
+
 var mod_ScriptHandler = ScriptHandler;
-import { ConfigHandler as ConfigHandler_ConfigHandler } from "../loaders/handlers/ConfigHandler";
-import { rsvpjs as RSVP } from "../util/rsvp";
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
-import { ArrayUtils as ArrayUtils_ArrayUtils } from "../util/ArrayUtils";
-import { SystemBusjs as SystemBus } from "../entities/SystemBus";
-import { ScriptUtils as ScriptUtils_ScriptUtils } from "../scripts/ScriptUtils";
-import { create as Scriptsjs_create } from "../scripts/Scripts";
+
 
 var DEPENDENCY_LOAD_TIMEOUT = 6000;
 
@@ -14,7 +32,7 @@ var DEPENDENCY_LOAD_TIMEOUT = 6000;
 * 	* @private
 */
 function ScriptHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 	this._scriptElementsByURL = new Map();
 	this._bodyCache = {};
 	this._dependencyPromises = {};
@@ -22,9 +40,9 @@ function ScriptHandler() {
 	this._addGlobalErrorListener();
 }
 
-ScriptHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+ScriptHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 ScriptHandler.prototype.constructor = ScriptHandler;
-ConfigHandler_ConfigHandler._registerClass('script', ScriptHandler);
+_ConfigHandler.ConfigHandler._registerClass('script', ScriptHandler);
 
 /**
  * Creates a script data wrapper object to be used in the engine
@@ -43,7 +61,6 @@ ScriptHandler.prototype._create = function () {
 		name: null
 	};
 };
-
 
 /**
  * Remove this script from the cache, and runs the cleanup method of the script.
@@ -74,7 +91,9 @@ var updateId = 1; // Ugly hack to prevent devtools from not updating its scripts
  */
 ScriptHandler.prototype._updateFromCustom = function (script, config) {
 	// No change, do nothing
-	if (this._bodyCache[config.id] === config.body) { return script; }
+	if (this._bodyCache[config.id] === config.body) {
+		return script;
+	}
 
 	delete script.errors;
 	this._bodyCache[config.id] = config.body;
@@ -91,50 +110,8 @@ ScriptHandler.prototype._updateFromCustom = function (script, config) {
 		window._gooScriptFactories = {};
 	}
 
-
 	// get a script factory in string form
-	var scriptFactoryStr = [
-		'//# sourceURL=goo://goo-custom-scripts/' + encodeURIComponent(config.name.replace(' ', '_')) + '.js?v=' + (updateId++),
-		'',
-		'// ' + config.name,
-		'',
-		'// <![CDATA[',
-		"window._gooScriptFactories['" + config.id + "'] = function () {",
-		config.body,
-		' var obj = {',
-		'  externals: {}',
-		' };',
-		' if (typeof parameters !== "undefined") {',
-		'  obj.externals.parameters = parameters;',
-		' }',
-		' if (typeof argsUpdated !== "undefined") {',
-		'  obj.argsUpdated = argsUpdated;',
-		' }',
-		' if (typeof setup !== "undefined") {',
-		'  obj.setup = setup;',
-		' }',
-		' if (typeof cleanup !== "undefined") {',
-		'  obj.cleanup = cleanup;',
-		' }',
-		' if (typeof update !== "undefined") {',
-		'  obj.update = update;',
-		' }',
-		' if (typeof fixedUpdate !== "undefined") {',
-		'  obj.fixedUpdate = fixedUpdate;',
-		' }',
-		' if (typeof lateUpdate !== "undefined") {',
-		'  obj.lateUpdate = lateUpdate;',
-		' }',
-		' if (typeof enter !== "undefined") {',
-		'  obj.enter = enter;',
-		' }',
-		' if (typeof exit !== "undefined") {',
-		'  obj.exit = exit;',
-		' }',
-		' return obj;',
-		'};',
-		'// ]]>'
-	].join('\n');
+	var scriptFactoryStr = ['//# sourceURL=goo://goo-custom-scripts/' + encodeURIComponent(config.name.replace(' ', '_')) + '.js?v=' + updateId++, '', '// ' + config.name, '', '// <![CDATA[', "window._gooScriptFactories['" + config.id + "'] = function () {", config.body, ' var obj = {', '  externals: {}', ' };', ' if (typeof parameters !== "undefined") {', '  obj.externals.parameters = parameters;', ' }', ' if (typeof argsUpdated !== "undefined") {', '  obj.argsUpdated = argsUpdated;', ' }', ' if (typeof setup !== "undefined") {', '  obj.setup = setup;', ' }', ' if (typeof cleanup !== "undefined") {', '  obj.cleanup = cleanup;', ' }', ' if (typeof update !== "undefined") {', '  obj.update = update;', ' }', ' if (typeof fixedUpdate !== "undefined") {', '  obj.fixedUpdate = fixedUpdate;', ' }', ' if (typeof lateUpdate !== "undefined") {', '  obj.lateUpdate = lateUpdate;', ' }', ' if (typeof enter !== "undefined") {', '  obj.enter = enter;', ' }', ' if (typeof exit !== "undefined") {', '  obj.exit = exit;', ' }', ' return obj;', '};', '// ]]>'].join('\n');
 
 	// create the element and add it to the page so the user can debug it
 	// addition and execution of the script happens synchronously
@@ -183,7 +160,7 @@ ScriptHandler.prototype._updateFromCustom = function (script, config) {
 	}
 	// generate names from external variable names
 	if (script.externals) {
-		ScriptUtils_ScriptUtils.fillDefaultNames(script.externals.parameters);
+		_ScriptUtils.ScriptUtils.fillDefaultNames(script.externals.parameters);
 	}
 
 	return script;
@@ -210,7 +187,6 @@ function addReference(scriptElement, scriptId) {
 	}
 }
 
-
 /**
  * Removes a reference to the specified custom script from the specified
  * script element/node.
@@ -225,7 +201,7 @@ function removeReference(scriptElement, scriptId) {
 		return;
 	}
 
-	ArrayUtils_ArrayUtils.remove(scriptElement.scriptRefs, scriptId);
+	_ArrayUtils.ArrayUtils.remove(scriptElement.scriptRefs, scriptId);
 }
 
 /**
@@ -240,7 +216,6 @@ function removeReference(scriptElement, scriptId) {
 function hasReferences(scriptElement) {
 	return scriptElement.scriptRefs && scriptElement.scriptRefs.length > 0;
 }
-
 
 /**
  * Gets whether the specified script element has a reference to the specified
@@ -289,7 +264,7 @@ function getReferringDependencies(scriptId) {
  */
 ScriptHandler.prototype._updateFromClass = function (script, config) {
 	if (!script.externals || script.externals.name !== config.className) {
-		var newScript = Scriptsjs_create(config.className);
+		var newScript = (0, _Scripts.create)(config.className);
 		if (!newScript) {
 			throw new Error('Unrecognized script name');
 		}
@@ -308,7 +283,7 @@ ScriptHandler.prototype._updateFromClass = function (script, config) {
 		script.enabled = false;
 
 		// generate names from external variable names
-		ScriptUtils_ScriptUtils.fillDefaultNames(script.externals.parameters);
+		_ScriptUtils.ScriptUtils.fillDefaultNames(script.externals.parameters);
 	}
 
 	return script;
@@ -333,7 +308,7 @@ ScriptHandler.prototype._addDependency = function (script, url, scriptId) {
 	var scriptElem = document.querySelector('script[src="' + url + '"]');
 	if (scriptElem) {
 		addReference(scriptElem, scriptId);
-		return this._dependencyPromises[url] || PromiseUtils_PromiseUtils.resolve();
+		return this._dependencyPromises[url] || _PromiseUtils.PromiseUtils.resolve();
 	}
 
 	scriptElem = document.createElement('script');
@@ -345,10 +320,9 @@ ScriptHandler.prototype._addDependency = function (script, url, scriptId) {
 	this._scriptElementsByURL.set(url, scriptElem);
 	addReference(scriptElem, scriptId);
 
-	var promise = loadExternalScript(script, scriptElem, url)
-		.then(function () {
-			delete that._dependencyPromises[url];
-		});
+	var promise = loadExternalScript(script, scriptElem, url).then(function () {
+		delete that._dependencyPromises[url];
+	});
 
 	this._dependencyPromises[url] = promise;
 
@@ -358,9 +332,10 @@ ScriptHandler.prototype._addDependency = function (script, url, scriptId) {
 ScriptHandler.prototype._update = function (ref, config, options) {
 	var that = this;
 
-	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options)
-	.then(function (script) {
-		if (!script) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (script) {
+		if (!script) {
+			return;
+		}
 
 		var addDependencyPromises = [];
 
@@ -373,17 +348,17 @@ ScriptHandler.prototype._update = function (ref, config, options) {
 			// reference to the current script from the remaining ones.
 			var scriptsElementsToRemove = getReferringDependencies(config.id);
 
-			ObjectUtils_ObjectUtils.forEach(config.dependencies, function (dependencyConfig) {
+			_ObjectUtils.ObjectUtils.forEach(config.dependencies, function (dependencyConfig) {
 				var url = dependencyConfig.url;
 
 				// If the dependency being added is already loaded in a script
 				// element we remove it from the array of script elements to remove
 				// because we still need it.
-				var neededScriptElement = ArrayUtils_ArrayUtils.find(scriptsElementsToRemove, function (scriptElement) {
+				var neededScriptElement = _ArrayUtils.ArrayUtils.find(scriptsElementsToRemove, function (scriptElement) {
 					return scriptElement.src === url;
 				});
 				if (neededScriptElement) {
-					ArrayUtils_ArrayUtils.remove(scriptsElementsToRemove, neededScriptElement);
+					_ArrayUtils.ArrayUtils.remove(scriptsElementsToRemove, neededScriptElement);
 				}
 
 				addDependencyPromises.push(that._addDependency(script, url, config.id));
@@ -391,22 +366,21 @@ ScriptHandler.prototype._update = function (ref, config, options) {
 
 			// Remove references to the current script from all the script
 			// elements that are not needed anymore.
-			ObjectUtils_ObjectUtils.forEach(scriptsElementsToRemove, function (scriptElement) {
+			_ObjectUtils.ObjectUtils.forEach(scriptsElementsToRemove, function (scriptElement) {
 				removeReference(scriptElement, config.id);
 			});
 		}
 
 		var parentElement = that.world.gooRunner.renderer.domElement.parentElement || document.body;
 
-		ObjectUtils_ObjectUtils.forEach(config.dependencies, function (dependency) {
+		_ObjectUtils.ObjectUtils.forEach(config.dependencies, function (dependency) {
 			var scriptElement = that._scriptElementsByURL.get(dependency.url);
 			if (scriptElement) {
 				parentElement.appendChild(scriptElement);
 			}
 		}, null, 'sortValue');
 
-		return RSVP.all(addDependencyPromises)
-		.then(function () {
+		return _rsvp.rsvpjs.all(addDependencyPromises).then(function () {
 			if (isEngineScript(config)) {
 				that._updateFromClass(script, config, options);
 			} else if (isCustomScript(config)) {
@@ -416,7 +390,7 @@ ScriptHandler.prototype._update = function (ref, config, options) {
 			// Let the world (e.g. Create) know that there are new externals so
 			// that things (e.g. UI) can get updated.
 			if (config.body) {
-				SystemBus.emit('goo.scriptExternals', {
+				_SystemBus.SystemBusjs.emit('goo.scriptExternals', {
 					id: config.id,
 					externals: script.externals
 				});
@@ -425,18 +399,17 @@ ScriptHandler.prototype._update = function (ref, config, options) {
 			script.name = config.name;
 
 			if (script.errors || script.dependencyErrors) {
-				SystemBus.emit('goo.scriptError', {
+				_SystemBus.SystemBusjs.emit('goo.scriptError', {
 					id: ref,
 					errors: script.errors,
 					dependencyErrors: script.dependencyErrors
 				});
 				return script;
-			}
-			else {
-				SystemBus.emit('goo.scriptError', { id: ref, errors: null });
+			} else {
+				_SystemBus.SystemBusjs.emit('goo.scriptError', { id: ref, errors: null });
 			}
 
-			ObjectUtils_ObjectUtils.extend(script.parameters, config.options);
+			_ObjectUtils.ObjectUtils.extend(script.parameters, config.options);
 
 			// Remove any script HTML elements that are not needed by any
 			// script.
@@ -535,13 +508,15 @@ ScriptHandler.prototype._addGlobalErrorListener = function () {
  * Load an external script
  */
 function loadExternalScript(script, scriptElem, url) {
-	return PromiseUtils_PromiseUtils.createPromise(function (resolve) {
+	return _PromiseUtils.PromiseUtils.createPromise(function (resolve) {
 		var timeoutHandler;
 		var handled = false;
 
 		scriptElem.onload = function () {
 			resolve();
-			if (timeoutHandler) { clearTimeout(timeoutHandler); }
+			if (timeoutHandler) {
+				clearTimeout(timeoutHandler);
+			}
 		};
 
 		function fireError(message) {
@@ -560,7 +535,9 @@ function loadExternalScript(script, scriptElem, url) {
 
 		scriptElem.onerror = function (e) {
 			handled = true;
-			if (timeoutHandler) { clearTimeout(timeoutHandler); }
+			if (timeoutHandler) {
+				clearTimeout(timeoutHandler);
+			}
 			console.error(e);
 			fireError('Could not load dependency ' + url);
 		};
@@ -583,30 +560,30 @@ function loadExternalScript(script, scriptElem, url) {
  * @returns {{message: string}|undefined} May return an error
  */
 ScriptHandler.validateParameter = function validateParameter(parameter) {
-   for (var i = 0; i < ScriptUtils_ScriptUtils.PROPERTY_TYPES.length; ++i) {
-       var entry = ScriptUtils_ScriptUtils.PROPERTY_TYPES[i];
-       var propValue = parameter[entry.prop];
-       var isPropDefined = typeof propValue !== 'undefined';
+	for (var i = 0; i < _ScriptUtils.ScriptUtils.PROPERTY_TYPES.length; ++i) {
+		var entry = _ScriptUtils.ScriptUtils.PROPERTY_TYPES[i];
+		var propValue = parameter[entry.prop];
+		var isPropDefined = typeof propValue !== 'undefined';
 
-       var msgStart = 'Property "' + entry.prop + '" must be ';
+		var msgStart = 'Property "' + entry.prop + '" must be ';
 
-       if (entry.mustBeDefined || isPropDefined) {
-           var validator = ScriptUtils_ScriptUtils.TYPE_VALIDATORS[entry.type];
-           var allowedValues = entry.getAllowedValues ? entry.getAllowedValues(parameter) : null;
+		if (entry.mustBeDefined || isPropDefined) {
+			var validator = _ScriptUtils.ScriptUtils.TYPE_VALIDATORS[entry.type];
+			var allowedValues = entry.getAllowedValues ? entry.getAllowedValues(parameter) : null;
 
-           if (isPropDefined && entry.minLength && propValue.length < entry.minLength) {
-               return { message: msgStart + 'longer than ' + (entry.minLength - 1) };
-           }
+			if (isPropDefined && entry.minLength && propValue.length < entry.minLength) {
+				return { message: msgStart + 'longer than ' + (entry.minLength - 1) };
+			}
 
-           if (allowedValues && allowedValues.indexOf(propValue) === -1) {
-               return { message: msgStart + 'one of: ' + allowedValues.join(', ') };
-           }
+			if (allowedValues && allowedValues.indexOf(propValue) === -1) {
+				return { message: msgStart + 'one of: ' + allowedValues.join(', ') };
+			}
 
-           if (!validator(propValue)) {
-               return { message: msgStart + 'of type ' + entry.type };
-           }
-       }
-   }
+			if (!validator(propValue)) {
+				return { message: msgStart + 'of type ' + entry.type };
+			}
+		}
+	}
 };
 
 /**
@@ -618,7 +595,7 @@ ScriptHandler.validateParameter = function validateParameter(parameter) {
  */
 ScriptHandler.validateParameters = function validateParameters(script, outScript) {
 	var errors = script.errors || [];
-	if (typeof script.externals !== 'object') {
+	if (_typeof(script.externals) !== 'object') {
 		outScript.externals = {};
 		return;
 	}
@@ -648,7 +625,7 @@ ScriptHandler.validateParameters = function validateParameters(script, outScript
 
 		// create cares about this, in order to build the control panel for the script
 		if (parameter['default'] === null || parameter['default'] === undefined) {
-			parameter['default'] = ScriptUtils_ScriptUtils.DEFAULTS_BY_TYPE[parameter.type];
+			parameter['default'] = _ScriptUtils.ScriptUtils.DEFAULTS_BY_TYPE[parameter.type];
 		}
 
 		if (parameter.key && duplicateChecker[parameter.key]) {
@@ -709,4 +686,4 @@ ScriptHandler.DOM_ID_PREFIX = '_script_';
 /**
 * 	* @private
 */
-export { mod_ScriptHandler as ScriptHandler };
+exports.ScriptHandler = mod_ScriptHandler;

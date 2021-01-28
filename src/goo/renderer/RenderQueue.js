@@ -1,5 +1,14 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderQueue = undefined;
+
+var _Vector = require("../math/Vector3");
+
 var mod_RenderQueue = RenderQueue;
-import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+
 
 /**
  * The RenderQueue handles sorting of entities. Entities are ordered by their renderQueue value into buckets.
@@ -37,7 +46,7 @@ function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3_Vector3();
+var tmpVec = new _Vector.Vector3();
 
 /**
  * @param {Array<Entity>} renderList
@@ -128,4 +137,4 @@ RenderQueue.OVERLAY = 3000;
  * Entities within the opaque buckets are sorted front to back and entities within the transparent buckets are sorted
  * back to front.
  */
-export { mod_RenderQueue as RenderQueue };
+exports.RenderQueue = mod_RenderQueue;

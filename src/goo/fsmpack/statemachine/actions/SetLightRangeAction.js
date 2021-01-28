@@ -1,11 +1,19 @@
-var mod_SetLightRangeAction = SetLightRangeAction;
-import { Action as Action_Action } from "./Action";
+'use strict';
 
-function SetLightRangeAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetLightRangeAction = undefined;
+
+var _Action = require('./Action');
+
+var mod_SetLightRangeAction = SetLightRangeAction;
+
+function SetLightRangeAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-SetLightRangeAction.prototype = Object.create(Action_Action.prototype);
+SetLightRangeAction.prototype = Object.create(_Action.Action.prototype);
 SetLightRangeAction.prototype.constructor = SetLightRangeAction;
 
 SetLightRangeAction.prototype.configure = function (settings) {
@@ -40,13 +48,11 @@ SetLightRangeAction.external = {
 	transitions: []
 };
 
-SetLightRangeAction.prototype.enter = function (/*fsm*/) {
+SetLightRangeAction.prototype.enter = function () /*fsm*/{
 	var entity = this.entity;
-	if (entity &&
-		entity.lightComponent &&
-		entity.lightComponent.light) {
+	if (entity && entity.lightComponent && entity.lightComponent.light) {
 		entity.lightComponent.light.range = this.range;
 	}
 };
 
-export { mod_SetLightRangeAction as SetLightRangeAction };
+exports.SetLightRangeAction = mod_SetLightRangeAction;

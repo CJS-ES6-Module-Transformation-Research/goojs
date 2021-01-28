@@ -1,19 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ShakeAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var _Easing = require("../../../util/Easing");
+
 var mod_ShakeAction = ShakeAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
-import { MathUtils as MathUtils_MathUtils } from "../../../math/MathUtils";
-import { Easing as Easing_Easing } from "../../../util/Easing";
 
-function ShakeAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+function ShakeAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 
-	this.oldVal = new Vector3_Vector3();
-	this.target = new Vector3_Vector3();
-	this.vel = new Vector3_Vector3();
+	this.oldVal = new _Vector.Vector3();
+	this.target = new _Vector.Vector3();
+	this.vel = new _Vector.Vector3();
 	this.completed = false;
 }
 
-ShakeAction.prototype = Object.create(Action_Action.prototype);
+ShakeAction.prototype = Object.create(_Action.Action.prototype);
 ShakeAction.prototype.constructor = ShakeAction;
 
 ShakeAction.external = {
@@ -68,14 +79,14 @@ ShakeAction.prototype.configure = function (settings) {
 	this.endLevel = settings.endLevel;
 	this.time = settings.time;
 	this.speed = { Fast: 1, Medium: 2, Slow: 4 }[settings.speed];
-	this.easing = Easing_Easing.Quadratic.InOut;
+	this.easing = _Easing.Easing.Quadratic.InOut;
 	this.eventToEmit = settings.transitions.complete;
 };
 
 ShakeAction.prototype.enter = function (fsm) {
-	this.oldVal.set(Vector3_Vector3.ZERO);
-	this.target.set(Vector3_Vector3.ZERO);
-	this.vel.set(Vector3_Vector3.ZERO);
+	this.oldVal.set(_Vector.Vector3.ZERO);
+	this.target.set(_Vector.Vector3.ZERO);
+	this.vel.set(_Vector.Vector3.ZERO);
 	this.iter = 0;
 	this.startTime = fsm.getTime();
 	this.completed = false;
@@ -92,24 +103,16 @@ ShakeAction.prototype.update = function (fsm) {
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
 	var fT = this.easing(t);
 
-	var level = MathUtils_MathUtils.lerp(fT, this.startLevel, this.endLevel);
+	var level = _MathUtils.MathUtils.lerp(fT, this.startLevel, this.endLevel);
 
 	this.iter++;
 	if (this.iter > this.speed) {
 		this.iter = 0;
 
-		this.target.setDirect(
-			-this.oldVal.x + (Math.random() - 0.5) * level * 2,
-			-this.oldVal.y + (Math.random() - 0.5) * level * 2,
-			-this.oldVal.z + (Math.random() - 0.5) * level * 2
-		);
+		this.target.setDirect(-this.oldVal.x + (Math.random() - 0.5) * level * 2, -this.oldVal.y + (Math.random() - 0.5) * level * 2, -this.oldVal.z + (Math.random() - 0.5) * level * 2);
 	}
 
-	this.vel.setDirect(
-		this.vel.x * 0.98 + (this.target.x) * 0.1,
-		this.vel.y * 0.98 + (this.target.y) * 0.1,
-		this.vel.z * 0.98 + (this.target.z) * 0.1
-	);
+	this.vel.setDirect(this.vel.x * 0.98 + this.target.x * 0.1, this.vel.y * 0.98 + this.target.y * 0.1, this.vel.z * 0.98 + this.target.z * 0.1);
 
 	translation.add(this.vel).sub(this.oldVal);
 	this.oldVal.copy(this.vel);
@@ -123,4 +126,4 @@ ShakeAction.prototype.update = function (fsm) {
 	}
 };
 
-export { mod_ShakeAction as ShakeAction };
+exports.ShakeAction = mod_ShakeAction;

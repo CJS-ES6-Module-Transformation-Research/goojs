@@ -1,11 +1,19 @@
-var mod_ShowAction = ShowAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function ShowAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ShowAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var mod_ShowAction = ShowAction;
+
+function ShowAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-ShowAction.prototype = Object.create(Action_Action.prototype);
+ShowAction.prototype = Object.create(_Action.Action.prototype);
 ShowAction.prototype.constructor = ShowAction;
 
 ShowAction.external = {
@@ -22,4 +30,4 @@ ShowAction.prototype.enter = function (fsm) {
 	entity.show();
 };
 
-export { mod_ShowAction as ShowAction };
+exports.ShowAction = mod_ShowAction;

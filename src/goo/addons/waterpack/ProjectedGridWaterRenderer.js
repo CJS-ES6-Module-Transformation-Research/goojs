@@ -1,17 +1,38 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ProjectedGridWaterRenderer = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Shader = require("../../renderer/Shader");
+
+var _Camera = require("../../renderer/Camera");
+
+var _Plane = require("../../math/Plane");
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
+var _FullscreenPass = require("../../renderer/pass/FullscreenPass");
+
+var _Vector = require("../../math/Vector3");
+
+var _Vector2 = require("../../math/Vector4");
+
+var _Material = require("../../renderer/Material");
+
+var _Texture = require("../../renderer/Texture");
+
+var _TextureCreator = require("../../renderer/TextureCreator");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _ShaderFragment = require("../../renderer/shaders/ShaderFragment");
+
 var mod_ProjectedGridWaterRenderer = ProjectedGridWaterRenderer;
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
-import { Shader as Shader_Shader } from "../../renderer/Shader";
-import { Camera as Camera_Camera } from "../../renderer/Camera";
-import { Plane as Plane_Plane } from "../../math/Plane";
-import { RenderTarget as RenderTarget_RenderTarget } from "../../renderer/pass/RenderTarget";
-import { FullscreenPass as FullscreenPass_FullscreenPass } from "../../renderer/pass/FullscreenPass";
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
-import { Vector4 as Vector4_Vector4 } from "../../math/Vector4";
-import { Material as Material_Material } from "../../renderer/Material";
-import { Texture as Texture_Texture } from "../../renderer/Texture";
-import { TextureCreator as TextureCreator_TextureCreator } from "../../renderer/TextureCreator";
-import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
-import { ShaderFragment as ShaderFragment_ShaderFragment } from "../../renderer/shaders/ShaderFragment";
+
 
 /**
  * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
@@ -19,29 +40,29 @@ import { ShaderFragment as ShaderFragment_ShaderFragment } from "../../renderer/
  * @param {boolean} [settings.divider=1] Resolution divider for reflection/refraction
  */
 function ProjectedGridWaterRenderer(settings) {
-	this.waterCamera = new Camera_Camera(45, 1, 0.1, 2000);
+	this.waterCamera = new _Camera.Camera(45, 1, 0.1, 2000);
 	this.renderList = [];
 
-	this.waterPlane = new Plane_Plane();
+	this.waterPlane = new _Plane.Plane();
 
 	settings = settings || {};
 
 	var width = window.innerWidth / (settings.divider || 4);
 	var height = window.innerHeight / (settings.divider || 4);
-	this.renderTarget = new RenderTarget_RenderTarget(width, height);
+	this.renderTarget = new _RenderTarget.RenderTarget(width, height);
 	width = window.innerWidth / (settings.divider || 1);
 	height = window.innerHeight / (settings.divider || 1);
-	this.heightTarget = new RenderTarget_RenderTarget(width, height, {
+	this.heightTarget = new _RenderTarget.RenderTarget(width, height, {
 		type: 'Float'
 	});
-	this.normalTarget = new RenderTarget_RenderTarget(width, height, {
+	this.normalTarget = new _RenderTarget.RenderTarget(width, height, {
 		// type: 'Float'
 	});
 
-	this.fullscreenPass = new FullscreenPass_FullscreenPass(ShaderLib_ShaderLib.normalmap);
+	this.fullscreenPass = new _FullscreenPass.FullscreenPass(_ShaderLib.ShaderLib.normalmap);
 	this.fullscreenPass.material.shader.uniforms.resolution = [width, height];
 
-	var waterMaterial = this.waterMaterial = new Material_Material(waterShaderDef, 'WaterMaterial');
+	var waterMaterial = this.waterMaterial = new _Material.Material(waterShaderDef, 'WaterMaterial');
 	waterMaterial.cullState.enabled = false;
 
 	var texture = null;
@@ -49,12 +70,12 @@ function ProjectedGridWaterRenderer(settings) {
 		texture = settings.normalsTexture;
 	} else if (settings.normalsUrl) {
 		var normalsTextureUrl = settings.normalsUrl || '../resources/water/waternormals3.png';
-		new TextureCreator_TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
+		new _TextureCreator.TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
 			waterMaterial.setTexture('NORMAL_MAP', texture);
 		});
 	} else {
 		var flatNormalData = new Uint8Array([127, 127, 255, 255]);
-		texture = new Texture_Texture(flatNormalData, null, 1, 1);
+		texture = new _Texture.Texture(flatNormalData, null, 1, 1);
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	}
 	waterMaterial.setTexture('REFLECTION_MAP', this.renderTarget);
@@ -67,25 +88,20 @@ function ProjectedGridWaterRenderer(settings) {
 	// materialWire.wireframe = true;
 	// materialWire.wireframeColor = [0, 0, 0];
 
-	this.calcVect = new Vector3_Vector3();
-	this.camReflectDir = new Vector3_Vector3();
-	this.camReflectUp = new Vector3_Vector3();
-	this.camReflectLeft = new Vector3_Vector3();
-	this.camLocation = new Vector3_Vector3();
-	this.camReflectPos = new Vector3_Vector3();
+	this.calcVect = new _Vector.Vector3();
+	this.camReflectDir = new _Vector.Vector3();
+	this.camReflectUp = new _Vector.Vector3();
+	this.camReflectLeft = new _Vector.Vector3();
+	this.camLocation = new _Vector.Vector3();
+	this.camReflectPos = new _Vector.Vector3();
 
 	this.waterEntity = null;
-	this.clipPlane = new Vector4_Vector4();
+	this.clipPlane = new _Vector2.Vector4();
 
-	var projData = this.projData = new MeshData_MeshData(MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]), 4, 6);
-	projData.getAttributeBuffer(MeshData_MeshData.POSITION).set([
-		0, 0, 0,
-		1, 0, 0,
-		1, 1, 0,
-		0, 1, 0
-	]);
+	var projData = this.projData = new _MeshData.MeshData(_MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]), 4, 6);
+	projData.getAttributeBuffer(_MeshData.MeshData.POSITION).set([0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0]);
 	projData.getIndexBuffer().set([1, 3, 0, 2, 3, 1]);
-	var materialProj = new Material_Material(projShaderDef, 'mat');
+	var materialProj = new _Material.Material(projShaderDef, 'mat');
 	this.projRenderable = {
 		meshData: projData,
 		materials: [materialProj]
@@ -93,7 +109,7 @@ function ProjectedGridWaterRenderer(settings) {
 }
 
 ProjectedGridWaterRenderer.prototype.updateHelper = function (intersectBottomLeft, intersectBottomRight, intersectTopRight, intersectTopLeft) {
-	var vbuf = this.projData.getAttributeBuffer(MeshData_MeshData.POSITION);
+	var vbuf = this.projData.getAttributeBuffer(_MeshData.MeshData.POSITION);
 	vbuf[0] = intersectBottomLeft.x / intersectBottomLeft.w;
 	vbuf[1] = 0.0;
 	vbuf[2] = intersectBottomLeft.z / intersectBottomLeft.w;
@@ -218,40 +234,30 @@ ProjectedGridWaterRenderer.prototype.setWaterEntity = function (entity) {
 var waterShaderDef = {
 	attributes: {
 		//vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData_MeshData.TEXCOORD0
+		vertexUV0: _MeshData.MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader_Shader.VIEW_MATRIX,
-		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader_Shader.WORLD_MATRIX,
-		normalMatrix: Shader_Shader.NORMAL_MATRIX,
-		cameraPosition: Shader_Shader.CAMERA,
+		viewMatrix: _Shader.Shader.VIEW_MATRIX,
+		projectionMatrix: _Shader.Shader.PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX,
+		normalMatrix: _Shader.Shader.NORMAL_MATRIX,
+		cameraPosition: _Shader.Shader.CAMERA,
 		normalMap: 'NORMAL_MAP',
 		reflection: 'REFLECTION_MAP',
 		bump: 'BUMP_MAP',
 		normalMapCoarse: 'NORMAL_MAP_COARSE',
-		vertexNormal: [
-			0, -1, 0
-		],
-		vertexTangent: [
-			1, 0, 0, 1
-		],
-		waterColor: [
-			15, 15, 15
-		],
+		vertexNormal: [0, -1, 0],
+		vertexTangent: [1, 0, 0, 1],
+		waterColor: [15, 15, 15],
 		abovewater: true,
-		fogColor: [
-			1.0, 1.0, 1.0, 1.0
-		],
-		sunDirection: [
-			0.66, -0.1, 0.66
-		],
+		fogColor: [1.0, 1.0, 1.0, 1.0],
+		sunDirection: [0.66, -0.1, 0.66],
 		coarseStrength: 0.25,
 		detailStrength: 2.0,
 		fogStart: 0.0,
-		camNear: Shader_Shader.NEAR_PLANE,
-		camFar: Shader_Shader.FAR_PLANE,
-		time: Shader_Shader.TIME,
+		camNear: _Shader.Shader.NEAR_PLANE,
+		camFar: _Shader.Shader.FAR_PLANE,
+		time: _Shader.Shader.TIME,
 		intersectBottomLeft: [0, 0, 0, 0],
 		intersectTopLeft: [0, 0, 0, 0],
 		intersectTopRight: [0, 0, 0, 0],
@@ -262,251 +268,77 @@ var waterShaderDef = {
 		//screenSize: [1, 1]
 	},
 	vshader: [
-		//'attribute vec3 vertexPosition;',
-		'attribute vec2 vertexUV0;',
+	//'attribute vec3 vertexPosition;',
+	'attribute vec2 vertexUV0;', 'uniform vec3 vertexNormal;', 'uniform vec4 vertexTangent;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform mat3 normalMatrix;', 'uniform vec3 cameraPosition;', 'uniform float time;', 'uniform vec3 sunDirection;', 'uniform float coarseStrength;', 'uniform float heightMultiplier;',
+	//'uniform vec2 screenSize;',
 
-		'uniform vec3 vertexNormal;',
-		'uniform vec4 vertexTangent;',
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-		'uniform mat3 normalMatrix;',
-		'uniform vec3 cameraPosition;',
-		'uniform float time;',
-		'uniform vec3 sunDirection;',
-		'uniform float coarseStrength;',
-		'uniform float heightMultiplier;',
-		//'uniform vec2 screenSize;',
+	'uniform sampler2D bump;', 'uniform vec4 intersectBottomLeft;', 'uniform vec4 intersectTopLeft;', 'uniform vec4 intersectTopRight;', 'uniform vec4 intersectBottomRight;', 'varying vec2 texCoord0;', 'varying vec2 texCoord1;', 'varying vec3 eyeVec;', 'varying vec3 sunDir;', 'varying vec4 viewCoords;', 'varying vec3 worldPos;', 'varying vec3 normal;',
 
-		'uniform sampler2D bump;',
+	// ShaderFragment.features.noise3d,
 
-		'uniform vec4 intersectBottomLeft;',
-		'uniform vec4 intersectTopLeft;',
-		'uniform vec4 intersectTopRight;',
-		'uniform vec4 intersectBottomRight;',
+	'void main(void) {', '	vec4 pointTop = mix(intersectTopLeft, intersectTopRight, vertexUV0.x);', '	vec4 pointBottom = mix(intersectBottomLeft, intersectBottomRight, vertexUV0.x);', '	vec4 pointFinal = mix(pointTop, pointBottom, 1.0 - vertexUV0.y);', '	pointFinal.xz /= pointFinal.w;', '	pointFinal.y = 0.0;', '	vec4 screenpos = projectionMatrix * viewMatrix * worldMatrix * vec4(pointFinal.xyz, 1.0);', '	vec2 projCoord = screenpos.xy / screenpos.q;', '	projCoord = (projCoord + 1.0) * 0.5;',
 
-		'varying vec2 texCoord0;',
-		'varying vec2 texCoord1;',
-		'varying vec3 eyeVec;',
-		'varying vec3 sunDir;',
-		'varying vec4 viewCoords;',
-		'varying vec3 worldPos;',
-		'varying vec3 normal;',
+	// '	float height1 = texture2D(bump, projCoord + vec2(-2.0, 0.0)/screenSize).x;',
+	// '	float height2 = texture2D(bump, projCoord + vec2(2.0, 0.0)/screenSize).x;',
+	// '	float height3 = texture2D(bump, projCoord + vec2(0.0, -2.0)/screenSize).x;',
+	// '	float height4 = texture2D(bump, projCoord + vec2(0.0, 2.0)/screenSize).x;',
+	// '	vec3 vec12 = vec3(2.0, height2-height1, 0.0);',
+	// '	vec3 vec13 = vec3(0.0, height4-height3, 2.0);',
+	// '	normal = normalize(cross(vec12, vec13) * vec3(coarseStrength, 1.0, coarseStrength));',
 
-		// ShaderFragment.features.noise3d,
+	// '	float height = texture2D(bump, (pointFinal.xz) * 0.0002 + time * 0.002).x;',
+	'	float height = texture2D(bump, projCoord).x;', '	pointFinal.y = height * heightMultiplier;', '	texCoord1 = vertexUV0;', '	vec4 pos = worldMatrix * vec4(pointFinal.xyz, 1.0);', '	worldPos = pos.xyz;',
+	// '	worldPos = (worldMatrix * vec4(vertexPosition, 1.0)).xyz;',
 
-		'void main(void) {',
-		'	vec4 pointTop = mix(intersectTopLeft, intersectTopRight, vertexUV0.x);',
-		'	vec4 pointBottom = mix(intersectBottomLeft, intersectBottomRight, vertexUV0.x);',
-		'	vec4 pointFinal = mix(pointTop, pointBottom, 1.0 - vertexUV0.y);',
-		'	pointFinal.xz /= pointFinal.w;',
-		'	pointFinal.y = 0.0;',
-
-		'	vec4 screenpos = projectionMatrix * viewMatrix * worldMatrix * vec4(pointFinal.xyz, 1.0);',
-		'	vec2 projCoord = screenpos.xy / screenpos.q;',
-		'	projCoord = (projCoord + 1.0) * 0.5;',
-
-		// '	float height1 = texture2D(bump, projCoord + vec2(-2.0, 0.0)/screenSize).x;',
-		// '	float height2 = texture2D(bump, projCoord + vec2(2.0, 0.0)/screenSize).x;',
-		// '	float height3 = texture2D(bump, projCoord + vec2(0.0, -2.0)/screenSize).x;',
-		// '	float height4 = texture2D(bump, projCoord + vec2(0.0, 2.0)/screenSize).x;',
-		// '	vec3 vec12 = vec3(2.0, height2-height1, 0.0);',
-		// '	vec3 vec13 = vec3(0.0, height4-height3, 2.0);',
-		// '	normal = normalize(cross(vec12, vec13) * vec3(coarseStrength, 1.0, coarseStrength));',
-
-		// '	float height = texture2D(bump, (pointFinal.xz) * 0.0002 + time * 0.002).x;',
-		'	float height = texture2D(bump, projCoord).x;',
-		'	pointFinal.y = height * heightMultiplier;',
-
-		'	texCoord1 = vertexUV0;',
-
-        '	vec4 pos = worldMatrix * vec4(pointFinal.xyz, 1.0);',
-		'	worldPos = pos.xyz;',
-		// '	worldPos = (worldMatrix * vec4(vertexPosition, 1.0)).xyz;',
-
-		'	texCoord0 = worldPos.xz * 2.0;',
-
-		'	vec3 n = normalize(normalMatrix * vertexNormal);',
-		'	vec3 t = normalize(normalMatrix * vertexTangent.xyz);',
-		'	vec3 b = cross(n, t) * vertexTangent.w;',
-		'	mat3 rotMat = mat3(t, b, n);',
-
-		'	vec3 eyeDir = worldPos - cameraPosition;',
-		'	eyeVec = eyeDir * rotMat;',
-
-		'	sunDir = sunDirection * rotMat;',
-
-		'	viewCoords = projectionMatrix * viewMatrix * pos;',
-		'	gl_Position = viewCoords;',
-		'}'//
+	'	texCoord0 = worldPos.xz * 2.0;', '	vec3 n = normalize(normalMatrix * vertexNormal);', '	vec3 t = normalize(normalMatrix * vertexTangent.xyz);', '	vec3 b = cross(n, t) * vertexTangent.w;', '	mat3 rotMat = mat3(t, b, n);', '	vec3 eyeDir = worldPos - cameraPosition;', '	eyeVec = eyeDir * rotMat;', '	sunDir = sunDirection * rotMat;', '	viewCoords = projectionMatrix * viewMatrix * pos;', '	gl_Position = viewCoords;', '}' //
 	].join('\n'),
-	fshader: [
-		'uniform sampler2D normalMap;',
-		'uniform sampler2D reflection;',
-		'uniform sampler2D normalMapCoarse;',
+	fshader: ['uniform sampler2D normalMap;', 'uniform sampler2D reflection;', 'uniform sampler2D normalMapCoarse;', 'uniform vec3 waterColor;', 'uniform bool abovewater;', 'uniform vec4 fogColor;', 'uniform float time;', 'uniform bool grid;', 'uniform vec2 density;', 'uniform float camNear;', 'uniform float camFar;', 'uniform float fogStart;', 'uniform float coarseStrength;', 'uniform float detailStrength;', 'varying vec2 texCoord0;', 'varying vec2 texCoord1;', 'varying vec3 eyeVec;', 'varying vec3 sunDir;', 'varying vec4 viewCoords;', 'varying vec3 worldPos;', 'varying vec3 normal;', 'const vec3 sunColor = vec3(1.0, 0.96, 0.96);', 'vec4 getNoise(vec2 uv) {', '    vec2 uv0 = (uv/123.0)+vec2(time/17.0, time/29.0);', '    vec2 uv1 = uv/127.0-vec2(time/-19.0, time/31.0);', '    vec2 uv2 = uv/vec2(897.0, 983.0)+vec2(time/51.0, time/47.0);', '    vec2 uv3 = uv/vec2(991.0, 877.0)-vec2(time/59.0, time/-63.0);', '    vec4 noise = (texture2D(normalMap, uv0)) +', '                 (texture2D(normalMap, uv1)) +', '                 (texture2D(normalMap, uv2)*3.0) +', '                 (texture2D(normalMap, uv3)*3.0);', '    return noise/4.0-1.0;', '}', 'void main(void)', '{', '	vec2 projCoord = viewCoords.xy / viewCoords.q;', '	projCoord = (projCoord + 1.0) * 0.5;', '	float fs = camFar * fogStart;', '	float fogDist = clamp(max(viewCoords.z - fs, 0.0)/(camFar - camNear - fs), 0.0, 1.0);', '	vec3 coarseNormal = texture2D(normalMapCoarse, projCoord).xyz * 2.0 - 1.0;', '	vec2 normCoords = texCoord0;', '	vec4 noise = getNoise(normCoords);', '	vec3 normalVector = normalize(noise.xyz * vec3(1.8 * detailStrength, 1.8 * detailStrength, 1.0) + coarseNormal.xyz * vec3(1.8 * coarseStrength, 1.8 * coarseStrength, 1.0));',
+	// '	vec3 normalVector = vec3(0.0, 0.0, 1.0);',
 
-		'uniform vec3 waterColor;',
-		'uniform bool abovewater;',
-		'uniform vec4 fogColor;',
-		'uniform float time;',
-		'uniform bool grid;',
-		'uniform vec2 density;',
+	'	vec3 localView = normalize(eyeVec);', '	float fresnel = dot(normalize(normalVector*vec3(1.0, 1.0, 1.0)), localView);', '	if ( abovewater == false ) {', '		fresnel = -fresnel;', '	}',
+	// '	fresnel *= 1.0 - fogDist;',
+	'	float fresnelTerm = 1.0 - fresnel;', '	fresnelTerm *= fresnelTerm;', '	fresnelTerm *= fresnelTerm;',
+	// '	fresnelTerm *= fresnelTerm;',
+	// '	fresnelTerm *= fresnelTerm;',
+	'	fresnelTerm = fresnelTerm * 0.95 + 0.05;', '	if ( abovewater == true ) {', '		projCoord.x = 1.0 - projCoord.x;', '	}',
 
-		'uniform float camNear;',
-		'uniform float camFar;',
-		'uniform float fogStart;',
-		'uniform float coarseStrength;',
-		'uniform float detailStrength;',
+	// '	projCoord += (dudvColor.xy * 0.5 + normalVector.xy * 0.0);',
+	'	projCoord += (normalVector.xy * 0.05);',
+	// '	projCoord += (normalVector.xy * 0.04 + normal.xy);',
+	'	projCoord = clamp(projCoord, 0.001, 0.999);', ' vec4 waterColorX = vec4(waterColor / 255.0, 1.0);', '	vec4 reflectionColor = texture2D(reflection, projCoord);', '	if ( abovewater == false ) {', '		reflectionColor *= vec4(0.8,0.9,1.0,1.0);', '		vec4 endColor = mix(reflectionColor,waterColorX,fresnelTerm);', '		gl_FragColor = mix(endColor,waterColorX,fogDist);', '	}', '	else {', '		vec3 diffuse = vec3(0.0);', '		vec3 specular = vec3(0.0);',
+	// '	    sunLight(normalVector, localView, 100.0, 2.0, 0.4, diffuse, specular);',
 
-		'varying vec2 texCoord0;',
-		'varying vec2 texCoord1;',
-		'varying vec3 eyeVec;',
-		'varying vec3 sunDir;',
-		'varying vec4 viewCoords;',
-		'varying vec3 worldPos;',
-		'varying vec3 normal;',
+	'		vec3 sunreflection = normalize(reflect(-sunDir, normalVector));', '		float direction = max(0.0, dot(localView, sunreflection));', '		specular += pow(direction, 100.0)*sunColor * 2.0;', '		diffuse += max(dot(sunDir, normalVector),0.0)*sunColor*0.4;', '		vec4 endColor = mix(waterColorX,reflectionColor,fresnelTerm);', '		gl_FragColor = mix(vec4(diffuse*0.0 + specular, 1.0) + mix(endColor,reflectionColor,fogDist), fogColor, fogDist);',
+	// '		gl_FragColor = vec4(diffuse + specular, 1.0);',
+	'	}',
 
-		'const vec3 sunColor = vec3(1.0, 0.96, 0.96);',
-
-		'vec4 getNoise(vec2 uv) {',
-		'    vec2 uv0 = (uv/123.0)+vec2(time/17.0, time/29.0);',
-		'    vec2 uv1 = uv/127.0-vec2(time/-19.0, time/31.0);',
-		'    vec2 uv2 = uv/vec2(897.0, 983.0)+vec2(time/51.0, time/47.0);',
-		'    vec2 uv3 = uv/vec2(991.0, 877.0)-vec2(time/59.0, time/-63.0);',
-		'    vec4 noise = (texture2D(normalMap, uv0)) +',
-		'                 (texture2D(normalMap, uv1)) +',
-		'                 (texture2D(normalMap, uv2)*3.0) +',
-		'                 (texture2D(normalMap, uv3)*3.0);',
-		'    return noise/4.0-1.0;',
-		'}',
-
-		'void main(void)',
-		'{',
-		'	vec2 projCoord = viewCoords.xy / viewCoords.q;',
-		'	projCoord = (projCoord + 1.0) * 0.5;',
-
-		'	float fs = camFar * fogStart;',
-		'	float fogDist = clamp(max(viewCoords.z - fs, 0.0)/(camFar - camNear - fs), 0.0, 1.0);',
-
-		'	vec3 coarseNormal = texture2D(normalMapCoarse, projCoord).xyz * 2.0 - 1.0;',
-
-		'	vec2 normCoords = texCoord0;',
-		'	vec4 noise = getNoise(normCoords);',
-		'	vec3 normalVector = normalize(noise.xyz * vec3(1.8 * detailStrength, 1.8 * detailStrength, 1.0) + coarseNormal.xyz * vec3(1.8 * coarseStrength, 1.8 * coarseStrength, 1.0));',
-		// '	vec3 normalVector = vec3(0.0, 0.0, 1.0);',
-
-		'	vec3 localView = normalize(eyeVec);',
-		'	float fresnel = dot(normalize(normalVector*vec3(1.0, 1.0, 1.0)), localView);',
-		'	if ( abovewater == false ) {',
-		'		fresnel = -fresnel;',
-		'	}',
-		// '	fresnel *= 1.0 - fogDist;',
-		'	float fresnelTerm = 1.0 - fresnel;',
-		'	fresnelTerm *= fresnelTerm;',
-		'	fresnelTerm *= fresnelTerm;',
-		// '	fresnelTerm *= fresnelTerm;',
-		// '	fresnelTerm *= fresnelTerm;',
-		'	fresnelTerm = fresnelTerm * 0.95 + 0.05;',
-
-		'	if ( abovewater == true ) {',
-		'		projCoord.x = 1.0 - projCoord.x;',
-		'	}',
-
-		// '	projCoord += (dudvColor.xy * 0.5 + normalVector.xy * 0.0);',
-		'	projCoord += (normalVector.xy * 0.05);',
-		// '	projCoord += (normalVector.xy * 0.04 + normal.xy);',
-		'	projCoord = clamp(projCoord, 0.001, 0.999);',
-
-		' vec4 waterColorX = vec4(waterColor / 255.0, 1.0);',
-
-		'	vec4 reflectionColor = texture2D(reflection, projCoord);',
-		'	if ( abovewater == false ) {',
-		'		reflectionColor *= vec4(0.8,0.9,1.0,1.0);',
-		'		vec4 endColor = mix(reflectionColor,waterColorX,fresnelTerm);',
-		'		gl_FragColor = mix(endColor,waterColorX,fogDist);',
-		'	}',
-		'	else {',
-		'		vec3 diffuse = vec3(0.0);',
-		'		vec3 specular = vec3(0.0);',
-		// '	    sunLight(normalVector, localView, 100.0, 2.0, 0.4, diffuse, specular);',
-
-		'		vec3 sunreflection = normalize(reflect(-sunDir, normalVector));',
-		'		float direction = max(0.0, dot(localView, sunreflection));',
-		'		specular += pow(direction, 100.0)*sunColor * 2.0;',
-		'		diffuse += max(dot(sunDir, normalVector),0.0)*sunColor*0.4;',
-
-		'		vec4 endColor = mix(waterColorX,reflectionColor,fresnelTerm);',
-		'		gl_FragColor = mix(vec4(diffuse*0.0 + specular, 1.0) + mix(endColor,reflectionColor,fogDist), fogColor, fogDist);',
-		// '		gl_FragColor = vec4(diffuse + specular, 1.0);',
-		'	}',
-
-		// '	gl_FragColor = vec4(normalVector * 0.5 + 0.5, 1.0);',
-		// '	gl_FragColor = vec4((coarseNormal * vec3(1.8 * coarseStrength, 1.8 * coarseStrength, 1.0)) * 0.5 + 0.5, 1.0);',
-		// draw grid helper
-		'	if (grid) {',
-		'		vec2 low = abs(fract(texCoord1*density)-0.5);',
-		'		float dist = 1.0 - step(min(low.x, low.y), 0.05);',
-		'		gl_FragColor *= vec4(dist);',
-		'	}',
-		'}'
-	].join('\n')
+	// '	gl_FragColor = vec4(normalVector * 0.5 + 0.5, 1.0);',
+	// '	gl_FragColor = vec4((coarseNormal * vec3(1.8 * coarseStrength, 1.8 * coarseStrength, 1.0)) * 0.5 + 0.5, 1.0);',
+	// draw grid helper
+	'	if (grid) {', '		vec2 low = abs(fract(texCoord1*density)-0.5);', '		float dist = 1.0 - step(min(low.x, low.y), 0.05);', '		gl_FragColor *= vec4(dist);', '	}', '}'].join('\n')
 };
 
 var projShaderDef = {
 	attributes: {
-		vertexPosition: MeshData_MeshData.POSITION
+		vertexPosition: _MeshData.MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader_Shader.VIEW_MATRIX,
-		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader_Shader.WORLD_MATRIX,
+		viewMatrix: _Shader.Shader.VIEW_MATRIX,
+		projectionMatrix: _Shader.Shader.PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX,
 		//diffuseMap: Shader.TEXTURE0,
 		//camNear: Shader.NEAR_PLANE,
 		//camFar: Shader.FAR_PLANE,
-		time: Shader_Shader.TIME
+		time: _Shader.Shader.TIME
 	},
-	vshader: [
-	'attribute vec3 vertexPosition;',
-
-	'uniform mat4 viewMatrix;',
-	'uniform mat4 projectionMatrix;',
-	'uniform mat4 worldMatrix;',
-
-	'varying vec4 worldPos;',
-	'varying vec4 viewCoords;',
-
-	'void main(void) {',
-	'	worldPos = worldMatrix * vec4(vertexPosition, 1.0);',
-	'	viewCoords = viewMatrix * worldPos;',
-	'	gl_Position = projectionMatrix * viewMatrix * worldPos;',
-	'}'//
+	vshader: ['attribute vec3 vertexPosition;', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'varying vec4 worldPos;', 'varying vec4 viewCoords;', 'void main(void) {', '	worldPos = worldMatrix * vec4(vertexPosition, 1.0);', '	viewCoords = viewMatrix * worldPos;', '	gl_Position = projectionMatrix * viewMatrix * worldPos;', '}' //
 	].join('\n'),
 	fshader: [
 	//'uniform sampler2D diffuseMap;',
 	//'uniform float opacity;',
 	//'uniform float camNear;',
 	//'uniform float camFar;',
-	'uniform float time;',
-
-	'varying vec4 worldPos;',
-	'varying vec4 viewCoords;',
-
-	ShaderFragment_ShaderFragment.noise3d,
-
-	'vec4 getNoise(sampler2D map, vec2 uv) {',
-	'    vec2 uv0 = (uv/223.0)+vec2(time/17.0, time/29.0);',
-	'    vec2 uv1 = uv/327.0-vec2(time/-19.0, time/31.0);',
-	'    vec2 uv2 = uv/vec2(697.0, 983.0)+vec2(time/151.0, time/147.0);',
-	'    vec2 uv3 = uv/vec2(791.0, 877.0)-vec2(time/259.0, time/263.0);',
-	'    vec4 noise = (texture2D(map, uv0)*0.0) +',
-	'                 (texture2D(map, uv1)*0.0) +',
-	'                 (texture2D(map, uv2)*0.0) +',
-	'                 (texture2D(map, uv3)*10.0);',
-	'    return noise/5.0-1.0;',
-	'}',
-
-	'void main(void)',
-	'{',
+	'uniform float time;', 'varying vec4 worldPos;', 'varying vec4 viewCoords;', _ShaderFragment.ShaderFragment.noise3d, 'vec4 getNoise(sampler2D map, vec2 uv) {', '    vec2 uv0 = (uv/223.0)+vec2(time/17.0, time/29.0);', '    vec2 uv1 = uv/327.0-vec2(time/-19.0, time/31.0);', '    vec2 uv2 = uv/vec2(697.0, 983.0)+vec2(time/151.0, time/147.0);', '    vec2 uv3 = uv/vec2(791.0, 877.0)-vec2(time/259.0, time/263.0);', '    vec4 noise = (texture2D(map, uv0)*0.0) +', '                 (texture2D(map, uv1)*0.0) +', '                 (texture2D(map, uv2)*0.0) +', '                 (texture2D(map, uv3)*10.0);', '    return noise/5.0-1.0;', '}', 'void main(void)', '{',
 	//'	float fs = camFar * 0.5;',
 	// '	float fogDist = clamp(max(viewCoords.z - fs, 0.0)/(camFar - camNear - fs), 0.0, 1.0);',
 	'	float fogDist = clamp(-viewCoords.z / 1000.0, 0.0, 1.0);',
@@ -515,8 +347,7 @@ var projShaderDef = {
 
 	// '	vec4 noise = getNoise(diffuseMap, worldPos.xz * 1.0);',
 	// '	gl_FragColor = noise;',
-	'	gl_FragColor = vec4((snoise(vec3(worldPos.xz * 0.008, time * 0.4))+snoise(vec3(worldPos.xz * 0.02, time * 0.8))*0.5)/10.0);',
-	'}'//
+	'	gl_FragColor = vec4((snoise(vec3(worldPos.xz * 0.008, time * 0.4))+snoise(vec3(worldPos.xz * 0.02, time * 0.8))*0.5)/10.0);', '}' //
 	].join('\n')
 };
 
@@ -525,4 +356,4 @@ var projShaderDef = {
  * @param {Object} [settings] Water settings passed in a JSON object
  * @param {boolean} [settings.divider=1] Resolution divider for reflection/refraction
  */
-export { mod_ProjectedGridWaterRenderer as ProjectedGridWaterRenderer };
+exports.ProjectedGridWaterRenderer = mod_ProjectedGridWaterRenderer;

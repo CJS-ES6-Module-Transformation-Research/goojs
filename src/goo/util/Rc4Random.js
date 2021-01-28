@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var mod_Rc4Random = Rc4Random;
 /**
  * Rc4 random generator with seeding
@@ -48,4 +53,4 @@ function Rc4Random(seed) {
 /**
  * Rc4 random generator with seeding
  */
-export { mod_Rc4Random as Rc4Random };
+exports.Rc4Random = mod_Rc4Random;

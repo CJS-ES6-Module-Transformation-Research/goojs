@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.HingeJoint = undefined;
+
+var _PhysicsJoint = require("../../../addons/physicspack/joints/PhysicsJoint");
+
+var _Vector = require("../../../math/Vector3");
+
 var mod_HingeJoint = HingeJoint;
-import { PhysicsJoint as PhysicsJoint_PhysicsJoint } from "../../../addons/physicspack/joints/PhysicsJoint";
-import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
 
 /**
  * Physics hinge joint. To be added to a {@link RigidBodyComponent}.
@@ -12,34 +21,34 @@ import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
  * @extends PhysicsJoint
  */
 function HingeJoint(settings) {
-	settings = settings || {};
-	PhysicsJoint_PhysicsJoint.call(this, settings);
+  settings = settings || {};
+  _PhysicsJoint.PhysicsJoint.call(this, settings);
 
-	/**
-	 * A point defined locally in the entity that the Hinge should rotate around.
-	 * @type {Vector3}
-	 */
-	this.localPivot = settings.localPivot ? new Vector3_Vector3(settings.localPivot) : new Vector3_Vector3(0, 0.5, 0);
+  /**
+   * A point defined locally in the entity that the Hinge should rotate around.
+   * @type {Vector3}
+   */
+  this.localPivot = settings.localPivot ? new _Vector.Vector3(settings.localPivot) : new _Vector.Vector3(0, 0.5, 0);
 
-	/**
-	 * Automatically compute the connectedLocalPivot
-	 * @type {boolean}
-	 * @default true
-	 */
-	this.autoConfigureConnectedPivot = settings.autoConfigureConnectedPivot ? settings.autoConfigureConnectedPivot : true;
+  /**
+   * Automatically compute the connectedLocalPivot
+   * @type {boolean}
+   * @default true
+   */
+  this.autoConfigureConnectedPivot = settings.autoConfigureConnectedPivot ? settings.autoConfigureConnectedPivot : true;
 
-	/**
-	 * The pivot point defined inside the connected entity.
-	 * @type {Vector3}
-	 */
-	this.connectedLocalPivot = settings.connectedLocalPivot ? new Vector3_Vector3(settings.connectedLocalPivot) : new Vector3_Vector3();
+  /**
+   * The pivot point defined inside the connected entity.
+   * @type {Vector3}
+   */
+  this.connectedLocalPivot = settings.connectedLocalPivot ? new _Vector.Vector3(settings.connectedLocalPivot) : new _Vector.Vector3();
 
-	/**
-	 * @type {Vector3}
-	 */
-	this.localAxis = settings.localAxis ? new Vector3_Vector3(settings.localAxis) : new Vector3_Vector3(1, 0, 0);
+  /**
+   * @type {Vector3}
+   */
+  this.localAxis = settings.localAxis ? new _Vector.Vector3(settings.localAxis) : new _Vector.Vector3(1, 0, 0);
 }
-HingeJoint.prototype = Object.create(PhysicsJoint_PhysicsJoint.prototype);
+HingeJoint.prototype = Object.create(_PhysicsJoint.PhysicsJoint.prototype);
 HingeJoint.prototype.constructor = HingeJoint;
 
 /**
@@ -51,4 +60,4 @@ HingeJoint.prototype.constructor = HingeJoint;
  * @param {boolean} [settings.collideConnected=false]
  * @extends PhysicsJoint
  */
-export { mod_HingeJoint as HingeJoint };
+exports.HingeJoint = mod_HingeJoint;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var mod_AnimationClip = AnimationClip;
 /**
  * AnimationClip manages a set of animation channels as a single clip entity.
@@ -18,7 +23,7 @@ function AnimationClip(name, channels) {
  */
 AnimationClip.prototype.update = function (clockTime, instance) {
 	// Go through each channel and update clipState
-	for ( var i = 0, max = this._channels.length; i < max; ++i) {
+	for (var i = 0, max = this._channels.length; i < max; ++i) {
 		var channel = this._channels[i];
 		var applyTo = instance.getApplyTo(channel);
 		channel.updateSample(clockTime, applyTo);
@@ -55,7 +60,7 @@ AnimationClip.prototype.removeChannel = function (channel) {
  * @returns {AbstractAnimationChannel} the first channel with a name matching the given channelName, or null if no matches are found.
  */
 AnimationClip.prototype.findChannelByName = function (channelName) {
-	for ( var i = 0, max = this._channels.length; i < max; ++i) {
+	for (var i = 0, max = this._channels.length; i < max; ++i) {
 		var channel = this._channels[i];
 		if (channelName === channel._channelName) {
 			return channel;
@@ -70,7 +75,7 @@ AnimationClip.prototype.findChannelByName = function (channelName) {
 AnimationClip.prototype.updateMaxTimeIndex = function () {
 	this._maxTime = -1;
 	var max;
-	for ( var i = 0; i < this._channels.length; i++) {
+	for (var i = 0; i < this._channels.length; i++) {
 		var channel = this._channels[i];
 		max = channel.getMaxTime();
 		if (max > this._maxTime) {
@@ -80,8 +85,9 @@ AnimationClip.prototype.updateMaxTimeIndex = function () {
 };
 
 AnimationClip.prototype.toString = function () {
-	return this._name + ': '
-		+ this._channels.map(function (channel) { return channel._channelName; });
+	return this._name + ': ' + this._channels.map(function (channel) {
+		return channel._channelName;
+	});
 };
 
 /**
@@ -89,4 +95,4 @@ AnimationClip.prototype.toString = function () {
  * @param {string} name Name of joint
  * @param {Array<AbstractAnimationChannel>} [channels=[]] an array of channels to shallow copy locally.
  */
-export { mod_AnimationClip as AnimationClip };
+exports.AnimationClip = mod_AnimationClip;

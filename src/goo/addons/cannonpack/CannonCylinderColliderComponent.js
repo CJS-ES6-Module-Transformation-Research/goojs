@@ -1,5 +1,14 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CannonCylinderColliderComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 var mod_CannonCylinderColliderComponent = CannonCylinderColliderComponent;
-import { Component as Component_Component } from "../../entities/components/Component";
+
 
 /* global CANNON */
 
@@ -13,24 +22,19 @@ import { Component as Component_Component } from "../../entities/components/Comp
  * @param {number} [settings.numSegments=10]
  */
 function CannonCylinderColliderComponent(settings) {
-	Component_Component.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	settings = settings || {};
-	this.type = 'CannonCylinderColliderComponent';
+  settings = settings || {};
+  this.type = 'CannonCylinderColliderComponent';
 
-	var radiusTop = typeof settings.radiusTop === 'number' ? settings.radiusTop : 0.5;
-	var radiusBottom = typeof settings.radiusBottom === 'number' ? settings.radiusBottom : 0.5;
-	var height = typeof settings.height === 'number' ? settings.height : 1;
-	var numSegments = typeof settings.numSegments === 'number' ? settings.numSegments : 10;
+  var radiusTop = typeof settings.radiusTop === 'number' ? settings.radiusTop : 0.5;
+  var radiusBottom = typeof settings.radiusBottom === 'number' ? settings.radiusBottom : 0.5;
+  var height = typeof settings.height === 'number' ? settings.height : 1;
+  var numSegments = typeof settings.numSegments === 'number' ? settings.numSegments : 10;
 
-	this.cannonShape = new CANNON.Cylinder(
-		radiusTop,
-		radiusBottom,
-		height,
-		numSegments
-	);
+  this.cannonShape = new CANNON.Cylinder(radiusTop, radiusBottom, height, numSegments);
 }
-CannonCylinderColliderComponent.prototype = Object.create(Component_Component.prototype);
+CannonCylinderColliderComponent.prototype = Object.create(_Component.Component.prototype);
 CannonCylinderColliderComponent.constructor = CannonCylinderColliderComponent;
 
 /* global CANNON */
@@ -44,4 +48,4 @@ CannonCylinderColliderComponent.constructor = CannonCylinderColliderComponent;
  * @param {number} [settings.height=0.5]
  * @param {number} [settings.numSegments=10]
  */
-export { mod_CannonCylinderColliderComponent as CannonCylinderColliderComponent };
+exports.CannonCylinderColliderComponent = mod_CannonCylinderColliderComponent;

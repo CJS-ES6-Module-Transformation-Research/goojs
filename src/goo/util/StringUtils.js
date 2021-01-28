@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var mod_StringUtils = StringUtils;
 /**
  * Provides string manipulation methods
@@ -143,7 +148,7 @@ StringUtils.hashCode = function (str) {
 
 	for (var i = 0; i < str.length; i++) {
 		var character = str.charCodeAt(i);
-		hash = ((hash << 5) - hash) + character;
+		hash = (hash << 5) - hash + character;
 		hash &= hash; // Convert to 32bit integer
 	}
 
@@ -201,24 +206,18 @@ StringUtils.escapeHtmlEntities = function (text) {
 /**
  * @private
  */
-var splitRegExp = new RegExp(
-	'^' +
-	'(?:' +
-	'([^:/?#.]+)' +                         // scheme - ignore special characters
-	// used by other URL parts such as :,
-	// ?, /, #, and .
-	':)?' +
-	'(?://' +
-	'(?:([^/?#]*)@)?' +                     // userInfo
-	'([\\w\\d\\-\\u0100-\\uffff.%]*)' +     // domain - restrict to letters,
-	// digits, dashes, dots, percent
-	// escapes, and unicode characters.
-	'(?::([0-9]+))?' +                      // port
-	')?' +
-	'([^?#]+)?' +                           // path
-	'(?:\\?([^#]*))?' +                     // query
-	'(?:#(.*))?' +                          // fragment
-	'$');
+var splitRegExp = new RegExp('^' + '(?:' + '([^:/?#.]+)' + // scheme - ignore special characters
+// used by other URL parts such as :,
+// ?, /, #, and .
+':)?' + '(?://' + '(?:([^/?#]*)@)?' + // userInfo
+'([\\w\\d\\-\\u0100-\\uffff.%]*)' + // domain - restrict to letters,
+// digits, dashes, dots, percent
+// escapes, and unicode characters.
+'(?::([0-9]+))?' + // port
+')?' + '([^?#]+)?' + // path
+'(?:\\?([^#]*))?' + // query
+'(?:#(.*))?' + // fragment
+'$');
 
 StringUtils.parseURL = function (uri) {
 	var split = uri.match(splitRegExp);
@@ -236,4 +235,4 @@ StringUtils.parseURL = function (uri) {
 /**
  * Provides string manipulation methods
  */
-export { mod_StringUtils as StringUtils };
+exports.StringUtils = mod_StringUtils;

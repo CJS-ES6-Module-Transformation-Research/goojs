@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.JsonHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
 var mod_JsonHandler = JsonHandler;
-import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
 
 /**
  * Handler for loading json objects.
@@ -13,12 +22,12 @@ import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUti
  * @private
  */
 function JsonHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
+  _ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-JsonHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+JsonHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 JsonHandler.prototype.constructor = JsonHandler;
-ConfigHandler_ConfigHandler._registerClass('json', JsonHandler);
+_ConfigHandler.ConfigHandler._registerClass('json', JsonHandler);
 
 /**
  * Adds/updates/removes a json data object.
@@ -28,19 +37,19 @@ ConfigHandler_ConfigHandler._registerClass('json', JsonHandler);
  * @returns {RSVP.Promise} Resolves with the updated shader or null if removed
  */
 JsonHandler.prototype._update = function (ref, config) {
-	if (!config) {
-		this._remove(ref);
-		return PromiseUtils_PromiseUtils.resolve();
-	}
+  if (!config) {
+    this._remove(ref);
+    return _PromiseUtils.PromiseUtils.resolve();
+  }
 
-	var data;
-	try {
-		data = JSON.parse(config.body);
-	} catch (error) {
-		data = {};
-	}
+  var data;
+  try {
+    data = JSON.parse(config.body);
+  } catch (error) {
+    data = {};
+  }
 
-	return PromiseUtils_PromiseUtils.resolve(data);
+  return _PromiseUtils.PromiseUtils.resolve(data);
 };
 
 /**
@@ -53,4 +62,4 @@ JsonHandler.prototype._update = function (ref, config) {
  * @extends ConfigHandler
  * @private
  */
-export { mod_JsonHandler as JsonHandler };
+exports.JsonHandler = mod_JsonHandler;

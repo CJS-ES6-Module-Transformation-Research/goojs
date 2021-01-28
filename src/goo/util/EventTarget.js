@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var mod_EventTarget = EventTarget;
 /**
  * EventTarget is implemented by objects that can receive events and may have listeners for them.
@@ -97,4 +102,4 @@ EventTarget.prototype.has = function (type) {
  * }
  * MyObject.prototype = Object.create(EventTarget.prototype);
  */
-export { mod_EventTarget as EventTarget };
+exports.EventTarget = mod_EventTarget;

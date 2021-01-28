@@ -1,9 +1,21 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TransformComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _TransformComponent = require("../../entities/components/TransformComponent");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _rsvp = require("../../util/rsvp");
+
 var mod_TransformComponentHandler = TransformComponentHandler;
-import { ComponentHandler as ComponentHandler_ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { TransformComponent as TransformComponent_TransformComponent } from "../../entities/components/TransformComponent";
-import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
-import { rsvpjs as RSVP } from "../../util/rsvp";
 
 /**
  * For handling loading of transform component
@@ -14,13 +26,13 @@ import { rsvpjs as RSVP } from "../../util/rsvp";
  * @hidden
  */
 function TransformComponentHandler() {
-	ComponentHandler_ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'TransformComponent';
 }
 
-TransformComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
+TransformComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 TransformComponentHandler.prototype.constructor = TransformComponentHandler;
-ComponentHandler_ComponentHandler._registerClass('transform', TransformComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('transform', TransformComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -28,7 +40,7 @@ ComponentHandler_ComponentHandler._registerClass('transform', TransformComponent
  * @private
  */
 TransformComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils_ObjectUtils.defaults(config, {
+	return _ObjectUtils.ObjectUtils.defaults(config, {
 		translation: [0, 0, 0],
 		rotation: [0, 0, 0],
 		scale: [1, 1, 1]
@@ -42,7 +54,7 @@ TransformComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 TransformComponentHandler.prototype._create = function () {
-	return new TransformComponent_TransformComponent();
+	return new _TransformComponent.TransformComponent();
 };
 
 /**
@@ -79,11 +91,9 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		return that.loadObject(ref, options).then(function (entity) {
 			if (entity && entity.transformComponent) {
 				component.attachChild(entity.transformComponent);
-				var entityInWorld = that.world.entityManager.containsEntity(entity) ||
-					that.world._addedEntities.indexOf(entity) !== -1; //! AT: most probably not needed anymore
-					// entities are added synchronously to the managers
-				var parentInWorld = that.world.entityManager.containsEntity(component.entity) ||
-					that.world._addedEntities.indexOf(component.entity) > -1; //! AT: most probably not needed anymore
+				var entityInWorld = that.world.entityManager.containsEntity(entity) || that.world._addedEntities.indexOf(entity) !== -1; //! AT: most probably not needed anymore
+				// entities are added synchronously to the managers
+				var parentInWorld = that.world.entityManager.containsEntity(component.entity) || that.world._addedEntities.indexOf(component.entity) > -1; //! AT: most probably not needed anymore
 				// also, why the inconsistency: "!== -1" vs "> -1" ?
 
 				if (!entityInWorld && parentInWorld) {
@@ -96,7 +106,7 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		});
 	}
 
-	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) {
 			// Component was removed
 			return;
@@ -105,11 +115,7 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		// Translation
 		component.transform.translation.setDirect(config.translation[0], config.translation[1], config.translation[2]);
 		// Rotation
-		component.transform.setRotationXYZ(
-			MathUtils_MathUtils.DEG_TO_RAD * config.rotation[0],
-			MathUtils_MathUtils.DEG_TO_RAD * config.rotation[1],
-			MathUtils_MathUtils.DEG_TO_RAD * config.rotation[2]
-		);
+		component.transform.setRotationXYZ(_MathUtils.MathUtils.DEG_TO_RAD * config.rotation[0], _MathUtils.MathUtils.DEG_TO_RAD * config.rotation[1], _MathUtils.MathUtils.DEG_TO_RAD * config.rotation[2]);
 		// Scale
 		component.transform.scale.setDirect(config.scale[0], config.scale[1], config.scale[2]);
 
@@ -139,7 +145,7 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
 		}
 
 		// When all children are attached, return component
-		return RSVP.all(promises).then(function () {
+		return _rsvp.rsvpjs.all(promises).then(function () {
 			component.setUpdated();
 			return component;
 		});
@@ -154,4 +160,4 @@ TransformComponentHandler.prototype.update = function (entity, config, options) 
  * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
  * @hidden
  */
-export { mod_TransformComponentHandler as TransformComponentHandler };
+exports.TransformComponentHandler = mod_TransformComponentHandler;

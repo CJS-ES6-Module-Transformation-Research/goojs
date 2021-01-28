@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.CannonDistanceJointComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var mod_CannonDistanceJointComponent = CannonDistanceJointComponent;
-import { Component as Component_Component } from "../../entities/components/Component";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
+
 
 /* global CANNON */
 
@@ -13,29 +23,29 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
  * @param {CannonRigidbodyComponent} settings.connectedBody
  */
 function CannonDistanceJointComponent(settings) {
-	Component_Component.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	settings = settings || {};
-	this.type = 'CannonDistanceJointComponent';
+  settings = settings || {};
+  this.type = 'CannonDistanceJointComponent';
 
-	ObjectUtils_ObjectUtils.defaults(settings, {
-		distance: 1,
-		connectedBody: null
-	});
+  _ObjectUtils.ObjectUtils.defaults(settings, {
+    distance: 1,
+    connectedBody: null
+  });
 
-	this.distance = settings.distance;
-	this.connectedBody = settings.connectedBody;
+  this.distance = settings.distance;
+  this.connectedBody = settings.connectedBody;
 
-	this.cannonConstraint = null;
+  this.cannonConstraint = null;
 }
-CannonDistanceJointComponent.prototype = Object.create(Component_Component.prototype);
+CannonDistanceJointComponent.prototype = Object.create(_Component.Component.prototype);
 CannonDistanceJointComponent.constructor = CannonDistanceJointComponent;
 
 CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
-	var bodyA = entity.cannonRigidbodyComponent.body;
-	var bodyB = this.connectedBody.body;
-	this.cannonConstraint = new CANNON.DistanceConstraint(bodyA, bodyB, this.distance);
-	return this.cannonConstraint;
+  var bodyA = entity.cannonRigidbodyComponent.body;
+  var bodyB = this.connectedBody.body;
+  this.cannonConstraint = new CANNON.DistanceConstraint(bodyA, bodyB, this.distance);
+  return this.cannonConstraint;
 };
 
 /* global CANNON */
@@ -48,4 +58,4 @@ CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
  * @param {number} [settings.distance=1]
  * @param {CannonRigidbodyComponent} settings.connectedBody
  */
-export { mod_CannonDistanceJointComponent as CannonDistanceJointComponent };
+exports.CannonDistanceJointComponent = mod_CannonDistanceJointComponent;

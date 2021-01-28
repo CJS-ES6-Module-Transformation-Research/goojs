@@ -1,21 +1,32 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeMultiplyFloat = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 var mod_LogicNodeMultiplyFloat = LogicNodeMultiplyFloat;
-import { LogicLayer as LogicLayer_LogicLayer } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNode } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodes } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterface } from "./LogicInterface";
 
 /**
  * Logic node that multiplies two floats.
  * @private
  */
 function LogicNodeMultiplyFloat() {
-	LogicNode_LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeMultiplyFloat.logicInterface;
 	this.type = 'LogicNodeMultiplyFloat';
 	this._x = this._y = 0; // REVIEW: unused?
 }
 
-LogicNodeMultiplyFloat.prototype = Object.create(LogicNode_LogicNode.prototype);
+LogicNodeMultiplyFloat.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeMultiplyFloat.editorName = 'MultiplyFloat';
 
 LogicNodeMultiplyFloat.prototype.onConfigure = function (newConfig) {
@@ -25,12 +36,12 @@ LogicNodeMultiplyFloat.prototype.onConfigure = function (newConfig) {
 };
 
 LogicNodeMultiplyFloat.prototype.onInputChanged = function (instDesc) {
-	var x = LogicLayer_LogicLayer.readPort(instDesc, LogicNodeMultiplyFloat.inportX);
+	var x = _LogicLayer.LogicLayer.readPort(instDesc, LogicNodeMultiplyFloat.inportX);
 	var y = this.value;
-	LogicLayer_LogicLayer.writeValue(instDesc, LogicNodeMultiplyFloat.outportProduct, x * y);
+	_LogicLayer.LogicLayer.writeValue(instDesc, LogicNodeMultiplyFloat.outportProduct, x * y);
 };
 
-LogicNodeMultiplyFloat.logicInterface = new LogicInterface_LogicInterface();
+LogicNodeMultiplyFloat.logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeMultiplyFloat.outportProduct = LogicNodeMultiplyFloat.logicInterface.addOutputProperty('product', 'float');
 LogicNodeMultiplyFloat.inportX = LogicNodeMultiplyFloat.logicInterface.addInputProperty('x', 'float', 0);
 LogicNodeMultiplyFloat.logicInterface.addConfigEntry({
@@ -39,10 +50,10 @@ LogicNodeMultiplyFloat.logicInterface.addConfigEntry({
 	label: 'Value'
 });
 
-LogicNodes_LogicNodes.registerType('LogicNodeMultiplyFloat', LogicNodeMultiplyFloat);
+_LogicNodes.LogicNodes.registerType('LogicNodeMultiplyFloat', LogicNodeMultiplyFloat);
 
 /**
  * Logic node that multiplies two floats.
  * @private
  */
-export { mod_LogicNodeMultiplyFloat as LogicNodeMultiplyFloat };
+exports.LogicNodeMultiplyFloat = mod_LogicNodeMultiplyFloat;

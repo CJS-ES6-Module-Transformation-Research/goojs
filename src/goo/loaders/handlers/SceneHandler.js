@@ -1,7 +1,17 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SceneHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _rsvp = require("../../util/rsvp");
+
 var mod_SceneHandler = SceneHandler;
-import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { rsvpjs as RSVP } from "../../util/rsvp";
 
 /**
  * Handler for loading scene into engine
@@ -12,12 +22,12 @@ import { rsvpjs as RSVP } from "../../util/rsvp";
  * @private
  */
 function SceneHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-SceneHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+SceneHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 SceneHandler.prototype.constructor = SceneHandler;
-ConfigHandler_ConfigHandler._registerClass('scene', SceneHandler);
+_ConfigHandler.ConfigHandler._registerClass('scene', SceneHandler);
 
 /**
  * Removes the scene, i e removes all entities in scene from engine world
@@ -61,8 +71,10 @@ SceneHandler.prototype._create = function () {
  */
 SceneHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
-		if (!scene) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
+		if (!scene) {
+			return;
+		}
 		scene.id = ref;
 		var promises = [];
 		promises.push(that._handleEntities(config, scene, options));
@@ -76,7 +88,7 @@ SceneHandler.prototype._update = function (ref, config, options) {
 			if (config.initialCameraRef && config.initialCameraRef !== scene.initialCameraRef) {
 				promises.push(that._load(config.initialCameraRef, options).then(function (cameraEntity) {
 					if (cameraEntity && cameraEntity.cameraComponent) {
-						SystemBus.emit('goo.setCurrentCamera', {
+						_SystemBus.SystemBusjs.emit('goo.setCurrentCamera', {
 							camera: cameraEntity.cameraComponent.camera,
 							entity: cameraEntity
 						});
@@ -85,7 +97,7 @@ SceneHandler.prototype._update = function (ref, config, options) {
 				}));
 			}
 		}
-		return RSVP.all(promises).then(function () {
+		return _rsvp.rsvpjs.all(promises).then(function () {
 			return scene;
 		});
 	});
@@ -104,12 +116,8 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 		return !config.entities[id];
 	});
 
-	return RSVP.all([
-		this._loadEntities(Object.keys(config.entities)),
-		this._loadEntities(removedEntityIds)
-	])
-	.then(function (result) {
-		that._addEntities(scene, result[0])
+	return _rsvp.rsvpjs.all([this._loadEntities(Object.keys(config.entities)), this._loadEntities(removedEntityIds)]).then(function (result) {
+		that._addEntities(scene, result[0]);
 		that._removeEntities(scene, result[1]);
 	});
 };
@@ -117,7 +125,7 @@ SceneHandler.prototype._handleEntities = function (config, scene, options) {
 SceneHandler.prototype._loadEntities = function (ids, options) {
 	var that = this;
 
-	return RSVP.all(ids.map(function (id) {
+	return _rsvp.rsvpjs.all(ids.map(function (id) {
 		return that._load(id, options);
 	}));
 };
@@ -166,4 +174,4 @@ SceneHandler.prototype._handleEnvironment = function (config, scene, options) {
  * @param {Function} updateObject
  * @private
  */
-export { mod_SceneHandler as SceneHandler };
+exports.SceneHandler = mod_SceneHandler;

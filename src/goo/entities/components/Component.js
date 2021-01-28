@@ -1,29 +1,37 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Component = undefined;
+
+var _EntitySelection = require('../EntitySelection');
+
 var mod_Component = Component;
-import { EntitySelection as EntitySelection_EntitySelection } from "../EntitySelection";
 
 /**
  * Base class/module for all components. Should not be used directly.
  */
 function Component() {
 	/**
-	 * If the component should be processed for containing entities.
-	 * @type {boolean}
-	 */
+  * If the component should be processed for containing entities.
+  * @type {boolean}
+  */
 	this.enabled = true;
 
 	/**
-	 * The entity the component is added to.
-	 * @type {Entity|null}
-	 */
+  * The entity the component is added to.
+  * @type {Entity|null}
+  */
 	this.entity = null;
 
 	this.installedAPI = new Set();
 
 	/**
-	 * Debug level for the component. Can be 'none', 'normal' or 'full'.
-	 * None will prevent the rendering of any debug meshes for the component.
-	 * @type {string}
-	 */
+  * Debug level for the component. Can be 'none', 'normal' or 'full'.
+  * None will prevent the rendering of any debug meshes for the component.
+  * @type {string}
+  */
 	this.debugLevel = 'normal';
 }
 
@@ -33,7 +41,7 @@ function Component() {
  * @param {Entity} entity
  * @returns {boolean} True if the data was used.
  */
-Component.applyOnEntity = function (/*argument, entity*/) {
+Component.applyOnEntity = function () /*argument, entity*/{
 	return false;
 };
 
@@ -41,13 +49,13 @@ Component.applyOnEntity = function (/*argument, entity*/) {
  * Called when the component was added to an entity
  * @param {Entity} entity
  */
-Component.prototype.attached = function (/*entity*/) {};
+Component.prototype.attached = function () /*entity*/{};
 
 /**
  * Called when the component was removed from an entity
  * @param {Entity} entity
  */
-Component.prototype.detached = function (/*entity*/) {};
+Component.prototype.detached = function () /*entity*/{};
 
 /**
  * Injects public methods of this component into the host entity.
@@ -83,13 +91,15 @@ Component.prototype.removeAPI = function (entity) {
 };
 
 Component.applyEntitySelectionAPI = function (entitySelectionAPI, componentType) {
-	if (!entitySelectionAPI) { return; }
+	if (!entitySelectionAPI) {
+		return;
+	}
 
 	var keys = Object.keys(entitySelectionAPI);
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
-		if (typeof EntitySelection_EntitySelection[key] === 'undefined') {
-			EntitySelection_EntitySelection.installMethod(entitySelectionAPI[key], key, componentType);
+		if (typeof _EntitySelection.EntitySelection[key] === 'undefined') {
+			_EntitySelection.EntitySelection.installMethod(entitySelectionAPI[key], key, componentType);
 		} else {
 			throw new Error('Could not install method ' + key + ' on EntitySelection as it is already taken');
 		}
@@ -99,4 +109,4 @@ Component.applyEntitySelectionAPI = function (entitySelectionAPI, componentType)
 /**
  * Base class/module for all components. Should not be used directly.
  */
-export { mod_Component as Component };
+exports.Component = mod_Component;

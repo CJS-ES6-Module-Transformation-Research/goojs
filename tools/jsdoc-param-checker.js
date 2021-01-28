@@ -1,8 +1,21 @@
-import ext_fs_fs from "fs";
-import ext_glob_glob from "glob";
-import { extract as modocsrcextractor_extract } from "./modoc/src/extractor";
-import { jsdocparserjs as jsdocParser } from "./modoc/src/jsdoc-parser";
-import "colors";
+"use strict";
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _glob = require("glob");
+
+var _glob2 = _interopRequireDefault(_glob);
+
+var _extractor = require("./modoc/src/extractor");
+
+var _jsdocParser = require("./modoc/src/jsdoc-parser");
+
+require("colors");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 // jshint node:true
 /**
  * Reports any undocumented function parameter
@@ -13,7 +26,7 @@ import "colors";
 
 'use strict';
 
-var allFiles = ext_glob_glob.sync('src/**/*.js');
+var allFiles = _glob2.default.sync('src/**/*.js');
 
 function pluck(property) {
 	return function (obj) {
@@ -35,11 +48,13 @@ function makeError(functionName, message) {
 
 function validate(data) {
 	function validateFunction(data) {
-		if (!data.rawComment) { return []; }
+		if (!data.rawComment) {
+			return [];
+		}
 
 		var functionParams = data.params;
 
-		var jsdoc = jsdocParser(data.rawComment);
+		var jsdoc = (0, _jsdocParser.jsdocparserjs)(data.rawComment);
 
 		if (!jsdoc['@param']) {
 			if (functionParams.length) {
@@ -53,10 +68,7 @@ function validate(data) {
 
 		return functionParams.reduce(function (errors, functionParam) {
 			if (!contains(jsdocParams, functionParam)) {
-				errors.push(makeError(
-					data.name,
-					'parameter ' + functionParam + ' is missing from the jsdoc'
-				));
+				errors.push(makeError(data.name, 'parameter ' + functionParam + ' is missing from the jsdoc'));
 			}
 			return errors;
 		}, []);
@@ -72,9 +84,9 @@ function validate(data) {
 var count = 0;
 
 allFiles.forEach(function (file) {
-	var source = ext_fs_fs.readFileSync(file, 'utf8');
+	var source = _fs2.default.readFileSync(file, 'utf8');
 
-	var data = modocsrcextractor_extract(source, file);
+	var data = (0, _extractor.extract)(source, file);
 
 	var errors = validate(data, file);
 

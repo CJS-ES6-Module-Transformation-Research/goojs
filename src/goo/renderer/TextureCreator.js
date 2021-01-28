@@ -1,11 +1,26 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextureCreator = undefined;
+
+var _Texture = require("../renderer/Texture");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _TextureHandler = require("../loaders/handlers/TextureHandler");
+
+var _Ajax = require("../util/Ajax");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
+var _rsvp = require("../util/rsvp");
+
 var mod_TextureCreator = TextureCreator;
-import { Texture as Texture_Texture } from "../renderer/Texture";
-import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
-import { TextureHandler as TextureHandler_TextureHandler } from "../loaders/handlers/TextureHandler";
-import { Ajax as Ajax_Ajax } from "../util/Ajax";
-import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
-import { rsvpjs as RSVP } from "../util/rsvp";
+
 
 //! AT: shouldn't this stay in util?
 
@@ -14,17 +29,12 @@ import { rsvpjs as RSVP } from "../util/rsvp";
  * @param {Settings} settings Texturing settings
  */
 function TextureCreator() {
-	var ajax = this.ajax = new Ajax_Ajax();
-	this.textureHandler = new TextureHandler_TextureHandler(
-		{},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		},
-		function () {},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		}
-	);
+	var ajax = this.ajax = new _Ajax.Ajax();
+	this.textureHandler = new _TextureHandler.TextureHandler({}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	}, function () {}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	});
 }
 
 //! AT: unused?
@@ -52,7 +62,7 @@ TextureCreator.prototype.clear = function () {
  * });
  */
 TextureCreator.prototype.loadTexture2D = function (imageUrl, settings) {
-	var id = StringUtils_StringUtils.createUniqueId('texture');
+	var id = _StringUtils.StringUtils.createUniqueId('texture');
 	settings = settings || {};
 	settings.imageRef = imageUrl;
 
@@ -78,7 +88,7 @@ TextureCreator.prototype.loadTexture2D = function (imageUrl, settings) {
  * });
  */
 TextureCreator.prototype.loadTextureVideo = function (videoURL, options) {
-	var id = StringUtils_StringUtils.createUniqueId('texture');
+	var id = _StringUtils.StringUtils.createUniqueId('texture');
 	options = options || {};
 	options.imageRef = videoURL;
 	options.loop = options.loop !== undefined ? options.loop : true;
@@ -105,12 +115,12 @@ TextureCreator.prototype.loadTextureVideo = function (videoURL, options) {
  */
 TextureCreator.prototype.loadTextureWebCam = function () {
 
-	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
+	return _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
 		var video = document.createElement('video');
 		video.autoplay = true;
 		video.loop = true;
 
-		var texture = new Texture_Texture(video, {
+		var texture = new _Texture.Texture(video, {
 			wrapS: 'EdgeClamp',
 			wrapT: 'EdgeClamp'
 		});
@@ -121,7 +131,7 @@ TextureCreator.prototype.loadTextureWebCam = function () {
 				video.height = video.videoHeight;
 
 				// set minification filter based on pow2
-				if (!(MathUtils_MathUtils.isPowerOfTwo(video.width) && MathUtils_MathUtils.isPowerOfTwo(video.height))) {
+				if (!(_MathUtils.MathUtils.isPowerOfTwo(video.width) && _MathUtils.MathUtils.isPowerOfTwo(video.height))) {
 					texture.generateMipmaps = false;
 					texture.minFilter = 'BilinearNoMipMaps';
 				}
@@ -161,11 +171,11 @@ TextureCreator.prototype.loadTextureWebCam = function () {
  * @returns {RSVP.Promise} A promise that will resolve with the resulting Texture
  */
 TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
-	var texture = new Texture_Texture(null, settings);
+	var texture = new _Texture.Texture(null, settings);
 	texture.variant = 'CUBE';
 
 	var promises = imageDataArray.map(function (queryImage) {
-		return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
+		return _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
 			if (typeof queryImage === 'string') {
 				this.ajax._loadImage(queryImage).then(resolve, reject);
 			} else {
@@ -174,8 +184,8 @@ TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
 		}.bind(this));
 	}.bind(this));
 
-	return RSVP.all(promises).then(function (images) {
-		return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
+	return _rsvp.rsvpjs.all(promises).then(function (images) {
+		return _PromiseUtils.PromiseUtils.createPromise(function (resolve, reject) {
 			var width = images[0].width;
 			var height = images[0].height;
 			for (var i = 0; i < 6; i++) {
@@ -212,8 +222,8 @@ TextureCreator._finishedLoading = function (image) {
 
 // Add Object.freeze when fast enough in browsers
 var colorInfo = new Uint8Array([255, 255, 255, 255]);
-TextureCreator.DEFAULT_TEXTURE_2D = new Texture_Texture(colorInfo, null, 1, 1);
-TextureCreator.DEFAULT_TEXTURE_CUBE = new Texture_Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
+TextureCreator.DEFAULT_TEXTURE_2D = new _Texture.Texture(colorInfo, null, 1, 1);
+TextureCreator.DEFAULT_TEXTURE_CUBE = new _Texture.Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
 TextureCreator.DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
 
 //! AT: shouldn't this stay in util?
@@ -222,4 +232,4 @@ TextureCreator.DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
  * Takes away the pain of creating textures of various sorts.
  * @param {Settings} settings Texturing settings
  */
-export { mod_TextureCreator as TextureCreator };
+exports.TextureCreator = mod_TextureCreator;

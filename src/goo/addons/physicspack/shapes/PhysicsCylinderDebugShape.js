@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PhysicsCylinderDebugShape = undefined;
+
+var _MeshData = require("../../../renderer/MeshData");
+
 var mod_PhysicsCylinderDebugShape = PhysicsCylinderDebugShape;
-import { MeshData as MeshData_MeshData } from "../../../renderer/MeshData";
 
 /**
  * A wireframe mesh indicating the position and orientation of a CylinderCollider.
@@ -8,13 +16,13 @@ import { MeshData as MeshData_MeshData } from "../../../renderer/MeshData";
  */
 function PhysicsCylinderDebugShape(numSegments) {
 	numSegments = numSegments || 32;
-	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]);
 	this.numSegments = numSegments;
-	MeshData_MeshData.call(this, attributeMap, 2 * 3 * numSegments + 3 * 8, 2 * 2 * numSegments + 2 * 8);
+	_MeshData.MeshData.call(this, attributeMap, 2 * 3 * numSegments + 3 * 8, 2 * 2 * numSegments + 2 * 8);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsCylinderDebugShape.prototype = Object.create(MeshData_MeshData.prototype);
+PhysicsCylinderDebugShape.prototype = Object.create(_MeshData.MeshData.prototype);
 PhysicsCylinderDebugShape.prototype.constructor = PhysicsCylinderDebugShape;
 
 /**
@@ -44,25 +52,11 @@ PhysicsCylinderDebugShape.prototype.rebuild = function () {
 		indices.push(numSegments + i, numSegments + (i + 1) % numSegments);
 	}
 
-	verts.push(
-		Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), -0.5,
-		Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), 0.5,
-		Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), -0.5,
-		Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), 0.5,
-		Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), -0.5,
-		Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), 0.5,
-		Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), -0.5,
-		Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), 0.5
-	);
+	verts.push(Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), -0.5, Math.cos(1 * Math.PI / 2), Math.sin(1 * Math.PI / 2), 0.5, Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), -0.5, Math.cos(2 * Math.PI / 2), Math.sin(2 * Math.PI / 2), 0.5, Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), -0.5, Math.cos(3 * Math.PI / 2), Math.sin(3 * Math.PI / 2), 0.5, Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), -0.5, Math.cos(4 * Math.PI / 2), Math.sin(4 * Math.PI / 2), 0.5);
 
-	indices.push(
-		2 * numSegments + 0, 2 * numSegments + 1,
-		2 * numSegments + 2, 2 * numSegments + 3,
-		2 * numSegments + 4, 2 * numSegments + 5,
-		2 * numSegments + 6, 2 * numSegments + 7
-	);
+	indices.push(2 * numSegments + 0, 2 * numSegments + 1, 2 * numSegments + 2, 2 * numSegments + 3, 2 * numSegments + 4, 2 * numSegments + 5, 2 * numSegments + 6, 2 * numSegments + 7);
 
-	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -73,4 +67,4 @@ PhysicsCylinderDebugShape.prototype.rebuild = function () {
  * @param {number} [numSegments=32]
  * @extends MeshData
  */
-export { mod_PhysicsCylinderDebugShape as PhysicsCylinderDebugShape };
+exports.PhysicsCylinderDebugShape = mod_PhysicsCylinderDebugShape;

@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.QuadComponentHandler = undefined;
+
+var _ComponentHandler = require("../loaders/handlers/ComponentHandler");
+
+var _QuadComponent = require("../quadpack/QuadComponent");
+
 var mod_QuadComponentHandler = QuadComponentHandler;
-import { ComponentHandler as ComponentHandler_ComponentHandler } from "../loaders/handlers/ComponentHandler";
-import { QuadComponent as QuadComponent_QuadComponent } from "../quadpack/QuadComponent";
+
 
 /**
  * For handling loading of quadcomponents
@@ -11,13 +21,13 @@ import { QuadComponent as QuadComponent_QuadComponent } from "../quadpack/QuadCo
  * @hidden
  */
 function QuadComponentHandler() {
-	ComponentHandler_ComponentHandler.apply(this, arguments);
-	this._type = 'QuadComponent';
+  _ComponentHandler.ComponentHandler.apply(this, arguments);
+  this._type = 'QuadComponent';
 }
 
-QuadComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
+QuadComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 QuadComponentHandler.prototype.constructor = QuadComponentHandler;
-ComponentHandler_ComponentHandler._registerClass('quad', QuadComponentHandler);
+_ComponentHandler.ComponentHandler._registerClass('quad', QuadComponentHandler);
 
 /**
  * Create a quadcomponent object.
@@ -25,7 +35,7 @@ ComponentHandler_ComponentHandler._registerClass('quad', QuadComponentHandler);
  * @private
  */
 QuadComponentHandler.prototype._create = function () {
-	return new QuadComponent_QuadComponent();
+  return new _QuadComponent.QuadComponent();
 };
 
 /**
@@ -34,10 +44,10 @@ QuadComponentHandler.prototype._create = function () {
  * @private
  */
 QuadComponentHandler.prototype._remove = function (entity) {
-	if (this.world && this.world.gooRunner) {
-		entity.quadComponent.destroy(this.world.gooRunner.renderer.context);
-	}
-	entity.clearComponent('quadComponent');
+  if (this.world && this.world.gooRunner) {
+    entity.quadComponent.destroy(this.world.gooRunner.renderer.context);
+  }
+  entity.clearComponent('quadComponent');
 };
 
 /**
@@ -48,30 +58,32 @@ QuadComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 QuadComponentHandler.prototype.update = function (entity, config, options) {
-	var that = this;
-	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+  var that = this;
+  return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+    if (!component) {
+      return;
+    }
 
-		// Load material
-		return that._load(config.materialRef, options).then(function (material) {
-			// setting this here until the frontend sends good values
-			material.cullState.enabled = true;
+    // Load material
+    return that._load(config.materialRef, options).then(function (material) {
+      // setting this here until the frontend sends good values
+      material.cullState.enabled = true;
 
-			// If the component already has got these components, they need to be overridden
-			if (entity.meshRendererComponent !== component.meshRendererComponent) {
-				entity.setComponent(component.meshRendererComponent);
-			}
-			if (entity.meshDataComponent !== component.meshDataComponent) {
-				entity.setComponent(component.meshDataComponent);
-			}
+      // If the component already has got these components, they need to be overridden
+      if (entity.meshRendererComponent !== component.meshRendererComponent) {
+        entity.setComponent(component.meshRendererComponent);
+      }
+      if (entity.meshDataComponent !== component.meshDataComponent) {
+        entity.setComponent(component.meshDataComponent);
+      }
 
-			component.setMaterial(material);
-			component.rebuildMeshData();
-			component.meshDataComponent.modelBoundDirty = true;
+      component.setMaterial(material);
+      component.rebuildMeshData();
+      component.meshDataComponent.modelBoundDirty = true;
 
-			return component;
-		});
-	});
+      return component;
+    });
+  });
 };
 
 /**
@@ -82,4 +94,4 @@ QuadComponentHandler.prototype.update = function (entity, config, options) {
  * @extends ComponentHandler
  * @hidden
  */
-export { mod_QuadComponentHandler as QuadComponentHandler };
+exports.QuadComponentHandler = mod_QuadComponentHandler;

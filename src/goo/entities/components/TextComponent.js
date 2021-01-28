@@ -1,5 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TextComponent = undefined;
+
+var _Component = require('../../entities/components/Component');
+
 var mod_TextComponent = TextComponent;
-import { Component as Component_Component } from "../../entities/components/Component";
 
 /**
  * Provides ways for the entity to display text
@@ -7,21 +15,21 @@ import { Component as Component_Component } from "../../entities/components/Comp
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
  */
 function TextComponent(text) {
-	Component_Component.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	this.type = 'TextComponent';
+  this.type = 'TextComponent';
 
-	this.text = text || '';
-	this.dirty = true;
+  this.text = text || '';
+  this.dirty = true;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 TextComponent.type = 'TextComponent';
 
-TextComponent.prototype = Object.create(Component_Component.prototype);
+TextComponent.prototype = Object.create(_Component.Component.prototype);
 TextComponent.prototype.constructor = TextComponent;
 
 /**
@@ -30,11 +38,11 @@ TextComponent.prototype.constructor = TextComponent;
  * @returns {TextComponent} Self for chaining
  */
 TextComponent.prototype.setText = function (text) {
-	if (this.text !== text) {
-		this.text = text;
-		this.dirty = true;
-	}
-	return this;
+  if (this.text !== text) {
+    this.text = text;
+    this.dirty = true;
+  }
+  return this;
 };
 
 /**
@@ -42,4 +50,4 @@ TextComponent.prototype.setText = function (text) {
  * @extends Component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
  */
-export { mod_TextComponent as TextComponent };
+exports.TextComponent = mod_TextComponent;

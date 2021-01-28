@@ -1,14 +1,25 @@
-var mod_SetRigidBodyRotationAction = SetRigidBodyRotationAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Matrix3 as Matrix3_Matrix3 } from "../../../math/Matrix3";
-import { Quaternion as Quaternion_Quaternion } from "../../../math/Quaternion";
-import { MathUtils as MathUtils_MathUtils } from "../../../math/MathUtils";
+"use strict";
 
-function SetRigidBodyRotationAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetRigidBodyRotationAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Matrix = require("../../../math/Matrix3");
+
+var _Quaternion = require("../../../math/Quaternion");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var mod_SetRigidBodyRotationAction = SetRigidBodyRotationAction;
+
+function SetRigidBodyRotationAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-SetRigidBodyRotationAction.prototype = Object.create(Action_Action.prototype);
+SetRigidBodyRotationAction.prototype = Object.create(_Action.Action.prototype);
 SetRigidBodyRotationAction.prototype.constructor = SetRigidBodyRotationAction;
 
 SetRigidBodyRotationAction.external = {
@@ -22,7 +33,7 @@ SetRigidBodyRotationAction.external = {
 		type: 'vec3',
 		description: 'Absolute rotation to set.',
 		'default': [0, 0, 0]
-	},{
+	}, {
 		name: 'Relative',
 		key: 'relative',
 		type: 'boolean',
@@ -32,21 +43,17 @@ SetRigidBodyRotationAction.external = {
 	transitions: []
 };
 
-SetRigidBodyRotationAction.prototype.setRotation = (function () {
-	var matrix = new Matrix3_Matrix3();
-	var matrix2 = new Matrix3_Matrix3();
-	var quaternion = new Quaternion_Quaternion();
-	var quaternion2 = new Quaternion_Quaternion();
-	var DEG_TO_RAD = MathUtils_MathUtils.DEG_TO_RAD;
+SetRigidBodyRotationAction.prototype.setRotation = function () {
+	var matrix = new _Matrix.Matrix3();
+	var matrix2 = new _Matrix.Matrix3();
+	var quaternion = new _Quaternion.Quaternion();
+	var quaternion2 = new _Quaternion.Quaternion();
+	var DEG_TO_RAD = _MathUtils.MathUtils.DEG_TO_RAD;
 	return function (fsm) {
 		var entity = fsm.getOwnerEntity();
 		if (entity && entity.rigidBodyComponent) {
 			var rotation = this.rotation;
-			matrix.fromAngles(
-				rotation[0] * DEG_TO_RAD,
-				rotation[1] * DEG_TO_RAD,
-				rotation[2] * DEG_TO_RAD
-			);
+			matrix.fromAngles(rotation[0] * DEG_TO_RAD, rotation[1] * DEG_TO_RAD, rotation[2] * DEG_TO_RAD);
 
 			if (this.relative) {
 				entity.rigidBodyComponent.getQuaternion(quaternion2);
@@ -58,10 +65,10 @@ SetRigidBodyRotationAction.prototype.setRotation = (function () {
 			entity.rigidBodyComponent.setQuaternion(quaternion);
 		}
 	};
-})();
+}();
 
 SetRigidBodyRotationAction.prototype.enter = function (fsm) {
 	this.setRotation(fsm);
 };
 
-export { mod_SetRigidBodyRotationAction as SetRigidBodyRotationAction };
+exports.SetRigidBodyRotationAction = mod_SetRigidBodyRotationAction;

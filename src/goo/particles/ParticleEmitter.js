@@ -1,7 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ParticleEmitter = undefined;
+
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _ObjectUtil = require("../util/ObjectUtil");
+
 var mod_ParticleEmitter = ParticleEmitter;
-import { ParticleUtils as ParticleUtils_ParticleUtils } from "../particles/ParticleUtils";
-import { Renderer as Renderer_Renderer } from "../renderer/Renderer";
-import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
+
 
 /**
  * A Particle Emitter spawns particles - controlling spawn rate, lifetime, initial velocity vector and position of each particle.
@@ -17,29 +28,29 @@ import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
 function ParticleEmitter(options) {
-	ObjectUtil.copyOptions(this, options, {
-		totalParticlesToSpawn: -1,
-		maxLifetime: 3.0,
-		minLifetime: 2.0,
-		timeline: undefined,
-		influences: [],
-		getEmissionPoint: function (particle, particleEntity) {
-			var vec3 = particle.position;
-			vec3.setDirect(0, 0, 0);
-			return ParticleUtils_ParticleUtils.applyEntityTransformPoint(vec3, particleEntity);
-		},
-		getEmissionVelocity: function (particle, particleEntity) {
-			var vec3 = particle.velocity;
-			vec3.setDirect(0, 1, 0);
-			return ParticleUtils_ParticleUtils.applyEntityTransformVector(vec3, particleEntity);
-		},
-		getParticleBillboardVectors: ParticleEmitter.CAMERA_BILLBOARD_FUNC,
-		releaseRatePerSecond: 10,
-		enabled: true
-	});
+  _ObjectUtil.ObjectUtils.copyOptions(this, options, {
+    totalParticlesToSpawn: -1,
+    maxLifetime: 3.0,
+    minLifetime: 2.0,
+    timeline: undefined,
+    influences: [],
+    getEmissionPoint: function getEmissionPoint(particle, particleEntity) {
+      var vec3 = particle.position;
+      vec3.setDirect(0, 0, 0);
+      return _ParticleUtils.ParticleUtils.applyEntityTransformPoint(vec3, particleEntity);
+    },
+    getEmissionVelocity: function getEmissionVelocity(particle, particleEntity) {
+      var vec3 = particle.velocity;
+      vec3.setDirect(0, 1, 0);
+      return _ParticleUtils.ParticleUtils.applyEntityTransformVector(vec3, particleEntity);
+    },
+    getParticleBillboardVectors: ParticleEmitter.CAMERA_BILLBOARD_FUNC,
+    releaseRatePerSecond: 10,
+    enabled: true
+  });
 
-	// used to track fractional parts of particles waiting to be released between frames.
-	this.particlesWaitingToRelease = 0.0;
+  // used to track fractional parts of particles waiting to be released between frames.
+  this.particlesWaitingToRelease = 0.0;
 }
 
 /**
@@ -48,11 +59,11 @@ function ParticleEmitter(options) {
  */
 // Was: function (particle, particleEntity)
 ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
-	var camera = Renderer_Renderer.mainCamera;
-	if (camera) {
-		particle.bbX.set(camera._left);
-		particle.bbY.set(camera._up);
-	}
+  var camera = _Renderer.Renderer.mainCamera;
+  if (camera) {
+    particle.bbX.set(camera._left);
+    particle.bbY.set(camera._up);
+  }
 };
 
 /**
@@ -62,7 +73,7 @@ ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
  */
 //! AT: is it just a glorified rand(min, max) function?
 ParticleEmitter.prototype.nextParticleLifeSpan = function () {
-	return this.minLifetime + (this.maxLifetime - this.minLifetime) * Math.random();
+  return this.minLifetime + (this.maxLifetime - this.minLifetime) * Math.random();
 };
 
 /**
@@ -78,4 +89,4 @@ ParticleEmitter.prototype.nextParticleLifeSpan = function () {
  * @param {function (particle)} [options.getParticleBillboardVectors=ParticleEmitter.CAMERA_BILLBOARD_FUNC] A function that sets the orientation of the particle's billboard
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
-export { mod_ParticleEmitter as ParticleEmitter };
+exports.ParticleEmitter = mod_ParticleEmitter;

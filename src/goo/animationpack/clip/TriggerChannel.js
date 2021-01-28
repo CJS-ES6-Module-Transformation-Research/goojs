@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TriggerChannel = undefined;
+
+var _AbstractAnimationChannel = require("../../animationpack/clip/AbstractAnimationChannel");
+
+var _TriggerData = require("../../animationpack/clip/TriggerData");
+
 var mod_TriggerChannel = TriggerChannel;
-import {     AbstractAnimationChannel as AbstractAnimationChannel_AbstractAnimationChannel, } from "../../animationpack/clip/AbstractAnimationChannel";
-import { TriggerData as TriggerData_TriggerData } from "../../animationpack/clip/TriggerData";
 
 /**
  * An animation source channel consisting of keyword samples indicating when a specific trigger condition is met. Each channel can only be in one keyword "state" at a given moment in time.
@@ -10,19 +19,19 @@ import { TriggerData as TriggerData_TriggerData } from "../../animationpack/clip
  * @private
  */
 function TriggerChannel(channelName, times, keys, blendType) {
-	AbstractAnimationChannel_AbstractAnimationChannel.call(this, channelName, times, blendType);
+	_AbstractAnimationChannel.AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._keys = keys ? keys.slice(0) : null;
 	this.guarantee = false;
 }
 
-TriggerChannel.prototype = Object.create(AbstractAnimationChannel_AbstractAnimationChannel.prototype);
+TriggerChannel.prototype = Object.create(_AbstractAnimationChannel.AbstractAnimationChannel.prototype);
 
 /**
  * Creates a data item for this type of channel
  * @returns {TriggerData}
  */
 TriggerChannel.prototype.createStateDataObject = function () {
-	return new TriggerData_TriggerData();
+	return new _TriggerData.TriggerData();
 };
 
 /**
@@ -46,7 +55,7 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
 			}
 			oldIndex = -1;
 		}
-		for ( var i = oldIndex + 1; i <= newIndex; i++) {
+		for (var i = oldIndex + 1; i <= newIndex; i++) {
 			triggers.push(this._keys[i]);
 		}
 		triggerData.arm(newIndex, triggers);
@@ -60,4 +69,4 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
  * @param {Array<string>} keys our key samples. Entries may be null. Should have as many entries as the times array.
  * @private
  */
-export { mod_TriggerChannel as TriggerChannel };
+exports.TriggerChannel = mod_TriggerChannel;

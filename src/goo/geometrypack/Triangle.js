@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Triangle = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _MathUtils = require("../math/MathUtils");
+
 var mod_Triangle = Triangle;
-import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
-import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
+
 
 /**
  * Only creates an attributeMap with MeshData.POSITION and MeshData.NORMAL.
@@ -9,13 +19,13 @@ import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
 function Triangle(verts) {
 	this.verts = verts;
 
-	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.NORMAL]);
-	MeshData_MeshData.call(this, attributeMap, 3, 3);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL]);
+	_MeshData.MeshData.call(this, attributeMap, 3, 3);
 
 	this.rebuild();
 }
 
-Triangle.prototype = Object.create(MeshData_MeshData.prototype);
+Triangle.prototype = Object.create(_MeshData.MeshData.prototype);
 Triangle.prototype.constructor = Triangle;
 
 /**
@@ -23,17 +33,11 @@ Triangle.prototype.constructor = Triangle;
  * @returns {Triangle} Self for chaining.
  */
 Triangle.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(this.verts);
 
-	var normals = MathUtils_MathUtils.getTriangleNormal(
-		this.verts[0], this.verts[1], this.verts[2],
-		this.verts[3], this.verts[4], this.verts[5],
-		this.verts[6], this.verts[7], this.verts[8]);
+	var normals = _MathUtils.MathUtils.getTriangleNormal(this.verts[0], this.verts[1], this.verts[2], this.verts[3], this.verts[4], this.verts[5], this.verts[6], this.verts[7], this.verts[8]);
 
-	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set([
-		normals[0], normals[1], normals[2],
-		normals[0], normals[1], normals[2],
-		normals[0], normals[1], normals[2]]);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set([normals[0], normals[1], normals[2], normals[0], normals[1], normals[2], normals[0], normals[1], normals[2]]);
 
 	this.getIndexBuffer().set([0, 1, 2]);
 
@@ -44,4 +48,4 @@ Triangle.prototype.rebuild = function () {
  * Only creates an attributeMap with MeshData.POSITION and MeshData.NORMAL.
  * @param {Array<number>} verts array with 9 elements. These 9 elements must be 3 x, y, z positions.
  */
-export { mod_Triangle as Triangle };
+exports.Triangle = mod_Triangle;

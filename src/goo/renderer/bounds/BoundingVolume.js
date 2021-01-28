@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BoundingVolume = undefined;
+
+var _Vector = require("../../math/Vector3");
+
 var mod_BoundingVolume = BoundingVolume;
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
 
 /**
  * <code>BoundingVolume</code> Base class for boundings
@@ -7,15 +15,15 @@ import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
 function BoundingVolume(center) {
 	//! AT: this is one of the few classes that's cloning its input
 	// I don't dare change the behaviour since there's no telling what will break
-	this.center = new Vector3_Vector3();
+	this.center = new _Vector.Vector3();
 	if (center) {
 		this.center.set(center);
 	}
 
 	//! AT: can these be private?
 	// they are updated only by some methods and would therefore be useless for external use
-	this.min = new Vector3_Vector3(Infinity, Infinity, Infinity);
-	this.max = new Vector3_Vector3(-Infinity, -Infinity, -Infinity);
+	this.min = new _Vector.Vector3(Infinity, Infinity, Infinity);
+	this.max = new _Vector.Vector3(-Infinity, -Infinity, -Infinity);
 }
 
 /**
@@ -23,7 +31,7 @@ function BoundingVolume(center) {
  * @returns {BoundingVolume}
  */
 BoundingVolume.prototype.reset = function () {
-	this.center.setDirect(0,0,0);
+	this.center.setDirect(0, 0, 0);
 	this.min.setDirect(Infinity, Infinity, Infinity);
 	this.max.setDirect(-Infinity, -Infinity, -Infinity);
 	return this;
@@ -51,4 +59,4 @@ BoundingVolume.Intersects = 2;
 /**
  * <code>BoundingVolume</code> Base class for boundings
  */
-export { mod_BoundingVolume as BoundingVolume };
+exports.BoundingVolume = mod_BoundingVolume;

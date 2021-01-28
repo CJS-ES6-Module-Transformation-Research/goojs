@@ -1,7 +1,9 @@
-import { Quad as Quad_Quad } from "../../../src/goo/shapes/Quad";
+'use strict';
+
+var _Quad = require('../../../src/goo/shapes/Quad');
 
 describe('Quad', function () {
-	var a = new Quad_Quad();
+	var a = new _Quad.Quad();
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(4);

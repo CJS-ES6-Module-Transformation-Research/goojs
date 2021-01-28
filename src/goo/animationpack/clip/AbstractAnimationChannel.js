@@ -1,5 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AbstractAnimationChannel = undefined;
+
+var _MathUtils = require('../../math/MathUtils');
+
 var mod_AbstractAnimationChannel = AbstractAnimationChannel;
-import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
 
 /**
  * Base class for animation channels. An animation channel describes a single element of an animation (such as the movement of a single
@@ -49,7 +57,7 @@ AbstractAnimationChannel.prototype.getMaxTime = function () {
 AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) {
 	var timeCount = this._times.length;
 
-	if (!(timeCount)) {
+	if (!timeCount) {
 		return;
 	}
 	// figure out what frames we are between and by how much
@@ -80,10 +88,10 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
 
 		switch (this._blendType) {
 			case AbstractAnimationChannel.BLENDTYPES.CUBIC:
-				progressPercent = MathUtils_MathUtils.scurve3(progressPercent);
+				progressPercent = _MathUtils.MathUtils.scurve3(progressPercent);
 				break;
 			case AbstractAnimationChannel.BLENDTYPES.QUINTIC:
-				progressPercent = MathUtils_MathUtils.scurve5(progressPercent);
+				progressPercent = _MathUtils.MathUtils.scurve5(progressPercent);
 				break;
 			default:
 		}
@@ -102,4 +110,4 @@ AbstractAnimationChannel.prototype.updateSample = function (clockTime, applyTo) 
  * @param {string} blendType the blendtype between transform keyframes of the channel. Defaults to AbstractAnimationChannel.BLENDTYPES.LINEAR
  * @private
  */
-export { mod_AbstractAnimationChannel as AbstractAnimationChannel };
+exports.AbstractAnimationChannel = mod_AbstractAnimationChannel;

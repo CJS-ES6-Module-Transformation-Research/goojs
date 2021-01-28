@@ -1,8 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CameraComponentHandler = undefined;
+
+var _ComponentHandler = require("../../loaders/handlers/ComponentHandler");
+
+var _CameraComponent = require("../../entities/components/CameraComponent");
+
+var _Camera = require("../../renderer/Camera");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var mod_CameraComponentHandler = CameraComponentHandler;
-import { ComponentHandler as ComponentHandler_ComponentHandler } from "../../loaders/handlers/ComponentHandler";
-import { CameraComponent as CameraComponent_CameraComponent } from "../../entities/components/CameraComponent";
-import { Camera as Camera_Camera } from "../../renderer/Camera";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * For handling loading of camera components
@@ -13,12 +24,12 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
  * @hidden
  */
 function CameraComponentHandler() {
-	ComponentHandler_ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'CameraComponent';
 }
 
-CameraComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
-ComponentHandler_ComponentHandler._registerClass('camera', CameraComponentHandler);
+CameraComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
+_ComponentHandler.ComponentHandler._registerClass('camera', CameraComponentHandler);
 CameraComponentHandler.prototype.constructor = CameraComponentHandler;
 
 /**
@@ -28,7 +39,7 @@ CameraComponentHandler.prototype.constructor = CameraComponentHandler;
  * @private
  */
 CameraComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils_ObjectUtils.defaults(config, {
+	_ObjectUtils.ObjectUtils.defaults(config, {
 		near: 1,
 		far: 10000,
 		projectionMode: 'Perspective',
@@ -53,8 +64,8 @@ CameraComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 CameraComponentHandler.prototype._create = function () {
-	var camera = new Camera_Camera(45, 1, 1, 1000);
-	var component = new CameraComponent_CameraComponent(camera);
+	var camera = new _Camera.Camera(45, 1, 1, 1000);
+	var component = new _CameraComponent.CameraComponent(camera);
 	return component;
 };
 
@@ -68,9 +79,11 @@ CameraComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 CameraComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
-		component.camera.setProjectionMode(Camera_Camera[config.projectionMode]);
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
+		component.camera.setProjectionMode(_Camera.Camera[config.projectionMode]);
 		component.camera.lockedRatio = false;
 		if (config.projectionMode === 'Perspective') {
 			component.camera.setFrustumPerspective(config.fov, null, config.near, config.far);
@@ -91,4 +104,4 @@ CameraComponentHandler.prototype.update = function (entity, config, options) {
  * @extends ComponentHandler
  * @hidden
  */
-export { mod_CameraComponentHandler as CameraComponentHandler };
+exports.CameraComponentHandler = mod_CameraComponentHandler;

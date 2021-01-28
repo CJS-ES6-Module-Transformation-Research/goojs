@@ -1,13 +1,23 @@
-var mod_ApplyForceAction = ApplyForceAction;
-import { Action as Action_Action } from "./Action";
-import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
-import { SystemBusjs as SystemBus } from "../../../entities/SystemBus";
+"use strict";
 
-function ApplyForceAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ApplyForceAction = undefined;
+
+var _Action = require("./Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _SystemBus = require("../../../entities/SystemBus");
+
+var mod_ApplyForceAction = ApplyForceAction;
+
+function ApplyForceAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-ApplyForceAction.prototype = Object.create(Action_Action.prototype);
+ApplyForceAction.prototype = Object.create(_Action.Action.prototype);
 ApplyForceAction.prototype.constructor = ApplyForceAction;
 
 ApplyForceAction.external = {
@@ -40,12 +50,14 @@ ApplyForceAction.external = {
 	transitions: []
 };
 
-var forceVector = new Vector3_Vector3();
-var applyPoint = new Vector3_Vector3();
+var forceVector = new _Vector.Vector3();
+var applyPoint = new _Vector.Vector3();
 ApplyForceAction.prototype.enter = function (fsm) {
-	SystemBus.addListener('goo.physics.substep', this.substepListener = function () {
+	_SystemBus.SystemBusjs.addListener('goo.physics.substep', this.substepListener = function () {
 		var entity = fsm.getOwnerEntity();
-		if (!entity || !entity.rigidBodyComponent) { return; }
+		if (!entity || !entity.rigidBodyComponent) {
+			return;
+		}
 
 		forceVector.setArray(this.force);
 		applyPoint.setArray(this.point);
@@ -58,7 +70,7 @@ ApplyForceAction.prototype.enter = function (fsm) {
 };
 
 ApplyForceAction.prototype.exit = function () {
-	SystemBus.removeListener('goo.physics.substep', this.substepListener);
+	_SystemBus.SystemBusjs.removeListener('goo.physics.substep', this.substepListener);
 };
 
-export { mod_ApplyForceAction as ApplyForceAction };
+exports.ApplyForceAction = mod_ApplyForceAction;

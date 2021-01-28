@@ -1,15 +1,24 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.TransformData = undefined;
+
+var _Quaternion = require("../../math/Quaternion");
+
+var _Vector = require("../../math/Vector3");
+
 var mod_TransformData = TransformData;
-import { Quaternion as Quaternion_Quaternion } from "../../math/Quaternion";
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
 
 /**
  * Describes a relative transform as a Quaternion-Vector-Vector tuple. We use QVV to make it simpler to do LERP blending.
  * @param {TransformData} [source] source to copy.
  */
 function TransformData(source) {
-	this._rotation = new Quaternion_Quaternion().copy(source ? source._rotation : Quaternion_Quaternion.IDENTITY);
-	this._scale = new Vector3_Vector3().copy(source ? source._scale : Vector3_Vector3.ONE);
-	this._translation = new Vector3_Vector3().copy(source ? source._translation : Vector3_Vector3.ZERO);
+  this._rotation = new _Quaternion.Quaternion().copy(source ? source._rotation : _Quaternion.Quaternion.IDENTITY);
+  this._scale = new _Vector.Vector3().copy(source ? source._scale : _Vector.Vector3.ONE);
+  this._translation = new _Vector.Vector3().copy(source ? source._translation : _Vector.Vector3.ZERO);
 }
 
 /*
@@ -17,13 +26,13 @@ function TransformData(source) {
  * @param {Transform}
  */
 TransformData.prototype.applyTo = function (transform) {
-	// No need to set to identity since we overwrite them all
-	// transform.setIdentity();
-	// TODO: matrix vs quaternion?
-	transform.rotation.copyQuaternion(this._rotation);
-	transform.scale.set(this._scale);
-	transform.translation.set(this._translation);
-	transform.update();
+  // No need to set to identity since we overwrite them all
+  // transform.setIdentity();
+  // TODO: matrix vs quaternion?
+  transform.rotation.copyQuaternion(this._rotation);
+  transform.scale.set(this._scale);
+  transform.translation.set(this._translation);
+  transform.update();
 };
 
 /**
@@ -31,9 +40,9 @@ TransformData.prototype.applyTo = function (transform) {
  * @param {TransformData} source our source to copy.
  */
 TransformData.prototype.set = function (source) {
-	this._rotation.copy(source._rotation);
-	this._scale.copy(source._scale);
-	this._translation.copy(source._translation);
+  this._rotation.copy(source._rotation);
+  this._scale.copy(source._scale);
+  this._translation.copy(source._translation);
 };
 
 /**
@@ -44,16 +53,16 @@ TransformData.prototype.set = function (source) {
  * @returns {TransformData} The blended transform.
  */
 TransformData.prototype.blend = function (blendTo, blendWeight, store) {
-	var tData = store ? store : new TransformData();
+  var tData = store ? store : new TransformData();
 
-	tData._translation.set(this._translation).lerp(blendTo._translation, blendWeight);
-	tData._scale.set(this._scale).lerp(blendTo._scale, blendWeight);
-	Quaternion_Quaternion.slerp(this._rotation, blendTo._rotation, blendWeight, tData._rotation);
-	return tData;
+  tData._translation.set(this._translation).lerp(blendTo._translation, blendWeight);
+  tData._scale.set(this._scale).lerp(blendTo._scale, blendWeight);
+  _Quaternion.Quaternion.slerp(this._rotation, blendTo._rotation, blendWeight, tData._rotation);
+  return tData;
 };
 
 /**
  * Describes a relative transform as a Quaternion-Vector-Vector tuple. We use QVV to make it simpler to do LERP blending.
  * @param {TransformData} [source] source to copy.
  */
-export { mod_TransformData as TransformData };
+exports.TransformData = mod_TransformData;

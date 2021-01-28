@@ -1,9 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.BoundingVolumeMeshBuilder = undefined;
+
+var _BoundingBox = require("../renderer/bounds/BoundingBox");
+
+var _BoundingSphere = require("../renderer/bounds/BoundingSphere");
+
+var _MeshBuilder = require("../util/MeshBuilder");
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Transform = require("../math/Transform");
+
 var mod_BoundingVolumeMeshBuilder = BoundingVolumeMeshBuilder;
-import { BoundingBox as BoundingBox_BoundingBox } from "../renderer/bounds/BoundingBox";
-import { BoundingSphere as BoundingSphere_BoundingSphere } from "../renderer/bounds/BoundingSphere";
-import { MeshBuilder as MeshBuilder_MeshBuilder } from "../util/MeshBuilder";
-import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
-import { Transform as Transform_Transform } from "../math/Transform";
+
 
 /**
  * Provides methods for building bounding volume debug meshes
@@ -11,37 +24,13 @@ import { Transform as Transform_Transform } from "../math/Transform";
 function BoundingVolumeMeshBuilder() {}
 
 function buildBox(dx, dy, dz) {
-	var verts = [
-		dx,  dy,  dz,
-		dx,  dy, -dz,
-		dx, -dy,  dz,
-		dx, -dy, -dz,
-		-dx,  dy,  dz,
-		-dx,  dy, -dz,
-		-dx, -dy,  dz,
-		-dx, -dy, -dz
-	];
+	var verts = [dx, dy, dz, dx, dy, -dz, dx, -dy, dz, dx, -dy, -dz, -dx, dy, dz, -dx, dy, -dz, -dx, -dy, dz, -dx, -dy, -dz];
 
-	var indices = [
-		0, 1,
-		0, 2,
-		1, 3,
-		2, 3,
+	var indices = [0, 1, 0, 2, 1, 3, 2, 3, 4, 5, 4, 6, 5, 7, 6, 7, 0, 4, 1, 5, 2, 6, 3, 7];
 
-		4, 5,
-		4, 6,
-		5, 7,
-		6, 7,
+	var meshData = new _MeshData.MeshData(_MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]), verts.length / 3, indices.length);
 
-		0, 4,
-		1, 5,
-		2, 6,
-		3, 7
-	];
-
-	var meshData = new MeshData_MeshData(MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]), verts.length / 3, indices.length);
-
-	meshData.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -70,9 +59,9 @@ function buildCircle(radius, nSegments) {
 	}
 	indices[indices.length - 1] = 0;
 
-	var meshData = new MeshData_MeshData(MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]), nSegments, indices.length);
+	var meshData = new _MeshData.MeshData(_MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]), nSegments, indices.length);
 
-	meshData.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
+	meshData.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	meshData.getIndexBuffer().set(indices);
 
 	meshData.indexLengths = null;
@@ -84,20 +73,20 @@ function buildCircle(radius, nSegments) {
 function buildSphere(radius) {
 	radius = radius || 1;
 
-	var meshBuilder = new MeshBuilder_MeshBuilder();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 	var nSegments = 128;
 	var circle = buildCircle(radius, nSegments);
 	var transform;
 
-	transform = new Transform_Transform();
+	transform = new _Transform.Transform();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transform_Transform();
+	transform = new _Transform.Transform();
 	transform.rotation.fromAngles(0, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
 
-	transform = new Transform_Transform();
+	transform = new _Transform.Transform();
 	transform.rotation.fromAngles(Math.PI / 2, Math.PI / 2, 0);
 	transform.update();
 	meshBuilder.addMeshData(circle, transform);
@@ -113,9 +102,9 @@ BoundingVolumeMeshBuilder.buildSphere = function (boundingSphere) {
 };
 
 BoundingVolumeMeshBuilder.build = function (boundingVolume) {
-	if (boundingVolume instanceof BoundingBox_BoundingBox) {
+	if (boundingVolume instanceof _BoundingBox.BoundingBox) {
 		return BoundingVolumeMeshBuilder.buildBox(boundingVolume);
-	} else if (boundingVolume instanceof BoundingSphere_BoundingSphere) {
+	} else if (boundingVolume instanceof _BoundingSphere.BoundingSphere) {
 		return BoundingVolumeMeshBuilder.buildSphere(boundingVolume);
 	}
 };
@@ -123,4 +112,4 @@ BoundingVolumeMeshBuilder.build = function (boundingVolume) {
 /**
  * Provides methods for building bounding volume debug meshes
  */
-export { mod_BoundingVolumeMeshBuilder as BoundingVolumeMeshBuilder };
+exports.BoundingVolumeMeshBuilder = mod_BoundingVolumeMeshBuilder;

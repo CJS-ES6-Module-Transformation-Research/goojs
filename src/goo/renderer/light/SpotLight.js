@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SpotLight = undefined;
+
+var _Vector = require("../../math/Vector3");
+
+var _Light = require("../../renderer/light/Light");
+
 var mod_SpotLight = SpotLight;
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
-import { Light as Light_Light } from "../../renderer/light/Light";
 
 /**
  * The SpotLight can be viewed as two cones with their apexes located at the light's location.
@@ -13,42 +22,42 @@ import { Light as Light_Light } from "../../renderer/light/Light";
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
 function SpotLight(color) {
-	Light_Light.call(this, color);
+  _Light.Light.call(this, color);
 
-	/**
-	 * The direction vector of the light
-	 * @readonly
-	 * @type {Vector3}
-	 */
-	this.direction = new Vector3_Vector3();
+  /**
+   * The direction vector of the light
+   * @readonly
+   * @type {Vector3}
+   */
+  this.direction = new _Vector.Vector3();
 
-	/**
-	 * The range of the light (default is 1000)
-	 * @type {number}
-	 */
-	this.range = 1000;
+  /**
+   * The range of the light (default is 1000)
+   * @type {number}
+   */
+  this.range = 1000;
 
-	/**
-	 * The angle (in degrees) of the cone of light that this spotlight projects (default is 45)
-	 * @type {number}
-	 */
-	this.angle = 45;
+  /**
+   * The angle (in degrees) of the cone of light that this spotlight projects (default is 45)
+   * @type {number}
+   */
+  this.angle = 45;
 
-	/**
-	 * The angle to where light is full strength. Then it falls off linearly to the angle-value; penumbra is always smaller than angle. Set to null if the penumbra should be the same as the angle.
-	 * @type {number}
-	 */
-	this.penumbra = null;
+  /**
+   * The angle to where light is full strength. Then it falls off linearly to the angle-value; penumbra is always smaller than angle. Set to null if the penumbra should be the same as the angle.
+   * @type {number}
+   */
+  this.penumbra = null;
 
-	/** @type {number} */
-	this.exponent = 16.0;
+  /** @type {number} */
+  this.exponent = 16.0;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
-SpotLight.prototype = Object.create(Light_Light.prototype);
+SpotLight.prototype = Object.create(_Light.Light.prototype);
 SpotLight.prototype.constructor = SpotLight;
 
 /**
@@ -57,28 +66,28 @@ SpotLight.prototype.constructor = SpotLight;
  * @param {Transform} transform
  */
 SpotLight.prototype.update = function (transform) {
-	transform.matrix.getTranslation(this.translation);
+  transform.matrix.getTranslation(this.translation);
 
-	this.direction.setDirect(0.0, 0.0, -1.0);
-	this.direction.applyPostVector(transform.matrix);
+  this.direction.setDirect(0.0, 0.0, -1.0);
+  this.direction.applyPostVector(transform.matrix);
 };
 
 SpotLight.prototype.copy = function (source) {
-	Light_Light.prototype.copy.call(this, source);
+  _Light.Light.prototype.copy.call(this, source);
 
-	source.direction.copy(this.direction);
-	this.range = source.range;
-	this.angle = source.angle;
-	this.penumbra = source.penumbra;
-	this.exponent = source.exponent;
+  source.direction.copy(this.direction);
+  this.range = source.range;
+  this.angle = source.angle;
+  this.penumbra = source.penumbra;
+  this.exponent = source.exponent;
 
-	return this;
+  return this;
 };
 
 SpotLight.prototype.clone = function () {
-	var clone = new SpotLight(this.color.clone());
-	clone.copy(this);
-	return clone;
+  var clone = new SpotLight(this.color.clone());
+  clone.copy(this);
+  return clone;
 };
 
 /**
@@ -91,4 +100,4 @@ SpotLight.prototype.clone = function () {
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export { mod_SpotLight as SpotLight };
+exports.SpotLight = mod_SpotLight;

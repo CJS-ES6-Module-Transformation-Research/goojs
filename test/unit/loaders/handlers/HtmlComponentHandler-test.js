@@ -1,21 +1,27 @@
-import { World as World_World } from "../../../../src/goo/entities/World";
-import { HtmlComponent as HtmlComponent_HtmlComponent } from "../../../../src/goo/entities/components/HtmlComponent";
-import { DynamicLoader as DynamicLoader_DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as Configs_Configs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/loaders/handlers/HtmlComponentHandler";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _HtmlComponent = require("../../../../src/goo/entities/components/HtmlComponent");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/loaders/handlers/HtmlComponentHandler");
 
 describe('HtmlComponentHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_World();
+		var world = new _World.World();
 		world.gooRunner = {
 			renderer: {
 				domElement: document.createElement('div')
 			}
 		};
 
-		loader = new DynamicLoader_DynamicLoader({
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
 			rootPath: './',
 			ajax: false
@@ -23,10 +29,10 @@ describe('HtmlComponentHandler', function () {
 	});
 
 	it('loads an entity with an htmlComponent', function (done) {
-		var config = Configs_Configs.entity(['html']);
-		loader.preload(Configs_Configs.get());
+		var config = _Configs.Configs.entity(['html']);
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (entity) {
-			expect(entity.htmlComponent).toEqual(jasmine.any(HtmlComponent_HtmlComponent));
+			expect(entity.htmlComponent).toEqual(jasmine.any(_HtmlComponent.HtmlComponent));
 			expect(entity.htmlComponent.useTransformComponent).toBeTruthy();
 			expect(/[^\-\w]/.test(entity.htmlComponent.domElement.id)).toBeFalsy();
 			expect(document.getElementById(entity.htmlComponent.domElement.id)).not.toBeNull();
@@ -38,8 +44,8 @@ describe('HtmlComponentHandler', function () {
 	});
 
 	it('removes an html entity', function (done) {
-		var config = Configs_Configs.entity(['html']);
-		loader.preload(Configs_Configs.get());
+		var config = _Configs.Configs.entity(['html']);
+		loader.preload(_Configs.Configs.get());
 
 		var entity, htmlComponent;
 		loader.load(config.id).then(function (_entity) {

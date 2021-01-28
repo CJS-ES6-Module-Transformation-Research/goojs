@@ -1,3 +1,8 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
 var mod_Rectangle = Rectangle;
 /**
  * Rectangle
@@ -8,10 +13,10 @@ var mod_Rectangle = Rectangle;
  * @param {number} h Height
  */
 function Rectangle(x, y, w, h) {
-	this.x = x;
-	this.y = y;
-	this.w = w;
-	this.h = h;
+  this.x = x;
+  this.y = y;
+  this.w = w;
+  this.h = h;
 }
 
 /**
@@ -22,4 +27,4 @@ function Rectangle(x, y, w, h) {
  * @param {number} w Width
  * @param {number} h Height
  */
-export { mod_Rectangle as Rectangle };
+exports.Rectangle = mod_Rectangle;

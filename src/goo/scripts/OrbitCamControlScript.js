@@ -1,9 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.OrbitCamControlScript = undefined;
+
+var _Vector = require("../math/Vector3");
+
+var _Vector2 = require("../math/Vector2");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _Camera = require("../renderer/Camera");
+
+var _SystemBus = require("../entities/SystemBus");
+
 var mod_OrbitCamControlScript = OrbitCamControlScript;
-import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
-import { Vector2 as Vector2_Vector2 } from "../math/Vector2";
-import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
-import { Camera as Camera_Camera } from "../renderer/Camera";
-import { SystemBusjs as SystemBus } from "../entities/SystemBus";
+
 
 var ZOOM_DISTANCE_FACTOR = 0.035;
 var EPSILON = 1e-6;
@@ -35,9 +48,9 @@ function setup(args, ctx) {
 	ctx.xSamples = [0, 0, 0, 0, 0];
 	ctx.ySamples = [0, 0, 0, 0, 0];
 	ctx.sample = 0;
-	ctx.velocity = new Vector2_Vector2();
-	ctx.cartesian = new Vector3_Vector3();
-	ctx.worldUpVector = Vector3_Vector3.UNIT_Y.clone();
+	ctx.velocity = new _Vector2.Vector2();
+	ctx.cartesian = new _Vector.Vector3();
+	ctx.worldUpVector = _Vector.Vector3.UNIT_Y.clone();
 	ctx.maxSampleTimeMS = 200;
 
 	ctx.mouseState = {
@@ -52,38 +65,26 @@ function setup(args, ctx) {
 	if (args.lookAtDistance) {
 		// Getting script angles from transform
 		var angles = ctx.entity.getRotation();
-		spherical = ctx.spherical = new Vector3_Vector3(
-			args.lookAtDistance,
-			-angles.y + Math.PI / 2,
-			-angles.x
-		);
+		spherical = ctx.spherical = new _Vector.Vector3(args.lookAtDistance, -angles.y + Math.PI / 2, -angles.x);
 	} else if (args.spherical instanceof Array) {
-		var spherical = ctx.spherical = new Vector3_Vector3(
-			args.spherical[0],
-			args.spherical[1] * MathUtils_MathUtils.DEG_TO_RAD,
-			args.spherical[2] * MathUtils_MathUtils.DEG_TO_RAD
-		);
+		var spherical = ctx.spherical = new _Vector.Vector3(args.spherical[0], args.spherical[1] * _MathUtils.MathUtils.DEG_TO_RAD, args.spherical[2] * _MathUtils.MathUtils.DEG_TO_RAD);
 	} else if (args.spherical) {
-		var spherical = ctx.spherical = new Vector3_Vector3(
-			args.spherical.x,
-			args.spherical.y * MathUtils_MathUtils.DEG_TO_RAD,
-			args.spherical.z * MathUtils_MathUtils.DEG_TO_RAD
-		);
+		var spherical = ctx.spherical = new _Vector.Vector3(args.spherical.x, args.spherical.y * _MathUtils.MathUtils.DEG_TO_RAD, args.spherical.z * _MathUtils.MathUtils.DEG_TO_RAD);
 	} else {
-		var spherical = ctx.spherical = new Vector3_Vector3(15, 0, 0); // Just something so the script won't crash
+		var spherical = ctx.spherical = new _Vector.Vector3(15, 0, 0); // Just something so the script won't crash
 	}
 	ctx.targetSpherical = spherical.clone();
 
 	if (args.lookAtDistance) {
 		// Setting look at point at a distance forward
 		var rotation = ctx.entity.transformComponent.transform.rotation;
-		ctx.lookAtPoint = new Vector3_Vector3(0, 0, -args.lookAtDistance);
+		ctx.lookAtPoint = new _Vector.Vector3(0, 0, -args.lookAtDistance);
 		ctx.lookAtPoint.applyPost(rotation);
 		ctx.lookAtPoint.add(ctx.entity.getTranslation());
 	} else if (args.lookAtPoint) {
-		ctx.lookAtPoint = args.lookAtPoint instanceof Array ? Vector3_Vector3.fromArray(args.lookAtPoint) : args.lookAtPoint.clone();
+		ctx.lookAtPoint = args.lookAtPoint instanceof Array ? _Vector.Vector3.fromArray(args.lookAtPoint) : args.lookAtPoint.clone();
 	} else {
-		ctx.lookAtPoint = new Vector3_Vector3();
+		ctx.lookAtPoint = new _Vector.Vector3();
 	}
 	ctx.goingToLookAt = ctx.lookAtPoint.clone();
 
@@ -95,8 +96,8 @@ function setup(args, ctx) {
 
 function updateButtonState(buttonIndex, down, args, ctx) {
 	/*if (ctx.domElement !== document) {
-		ctx.domElement.focus();
-	}*/
+ 	ctx.domElement.focus();
+ }*/
 	var dragButton = ctx.dragButton;
 	var mouseState = ctx.mouseState;
 	if (dragButton === -1 || dragButton === buttonIndex || down === false) {
@@ -105,7 +106,7 @@ function updateButtonState(buttonIndex, down, args, ctx) {
 			mouseState.lastX = NaN;
 			mouseState.lastY = NaN;
 			ctx.velocity.setDirect(0, 0);
-			ctx.spherical.y = MathUtils_MathUtils.moduloPositive(ctx.spherical.y, MathUtils_MathUtils.TWO_PI);
+			ctx.spherical.y = _MathUtils.MathUtils.moduloPositive(ctx.spherical.y, _MathUtils.MathUtils.TWO_PI);
 			ctx.targetSpherical.set(ctx.spherical);
 		} else {
 			applyReleaseDrift(args, ctx);
@@ -114,7 +115,8 @@ function updateButtonState(buttonIndex, down, args, ctx) {
 }
 
 function updateDeltas(mouseX, mouseY, args, ctx) {
-	var dx = 0, dy = 0;
+	var dx = 0,
+	    dy = 0;
 	var mouseState = ctx.mouseState;
 	if (isNaN(mouseState.lastX) || isNaN(mouseState.lastY)) {
 		mouseState.lastX = mouseX;
@@ -149,15 +151,15 @@ function move(azimuthAccel, thetaAccel, args, ctx) {
 
 	// update our master spherical coords, using x and y movement
 	if (args.clampAzimuth) {
-		var minAzimuth = args.minAzimuth * MathUtils_MathUtils.DEG_TO_RAD;
-		var maxAzimuth = args.maxAzimuth * MathUtils_MathUtils.DEG_TO_RAD;
-		td.y = MathUtils_MathUtils.radialClamp(td.y - azimuthAccel, minAzimuth, maxAzimuth);
+		var minAzimuth = args.minAzimuth * _MathUtils.MathUtils.DEG_TO_RAD;
+		var maxAzimuth = args.maxAzimuth * _MathUtils.MathUtils.DEG_TO_RAD;
+		td.y = _MathUtils.MathUtils.radialClamp(td.y - azimuthAccel, minAzimuth, maxAzimuth);
 	} else {
 		td.y -= azimuthAccel;
 	}
-	var minAscent = args.minAscent * MathUtils_MathUtils.DEG_TO_RAD;
-	var maxAscent = args.maxAscent * MathUtils_MathUtils.DEG_TO_RAD;
-	td.z = MathUtils_MathUtils.clamp(td.z + thetaAccel, minAscent, maxAscent);
+	var minAscent = args.minAscent * _MathUtils.MathUtils.DEG_TO_RAD;
+	var maxAscent = args.maxAscent * _MathUtils.MathUtils.DEG_TO_RAD;
+	td.z = _MathUtils.MathUtils.clamp(td.z + thetaAccel, minAscent, maxAscent);
 
 	ctx.dirty = true;
 }
@@ -167,7 +169,7 @@ function updateFrustumSize(delta, ctx) {
 		return;
 	}
 	var camera = ctx.entity.cameraComponent.camera;
-	if (camera.projectionMode === Camera_Camera.Parallel) {
+	if (camera.projectionMode === _Camera.Camera.Parallel) {
 		ctx.size = camera.top;
 		ctx.size /= delta;
 		var size = ctx.size;
@@ -180,18 +182,15 @@ function applyWheel(e, args, ctx) {
 	delta *= ZOOM_DISTANCE_FACTOR * ctx.targetSpherical.x;
 
 	var td = ctx.targetSpherical;
-	td.x = MathUtils_MathUtils.clamp(
-		td.x + args.zoomSpeed * delta,
-		args.minZoomDistance,
-		args.maxZoomDistance
-	);
+	td.x = _MathUtils.MathUtils.clamp(td.x + args.zoomSpeed * delta, args.minZoomDistance, args.maxZoomDistance);
 	ctx.dirty = true;
 }
 
 function applyReleaseDrift(args, ctx) {
 	var timeSamples = ctx.timeSamples;
 	var now = Date.now();
-	var dx = 0, dy = 0;
+	var dx = 0,
+	    dy = 0;
 	var found = false;
 	for (var i = 0, max = timeSamples.length; i < max; i++) {
 		if (now - timeSamples[i] < ctx.maxSampleTimeMS) {
@@ -201,10 +200,7 @@ function applyReleaseDrift(args, ctx) {
 		}
 	}
 	if (found) {
-		ctx.velocity.setDirect(
-			dx * args.orbitSpeed / timeSamples.length,
-			dy * args.orbitSpeed / timeSamples.length
-		);
+		ctx.velocity.setDirect(dx * args.orbitSpeed / timeSamples.length, dy * args.orbitSpeed / timeSamples.length);
 	} else {
 		ctx.velocity.setDirect(0, 0);
 	}
@@ -218,7 +214,7 @@ function setupMouseControls(args, ctx) {
 	};
 
 	ctx.listeners = {
-		mousedown: function (event) {
+		mousedown: function mousedown(event) {
 			if (!args.whenUsed || ctx.entity === ctx.activeCameraEntity) {
 				var button = event.button;
 				if (button === 0) {
@@ -231,7 +227,7 @@ function setupMouseControls(args, ctx) {
 				updateButtonState(button, true, args, ctx);
 			}
 		},
-		mouseup: function (event) {
+		mouseup: function mouseup(event) {
 			var button = event.button;
 			if (button === 0) {
 				if (event.altKey) {
@@ -242,20 +238,20 @@ function setupMouseControls(args, ctx) {
 			}
 			updateButtonState(button, false, args, ctx);
 		},
-		mousemove: function (event) {
+		mousemove: function mousemove(event) {
 			if (!args.whenUsed || ctx.entity === ctx.activeCameraEntity) {
 				updateDeltas(event.clientX, event.clientY, args, ctx);
 			}
 		},
-		mouseleave: function (event) {
+		mouseleave: function mouseleave(event) {
 			ctx.orbitListeners.mouseup(event);
 		},
-		mousewheel: function (event) {
+		mousewheel: function mousewheel(event) {
 			if (!args.whenUsed || ctx.entity === ctx.activeCameraEntity) {
 				applyWheel(event, args, ctx);
 			}
 		},
-		touchstart: function (event) {
+		touchstart: function touchstart(event) {
 			if (!args.whenUsed || ctx.entity === ctx.activeCameraEntity) {
 				updateButtonState(ctx.dragButton, event.targetTouches.length === 1, args, ctx);
 			}
@@ -265,11 +261,11 @@ function setupMouseControls(args, ctx) {
 				event.preventDefault();
 			}
 		},
-		touchend: function (/*event*/) {
+		touchend: function touchend() /*event*/{
 			updateButtonState(ctx.dragButton, false, args, ctx);
 			oldDistance = 0;
 		},
-		touchmove: function (event) {
+		touchmove: function touchmove(event) {
 			if (!args.whenUsed || ctx.entity === ctx.activeCameraEntity) {
 				var cx, cy, distance;
 				var touches = event.targetTouches;
@@ -307,24 +303,26 @@ function setupMouseControls(args, ctx) {
 	// https://code.google.com/p/chromium/issues/detail?id=244289
 	// seems solved
 	/*
-	args.domElement.addEventListener('dragstart', function (event) {
-		preventDefault();
-	}, false);
-	*/
-	ctx.domElement.oncontextmenu = function () { return false; };
+ args.domElement.addEventListener('dragstart', function (event) {
+ 	preventDefault();
+ }, false);
+ */
+	ctx.domElement.oncontextmenu = function () {
+		return false;
+	};
 }
 
 function updateVelocity(time, args, ctx) {
 	if (ctx.velocity.lengthSquared() > EPSILON) {
 		move(ctx.velocity.x, ctx.velocity.y, args, ctx);
-		var rate = MathUtils_MathUtils.lerp(ctx.inertia, 0, 1 - time / ctx.inertia);
+		var rate = _MathUtils.MathUtils.lerp(ctx.inertia, 0, 1 - time / ctx.inertia);
 		ctx.velocity.scale(rate);
 	} else {
 		ctx.velocity.setDirect(0, 0, 0);
 	}
 }
 
-function update(args, ctx/*, goo*/) {
+function update(args, ctx /*, goo*/) {
 	if (!ctx.dirty) {
 		return; //
 	}
@@ -338,7 +336,7 @@ function update(args, ctx/*, goo*/) {
 	var transformComponent = entity.transformComponent;
 	var transform = transformComponent.transform;
 
-	var delta = MathUtils_MathUtils.lerp(ctx.smoothness, 1, ctx.world.tpf);
+	var delta = _MathUtils.MathUtils.lerp(ctx.smoothness, 1, ctx.world.tpf);
 
 	if (goingToLookAt.distanceSquared(lookAtPoint) < EPSILON) {
 		lookAtPoint.set(goingToLookAt);
@@ -350,23 +348,22 @@ function update(args, ctx/*, goo*/) {
 		updateVelocity(entity._world.tpf, args, ctx);
 	}
 
-
 	//var delta = MathUtils.clamp(args.interpolationSpeed * ctx.world.tpf, 0.0, 1.0);
 	var sd = spherical;
 	var tsd = targetSpherical;
 
 	// Move azimuth to target
-	sd.y = MathUtils_MathUtils.lerp(delta, sd.y, tsd.y);
+	sd.y = _MathUtils.MathUtils.lerp(delta, sd.y, tsd.y);
 	// Move ascent to target
-	sd.z = MathUtils_MathUtils.lerp(delta, sd.z, tsd.z);
+	sd.z = _MathUtils.MathUtils.lerp(delta, sd.z, tsd.z);
 
 	// Move distance to target
 	var deltaX = sd.x;
-	sd.x = MathUtils_MathUtils.lerp(delta, sd.x, tsd.x);
+	sd.x = _MathUtils.MathUtils.lerp(delta, sd.x, tsd.x);
 	deltaX /= sd.x;
 	updateFrustumSize(deltaX, ctx);
 
-	MathUtils_MathUtils.sphericalToCartesian(sd.x, sd.y, sd.z, cartesian);
+	_MathUtils.MathUtils.sphericalToCartesian(sd.x, sd.y, sd.z, cartesian);
 
 	transform.translation.set(cartesian.add(lookAtPoint));
 	if (!transform.translation.equals(lookAtPoint)) {
@@ -374,7 +371,7 @@ function update(args, ctx/*, goo*/) {
 	}
 
 	if (spherical.distanceSquared(targetSpherical) < EPSILON && ctx.lookAtPoint.equals(ctx.goingToLookAt)) {
-		sd.y = MathUtils_MathUtils.moduloPositive(sd.y, MathUtils_MathUtils.TWO_PI);
+		sd.y = _MathUtils.MathUtils.moduloPositive(sd.y, _MathUtils.MathUtils.TWO_PI);
 		targetSpherical.set(spherical);
 		ctx.dirty = false;
 	}
@@ -382,7 +379,7 @@ function update(args, ctx/*, goo*/) {
 	// set our component updated.
 	transformComponent.setUpdated();
 	if (ctx.entity.cameraComponent) {
-		SystemBus.emit('goo.cameraPositionChanged', {
+		_SystemBus.SystemBusjs.emit('goo.cameraPositionChanged', {
 			spherical: ctx.spherical.toArray(),
 			translation: transform.translation.toArray(),
 			lookAtPoint: ctx.lookAtPoint.toArray(),
@@ -400,8 +397,8 @@ function cleanup(args, ctx) {
 function argsUpdated(args, ctx) {
 
 	// Making more linear perception
-	ctx.smoothness = Math.pow(MathUtils_MathUtils.clamp(args.smoothness, 0, 1), 0.3);
-	ctx.inertia = Math.pow(MathUtils_MathUtils.clamp(args.drag, 0, 1), 0.3);
+	ctx.smoothness = Math.pow(_MathUtils.MathUtils.clamp(args.smoothness, 0, 1), 0.3);
+	ctx.inertia = Math.pow(_MathUtils.MathUtils.clamp(args.drag, 0, 1), 0.3);
 
 	ctx.dragButton = ['Any', 'Left', 'Middle', 'Right', 'None'].indexOf(args.dragButton) - 1;
 	if (ctx.dragButton < -1) {
@@ -520,4 +517,4 @@ OrbitCamControlScript.externals = {
 	}]
 };
 
-export { mod_OrbitCamControlScript as OrbitCamControlScript };
+exports.OrbitCamControlScript = mod_OrbitCamControlScript;

@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.FrozenClipSource = undefined;
+
+var _Source = require("../../animationpack/blendtree/Source");
+
 var mod_FrozenClipSource = FrozenClipSource;
-import { Source as Source_Source } from "../../animationpack/blendtree/Source";
 
 /**
  * A blend tree node that does not update any clips or sources below it in the blend tree. This is useful for freezing an animation, often
@@ -9,46 +17,43 @@ import { Source as Source_Source } from "../../animationpack/blendtree/Source";
  * @extends Source
  */
 function FrozenClipSource(source, frozenTime) {
-	Source_Source.call(this);
-	this._source = source;
-	this._time = frozenTime;
+  _Source.Source.call(this);
+  this._source = source;
+  this._time = frozenTime;
 }
 
-FrozenClipSource.prototype = Object.create(Source_Source.prototype);
+FrozenClipSource.prototype = Object.create(_Source.Source.prototype);
 FrozenClipSource.prototype.constructor = FrozenClipSource;
 
 /**
  * @returns a source data mapping for the channels in this clip source
  */
 FrozenClipSource.prototype.getSourceData = function () {
-	return this._source.getSourceData();
+  return this._source.getSourceData();
 };
 
 /**
  * Sets start time of clipinstance to 0, so frozenTime will calculate correctly
  */
 FrozenClipSource.prototype.resetClips = function () {
-	this._source.resetClips(0);
+  this._source.resetClips(0);
 };
 
 /**
  * This will be called by a {@link SteadyState}, but will not update the animation, and will return true, to indicate animation is still active
  */
 FrozenClipSource.prototype.setTime = function () {
-	this._source.setTime(this._time);
-	return true;
+  this._source.setTime(this._time);
+  return true;
 };
 
 /**
  * @returns {FrozenClipSource}
  */
 FrozenClipSource.prototype.clone = function () {
-	var cloned = new FrozenClipSource(
-		this._source.clone(),
-		this._time
-	);
+  var cloned = new FrozenClipSource(this._source.clone(), this._time);
 
-	return cloned;
+  return cloned;
 };
 
 /**
@@ -58,4 +63,4 @@ FrozenClipSource.prototype.clone = function () {
  * @param {number} frozenTime The time we are frozen at.
  * @extends Source
  */
-export { mod_FrozenClipSource as FrozenClipSource };
+exports.FrozenClipSource = mod_FrozenClipSource;

@@ -1,13 +1,29 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationStateHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _SteadyState = require("../../animationpack/state/SteadyState");
+
+var _ClipSource = require("../../animationpack/blendtree/ClipSource");
+
+var _ManagedTransformSource = require("../../animationpack/blendtree/ManagedTransformSource");
+
+var _BinaryLerpSource = require("../../animationpack/blendtree/BinaryLerpSource");
+
+var _FrozenClipSource = require("../../animationpack/blendtree/FrozenClipSource");
+
+var _rsvp = require("../../util/rsvp");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var mod_AnimationStateHandler = AnimationStateHandler;
-import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
-import { SteadyState as SteadyState_SteadyState } from "../../animationpack/state/SteadyState";
-import { ClipSource as ClipSource_ClipSource } from "../../animationpack/blendtree/ClipSource";
-import { ManagedTransformSource as ManagedTransformSource_ManagedTransformSource } from "../../animationpack/blendtree/ManagedTransformSource";
-import { BinaryLerpSource as BinaryLerpSource_BinaryLerpSource } from "../../animationpack/blendtree/BinaryLerpSource";
-import { FrozenClipSource as FrozenClipSource_FrozenClipSource } from "../../animationpack/blendtree/FrozenClipSource";
-import { rsvpjs as RSVP } from "../../util/rsvp";
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * Handler for loading animation states into engine
@@ -18,11 +34,11 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
  * @private
  */
 function AnimationStateHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
-AnimationStateHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+AnimationStateHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 AnimationStateHandler.prototype.constructor = AnimationStateHandler;
-ConfigHandler_ConfigHandler._registerClass('animstate', AnimationStateHandler);
+_ConfigHandler.ConfigHandler._registerClass('animstate', AnimationStateHandler);
 
 /**
  * Creates an empty animation state
@@ -31,7 +47,7 @@ ConfigHandler_ConfigHandler._registerClass('animstate', AnimationStateHandler);
  * @private
  */
 AnimationStateHandler.prototype._create = function (ref) {
-	var steadyState = new SteadyState_SteadyState();
+	var steadyState = new _SteadyState.SteadyState();
 	this._objects.set(ref, steadyState);
 	return steadyState;
 };
@@ -45,11 +61,13 @@ AnimationStateHandler.prototype._create = function (ref) {
  */
 AnimationStateHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (state) {
-		if (!state) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (state) {
+		if (!state) {
+			return;
+		}
 		state._name = config.name;
 		state.id = config.id;
-		state._transitions = ObjectUtils_ObjectUtils.deepClone(config.transitions);
+		state._transitions = _ObjectUtils.ObjectUtils.deepClone(config.transitions);
 
 		return that._parseClipSource(config.clipSource, state._sourceTree, options).then(function (source) {
 			state._sourceTree = source;
@@ -68,11 +86,11 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 	switch (cfg.type) {
 		case 'Clip':
 			return this.loadObject(cfg.clipRef, options).then(function (clip) {
-				if (clipSource && (clipSource instanceof ClipSource_ClipSource)) {
+				if (clipSource && clipSource instanceof _ClipSource.ClipSource) {
 					clipSource._clip = clip;
 					clipSource.setFilter(cfg.filter, cfg.channels);
 				} else {
-					clipSource = new ClipSource_ClipSource(clip, cfg.filter, cfg.channels);
+					clipSource = new _ClipSource.ClipSource(clip, cfg.filter, cfg.channels);
 				}
 
 				if (cfg.loopCount !== undefined) {
@@ -89,7 +107,9 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 					var channel = clip._channels[i];
 					for (var j = 0; j < channel._times.length; j++) {
 						var time = channel._times[j];
-						if (time < minTime) { minTime = time; }
+						if (time < minTime) {
+							minTime = time;
+						}
 					}
 				}
 				clipSource._startTime = Math.max(clipSource._startTime, minTime);
@@ -97,8 +117,8 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 				return clipSource;
 			});
 		case 'Managed':
-			if (!clipSource || !(clipSource instanceof ManagedTransformSource_ManagedTransformSource)) {
-				clipSource = new ManagedTransformSource_ManagedTransformSource();
+			if (!clipSource || !(clipSource instanceof _ManagedTransformSource.ManagedTransformSource)) {
+				clipSource = new _ManagedTransformSource.ManagedTransformSource();
 			}
 			if (cfg.clipRef) {
 				return this.loadObject(cfg.clipRef, options).then(function (clip) {
@@ -106,16 +126,13 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 					return clipSource;
 				});
 			} else {
-				return PromiseUtils_PromiseUtils.resolve(clipSource);
+				return _PromiseUtils.PromiseUtils.resolve(clipSource);
 			}
 		case 'Lerp':
 			// TODO reuse object like the other parsers
-			var promises = [
-				this._parseClipSource(cfg.clipSourceA, null, options),
-				this._parseClipSource(cfg.clipSourceB, null, options)
-			];
-			return RSVP.all(promises).then(function (clipSources) {
-				clipSource = new BinaryLerpSource_BinaryLerpSource(clipSources[0], clipSources[1]);
+			var promises = [this._parseClipSource(cfg.clipSourceA, null, options), this._parseClipSource(cfg.clipSourceB, null, options)];
+			return _rsvp.rsvpjs.all(promises).then(function (clipSources) {
+				clipSource = new _BinaryLerpSource.BinaryLerpSource(clipSources[0], clipSources[1]);
 				if (cfg.blendWeight) {
 					clipSource.blendWeight = cfg.blendWeight;
 				}
@@ -123,8 +140,8 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 			});
 		case 'Frozen':
 			return this._parseClipSource(cfg.clipSource).then(function (subClipSource) {
-				if (!clipSource || !(clipSource instanceof FrozenClipSource_FrozenClipSource)) {
-					clipSource = new FrozenClipSource_FrozenClipSource(subClipSource, cfg.frozenTime || 0.0);
+				if (!clipSource || !(clipSource instanceof _FrozenClipSource.FrozenClipSource)) {
+					clipSource = new _FrozenClipSource.FrozenClipSource(subClipSource, cfg.frozenTime || 0.0);
 				} else {
 					clipSource._source = subClipSource;
 					clipSource._time = cfg.frozenTime || 0.0;
@@ -133,7 +150,7 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
 			});
 		default:
 			console.error('Unable to parse clip source');
-			return PromiseUtils_PromiseUtils.resolve();
+			return _PromiseUtils.PromiseUtils.resolve();
 	}
 };
 
@@ -145,4 +162,4 @@ AnimationStateHandler.prototype._parseClipSource = function (cfg, clipSource, op
  * @extends ConfigHandler
  * @private
  */
-export { mod_AnimationStateHandler as AnimationStateHandler };
+exports.AnimationStateHandler = mod_AnimationStateHandler;

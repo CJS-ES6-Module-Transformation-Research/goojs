@@ -1,11 +1,19 @@
-var mod_TransitionAction = TransitionAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function TransitionAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TransitionAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var mod_TransitionAction = TransitionAction;
+
+function TransitionAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-TransitionAction.prototype = Object.create(Action_Action.prototype);
+TransitionAction.prototype = Object.create(_Action.Action.prototype);
 TransitionAction.prototype.constructor = TransitionAction;
 
 TransitionAction.external = {
@@ -25,7 +33,7 @@ var labels = {
 	transition: 'On Enter'
 };
 
-TransitionAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+TransitionAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -33,4 +41,4 @@ TransitionAction.prototype.enter = function (fsm) {
 	fsm.send(this.transitions.transition);
 };
 
-export { mod_TransitionAction as TransitionAction };
+exports.TransitionAction = mod_TransitionAction;

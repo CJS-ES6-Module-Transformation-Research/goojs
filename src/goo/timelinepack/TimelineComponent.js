@@ -1,21 +1,30 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TimelineComponent = undefined;
+
+var _Component = require('../entities/components/Component');
+
 var mod_TimelineComponent = TimelineComponent;
-import { Component as Component_Component } from "../entities/components/Component";
+
 
 /**
  * Timeline component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
  */
 function TimelineComponent() {
-	Component_Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.type = 'TimelineComponent';
 
 	this.channels = [];
 
 	/**
-	 * Current time, locally in this timeline.
-	 * @type {number}
-	 */
+  * Current time, locally in this timeline.
+  * @type {number}
+  */
 	this.time = 0;
 
 	this.duration = 0;
@@ -24,13 +33,13 @@ function TimelineComponent() {
 	this.playing = true;
 
 	/**
-	 * If set to true, the TimelineSystem will automatically run .start() on the component when the TimelineSystem starts.
-	 * @type {Boolean}
-	 */
+  * If set to true, the TimelineSystem will automatically run .start() on the component when the TimelineSystem starts.
+  * @type {Boolean}
+  */
 	this.autoStart = true;
 }
 
-TimelineComponent.prototype = Object.create(Component_Component.prototype);
+TimelineComponent.prototype = Object.create(_Component.Component.prototype);
 TimelineComponent.prototype.constructor = TimelineComponent;
 
 /**
@@ -91,7 +100,6 @@ TimelineComponent.prototype.pause = function () {
 	this.playing = false;
 };
 
-
 /**
  * Stop updating entities and resets the state machines to their initial state
  */
@@ -138,4 +146,4 @@ TimelineComponent.prototype.getValues = function () {
  * Timeline component
  * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
  */
-export { mod_TimelineComponent as TimelineComponent };
+exports.TimelineComponent = mod_TimelineComponent;

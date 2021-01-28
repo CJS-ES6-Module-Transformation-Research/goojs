@@ -1,8 +1,16 @@
-var mod_PickAndExitAction = PickAndExitAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function PickAndExitAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PickAndExitAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var mod_PickAndExitAction = PickAndExitAction;
+
+function PickAndExitAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 
 	this.eventListener = function (event) {
 		// To prevent touch + click event firing multiple times on touch devices
@@ -10,7 +18,7 @@ function PickAndExitAction(/*id, settings*/) {
 		event.preventDefault();
 
 		var htmlCmp = this.ownerEntity.getComponent('HtmlComponent');
-		var clickedHtmlCmp = (htmlCmp && htmlCmp.domElement.contains(event.target));
+		var clickedHtmlCmp = htmlCmp && htmlCmp.domElement.contains(event.target);
 		if (clickedHtmlCmp) {
 			this.handleExit();
 			return;
@@ -48,7 +56,7 @@ function PickAndExitAction(/*id, settings*/) {
 	}.bind(this);
 }
 
-PickAndExitAction.prototype = Object.create(Action_Action.prototype);
+PickAndExitAction.prototype = Object.create(_Action.Action.prototype);
 PickAndExitAction.prototype.constructor = PickAndExitAction;
 
 PickAndExitAction.external = {
@@ -101,4 +109,4 @@ PickAndExitAction.prototype.exit = function () {
 	}
 };
 
-export { mod_PickAndExitAction as PickAndExitAction };
+exports.PickAndExitAction = mod_PickAndExitAction;

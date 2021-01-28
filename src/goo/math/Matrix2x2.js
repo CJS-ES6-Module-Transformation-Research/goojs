@@ -1,18 +1,25 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Matrix2x2 = undefined;
+
+var _Matrix = require("./Matrix2");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var x;
-import { Matrix2 as Matrix2_Matrix2 } from "./Matrix2";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
-var Matrix2x2 = ObjectUtils_ObjectUtils.warnOnce(
-	'Matrix2x2 has been renamed to Matrix2.',
-	function () {
-		Matrix2_Matrix2.apply(this, arguments);
-	}
-);
 
-Matrix2x2.prototype = Object.create(Matrix2_Matrix2.prototype);
+var Matrix2x2 = _ObjectUtils.ObjectUtils.warnOnce('Matrix2x2 has been renamed to Matrix2.', function () {
+	_Matrix.Matrix2.apply(this, arguments);
+});
+
+Matrix2x2.prototype = Object.create(_Matrix.Matrix2.prototype);
 Matrix2x2.prototype.constructor = Matrix2x2;
-for (var x in Matrix2_Matrix2) {
-	x = Matrix2_Matrix2[x];
+for (var x in _Matrix.Matrix2) {
+	x = _Matrix.Matrix2[x];
 }
 
-export { mod_Matrix2x2 as Matrix2x2 };
+exports.Matrix2x2 = mod_Matrix2x2;

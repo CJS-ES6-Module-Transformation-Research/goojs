@@ -1,10 +1,31 @@
-import ext_fs_fs from "fs";
-import ext_childProcess from "child_process";
-import ext_handlebars_handlebars from "handlebars";
-import ext_marked_marked from "marked";
-import { getIndex as indexbuilder_getIndex } from "./index-builder";
-import { utiljs as util } from "./util";
-import { trunkjs as trunk } from "./trunk";
+"use strict";
+
+var _fs = require("fs");
+
+var _fs2 = _interopRequireDefault(_fs);
+
+var _child_process = require("child_process");
+
+var _child_process2 = _interopRequireDefault(_child_process);
+
+var _handlebars = require("handlebars");
+
+var _handlebars2 = _interopRequireDefault(_handlebars);
+
+var _marked = require("marked");
+
+var _marked2 = _interopRequireDefault(_marked);
+
+var _indexBuilder = require("./index-builder");
+
+var _util = require("./util");
+
+var _trunk = require("./trunk");
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
 // jshint node:true
 'use strict';
 
@@ -39,17 +60,14 @@ function processArguments() {
 }
 
 function copyStaticFiles(callback) {
-	ext_childProcess.exec(
-		'cp -r ' + args.staticsPath + '/. ' + args.outPath,
-		function (error, stdout, stderr) {
-			console.log('stdout: ' + stdout);
-			console.log('stderr: ' + stderr);
-			if (error !== null) {
-				console.log('exec error: ' + error);
-			}
-			callback();
+	_child_process2.default.exec('cp -r ' + args.staticsPath + '/. ' + args.outPath, function (error, stdout, stderr) {
+		console.log('stdout: ' + stdout);
+		console.log('stderr: ' + stderr);
+		if (error !== null) {
+			console.log('exec error: ' + error);
 		}
-	);
+		callback();
+	});
 }
 
 function resolveRequirePaths(classes, index) {
@@ -73,7 +91,7 @@ function resolvePacks(classes, index) {
 
 			if (!class_.pack) {
 				var m = entry.requirePath.match(/([a-zA-Z\d]+pack)\//);
-				if(m && m.length >= 2){
+				if (m && m.length >= 2) {
 					class_.pack = m[1];
 				}
 			}
@@ -82,45 +100,47 @@ function resolvePacks(classes, index) {
 }
 
 function buildClasses(classes) {
-	var classTemplate = ext_fs_fs.readFileSync(
-		args.templatesPath + util + 'class.handlebars', { encoding: 'utf8' });
+	var classTemplate = _fs2.default.readFileSync(args.templatesPath + _util.utiljs + 'class.handlebars', { encoding: 'utf8' });
 
 	var classesArray = Object.keys(classes).map(function (className) {
 		return classes[className];
 	});
 
-	var result = ext_handlebars_handlebars.compile(classTemplate)({ classes: classesArray });
+	var result = _handlebars2.default.compile(classTemplate)({ classes: classesArray });
 
-	ext_fs_fs.writeFileSync(args.outPath + util + 'everything.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.utiljs + 'everything.html', result);
 }
 
 function buildIndex(index) {
-	var navTemplate = ext_fs_fs.readFileSync(
-		args.templatesPath + util + 'nav.handlebars', { encoding: 'utf8' });
+	var navTemplate = _fs2.default.readFileSync(args.templatesPath + _util.utiljs + 'nav.handlebars', { encoding: 'utf8' });
 
-	var result = ext_handlebars_handlebars.compile(navTemplate)({ index: index });
+	var result = _handlebars2.default.compile(navTemplate)({ index: index });
 
-	ext_fs_fs.writeFileSync(args.outPath + util + 'index.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.utiljs + 'index.html', result);
 }
 
 function buildChangelog(file) {
-	var changelog = ext_fs_fs.readFileSync(file, { encoding: 'utf8' });
-	var formatted = ext_marked_marked(changelog);
+	var changelog = _fs2.default.readFileSync(file, { encoding: 'utf8' });
+	var formatted = (0, _marked2.default)(changelog);
 
-	var changelogTemplate = ext_fs_fs.readFileSync(args.templatesPath + util + 'changelog.handlebars', { encoding: 'utf8' });
+	var changelogTemplate = _fs2.default.readFileSync(args.templatesPath + _util.utiljs + 'changelog.handlebars', { encoding: 'utf8' });
 
-	var result = ext_handlebars_handlebars.compile(changelogTemplate)({ content: formatted });
+	var result = _handlebars2.default.compile(changelogTemplate)({ content: formatted });
 
-	ext_fs_fs.writeFileSync(args.outPath + util + 'changelog.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.utiljs + 'changelog.html', result);
 }
 
 function compileDeprecated(classes) {
-	var constructors = [], methods = [], staticMethods = [], members = [], staticMembers = [];
+	var constructors = [],
+	    methods = [],
+	    staticMethods = [],
+	    members = [],
+	    staticMembers = [];
 
 	Object.keys(classes).forEach(function (className) {
 		var class_ = classes[className];
 
-		var getEntry = function (item) {
+		var getEntry = function getEntry(item) {
 			return {
 				class_: className,
 				item: item
@@ -175,32 +195,29 @@ function compileDeprecated(classes) {
 }
 
 function buildDeprecated(classes) {
-	var deprecatedTemplate = ext_fs_fs.readFileSync(
-		args.templatesPath + util + 'deprecated.handlebars', { encoding: 'utf8' });
+	var deprecatedTemplate = _fs2.default.readFileSync(args.templatesPath + _util.utiljs + 'deprecated.handlebars', { encoding: 'utf8' });
 
 	var data = compileDeprecated(classes);
 
-	var result = ext_handlebars_handlebars.compile(deprecatedTemplate)(data);
+	var result = _handlebars2.default.compile(deprecatedTemplate)(data);
 
-	ext_fs_fs.writeFileSync(args.outPath + util + 'deprecated.html', result);
+	_fs2.default.writeFileSync(args.outPath + _util.utiljs + 'deprecated.html', result);
 }
-
 
 var args = processArguments();
 
 var IGNORE_FILES = ['goo.js', 'pack.js', 'logicpack', 'soundmanager', '+'];
 
 copyStaticFiles(function () {
-	var files = trunk(args.sourcePath, IGNORE_FILES);
+	var files = (0, _trunk.trunkjs)(args.sourcePath, IGNORE_FILES);
 
-	var classes = trunk(files);
-	var index = indexbuilder_getIndex(classes, 'goo');
+	var classes = (0, _trunk.trunkjs)(files);
+	var index = (0, _indexBuilder.getIndex)(classes, 'goo');
 	resolveRequirePaths(classes, index);
 	resolvePacks(classes, index);
 
 	buildClasses(classes);
 	buildIndex(index);
-
 
 	buildChangelog('CHANGES');
 	buildDeprecated(classes);

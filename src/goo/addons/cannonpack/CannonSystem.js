@@ -1,8 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.CannonSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _Quaternion = require("../../math/Quaternion");
+
+var _Vector = require("../../math/Vector3");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var mod_CannonSystem = CannonSystem;
-import { System as System_System } from "../../entities/systems/System";
-import { Quaternion as Quaternion_Quaternion } from "../../math/Quaternion";
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
+
 
 /* global CANNON, performance */
 
@@ -22,12 +34,12 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
  * goo.world.setSystem(cannonSystem);
  */
 function CannonSystem(settings) {
-	System_System.call(this, 'CannonSystem', ['CannonRigidbodyComponent', 'TransformComponent']);
+	_System.System.call(this, 'CannonSystem', ['CannonRigidbodyComponent', 'TransformComponent']);
 
 	settings = settings || {};
 
-	ObjectUtils_ObjectUtils.defaults(settings, {
-		gravity: new Vector3_Vector3(0, -10, 0),
+	_ObjectUtils.ObjectUtils.defaults(settings, {
+		gravity: new _Vector.Vector3(0, -10, 0),
 		stepFrequency: 60,
 		broadphase: 'naive'
 	});
@@ -42,9 +54,9 @@ function CannonSystem(settings) {
 	this.stepFrequency = settings.stepFrequency;
 	this.maxSubSteps = settings.maxSubSteps || 0;
 }
-var tmpQuat = new Quaternion_Quaternion();
+var tmpQuat = new _Quaternion.Quaternion();
 
-CannonSystem.prototype = Object.create(System_System.prototype);
+CannonSystem.prototype = Object.create(_System.System.prototype);
 CannonSystem.prototype.constructor = CannonSystem;
 
 CannonSystem.prototype.reset = function () {
@@ -54,7 +66,7 @@ CannonSystem.prototype.reset = function () {
 		if (entity.cannonRigidbodyComponent.added) {
 			var body = entity.cannonRigidbodyComponent.body;
 			var p = entity.transformComponent.sync().worldTransform.translation;
-			var q = new Quaternion_Quaternion();
+			var q = new _Quaternion.Quaternion();
 			q.fromRotationMatrix(entity.transformComponent.worldTransform.rotation);
 			body.position.set(p.x, p.y, p.z);
 			body.quaternion.set(q.x, q.y, q.z, q.w);
@@ -63,7 +75,6 @@ CannonSystem.prototype.reset = function () {
 		}
 	}
 };
-
 
 CannonSystem.prototype.inserted = function (entity) {
 	var rbComponent = entity.cannonRigidbodyComponent;
@@ -80,7 +91,7 @@ CannonSystem.prototype.deleted = function (entity) {
 	}
 };
 
-var tmpVec = new Vector3_Vector3();
+var tmpVec = new _Vector.Vector3();
 CannonSystem.prototype.process = function (entities) {
 	var world = this.physicsWorld;
 
@@ -169,14 +180,14 @@ CannonSystem.prototype.process = function (entities) {
 CannonSystem.prototype.setBroadphaseAlgorithm = function (algorithm) {
 	var world = this.physicsWorld;
 	switch (algorithm) {
-	case 'naive':
-		world.broadphase = new CANNON.NaiveBroadphase();
-		break;
-	case 'sap':
-		world.broadphase = new CANNON.SAPBroadphase(world);
-		break;
-	default:
-		throw new Error('Broadphase not supported: ' + algorithm);
+		case 'naive':
+			world.broadphase = new CANNON.NaiveBroadphase();
+			break;
+		case 'sap':
+			world.broadphase = new CANNON.SAPBroadphase(world);
+			break;
+		default:
+			throw new Error('Broadphase not supported: ' + algorithm);
 	}
 };
 
@@ -197,4 +208,4 @@ CannonSystem.prototype.setBroadphaseAlgorithm = function (algorithm) {
  * });
  * goo.world.setSystem(cannonSystem);
  */
-export { mod_CannonSystem as CannonSystem };
+exports.CannonSystem = mod_CannonSystem;

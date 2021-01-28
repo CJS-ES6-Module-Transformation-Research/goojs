@@ -1,13 +1,30 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PosteffectsHandler = undefined;
+
+var _ConfigHandler = require("../loaders/handlers/ConfigHandler");
+
+var _ArrayUtils = require("../util/ArrayUtils");
+
+var _rsvp = require("../util/rsvp");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _Composer = require("../renderer/pass/Composer");
+
+var _RenderPass = require("../renderer/pass/RenderPass");
+
+var _FullscreenPass = require("../renderer/pass/FullscreenPass");
+
+var _ShaderLib = require("../renderer/shaders/ShaderLib");
+
+var _PassLib = require("../passpack/PassLib");
+
 var mod_PosteffectsHandler = PosteffectsHandler;
-import { ConfigHandler as ConfigHandler_ConfigHandler } from "../loaders/handlers/ConfigHandler";
-import { ArrayUtils as ArrayUtils_ArrayUtils } from "../util/ArrayUtils";
-import { rsvpjs as RSVP } from "../util/rsvp";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
-import { Composer as Composer_Composer } from "../renderer/pass/Composer";
-import { RenderPass as RenderPass_RenderPass } from "../renderer/pass/RenderPass";
-import { FullscreenPass as FullscreenPass_FullscreenPass } from "../renderer/pass/FullscreenPass";
-import { ShaderLib as ShaderLib_ShaderLib } from "../renderer/shaders/ShaderLib";
-import { PassLibjs as PassLib } from "../passpack/PassLib";
+
 
 /**
  * Handler for loading posteffects into engine
@@ -18,18 +35,17 @@ import { PassLibjs as PassLib } from "../passpack/PassLib";
  * @private
  */
 function PosteffectsHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
-	this._composer = new Composer_Composer();
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
+	this._composer = new _Composer.Composer();
 	var renderSystem = this.world.getSystem('RenderSystem');
-	this._renderPass = new RenderPass_RenderPass(renderSystem.renderList);
-	this._outPass = new FullscreenPass_FullscreenPass(ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.copy));
+	this._renderPass = new _RenderPass.RenderPass(renderSystem.renderList);
+	this._outPass = new _FullscreenPass.FullscreenPass(_ObjectUtils.ObjectUtils.deepClone(_ShaderLib.ShaderLib.copy));
 	this._outPass.renderToScreen = true;
 }
 
-
-PosteffectsHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+PosteffectsHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 PosteffectsHandler.prototype.constructor = PosteffectsHandler;
-ConfigHandler_ConfigHandler._registerClass('posteffects', PosteffectsHandler);
+_ConfigHandler.ConfigHandler._registerClass('posteffects', PosteffectsHandler);
 
 /**
  * Removes the posteffects, i e removes the composer from rendersystem.
@@ -37,7 +53,7 @@ ConfigHandler_ConfigHandler._registerClass('posteffects', PosteffectsHandler);
  */
 PosteffectsHandler.prototype._remove = function (ref) {
 	var renderSystem = this.world.getSystem('RenderSystem');
-	ArrayUtils_ArrayUtils.remove(renderSystem.composers, this._composer);
+	_ArrayUtils.ArrayUtils.remove(renderSystem.composers, this._composer);
 
 	this._objects.delete(ref);
 
@@ -45,7 +61,7 @@ PosteffectsHandler.prototype._remove = function (ref) {
 		this._composer.destroy(this.world.gooRunner.renderer);
 	}
 
-	this._composer = new Composer_Composer();
+	this._composer = new _Composer.Composer();
 };
 
 /**
@@ -66,16 +82,18 @@ PosteffectsHandler.prototype._create = function () {
  */
 PosteffectsHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (posteffects) {
-		if (!posteffects) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (posteffects) {
+		if (!posteffects) {
+			return;
+		}
 
 		var oldEffects = posteffects.slice();
 		var promises = [];
-		ObjectUtils_ObjectUtils.forEach(config.posteffects, function (effectConfig) {
+		_ObjectUtils.ObjectUtils.forEach(config.posteffects, function (effectConfig) {
 			promises.push(that._updateEffect(effectConfig, oldEffects, options));
 		}, null, 'sortValue');
 
-		return RSVP.all(promises).then(function (effects) {
+		return _rsvp.rsvpjs.all(promises).then(function (effects) {
 			for (var i = 0; i < effects.length; i++) {
 				posteffects[i] = effects[i];
 			}
@@ -84,9 +102,13 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
 			return posteffects;
 		});
 	}).then(function (posteffects) {
-		if (!posteffects) { return; }
+		if (!posteffects) {
+			return;
+		}
 
-		var enabled = posteffects.some(function (effect) { return effect.enabled; });
+		var enabled = posteffects.some(function (effect) {
+			return effect.enabled;
+		});
 		var renderSystem = that.world.getSystem('RenderSystem');
 		var composer = that._composer;
 
@@ -106,7 +128,7 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
 			}
 		} else {
 			// No posteffects, remove composer
-			ArrayUtils_ArrayUtils.remove(renderSystem.composers, that._composer);
+			_ArrayUtils.ArrayUtils.remove(renderSystem.composers, that._composer);
 		}
 
 		return posteffects;
@@ -123,7 +145,7 @@ PosteffectsHandler.prototype._update = function (ref, config, options) {
  */
 PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffects, options) {
 	// this gets mutated
-	var config = ObjectUtils_ObjectUtils.deepClone(originalConfig);
+	var config = _ObjectUtils.ObjectUtils.deepClone(originalConfig);
 
 	var that = this;
 	function loadConfig(key, id) {
@@ -142,15 +164,15 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 	}
 
 	if (!effect) {
-		if (!PassLib[config.type]) {
+		if (!_PassLib.PassLibjs[config.type]) {
 			return null;
 		}
-		effect = new PassLib[config.type](config.id);
+		effect = new _PassLib.PassLibjs[config.type](config.id);
 	}
 
 	var promises = [];
-	for (var i = 0; i < PassLib[config.type].options.length; i++) {
-		var option = PassLib[config.type].options[i];
+	for (var i = 0; i < _PassLib.PassLibjs[config.type].options.length; i++) {
+		var option = _PassLib.PassLibjs[config.type].options[i];
 		var key = option.key;
 		var type = option.type;
 
@@ -169,7 +191,7 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
 		}
 	}
 
-	return RSVP.all(promises).then(function () {
+	return _rsvp.rsvpjs.all(promises).then(function () {
 		effect.update(config);
 		return effect;
 	});
@@ -183,4 +205,4 @@ PosteffectsHandler.prototype._updateEffect = function (originalConfig, posteffec
  * @param {Function} updateObject
  * @private
  */
-export { mod_PosteffectsHandler as PosteffectsHandler };
+exports.PosteffectsHandler = mod_PosteffectsHandler;

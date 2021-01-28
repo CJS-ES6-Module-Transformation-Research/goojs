@@ -8,8 +8,7 @@ describe('jsdoc-parser', function () {
 		var partition = jsdocParser._partition;
 
 		it('partitions tags with one entry each', function () {
-			expect(partition('@a aaa\n@b bbb'))
-			.toEqual({
+			expect(partition('@a aaa\n@b bbb')).toEqual({
 				description: [''],
 				'@a': ['aaa'],
 				'@b': ['bbb']
@@ -17,8 +16,7 @@ describe('jsdoc-parser', function () {
 		});
 
 		it('partitions tags with multiple entries', function () {
-			expect(partition('@a aaa\n@a aa\n@b bbb\n@b bb'))
-			.toEqual({
+			expect(partition('@a aaa\n@a aa\n@b bbb\n@b bb')).toEqual({
 				description: [''],
 				'@a': ['aaa', 'aa'],
 				'@b': ['bbb', 'bb']
@@ -26,8 +24,7 @@ describe('jsdoc-parser', function () {
 		});
 
 		it('partitions tags with multiple lines per entry', function () {
-			expect(partition('@a aaa\naa\n@b bbb\nbb'))
-			.toEqual({
+			expect(partition('@a aaa\naa\n@b bbb\nbb')).toEqual({
 				description: [''],
 				'@a': ['aaa\naa'],
 				'@b': ['bbb\nbb']
@@ -35,8 +32,7 @@ describe('jsdoc-parser', function () {
 		});
 
 		it('partitions bare tags', function () {
-			expect(partition('@a\naa\n@b\nbb'))
-			.toEqual({
+			expect(partition('@a\naa\n@b\nbb')).toEqual({
 				description: [''],
 				'@a': ['aa'],
 				'@b': ['bb']
@@ -48,49 +44,41 @@ describe('jsdoc-parser', function () {
 		var extract = jsdocParser._extractType;
 
 		it('extracts a simple type', function () {
-			expect(extract('{number} name description'))
-			.toEqual({ type: 'number', end: '{number}'.length });
+			expect(extract('{number} name description')).toEqual({ type: 'number', end: '{number}'.length });
 		});
 
 		it('extracts a complex type', function () {
-			expect(extract('{{ a: number }} name description'))
-			.toEqual({ type: '{ a: number }', end: '{{ a: number }}'.length });
+			expect(extract('{{ a: number }} name description')).toEqual({ type: '{ a: number }', end: '{{ a: number }}'.length });
 		});
 	});
 
 	describe('extractName', function () {
-		var extract = function (string) {
+		var extract = function extract(string) {
 			return jsdocParser._extractName(string, '{number}'.length);
 		};
 
 		it('extracts a simple name', function () {
-			expect(extract('{number} name description'))
-			.toEqual({ name: 'name', end: '{number} name '.length, optional: false, default_: undefined });
+			expect(extract('{number} name description')).toEqual({ name: 'name', end: '{number} name '.length, optional: false, default_: undefined });
 		});
 
 		it('extracts an optional name', function () {
-			expect(extract('{number} [name] description'))
-			.toEqual({ name: 'name', end: '{number} [name] '.length, optional: true, default_: undefined });
+			expect(extract('{number} [name] description')).toEqual({ name: 'name', end: '{number} [name] '.length, optional: true, default_: undefined });
 		});
 
 		it('extracts an optional name with a default value', function () {
-			expect(extract('{number} [name=123] description'))
-			.toEqual({ name: 'name', end: '{number} [name=123] '.length, optional: true, default_: '123' });
+			expect(extract('{number} [name=123] description')).toEqual({ name: 'name', end: '{number} [name=123] '.length, optional: true, default_: '123' });
 		});
 
 		it('extracts an optional name with a default value that contains []', function () {
-			expect(extract('{number} [name=[1, 2, 3]] description'))
-			.toEqual({ name: 'name', end: '{number} [name=[1, 2, 3]] '.length, optional: true, default_: '[1, 2, 3]' });
+			expect(extract('{number} [name=[1, 2, 3]] description')).toEqual({ name: 'name', end: '{number} [name=[1, 2, 3]] '.length, optional: true, default_: '[1, 2, 3]' });
 		});
 
 		it('extracts a simple name not followed by a description', function () {
-			expect(extract('{number} name'))
-				.toEqual({ name: 'name', end: '{number} name '.length, optional: false, default_: undefined });
+			expect(extract('{number} name')).toEqual({ name: 'name', end: '{number} name '.length, optional: false, default_: undefined });
 		});
 
 		it('extracts an optional name with a default value and random spacing', function () {
-			expect(extract('{number}  \t\t\t[name=123]\t \tdescription'))
-				.toEqual({ name: 'name', end: '{number}  \t\t\t[name=123]\t'.length, optional: true, default_: '123' });
+			expect(extract('{number}  \t\t\t[name=123]\t \tdescription')).toEqual({ name: 'name', end: '{number}  \t\t\t[name=123]\t'.length, optional: true, default_: '123' });
 		});
 	});
 
@@ -98,18 +86,15 @@ describe('jsdoc-parser', function () {
 		var extract = jsdocParser._extractTagReturn;
 
 		it('extracts the type and description from an @returns', function () {
-			expect(extract('{type} Description goes here'))
-			.toEqual({ type: 'type', description: 'Description goes here' });
+			expect(extract('{type} Description goes here')).toEqual({ type: 'type', description: 'Description goes here' });
 		});
 
 		it('extracts the type from an @returns', function () {
-			expect(extract('{type}'))
-			.toEqual({ type: 'type', description: '' });
+			expect(extract('{type}')).toEqual({ type: 'type', description: '' });
 		});
 
 		it('extracts the description from an @returns', function () {
-			expect(extract('Description goes here'))
-			.toEqual({ type: '', description: 'Description goes here' });
+			expect(extract('Description goes here')).toEqual({ type: '', description: 'Description goes here' });
 		});
 	});
 
@@ -117,8 +102,7 @@ describe('jsdoc-parser', function () {
 		var extract = jsdocParser._extractTagExtends;
 
 		it('extracts the base class from an @extends', function () {
-			expect(extract('Alabala'))
-			.toEqual({ base: 'Alabala' });
+			expect(extract('Alabala')).toEqual({ base: 'Alabala' });
 		});
 	});
 
@@ -126,8 +110,7 @@ describe('jsdoc-parser', function () {
 		var extract = jsdocParser._extractTagTargetClass;
 
 		it('extracts the type, target and name of an @target-class', function () {
-			expect(extract('class name method'))
-			.toEqual({
+			expect(extract('class name method')).toEqual({
 				className: 'class',
 				itemName: 'name',
 				itemType: 'method'
@@ -139,8 +122,7 @@ describe('jsdoc-parser', function () {
 		var extract = jsdocParser.extract;
 
 		it('extracts the description', function () {
-			expect(extract('*\n* description'))
-			.toEqual({ description: 'description' });
+			expect(extract('*\n* description')).toEqual({ description: 'description' });
 		});
 	});
 });
