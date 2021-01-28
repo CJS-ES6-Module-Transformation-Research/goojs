@@ -1,8 +1,9 @@
-var ParticleComponent = require('../entities/components/ParticleComponent');
-var MeshRendererComponent = require('../entities/components/MeshRendererComponent');
-var MeshDataComponent = require('../entities/components/MeshDataComponent');
-var Texture = require('../renderer/Texture');
-var ParticleEmitter = require('../particles/ParticleEmitter');
+var mod_ParticleSystemUtils = ParticleSystemUtils;
+import { ParticleComponent as ParticleComponent_ParticleComponent } from "../entities/components/ParticleComponent";
+import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponent } from "../entities/components/MeshRendererComponent";
+import { MeshDataComponent as MeshDataComponent_MeshDataComponent } from "../entities/components/MeshDataComponent";
+import { Texture as Texture_Texture } from "../renderer/Texture";
+import { ParticleEmitter as ParticleEmitter_ParticleEmitter } from "../particles/ParticleEmitter";
 
 /**
  * Provides utility methods for particle systems
@@ -23,19 +24,19 @@ ParticleSystemUtils.createParticleSystemEntity = function (world, particleParame
 	var particleSystemEntity = world.createEntity();
 
 	// Set particle component
-	var particleComponent = new ParticleComponent({
+	var particleComponent = new ParticleComponent_ParticleComponent({
 		particleCount: particleParameters.particleCount || 500
 	});
 
-	particleComponent.emitters.push(new ParticleEmitter(particleParameters));
+	particleComponent.emitters.push(new ParticleEmitter_ParticleEmitter(particleParameters));
 	particleSystemEntity.setComponent(particleComponent);
 
 	// Create meshData component using particle data
-	var meshDataComponent = new MeshDataComponent(particleComponent.meshData);
+	var meshDataComponent = new MeshDataComponent_MeshDataComponent(particleComponent.meshData);
 	particleSystemEntity.setComponent(meshDataComponent);
 
 	// Create meshRenderer component with material and shader
-	var meshRendererComponent = new MeshRendererComponent();
+	var meshRendererComponent = new MeshRendererComponent_MeshRendererComponent();
 	meshRendererComponent.materials.push(material);
 	meshRendererComponent.cullMode = 'Never';
 	particleSystemEntity.setComponent(meshRendererComponent);
@@ -78,7 +79,7 @@ ParticleSystemUtils.createFlareTexture = function (size, options) {
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new Texture(imageData, null, size, size);
+	var texture = new Texture_Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -143,7 +144,7 @@ ParticleSystemUtils.createSplashTexture = function (size, options) {
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new Texture(imageData, null, size, size);
+	var texture = new Texture_Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -189,7 +190,7 @@ ParticleSystemUtils.createPlanktonTexture = function (size, options) {
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new Texture(imageData, null, size, size);
+	var texture = new Texture_Texture(imageData, null, size, size);
 	return texture;
 };
 
@@ -244,8 +245,11 @@ ParticleSystemUtils.createSnowflakeTexture = function (size, options) {
 	var imageData = con2d.getImageData(0, 0, size, size).data;
 	imageData = new Uint8Array(imageData);
 
-	var texture = new Texture(imageData, null, size, size);
+	var texture = new Texture_Texture(imageData, null, size, size);
 	return texture;
 };
 
-module.exports = ParticleSystemUtils;
+/**
+ * Provides utility methods for particle systems
+ */
+export { mod_ParticleSystemUtils as ParticleSystemUtils };

@@ -1,4 +1,5 @@
-var Component = require('../../entities/components/Component');
+var mod_CannonTerrainColliderComponent = CannonTerrainColliderComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
 
 /* global CANNON */
 
@@ -9,7 +10,7 @@ var Component = require('../../entities/components/Component');
  * @param {Object} [settings.shapeOptions]
  */
 function CannonTerrainColliderComponent(settings) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'CannonTerrainColliderComponent';
 
@@ -22,7 +23,15 @@ function CannonTerrainColliderComponent(settings) {
 	this.cannonShape = new CANNON.Heightfield(settings.data, settings.shapeOptions);
 }
 
-CannonTerrainColliderComponent.prototype = Object.create(Component.prototype);
+CannonTerrainColliderComponent.prototype = Object.create(Component_Component.prototype);
 CannonTerrainColliderComponent.constructor = CannonTerrainColliderComponent;
 
-module.exports = CannonTerrainColliderComponent;
+/* global CANNON */
+
+/**
+ * Terrain collider. Attach to an entity with a {@link CannonRigidbodyComponent}.
+ * @param {Object} [settings]
+ * @param {Object} [settings.data]
+ * @param {Object} [settings.shapeOptions]
+ */
+export { mod_CannonTerrainColliderComponent as CannonTerrainColliderComponent };

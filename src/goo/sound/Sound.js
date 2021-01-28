@@ -1,7 +1,8 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
-var PromiseUtil = require('../util/PromiseUtil');
-var RSVP = require('../util/rsvp');
+var mod_Sound = Sound;
+import { AudioContextjs as AudioContext } from "../sound/AudioContext";
+import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
+import { PromiseUtils as PromiseUtil } from "../util/PromiseUtil";
+import { rsvpjs as RSVP } from "../util/rsvp";
 
 /**
  * A representation of a sound in the engine
@@ -192,7 +193,7 @@ Sound.prototype.update = function (config) {
 		}
 	}
 	if (config.volume !== undefined) {
-		this._volume = MathUtils.clamp(config.volume, 0, 1);
+		this._volume = MathUtils_MathUtils.clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.offset !== undefined) {
@@ -233,7 +234,7 @@ Sound.prototype._clampInterval = function () {
 	} else {
 		this._duration = this._buffer.duration - this._offset;
 	}
-	this._pausePos = MathUtils.clamp(this._pausePos, 0, this._duration);
+	this._pausePos = MathUtils_MathUtils.clamp(this._pausePos, 0, this._duration);
 };
 
 /**
@@ -292,4 +293,7 @@ Sound.prototype.setAudioStream = function (stream) {
 	this._streamSource.connect(this._outNode);
 };
 
-module.exports = Sound;
+/**
+ * A representation of a sound in the engine
+ */
+export { mod_Sound as Sound };

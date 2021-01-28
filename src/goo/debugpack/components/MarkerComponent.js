@@ -1,5 +1,6 @@
-var Component = require('../../entities/components/Component');
-var BoundingVolumeMeshBuilder = require('../../debugpack/BoundingVolumeMeshBuilder');
+var mod_MarkerComponent = MarkerComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import {  BoundingVolumeMeshBuilder as BoundingVolumeMeshBuilder_BoundingVolumeMeshBuilder, } from "../../debugpack/BoundingVolumeMeshBuilder";
 
 /**
  * Holds the necessary data for a marker
@@ -7,16 +8,21 @@ var BoundingVolumeMeshBuilder = require('../../debugpack/BoundingVolumeMeshBuild
  * @extends Component
  */
 function MarkerComponent(hostEntity) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'MarkerComponent';
 
 	var hostModelBound = hostEntity.meshRendererComponent.worldBound;
 	//this.meshData = ShapeCreator.createBox(hostModelBound.radius * 2, hostModelBound.radius * 2, hostModelBound.radius * 2);
-	this.meshData = BoundingVolumeMeshBuilder.build(hostModelBound);
+	this.meshData = BoundingVolumeMeshBuilder_BoundingVolumeMeshBuilder.build(hostModelBound);
 }
 
-MarkerComponent.prototype = Object.create(Component.prototype);
+MarkerComponent.prototype = Object.create(Component_Component.prototype);
 MarkerComponent.prototype.constructor = MarkerComponent;
 
-module.exports = MarkerComponent;
+/**
+ * Holds the necessary data for a marker
+ * @param {Entity} entity The entity this component is attached to
+ * @extends Component
+ */
+export { mod_MarkerComponent as MarkerComponent };

@@ -1,13 +1,15 @@
 // jshint node:true
 'use strict';
 
+var jshintreporterjs;
+
 /**
  * Goo's own JSHint reporter.
  * Based on the default reporter,
  * but also reports unused variables.
  */
 
-module.exports = {
+jshintreporterjs = {
 	reporter: function (results, data, opts) {
 		var len = results.length;
 		var str = '';

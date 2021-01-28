@@ -1,7 +1,8 @@
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Component = require('../../entities/components/Component');
-var EntitySelection = require('../../entities/EntitySelection');
+var mod_TransformComponent = TransformComponent;
+import { Transform as Transform_Transform } from "../../math/Transform";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Component as Component_Component } from "../../entities/components/Component";
+import { EntitySelection as EntitySelection_EntitySelection } from "../../entities/EntitySelection";
 
 /**
  * Holds the transform of an entity. It also allows for a scene graph to be created,
@@ -10,7 +11,7 @@ var EntitySelection = require('../../entities/EntitySelection');
  * @extends Component
  */
 function TransformComponent() {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'TransformComponent';
 
@@ -30,14 +31,14 @@ function TransformComponent() {
 	 * The entity's transform in local space.
 	 * @type {Transform}
 	 */
-	this.transform = new Transform();
+	this.transform = new Transform_Transform();
 
 	/**
 	 * The entity's transform in world space.
 	 * @readonly
 	 * @type {Transform}
 	 */
-	this.worldTransform = new Transform();
+	this.worldTransform = new Transform_Transform();
 
 	this._localTransformDirty = true;
 	this._worldTransformDirty = true;
@@ -49,7 +50,7 @@ function TransformComponent() {
 
 TransformComponent.type = 'TransformComponent';
 
-TransformComponent.prototype = Object.create(Component.prototype);
+TransformComponent.prototype = Object.create(Component_Component.prototype);
 TransformComponent.prototype.constructor = TransformComponent;
 
 //! AT: can this stay not on the prototype, but on the constructor?
@@ -193,7 +194,7 @@ TransformComponent.prototype.api = {
 	 * @returns {EntitySelection}
 	 */
 	children: function () {
-		return new EntitySelection(this).children();
+		return new EntitySelection_EntitySelection(this).children();
 	},
 
 	/**
@@ -202,7 +203,7 @@ TransformComponent.prototype.api = {
 	 * @returns {EntitySelection}
 	 */
 	parent: function () {
-		return new EntitySelection(this).parent();
+		return new EntitySelection_EntitySelection(this).parent();
 	},
 
 	/**
@@ -348,7 +349,7 @@ TransformComponent.entitySelectionAPI = {
 	show: TransformComponent.prototype.api.show
 };
 
-var tmpVec = new Vector3();
+var tmpVec = new Vector3_Vector3();
 
 /**
  * Returns the local translation vector. Do not modify the returned value, use .setTranslation() instead.
@@ -381,7 +382,7 @@ TransformComponent.prototype.getWorldTranslation = function () {
  * @returns {TransformComponent} Self for chaining.
  */
 TransformComponent.prototype.setTranslation = function () {
-	this.transform.translation.set(Vector3.fromAny.apply(null, arguments));
+	this.transform.translation.set(Vector3_Vector3.fromAny.apply(null, arguments));
 	this.setUpdated();
 	return this;
 };
@@ -397,7 +398,7 @@ TransformComponent.prototype.setTranslation = function () {
  * @returns {TransformComponent} Self for chaining.
  */
 TransformComponent.prototype.addTranslation = function () {
-	this.transform.translation.add(Vector3.fromAny.apply(null, arguments));
+	this.transform.translation.add(Vector3_Vector3.fromAny.apply(null, arguments));
 	this.setUpdated();
 	return this;
 };
@@ -432,7 +433,7 @@ TransformComponent.prototype.getWorldScale = function () {
  * entity.transformComponent.setScale([1, 1, 0]);
  */
 TransformComponent.prototype.setScale = function () {
-	this.transform.scale.set(Vector3.fromAny.apply(null, arguments));
+	this.transform.scale.set(Vector3_Vector3.fromAny.apply(null, arguments));
 	this.setUpdated();
 	return this;
 };
@@ -481,7 +482,7 @@ TransformComponent.prototype.getWorldRotationMatrix = function () {
  * entity.transformComponent.getRotation(localRotation2); // stores the result without creating a new object
  */
 TransformComponent.prototype.getRotation = function (target) {
-	target = target || new Vector3();
+	target = target || new Vector3_Vector3();
 	return this.sync().transform.rotation.toAngles(target);
 };
 
@@ -499,7 +500,7 @@ TransformComponent.prototype.addRotation = function () {
 	this.getRotation(tmpVec);
 	if (arguments.length === 1 && typeof (arguments[0]) === 'object') {
 		var arg0 = arguments[0];
-		if (arg0 instanceof Vector3) {
+		if (arg0 instanceof Vector3_Vector3) {
 			this.transform.rotation.fromAngles(tmpVec.x + arg0.x, tmpVec.y + arg0.y, tmpVec.z + arg0.z);
 		} else if (arg0.length === 3) {
 			this.transform.rotation.fromAngles(tmpVec.x + arg0[0], tmpVec.y + arg0[1], tmpVec.z + arg0[2]);
@@ -525,7 +526,7 @@ TransformComponent.prototype.addRotation = function () {
 TransformComponent.prototype.setRotation = function () {
 	if (arguments.length === 1 && typeof (arguments[0]) === 'object') {
 		var arg0 = arguments[0];
-		if (arg0 instanceof Vector3) {
+		if (arg0 instanceof Vector3_Vector3) {
 			this.transform.rotation.fromAngles(arg0.x, arg0.y, arg0.z);
 		} else if (arg0.length === 3) {
 			this.transform.rotation.fromAngles(arg0[0], arg0[1], arg0[2]);
@@ -560,15 +561,15 @@ TransformComponent.prototype.setRotation = function () {
  */
 TransformComponent.prototype.lookAt = function (position, up) {
 	if (arguments.length === 3) {
-		this.transform.lookAt(new Vector3(arguments[0], arguments[1], arguments[2]));
+		this.transform.lookAt(new Vector3_Vector3(arguments[0], arguments[1], arguments[2]));
 	} else if (position.transformComponent) {
 		this.transform.lookAt(position.transformComponent.sync().worldTransform.translation, up);
 	} else {
 		if (Array.isArray(position)) {
-			position = Vector3.fromArray(position);
+			position = Vector3_Vector3.fromArray(position);
 		}
 		if (Array.isArray(up)) {
-			up = Vector3.fromArray(up);
+			up = Vector3_Vector3.fromArray(up);
 		}
 		this.transform.lookAt(position, up);
 	}
@@ -586,9 +587,9 @@ TransformComponent.prototype.lookAt = function (position, up) {
  * spaceShip.transformComponent.move(new Vector3(0, 0, -1));
  */
 TransformComponent.prototype.move = (function () {
-	var moveWorldDirection = new Vector3();
+	var moveWorldDirection = new Vector3_Vector3();
 	return function () {
-		var moveLocalDirection = Vector3.fromAny.apply(null, arguments);
+		var moveLocalDirection = Vector3_Vector3.fromAny.apply(null, arguments);
 		this.transform.applyForwardVector(moveLocalDirection, moveWorldDirection);
 		this.addTranslation(moveWorldDirection);
 		return this;
@@ -763,14 +764,14 @@ TransformComponent.applyOnEntity = function (obj, entity) {
 	if (Array.isArray(obj) && obj.length === 3) {
 		transformComponent.transform.translation.setDirect(obj[0], obj[1], obj[2]);
 		matched = true;
-	} else if (obj instanceof Vector3) {
+	} else if (obj instanceof Vector3_Vector3) {
 		transformComponent.transform.translation.setDirect(obj.x, obj.y, obj.z);
 		matched = true;
 	} else if (typeof obj === 'object' &&
 		typeof obj.x !== 'undefined' && typeof obj.y !== 'undefined' && typeof obj.z !== 'undefined') {
 		transformComponent.transform.translation.setDirect(obj.x, obj.y, obj.z);
 		matched = true;
-	} else if (obj instanceof Transform) {
+	} else if (obj instanceof Transform_Transform) {
 		transformComponent.transform = obj;
 		matched = true;
 	}
@@ -782,4 +783,10 @@ TransformComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = TransformComponent;
+/**
+ * Holds the transform of an entity. It also allows for a scene graph to be created,
+ * in which transforms are inherited down the tree.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TransformComponent/TransformComponent-vtest.html Working example
+ * @extends Component
+ */
+export { mod_TransformComponent as TransformComponent };

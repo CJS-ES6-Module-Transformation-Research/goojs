@@ -1,17 +1,23 @@
-var path = require('path');
-var webpack = require('webpack');
+import ext_path_path from "path";
+import ext_webpack_webpack from "webpack";
+import ext_karmacoverage from "karma-coverage";
+import ext_karmajasmine from "karma-jasmine";
+import ext_karmachromelauncher from "karma-chrome-launcher";
+import ext_karmawebpack from "karma-webpack";
+import {     karmaWebpackProvidePluginSettingsjs as karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs, } from "./karmaWebpackProvidePluginSettings";
+var encapsulated_anonymus;
 
-module.exports = function (config) {
+encapsulated_anonymus = function (config) {
 	config.set({
 
 		// base path, that will be used to resolve files and exclude
 		basePath: '../../',
 
 		plugins: [
-			require('karma-coverage'),
-			require('karma-jasmine'),
-			require('karma-chrome-launcher'),
-			require('karma-webpack')
+			ext_karmacoverage,
+			ext_karmajasmine,
+			ext_karmachromelauncher,
+			ext_karmawebpack
 		],
 
 		frameworks: ['jasmine'],
@@ -88,10 +94,10 @@ module.exports = function (config) {
 		webpack: {
 			resolve: {
 				// Everything relative to repo root
-				root: path.resolve(path.join(__dirname, '..', '..'))
+				root: ext_path_path.resolve(ext_path_path.join(__dirname, '..', '..'))
 			},
 			plugins: [
-				new webpack.ProvidePlugin(require('./karmaWebpackProvidePluginSettings'))
+				new ext_webpack_webpack.ProvidePlugin(karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs)
 			]
 		}
 	});

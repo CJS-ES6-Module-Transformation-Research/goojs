@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var mod_HtmlAction = HtmlAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
 
 function HtmlAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-HtmlAction.prototype = Object.create(Action.prototype);
+HtmlAction.prototype = Object.create(Action_Action.prototype);
 HtmlAction.prototype.constructor = HtmlAction;
 
 HtmlAction.external = {
@@ -42,4 +43,4 @@ HtmlAction.prototype.exit = function (fsm) {
 	}
 };
 
-module.exports = HtmlAction;
+export { mod_HtmlAction as HtmlAction };

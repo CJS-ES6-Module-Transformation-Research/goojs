@@ -48,4 +48,6 @@ var filterList = [
 	'GridRenderSystem' // until we can render updated screenshot
 ];
 
-exports.filterList = filterList;
+mod_filterList = filterList;
+var mod_filterList;
+export { mod_filterList as filterList };

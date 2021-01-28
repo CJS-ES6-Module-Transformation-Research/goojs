@@ -1,5 +1,6 @@
-var Component = require('../../entities/components/Component');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_CannonDistanceJointComponent = CannonDistanceJointComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /* global CANNON */
 
@@ -12,12 +13,12 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @param {CannonRigidbodyComponent} settings.connectedBody
  */
 function CannonDistanceJointComponent(settings) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	settings = settings || {};
 	this.type = 'CannonDistanceJointComponent';
 
-	ObjectUtils.defaults(settings, {
+	ObjectUtils_ObjectUtils.defaults(settings, {
 		distance: 1,
 		connectedBody: null
 	});
@@ -27,7 +28,7 @@ function CannonDistanceJointComponent(settings) {
 
 	this.cannonConstraint = null;
 }
-CannonDistanceJointComponent.prototype = Object.create(Component.prototype);
+CannonDistanceJointComponent.prototype = Object.create(Component_Component.prototype);
 CannonDistanceJointComponent.constructor = CannonDistanceJointComponent;
 
 CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
@@ -37,4 +38,14 @@ CannonDistanceJointComponent.prototype.createConstraint = function (entity) {
 	return this.cannonConstraint;
 };
 
-module.exports = CannonDistanceJointComponent;
+/* global CANNON */
+
+/**
+ * Distance joint. Add to an entity with a {@link CannonRigidbodyComponent} and physically link it to another entity!<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @extends Component
+ * @param {Object} [settings]
+ * @param {number} [settings.distance=1]
+ * @param {CannonRigidbodyComponent} settings.connectedBody
+ */
+export { mod_CannonDistanceJointComponent as CannonDistanceJointComponent };

@@ -1,11 +1,12 @@
-var Action = require('./Action');
+var mod_SetTimeScaleAction = SetTimeScaleAction;
+import { Action as Action_Action } from "./Action";
 
 function SetTimeScaleAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 	this.everyFrame = false;
 }
 
-SetTimeScaleAction.prototype = Object.create(Action.prototype);
+SetTimeScaleAction.prototype = Object.create(Action_Action.prototype);
 SetTimeScaleAction.prototype.constructor = SetTimeScaleAction;
 
 SetTimeScaleAction.external = {
@@ -30,4 +31,4 @@ SetTimeScaleAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetTimeScaleAction;
+export { mod_SetTimeScaleAction as SetTimeScaleAction };

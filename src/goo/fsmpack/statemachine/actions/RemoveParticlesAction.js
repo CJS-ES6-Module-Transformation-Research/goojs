@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var mod_RemoveParticlesAction = RemoveParticlesAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
 
 function RemoveParticlesAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-RemoveParticlesAction.prototype = Object.create(Action.prototype);
+RemoveParticlesAction.prototype = Object.create(Action_Action.prototype);
 RemoveParticlesAction.prototype.constructor = RemoveParticlesAction;
 
 RemoveParticlesAction.external = {
@@ -25,4 +26,4 @@ RemoveParticlesAction.prototype.enter = function (fsm) {
 	});
 };
 
-module.exports = RemoveParticlesAction;
+export { mod_RemoveParticlesAction as RemoveParticlesAction };

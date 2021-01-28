@@ -1,18 +1,19 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var Easing = require('../../../util/Easing');
+var mod_TweenLookAtAction = TweenLookAtAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+import { Quaternion as Quaternion_Quaternion } from "../../../math/Quaternion";
+import { Easing as Easing_Easing } from "../../../util/Easing";
 
 function TweenLookAtAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 
-	this.quatFrom = new Quaternion();
-	this.quatTo = new Quaternion();
-	this.quatFinal = new Quaternion();
+	this.quatFrom = new Quaternion_Quaternion();
+	this.quatTo = new Quaternion_Quaternion();
+	this.quatFinal = new Quaternion_Quaternion();
 	this.completed = false;
 }
 
-TweenLookAtAction.prototype = Object.create(Action.prototype);
+TweenLookAtAction.prototype = Object.create(Action_Action.prototype);
 TweenLookAtAction.prototype.constructor = TweenLookAtAction;
 
 TweenLookAtAction.external = {
@@ -68,9 +69,9 @@ TweenLookAtAction.prototype.enter = function (fsm) {
 
 	this.quatFrom.fromRotationMatrix(transform.rotation);
 
-	var dir = Vector3.fromArray(this.to).sub(transform.translation);
+	var dir = Vector3_Vector3.fromArray(this.to).sub(transform.translation);
 	this.rot = transform.rotation.clone();
-	this.rot.lookAt(dir, Vector3.UNIT_Y);
+	this.rot.lookAt(dir, Vector3_Vector3.UNIT_Y);
 	this.quatTo.fromRotationMatrix(this.rot);
 
 	this.completed = false;
@@ -84,8 +85,8 @@ TweenLookAtAction.prototype.update = function (fsm) {
 	var transform = entity.transformComponent.transform;
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
-	Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
+	var fT = Easing_Easing[this.easing1][this.easing2](t);
+	Quaternion_Quaternion.slerp(this.quatFrom, this.quatTo, fT, this.quatFinal);
 
 	this.quatFinal.toRotationMatrix(transform.rotation);
 	entity.transformComponent.setUpdated();
@@ -96,4 +97,4 @@ TweenLookAtAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenLookAtAction;
+export { mod_TweenLookAtAction as TweenLookAtAction };

@@ -1,16 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+var mod_TweenLightColorAction = TweenLightColorAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+import { Easing as Easing_Easing } from "../../../util/Easing";
 
 function TweenLightColorAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 
-	this.fromCol = new Vector3();
-	this.toCol = new Vector3();
+	this.fromCol = new Vector3_Vector3();
+	this.toCol = new Vector3_Vector3();
 	this.completed = false;
 }
 
-TweenLightColorAction.prototype = Object.create(Action.prototype);
+TweenLightColorAction.prototype = Object.create(Action_Action.prototype);
 TweenLightColorAction.prototype.constructor = TweenLightColorAction;
 
 TweenLightColorAction.external = {
@@ -83,7 +84,7 @@ TweenLightColorAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = Easing_Easing[this.easing1][this.easing2](t);
 
 	var color = entity.lightComponent.light.color;
 	color.set(this.fromCol).lerp(this.toCol, fT);
@@ -94,4 +95,4 @@ TweenLightColorAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenLightColorAction;
+export { mod_TweenLightColorAction as TweenLightColorAction };

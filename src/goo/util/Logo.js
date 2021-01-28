@@ -1,3 +1,4 @@
+var mod_Logo = Logo;
 /**
  * Get logo svg in different formats
  * Only used to define the class. Should never be instantiated.
@@ -113,4 +114,8 @@ Logo.getLogo = function (properties) {
 	return str;
 };
 
-module.exports = Logo;
+/**
+ * Get logo svg in different formats
+ * Only used to define the class. Should never be instantiated.
+ */
+export { mod_Logo as Logo };

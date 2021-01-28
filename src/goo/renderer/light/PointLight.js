@@ -1,4 +1,5 @@
-var Light = require('../../renderer/light/Light');
+var mod_PointLight = PointLight;
+import { Light as Light_Light } from "../../renderer/light/Light";
 
 /**
  * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
@@ -7,7 +8,7 @@ var Light = require('../../renderer/light/Light');
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
 function PointLight(color) {
-	Light.call(this, color);
+	Light_Light.call(this, color);
 
 	/**
 	 * The range of the light (default is 1000)
@@ -20,7 +21,7 @@ function PointLight(color) {
 	// @endif
 }
 
-PointLight.prototype = Object.create(Light.prototype);
+PointLight.prototype = Object.create(Light_Light.prototype);
 PointLight.prototype.constructor = PointLight;
 
 /**
@@ -33,7 +34,7 @@ PointLight.prototype.update = function (transform) {
 };
 
 PointLight.prototype.copy = function (source) {
-	Light.prototype.copy.call(this, source);
+	Light_Light.prototype.copy.call(this, source);
 
 	this.range = source.range;
 
@@ -46,4 +47,10 @@ PointLight.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = PointLight;
+/**
+ * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @extends Light
+ * @param {Vector3} [color=(1, 1, 1)] The color of the light
+ */
+export { mod_PointLight as PointLight };

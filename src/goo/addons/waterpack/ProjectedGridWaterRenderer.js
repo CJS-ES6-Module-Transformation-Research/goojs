@@ -1,16 +1,17 @@
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Camera = require('../../renderer/Camera');
-var Plane = require('../../math/Plane');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var Vector3 = require('../../math/Vector3');
-var Vector4 = require('../../math/Vector4');
-var Material = require('../../renderer/Material');
-var Texture = require('../../renderer/Texture');
-var TextureCreator = require('../../renderer/TextureCreator');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
+var mod_ProjectedGridWaterRenderer = ProjectedGridWaterRenderer;
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
+import { Shader as Shader_Shader } from "../../renderer/Shader";
+import { Camera as Camera_Camera } from "../../renderer/Camera";
+import { Plane as Plane_Plane } from "../../math/Plane";
+import { RenderTarget as RenderTarget_RenderTarget } from "../../renderer/pass/RenderTarget";
+import { FullscreenPass as FullscreenPass_FullscreenPass } from "../../renderer/pass/FullscreenPass";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Vector4 as Vector4_Vector4 } from "../../math/Vector4";
+import { Material as Material_Material } from "../../renderer/Material";
+import { Texture as Texture_Texture } from "../../renderer/Texture";
+import { TextureCreator as TextureCreator_TextureCreator } from "../../renderer/TextureCreator";
+import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
+import { ShaderFragment as ShaderFragment_ShaderFragment } from "../../renderer/shaders/ShaderFragment";
 
 /**
  * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
@@ -18,29 +19,29 @@ var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
  * @param {boolean} [settings.divider=1] Resolution divider for reflection/refraction
  */
 function ProjectedGridWaterRenderer(settings) {
-	this.waterCamera = new Camera(45, 1, 0.1, 2000);
+	this.waterCamera = new Camera_Camera(45, 1, 0.1, 2000);
 	this.renderList = [];
 
-	this.waterPlane = new Plane();
+	this.waterPlane = new Plane_Plane();
 
 	settings = settings || {};
 
 	var width = window.innerWidth / (settings.divider || 4);
 	var height = window.innerHeight / (settings.divider || 4);
-	this.renderTarget = new RenderTarget(width, height);
+	this.renderTarget = new RenderTarget_RenderTarget(width, height);
 	width = window.innerWidth / (settings.divider || 1);
 	height = window.innerHeight / (settings.divider || 1);
-	this.heightTarget = new RenderTarget(width, height, {
+	this.heightTarget = new RenderTarget_RenderTarget(width, height, {
 		type: 'Float'
 	});
-	this.normalTarget = new RenderTarget(width, height, {
+	this.normalTarget = new RenderTarget_RenderTarget(width, height, {
 		// type: 'Float'
 	});
 
-	this.fullscreenPass = new FullscreenPass(ShaderLib.normalmap);
+	this.fullscreenPass = new FullscreenPass_FullscreenPass(ShaderLib_ShaderLib.normalmap);
 	this.fullscreenPass.material.shader.uniforms.resolution = [width, height];
 
-	var waterMaterial = this.waterMaterial = new Material(waterShaderDef, 'WaterMaterial');
+	var waterMaterial = this.waterMaterial = new Material_Material(waterShaderDef, 'WaterMaterial');
 	waterMaterial.cullState.enabled = false;
 
 	var texture = null;
@@ -48,12 +49,12 @@ function ProjectedGridWaterRenderer(settings) {
 		texture = settings.normalsTexture;
 	} else if (settings.normalsUrl) {
 		var normalsTextureUrl = settings.normalsUrl || '../resources/water/waternormals3.png';
-		new TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
+		new TextureCreator_TextureCreator().loadTexture2D(normalsTextureUrl).then(function (texture) {
 			waterMaterial.setTexture('NORMAL_MAP', texture);
 		});
 	} else {
 		var flatNormalData = new Uint8Array([127, 127, 255, 255]);
-		texture = new Texture(flatNormalData, null, 1, 1);
+		texture = new Texture_Texture(flatNormalData, null, 1, 1);
 		waterMaterial.setTexture('NORMAL_MAP', texture);
 	}
 	waterMaterial.setTexture('REFLECTION_MAP', this.renderTarget);
@@ -66,25 +67,25 @@ function ProjectedGridWaterRenderer(settings) {
 	// materialWire.wireframe = true;
 	// materialWire.wireframeColor = [0, 0, 0];
 
-	this.calcVect = new Vector3();
-	this.camReflectDir = new Vector3();
-	this.camReflectUp = new Vector3();
-	this.camReflectLeft = new Vector3();
-	this.camLocation = new Vector3();
-	this.camReflectPos = new Vector3();
+	this.calcVect = new Vector3_Vector3();
+	this.camReflectDir = new Vector3_Vector3();
+	this.camReflectUp = new Vector3_Vector3();
+	this.camReflectLeft = new Vector3_Vector3();
+	this.camLocation = new Vector3_Vector3();
+	this.camReflectPos = new Vector3_Vector3();
 
 	this.waterEntity = null;
-	this.clipPlane = new Vector4();
+	this.clipPlane = new Vector4_Vector4();
 
-	var projData = this.projData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), 4, 6);
-	projData.getAttributeBuffer(MeshData.POSITION).set([
+	var projData = this.projData = new MeshData_MeshData(MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]), 4, 6);
+	projData.getAttributeBuffer(MeshData_MeshData.POSITION).set([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 1, 0
 	]);
 	projData.getIndexBuffer().set([1, 3, 0, 2, 3, 1]);
-	var materialProj = new Material(projShaderDef, 'mat');
+	var materialProj = new Material_Material(projShaderDef, 'mat');
 	this.projRenderable = {
 		meshData: projData,
 		materials: [materialProj]
@@ -92,7 +93,7 @@ function ProjectedGridWaterRenderer(settings) {
 }
 
 ProjectedGridWaterRenderer.prototype.updateHelper = function (intersectBottomLeft, intersectBottomRight, intersectTopRight, intersectTopLeft) {
-	var vbuf = this.projData.getAttributeBuffer(MeshData.POSITION);
+	var vbuf = this.projData.getAttributeBuffer(MeshData_MeshData.POSITION);
 	vbuf[0] = intersectBottomLeft.x / intersectBottomLeft.w;
 	vbuf[1] = 0.0;
 	vbuf[2] = intersectBottomLeft.z / intersectBottomLeft.w;
@@ -217,14 +218,14 @@ ProjectedGridWaterRenderer.prototype.setWaterEntity = function (entity) {
 var waterShaderDef = {
 	attributes: {
 		//vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexUV0: MeshData_MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		normalMatrix: Shader.NORMAL_MATRIX,
-		cameraPosition: Shader.CAMERA,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
+		normalMatrix: Shader_Shader.NORMAL_MATRIX,
+		cameraPosition: Shader_Shader.CAMERA,
 		normalMap: 'NORMAL_MAP',
 		reflection: 'REFLECTION_MAP',
 		bump: 'BUMP_MAP',
@@ -248,9 +249,9 @@ var waterShaderDef = {
 		coarseStrength: 0.25,
 		detailStrength: 2.0,
 		fogStart: 0.0,
-		camNear: Shader.NEAR_PLANE,
-		camFar: Shader.FAR_PLANE,
-		time: Shader.TIME,
+		camNear: Shader_Shader.NEAR_PLANE,
+		camFar: Shader_Shader.FAR_PLANE,
+		time: Shader_Shader.TIME,
 		intersectBottomLeft: [0, 0, 0, 0],
 		intersectTopLeft: [0, 0, 0, 0],
 		intersectTopRight: [0, 0, 0, 0],
@@ -453,16 +454,16 @@ var waterShaderDef = {
 
 var projShaderDef = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: MeshData_MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
 		//diffuseMap: Shader.TEXTURE0,
 		//camNear: Shader.NEAR_PLANE,
 		//camFar: Shader.FAR_PLANE,
-		time: Shader.TIME
+		time: Shader_Shader.TIME
 	},
 	vshader: [
 	'attribute vec3 vertexPosition;',
@@ -490,7 +491,7 @@ var projShaderDef = {
 	'varying vec4 worldPos;',
 	'varying vec4 viewCoords;',
 
-	ShaderFragment.noise3d,
+	ShaderFragment_ShaderFragment.noise3d,
 
 	'vec4 getNoise(sampler2D map, vec2 uv) {',
 	'    vec2 uv0 = (uv/223.0)+vec2(time/17.0, time/29.0);',
@@ -519,4 +520,9 @@ var projShaderDef = {
 	].join('\n')
 };
 
-module.exports = ProjectedGridWaterRenderer;
+/**
+ * Handles pre-rendering of water planes. Attach this to the rendersystem pre-renderers.
+ * @param {Object} [settings] Water settings passed in a JSON object
+ * @param {boolean} [settings.divider=1] Resolution divider for reflection/refraction
+ */
+export { mod_ProjectedGridWaterRenderer as ProjectedGridWaterRenderer };

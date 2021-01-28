@@ -1,18 +1,19 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var Material = require('../../renderer/Material');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
-var Matrix3 = require('../../math/Matrix3');
-var Matrix4 = require('../../math/Matrix4');
-var Vector2 = require('../../math/Vector2');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var TranslationGizmo = require('../../util/gizmopack/TranslationGizmo');
-var GlobalTranslationGizmo = require('../../util/gizmopack/GlobalTranslationGizmo');
-var RotationGizmo = require('../../util/gizmopack/RotationGizmo');
-var GlobalRotationGizmo = require('../../util/gizmopack/GlobalRotationGizmo');
-var ScaleGizmo = require('../../util/gizmopack/ScaleGizmo');
+var mod_GizmoRenderSystem = GizmoRenderSystem;
+import { System as System_System } from "../../entities/systems/System";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { Material as Material_Material } from "../../renderer/Material";
+import { ShaderFragment as ShaderFragment_ShaderFragment } from "../../renderer/shaders/ShaderFragment";
+import { Matrix3 as Matrix3_Matrix3 } from "../../math/Matrix3";
+import { Matrix4 as Matrix4_Matrix4 } from "../../math/Matrix4";
+import { Vector2 as Vector2_Vector2 } from "../../math/Vector2";
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
+import { Shader as Shader_Shader } from "../../renderer/Shader";
+import { Gizmo as Gizmo_Gizmo } from "../../util/gizmopack/Gizmo";
+import { TranslationGizmo as TranslationGizmo_TranslationGizmo } from "../../util/gizmopack/TranslationGizmo";
+import { GlobalTranslationGizmo as GlobalTranslationGizmo_GlobalTranslationGizmo } from "../../util/gizmopack/GlobalTranslationGizmo";
+import { RotationGizmo as RotationGizmo_RotationGizmo } from "../../util/gizmopack/RotationGizmo";
+import { GlobalRotationGizmo as GlobalRotationGizmo_GlobalRotationGizmo } from "../../util/gizmopack/GlobalRotationGizmo";
+import { ScaleGizmo as ScaleGizmo_ScaleGizmo } from "../../util/gizmopack/ScaleGizmo";
 
 /**
  * Renders transform gizmos<br>
@@ -21,17 +22,17 @@ var ScaleGizmo = require('../../util/gizmopack/ScaleGizmo');
  * @extends System
  */
 function GizmoRenderSystem(callbacks) {
-	System.call(this, 'GizmoRenderSystem', null);
+	System_System.call(this, 'GizmoRenderSystem', null);
 
 	this.renderables = [];
 	this.camera = null;
 
 	this.gizmos = [
-		new TranslationGizmo(),
-		new GlobalTranslationGizmo(),
-		new RotationGizmo(),
-		new GlobalRotationGizmo(),
-		new ScaleGizmo()
+		new TranslationGizmo_TranslationGizmo(),
+		new GlobalTranslationGizmo_GlobalTranslationGizmo(),
+		new RotationGizmo_RotationGizmo(),
+		new GlobalRotationGizmo_GlobalRotationGizmo(),
+		new ScaleGizmo_ScaleGizmo()
 	];
 
 	this.active = false;
@@ -43,7 +44,7 @@ function GizmoRenderSystem(callbacks) {
 	this.viewportHeight = 0;
 	this.domElement = null;
 
-	this.pickingMaterial = Material.createEmptyMaterial(customPickingShader, 'pickingMaterial');
+	this.pickingMaterial = Material_Material.createEmptyMaterial(customPickingShader, 'pickingMaterial');
 	this.pickingMaterial.blendState = {
 		blending: 'NoBlending',
 		blendEquation: 'AddEquation',
@@ -53,8 +54,8 @@ function GizmoRenderSystem(callbacks) {
 
 	this._devicePixelRatio = 1;
 
-	this._mouseState = new Vector2();
-	this._oldMouseState = new Vector2();
+	this._mouseState = new Vector2_Vector2();
+	this._oldMouseState = new Vector2_Vector2();
 
 	this._dirty = false;
 
@@ -77,12 +78,12 @@ function GizmoRenderSystem(callbacks) {
 	}.bind(this));
 }
 
-GizmoRenderSystem.prototype = Object.create(System.prototype);
+GizmoRenderSystem.prototype = Object.create(System_System.prototype);
 GizmoRenderSystem.prototype.constructor = GizmoRenderSystem;
 
 GizmoRenderSystem.prototype.activate = function (id, x, y) {
 	this.active = true;
-	var handle = Gizmo.getHandle(id);
+	var handle = Gizmo_Gizmo.getHandle(id);
 	if (handle && this.activeGizmo) {
 		this._oldMouseState.setDirect(
 			x / (this.viewportWidth / this._devicePixelRatio),
@@ -171,8 +172,8 @@ GizmoRenderSystem.prototype.setupCallbacks = function (callbacks) {
 		return;
 	}
 
-	var inverseRotation = new Matrix3();
-	var inverseTransformation = new Matrix4();
+	var inverseRotation = new Matrix3_Matrix3();
+	var inverseTransformation = new Matrix4_Matrix4();
 
 
 	var onTranslationChange = function (change) {
@@ -297,8 +298,8 @@ GizmoRenderSystem.prototype.renderToPick = function (renderer, skipUpdateBuffer)
 
 var customPickingShader = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexNormal: MeshData.NORMAL
+		vertexPosition: MeshData_MeshData.POSITION,
+		vertexNormal: MeshData_MeshData.NORMAL
 	},
 	processors: [
 		function (shader, shaderInfo) {
@@ -312,10 +313,10 @@ var customPickingShader = {
 		}
 	],
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		cameraFar: Shader.FAR_PLANE,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
+		cameraFar: Shader_Shader.FAR_PLANE,
 		thickness: 0.0,
 		id: function (shaderInfo) {
 			return shaderInfo.renderable.id + 1;
@@ -350,7 +351,7 @@ var customPickingShader = {
 
 		'varying float depth;',
 
-		ShaderFragment.methods.packDepth16,
+		ShaderFragment_ShaderFragment.methods.packDepth16,
 
 		'void main() {',
 		'  vec2 packedId = vec2(floor(id/255.0), mod(id, 255.0)) * vec2(1.0/255.0);',
@@ -360,4 +361,10 @@ var customPickingShader = {
 	].join('\n')
 };
 
-module.exports = GizmoRenderSystem;
+/**
+ * Renders transform gizmos<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { mod_GizmoRenderSystem as GizmoRenderSystem };

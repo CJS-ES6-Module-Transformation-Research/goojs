@@ -1,28 +1,30 @@
-var path = require('path');
-var program = require('commander');
+import ext_path_path from "path";
+import ext_program from "commander";
+import { ScreenShooter as ScreenShooter_ScreenShooter } from "./ScreenShooter";
+import ext_child_process from "child_process";
+import { filterListjs as filterList_filterListjs } from "./filterList";
 var toc = require(__dirname + '/../../tools/table-of-contents');
-var ScreenShooter = require('./ScreenShooter');
-var exec = require('child_process').exec;
-var filterList = require('./filterList').filterList;
+var exec = ext_child_process.exec;
+var filterList = filterList_filterListjs.filterList;
 
-program
+ext_program
 	.version('0.0.0')
 	.option('-u, --url [url]',				'URL of the goojs root folder')
 	.option('-w, --wait [milliseconds]',	'Number of milliseconds to wait for the test to run before taking a screenshot.')
 	.parse(process.argv);
 
-program.url = program.url || process.env.GOOJS_ROOT_URL || 'http://localhost:8003';
+ext_program.url = ext_program.url || process.env.GOOJS_ROOT_URL || 'http://localhost:8003';
 
-var gooRootPath = path.join(__dirname, '..', '..');
+var gooRootPath = ext_path_path.join(__dirname, '..', '..');
 
-console.log('Using test URL: ' + program.url);
+console.log('Using test URL: ' + ext_program.url);
 
-var shooter = new ScreenShooter({
-	script : ScreenShooter.removeGooStuffScript
+var shooter = new ScreenShooter_ScreenShooter({
+	script : ScreenShooter_ScreenShooter.removeGooStuffScript
 });
 
-if (typeof program.wait !== 'undefined') {
-	shooter.wait = program.wait;
+if (typeof ext_program.wait !== 'undefined') {
+	shooter.wait = ext_program.wait;
 }
 
 shooter.on('shoot', function (evt) {
@@ -41,9 +43,9 @@ for (var i = 0; i < files.length; i++) {
 		continue;
 	}
 
-	var pngPath = path.join(__dirname, 'screenshots', path.relative(path.join(gooRootPath, 'visual-test'), file)).replace(/\.html$/, '.png');
+	var pngPath = ext_path_path.join(__dirname, 'screenshots', ext_path_path.relative(ext_path_path.join(gooRootPath, 'visual-test'), file)).replace(/\.html$/, '.png');
 
-	var url = program.url + '/' + path.relative(gooRootPath, file) + '?deterministic=1';
+	var url = ext_program.url + '/' + ext_path_path.relative(gooRootPath, file) + '?deterministic=1';
 
 	urlToPathMap[url] = pngPath;
 }

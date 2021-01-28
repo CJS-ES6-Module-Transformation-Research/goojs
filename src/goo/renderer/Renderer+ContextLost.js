@@ -1,11 +1,11 @@
-var Renderer = require('../renderer/Renderer');
-var RendererRecord = require('../renderer/RendererRecord');
+import { Renderer as Renderer_Renderer } from "../renderer/Renderer";
+import { RendererRecord as RendererRecord_RendererRecord } from "../renderer/RendererRecord";
 
-Renderer.prototype.invalidateBuffer = function (buffer) {
+Renderer_Renderer.prototype.invalidateBuffer = function (buffer) {
 	buffer.glBuffer = null;
 };
 
-Renderer.prototype.invalidateMeshData = function (meshData) {
+Renderer_Renderer.prototype.invalidateMeshData = function (meshData) {
 	this.invalidateBuffer(meshData.vertexData);
 	if (meshData.indexData) {
 		this.invalidateBuffer(meshData.indexData);
@@ -18,18 +18,18 @@ Renderer.prototype.invalidateMeshData = function (meshData) {
 	}
 };
 
-Renderer.prototype.invalidateTexture = function (texture) {
+Renderer_Renderer.prototype.invalidateTexture = function (texture) {
 	texture.glTexture = null;
 	texture.textureRecord = {};
 };
 
-Renderer.prototype.invalidateShader = function (shader) {
+Renderer_Renderer.prototype.invalidateShader = function (shader) {
 	shader.shaderProgram = null;
 	shader.vertexShader = null;
 	shader.fragmentShader = null;
 };
 
-Renderer.prototype.invalidateMaterial = function (material) {
+Renderer_Renderer.prototype.invalidateMaterial = function (material) {
 	var keys = Object.keys(material._textureMaps);
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
@@ -40,14 +40,14 @@ Renderer.prototype.invalidateMaterial = function (material) {
 	this.invalidateShader(material.shader);
 };
 
-Renderer.prototype.invalidateRenderTarget = function (renderTarget) {
+Renderer_Renderer.prototype.invalidateRenderTarget = function (renderTarget) {
 	renderTarget.glTexture = null;
 	renderTarget._glRenderBuffer = null;
 	renderTarget._glFrameBuffer = null;
 	delete renderTarget.textureRecord;
 };
 
-Renderer.prototype.invalidateComposer = function (composer) {
+Renderer_Renderer.prototype.invalidateComposer = function (composer) {
 	if (composer.writeBuffer && !composer._passedWriteBuffer) {
 		this.invalidateRenderTarget(composer.writeBuffer);
 	}
@@ -64,7 +64,7 @@ Renderer.prototype.invalidateComposer = function (composer) {
 	}
 };
 
-Renderer.prototype.invalidatePicking = function () {
+Renderer_Renderer.prototype.invalidatePicking = function () {
 	if (this.hardwarePicking) {
 		if (this.hardwarePicking.pickingTarget) {
 			this.invalidateRenderTarget(this.hardwarePicking.pickingTarget);
@@ -73,10 +73,10 @@ Renderer.prototype.invalidatePicking = function () {
 	}
 };
 
-Renderer.prototype._restoreContext = function () {
+Renderer_Renderer.prototype._restoreContext = function () {
 	this.establishContext();
 
-	this.rendererRecord = new RendererRecord();
+	this.rendererRecord = new RendererRecord_RendererRecord();
 
 	this.context.clearColor(
 		this._clearColor.x,

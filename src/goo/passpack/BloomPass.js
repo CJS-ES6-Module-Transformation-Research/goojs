@@ -1,10 +1,11 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
+var mod_BloomPass = BloomPass;
+import { Material as Material_Material } from "../renderer/Material";
+import { FullscreenUtils as FullscreenUtils_FullscreenUtils } from "../renderer/pass/FullscreenUtils";
+import { RenderTarget as RenderTarget_RenderTarget } from "../renderer/pass/RenderTarget";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { ShaderLib as ShaderLib_ShaderLib } from "../renderer/shaders/ShaderLib";
+import { ShaderLibExtra as ShaderLibExtra_ShaderLibExtra } from "../passpack/ShaderLibExtra";
+import { Pass as Pass_Pass } from "../renderer/pass/Pass";
 
 /**
  * @example-link http://code.gooengine.com/latest/visual-test/goo/passpack/BloomPass/BloomPass-vtest.html Working example
@@ -36,24 +37,24 @@ function BloomPass(settings) {
 	});
 
 	this.renderable = {
-		meshData: FullscreenUtils.quad,
+		meshData: FullscreenUtils_FullscreenUtils.quad,
 		materials: []
 	};
 
-	this.copyMaterial = new Material(ShaderLib.copyPure);
+	this.copyMaterial = new Material_Material(ShaderLib_ShaderLib.copyPure);
 	this.copyMaterial.uniforms.opacity = strength;
 	this.copyMaterial.blendState.blending = 'AdditiveBlending';
 
-	this.convolutionShader = ObjectUtils.deepClone(ShaderLib.convolution);
+	this.convolutionShader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.convolution);
 	this.convolutionShader.defines = {
 		'KERNEL_SIZE_FLOAT': kernelSize.toFixed(1),
 		'KERNEL_SIZE_INT': kernelSize.toFixed(0)
 	};
-	this.convolutionMaterial = new Material(this.convolutionShader);
+	this.convolutionMaterial = new Material_Material(this.convolutionShader);
 	this.convolutionMaterial.uniforms.uImageIncrement = BloomPass.blurX;
 	this.convolutionMaterial.uniforms.cKernel = this.convolutionShader.buildKernel(sigma);
 
-	this.bcMaterial = new Material(ShaderLibExtra.brightnesscontrast);
+	this.bcMaterial = new Material_Material(ShaderLibExtra_ShaderLibExtra.brightnesscontrast);
 	this.bcMaterial.uniforms.brightness = 0.0;
 	this.bcMaterial.uniforms.contrast = 0.0;
 
@@ -62,7 +63,7 @@ function BloomPass(settings) {
 	this.needsSwap = false;
 }
 
-BloomPass.prototype = Object.create(Pass.prototype);
+BloomPass.prototype = Object.create(Pass_Pass.prototype);
 BloomPass.prototype.constructor = BloomPass;
 
 BloomPass.prototype.destroy = function (renderer) {
@@ -96,8 +97,8 @@ BloomPass.prototype.updateSize = function (size, renderer) {
 	if (this.renderTargetY) {
 		this.renderTargetY.destroy(renderer.context);
 	}
-	this.renderTargetX = new RenderTarget(sizeX, sizeY);
-	this.renderTargetY = new RenderTarget(sizeX, sizeY);
+	this.renderTargetX = new RenderTarget_RenderTarget(sizeX, sizeY);
+	this.renderTargetY = new RenderTarget_RenderTarget(sizeX, sizeY);
 };
 
 BloomPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -105,7 +106,7 @@ BloomPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.renderable.materials[0] = this.bcMaterial;
 
 	this.bcMaterial.setTexture('DIFFUSE_MAP', readBuffer);
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetY, true);
+	renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.renderTargetY, true);
 
 	// Blur Y
 	this.renderable.materials[0] = this.convolutionMaterial;
@@ -113,26 +114,37 @@ BloomPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', this.renderTargetY);
 	this.convolutionMaterial.uniforms.uImageIncrement = BloomPass.blurY;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.renderTargetX, true);
 
 	// Blur X
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionMaterial.uniforms.uImageIncrement = BloomPass.blurX;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetY, true);
+	renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.renderTargetY, true);
 
 	// Additive blend
 	this.renderable.materials[0] = this.copyMaterial;
 	this.copyMaterial.setTexture('DIFFUSE_MAP', this.renderTargetY);
 
 	if (this.target !== null) {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], this.target, this.clear);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.target, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], readBuffer, this.clear);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], readBuffer, this.clear);
 	}
 };
 
 BloomPass.blurX = [0.001953125, 0.0];
 BloomPass.blurY = [0.0, 0.001953125];
 
-module.exports = BloomPass;
+/**
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/passpack/BloomPass/BloomPass-vtest.html Working example
+ * <pre>
+ * settings: {
+ *     strength: 1.0,
+ *     sigma: 4.0,
+ *     sizeX: 256,
+ *     sizeY: 256
+ * }
+ * </pre>
+ */
+export { mod_BloomPass as BloomPass };

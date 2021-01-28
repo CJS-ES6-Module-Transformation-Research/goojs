@@ -1,6 +1,7 @@
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var Curve = require('../../../addons/particlepack/curves/Curve');
-var ObjectUtils = require('../../../util/ObjectUtils');
+var mod_Vector3Curve = Vector3Curve;
+import { ConstantCurve as ConstantCurve_ConstantCurve } from "../../../addons/particlepack/curves/ConstantCurve";
+import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../../util/ObjectUtils";
 
 /**
  * Three scalar curves. Can be converted to a vec3-valued expression in GLSL code.
@@ -14,19 +15,19 @@ var ObjectUtils = require('../../../util/ObjectUtils');
 function Vector3Curve(options) {
 	options = options || {};
 
-	options = ObjectUtils.clone(options);
+	options = ObjectUtils_ObjectUtils.clone(options);
 	options.type = 'vec3';
-	Curve.call(this, options);
+	Curve_Curve.call(this, options);
 
-	this.x = options.x ? options.x.clone() : new ConstantCurve();
-	this.y = options.y ? options.y.clone() : new ConstantCurve();
-	this.z = options.z ? options.z.clone() : new ConstantCurve();
+	this.x = options.x ? options.x.clone() : new ConstantCurve_ConstantCurve();
+	this.y = options.y ? options.y.clone() : new ConstantCurve_ConstantCurve();
+	this.z = options.z ? options.z.clone() : new ConstantCurve_ConstantCurve();
 
 	if (this.x.type !== 'float' || this.y.type !== 'float' || this.z.type !== 'float') {
 		throw new Error('Vector3Curve must have scalar components.');
 	}
 }
-Vector3Curve.prototype = Object.create(Curve.prototype);
+Vector3Curve.prototype = Object.create(Curve_Curve.prototype);
 Vector3Curve.prototype.constructor = Vector3Curve;
 
 Vector3Curve.prototype.toGLSL = function (timeVariableName, lerpValueVariableName) {
@@ -53,4 +54,13 @@ Vector3Curve.prototype.getVec3IntegralValueAt = function (t, lerpValue, store) {
 	);
 };
 
-module.exports = Vector3Curve;
+/**
+ * Three scalar curves. Can be converted to a vec3-valued expression in GLSL code.
+ * @class
+ * @constructor
+ * @param {object} [options]
+ * @param {Curve} [options.x]
+ * @param {Curve} [options.y]
+ * @param {Curve} [options.z]
+ */
+export { mod_Vector3Curve as Vector3Curve };

@@ -1,11 +1,12 @@
-var System = require('../../entities/systems/System');
+var mod_StateMachineSystem = StateMachineSystem;
+import { System as System_System } from "../../entities/systems/System";
 
 /**
  * Processes all entities with a FSM component
  * @private
  */
 function StateMachineSystem(engine) {
-	System.call(this, 'StateMachineSystem', ['StateMachineComponent']);
+	System_System.call(this, 'StateMachineSystem', ['StateMachineComponent']);
 
 	this.engine = engine;
 	this.passive = false;
@@ -46,7 +47,7 @@ function StateMachineSystem(engine) {
 	};
 }
 
-StateMachineSystem.prototype = Object.create(System.prototype);
+StateMachineSystem.prototype = Object.create(System_System.prototype);
 
 StateMachineSystem.prototype.getInputState = function (key) {
 	return this._inputStates.has(key);
@@ -132,4 +133,8 @@ StateMachineSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = StateMachineSystem;
+/**
+ * Processes all entities with a FSM component
+ * @private
+ */
+export { mod_StateMachineSystem as StateMachineSystem };

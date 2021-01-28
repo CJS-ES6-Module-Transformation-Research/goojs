@@ -1,35 +1,36 @@
-var LogicLayer = require('./LogicLayer');
-var LogicNode = require('./LogicNode');
-var LogicNodes = require('./LogicNodes');
-var LogicInterface = require('./LogicInterface');
+var mod_LogicNodeFloat = LogicNodeFloat;
+import { LogicLayer as LogicLayer_LogicLayer } from "./LogicLayer";
+import { LogicNode as LogicNode_LogicNode } from "./LogicNode";
+import { LogicNodes as LogicNodes_LogicNodes } from "./LogicNodes";
+import { LogicInterface as LogicInterface_LogicInterface } from "./LogicInterface";
 
 /**
  * Logic node that provides a float value.
  * @private
  */
 function LogicNodeFloat() {
-	LogicNode.call(this);
+	LogicNode_LogicNode.call(this);
 	this.logicInterface = LogicNodeFloat.logicInterface;
 	this.type = 'LogicNodeFloat';
 }
 
-LogicNodeFloat.prototype = Object.create(LogicNode.prototype);
+LogicNodeFloat.prototype = Object.create(LogicNode_LogicNode.prototype);
 LogicNodeFloat.editorName = 'Float';
 
 LogicNodeFloat.prototype.onConfigure = function (newConfig) {
 	if (newConfig.value !== undefined) {
 		this.value = newConfig.value;
-		LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
+		LogicLayer_LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
 	}
 };
 
 LogicNodeFloat.prototype.onSystemStarted = function () {
-	LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
+	LogicLayer_LogicLayer.writeValue(this.logicInstance, LogicNodeFloat.outportFloat, this.value);
 };
 
-LogicNodes.registerType('LogicNodeFloat', LogicNodeFloat);
+LogicNodes_LogicNodes.registerType('LogicNodeFloat', LogicNodeFloat);
 
-LogicNodeFloat.logicInterface = new LogicInterface();
+LogicNodeFloat.logicInterface = new LogicInterface_LogicInterface();
 LogicNodeFloat.outportFloat = LogicNodeFloat.logicInterface.addOutputProperty('value', 'float');
 LogicNodeFloat.logicInterface.addConfigEntry({
 	name: 'value',
@@ -37,4 +38,8 @@ LogicNodeFloat.logicInterface.addConfigEntry({
 	label: 'Value'
 });
 
-module.exports = LogicNodeFloat;
+/**
+ * Logic node that provides a float value.
+ * @private
+ */
+export { mod_LogicNodeFloat as LogicNodeFloat };

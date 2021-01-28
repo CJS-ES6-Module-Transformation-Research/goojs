@@ -1,9 +1,10 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var SoundComponent = require('../../entities/components/SoundComponent');
-var AudioContext = require('../../sound/AudioContext');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_SoundComponentHandler = SoundComponentHandler;
+import { ComponentHandler as ComponentHandler_ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { SoundComponent as SoundComponent_SoundComponent } from "../../entities/components/SoundComponent";
+import { AudioContextjs as AudioContext } from "../../sound/AudioContext";
+import { rsvpjs as RSVP } from "../../util/rsvp";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * For handling loading of sound components
@@ -14,13 +15,13 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @hidden
  */
 function SoundComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandler_ComponentHandler.apply(this, arguments);
 	this._type = 'SoundComponent';
 }
 
-SoundComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+SoundComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
 SoundComponentHandler.prototype.constructor = SoundComponentHandler;
-ComponentHandler._registerClass('sound', SoundComponentHandler);
+ComponentHandler_ComponentHandler._registerClass('sound', SoundComponentHandler);
 
 /**
  * Removes the souncomponent and stops all connected sounds
@@ -42,7 +43,7 @@ SoundComponentHandler.prototype._remove = function (entity) {
  * @param {Object} config
  */
 SoundComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	ObjectUtils_ObjectUtils.defaults(config, {
 		volume: 1.0,
 		reverb: 0.0
 	});
@@ -54,7 +55,7 @@ SoundComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 SoundComponentHandler.prototype._create = function () {
-	return new SoundComponent();
+	return new SoundComponent_SoundComponent();
 };
 
 /**
@@ -66,11 +67,11 @@ SoundComponentHandler.prototype._create = function () {
  */
 SoundComponentHandler.prototype.update = function (entity, config, options) {
 	if (!AudioContext.isSupported()) {
-		return PromiseUtils.resolve(); //! AT: we're not really using reject
+		return PromiseUtils_PromiseUtils.resolve(); //! AT: we're not really using reject
 	}
 
 	var that = this;
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 		component.updateConfig(config);
 
@@ -84,7 +85,7 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 
 		var promises = [];
 		// Load all sounds
-		ObjectUtils.forEach(config.sounds, function (soundCfg) {
+		ObjectUtils_ObjectUtils.forEach(config.sounds, function (soundCfg) {
 			promises.push(that._load(soundCfg.soundRef, options));
 		}, null, 'sortValue');
 
@@ -100,4 +101,12 @@ SoundComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = SoundComponentHandler;
+/**
+ * For handling loading of sound components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { mod_SoundComponentHandler as SoundComponentHandler };

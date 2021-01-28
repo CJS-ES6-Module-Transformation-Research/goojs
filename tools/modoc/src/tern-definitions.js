@@ -1,21 +1,12 @@
+import ext_fs_fs from "fs";
+import ext__ from "underscore";
+import { utiljs as util } from "./util";
+import { trunkjs as trunk } from "./trunk";
+import { parse as typeexpressionstypeparser_parse } from "./type-expressions/type-parser";
+import { serialize as typeexpressionsternserializer_serialize } from "./type-expressions/tern-serializer";
+import { defaultterndefinitionsjs as defaultTernDefinitions } from "./default-tern-definitions";
 // jshint node:true
 'use strict';
-
-/*
- tern definition generator - shared a lot of code with modoc
- will have to refactor the common parts out
- */
-
-var fs = require('fs');
-var _ = require('underscore');
-
-var util = require('./util');
-var trunk = require('./trunk');
-
-var typeParser = require('./type-expressions/type-parser');
-var ternSerializer = require('./type-expressions/tern-serializer');
-
-var defaultTernDefinitions = require('./default-tern-definitions');
 
 
 function processArguments() {
@@ -33,7 +24,7 @@ function processArguments() {
 var convertParameters = function (parameters) {
 	var pair = compileOptions(parameters);
 
-	_.extend(additionalDefinitions, pair.definitions);
+	ext__.extend(additionalDefinitions, pair.definitions);
 
 	return pair.parameters.map(function (parameter) {
 		var decoratedName = parameter.optional || parameter.default_ ?
@@ -65,7 +56,7 @@ function compileTypelessFunction(parameters) {
  * @returns {{definitions: *, parameters: *}}
  */
 var compileOptions = (function () {
-	var generateId = util.createIdGenerator('_options_');
+	var generateId = util('_options_');
 
 	function insert(node, key, data) {
 		key.split('.').forEach(function (part) {
@@ -93,7 +84,7 @@ var compileOptions = (function () {
 
 				definitions[id] = definition;
 
-				_(node.children).forEach(function (node, name) {
+				ext__(node.children).forEach(function (node, name) {
 					definition[name] = translate(node, definitions);
 				});
 
@@ -101,7 +92,7 @@ var compileOptions = (function () {
 			}
 		}
 
-		return _(node.children).mapObject(function (node, name) {
+		return ext__(node.children).mapObject(function (node, name) {
 			return translate(node, definitions);
 		});
 	}
@@ -267,14 +258,14 @@ function makeConverter(classNames) {
 	var typesRegex = new RegExp(typesRegexStr, 'g');
 
 	return function (closureType) {
-		var parsed = typeParser.parse(closureType);
-		var ternType = ternSerializer.serialize(parsed);
+		var parsed = typeexpressionstypeparser_parse(closureType);
+		var ternType = typeexpressionsternserializer_serialize(parsed);
 
 		// perform the substitutions after the conversion as this inflates the string with `goo.` prefixes
 		// should this prefixing be done on the expression in parsed form instead? why?
 
-		_.forEach(ternType.definitions, function (definition, key) {
-			additionalDefinitions[key] = _.mapObject(definition, function (member) {
+		ext__.forEach(ternType.definitions, function (definition, key) {
+			additionalDefinitions[key] = ext__.mapObject(definition, function (member) {
 				return member.replace(typesRegex, 'goo.$1');
 			});
 		});
@@ -299,7 +290,7 @@ function buildClasses(classes) {
 
 	convert = makeConverter(Object.keys(classes));
 
-	ternDefinitions.goo = _.mapObject(classes, compileClass);
+	ternDefinitions.goo = ext__.mapObject(classes, compileClass);
 
 	// store this here for a bit
 	ternDefinitions.goo['!url'] = 'http://goocreate.com/learn/the-goo-object/';
@@ -307,7 +298,7 @@ function buildClasses(classes) {
 
 	var result = JSON.stringify(ternDefinitions, null, '\t');
 
-	fs.writeFileSync(args.outPath + util.PATH_SEPARATOR + 'tern-defs.json', result);
+	ext_fs_fs.writeFileSync(args.outPath + util + 'tern-defs.json', result);
 }
 
 
@@ -316,9 +307,9 @@ var args = processArguments();
 var IGNORE_FILES = ['goo.js', 'pack.js', 'logicpack', 'soundmanager', '+'];
 
 (function () {
-	var files = trunk.getFiles(args.sourcePath, IGNORE_FILES);
+	var files = trunk(args.sourcePath, IGNORE_FILES);
 
-	var classes = trunk.compileDoc(files);
+	var classes = trunk(files);
 
 	buildClasses(classes);
 

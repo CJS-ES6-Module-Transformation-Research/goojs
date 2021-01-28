@@ -1,4 +1,4 @@
-var ScriptUtils = require('../../../src/goo/scripts/ScriptUtils');
+import { ScriptUtils as ScriptUtils_ScriptUtils } from "../../../src/goo/scripts/ScriptUtils";
 
 describe('ScriptUtils', function () {
 	it('defaults missing keys', function () {
@@ -14,7 +14,7 @@ describe('ScriptUtils', function () {
 
 		var parametersValues = {};
 
-		ScriptUtils.fillDefaultValues(parametersValues, parametersDefinition);
+		ScriptUtils_ScriptUtils.fillDefaultValues(parametersValues, parametersDefinition);
 
 		var expected = {
 			'a': 123,
@@ -50,7 +50,7 @@ describe('ScriptUtils', function () {
 
 		var parametersValues = {};
 
-		ScriptUtils.fillDefaultValues(parametersValues, parametersDefinition);
+		ScriptUtils_ScriptUtils.fillDefaultValues(parametersValues, parametersDefinition);
 
 		var expected = {
 			'a': 0,

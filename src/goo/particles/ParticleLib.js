@@ -1,3 +1,4 @@
+var mod_ParticleLib = ParticleLib;
 /**
  * Library of particles
  * @example-link http://code.gooengine.com/latest/visual-test/goo/misc/ParticleLib/ParticleLib-vtest.html Working example
@@ -134,4 +135,8 @@ ParticleLib.getSnow = function (options) {
 	};
 };
 
-module.exports = ParticleLib;
+/**
+ * Library of particles
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/misc/ParticleLib/ParticleLib-vtest.html Working example
+ */
+export { mod_ParticleLib as ParticleLib };

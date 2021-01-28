@@ -1,8 +1,9 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var RSVP = require('../../util/rsvp');
-var StringUtils = require('../../util/StringUtils');
-var PromiseUtils = require('../../util/PromiseUtils');
+var mod_EntityHandler = EntityHandler;
+import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { ComponentHandler as ComponentHandler_ComponentHandler } from "../../loaders/handlers/ComponentHandler";
+import { rsvpjs as RSVP } from "../../util/rsvp";
+import { StringUtils as StringUtils_StringUtils } from "../../util/StringUtils";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
 
 /**
  * Handler for loading entities into engine
@@ -13,13 +14,13 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @private
  */
 function EntityHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 	this._componentHandlers = {};
 }
 
-EntityHandler.prototype = Object.create(ConfigHandler.prototype);
+EntityHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 EntityHandler.prototype.constructor = EntityHandler;
-ConfigHandler._registerClass('entity', EntityHandler);
+ConfigHandler_ConfigHandler._registerClass('entity', EntityHandler);
 
 /**
  * Creates an empty entity
@@ -85,7 +86,7 @@ function updateAttributes(entity, attributes) {
  */
 EntityHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (entity) {
+	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (entity) {
 		if (!entity) { return; }
 		entity.id = ref;
 		entity.name = config.name;
@@ -116,7 +117,7 @@ EntityHandler.prototype._update = function (ref, config, options) {
 			}
 		}
 		// When all is done, hide or show and return
-		return PromiseUtils.optimisticAll(promises).then(function (/*components*/) {
+		return PromiseUtils_PromiseUtils.optimisticAll(promises).then(function (/*components*/) {
 			if (config.hidden) {
 				entity.hide();
 			} else {
@@ -156,7 +157,7 @@ EntityHandler.prototype._updateComponent = function (entity, type, config, optio
 EntityHandler.prototype._getComponentType = function (component) {
 	var type = component.type;
 	type = type.slice(0, type.lastIndexOf('Component'));
-	type = StringUtils.uncapitalize(type);
+	type = StringUtils_StringUtils.uncapitalize(type);
 	if (type === 'howler') { type = 'sound'; } // HowlerComponent should be renamed
 	return type;
 };
@@ -168,7 +169,7 @@ EntityHandler.prototype._getComponentType = function (component) {
  */
 EntityHandler.prototype._getHandler = function (type) {
 	if (!this._componentHandlers[type]) {
-		var Handler = ComponentHandler.getHandler(type);
+		var Handler = ComponentHandler_ComponentHandler.getHandler(type);
 		if (Handler) {
 			this._componentHandlers[type] = new Handler(
 				this.world,
@@ -181,4 +182,12 @@ EntityHandler.prototype._getHandler = function (type) {
 	return this._componentHandlers[type];
 };
 
-module.exports = EntityHandler;
+/**
+ * Handler for loading entities into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { mod_EntityHandler as EntityHandler };

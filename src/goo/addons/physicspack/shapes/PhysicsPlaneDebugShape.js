@@ -1,16 +1,17 @@
-var MeshData = require('../../../renderer/MeshData');
+var mod_PhysicsPlaneDebugShape = PhysicsPlaneDebugShape;
+import { MeshData as MeshData_MeshData } from "../../../renderer/MeshData";
 
 /**
  * A wireframe mesh indicating the position and orientation of a PlaneCollider.
  * @extends MeshData
  */
 function PhysicsPlaneDebugShape() {
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	MeshData.call(this, attributeMap, 10, 14);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
+	MeshData_MeshData.call(this, attributeMap, 10, 14);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsPlaneDebugShape.prototype = Object.create(MeshData.prototype);
+PhysicsPlaneDebugShape.prototype = Object.create(MeshData_MeshData.prototype);
 PhysicsPlaneDebugShape.prototype.constructor = PhysicsPlaneDebugShape;
 
 /**
@@ -50,11 +51,15 @@ PhysicsPlaneDebugShape.prototype.rebuild = function () {
 		8, 9
 	);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
 
 	this.getIndexBuffer().set(indices);
 
 	return this;
 };
 
-module.exports = PhysicsPlaneDebugShape;
+/**
+ * A wireframe mesh indicating the position and orientation of a PlaneCollider.
+ * @extends MeshData
+ */
+export { mod_PhysicsPlaneDebugShape as PhysicsPlaneDebugShape };

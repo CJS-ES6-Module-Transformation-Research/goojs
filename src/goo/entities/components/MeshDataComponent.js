@@ -1,6 +1,7 @@
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var Component = require('../../entities/components/Component');
-var MeshData = require('../../renderer/MeshData');
+var mod_MeshDataComponent = MeshDataComponent;
+import { BoundingBox as BoundingBox_BoundingBox } from "../../renderer/bounds/BoundingBox";
+import { Component as Component_Component } from "../../entities/components/Component";
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
 
 /**
  * Holds the mesh data, like vertices, normals, indices etc. Also defines the local bounding volume.
@@ -9,7 +10,7 @@ var MeshData = require('../../renderer/MeshData');
  * @extends Component
  */
 function MeshDataComponent(meshData) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'MeshDataComponent';
 
@@ -21,7 +22,7 @@ function MeshDataComponent(meshData) {
 	/** Bounding volume in local space.
 	 * @type {BoundingVolume}
 	 */
-	this.modelBound = new BoundingBox();
+	this.modelBound = new BoundingBox_BoundingBox();
 
 	/**
 	 * @type {boolean}
@@ -42,7 +43,7 @@ function MeshDataComponent(meshData) {
 
 MeshDataComponent.type = 'MeshDataComponent';
 
-MeshDataComponent.prototype = Object.create(Component.prototype);
+MeshDataComponent.prototype = Object.create(Component_Component.prototype);
 MeshDataComponent.prototype.constructor = MeshDataComponent;
 
 /**
@@ -99,11 +100,17 @@ MeshDataComponent.prototype.clone = function (options) {
 };
 
 MeshDataComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof MeshData) {
+	if (obj instanceof MeshData_MeshData) {
 		var meshDataComponent = new MeshDataComponent(obj);
 		entity.setComponent(meshDataComponent);
 		return true;
 	}
 };
 
-module.exports = MeshDataComponent;
+/**
+ * Holds the mesh data, like vertices, normals, indices etc. Also defines the local bounding volume.
+ * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshDataComponent/MeshDataComponent-example.html Working example
+ * @param {MeshData} meshData Target mesh data for this component.
+ * @extends Component
+ */
+export { mod_MeshDataComponent as MeshDataComponent };

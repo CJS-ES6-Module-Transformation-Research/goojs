@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+var mod_SetPositionAction = SetPositionAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { FsmUtils as FsmUtils_FsmUtils } from "../../../fsmpack/statemachine/FsmUtils";
 
 function SetPositionAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-SetPositionAction.prototype = Object.create(Action.prototype);
+SetPositionAction.prototype = Object.create(Action_Action.prototype);
 SetPositionAction.prototype.constructor = SetPositionAction;
 
 SetPositionAction.prototype.configure = function (settings) {
@@ -55,12 +56,12 @@ SetPositionAction.external = {
 SetPositionAction.prototype.update = function (fsm) {
 	if (this.entity !== null) {
 		this.entity.transformComponent.transform.translation.setDirect(
-			FsmUtils.getValue(this.amountX, fsm),
-			FsmUtils.getValue(this.amountY, fsm),
-			FsmUtils.getValue(this.amountZ, fsm)
+			FsmUtils_FsmUtils.getValue(this.amountX, fsm),
+			FsmUtils_FsmUtils.getValue(this.amountY, fsm),
+			FsmUtils_FsmUtils.getValue(this.amountZ, fsm)
 		);
 		this.entity.transformComponent.setUpdated();
 	}
 };
 
-module.exports = SetPositionAction;
+export { mod_SetPositionAction as SetPositionAction };

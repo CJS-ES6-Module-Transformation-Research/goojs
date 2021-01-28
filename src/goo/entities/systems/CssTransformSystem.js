@@ -1,14 +1,15 @@
-var System = require('../../entities/systems/System');
-var Renderer = require('../../renderer/Renderer');
-var Matrix4 = require('../../math/Matrix4');
-var MathUtils = require('../../math/MathUtils');
-var Vector3 = require('../../math/Vector3');
+var mod_CssTransformSystem = CssTransformSystem;
+import { System as System_System } from "../../entities/systems/System";
+import { Renderer as Renderer_Renderer } from "../../renderer/Renderer";
+import { Matrix4 as Matrix4_Matrix4 } from "../../math/Matrix4";
+import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
 
 /**
  * @extends System
  */
 function CssTransformSystem(renderer) {
-	System.call(this, 'CssTransformSystem', ['TransformComponent', 'CssTransformComponent']);
+	System_System.call(this, 'CssTransformSystem', ['TransformComponent', 'CssTransformComponent']);
 
 	this.renderer = renderer;
 
@@ -19,11 +20,11 @@ function CssTransformSystem(renderer) {
 	}
 }
 
-var tmpMatrix = new Matrix4();
-var tmpMatrix2 = new Matrix4();
-var tmpVector = new Vector3();
+var tmpMatrix = new Matrix4_Matrix4();
+var tmpMatrix2 = new Matrix4_Matrix4();
+var tmpVector = new Vector3_Vector3();
 
-CssTransformSystem.prototype = Object.create(System.prototype);
+CssTransformSystem.prototype = Object.create(System_System.prototype);
 CssTransformSystem.prototype.constructor = CssTransformSystem;
 
 var epsilon = function (value) {
@@ -52,20 +53,20 @@ CssTransformSystem.prototype.process = function (entities) {
 		return;
 	}
 
-	var camera = Renderer.mainCamera;
+	var camera = Renderer_Renderer.mainCamera;
 
 	if (!camera) {
 		return;
 	}
 
-	var fov = 0.5 / Math.tan(MathUtils.DEG_TO_RAD * camera.fov * 0.5) * this.renderer.domElement.offsetHeight;
+	var fov = 0.5 / Math.tan(MathUtils_MathUtils.DEG_TO_RAD * camera.fov * 0.5) * this.renderer.domElement.offsetHeight;
 	setStyle(this.viewDom, 'perspective', fov + 'px');
 
 	tmpMatrix.copy(camera.getViewInverseMatrix());
 	tmpMatrix2.copy(tmpMatrix);
 	tmpMatrix.invert();
 
-	tmpMatrix.setTranslation(new Vector3(0, 0, fov));
+	tmpMatrix.setTranslation(new Vector3_Vector3(0, 0, fov));
 	var style = getCSSMatrix(tmpMatrix);
 	setStyle(this.containerDom, 'transform', style);
 
@@ -113,4 +114,7 @@ CssTransformSystem.prototype.process = function (entities) {
 	}
 };
 
-module.exports = CssTransformSystem;
+/**
+ * @extends System
+ */
+export { mod_CssTransformSystem as CssTransformSystem };

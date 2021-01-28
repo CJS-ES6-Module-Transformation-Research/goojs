@@ -1,9 +1,10 @@
-var Action = require('./Action');
+var mod_StartParticleSystemAction = StartParticleSystemAction;
+import { Action as Action_Action } from "./Action";
 
 function StartParticleSystemAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
-StartParticleSystemAction.prototype = Object.create(Action.prototype);
+StartParticleSystemAction.prototype = Object.create(Action_Action.prototype);
 StartParticleSystemAction.prototype.constructor = StartParticleSystemAction;
 
 StartParticleSystemAction.external = {
@@ -22,4 +23,4 @@ StartParticleSystemAction.prototype.enter = function (fsm) {
 	entity.particleSystemComponent.play();
 };
 
-module.exports = StartParticleSystemAction;
+export { mod_StartParticleSystemAction as StartParticleSystemAction };

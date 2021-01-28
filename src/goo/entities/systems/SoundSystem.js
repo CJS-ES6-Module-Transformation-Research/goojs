@@ -1,8 +1,9 @@
-var System = require('../../entities/systems/System');
-var AudioContext = require('../../sound/AudioContext');
-var MathUtils = require('../../math/MathUtils');
-var SystemBus = require('../../entities/SystemBus');
-var Matrix4 = require('../../math/Matrix4');
+var mod_SoundSystem = SoundSystem;
+import { System as System_System } from "../../entities/systems/System";
+import { AudioContextjs as AudioContext } from "../../sound/AudioContext";
+import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { Matrix4 as Matrix4_Matrix4 } from "../../math/Matrix4";
 
 /**
  * System responsible for sound.
@@ -15,10 +16,10 @@ function SoundSystem() {
 		console.warn('Cannot create SoundSystem, WebAudio not supported');
 		return;
 	}
-	System.call(this, 'SoundSystem', ['SoundComponent', 'TransformComponent']);
+	System_System.call(this, 'SoundSystem', ['SoundComponent', 'TransformComponent']);
 
 	this.entities = [];
-	this._relativeTransform = new Matrix4();
+	this._relativeTransform = new Matrix4_Matrix4();
 
 	this._pausedSounds = {};
 
@@ -69,7 +70,7 @@ function SoundSystem() {
 	this._scheduledUpdates = [];
 }
 
-SoundSystem.prototype = Object.create(System.prototype);
+SoundSystem.prototype = Object.create(System_System.prototype);
 SoundSystem.prototype.constructor = SoundSystem;
 
 SoundSystem.prototype._initializeAudioNodes = function () {
@@ -147,10 +148,10 @@ SoundSystem.prototype.updateConfig = function (config) {
 		this.rolloffFactor = config.rolloffFactor;
 	}
 	if (config.volume !== undefined) {
-		this.volume = MathUtils.clamp(config.volume, 0, 1);
+		this.volume = MathUtils_MathUtils.clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this.reverb = MathUtils.clamp(config.reverb, 0, 1);
+		this.reverb = MathUtils_MathUtils.clamp(config.reverb, 0, 1);
 	}
 	if (config.muted !== undefined) {
 		this.muted = config.muted;
@@ -294,4 +295,9 @@ SoundSystem.prototype.process = function (entities, tpf) {
 	}
 };
 
-module.exports = SoundSystem;
+/**
+ * System responsible for sound.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
+ * @extends System
+ */
+export { mod_SoundSystem as SoundSystem };

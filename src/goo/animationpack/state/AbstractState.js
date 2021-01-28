@@ -1,3 +1,4 @@
+var mod_AbstractState = AbstractState;
 /**
  * Base class for a state in our animation system
  * @private
@@ -19,4 +20,8 @@ AbstractState.prototype.shiftClipTime = function (shiftTime) {
 	this._globalStartTime += shiftTime;
 };
 
-module.exports = AbstractState;
+/**
+ * Base class for a state in our animation system
+ * @private
+ */
+export { mod_AbstractState as AbstractState };

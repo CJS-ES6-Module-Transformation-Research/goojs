@@ -1,5 +1,6 @@
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
+var mod_AxisAlignedCamControlScript = AxisAlignedCamControlScript;
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
 
 /**
  * Axis aligned camera control script
@@ -8,14 +9,14 @@ var MathUtils = require('../math/MathUtils');
 function AxisAlignedCamControlScript() {
 	function setup(params, env) {
 		// Look axis
-		env.axis = Vector3.UNIT_Z.clone();
+		env.axis = Vector3_Vector3.UNIT_Z.clone();
 		// Up axis will most often be Y but you never know...
-		env.upAxis = Vector3.UNIT_Y.clone();
+		env.upAxis = Vector3_Vector3.UNIT_Y.clone();
 		setView(params, env, params.view);
 		env.currentView = params.view;
-		env.lookAtPoint	= new Vector3();
+		env.lookAtPoint	= new Vector3_Vector3();
 		env.distance	= params.distance;
-		env.smoothness	= Math.pow(MathUtils.clamp(params.smoothness, 0, 1), 0.3);
+		env.smoothness	= Math.pow(MathUtils_MathUtils.clamp(params.smoothness, 0, 1), 0.3);
 		env.axisAlignedDirty = true;
 	}
 
@@ -26,12 +27,12 @@ function AxisAlignedCamControlScript() {
 		env.currentView = view;
 		switch (view) {
 			case 'XY':
-				env.axis.set(Vector3.UNIT_Z);
-				env.upAxis.set(Vector3.UNIT_Y);
+				env.axis.set(Vector3_Vector3.UNIT_Z);
+				env.upAxis.set(Vector3_Vector3.UNIT_Y);
 				break;
 			case 'ZY':
-				env.axis.set(Vector3.UNIT_X);
-				env.upAxis.set(Vector3.UNIT_Y);
+				env.axis.set(Vector3_Vector3.UNIT_X);
+				env.upAxis.set(Vector3_Vector3.UNIT_Y);
 				break;
 		}
 		env.axisAlignedDirty = true;
@@ -93,4 +94,8 @@ AxisAlignedCamControlScript.externals = {
 	}]
 };
 
-module.exports = AxisAlignedCamControlScript;
+/**
+ * Axis aligned camera control script
+ * @returns {{setup: setup, update: update, cleanup: cleanup}}
+ */
+export { mod_AxisAlignedCamControlScript as AxisAlignedCamControlScript };

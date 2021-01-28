@@ -1,14 +1,15 @@
-var Noise = require('./Noise');
+var mod_ValueNoise = ValueNoise;
+import { Noise as Noise_Noise } from "./Noise";
 
 /**
  * Value noise is simpler and computationally lighter than Perlin noise yet produce visually similar results when used in fractals.
  *  Only used to define the class. Should never be instantiated.
  */
 function ValueNoise() {
-	Noise.call(this);
+	Noise_Noise.call(this);
 }
 
-ValueNoise.prototype = Object.create(Noise.prototype);
+ValueNoise.prototype = Object.create(Noise_Noise.prototype);
 ValueNoise.prototype.constructor = ValueNoise;
 
 ValueNoise.sources = [
@@ -25,10 +26,10 @@ ValueNoise.sources = [
  * @returns {Float} Noise value.
  */
 ValueNoise.evaluate1d = function (px, scale) {
-	var x = Noise.split(px / scale);
+	var x = Noise_Noise.split(px / scale);
 
-	var i0000 = Noise.shifter[x.i0 & 0xFF] & 0x0F;
-	var i0001 = Noise.shifter[x.i1 & 0xFF] & 0x0F;
+	var i0000 = Noise_Noise.shifter[x.i0 & 0xFF] & 0x0F;
+	var i0001 = Noise_Noise.shifter[x.i1 & 0xFF] & 0x0F;
 
 	var result = 0.0;
 
@@ -46,13 +47,13 @@ ValueNoise.evaluate1d = function (px, scale) {
  * @returns {Float} Noise value.
  */
 ValueNoise.evaluate2d = function (px, py, scale) {
-	var x = Noise.split(px / scale);
-	var y = Noise.split(py / scale);
+	var x = Noise_Noise.split(px / scale);
+	var y = Noise_Noise.split(py / scale);
 
-	var i0000 = Noise.shifter[Noise.shifter[y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0001 = Noise.shifter[Noise.shifter[y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0010 = Noise.shifter[Noise.shifter[y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0011 = Noise.shifter[Noise.shifter[y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0000 = Noise_Noise.shifter[Noise_Noise.shifter[y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0001 = Noise_Noise.shifter[Noise_Noise.shifter[y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0010 = Noise_Noise.shifter[Noise_Noise.shifter[y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0011 = Noise_Noise.shifter[Noise_Noise.shifter[y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
 
 	var result = 0.0;
 
@@ -73,18 +74,18 @@ ValueNoise.evaluate2d = function (px, py, scale) {
  * @returns {Float} Noise value.
  */
 ValueNoise.evaluate3d = function (px, py, pz, scale) {
-	var x = Noise.split(px / scale);
-	var y = Noise.split(py / scale);
-	var z = Noise.split(pz / scale);
+	var x = Noise_Noise.split(px / scale);
+	var y = Noise_Noise.split(py / scale);
+	var z = Noise_Noise.split(pz / scale);
 
-	var i0000 = Noise.shifter[Noise.shifter[Noise.shifter[z.i0 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0001 = Noise.shifter[Noise.shifter[Noise.shifter[z.i0 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0010 = Noise.shifter[Noise.shifter[Noise.shifter[z.i0 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0011 = Noise.shifter[Noise.shifter[Noise.shifter[z.i0 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0100 = Noise.shifter[Noise.shifter[Noise.shifter[z.i1 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0101 = Noise.shifter[Noise.shifter[Noise.shifter[z.i1 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0110 = Noise.shifter[Noise.shifter[Noise.shifter[z.i1 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0111 = Noise.shifter[Noise.shifter[Noise.shifter[z.i1 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0000 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i0 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0001 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i0 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0010 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i0 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0011 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i0 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0100 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i1 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0101 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i1 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0110 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i1 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0111 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[z.i1 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
 
 	var result = 0.0;
 
@@ -110,27 +111,27 @@ ValueNoise.evaluate3d = function (px, py, pz, scale) {
  * @returns {Float} Noise value.
  */
 ValueNoise.evaluate4d = function (px, py, pz, pw, scale) {
-	var x = Noise.split(px / scale);
-	var y = Noise.split(py / scale);
-	var z = Noise.split(pz / scale);
-	var w = Noise.split(pw / scale);
+	var x = Noise_Noise.split(px / scale);
+	var y = Noise_Noise.split(py / scale);
+	var z = Noise_Noise.split(pz / scale);
+	var w = Noise_Noise.split(pw / scale);
 
-	var i0000 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0001 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0010 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0011 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0100 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0101 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i0110 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i0111 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i1000 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i1001 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i1010 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i1011 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i1100 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i1101 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
-	var i1110 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
-	var i1111 = Noise.shifter[Noise.shifter[Noise.shifter[Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0000 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0001 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0010 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0011 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0100 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0101 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i0110 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i0111 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i0 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i1000 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i1001 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i1010 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i1011 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i0 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i1100 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i1101 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i0 & 0xFF] + x.i1 & 0xFF] & 0x0F;
+	var i1110 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i0 & 0xFF] & 0x0F;
+	var i1111 = Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[Noise_Noise.shifter[w.i1 & 0xFF] + z.i1 & 0xFF] + y.i1 & 0xFF] + x.i1 & 0xFF] & 0x0F;
 
 	var result = 0.0;
 
@@ -154,4 +155,8 @@ ValueNoise.evaluate4d = function (px, py, pz, pw, scale) {
 	return result;
 };
 
-module.exports = ValueNoise;
+/**
+ * Value noise is simpler and computationally lighter than Perlin noise yet produce visually similar results when used in fractals.
+ *  Only used to define the class. Should never be instantiated.
+ */
+export { mod_ValueNoise as ValueNoise };

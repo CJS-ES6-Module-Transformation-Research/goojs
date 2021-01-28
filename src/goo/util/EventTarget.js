@@ -1,3 +1,4 @@
+var mod_EventTarget = EventTarget;
 /**
  * EventTarget is implemented by objects that can receive events and may have listeners for them.
  * @example
@@ -88,4 +89,12 @@ EventTarget.prototype.has = function (type) {
 	return this._listenerMap.has(type);
 };
 
-module.exports = EventTarget;
+/**
+ * EventTarget is implemented by objects that can receive events and may have listeners for them.
+ * @example
+ * function MyObject() {
+ * 		EventTarget.apply(this, arguments);
+ * }
+ * MyObject.prototype = Object.create(EventTarget.prototype);
+ */
+export { mod_EventTarget as EventTarget };

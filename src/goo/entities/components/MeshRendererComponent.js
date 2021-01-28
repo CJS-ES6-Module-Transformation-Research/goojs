@@ -1,5 +1,6 @@
-var Component = require('../../entities/components/Component');
-var Material = require('../../renderer/Material');
+var mod_MeshRendererComponent = MeshRendererComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { Material as Material_Material } from "../../renderer/Material";
 
 /**
  * Defines the appearance of a mesh, through materials. Using several materials results in multi-pass rendering.
@@ -7,7 +8,7 @@ var Material = require('../../renderer/Material');
  * @extends Component
  */
 function MeshRendererComponent(materials) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'MeshRendererComponent';
 
@@ -67,7 +68,7 @@ function MeshRendererComponent(materials) {
 
 MeshRendererComponent.type = 'MeshRendererComponent';
 
-MeshRendererComponent.prototype = Object.create(Component.prototype);
+MeshRendererComponent.prototype = Object.create(Component_Component.prototype);
 MeshRendererComponent.prototype.constructor = MeshRendererComponent;
 
 MeshRendererComponent.prototype.api = {
@@ -168,7 +169,7 @@ MeshRendererComponent.applyOnEntity = function (obj, entity) {
 	// or a texture
 	// or a {r, g, b} object
 	var matched = false;
-	if (obj instanceof Material) {
+	if (obj instanceof Material_Material) {
 		meshRendererComponent.materials.push(obj);
 		matched = true;
 	}
@@ -179,4 +180,9 @@ MeshRendererComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = MeshRendererComponent;
+/**
+ * Defines the appearance of a mesh, through materials. Using several materials results in multi-pass rendering.
+ * @example-link http://code.gooengine.com/latest/examples/goo/entities/components/MeshRendererComponent/MeshRendererComponent-example.html Working example
+ * @extends Component
+ */
+export { mod_MeshRendererComponent as MeshRendererComponent };
