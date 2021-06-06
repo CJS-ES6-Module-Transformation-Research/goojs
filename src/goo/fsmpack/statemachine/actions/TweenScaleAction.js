@@ -1,16 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+var mod_TweenScaleAction = TweenScaleAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+import { Easing as Easing_Easing } from "../../../util/Easing";
 
 function TweenScaleAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 
-	this.fromScale = new Vector3();
-	this.toScale = new Vector3();
+	this.fromScale = new Vector3_Vector3();
+	this.toScale = new Vector3_Vector3();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(Action.prototype);
+TweenScaleAction.prototype = Object.create(Action_Action.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -84,7 +85,7 @@ TweenScaleAction.prototype.update = function (fsm) {
 	var transformComponent = fsm.getOwnerEntity().transformComponent;
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = Easing_Easing[this.easing1][this.easing2](t);
 
 	transformComponent.transform.scale.set(this.fromScale).lerp(this.toScale, fT);
 	transformComponent.setUpdated();
@@ -95,4 +96,4 @@ TweenScaleAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenScaleAction;
+export { mod_TweenScaleAction as TweenScaleAction };

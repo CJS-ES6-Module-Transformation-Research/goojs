@@ -1,7 +1,12 @@
-var path = require('path');
-var webpack = require('webpack');
+import ext_path_path from "path";
+import ext_webpack_webpack from "webpack";
+import ext_karmacoverage from "karma-coverage";
+import ext_karmajasmine from "karma-jasmine";
+import ext_karmachromelauncher from "karma-chrome-launcher";
+import ext_karmawebpack from "karma-webpack";
+import {     karmaWebpackProvidePluginSettingsjs as karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs, } from "./karmaWebpackProvidePluginSettings";
 
-module.exports = function (config) {
+var mod_anonymus = function (config) {
 	config.set({
 		browsers: ['Chrome'],
 		captureTimeout: 60000,
@@ -20,10 +25,10 @@ module.exports = function (config) {
 		frameworks: ['jasmine'],
 
 		plugins: [
-			require('karma-coverage'),
-			require('karma-jasmine'),
-			require('karma-chrome-launcher'),
-			require('karma-webpack')
+			ext_karmacoverage,
+			ext_karmajasmine,
+			ext_karmachromelauncher,
+			ext_karmawebpack
 		],
 
 		preprocessors: {
@@ -46,7 +51,7 @@ module.exports = function (config) {
 		webpack: {
 			resolve: {
 				// Everything relative to repo root
-				root: path.resolve(path.join(__dirname, '..', '..'))
+				root: ext_path_path.resolve(ext_path_path.join(__dirname, '..', '..'))
 			},
 
 			node: {
@@ -57,7 +62,7 @@ module.exports = function (config) {
 			module: {
 				loaders: [{
 					test: /\.js?$/,
-					include: path.join(__dirname, 'src'),
+					include: ext_path_path.join(__dirname, 'src'),
 					loader: 'babel?stage=0'
 				}],
 				postLoaders: [{
@@ -68,7 +73,7 @@ module.exports = function (config) {
 			},
 
 			plugins: [
-				new webpack.ProvidePlugin(require('./karmaWebpackProvidePluginSettings'))
+				new ext_webpack_webpack.ProvidePlugin(karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs)
 			]
 
 		},
@@ -78,3 +83,82 @@ module.exports = function (config) {
 		}
 	});
 };
+
+mod_anonymus = function (config) {
+	config.set({
+		browsers: ['Chrome'],
+		captureTimeout: 60000,
+		browserDisconnectTimeout: 60000,
+		browserNoActivityTimeout: 60000,
+
+		basePath: '../../',
+
+		files: [
+			'lib/cannon/cannon.min.js',
+			{ pattern: 'test/unit/**/*.mp4', included: false },
+			{ pattern: 'test/unit/**/*.png', included: false },
+			'test/unit/**/*-test.js'
+		],
+
+		frameworks: ['jasmine'],
+
+		plugins: [
+			ext_karmacoverage,
+			ext_karmajasmine,
+			ext_karmachromelauncher,
+			ext_karmawebpack
+		],
+
+		preprocessors: {
+			'test/unit/**/*-test.js': ['webpack']
+		},
+
+		reporters: ['dots', 'coverage'],
+
+		coverageReporter: {
+			reporters: [{
+				type: 'text-summary'
+			}, {
+				type: 'html',
+				dir: 'coverage'
+			}]
+		},
+
+		singleRun: true,
+
+		webpack: {
+			resolve: {
+				// Everything relative to repo root
+				root: ext_path_path.resolve(ext_path_path.join(__dirname, '..', '..'))
+			},
+
+			node: {
+				fs: 'empty'
+			},
+
+			// Instrument code that isn't test or vendor code.
+			module: {
+				loaders: [{
+					test: /\.js?$/,
+					include: ext_path_path.join(__dirname, 'src'),
+					loader: 'babel?stage=0'
+				}],
+				postLoaders: [{
+					test: /\.js$/,
+					exclude: /(test|node_modules)\//,
+					loader: 'istanbul-instrumenter'
+				}]
+			},
+
+			plugins: [
+				new ext_webpack_webpack.ProvidePlugin(karmaWebpackProvidePluginSettings_karmaWebpackProvidePluginSettingsjs)
+			]
+
+		},
+
+		webpackMiddleware: {
+			noInfo: true
+		}
+	});
+};
+export { mod_anonymus as karmacoverageconf };

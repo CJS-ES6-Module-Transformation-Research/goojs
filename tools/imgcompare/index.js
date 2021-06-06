@@ -1,7 +1,8 @@
-var exec = require('child_process').exec
+import ext_child_process from "child_process";
+var exec = ext_child_process.exec
 
 // Wraps the command line tool
-exports.compare = function(pathA,pathB,options,callback){
+mod_compare = function(pathA,pathB,options,callback){
 	var settings = {
 		maxDist : 0,
 		maxSumSquares : 0,
@@ -25,3 +26,5 @@ exports.compare = function(pathA,pathB,options,callback){
 		if(callback) callback(null,true,stdout,stderr);
 	});
 };
+var mod_compare;
+export { mod_compare as compare };

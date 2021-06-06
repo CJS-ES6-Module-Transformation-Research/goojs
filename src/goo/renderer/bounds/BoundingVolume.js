@@ -1,4 +1,5 @@
-var Vector3 = require('../../math/Vector3');
+var mod_BoundingVolume = BoundingVolume;
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
 
 /**
  * <code>BoundingVolume</code> Base class for boundings
@@ -6,15 +7,15 @@ var Vector3 = require('../../math/Vector3');
 function BoundingVolume(center) {
 	//! AT: this is one of the few classes that's cloning its input
 	// I don't dare change the behaviour since there's no telling what will break
-	this.center = new Vector3();
+	this.center = new Vector3_Vector3();
 	if (center) {
 		this.center.set(center);
 	}
 
 	//! AT: can these be private?
 	// they are updated only by some methods and would therefore be useless for external use
-	this.min = new Vector3(Infinity, Infinity, Infinity);
-	this.max = new Vector3(-Infinity, -Infinity, -Infinity);
+	this.min = new Vector3_Vector3(Infinity, Infinity, Infinity);
+	this.max = new Vector3_Vector3(-Infinity, -Infinity, -Infinity);
 }
 
 /**
@@ -47,4 +48,7 @@ BoundingVolume.Outside = 0;
 BoundingVolume.Inside = 1;
 BoundingVolume.Intersects = 2;
 
-module.exports = BoundingVolume;
+/**
+ * <code>BoundingVolume</code> Base class for boundings
+ */
+export { mod_BoundingVolume as BoundingVolume };

@@ -1,11 +1,12 @@
-var Action = require('./Action');
-var PromiseUtil = require('./../../../util/PromiseUtil');
+var mod_PlaySoundAction = PlaySoundAction;
+import { Action as Action_Action } from "./Action";
+import { PromiseUtils as PromiseUtil } from "./../../../util/PromiseUtil";
 
 function PlaySoundAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-PlaySoundAction.prototype = Object.create(Action.prototype);
+PlaySoundAction.prototype = Object.create(Action_Action.prototype);
 PlaySoundAction.prototype.constructor = PlaySoundAction;
 
 PlaySoundAction.external = {
@@ -55,4 +56,4 @@ PlaySoundAction.prototype.enter = function (fsm) {
 	}.bind(this));
 };
 
-module.exports = PlaySoundAction;
+export { mod_PlaySoundAction as PlaySoundAction };

@@ -1,3 +1,4 @@
+var mod_StringUtils = StringUtils;
 /**
  * Provides string manipulation methods
  */
@@ -232,4 +233,7 @@ StringUtils.parseURL = function (uri) {
 	};
 };
 
-module.exports = StringUtils;
+/**
+ * Provides string manipulation methods
+ */
+export { mod_StringUtils as StringUtils };

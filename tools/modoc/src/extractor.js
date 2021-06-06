@@ -1,10 +1,9 @@
+import ext_estraverse_estraverse from "estraverse";
+import { getFileName as util_getFileName } from "./util";
 // jshint node:true
 'use strict';
 
 var esprima = require('../lib/esprima');
-var estraverse = require('estraverse');
-
-var util = require('./util');
 
 
 var getFirstJSDoc = function (comments) {
@@ -155,7 +154,7 @@ var extractTree = function (tree, fileName, options) {
 
 	var collectMembers = function (node) {
 		var members = [];
-		estraverse.traverse(node, {
+		ext_estraverse_estraverse.traverse(node, {
 			enter: function (node, parent) {
 				if (extractors.member.match(node, parent, fileName)) {
 					members.push(extractors.member.extract(node, parent));
@@ -165,7 +164,7 @@ var extractTree = function (tree, fileName, options) {
 		return members;
 	};
 
-	estraverse.traverse(tree, {
+	ext_estraverse_estraverse.traverse(tree, {
 		enter: function (node, parent) {
 			if (extractors.constructor.match(node, fileName)) {
 				constructor = extractors.constructor.extract(node);
@@ -204,7 +203,7 @@ var extract = function (source, file, options) {
 		return name[0] !== '_'; // skip 'private' methods
 	};
 
-	var fileName = util.getFileName(file);
+	var fileName = util_getFileName(file);
 
 	var parseOptions = { attachComment: true };
 	var tree = esprima.parse(source, parseOptions);
@@ -212,4 +211,6 @@ var extract = function (source, file, options) {
 	return extractTree(tree, fileName, options);
 };
 
-exports.extract = extract;
+mod_extract = extract;
+var mod_extract;
+export { mod_extract as extract };

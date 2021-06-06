@@ -1,13 +1,14 @@
-var System = require('../../entities/systems/System');
-var SystemBus = require('../../entities/SystemBus');
-var MeshData = require('../../renderer/MeshData');
-var Shader = require('../../renderer/Shader');
-var Quad = require('../../shapes/Quad');
-var RenderTarget = require('../../renderer/pass/RenderTarget');
-var Material = require('../../renderer/Material');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var FullscreenPass = require('../../renderer/pass/FullscreenPass');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
+var mod_PipRenderSystem = PipRenderSystem;
+import { System as System_System } from "../../entities/systems/System";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
+import { Shader as Shader_Shader } from "../../renderer/Shader";
+import { Quad as Quad_Quad } from "../../shapes/Quad";
+import { RenderTarget as RenderTarget_RenderTarget } from "../../renderer/pass/RenderTarget";
+import { Material as Material_Material } from "../../renderer/Material";
+import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
+import { FullscreenPass as FullscreenPass_FullscreenPass } from "../../renderer/pass/FullscreenPass";
+import { FullscreenUtils as FullscreenUtils_FullscreenUtils } from "../../renderer/pass/FullscreenUtils";
 
 /**
  * Renders transform gizmos<br>
@@ -16,22 +17,22 @@ var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
  * @extends System
  */
 function PipRenderSystem(renderSystem) {
-	System.call(this, 'PipRenderSystem', null);
+	System_System.call(this, 'PipRenderSystem', null);
 
 	this.renderSystem = renderSystem;
 
-	this.target = new RenderTarget(512, 512);
+	this.target = new RenderTarget_RenderTarget(512, 512);
 
-	this.outPass = new FullscreenPass(ShaderLib.copy);
+	this.outPass = new FullscreenPass_FullscreenPass(ShaderLib_ShaderLib.copy);
 	var that = this;
 	this.outPass.render = function (renderer, writeBuffer, readBuffer) {
 		this.material.setTexture('DIFFUSE_MAP', readBuffer);
-		renderer.render(this.renderable, FullscreenUtils.camera, [], that.target, true);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], that.target, true);
 	};
 
-	var material = new Material(renderPipQuad);
+	var material = new Material_Material(renderPipQuad);
 	material.setTexture('DIFFUSE_MAP', this.target);
-	this.quad = new Quad(1, 1);
+	this.quad = new Quad_Quad(1, 1);
 	this.aspect = null;
 	this.width = null;
 	this.height = null;
@@ -60,11 +61,11 @@ function PipRenderSystem(renderSystem) {
 	SystemBus.addListener('goo.viewportResize', this._viewportResizeHandler, true);
 }
 
-PipRenderSystem.prototype = Object.create(System.prototype);
+PipRenderSystem.prototype = Object.create(System_System.prototype);
 PipRenderSystem.prototype.constructor = PipRenderSystem;
 
 PipRenderSystem.prototype.updateQuad = function (quad, x, y, width, height) {
-	quad.getAttributeBuffer(MeshData.POSITION).set([
+	quad.getAttributeBuffer(MeshData_MeshData.POSITION).set([
 		x, y, 0,
 		x, y + height, 0,
 		x + width, y + height, 0,
@@ -122,7 +123,7 @@ PipRenderSystem.prototype.render = function (renderer) {
 		renderer.render(this.renderList, this.camera, this.renderSystem.lights, this.target, true, overrideMaterial);
 	}
 
-	renderer.render(this.renderableQuad, FullscreenUtils.camera, [], null, false);
+	renderer.render(this.renderableQuad, FullscreenUtils_FullscreenUtils.camera, [], null, false);
 };
 
 var renderPipQuad = {
@@ -130,14 +131,14 @@ var renderPipQuad = {
 		EDGE: true
 	},
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: MeshData_MeshData.POSITION,
+		vertexUV0: MeshData_MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		diffuseMap: Shader.DIFFUSE_MAP,
-		resolution: Shader.RESOLUTION
+		viewProjectionMatrix: Shader_Shader.VIEW_PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
+		diffuseMap: Shader_Shader.DIFFUSE_MAP,
+		resolution: Shader_Shader.RESOLUTION
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -179,4 +180,10 @@ var renderPipQuad = {
 	].join('\n')
 };
 
-module.exports = PipRenderSystem;
+/**
+ * Renders transform gizmos<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/util/TransformGizmos/TransformGizmos-vtest.html Working example
+ * @property {boolean} doRender Only render if set to true
+ * @extends System
+ */
+export { mod_PipRenderSystem as PipRenderSystem };

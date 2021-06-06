@@ -1,5 +1,6 @@
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+var mod_ConfigHandler = ConfigHandler;
+import { rsvpjs as RSVP } from "../../util/rsvp";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
 
 /**
  * Base class for resource handlers, used to load all types of resources into the engine.
@@ -73,7 +74,7 @@ ConfigHandler.prototype.load = function (ref, options) {
 	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
 		return this._loading.get(ref);
 	} else if (this._objects.has(ref) && !options.reload) {
-		return PromiseUtils.resolve(this._objects.get(ref));
+		return PromiseUtils_PromiseUtils.resolve(this._objects.get(ref));
 	} else {
 		var promise = this.getConfig(ref, options).then(function (config) {
 			return this.update(ref, config, options);
@@ -129,7 +130,7 @@ ConfigHandler.getTypeForRef = function (ref) {
 ConfigHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref, options);
-		return PromiseUtils.resolve();
+		return PromiseUtils_PromiseUtils.resolve();
 	}
 
 	if (!options) {
@@ -140,7 +141,7 @@ ConfigHandler.prototype._update = function (ref, config, options) {
 		this._objects.set(ref, this._create());
 	}
 	this._prepare(config);
-	return PromiseUtils.resolve(this._objects.get(ref));
+	return PromiseUtils_PromiseUtils.resolve(this._objects.get(ref));
 };
 
 ConfigHandler.handlerClasses = {};
@@ -164,4 +165,17 @@ ConfigHandler._registerClass = function (type, klass) {
 	return ConfigHandler.handlerClasses[type] = klass;
 };
 
-module.exports = ConfigHandler;
+/**
+ * Base class for resource handlers, used to load all types of resources into the engine.
+ * All the resource types in the bundle (noted by their extension) need to have a registered config
+ * handler.
+ * To handle a new type of component, create a class that inherits from this class, and override {update}.
+ * In your class, call <code>@_register('yourResourceExtension')</code> to _register
+ * the handler with the loader.
+ *
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {DynamicLoader.update}.
+ * @hidden
+ */
+export { mod_ConfigHandler as ConfigHandler };

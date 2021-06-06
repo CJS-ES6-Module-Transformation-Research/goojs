@@ -1,10 +1,11 @@
-var Component = require('../../entities/components/Component');
+var mod_ProximityComponent = ProximityComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
 
 /**
  * @private
  */
 function ProximityComponent(tag) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'ProximityComponent';
 
@@ -14,7 +15,7 @@ function ProximityComponent(tag) {
 	});
 }
 
-ProximityComponent.prototype = Object.create(Component.prototype);
+ProximityComponent.prototype = Object.create(Component_Component.prototype);
 ProximityComponent.prototype.constructor = ProximityComponent;
 
 ProximityComponent.prototype.attached = function (entity) {
@@ -37,4 +38,7 @@ ProximityComponent.prototype.detached = function (entity) {
 	proximitySystem.remove(entity, this.tag);
 };
 
-module.exports = ProximityComponent;
+/**
+ * @private
+ */
+export { mod_ProximityComponent as ProximityComponent };

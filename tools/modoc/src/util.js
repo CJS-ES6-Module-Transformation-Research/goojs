@@ -65,16 +65,36 @@ var createIdGenerator = function (prefix) {
 	};
 };
 
-exports.getFileName = getFileName;
-exports.stringUntil = stringUntil;
-exports.stringFrom = stringFrom;
-exports.pipe = pipe;
-exports.deepClone = deepClone;
+mod_getFileName = getFileName;
+mod_stringUntil = stringUntil;
+mod_stringFrom = stringFrom;
+mod_pipe = pipe;
+mod_deepClone = deepClone;
 
-exports.tagToIdentifier = tagToIdentifier;
-exports.upperFirst = upperFirst;
-exports.lowerFirst = lowerFirst;
+mod_tagToIdentifier = tagToIdentifier;
+mod_upperFirst = upperFirst;
+mod_lowerFirst = lowerFirst;
 
-exports.createIdGenerator = createIdGenerator;
+mod_createIdGenerator = createIdGenerator;
 
-exports.PATH_SEPARATOR = PATH_SEPARATOR;
+mod_PATH_SEPARATOR = PATH_SEPARATOR;
+var mod_getFileName;
+export { mod_getFileName as getFileName };
+var mod_stringUntil;
+export { mod_stringUntil as stringUntil };
+var mod_stringFrom;
+export { mod_stringFrom as stringFrom };
+var mod_pipe;
+export { mod_pipe as pipe };
+var mod_deepClone;
+export { mod_deepClone as deepClone };
+var mod_tagToIdentifier;
+export { mod_tagToIdentifier as tagToIdentifier };
+var mod_upperFirst;
+export { mod_upperFirst as upperFirst };
+var mod_lowerFirst;
+export { mod_lowerFirst as lowerFirst };
+var mod_createIdGenerator;
+export { mod_createIdGenerator as createIdGenerator };
+var mod_PATH_SEPARATOR;
+export { mod_PATH_SEPARATOR as PATH_SEPARATOR };

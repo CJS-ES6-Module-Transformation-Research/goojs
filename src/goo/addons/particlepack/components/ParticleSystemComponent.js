@@ -1,17 +1,18 @@
-var Matrix3 = require('../../../math/Matrix3');
-var Vector3 = require('../../../math/Vector3');
-var Vector4 = require('../../../math/Vector4');
-var MeshData = require('../../../renderer/MeshData');
-var Material = require('../../../renderer/Material');
-var MeshRendererComponent = require('../../../entities/components/MeshRendererComponent');
-var Component = require('../../../entities/components/Component');
-var Shader = require('../../../renderer/Shader');
-var ShaderBuilder = require('../../../renderer/shaders/ShaderBuilder');
-var ParticleData = require('../../../addons/particlepack/ParticleData');
-var Renderer = require('../../../renderer/Renderer');
-var Quad = require('../../../shapes/Quad');
-var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
-var ObjectUtils = require('../../../util/ObjectUtils');
+var mod_ParticleSystemComponent = ParticleSystemComponent;
+import { Matrix3 as Matrix3_Matrix3 } from "../../../math/Matrix3";
+import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+import { Vector4 as Vector4_Vector4 } from "../../../math/Vector4";
+import { MeshData as MeshData_MeshData } from "../../../renderer/MeshData";
+import { Material as Material_Material } from "../../../renderer/Material";
+import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponent } from "../../../entities/components/MeshRendererComponent";
+import { Component as Component_Component } from "../../../entities/components/Component";
+import { Shader as Shader_Shader } from "../../../renderer/Shader";
+import { ShaderBuilder as ShaderBuilder_ShaderBuilder } from "../../../renderer/shaders/ShaderBuilder";
+import { ParticleData as ParticleData_ParticleData } from "../../../addons/particlepack/ParticleData";
+import { Renderer as Renderer_Renderer } from "../../../renderer/Renderer";
+import { Quad as Quad_Quad } from "../../../shapes/Quad";
+import { ConstantCurve as ConstantCurve_ConstantCurve } from "../../../addons/particlepack/curves/ConstantCurve";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../../util/ObjectUtils";
 
 // Polyfill, needed for CocoonJS
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/cbrt
@@ -95,27 +96,27 @@ var defines = {
  */
 function ParticleSystemComponent(options) {
 	options = options || {};
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 	this.type = 'ParticleSystemComponent';
 
-	this.material = new Material({
-		defines: ObjectUtils.clone(defines),
+	this.material = new Material_Material({
+		defines: ObjectUtils_ObjectUtils.clone(defines),
 		processors: [
-			ShaderBuilder.uber.fog
+			ShaderBuilder_ShaderBuilder.uber.fog
 		],
 		attributes: {
-			vertexPosition: MeshData.POSITION,
+			vertexPosition: MeshData_MeshData.POSITION,
 			timeInfo: 'TIME_INFO',
 			startPos: 'START_POS',
 			startDir: 'START_DIR',
-			vertexUV0: MeshData.TEXCOORD0
+			vertexUV0: MeshData_MeshData.TEXCOORD0
 		},
 		uniforms: {
-			viewMatrix: Shader.VIEW_MATRIX,
-			projectionMatrix: Shader.PROJECTION_MATRIX,
-			viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-			worldMatrix: Shader.WORLD_MATRIX,
-			cameraPosition: Shader.CAMERA,
+			viewMatrix: Shader_Shader.VIEW_MATRIX,
+			projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+			viewProjectionMatrix: Shader_Shader.VIEW_PROJECTION_MATRIX,
+			worldMatrix: Shader_Shader.WORLD_MATRIX,
+			cameraPosition: Shader_Shader.CAMERA,
 
 			textureTileInfo: [1, 1, 1, 0],
 			invWorldRotation: [1, 0, 0, 0, 1, 0, 0, 0, 1],
@@ -301,7 +302,7 @@ function ParticleSystemComponent(options) {
 	this.material.cullState.enabled = false;
 	this.material.uniforms.textureTileInfo = [1, 1, 1, 0];
 
-	ObjectUtils.extend(this.material.uniforms, {
+	ObjectUtils_ObjectUtils.extend(this.material.uniforms, {
 		textureTileInfo: [1, 1, 1, 0],
 		invWorldRotation: [1, 0, 0, 0, 1, 0, 0, 0, 1],
 		worldRotation: [1, 0, 0, 0, 1, 0, 0, 0, 1],
@@ -310,10 +311,10 @@ function ParticleSystemComponent(options) {
 	});
 
 	this._nextEmitParticleIndex = 0;
-	this._localGravity = new Vector3();
+	this._localGravity = new Vector3_Vector3();
 	this._lastTime = this.time;
-	this._worldToLocalRotation = new Matrix3();
-	this._localToWorldRotation = new Matrix3();
+	this._worldToLocalRotation = new Matrix3_Matrix3();
+	this._localToWorldRotation = new Matrix3_Matrix3();
 
 	/**
 	 * The entity which the component is attached on. Will be set when the component is attached to the entity.
@@ -362,23 +363,23 @@ function ParticleSystemComponent(options) {
 	 * Force that makes particles fall.
 	 * @type {Vector3}
 	 */
-	this.gravity = options.gravity ? options.gravity.clone() : new Vector3();
+	this.gravity = options.gravity ? options.gravity.clone() : new Vector3_Vector3();
 
 	/**
 	 * Extents of the box, if box shape is used. Read only. To change it, see the method setBoxExtents().
 	 * @type {Vector3}
 	 * @readonly
 	 */
-	this.boxExtents = options.boxExtents ? options.boxExtents.clone() : new Vector3(1, 1, 1);
+	this.boxExtents = options.boxExtents ? options.boxExtents.clone() : new Vector3_Vector3(1, 1, 1);
 
 	/**
 	 * Acts as a scale on the color curve. Should be used at runtime.
 	 * @type {Vector4}
 	 * @todo rename to color?
 	 */
-	this.startColorScale = options.startColorScale ? options.startColorScale.clone() : new Vector4(1,1,1,1);
+	this.startColorScale = options.startColorScale ? options.startColorScale.clone() : new Vector4_Vector4(1,1,1,1);
 
-	this.emissionRate = options.emissionRate ? options.emissionRate.clone() : new ConstantCurve({ value: 10 });
+	this.emissionRate = options.emissionRate ? options.emissionRate.clone() : new ConstantCurve_ConstantCurve({ value: 10 });
 	this.preWarm = options.preWarm !== undefined ? options.preWarm : false;
 	this._initSeed = this._seed = this.seed = (options.seed !== undefined && options.seed > 0 ? options.seed : Math.floor(Math.random() * 32768));
 	this.shapeType = options.shapeType || 'cone';
@@ -393,11 +394,11 @@ function ParticleSystemComponent(options) {
 	this.colorOverLifetime = options.colorOverLifetime ? options.colorOverLifetime.clone() : null;
 	this.duration = options.duration !== undefined ? options.duration : 5;
 	this.localSpace = options.localSpace !== undefined ? options.localSpace : true;
-	this.startSpeed = options.startSpeed ? options.startSpeed.clone() : new ConstantCurve({ value: 5 });
+	this.startSpeed = options.startSpeed ? options.startSpeed.clone() : new ConstantCurve_ConstantCurve({ value: 5 });
 	this.localVelocityOverLifetime = options.localVelocityOverLifetime ? options.localVelocityOverLifetime.clone() : null;
 	this.worldVelocityOverLifetime = options.worldVelocityOverLifetime ? options.worldVelocityOverLifetime.clone() : null;
 	this._maxParticles = options.maxParticles !== undefined ? options.maxParticles : 100;
-	this.startLifetime = options.startLifetime ? options.startLifetime.clone() : new ConstantCurve({ value: 5 });
+	this.startLifetime = options.startLifetime ? options.startLifetime.clone() : new ConstantCurve_ConstantCurve({ value: 5 });
 	this.renderQueue = options.renderQueue !== undefined ? options.renderQueue : 3010;
 	this.discardThreshold = options.discardThreshold || 0;
 	this.loop = options.loop !== undefined ? options.loop : true;
@@ -410,7 +411,7 @@ function ParticleSystemComponent(options) {
 	this.textureFrameOverLifetime = options.textureFrameOverLifetime ? options.textureFrameOverLifetime.clone() : null;
 	this.startSize = options.startSize ? options.startSize.clone() : null;
 	this.sortMode = options.sortMode !== undefined ? options.sortMode : ParticleSystemComponent.SORT_NONE;
-	this.mesh = options.mesh ? options.mesh : new Quad();
+	this.mesh = options.mesh ? options.mesh : new Quad_Quad();
 	this.billboard = options.billboard !== undefined ? options.billboard : true;
 	this.sizeOverLifetime = options.sizeOverLifetime ? options.sizeOverLifetime.clone() : null;
 	this.startAngle = options.startAngle ? options.startAngle.clone() : null;
@@ -418,7 +419,7 @@ function ParticleSystemComponent(options) {
 	this.texture = options.texture ? options.texture : null;
 	this.boundsRadius = options.boundsRadius !== undefined ? options.boundsRadius : Number.MAX_VALUE;
 }
-ParticleSystemComponent.prototype = Object.create(Component.prototype);
+ParticleSystemComponent.prototype = Object.create(Component_Component.prototype);
 ParticleSystemComponent.prototype.constructor = ParticleSystemComponent;
 
 ParticleSystemComponent.type = 'ParticleSystemComponent';
@@ -1095,11 +1096,11 @@ ParticleSystemComponent.prototype._updateUniforms = function () {
 		// 1. Need to multiply the worldVelocity with the inverse rotation, to get local velocity
 		// 2. World velocity is good as it is
 		worldToLocalRotation.copy(this.meshEntity.transformComponent.sync().worldTransform.rotation).invert();
-		localToWorldRotation.copy(Matrix3.IDENTITY);
+		localToWorldRotation.copy(Matrix3_Matrix3.IDENTITY);
 	} else {
 		// 1. Need to multiply the localVelocity with the world rotation, to get local velocity
 		// 2. Local velocity is good as it is
-		worldToLocalRotation.copy(Matrix3.IDENTITY);
+		worldToLocalRotation.copy(Matrix3_Matrix3.IDENTITY);
 		localToWorldRotation.copy(this.entity.transformComponent.sync().worldTransform.rotation);
 	}
 
@@ -1189,7 +1190,7 @@ ParticleSystemComponent.prototype._syncParticleDataArrays = function () {
 	var particlesUnSorted = this.particles;
 	var maxParticles = this.maxParticles;
 	while (particles.length < maxParticles) {
-		var particle = new ParticleData(this);
+		var particle = new ParticleData_ParticleData(this);
 		particle.index = particles.length;
 		particle.loopAfter = this.duration;
 		particles.push(particle);
@@ -1212,14 +1213,14 @@ ParticleSystemComponent.prototype._updateVertexData = function () {
 	var material = this.material;
 	var i, j;
 
-	var offset = meshData.getAttributeBuffer(MeshData.TEXCOORD0);
-	var pos = meshData.getAttributeBuffer(MeshData.POSITION);
+	var offset = meshData.getAttributeBuffer(MeshData_MeshData.TEXCOORD0);
+	var pos = meshData.getAttributeBuffer(MeshData_MeshData.POSITION);
 	var indices = meshData.getIndexBuffer();
 
 	var mesh = this.mesh;
 	var meshIndices = mesh.getIndexBuffer();
-	var meshPos = mesh.getAttributeBuffer(MeshData.POSITION);
-	var meshUV = mesh.getAttributeBuffer(MeshData.TEXCOORD0);
+	var meshPos = mesh.getAttributeBuffer(MeshData_MeshData.POSITION);
+	var meshUV = mesh.getAttributeBuffer(MeshData_MeshData.TEXCOORD0);
 	var meshVertexCount = mesh.vertexCount;
 	for (i = 0; i < maxParticles; i++) {
 		for (var j = 0; j < meshUV.length; j++) {
@@ -1233,8 +1234,8 @@ ParticleSystemComponent.prototype._updateVertexData = function () {
 		}
 	}
 
-	meshData.setAttributeDataUpdated(MeshData.TEXCOORD0);
-	meshData.setAttributeDataUpdated(MeshData.POSITION);
+	meshData.setAttributeDataUpdated(MeshData_MeshData.TEXCOORD0);
+	meshData.setAttributeDataUpdated(MeshData_MeshData.POSITION);
 
 	if (!this.localSpace) {
 		material.shader.removeDefine('LOOP');
@@ -1513,7 +1514,7 @@ ParticleSystemComponent.prototype._updateBounds = function () {
 	bounds.xExtent = bounds.yExtent = bounds.zExtent = r * 2;
 };
 
-var tmpWorldPos = new Vector3();
+var tmpWorldPos = new Vector3_Vector3();
 
 /**
  * @private
@@ -1528,7 +1529,7 @@ ParticleSystemComponent.prototype._sortParticles = function () {
 	var l = particles.length;
 	while (l--) {
 		var particle = particles[l];
-		particle.sortValue = -particle.getWorldPosition(tmpWorldPos).dot(Renderer.mainCamera._direction);
+		particle.sortValue = -particle.getWorldPosition(tmpWorldPos).dot(Renderer_Renderer.mainCamera._direction);
 	}
 
 	// Insertion sort in-place
@@ -1548,8 +1549,8 @@ ParticleSystemComponent.prototype._sortParticles = function () {
 	this._updateIndexBuffer(particles);
 };
 
-var tmpPos = new Vector3();
-var tmpDir = new Vector3();
+var tmpPos = new Vector3_Vector3();
+var tmpDir = new Vector3_Vector3();
 
 function copyPositionAndRotation(destTransform, srcTransform) {
 	destTransform.rotation.copy(srcTransform.rotation);
@@ -1657,20 +1658,20 @@ ParticleSystemComponent.prototype.attached = function (entity) {
 
 	this._syncParticleDataArrays();
 
-	var attributeMap = MeshData.defaultMap([
-		MeshData.POSITION,
-		MeshData.TEXCOORD0
+	var attributeMap = MeshData_MeshData.defaultMap([
+		MeshData_MeshData.POSITION,
+		MeshData_MeshData.TEXCOORD0
 	]);
-	attributeMap.TIME_INFO = MeshData.createAttribute(4, 'Float');
-	attributeMap.START_POS = MeshData.createAttribute(4, 'Float');
-	attributeMap.START_DIR = MeshData.createAttribute(4, 'Float');
+	attributeMap.TIME_INFO = MeshData_MeshData.createAttribute(4, 'Float');
+	attributeMap.START_POS = MeshData_MeshData.createAttribute(4, 'Float');
+	attributeMap.START_DIR = MeshData_MeshData.createAttribute(4, 'Float');
 
 	var maxParticles = this.maxParticles;
-	var meshData = new MeshData(attributeMap, maxParticles * this.mesh.vertexCount, maxParticles * this.mesh.indexCount);
+	var meshData = new MeshData_MeshData(attributeMap, maxParticles * this.mesh.vertexCount, maxParticles * this.mesh.indexCount);
 	meshData.vertexData.setDataUsage('DynamicDraw');
 	this.meshData = meshData;
 
-	var meshRendererComponent = new MeshRendererComponent(this.material);
+	var meshRendererComponent = new MeshRendererComponent_MeshRendererComponent(this.material);
 	meshRendererComponent.castShadows = meshRendererComponent.receiveShadows = meshRendererComponent.isPickable = meshRendererComponent.isReflectable = false;
 
 	this.meshEntity = this.entity._world.createEntity(meshData, 'ParticleSystemComponentMesh')
@@ -1710,4 +1711,60 @@ ParticleSystemComponent.prototype.clone = function () {
 	return new ParticleSystemComponent(this);
 };
 
-module.exports = ParticleSystemComponent;
+/**
+ * A Particle System component simulates things like clouds and flames by generating and animating large numbers of small 2D images in the scene.
+ * @class
+ * @constructor
+ * @param {Object} [options] Particle options
+ * @param {boolean} [options.billboard=true]
+ * @param {boolean} [options.depthTest=true]
+ * @param {boolean} [options.depthWrite=true]
+ * @param {boolean} [options.loop=true]
+ * @param {boolean} [options.paused=false]
+ * @param {boolean} [options.preWarm=false]
+ * @param {boolean} [options.randomDirection=false]
+ * @param {boolean} [options.sphereEmitFromShell=false]
+ * @param {Curve} [options.colorOverLifetime]
+ * @param {Curve} [options.localVelocityOverLifetime]
+ * @param {Curve} [options.rotationSpeedOverLifetime]
+ * @param {Curve} [options.sizeOverLifetime]
+ * @param {Curve} [options.startAngle]
+ * @param {Curve} [options.startColor]
+ * @param {Curve} [options.startLifetime]
+ * @param {Curve} [options.startSize]
+ * @param {Curve} [options.startSpeed]
+ * @param {Curve} [options.textureFrameOverLifetime]
+ * @param {Curve} [options.worldVelocityOverLifetime]
+ * @param {number} [options.blending='NoBlending']
+ * @param {number} [options.coneAngle] Default is pi/8
+ * @param {number} [options.coneLength=1]
+ * @param {number} [options.coneRadius=1]
+ * @param {number} [options.discardThreshold=0]
+ * @param {number} [options.duration=5]
+ * @param {number} [options.localSpace=true]
+ * @param {number} [options.maxParticles=100]
+ * @param {number} [options.renderQueue=3010]
+ * @param {number} [options.rotationSpeedScale=1]
+ * @param {number} [options.seed=-1]
+ * @param {number} [options.startAngleScale=1]
+ * @param {number} [options.startSizeScale=1]
+ * @param {number} [options.texture]
+ * @param {number} [options.textureAnimationCycles=1]
+ * @param {number} [options.textureTilesX=1]
+ * @param {number} [options.textureTilesY=1]
+ * @param {number} [options.time=0]
+ * @param {string} [options.coneEmitFrom='base']
+ * @param {string} [options.shapeType='cone']
+ * @param {Vector3} [options.boxExtents] Default is new Vector3(1,1,1)
+ * @param {Vector3} [options.gravity]  Default is zero
+ * @param {Vector4} [options.startColorScale] Default is new Vector4(1,1,1,1)
+ * @example
+ * var particleComponent = new ParticleSystemComponent({
+ *     loop: true,
+ *     preWarm: true,
+ *     shapeType: 'sphere',
+ *     sphereRadius: 0.5
+ * });
+ * var entity = world.createEntity([0, 0, 0], particleComponent).addToWorld();
+ */
+export { mod_ParticleSystemComponent as ParticleSystemComponent };

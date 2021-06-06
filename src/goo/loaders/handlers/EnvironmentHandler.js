@@ -1,9 +1,10 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var ObjectUtils = require('../../util/ObjectUtils');
-var SystemBus = require('../../entities/SystemBus');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var Snow = require('../../util/Snow'); // TODO Should move!
-var RSVP = require('../../util/rsvp');
+var mod_EnvironmentHandler = EnvironmentHandler;
+import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { ShaderBuilder as ShaderBuilder_ShaderBuilder } from "../../renderer/shaders/ShaderBuilder";
+import { Snow as Snow_Snow } from "../../util/Snow";
+import { rsvpjs as RSVP } from "../../util/rsvp";
 
 var defaults = {
 	backgroundColor: [0.3, 0.3, 0.3, 1],
@@ -30,15 +31,15 @@ var soundDefaults = {
  * @private
  */
 function EnvironmentHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 }
 
-EnvironmentHandler.prototype = Object.create(ConfigHandler.prototype);
+EnvironmentHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 EnvironmentHandler.prototype.constructor = EnvironmentHandler;
-ConfigHandler._registerClass('environment', EnvironmentHandler);
+ConfigHandler_ConfigHandler._registerClass('environment', EnvironmentHandler);
 
 EnvironmentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, defaults);
+	ObjectUtils_ObjectUtils.defaults(config, defaults);
 };
 
 EnvironmentHandler.prototype._create = function () {
@@ -61,11 +62,11 @@ EnvironmentHandler.prototype._remove = function (ref) {
 
 	// Reset environment
 	SystemBus.emit('goo.setClearColor', defaults.backgroundColor);
-	ShaderBuilder.CLEAR_COLOR = defaults.backgroundColor;
-	ShaderBuilder.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
-	ShaderBuilder.USE_FOG = defaults.fog.enabled;
-	ShaderBuilder.FOG_COLOR = defaults.fog.color.slice(0, 3);
-	ShaderBuilder.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
+	ShaderBuilder_ShaderBuilder.CLEAR_COLOR = defaults.backgroundColor;
+	ShaderBuilder_ShaderBuilder.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
+	ShaderBuilder_ShaderBuilder.USE_FOG = defaults.fog.enabled;
+	ShaderBuilder_ShaderBuilder.FOG_COLOR = defaults.fog.color.slice(0, 3);
+	ShaderBuilder_ShaderBuilder.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
 
 	// Reset Sound
 	var soundSystem = this.world.getSystem('SoundSystem');
@@ -84,7 +85,7 @@ EnvironmentHandler.prototype._remove = function (ref) {
  */
 EnvironmentHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
 		if (!object) { return; }
 
 		var backgroundColor = config.backgroundColor;
@@ -97,17 +98,17 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 		];
 		object.globalAmbient = config.globalAmbient.slice(0, 3);
 
-		object.fog = ObjectUtils.deepClone(config.fog);
+		object.fog = ObjectUtils_ObjectUtils.deepClone(config.fog);
 
 		// Background color
 		SystemBus.emit('goo.setClearColor', object.backgroundColor);
 
 		// Fog and ambient
-		ShaderBuilder.CLEAR_COLOR = object.backgroundColor;
-		ShaderBuilder.GLOBAL_AMBIENT = object.globalAmbient;
-		ShaderBuilder.USE_FOG = object.fog.enabled;
-		ShaderBuilder.FOG_COLOR = object.fog.color.slice(0, 3);
-		ShaderBuilder.FOG_SETTINGS = [object.fog.near, config.fog.far];
+		ShaderBuilder_ShaderBuilder.CLEAR_COLOR = object.backgroundColor;
+		ShaderBuilder_ShaderBuilder.GLOBAL_AMBIENT = object.globalAmbient;
+		ShaderBuilder_ShaderBuilder.USE_FOG = object.fog.enabled;
+		ShaderBuilder_ShaderBuilder.FOG_COLOR = object.fog.color.slice(0, 3);
+		ShaderBuilder_ShaderBuilder.FOG_SETTINGS = [object.fog.near, config.fog.far];
 
 		// Weather
 		for (var key in config.weather) {
@@ -157,7 +158,7 @@ EnvironmentHandler.weatherHandlers = {
 					// add snow
 					weatherState.snow = weatherState.snow || {};
 					weatherState.snow.enabled = true;
-					weatherState.snow.snow = new Snow(this.world.gooRunner);
+					weatherState.snow.snow = new Snow_Snow(this.world.gooRunner);
 				}
 
 				weatherState.snow.snow.setEmissionVelocity(config.velocity);
@@ -180,4 +181,11 @@ EnvironmentHandler.weatherHandlers = {
 	}
 };
 
-module.exports = EnvironmentHandler;
+/**
+ * Handling environments
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { mod_EnvironmentHandler as EnvironmentHandler };

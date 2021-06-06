@@ -1,5 +1,6 @@
-var Vector3 = require('../../math/Vector3');
-var Light = require('../../renderer/light/Light');
+var mod_SpotLight = SpotLight;
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Light as Light_Light } from "../../renderer/light/Light";
 
 /**
  * The SpotLight can be viewed as two cones with their apexes located at the light's location.
@@ -12,14 +13,14 @@ var Light = require('../../renderer/light/Light');
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
 function SpotLight(color) {
-	Light.call(this, color);
+	Light_Light.call(this, color);
 
 	/**
 	 * The direction vector of the light
 	 * @readonly
 	 * @type {Vector3}
 	 */
-	this.direction = new Vector3();
+	this.direction = new Vector3_Vector3();
 
 	/**
 	 * The range of the light (default is 1000)
@@ -47,7 +48,7 @@ function SpotLight(color) {
 	// @endif
 }
 
-SpotLight.prototype = Object.create(Light.prototype);
+SpotLight.prototype = Object.create(Light_Light.prototype);
 SpotLight.prototype.constructor = SpotLight;
 
 /**
@@ -63,7 +64,7 @@ SpotLight.prototype.update = function (transform) {
 };
 
 SpotLight.prototype.copy = function (source) {
-	Light.prototype.copy.call(this, source);
+	Light_Light.prototype.copy.call(this, source);
 
 	source.direction.copy(this.direction);
 	this.range = source.range;
@@ -80,4 +81,14 @@ SpotLight.prototype.clone = function () {
 	return clone;
 };
 
-module.exports = SpotLight;
+/**
+ * The SpotLight can be viewed as two cones with their apexes located at the light's location.
+ * The properties angle sets the angle (in degrees) for which the outer cone
+ * deviates from the light's direction. The exponent property sets the angle for the inner cone.
+ * The angle property is also known as the outer angle or falloff. The exponent property is also known as
+ * the inner angle or hotspot.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/renderer/light/Lights-vtest.html Working example
+ * @extends Light
+ * @param {Vector3} [color=(1, 1, 1)] The color of the light
+ */
+export { mod_SpotLight as SpotLight };

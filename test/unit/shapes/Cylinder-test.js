@@ -1,7 +1,7 @@
-var Cylinder = require('../../../src/goo/shapes/Cylinder');
+import { Cylinder as Cylinder_Cylinder } from "../../../src/goo/shapes/Cylinder";
 
 describe('Cylinder', function () {
-	var a = new Cylinder();
+	var a = new Cylinder_Cylinder();
 
 	it('Number of vertices and indices', function () {
 		expect(a.vertexCount).toEqual(8 * 4 + 2 + 2);

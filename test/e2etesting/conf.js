@@ -1,5 +1,5 @@
 // An example configuration file.
-exports.config = {
+mod_config = {
 	// The address of a running selenium server.
 	//seleniumAddress: 'http://localhost:4444/wd/hub'
 
@@ -17,3 +17,5 @@ exports.config = {
 		defaultTimeoutInterval: 30000 // raise this value if loading times become a problem
 	}
 };
+var mod_config;
+export { mod_config as config };

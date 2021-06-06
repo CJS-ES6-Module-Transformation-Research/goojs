@@ -7,7 +7,7 @@
  * but also reports unused variables.
  */
 
-module.exports = {
+mod_jshintreporterjs = {
 	reporter: function (results, data, opts) {
 		var len = results.length;
 		var str = '';
@@ -57,3 +57,5 @@ module.exports = {
 		}
 	}
 };
+var mod_jshintreporterjs;
+export { mod_jshintreporterjs as jshintreporterjs };

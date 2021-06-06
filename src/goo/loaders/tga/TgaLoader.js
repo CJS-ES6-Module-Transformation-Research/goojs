@@ -1,3 +1,4 @@
+var mod_TgaLoader = TgaLoader;
 /**
  * @private
  */
@@ -517,4 +518,7 @@ TgaLoader.prototype.toString = function () {
 	return "TgaLoader";
 };
 
-module.exports = TgaLoader;
+/**
+ * @private
+ */
+export { mod_TgaLoader as TgaLoader };

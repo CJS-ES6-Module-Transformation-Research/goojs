@@ -1,7 +1,8 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var AnimationLayer = require('../../animationpack/layer/AnimationLayer');
-var RSVP = require('../../util/rsvp');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_AnimationLayersHandler = AnimationLayersHandler;
+import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
+import { AnimationLayer as AnimationLayer_AnimationLayer } from "../../animationpack/layer/AnimationLayer";
+import { rsvpjs as RSVP } from "../../util/rsvp";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * Handler for loading animation layers
@@ -12,12 +13,12 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @private
  */
 function AnimationLayersHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 }
 
-AnimationLayersHandler.prototype = Object.create(ConfigHandler.prototype);
+AnimationLayersHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 AnimationLayersHandler.prototype.constructor = AnimationLayersHandler;
-ConfigHandler._registerClass('animation', AnimationLayersHandler);
+ConfigHandler_ConfigHandler._registerClass('animation', AnimationLayersHandler);
 
 /**
  * Creates an empty array to store animation layers
@@ -56,12 +57,12 @@ AnimationLayersHandler.prototype._setInitialState = function (layer, stateKey) {
  */
 AnimationLayersHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
 		if (!object) { return; }
 		var promises = [];
 
 		var i = 0;
-		ObjectUtils.forEach(config.layers, function (layerCfg) {
+		ObjectUtils_ObjectUtils.forEach(config.layers, function (layerCfg) {
 			promises.push(that._parseLayer(layerCfg, object[i++], options));
 		}, null, 'sortValue');
 
@@ -86,13 +87,13 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	var that = this;
 
 	if (!layer) {
-		layer = new AnimationLayer(layerConfig.name);
+		layer = new AnimationLayer_AnimationLayer(layerConfig.name);
 	} else {
 		layer._name = layerConfig.name;
 	}
 
 	layer.id = layerConfig.id;
-	layer._transitions = ObjectUtils.deepClone(layerConfig.transitions);
+	layer._transitions = ObjectUtils_ObjectUtils.deepClone(layerConfig.transitions);
 
 	if (layer._layerBlender) {
 		if (layerConfig.blendWeight !== undefined) {
@@ -104,7 +105,7 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 
 	// Load all the stuff we need
 	var promises = [];
-	ObjectUtils.forEach(layerConfig.states, function (stateCfg) {
+	ObjectUtils_ObjectUtils.forEach(layerConfig.states, function (stateCfg) {
 		promises.push(that.loadObject(stateCfg.stateRef, options).then(function (state) {
 			layer.setState(state.id, state);
 		}));
@@ -117,4 +118,12 @@ AnimationLayersHandler.prototype._parseLayer = function (layerConfig, layer, opt
 	});
 };
 
-module.exports = AnimationLayersHandler;
+/**
+ * Handler for loading animation layers
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @extends ConfigHandler
+ * @private
+ */
+export { mod_AnimationLayersHandler as AnimationLayersHandler };

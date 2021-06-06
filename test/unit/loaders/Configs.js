@@ -1,9 +1,9 @@
-var EntityConfig = require('./helpers/EntityConfig');
-var AnimationConfig = require('./helpers/AnimationConfig');
-var MaterialConfig = require('./helpers/MaterialConfig');
-var MeshConfig = require('./helpers/MeshConfig');
-var SceneConfig = require('./helpers/SceneConfig');
-var PosteffectsConfig = require('./helpers/PosteffectsConfig');
+import { EntityConfigjs as EntityConfig } from "./helpers/EntityConfig";
+import { AnimationConfigjs as AnimationConfig } from "./helpers/AnimationConfig";
+import { MaterialConfigjs as MaterialConfig } from "./helpers/MaterialConfig";
+import { MeshConfigjs as MeshConfig } from "./helpers/MeshConfig";
+import { SceneConfigjs as SceneConfig } from "./helpers/SceneConfig";
+import { PosteffectsConfigjs as PosteffectsConfig } from "./helpers/PosteffectsConfig";
 
 var bundle = {};
 var Configs = {
@@ -73,8 +73,10 @@ attach(Configs, MaterialConfig);
 attach(Configs, MeshConfig);
 attach(Configs, SceneConfig);
 attach(Configs, PosteffectsConfig);
+var mod_Configs;
 // for (var i = 0; i < arguments.length; i++) {
 // 	attach(Configs, arguments[i]);
 // }
 
-module.exports = Configs;
+mod_Configs = Configs;
+export { mod_Configs as Configs };

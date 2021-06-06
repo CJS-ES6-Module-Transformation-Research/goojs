@@ -1,18 +1,19 @@
-var MeshData = require('../../renderer/MeshData');
-var PointLight = require('../../renderer/light/PointLight');
-var DirectionalLight = require('../../renderer/light/DirectionalLight');
-var SpotLight = require('../../renderer/light/SpotLight');
-var Texture = require('../../renderer/Texture');
-var MathUtils = require('../../math/MathUtils');
-var TangentGenerator = require('../../util/TangentGenerator');
-var ShaderFragment = require('../../renderer/shaders/ShaderFragment');
+var mod_ShaderBuilder = ShaderBuilder;
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
+import { PointLight as PointLight_PointLight } from "../../renderer/light/PointLight";
+import { DirectionalLight as DirectionalLight_DirectionalLight } from "../../renderer/light/DirectionalLight";
+import { SpotLight as SpotLight_SpotLight } from "../../renderer/light/SpotLight";
+import { Texture as Texture_Texture } from "../../renderer/Texture";
+import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
+import { TangentGenerator as TangentGenerator_TangentGenerator } from "../../util/TangentGenerator";
+import { ShaderFragment as ShaderFragment_ShaderFragment } from "../../renderer/shaders/ShaderFragment";
 
 /**
  * Builds shaders
  */
 function ShaderBuilder() {}
 
-var defaultLight = new DirectionalLight();
+var defaultLight = new DirectionalLight_DirectionalLight();
 defaultLight.translation.setDirect(10, 10, 10);
 defaultLight.direction.setDirect(1, 1, 1).normalize();
 ShaderBuilder.defaultLight = defaultLight;
@@ -166,8 +167,8 @@ ShaderBuilder.uber = {
 
 	normalTangents: function (shader, shaderInfo) {
 		//TODO: Hacky?
-		if (shader.hasDefine('NORMAL') && shader.hasDefine('NORMAL_MAP') && !shaderInfo.meshData.getAttributeBuffer(MeshData.TANGENT)) {
-			TangentGenerator.addTangentBuffer(shaderInfo.meshData);
+		if (shader.hasDefine('NORMAL') && shader.hasDefine('NORMAL_MAP') && !shaderInfo.meshData.getAttributeBuffer(MeshData_MeshData.TANGENT)) {
+			TangentGenerator_TangentGenerator.addTangentBuffer(shaderInfo.meshData);
 		}
 	},
 
@@ -262,15 +263,15 @@ ShaderBuilder.light = {
 		uniform[ind + 10] = light.direction.z;
 		uniform[ind + 11] = 0; // padding
 
-		uniform[ind + 12] = Math.cos(light.angle * MathUtils.DEG_TO_RAD / 2);
-		uniform[ind + 13] = light.penumbra !== undefined ? Math.sin(light.penumbra * MathUtils.DEG_TO_RAD / 4) : 0;
+		uniform[ind + 12] = Math.cos(light.angle * MathUtils_MathUtils.DEG_TO_RAD / 2);
+		uniform[ind + 13] = light.penumbra !== undefined ? Math.sin(light.penumbra * MathUtils_MathUtils.DEG_TO_RAD / 4) : 0;
 		uniform[ind + 14] = 0; // padding
 		uniform[ind + 15] = 0; // padding
 
 		lightDefines.push('S');
 	},
 	shadows: function (light, uniforms, i, shader, shaderInfo, shadowIndex) {
-		var useLightCookie = light.lightCookie instanceof Texture;
+		var useLightCookie = light.lightCookie instanceof Texture_Texture;
 
 		if ((useLightCookie || light.shadowCaster) && light.shadowSettings.shadowData) {
 			var shadowData = light.shadowSettings.shadowData;
@@ -347,7 +348,7 @@ ShaderBuilder.light = {
 			var lights = shaderInfo.lights;
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
-				var useLightCookie = light.lightCookie instanceof Texture;
+				var useLightCookie = light.lightCookie instanceof Texture_Texture;
 
 				if ((useLightCookie || light.shadowCaster) && light.shadowSettings.shadowData) {
 					var shadowData = light.shadowSettings.shadowData;
@@ -382,13 +383,13 @@ ShaderBuilder.light = {
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
 
-				if (light instanceof PointLight) {
+				if (light instanceof PointLight_PointLight) {
 					ShaderBuilder.light.pointLight(light, uniforms, pointIndex);
 					pointIndex++;
-				} else if (light instanceof DirectionalLight) {
+				} else if (light instanceof DirectionalLight_DirectionalLight) {
 					ShaderBuilder.light.directionalLight(light, uniforms, directionalIndex);
 					directionalIndex++;
-				} else if (light instanceof SpotLight) {
+				} else if (light instanceof SpotLight_SpotLight) {
 					ShaderBuilder.light.spotLight(light, uniforms, spotIndex);
 					spotIndex++;
 				}
@@ -458,15 +459,15 @@ ShaderBuilder.light = {
 
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
-				if (light instanceof PointLight) {
+				if (light instanceof PointLight_PointLight) {
 					pointIndex++;
-				} else if (light instanceof DirectionalLight) {
+				} else if (light instanceof DirectionalLight_DirectionalLight) {
 					directionalIndex++;
-				} else if (light instanceof SpotLight) {
+				} else if (light instanceof SpotLight_SpotLight) {
 					spotIndex++;
 				}
 
-				if (light.lightCookie instanceof Texture || light.shadowCaster) {
+				if (light.lightCookie instanceof Texture_Texture || light.shadowCaster) {
 					shadowIndex++;
 				}
 			}
@@ -487,7 +488,7 @@ ShaderBuilder.light = {
 			}
 			if (shadowIndex > 0) {
 				prefragment.push(
-					ShaderFragment.methods.unpackDepth,
+					ShaderFragment_ShaderFragment.methods.unpackDepth,
 					'uniform vec4 shadowData[' + (shadowIndex * 2) + '];',
 					'float texture2DCompare(sampler2D depths, vec2 uv, float compare) {',
 						'return step(unpackDepth(texture2D(depths, uv)), compare);',
@@ -508,7 +509,7 @@ ShaderBuilder.light = {
 						'float shadow = 1.0;'
 				);
 
-				var useLightCookie = light.lightCookie instanceof Texture;
+				var useLightCookie = light.lightCookie instanceof Texture_Texture;
 				if (light.shadowCaster || useLightCookie) {
 					prevertex.push(
 						'uniform mat4 shadowLightMatrices' + i + ';',
@@ -606,7 +607,7 @@ ShaderBuilder.light = {
 					}
 				}
 
-				if (light instanceof PointLight) {
+				if (light instanceof PointLight_PointLight) {
 					fragment.push(
 						'vec4 pointLight' + i + ' = pointLights[' + (pointIndex * 2 + 0) + '];',
 						'vec4 pointLightColor' + i + ' = pointLights[' + (pointIndex * 2 + 1) + '];'
@@ -638,7 +639,7 @@ ShaderBuilder.light = {
 					);
 
 					pointIndex++;
-				} else if (light instanceof DirectionalLight) {
+				} else if (light instanceof DirectionalLight_DirectionalLight) {
 					fragment.push(
 						'vec3 directionalLightDirection' + i + ' = directionalLights[' + (directionalIndex * 2 + 0) + '].xyz;',
 						'vec4 directionalLightColor' + i + ' = directionalLights[' + (directionalIndex * 2 + 1) + '];'
@@ -677,7 +678,7 @@ ShaderBuilder.light = {
 					);
 
 					directionalIndex++;
-				} else if (light instanceof SpotLight) {
+				} else if (light instanceof SpotLight_SpotLight) {
 					fragment.push(
 						'vec4 spotLight' + i + ' = spotLights[' + (spotIndex * 4 + 0) + '];',
 						'vec4 spotLightColor' + i + ' = spotLights[' + (spotIndex * 4 + 1) + '];',
@@ -869,4 +870,7 @@ ShaderBuilder.animation = {
 	].join('\n')
 };
 
-module.exports = ShaderBuilder;
+/**
+ * Builds shaders
+ */
+export { mod_ShaderBuilder as ShaderBuilder };

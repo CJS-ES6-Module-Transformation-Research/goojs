@@ -69,5 +69,9 @@ var tokenize = function (string) {
 	return tokens;
 };
 
-exports._makeToken = makeToken;
-exports.tokenize = tokenize;
+mod__makeToken = makeToken;
+mod_tokenize = tokenize;
+var mod__makeToken;
+export { mod__makeToken as _makeToken };
+var mod_tokenize;
+export { mod_tokenize as tokenize };

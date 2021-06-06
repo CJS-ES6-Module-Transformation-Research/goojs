@@ -1,31 +1,30 @@
-var ConfigHandler = require('./handlers/ConfigHandler');
-var Ajax = require('../util/Ajax');
-var RSVP = require('../util/rsvp');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var ArrayUtils = require('../util/ArrayUtils');
-var ShapeCreatorMemoized = require('../util/ShapeCreatorMemoized');
-
-// Todo: should these really be included here?
-require('./handlers/ComponentHandler');
-require('./handlers/CameraComponentHandler');
-require('./handlers/EntityHandler');
-require('./handlers/JsonHandler');
-require('./handlers/LightComponentHandler');
-require('./handlers/MaterialHandler');
-require('./handlers/MeshDataComponentHandler');
-require('./handlers/MeshDataHandler');
-require('./handlers/MeshRendererComponentHandler');
-require('./handlers/SceneHandler');
-require('./handlers/ShaderHandler');
-require('./handlers/TextureHandler');
-require('./handlers/TransformComponentHandler');
-require('./handlers/ProjectHandler');
-require('./handlers/SoundComponentHandler');
-require('./handlers/SoundHandler');
-require('./handlers/EnvironmentHandler');
-require('./handlers/SkyboxHandler');
-require('./handlers/HtmlComponentHandler');
+var mod_DynamicLoader = DynamicLoader;
+import { ConfigHandler as ConfigHandler_ConfigHandler } from "./handlers/ConfigHandler";
+import { Ajax as Ajax_Ajax } from "../util/Ajax";
+import { rsvpjs as RSVP } from "../util/rsvp";
+import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+import { ArrayUtils as ArrayUtils_ArrayUtils } from "../util/ArrayUtils";
+import { ShapeCreatorMemoized as ShapeCreatorMemoized_ShapeCreatorMemoized } from "../util/ShapeCreatorMemoized";
+import "./handlers/ComponentHandler";
+import "./handlers/CameraComponentHandler";
+import "./handlers/EntityHandler";
+import "./handlers/JsonHandler";
+import "./handlers/LightComponentHandler";
+import "./handlers/MaterialHandler";
+import "./handlers/MeshDataComponentHandler";
+import "./handlers/MeshDataHandler";
+import "./handlers/MeshRendererComponentHandler";
+import "./handlers/SceneHandler";
+import "./handlers/ShaderHandler";
+import "./handlers/TextureHandler";
+import "./handlers/TransformComponentHandler";
+import "./handlers/ProjectHandler";
+import "./handlers/SoundComponentHandler";
+import "./handlers/SoundHandler";
+import "./handlers/EnvironmentHandler";
+import "./handlers/SkyboxHandler";
+import "./handlers/HtmlComponentHandler";
 
 /**
  * Class to load objects into the engine, or to update objects based on the data model.
@@ -45,7 +44,7 @@ function DynamicLoader(options) {
 	if (options.ajax) {
 		this._ajax = options.ajax;
 	} else if (options.rootPath) {
-		this._ajax = new Ajax(options.rootPath);
+		this._ajax = new Ajax_Ajax(options.rootPath);
 	} else {
 		throw new Error('ajax or rootPath must be defined');
 	}
@@ -82,7 +81,7 @@ DynamicLoader.prototype.clear = function () {
 		this._ajax.clear();
 	}
 	if (this._world && this._world.gooRunner) {
-		ShapeCreatorMemoized.clearCache(this._world.gooRunner.renderer.context);
+		ShapeCreatorMemoized_ShapeCreatorMemoized.clearCache(this._world.gooRunner.renderer.context);
 		for (var i = 0; i < this._world.gooRunner.renderSystems.length; i++) {
 			var lights = this._world.gooRunner.renderSystems[i].lights;
 			if (lights) {
@@ -186,10 +185,10 @@ DynamicLoader.prototype._updateObject = function (ref, config, options) {
 	if (handler) {
 		return handler.update(ref, config, options);
 	} else if (DynamicLoader._isRefTypeInGroup(ref, 'binary') || type !== 'bundle') {
-		return PromiseUtils.resolve(config);
+		return PromiseUtils_PromiseUtils.resolve(config);
 	} else {
 		console.warn('No handler for type ' + type);
-		return PromiseUtils.resolve(config);
+		return PromiseUtils_PromiseUtils.resolve(config);
 	}
 };
 
@@ -249,7 +248,7 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
 		function traverseFn(config) {
 			var promises = [];
 			if (config.lazy === true) {
-				return PromiseUtils.resolve();
+				return PromiseUtils_PromiseUtils.resolve();
 			}
 
 			var refs = DynamicLoader._getRefsFromConfig(config);
@@ -270,7 +269,7 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
 
 		// Resolved when everything is loaded and traversed
 		return traverseFn({ collectionRefs: refs }).then(function () {
-			return ArrayUtils.fromValues(binaryRefs);
+			return ArrayUtils_ArrayUtils.fromValues(binaryRefs);
 		});
 	}
 
@@ -286,7 +285,7 @@ DynamicLoader.prototype._loadBinariesFromRefs = function (references, options) {
 DynamicLoader.prototype._getHandler = function (type) {
 	var handler = this._handlers[type];
 	if (handler) { return handler; }
-	var Handler = ConfigHandler.getHandler(type);
+	var Handler = ConfigHandler_ConfigHandler.getHandler(type);
 	if (Handler) {
 		this._handlers[type] = new Handler(
 			this._world,
@@ -331,7 +330,7 @@ DynamicLoader._getRefsFromConfig = function (config) {
 
 	function traverse(key, value) {
 		// Multiple refs
-		if (StringUtils.endsWith(key.toLowerCase(), 'refs') && value instanceof Object) {
+		if (StringUtils_StringUtils.endsWith(key.toLowerCase(), 'refs') && value instanceof Object) {
 			var foundRefs = 0;
 			for (var i = 0, keys = Object.keys(value), len = keys.length; i < len; i++) {
 				if (isValidId(value[keys[i]])) {
@@ -346,7 +345,7 @@ DynamicLoader._getRefsFromConfig = function (config) {
 
 		// Single ref
 		if (
-			StringUtils.endsWith(key.toLowerCase(), 'ref') &&
+			StringUtils_StringUtils.endsWith(key.toLowerCase(), 'ref') &&
 			key !== 'thumbnailRef' &&
 			isValidId(value)
 		) {
@@ -391,7 +390,15 @@ DynamicLoader.getTypeForRef = function (ref) {
  */
 DynamicLoader._isRefTypeInGroup = function (ref, group) {
 	var type = DynamicLoader.getTypeForRef(ref);
-	return type && Ajax.types[group] && Ajax.types[group][type];
+	return type && Ajax_Ajax.types[group] && Ajax_Ajax.types[group][type];
 };
 
-module.exports = DynamicLoader;
+/**
+ * Class to load objects into the engine, or to update objects based on the data model.
+ * @param {Object} options
+ * @param {World} options.world The target World object.
+ * @param {string} options.rootPath The root path from where to get resources.
+ * @param {Ajax} [options.ajax=new Ajax(options.rootPath)]
+ * Can be used to overwrite how the loader fetches refs. Good for testing.
+ */
+export { mod_DynamicLoader as DynamicLoader };

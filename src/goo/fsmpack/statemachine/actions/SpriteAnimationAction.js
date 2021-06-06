@@ -1,10 +1,11 @@
-var Action = require('./Action');
+var mod_SpriteAnimationAction = SpriteAnimationAction;
+import { Action as Action_Action } from "./Action";
 
 function SpriteAnimationAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 	this.completed = false;
 }
-SpriteAnimationAction.prototype = Object.create(Action.prototype);
+SpriteAnimationAction.prototype = Object.create(Action_Action.prototype);
 SpriteAnimationAction.prototype.constructor = SpriteAnimationAction;
 
 SpriteAnimationAction.external = {
@@ -114,4 +115,4 @@ SpriteAnimationAction.prototype.update = function (fsm) {
 
 SpriteAnimationAction.prototype.exit = function (/*fsm*/) {};
 
-module.exports = SpriteAnimationAction;
+export { mod_SpriteAnimationAction as SpriteAnimationAction };

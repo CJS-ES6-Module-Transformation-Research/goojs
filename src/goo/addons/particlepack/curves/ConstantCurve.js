@@ -1,4 +1,5 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
+var mod_ConstantCurve = ConstantCurve;
+import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve";
 
 /**
  * A curve with a constant value.
@@ -11,22 +12,22 @@ var Curve = require('../../../addons/particlepack/curves/Curve');
 function ConstantCurve(options) {
 	options = options || {};
 
-	Curve.call(this, options);
+	Curve_Curve.call(this, options);
 
 	/**
 	 * @type {number}
 	 */
 	this.value = options.value !== undefined ? options.value : 1;
 }
-ConstantCurve.prototype = Object.create(Curve.prototype);
+ConstantCurve.prototype = Object.create(Curve_Curve.prototype);
 ConstantCurve.prototype.constructor = ConstantCurve;
 
 ConstantCurve.prototype.toGLSL = function (/*timeVariableName, lerpValueVariableName*/) {
-	return Curve.numberToGLSL(this.value);
+	return Curve_Curve.numberToGLSL(this.value);
 };
 
 ConstantCurve.prototype.integralToGLSL = function (timeVariableName/*, lerpValueVariableName*/) {
-	var value = Curve.numberToGLSL(this.value);
+	var value = Curve_Curve.numberToGLSL(this.value);
 	return '(' + value + '*' + timeVariableName + ')';
 };
 
@@ -38,4 +39,12 @@ ConstantCurve.prototype.getIntegralValueAt = function (t /*, lerpFactor*/) {
 	return this.value * t;
 };
 
-module.exports = ConstantCurve;
+/**
+ * A curve with a constant value.
+ * @class
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {number} [options.value=1]
+ */
+export { mod_ConstantCurve as ConstantCurve };

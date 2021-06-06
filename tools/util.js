@@ -21,7 +21,15 @@ function stripEnding(ending, string) {
 	return string;
 }
 
-exports.isSafeIdentifier = isSafeIdentifier;
-exports.safenIdentifier = safenIdentifier;
-exports.extractModuleName = extractModuleName;
-exports.stripEnding = stripEnding;
+mod_isSafeIdentifier = isSafeIdentifier;
+mod_safenIdentifier = safenIdentifier;
+mod_extractModuleName = extractModuleName;
+mod_stripEnding = stripEnding;
+var mod_isSafeIdentifier;
+export { mod_isSafeIdentifier as isSafeIdentifier };
+var mod_safenIdentifier;
+export { mod_safenIdentifier as safenIdentifier };
+var mod_extractModuleName;
+export { mod_extractModuleName as extractModuleName };
+var mod_stripEnding;
+export { mod_stripEnding as stripEnding };

@@ -1,9 +1,10 @@
-var Material = require('../renderer/Material');
-var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var Pass = require('../renderer/pass/Pass');
+var mod_BlurPass = BlurPass;
+import { Material as Material_Material } from "../renderer/Material";
+import { FullscreenUtils as FullscreenUtils_FullscreenUtils } from "../renderer/pass/FullscreenUtils";
+import { RenderTarget as RenderTarget_RenderTarget } from "../renderer/pass/RenderTarget";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { ShaderLib as ShaderLib_ShaderLib } from "../renderer/shaders/ShaderLib";
+import { Pass as Pass_Pass } from "../renderer/pass/Pass";
 
 /**
  * <pre>
@@ -38,29 +39,29 @@ function BlurPass(settings) {
 	});
 
 	this.renderable = {
-		meshData: FullscreenUtils.quad,
+		meshData: FullscreenUtils_FullscreenUtils.quad,
 		materials: []
 	};
 
-	this.copyMaterial = new Material(ShaderLib.copyPure);
+	this.copyMaterial = new Material_Material(ShaderLib_ShaderLib.copyPure);
 	this.copyMaterial.uniforms.opacity = strength;
 	this.copyMaterial.blendState.blending = 'CustomBlending';
 
-	this.convolutionShader = ObjectUtils.deepClone(ShaderLib.convolution);
+	this.convolutionShader = ObjectUtils_ObjectUtils.deepClone(ShaderLib_ShaderLib.convolution);
 	this.convolutionShader.defines = {
 		'KERNEL_SIZE_FLOAT': kernelSize.toFixed(1),
 		'KERNEL_SIZE_INT': kernelSize.toFixed(0)
 	};
 	this.convolutionShader.uniforms.uImageIncrement = this.blurX;
 	this.convolutionShader.uniforms.cKernel = this.convolutionShader.buildKernel(sigma);
-	this.convolutionMaterial = new Material(this.convolutionShader);
+	this.convolutionMaterial = new Material_Material(this.convolutionShader);
 
 	this.enabled = true;
 	this.clear = false;
 	this.needsSwap = false;
 }
 
-BlurPass.prototype = Object.create(Pass.prototype);
+BlurPass.prototype = Object.create(Pass_Pass.prototype);
 BlurPass.prototype.constructor = BlurPass;
 
 BlurPass.prototype.destroy = function (renderer) {
@@ -91,8 +92,8 @@ BlurPass.prototype.updateSize = function (size, renderer) {
 	if (this.renderTargetY) {
 		renderer._deallocateRenderTarget(this.renderTargetY);
 	}
-	this.renderTargetX = new RenderTarget(sizeX, sizeY);
-	this.renderTargetY = new RenderTarget(sizeX, sizeY);
+	this.renderTargetX = new RenderTarget_RenderTarget(sizeX, sizeY);
+	this.renderTargetY = new RenderTarget_RenderTarget(sizeX, sizeY);
 };
 
 BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -101,21 +102,32 @@ BlurPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', readBuffer);
 	this.convolutionMaterial.uniforms.uImageIncrement = this.blurY;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetX, true);
+	renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.renderTargetX, true);
 
 	this.convolutionMaterial.setTexture('DIFFUSE_MAP', this.renderTargetX);
 	this.convolutionMaterial.uniforms.uImageIncrement = this.blurX;
 
-	renderer.render(this.renderable, FullscreenUtils.camera, [], this.renderTargetY, true);
+	renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.renderTargetY, true);
 
 	this.renderable.materials[0] = this.copyMaterial;
 	this.copyMaterial.setTexture('DIFFUSE_MAP', this.renderTargetY);
 
 	if (this.target !== null) {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], this.target, this.clear);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], this.target, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], readBuffer, this.clear);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], readBuffer, this.clear);
 	}
 };
 
-module.exports = BlurPass;
+/**
+ * <pre>
+ * settings: {
+ *     target: null,
+ *     strength: 1.0,
+ *     sigma: 4.0,
+ *     sizeX: 256,
+ *     sizeY: 256
+ * }
+ * </pre>
+ */
+export { mod_BlurPass as BlurPass };

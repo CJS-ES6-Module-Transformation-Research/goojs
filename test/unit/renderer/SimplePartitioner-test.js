@@ -1,22 +1,22 @@
-var SimplePartitioner = require('../../../src/goo/renderer/SimplePartitioner');
-var Camera = require('../../../src/goo/renderer/Camera');
-var BoundingSphere = require('../../../src/goo/renderer/bounds/BoundingSphere');
-var Vector3 = require('../../../src/goo/math/Vector3');
-var Entity = require('../../../src/goo/entities/Entity');
-var MeshRendererComponent = require('../../../src/goo/entities/components/MeshRendererComponent');
+import { SimplePartitioner as SimplePartitioner_SimplePartitioner } from "../../../src/goo/renderer/SimplePartitioner";
+import { Camera as Camera_Camera } from "../../../src/goo/renderer/Camera";
+import { BoundingSphere as BoundingSphere_BoundingSphere } from "../../../src/goo/renderer/bounds/BoundingSphere";
+import { Vector3 as Vector3_Vector3 } from "../../../src/goo/math/Vector3";
+import { Entity as Entity_Entity } from "../../../src/goo/entities/Entity";
+import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponent } from "../../../src/goo/entities/components/MeshRendererComponent";
 
 describe('SimplePartitioner', function () {
 	var partitioner, camera;
 
 	beforeEach(function () {
-		partitioner = new SimplePartitioner();
-		camera = new Camera();
+		partitioner = new SimplePartitioner_SimplePartitioner();
+		camera = new Camera_Camera();
 	});
 
 	function createEntity(x, y, z) {
-		var entity = new Entity();
-		var mrc = new MeshRendererComponent();
-		mrc.worldBound = new BoundingSphere(new Vector3(x, y, z), 1);
+		var entity = new Entity_Entity();
+		var mrc = new MeshRendererComponent_MeshRendererComponent();
+		mrc.worldBound = new BoundingSphere_BoundingSphere(new Vector3_Vector3(x, y, z), 1);
 		entity.set(mrc);
 		return entity;
 	}

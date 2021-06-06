@@ -1,10 +1,11 @@
-var Action = require('./Action');
+var mod_ScriptAction = ScriptAction;
+import { Action as Action_Action } from "./Action";
 
 function ScriptAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-ScriptAction.prototype = Object.create(Action.prototype);
+ScriptAction.prototype = Object.create(Action_Action.prototype);
 ScriptAction.prototype.constructor = ScriptAction;
 
 ScriptAction.external = {
@@ -77,4 +78,4 @@ ScriptAction.prototype.exit = function () {
 ScriptAction.prototype.onDestroy = function () {
 };
 
-module.exports = ScriptAction;
+export { mod_ScriptAction as ScriptAction };

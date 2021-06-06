@@ -1,23 +1,23 @@
-var Entity = require('../../../../src/goo/entities/Entity');
-var World = require('../../../../src/goo/entities/World');
-var SystemBus = require('../../../../src/goo/entities/SystemBus');
-var Camera = require('../../../../src/goo/renderer/Camera');
-var CameraComponent = require('../../../../src/goo/entities/components/CameraComponent');
-var CustomMatchers = require('../../../../test/unit/CustomMatchers');
+import { Entity as Entity_Entity } from "../../../../src/goo/entities/Entity";
+import { World as World_World } from "../../../../src/goo/entities/World";
+import { SystemBusjs as SystemBus } from "../../../../src/goo/entities/SystemBus";
+import { Camera as Camera_Camera } from "../../../../src/goo/renderer/Camera";
+import { CameraComponent as CameraComponent_CameraComponent } from "../../../../src/goo/entities/components/CameraComponent";
+import { CustomMatchers as CustomMatchers_CustomMatchers } from "../../../../test/unit/CustomMatchers";
 
 describe('CameraComponent', function () {
 	var world;
 
 	beforeEach(function () {
-		world = new World();
-		world.registerComponent(CameraComponent);
-		jasmine.addMatchers(CustomMatchers);
+		world = new World_World();
+		world.registerComponent(CameraComponent_CameraComponent);
+		jasmine.addMatchers(CustomMatchers_CustomMatchers);
 	});
 
 	it('attaches .setAsMainCamera to the host entity', function () {
-		var camera = new Camera();
-		var cameraComponent = new CameraComponent(camera);
-		var entity = new Entity(world);
+		var camera = new Camera_Camera();
+		var cameraComponent = new CameraComponent_CameraComponent(camera);
+		var entity = new Entity_Entity(world);
 
 		entity.setComponent(cameraComponent);
 		expect(entity.setAsMainCamera).toBeDefined();
@@ -25,9 +25,9 @@ describe('CameraComponent', function () {
 
 	describe('.setAsMainCamera', function () {
 		it('sets the main camera', function () {
-			var camera = new Camera();
-			var cameraComponent = new CameraComponent(camera);
-			var entity = new Entity(world);
+			var camera = new Camera_Camera();
+			var cameraComponent = new CameraComponent_CameraComponent(camera);
+			var entity = new Entity_Entity(world);
 
 			entity.setComponent(cameraComponent);
 
@@ -45,8 +45,8 @@ describe('CameraComponent', function () {
 		});
 
 		it('returns the calling entity', function () {
-			var cameraComponent = new CameraComponent(new Camera());
-			var entity = new Entity(world);
+			var cameraComponent = new CameraComponent_CameraComponent(new Camera_Camera());
+			var entity = new Entity_Entity(world);
 
 			entity.setComponent(cameraComponent);
 			expect(entity.setAsMainCamera()).toBe(entity);
@@ -55,8 +55,8 @@ describe('CameraComponent', function () {
 
 	describe('copy', function () {
 		it('can copy everything from another camera component', function () {
-			var original = new CameraComponent(new Camera(50, 2, 2, 2000));
-			var copy = new CameraComponent(new Camera(50, 2, 2, 2000));
+			var original = new CameraComponent_CameraComponent(new Camera_Camera(50, 2, 2, 2000));
+			var copy = new CameraComponent_CameraComponent(new Camera_Camera(50, 2, 2, 2000));
 			copy.copy(original);
 
 			expect(copy).toBeCloned(original);
@@ -65,7 +65,7 @@ describe('CameraComponent', function () {
 
 	describe('clone', function () {
 		it('can clone a camera component', function () {
-			var original = new CameraComponent(new Camera(50, 2, 2, 2000));
+			var original = new CameraComponent_CameraComponent(new Camera_Camera(50, 2, 2, 2000));
 			var clone = original.clone();
 
 			expect(clone).toBeCloned(original);

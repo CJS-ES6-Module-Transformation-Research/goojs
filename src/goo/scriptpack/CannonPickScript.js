@@ -1,6 +1,7 @@
-var Vector3 = require('../math/Vector3');
-var Renderer = require('../renderer/Renderer');
-var Plane = require('../math/Plane');
+var mod_CannonPickScript = CannonPickScript;
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+import { Renderer as Renderer_Renderer } from "../renderer/Renderer";
+import { Plane as Plane_Plane } from "../math/Plane";
 
 /* global CANNON */
 
@@ -8,7 +9,7 @@ function CannonPickScript() {
 	var pickButton;
 	var mouseState;
 	var cannonSystem;
-	var plane = new Plane();
+	var plane = new Plane_Plane();
 
 	function getTouchCenter(touches) {
 		var x1 = touches[0].clientX;
@@ -127,7 +128,7 @@ function CannonPickScript() {
 		mouseState.ox = mouseState.x;
 		mouseState.oy = mouseState.y;
 
-		var mainCam = Renderer.mainCamera;
+		var mainCam = Renderer_Renderer.mainCamera;
 
 		if (mainCam && mouseState.down && !env.mouseConstraint) {
 			// Shoot cannon.js ray. Not included in Goo Engine yet, so let's use it directly
@@ -152,9 +153,9 @@ function CannonPickScript() {
 			}
 		} else if (mainCam && mouseState.down && env.mouseConstraint && (mouseState.dx !== 0 || mouseState.dy !== 0)) {
 			// Get the current mouse point on the moving plane
-			var mainCam = Renderer.mainCamera;
+			var mainCam = Renderer_Renderer.mainCamera;
 			var gooRay = mainCam.getPickRay(mouseState.x, mouseState.y, window.innerWidth, window.innerHeight);
-			var newPositionWorld = new Vector3();
+			var newPositionWorld = new Vector3_Vector3();
 			plane.rayIntersect(gooRay, newPositionWorld, true);
 			moveJointToPoint(params, env, newPositionWorld);
 		} else if (!mouseState.down) {
@@ -191,7 +192,7 @@ function CannonPickScript() {
 		cannonSystem.world.addConstraint(env.mouseConstraint);
 
 		// Set plane distance from world origin by projecting world translation to plane normal
-		var worldCenter = new Vector3(x, y, z);
+		var worldCenter = new Vector3_Vector3(x, y, z);
 		plane.constant = worldCenter.dot(normal);
 		plane.normal.set(normal);
 	}
@@ -245,4 +246,6 @@ CannonPickScript.externals = {
 	}]
 };
 
-module.exports = CannonPickScript;
+/* global CANNON */
+
+export { mod_CannonPickScript as CannonPickScript };

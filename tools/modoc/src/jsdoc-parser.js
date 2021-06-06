@@ -1,7 +1,6 @@
+import { stringUntil as util_stringUntil, stringFrom as util_stringFrom } from "./util";
 // jshint node:true
 'use strict';
-
-var util = require('./util');
 
 var SUPPORTED_TAGS = [
 	'description', '@param', '@returns', '@example', '@example-link', '@readonly', '@type',
@@ -32,8 +31,8 @@ var partition = function (doc) {
 
 			var indexOfSpace = line.indexOf(' ');
 			if (indexOfSpace > -1) {
-				currentTag = util.stringUntil(line, ' ');
-				partial = [util.stringFrom(line, ' ')];
+				currentTag = util_stringUntil(line, ' ');
+				partial = [util_stringFrom(line, ' ')];
 			} else {
 				currentTag = line;
 				partial = [];
@@ -327,13 +326,33 @@ var extract = function (doc) {
 	return tags;
 };
 
-exports._partition = partition;
-exports._extractType = extractType;
-exports._extractName = extractName;
-exports._extractDescription = extractDescription;
-exports._extractTagParam = extractTagParam;
-exports._extractTagReturn = extractTagReturn;
-exports._extractTagType = extractTagType;
-exports._extractTagExtends = extractTagExtends;
-exports._extractTagTargetClass = extractTagTargetClass;
-exports.extract = extract;
+mod__partition = partition;
+mod__extractType = extractType;
+mod__extractName = extractName;
+mod__extractDescription = extractDescription;
+mod__extractTagParam = extractTagParam;
+mod__extractTagReturn = extractTagReturn;
+mod__extractTagType = extractTagType;
+mod__extractTagExtends = extractTagExtends;
+mod__extractTagTargetClass = extractTagTargetClass;
+mod_extract = extract;
+var mod__partition;
+export { mod__partition as _partition };
+var mod__extractType;
+export { mod__extractType as _extractType };
+var mod__extractName;
+export { mod__extractName as _extractName };
+var mod__extractDescription;
+export { mod__extractDescription as _extractDescription };
+var mod__extractTagParam;
+export { mod__extractTagParam as _extractTagParam };
+var mod__extractTagReturn;
+export { mod__extractTagReturn as _extractTagReturn };
+var mod__extractTagType;
+export { mod__extractTagType as _extractTagType };
+var mod__extractTagExtends;
+export { mod__extractTagExtends as _extractTagExtends };
+var mod__extractTagTargetClass;
+export { mod__extractTagTargetClass as _extractTagTargetClass };
+var mod_extract;
+export { mod_extract as extract };

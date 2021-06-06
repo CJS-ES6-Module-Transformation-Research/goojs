@@ -1,18 +1,19 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector3 = require('../../../math/Vector3');
-var Easing = require('../../../util/Easing');
+var mod_TweenMoveAction = TweenMoveAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+import { Easing as Easing_Easing } from "../../../util/Easing";
 
 function TweenMoveAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 
-	this.fromPos = new Vector3();
-	this.toPos = new Vector3();
-	this.deltaPos = new Vector3();
-	this.oldPos = new Vector3();
+	this.fromPos = new Vector3_Vector3();
+	this.toPos = new Vector3_Vector3();
+	this.deltaPos = new Vector3_Vector3();
+	this.oldPos = new Vector3_Vector3();
 	this.completed = false;
 }
 
-TweenMoveAction.prototype = Object.create(Action.prototype);
+TweenMoveAction.prototype = Object.create(Action_Action.prototype);
 TweenMoveAction.prototype.constructor = TweenMoveAction;
 
 TweenMoveAction.external = {
@@ -87,7 +88,7 @@ TweenMoveAction.prototype.update = function (fsm) {
 	var transformComponent = fsm.getOwnerEntity().transformComponent.sync();
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = Easing_Easing[this.easing1][this.easing2](t);
 
 	if (this.relative) {
 		this.deltaPos.set(this.fromPos).lerp(this.toPos, fT).sub(this.oldPos);
@@ -105,4 +106,4 @@ TweenMoveAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenMoveAction;
+export { mod_TweenMoveAction as TweenMoveAction };

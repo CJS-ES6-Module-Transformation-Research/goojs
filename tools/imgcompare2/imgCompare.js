@@ -1,4 +1,5 @@
-var exec = require('child_process').exec;
+import ext_child_process from "child_process";
+var exec = ext_child_process.exec;
 
 var regex = /\((\d+(?:\.\d+)?)\)/;
 
@@ -26,4 +27,6 @@ function compare(actual, expected, callback) {
 	});
 }
 
-exports.compare = compare;
+mod_compare = compare;
+var mod_compare;
+export { mod_compare as compare };

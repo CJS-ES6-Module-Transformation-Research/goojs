@@ -1,7 +1,8 @@
-var MeshData = require('../renderer/MeshData');
-var Surface = require('../geometrypack/Surface');
-var Matrix3 = require('../math/Matrix3');
-var Vector3 = require('../math/Vector3');
+var mod_PolyLine = PolyLine;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { Surface as Surface_Surface } from "../geometrypack/Surface";
+import { Matrix3 as Matrix3_Matrix3 } from "../math/Matrix3";
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
 
 /**
  * A polygonal line
@@ -12,8 +13,8 @@ function PolyLine(verts, closed) {
 	this.verts = verts;
 	this.closed = !!closed;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	MeshData.call(this, attributeMap, this.verts.length / 3, this.verts.length / 3);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
+	MeshData_MeshData.call(this, attributeMap, this.verts.length / 3, this.verts.length / 3);
 
 	if (this.closed) {
 		this.indexModes = ['LineLoop'];
@@ -25,14 +26,14 @@ function PolyLine(verts, closed) {
 	this.rebuild();
 }
 
-PolyLine.prototype = Object.create(MeshData.prototype);
+PolyLine.prototype = Object.create(MeshData_MeshData.prototype);
 
 /**
  * Builds or rebuilds the mesh data
  * @returns {PolyLine} Self for chaining
  */
 PolyLine.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(this.verts);
 
 	var indices = [];
 	var nVerts = this.verts.length / 3;
@@ -68,7 +69,7 @@ PolyLine.prototype.mul = function (rhs) {
 		}
 	}
 
-	return new Surface(verts, rhsNVerts);
+	return new Surface_Surface(verts, rhsNVerts);
 };
 
 (function () {
@@ -83,7 +84,7 @@ PolyLine.prototype.mul = function (rhs) {
 			futureIndex = index + 1;
 		}
 
-		var lookAtVector = new Vector3(
+		var lookAtVector = new Vector3_Vector3(
 			verts[futureIndex * 3 + 0] - verts[oldIndex * 3 + 0],
 			verts[futureIndex * 3 + 1] - verts[oldIndex * 3 + 1],
 			verts[futureIndex * 3 + 2] - verts[oldIndex * 3 + 2]
@@ -94,7 +95,7 @@ PolyLine.prototype.mul = function (rhs) {
 		store.lookAt(lookAtVector, up);
 	}
 
-	var FORWARD = Vector3.UNIT_Z;
+	var FORWARD = Vector3_Vector3.UNIT_Z;
 
 	/**
 	 * Extrudes and rotates a PolyLine along another PolyLine.
@@ -109,12 +110,12 @@ PolyLine.prototype.mul = function (rhs) {
 		var polyLineNVerts = polyLine.verts.length / 3;
 		var verts = [];
 
-		var forward = new Vector3();
-		var up = Vector3.UNIT_Y.clone();
-		var right = new Vector3();
+		var forward = new Vector3_Vector3();
+		var up = Vector3_Vector3.UNIT_Y.clone();
+		var right = new Vector3_Vector3();
 
-		var rotation = new Matrix3();
-		var twist = new Matrix3();
+		var rotation = new Matrix3_Matrix3();
+		var twist = new Matrix3_Matrix3();
 		var scale;
 
 		for (var i = 0; i < this.verts.length; i += 3) {
@@ -135,7 +136,7 @@ PolyLine.prototype.mul = function (rhs) {
 			up.copy(right).cross(forward);
 
 			for (var j = 0; j < polyLine.verts.length; j += 3) {
-				var vertex = new Vector3(polyLine.verts[j + 0], polyLine.verts[j + 1], polyLine.verts[j + 2]);
+				var vertex = new Vector3_Vector3(polyLine.verts[j + 0], polyLine.verts[j + 1], polyLine.verts[j + 2]);
 				vertex.applyPost(rotation);
 				vertex.scale(scale);
 				vertex.addDirect(this.verts[i + 0], this.verts[i + 1], this.verts[i + 2]);
@@ -144,7 +145,7 @@ PolyLine.prototype.mul = function (rhs) {
 			}
 		}
 
-		return new Surface(verts, polyLineNVerts);
+		return new Surface_Surface(verts, polyLineNVerts);
 	};
 })();
 
@@ -169,7 +170,7 @@ PolyLine.prototype.lathe = function (nSegments) {
 		}
 	}
 
-	return new Surface(verts, nSegments + 1, true);
+	return new Surface_Surface(verts, nSegments + 1, true);
 };
 
 /**
@@ -326,4 +327,9 @@ PolyLine.fromCubicSpline = function (verts, nSegments, closed) {
 	}
 };
 
-module.exports = PolyLine;
+/**
+ * A polygonal line
+ * @param {Array<number>} [verts] The vertices data array
+ * @param {boolean} [closed=false] True if its ends should be connected
+ */
+export { mod_PolyLine as PolyLine };
