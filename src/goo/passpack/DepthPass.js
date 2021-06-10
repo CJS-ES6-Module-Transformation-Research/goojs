@@ -1,12 +1,13 @@
-var Material = require('../renderer/Material');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var MeshData = require('../renderer/MeshData');
-var Shader = require('../renderer/Shader');
-var ShaderFragment = require('../renderer/shaders/ShaderFragment');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var Pass = require('../renderer/pass/Pass');
-var BlurPass = require('../passpack/BlurPass');
+var mod_DepthPass = DepthPass;
+import { Material as Material_Material } from "../renderer/Material";
+import { RenderTarget as RenderTarget_RenderTarget } from "../renderer/pass/RenderTarget";
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { Shader as Shader_Shader } from "../renderer/Shader";
+import { ShaderFragment as ShaderFragment_ShaderFragment } from "../renderer/shaders/ShaderFragment";
+import { RenderPass as RenderPass_RenderPass } from "../renderer/pass/RenderPass";
+import { FullscreenPass as FullscreenPass_FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { Pass as Pass_Pass } from "../renderer/pass/Pass";
+import { BlurPass as BlurPass_BlurPass } from "../passpack/BlurPass";
 
 /**
  * Depth pass
@@ -14,30 +15,30 @@ var BlurPass = require('../passpack/BlurPass');
  * @param outShader
  */
 function DepthPass(renderList, outShader) {
-	this.depthPass = new RenderPass(renderList);
-	var packDepthMaterial = new Material(packDepth);
+	this.depthPass = new RenderPass_RenderPass(renderList);
+	var packDepthMaterial = new Material_Material(packDepth);
 	this.depthPass.overrideMaterial = packDepthMaterial;
 
-	this.blurTarget = new RenderTarget(256, 256);
-	this.blurPass = new BlurPass({
+	this.blurTarget = new RenderTarget_RenderTarget(256, 256);
+	this.blurPass = new BlurPass_BlurPass({
 		target: this.blurTarget
 	});
 
 	var shader = outShader || unpackDepth;
-	this.outPass = new FullscreenPass(shader);
+	this.outPass = new FullscreenPass_FullscreenPass(shader);
 	this.outPass.useReadBuffer = false;
 	// this.outPass.clear = true;
 
 	var width = window.innerWidth || 1;
 	var height = window.innerHeight || 1;
-	this.depthTarget = new RenderTarget(width, height);
+	this.depthTarget = new RenderTarget_RenderTarget(width, height);
 
 	this.enabled = true;
 	this.clear = false;
 	this.needsSwap = true;
 }
 
-DepthPass.prototype = Object.create(Pass.prototype);
+DepthPass.prototype = Object.create(Pass_Pass.prototype);
 DepthPass.prototype.constructor = DepthPass;
 
 DepthPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta) {
@@ -45,22 +46,22 @@ DepthPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta)
 
 	this.blurPass.render(renderer, writeBuffer, readBuffer, delta);
 
-	this.outPass.material.setTexture(Shader.DEPTH_MAP, this.depthTarget);
-	this.outPass.material.setTexture(Shader.DIFFUSE_MAP, readBuffer);
+	this.outPass.material.setTexture(Shader_Shader.DEPTH_MAP, this.depthTarget);
+	this.outPass.material.setTexture(Shader_Shader.DIFFUSE_MAP, readBuffer);
 	this.outPass.material.setTexture('BLUR_MAP', this.blurTarget);
 	this.outPass.render(renderer, writeBuffer, readBuffer, delta);
 };
 
 var packDepth = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: MeshData_MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
 //				nearPlane: Shader.NEAR_PLANE,
-		farPlane: Shader.FAR_PLANE
+		farPlane: Shader_Shader.FAR_PLANE
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -82,7 +83,7 @@ var packDepth = {
 //				'uniform float nearPlane;',
 		'uniform float farPlane;',
 
-		ShaderFragment.methods.packDepth,
+		ShaderFragment_ShaderFragment.methods.packDepth,
 
 		'varying vec4 vPosition;',
 
@@ -97,15 +98,15 @@ var packDepth = {
 
 var unpackDepth = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: MeshData_MeshData.POSITION,
+		vertexUV0: MeshData_MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
-		depthMap: Shader.DEPTH_MAP,
-		diffuseMap: Shader.DIFFUSE_MAP
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
+		depthMap: Shader_Shader.DEPTH_MAP,
+		diffuseMap: Shader_Shader.DIFFUSE_MAP
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -130,7 +131,7 @@ var unpackDepth = {
 
 		'varying vec2 texCoord0;',
 
-		ShaderFragment.methods.unpackDepth,
+		ShaderFragment_ShaderFragment.methods.unpackDepth,
 
 		'void main(void)',
 		'{',
@@ -142,4 +143,9 @@ var unpackDepth = {
 	].join('\n')
 };
 
-module.exports = DepthPass;
+/**
+ * Depth pass
+ * @param renderList
+ * @param outShader
+ */
+export { mod_DepthPass as DepthPass };

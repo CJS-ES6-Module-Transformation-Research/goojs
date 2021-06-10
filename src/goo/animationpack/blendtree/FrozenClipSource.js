@@ -1,4 +1,5 @@
-var Source = require('../../animationpack/blendtree/Source');
+var mod_FrozenClipSource = FrozenClipSource;
+import { Source as Source_Source } from "../../animationpack/blendtree/Source";
 
 /**
  * A blend tree node that does not update any clips or sources below it in the blend tree. This is useful for freezing an animation, often
@@ -8,12 +9,12 @@ var Source = require('../../animationpack/blendtree/Source');
  * @extends Source
  */
 function FrozenClipSource(source, frozenTime) {
-	Source.call(this);
+	Source_Source.call(this);
 	this._source = source;
 	this._time = frozenTime;
 }
 
-FrozenClipSource.prototype = Object.create(Source.prototype);
+FrozenClipSource.prototype = Object.create(Source_Source.prototype);
 FrozenClipSource.prototype.constructor = FrozenClipSource;
 
 /**
@@ -50,4 +51,11 @@ FrozenClipSource.prototype.clone = function () {
 	return cloned;
 };
 
-module.exports = FrozenClipSource;
+/**
+ * A blend tree node that does not update any clips or sources below it in the blend tree. This is useful for freezing an animation, often
+ *        for purposes of transitioning between two unrelated animations.
+ * @param {(ClipSource|BinaryLerpSource|FrozenClipSource|ManagedTransformSource)} source Our sub source.
+ * @param {number} frozenTime The time we are frozen at.
+ * @extends Source
+ */
+export { mod_FrozenClipSource as FrozenClipSource };

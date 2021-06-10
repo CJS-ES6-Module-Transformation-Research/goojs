@@ -1,20 +1,21 @@
-var Material = require('../../renderer/Material');
-var FullscreenUtils = require('../../renderer/pass/FullscreenUtils');
-var ShaderLib = require('../../renderer/shaders/ShaderLib');
-var Pass = require('../../renderer/pass/Pass');
+var mod_FullscreenPass = FullscreenPass;
+import { Material as Material_Material } from "../../renderer/Material";
+import { FullscreenUtils as FullscreenUtils_FullscreenUtils } from "../../renderer/pass/FullscreenUtils";
+import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
+import { Pass as Pass_Pass } from "../../renderer/pass/Pass";
 
 /**
  * Fullscreen pass
  * @param shader
  */
 function FullscreenPass(shader) {
-	this.material = new Material(shader || ShaderLib.simple);
+	this.material = new Material_Material(shader || ShaderLib_ShaderLib.simple);
 	this.useReadBuffer = true;
 
 	this.renderToScreen = false;
 
 	this.renderable = {
-		meshData: FullscreenUtils.quad,
+		meshData: FullscreenUtils_FullscreenUtils.quad,
 		materials: [this.material]
 	};
 
@@ -24,7 +25,7 @@ function FullscreenPass(shader) {
 	this.viewportSize = undefined;
 }
 
-FullscreenPass.prototype = Object.create(Pass.prototype);
+FullscreenPass.prototype = Object.create(Pass_Pass.prototype);
 FullscreenPass.prototype.constructor = FullscreenPass;
 
 FullscreenPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
@@ -33,9 +34,9 @@ FullscreenPass.prototype.render = function (renderer, writeBuffer, readBuffer) {
 	}
 
 	if (this.renderToScreen) {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], null, this.clear);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], null, this.clear);
 	} else {
-		renderer.render(this.renderable, FullscreenUtils.camera, [], writeBuffer, this.clear);
+		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], writeBuffer, this.clear);
 	}
 };
 
@@ -48,4 +49,8 @@ FullscreenPass.prototype.invalidateHandles = function (renderer) {
 	renderer.invalidateMeshData(this.renderable.meshData);
 };
 
-module.exports = FullscreenPass;
+/**
+ * Fullscreen pass
+ * @param shader
+ */
+export { mod_FullscreenPass as FullscreenPass };

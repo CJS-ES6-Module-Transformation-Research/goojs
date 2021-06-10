@@ -1,4 +1,5 @@
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_ScriptUtils = ScriptUtils;
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 function ScriptUtils() {}
 
@@ -33,7 +34,7 @@ ScriptUtils.REF_TYPES = [
 ];
 
 ScriptUtils.isRefType = function (type) {
-	return ObjectUtils.contains(ScriptUtils.REF_TYPES, type);
+	return ObjectUtils_ObjectUtils.contains(ScriptUtils.REF_TYPES, type);
 };
 
 ScriptUtils.TYPE_VALIDATORS = (function () {
@@ -45,7 +46,7 @@ ScriptUtils.TYPE_VALIDATORS = (function () {
 
 	var isRef = function (type) {
 		function isDirectRef(data) {
-			return ObjectUtils.isString(data) && ObjectUtils.getExtension(data) === type;
+			return ObjectUtils_ObjectUtils.isString(data) && ObjectUtils_ObjectUtils.getExtension(data) === type;
 		}
 
 		// Checks for references passed like:
@@ -63,12 +64,12 @@ ScriptUtils.TYPE_VALIDATORS = (function () {
 	};
 
 	return {
-		'array': ObjectUtils.isArray,
-		'float': ObjectUtils.isNumber,
-		'number': ObjectUtils.isNumber,
-		'string': ObjectUtils.isString,
-		'boolean': ObjectUtils.isBoolean,
-		'int': ObjectUtils.isInteger,
+		'array': ObjectUtils_ObjectUtils.isArray,
+		'float': ObjectUtils_ObjectUtils.isNumber,
+		'number': ObjectUtils_ObjectUtils.isNumber,
+		'string': ObjectUtils_ObjectUtils.isString,
+		'boolean': ObjectUtils_ObjectUtils.isBoolean,
+		'int': ObjectUtils_ObjectUtils.isInteger,
 		'vec2': isVec(2),
 		'vec3': isVec(3),
 		'vec4': isVec(4),
@@ -179,12 +180,12 @@ ScriptUtils.fillDefaultValues = function (parameters, specs) {
 		}
 
 		if (spec.default === null || spec.default === undefined) {
-			spec.default = ObjectUtils.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[spec.type]);
+			spec.default = ObjectUtils_ObjectUtils.deepClone(ScriptUtils.DEFAULTS_BY_TYPE[spec.type]);
 		}
 
 		keys.push(spec.key);
 		if (typeof parameters[spec.key] === 'undefined') {
-			parameters[spec.key] = ObjectUtils.clone(spec.default);
+			parameters[spec.key] = ObjectUtils_ObjectUtils.clone(spec.default);
 		}
 	});
 
@@ -359,4 +360,4 @@ ScriptUtils.keyForCode = function (code) {
 	return ScriptUtils._keyInverse[code];
 };
 
-module.exports = ScriptUtils;
+export { mod_ScriptUtils as ScriptUtils };

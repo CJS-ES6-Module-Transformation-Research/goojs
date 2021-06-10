@@ -1,10 +1,11 @@
-var Action = require('./Action');
+var mod_SetHtmlTextAction = SetHtmlTextAction;
+import { Action as Action_Action } from "./Action";
 
 function SetHtmlTextAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-SetHtmlTextAction.prototype = Object.create(Action.prototype);
+SetHtmlTextAction.prototype = Object.create(Action_Action.prototype);
 SetHtmlTextAction.prototype.constructor = SetHtmlTextAction;
 
 SetHtmlTextAction.external = {
@@ -54,4 +55,4 @@ SetHtmlTextAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = SetHtmlTextAction;
+export { mod_SetHtmlTextAction as SetHtmlTextAction };

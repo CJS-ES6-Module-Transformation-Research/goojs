@@ -1,10 +1,11 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var mod_GetPositionAction = GetPositionAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
 
 function GetPositionAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-GetPositionAction.prototype = Object.create(Action.prototype);
+GetPositionAction.prototype = Object.create(Action_Action.prototype);
 GetPositionAction.prototype.constructor = GetPositionAction;
 
 GetPositionAction.prototype.configure = function (settings) {
@@ -59,4 +60,4 @@ GetPositionAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = GetPositionAction;
+export { mod_GetPositionAction as GetPositionAction };

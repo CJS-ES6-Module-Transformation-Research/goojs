@@ -1,10 +1,11 @@
-var MeshData = require('../../renderer/MeshData');
-var Vector2 = require('../../math/Vector2');
-var Vector3 = require('../../math/Vector3');
-var Vector4 = require('../../math/Vector4');
-var Matrix4 = require('../../math/Matrix4');
-var Camera = require('../../renderer/Camera');
-var MathUtils = require('../../math/MathUtils');
+var mod_ProjectedGrid = ProjectedGrid;
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
+import { Vector2 as Vector2_Vector2 } from "../../math/Vector2";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Vector4 as Vector4_Vector4 } from "../../math/Vector4";
+import { Matrix4 as Matrix4_Matrix4 } from "../../math/Matrix4";
+import { Camera as Camera_Camera } from "../../renderer/Camera";
+import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
 
 /**
  * Projected grid mesh
@@ -15,30 +16,30 @@ function ProjectedGrid(densityX, densityY) {
 	this.densityX = densityX !== undefined ? densityX : 20;
 	this.densityY = densityY !== undefined ? densityY : 20;
 
-	this.projectorCamera = new Camera(45, 1, 0.1, 2000);
-	this.mainCamera = new Camera(45, 1, 0.1, 2000);
+	this.projectorCamera = new Camera_Camera(45, 1, 0.1, 2000);
+	this.mainCamera = new Camera_Camera(45, 1, 0.1, 2000);
 
 	this.freezeProjector = false;
 	this.upperBound = 20.0;
 
-	this.origin = new Vector4();
-	this.direction = new Vector4();
-	this.source = new Vector2();
-	this.rangeMatrix = new Matrix4();
+	this.origin = new Vector4_Vector4();
+	this.direction = new Vector4_Vector4();
+	this.source = new Vector2_Vector2();
+	this.rangeMatrix = new Matrix4_Matrix4();
 
-	this.intersectBottomLeft = new Vector4();
-	this.intersectTopLeft = new Vector4();
-	this.intersectTopRight = new Vector4();
-	this.intersectBottomRight = new Vector4();
+	this.intersectBottomLeft = new Vector4_Vector4();
+	this.intersectTopLeft = new Vector4_Vector4();
+	this.intersectTopRight = new Vector4_Vector4();
+	this.intersectBottomRight = new Vector4_Vector4();
 
-	this.planeIntersection = new Vector3();
+	this.planeIntersection = new Vector3_Vector3();
 
 	this.freezeProjector = false;
 
 	this.projectorMinHeight = 50.0;
 	this.intersections = [];
 	for (var i = 0; i < 24; i++) {
-		this.intersections.push(new Vector3());
+		this.intersections.push(new Vector3_Vector3());
 	}
 
 	this.connections = [0, 3, 1, 2, 0, 4, 1, 5, 2, 6, 3, 7, 4, 7, 5, 6];
@@ -46,13 +47,13 @@ function ProjectedGrid(densityX, densityY) {
 	// Create mesh data
 	var vertexCount = this.densityX * this.densityY;
 	var indexCount = ((this.densityX - 1) * (this.densityY - 1)) * 6;
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, vertexCount, indexCount);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.TEXCOORD0]);
+	MeshData_MeshData.call(this, attributeMap, vertexCount, indexCount);
 
 	this.rebuild();
 }
 
-ProjectedGrid.prototype = Object.create(MeshData.prototype);
+ProjectedGrid.prototype = Object.create(MeshData_MeshData.prototype);
 ProjectedGrid.prototype.constructor = ProjectedGrid;
 
 ProjectedGrid.prototype.update = function (camera) {
@@ -96,7 +97,7 @@ ProjectedGrid.prototype.update = function (camera) {
 	var nrPoints = 0;
 
 	// check intersections of frustum connections with upper and lower bound
-	var tmpStorage = new Vector3();
+	var tmpStorage = new Vector3_Vector3();
 	for (var i = 0; i < 8; i++) {
 		var source = this.connections[i * 2];
 		var destination = this.connections[i * 2 + 1];
@@ -133,7 +134,7 @@ ProjectedGrid.prototype.update = function (camera) {
 		|| projectorCamera.translation.y < 0.0 && projectorCamera._direction.y < 0.0) {
 		projectorCamera._direction.y = -projectorCamera._direction.y;
 
-		var tmpVec = new Vector3();
+		var tmpVec = new Vector3_Vector3();
 		tmpVec.set(projectorCamera._direction).cross(projectorCamera._left).normalize();
 		projectorCamera._up.set(tmpVec);
 	}
@@ -166,7 +167,7 @@ ProjectedGrid.prototype.update = function (camera) {
 	if (length > Math.abs(projectorCamera.translation.y)) {
 		planeIntersection.normalize();
 		planeIntersection.scale(Math.abs(projectorCamera.translation.y));
-	} else if (length < MathUtils.EPSILON) {
+	} else if (length < MathUtils_MathUtils.EPSILON) {
 		planeIntersection.add(projectorCamera._up);
 		planeIntersection.y = 0.0;
 		planeIntersection.normalize();
@@ -176,11 +177,11 @@ ProjectedGrid.prototype.update = function (camera) {
 	planeIntersection.y = 0.0;
 
 	// point projector at the new intersection point
-	projectorCamera.lookAt(planeIntersection, Vector3.UNIT_Y);
+	projectorCamera.lookAt(planeIntersection, Vector3_Vector3.UNIT_Y);
 
 	// transform points to projector space
 	var modelViewProjectionMatrix = projectorCamera.getViewProjectionMatrix();
-	var spaceTransformation = new Vector4();
+	var spaceTransformation = new Vector4_Vector4();
 	var intersections = this.intersections;
 	for (var i = 0; i < nrPoints; i++) {
 		var intersection = intersections[i];
@@ -270,7 +271,7 @@ ProjectedGrid.prototype.calculateIntersection = function (planeHeight, screenPos
 	// final double t = (planeHeight * this.origin.getW() - this.origin.y)
 	// / (direction.y - planeHeight * direction.getW());
 
-	if (Math.abs(this.direction.y) > MathUtils.EPSILON) {
+	if (Math.abs(this.direction.y) > MathUtils_MathUtils.EPSILON) {
 		var t = (planeHeight - this.origin.y) / this.direction.y;
 		this.direction.scale(t);
 	} else {
@@ -286,8 +287,8 @@ ProjectedGrid.prototype.calculateIntersection = function (planeHeight, screenPos
  * @returns {ProjectedGrid} Self for chaining.
  */
 ProjectedGrid.prototype.rebuild = function () {
-	var vbuf = this.getAttributeBuffer(MeshData.POSITION);
-	var texs = this.getAttributeBuffer(MeshData.TEXCOORD0);
+	var vbuf = this.getAttributeBuffer(MeshData_MeshData.POSITION);
+	var texs = this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0);
 	var indices = this.getIndexBuffer();
 
 	var densityX = this.densityX;
@@ -335,4 +336,9 @@ ProjectedGrid.prototype.rebuild = function () {
 	return this;
 };
 
-module.exports = ProjectedGrid;
+/**
+ * Projected grid mesh
+ * @param {number} [densityX=20] Density in X of grid
+ * @param {number} [densityY=20] Density in Y of grid
+ */
+export { mod_ProjectedGrid as ProjectedGrid };

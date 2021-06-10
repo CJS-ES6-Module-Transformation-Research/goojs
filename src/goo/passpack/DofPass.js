@@ -1,13 +1,14 @@
-var Material = require('../renderer/Material');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var MeshData = require('../renderer/MeshData');
-var Shader = require('../renderer/Shader');
-var ShaderFragment = require('../renderer/shaders/ShaderFragment');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var Skybox = require('../util/Skybox');
-var Pass = require('../renderer/pass/Pass');
-var MathUtils = require('../math/MathUtils');
+var mod_DofPass = DofPass;
+import { Material as Material_Material } from "../renderer/Material";
+import { RenderTarget as RenderTarget_RenderTarget } from "../renderer/pass/RenderTarget";
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { Shader as Shader_Shader } from "../renderer/Shader";
+import { ShaderFragment as ShaderFragment_ShaderFragment } from "../renderer/shaders/ShaderFragment";
+import { RenderPass as RenderPass_RenderPass } from "../renderer/pass/RenderPass";
+import { FullscreenPass as FullscreenPass_FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { Skybox as Skybox_Skybox } from "../util/Skybox";
+import { Pass as Pass_Pass } from "../renderer/pass/Pass";
+import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
 
 /**
  * Deph of field pass
@@ -15,24 +16,24 @@ var MathUtils = require('../math/MathUtils');
  * @param outShader
  */
 function DofPass(renderList, outShader) {
-	this.depthPass = new RenderPass(renderList, function (item) {
-		return !(item instanceof Skybox);
+	this.depthPass = new RenderPass_RenderPass(renderList, function (item) {
+		return !(item instanceof Skybox_Skybox);
 	});
-	this.regularPass = new RenderPass(renderList);
-	var packDepthMaterial = new Material(packDepth);
+	this.regularPass = new RenderPass_RenderPass(renderList);
+	var packDepthMaterial = new Material_Material(packDepth);
 	this.depthPass.overrideMaterial = packDepthMaterial;
 
 	var shader = outShader || unpackDepth;
-	this.outPass = new FullscreenPass(shader);
+	this.outPass = new FullscreenPass_FullscreenPass(shader);
 	this.outPass.useReadBuffer = false;
 	this.outPass.renderToScreen = true;
 
 	var width = window.innerWidth || 1;
 	var height = window.innerHeight || 1;
-	var size = MathUtils.nearestPowerOfTwo(Math.max(width, height));
-	this.depthTarget = new RenderTarget(width, height);
-	this.regularTarget = new RenderTarget(size / 2, size / 2);
-	this.regularTarget2 = new RenderTarget(width, height);
+	var size = MathUtils_MathUtils.nearestPowerOfTwo(Math.max(width, height));
+	this.depthTarget = new RenderTarget_RenderTarget(width, height);
+	this.regularTarget = new RenderTarget_RenderTarget(size / 2, size / 2);
+	this.regularTarget2 = new RenderTarget_RenderTarget(width, height);
 	this.regularTarget.generateMipmaps = true;
 	this.regularTarget.minFilter = 'Trilinear';
 
@@ -41,7 +42,7 @@ function DofPass(renderList, outShader) {
 	this.needsSwap = true;
 }
 
-DofPass.prototype = Object.create(Pass.prototype);
+DofPass.prototype = Object.create(Pass_Pass.prototype);
 DofPass.prototype.constructor = DofPass;
 
 DofPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta) {
@@ -49,22 +50,22 @@ DofPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta) {
 	this.regularPass.render(renderer, null, this.regularTarget, delta);
 	this.regularPass.render(renderer, null, this.regularTarget2, delta);
 
-	this.outPass.material.setTexture(Shader.DEPTH_MAP, this.depthTarget);
-	this.outPass.material.setTexture(Shader.DIFFUSE_MAP, this.regularTarget);
+	this.outPass.material.setTexture(Shader_Shader.DEPTH_MAP, this.depthTarget);
+	this.outPass.material.setTexture(Shader_Shader.DIFFUSE_MAP, this.regularTarget);
 	this.outPass.material.setTexture('DIFFUSE_MIP', this.regularTarget2);
 	this.outPass.render(renderer, writeBuffer, readBuffer, delta);
 };
 
 var packDepth = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: MeshData_MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
 //				nearPlane: Shader.NEAR_PLANE,
-		farPlane: Shader.FAR_PLANE
+		farPlane: Shader_Shader.FAR_PLANE
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -86,7 +87,7 @@ var packDepth = {
 //				'uniform float nearPlane;',
 		'uniform float farPlane;',
 
-		ShaderFragment.methods.packDepth,
+		ShaderFragment_ShaderFragment.methods.packDepth,
 
 		'varying vec4 vPosition;',
 
@@ -100,16 +101,16 @@ var packDepth = {
 
 var unpackDepth = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: MeshData_MeshData.POSITION,
+		vertexUV0: MeshData_MeshData.TEXCOORD0
 	},
 	uniforms: {
-		worldMatrix: Shader.WORLD_MATRIX,
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		depthMap: Shader.DEPTH_MAP,
-		diffuseMap: Shader.DIFFUSE_MAP,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
+		viewProjectionMatrix: Shader_Shader.VIEW_PROJECTION_MATRIX,
+		depthMap: Shader_Shader.DEPTH_MAP,
+		diffuseMap: Shader_Shader.DIFFUSE_MAP,
 		diffuseMip: 'DIFFUSE_MIP',
-		zfar: Shader.FAR_PLANE,
+		zfar: Shader_Shader.FAR_PLANE,
 		focalDepth: 100.0,
 		fStop: 2.0,
 		CoC: 0.003,
@@ -142,7 +143,7 @@ var unpackDepth = {
 	'uniform float maxBlur;\n' +
 	'varying vec2 texCoord0;\n' +
 
-	ShaderFragment.methods.unpackDepth +
+	ShaderFragment_ShaderFragment.methods.unpackDepth +
 
 	'void main() {\n' +
 		'float depth = unpackDepth(texture2D(depthMap,texCoord0)) * zfar;\n' +
@@ -164,4 +165,9 @@ var unpackDepth = {
 	'}'
 };
 
-module.exports = DofPass;
+/**
+ * Deph of field pass
+ * @param renderList
+ * @param outShader
+ */
+export { mod_DofPass as DofPass };

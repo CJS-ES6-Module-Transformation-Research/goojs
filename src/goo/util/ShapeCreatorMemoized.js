@@ -1,11 +1,12 @@
-var Box = require('../shapes/Box');
-var Quad = require('../shapes/Quad');
-var Sphere = require('../shapes/Sphere');
-var Cylinder = require('../shapes/Cylinder');
-var Torus = require('../shapes/Torus');
-var Disk = require('../shapes/Disk');
-var Cone = require('../shapes/Cone');
-var ObjectUtil = require('../util/ObjectUtil');
+var mod_ShapeCreatorMemoized = ShapeCreatorMemoized;
+import { Box as Box_Box } from "../shapes/Box";
+import { Quad as Quad_Quad } from "../shapes/Quad";
+import { Sphere as Sphere_Sphere } from "../shapes/Sphere";
+import { Cylinder as Cylinder_Cylinder } from "../shapes/Cylinder";
+import { Torus as Torus_Torus } from "../shapes/Torus";
+import { Disk as Disk_Disk } from "../shapes/Disk";
+import { Cone as Cone_Cone } from "../shapes/Cone";
+import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
 
 /**
  * Factory for shape creation.
@@ -51,7 +52,7 @@ ShapeCreatorMemoized.createQuad = function (options, oldMeshData) {
 		tileX !== oldMeshData.tileX ||
 		tileY !== oldMeshData.tileY) {
 		return cacheOrCreate('quad', {}, function () {
-			return new Quad(width, height, tileX, tileY);
+			return new Quad_Quad(width, height, tileX, tileY);
 		});
 	} else {
 		return oldMeshData;
@@ -73,7 +74,7 @@ ShapeCreatorMemoized.createBox = function (options, oldMeshData) {
 		tileY !== oldMeshData.tileY ||
 		options.textureMode !== oldMeshData.textureMode.name) {
 		return cacheOrCreate('box', options, function () {
-			return new Box(width, height, length, tileX, tileY, options.textureMode);
+			return new Box_Box(width, height, length, tileX, tileY, options.textureMode);
 		});
 	} else {
 		return oldMeshData;
@@ -95,7 +96,7 @@ ShapeCreatorMemoized.createSphere = function (options, oldMeshData) {
 		options.textureMode !== oldMeshData.textureMode.name ||
 		options.radius !== oldMeshData.radius) {
 		return cacheOrCreate('sphere', options, function () {
-			return new Sphere(options.zSamples, options.radialSamples, options.radius, options.textureMode);
+			return new Sphere_Sphere(options.zSamples, options.radialSamples, options.radius, options.textureMode);
 		});
 	} else {
 		return oldMeshData;
@@ -113,7 +114,7 @@ ShapeCreatorMemoized.createCylinder = function (options, oldMeshData) {
 		options.radialSamples !== oldMeshData.radialSamples ||
 		options.radius !== oldMeshData.radius) {
 		return cacheOrCreate('cylinder', options, function () {
-			return new Cylinder(options.radialSamples, options.radius);
+			return new Cylinder_Cylinder(options.radialSamples, options.radius);
 		});
 	} else {
 		return oldMeshData;
@@ -135,7 +136,7 @@ ShapeCreatorMemoized.createTorus = function (options, oldMeshData) {
 		options.tubeRadius !== oldMeshData._tubeRadius ||
 		options.centerRadius !== oldMeshData._centerRadius) {
 		return cacheOrCreate('torus', options, function () { // cannot cache torus because of real typed tubeRadius
-			return new Torus(options.circleSamples, options.radialSamples, options.tubeRadius, options.centerRadius);
+			return new Torus_Torus(options.circleSamples, options.radialSamples, options.tubeRadius, options.centerRadius);
 		});
 	} else {
 		return oldMeshData;
@@ -156,10 +157,10 @@ ShapeCreatorMemoized.createDisk = function (options, oldMeshData) {
 		options.radius !== oldMeshData.radius) {
 		if (options.pointiness === Math.floor(options.pointiness)) {
 			return cacheOrCreate('disk', options, function () {
-				return new Disk(options.radialSamples, options.radius, options.pointiness);
+				return new Disk_Disk(options.radialSamples, options.radius, options.pointiness);
 			});
 		} else {
-			return new Disk(options.radialSamples, options.radius, options.pointiness);
+			return new Disk_Disk(options.radialSamples, options.radius, options.pointiness);
 		}
 	} else {
 		return oldMeshData;
@@ -180,10 +181,10 @@ ShapeCreatorMemoized.createCone = function (options, oldMeshData) {
 		options.radius !== oldMeshData.radius) {
 		if (options.height === Math.floor(options.height)) {
 			return cacheOrCreate('cone', options, function () {
-				return new Cone(options.radialSamples, options.radius, options.height);
+				return new Cone_Cone(options.radialSamples, options.radius, options.height);
 			});
 		} else {
-			return new Cone(options.radialSamples, options.radius, options.height);
+			return new Cone_Cone(options.radialSamples, options.radius, options.height);
 		}
 	} else {
 		return oldMeshData;
@@ -200,4 +201,8 @@ ShapeCreatorMemoized.clearCache = function (context) {
 	_cacheMap.clear();
 };
 
-module.exports = ShapeCreatorMemoized;
+/**
+ * Factory for shape creation.
+ * Only used to define the class. Should never be instantiated.
+ */
+export { mod_ShapeCreatorMemoized as ShapeCreatorMemoized };

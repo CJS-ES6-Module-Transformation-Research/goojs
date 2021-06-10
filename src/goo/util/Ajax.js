@@ -1,8 +1,9 @@
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-var StringUtils = require('../util/StringUtils');
-var RSVP = require('../util/rsvp');
+var mod_Ajax = Ajax;
+import { TextureHandler as TextureHandler_TextureHandler } from "../loaders/handlers/TextureHandler";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
+import { rsvpjs as RSVP } from "../util/rsvp";
 
 /**
  * Ajax helper class
@@ -29,7 +30,7 @@ Ajax.prototype.prefill = function (bundle, clear) {
 	if (clear) {
 		this._cache = bundle;
 	} else {
-		ObjectUtils.extend(this._cache, bundle);
+		ObjectUtils_ObjectUtils.extend(this._cache, bundle);
 	}
 };
 
@@ -61,7 +62,7 @@ Ajax.prototype.get = function (options) {
 		request.responseType = options.responseType;
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var handleStateChange = function () {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
@@ -106,7 +107,7 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = StringUtils.parseURL(path).path;//! AT: dunno what to call this
+	var path2 = StringUtils_StringUtils.parseURL(path).path;//! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
@@ -114,12 +115,12 @@ Ajax.prototype.load = function (path, reload) {
 	}
 
 	if (!path) {
-		PromiseUtils.reject('Path was undefined'); //! AT: no return?
+		PromiseUtils_PromiseUtils.reject('Path was undefined'); //! AT: no return?
 		// anyways, the engine should not call this method without a path
 	}
 
 	if (path.indexOf(Ajax.ENGINE_SHADER_PREFIX) === 0) {
-		return PromiseUtils.resolve();
+		return PromiseUtils_PromiseUtils.resolve();
 	}
 
 	if (this._cache[path] && !reload) {
@@ -129,7 +130,7 @@ Ajax.prototype.load = function (path, reload) {
 		if (this._cache[path] instanceof RSVP.Promise) {
 			return this._cache[path];
 		} else {
-			return PromiseUtils.resolve(this._cache[path]);
+			return PromiseUtils_PromiseUtils.resolve(this._cache[path]);
 		}
 	}
 
@@ -172,7 +173,7 @@ Ajax.prototype.load = function (path, reload) {
 
 Ajax.prototype.update = function (path, config) {
 	this._cache[path] = config;
-	return PromiseUtils.resolve(config);
+	return PromiseUtils_PromiseUtils.resolve(config);
 };
 
 /**
@@ -192,7 +193,7 @@ Ajax.prototype._loadImage = function (url) {
 		image.crossOrigin = 'anonymous';
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var onLoad = function loadHandler() {
 			image.dataReady = true;
 			if (window.URL && window.URL.revokeObjectURL !== undefined) {
@@ -224,7 +225,7 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 		video.crossOrigin = 'anonymous';
 	}
 
-	var promise = PromiseUtils.createPromise(function (resolve, reject) {
+	var promise = PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var timeout;
 
 		var _resolve = function () {
@@ -336,7 +337,7 @@ Ajax.types = {
 	binary: addKeys({
 		dat: true,
 		bin: true
-	}, Object.keys(TextureHandler.loaders)),
+	}, Object.keys(TextureHandler_TextureHandler.loaders)),
 	audio: {
 		mp3: true,
 		wav: true,
@@ -353,4 +354,9 @@ Ajax.types.asset = addKeys(
 		.concat(Object.keys(Ajax.types.binary))
 );
 
-module.exports = Ajax;
+/**
+ * Ajax helper class
+ * @param {string} rootPath
+ * @param {Object} options
+ */
+export { mod_Ajax as Ajax };

@@ -1,6 +1,7 @@
-var ObjectUtils = require('../util/ObjectUtils');
-var MathUtils = require('../math/MathUtils');
-var Capabilities = require('../renderer/Capabilities');
+var mod_RendererUtils = RendererUtils;
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
+import { Capabilities as Capabilities_Capabilities } from "../renderer/Capabilities";
 
 /**
  * Renderer-related utilities
@@ -80,7 +81,7 @@ RendererUtils.checkGLError = function (gl) {
  * @param {number} value Number to check for power of two
  * @returns true if value is power of two
  */
-RendererUtils.isPowerOfTwo = MathUtils.isPowerOfTwo;
+RendererUtils.isPowerOfTwo = MathUtils_MathUtils.isPowerOfTwo;
 
 /**
  * Converts input number to closest power of two
@@ -89,7 +90,7 @@ RendererUtils.isPowerOfTwo = MathUtils.isPowerOfTwo;
  * @param {number} number Number to convert to power of two
  * @returns {number} Nearest power of two of input
  */
-RendererUtils.nearestPowerOfTwo = MathUtils.nearestPowerOfTwo;
+RendererUtils.nearestPowerOfTwo = MathUtils_MathUtils.nearestPowerOfTwo;
 
 /**
  * Clones an object recursively
@@ -97,12 +98,12 @@ RendererUtils.nearestPowerOfTwo = MathUtils.nearestPowerOfTwo;
  * @param {*} object Object to clone
  * @returns {*} Cloned object
  */
-RendererUtils.clone = ObjectUtils.deepClone;
+RendererUtils.clone = ObjectUtils_ObjectUtils.deepClone;
 
 RendererUtils._blankImages = {};
 RendererUtils.getBlankImage = function (texture, color, width, height, maxSize, index) {
-	var newWidth = MathUtils.nearestPowerOfTwo(width);
-	var newHeight = MathUtils.nearestPowerOfTwo(height);
+	var newWidth = MathUtils_MathUtils.nearestPowerOfTwo(width);
+	var newHeight = MathUtils_MathUtils.nearestPowerOfTwo(height);
 	newWidth = Math.min(newWidth, maxSize);
 	newHeight = Math.min(newHeight, maxSize);
 
@@ -143,8 +144,8 @@ function getImage(data, width, height) {
 }
 
 RendererUtils.scaleImage = function (texture, image, width, height, maxSize, index) {
-	var newWidth = MathUtils.nearestPowerOfTwo(width);
-	var newHeight = MathUtils.nearestPowerOfTwo(height);
+	var newWidth = MathUtils_MathUtils.nearestPowerOfTwo(width);
+	var newHeight = MathUtils_MathUtils.nearestPowerOfTwo(height);
 	newWidth = Math.min(newWidth, maxSize);
 	newHeight = Math.min(newHeight, maxSize);
 
@@ -285,7 +286,7 @@ RendererUtils.getGLDataType = function (context, type) {
 			glDataType = context.UNSIGNED_SHORT_5_5_5_1;
 			break;
 		case 'HalfFloat':
-			glDataType = Capabilities.TextureHalfFloat.HALF_FLOAT_OES;
+			glDataType = Capabilities_Capabilities.TextureHalfFloat.HALF_FLOAT_OES;
 			break;
 
 		default:
@@ -577,4 +578,7 @@ RendererUtils.getGLBlendParam = function (context, param) {
 	return glBlendParam;
 };
 
-module.exports = RendererUtils;
+/**
+ * Renderer-related utilities
+ */
+export { mod_RendererUtils as RendererUtils };

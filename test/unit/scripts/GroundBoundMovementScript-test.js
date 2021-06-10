@@ -1,10 +1,10 @@
-var GroundBoundMovementScript = require('../../../src/goo/scriptpack/GroundBoundMovementScript');
-var MovementSystem = require('../../../src/goo/entities/systems/MovementSystem');
-var MovementComponent = require('../../../src/goo/entities/components/MovementComponent');
-var TransformComponent = require('../../../src/goo/entities/components/TransformComponent');
+import {     GroundBoundMovementScript as GroundBoundMovementScript_GroundBoundMovementScript, } from "../../../src/goo/scriptpack/GroundBoundMovementScript";
+import { MovementSystem as MovementSystem_MovementSystem } from "../../../src/goo/entities/systems/MovementSystem";
+import { MovementComponent as MovementComponent_MovementComponent } from "../../../src/goo/entities/components/MovementComponent";
+import { TransformComponent as TransformComponent_TransformComponent } from "../../../src/goo/entities/components/TransformComponent";
 
 xdescribe('Movement script tests', function () {
-	var movementSystem = new MovementSystem();
+	var movementSystem = new MovementSystem_MovementSystem();
 	var groundBoundMovementScript;
 	var entity;
 
@@ -22,10 +22,10 @@ xdescribe('Movement script tests', function () {
 	};
 
 	beforeEach(function () {
-		groundBoundMovementScript = new GroundBoundMovementScript();
+		groundBoundMovementScript = new GroundBoundMovementScript_GroundBoundMovementScript();
 		entity = {
-			transformComponent: new TransformComponent(),
-			movementComponent: new MovementComponent(),
+			transformComponent: new TransformComponent_TransformComponent(),
+			movementComponent: new MovementComponent_MovementComponent(),
 			_world: { tpf: 0.1 }
 		};
 		setEntityTranformData(entity, [0, 0, 0]);

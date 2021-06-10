@@ -1,6 +1,7 @@
-var MathUtils = require('../../math/MathUtils');
-var TransformData = require('../../animationpack/clip/TransformData');
-var Source = require('../../animationpack/blendtree/Source');
+var mod_BinaryLerpSource = BinaryLerpSource;
+import { MathUtils as MathUtils_MathUtils } from "../../math/MathUtils";
+import { TransformData as TransformData_TransformData } from "../../animationpack/clip/TransformData";
+import { Source as Source_Source } from "../../animationpack/blendtree/Source";
 
 /**
  * Takes two blend sources and uses linear interpolation to merge {@link TransformData} values. If one of the sources is null, or does not have a key that the other does, we disregard weighting and use the non-null side's full value. Source data that is not {@link TransformData}, {@link JointData} or float data is not combined, rather A's value will always be used unless it is null.
@@ -10,13 +11,13 @@ var Source = require('../../animationpack/blendtree/Source');
  * @extends Source
  */
 function BinaryLerpSource(sourceA, sourceB, blendWeight) {
-	Source.call(this);
+	Source_Source.call(this);
 	this._sourceA = sourceA ? sourceA : null;
 	this._sourceB = sourceB ? sourceB : null;
 	this.blendWeight = blendWeight ? blendWeight : null;
 }
 
-BinaryLerpSource.prototype = Object.create(Source.prototype);
+BinaryLerpSource.prototype = Object.create(Source_Source.prototype);
 BinaryLerpSource.prototype.constructor = BinaryLerpSource;
 
 /*
@@ -117,7 +118,7 @@ BinaryLerpSource.combineSourceData = function (sourceAData, sourceBData, blendWe
 		if (!isNaN(dataA)) {
 			BinaryLerpSource.blendFloatValues(rVal, key, blendWeight, dataA, dataB);
 			continue;
-		} else if (!(dataA instanceof TransformData)) {
+		} else if (!(dataA instanceof TransformData_TransformData)) {
 			// A will always override if not null.
 			rVal[key] = dataA;
 			continue;
@@ -156,7 +157,7 @@ BinaryLerpSource.blendFloatValues = function (rVal, key, blendWeight, dataA, dat
 	if (isNaN(dataB)) {
 		rVal[key] = dataA;
 	} else {
-		rVal[key] = MathUtils.lerp(blendWeight, dataA[0], dataB[0]);
+		rVal[key] = MathUtils_MathUtils.lerp(blendWeight, dataA[0], dataB[0]);
 	}
 };
 
@@ -168,4 +169,11 @@ BinaryLerpSource.prototype.clone = function () {
 	);
 };
 
-module.exports = BinaryLerpSource;
+/**
+ * Takes two blend sources and uses linear interpolation to merge {@link TransformData} values. If one of the sources is null, or does not have a key that the other does, we disregard weighting and use the non-null side's full value. Source data that is not {@link TransformData}, {@link JointData} or float data is not combined, rather A's value will always be used unless it is null.
+ * @param {(ClipSource|BinaryLerpSource|FrozenClipSource|ManagedTransformSource)} sourceA our first source.
+ * @param {(ClipSource|BinaryLerpSource|FrozenClipSource|ManagedTransformSource)} sourceB our second source.
+ * @param {number} blendKey A key into the related AnimationManager's values store for pulling blend weighting.
+ * @extends Source
+ */
+export { mod_BinaryLerpSource as BinaryLerpSource };

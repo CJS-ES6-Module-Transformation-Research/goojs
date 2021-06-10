@@ -1,10 +1,11 @@
-var Box = require('../shapes/Box');
-var Sphere = require('../shapes/Sphere');
-var MeshData = require('../renderer/MeshData');
-var Material = require('../renderer/Material');
-var Shader = require('../renderer/Shader');
-var TextureCreator = require('../renderer/TextureCreator');
-var Transform = require('../math/Transform');
+var mod_Skybox = Skybox;
+import { Box as Box_Box } from "../shapes/Box";
+import { Sphere as Sphere_Sphere } from "../shapes/Sphere";
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { Material as Material_Material } from "../renderer/Material";
+import { Shader as Shader_Shader } from "../renderer/Shader";
+import { TextureCreator as TextureCreator_TextureCreator } from "../renderer/TextureCreator";
+import { Transform as Transform_Transform } from "../math/Transform";
 
 /**
  * Skybox
@@ -16,17 +17,17 @@ var Transform = require('../math/Transform');
 function Skybox(type, images, textureMode, yRotation) {
 	var promise;
 	if (type === Skybox.SPHERE) {
-		this.meshData = new Sphere(16, 32, 1, textureMode || Sphere.TextureModes.Projected);
+		this.meshData = new Sphere_Sphere(16, 32, 1, textureMode || Sphere_Sphere.TextureModes.Projected);
 		if (images instanceof Array) {
 			images = images[0];
 		}
 		if (images) {
-			promise = new TextureCreator().loadTexture2D(images);
+			promise = new TextureCreator_TextureCreator().loadTexture2D(images);
 		}
 	} else if (type === Skybox.BOX) {
-		this.meshData = new Box(1, 1, 1);
+		this.meshData = new Box_Box(1, 1, 1);
 		if (images.length) {
-			promise = new TextureCreator().loadTextureCube(images, {
+			promise = new TextureCreator_TextureCreator().loadTextureCube(images, {
 				flipY: false,
 				wrapS: 'EdgeClamp',
 				wrapT: 'EdgeClamp'
@@ -36,19 +37,19 @@ function Skybox(type, images, textureMode, yRotation) {
 		throw new Error('Unknown geometry type');
 	}
 
-	var material = new Material(shaders[type], 'Skybox material');
+	var material = new Material_Material(shaders[type], 'Skybox material');
 	material.cullState.cullFace = 'Front';
 	material.depthState.enabled = false;
 	material.renderQueue = 1;
 	if (promise) {
 		promise.then(function (texture) {
-			material.setTexture(Shader.DIFFUSE_MAP, texture);
+			material.setTexture(Shader_Shader.DIFFUSE_MAP, texture);
 		});
 	}
 
 	this.materials = [material];
 
-	this.transform = new Transform();
+	this.transform = new Transform_Transform();
 	var xAngle = (type === Skybox.SPHERE) ? Math.PI / 2 : 0;
 	this.transform.rotation.fromAngles(xAngle, yRotation, 0);
 	this.transform.update();
@@ -62,14 +63,14 @@ Skybox.BOX = 'box';
 var shaders = {};
 shaders.box = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: MeshData_MeshData.POSITION
 	},
 	uniforms: {
-		normalMatrix: Shader.NORMAL_MATRIX,
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		near: Shader.NEAR_PLANE,
-		diffuseMap: Shader.DIFFUSE_MAP
+		normalMatrix: Shader_Shader.NORMAL_MATRIX,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		near: Shader_Shader.NEAR_PLANE,
+		diffuseMap: Shader_Shader.DIFFUSE_MAP
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -101,15 +102,15 @@ shaders.box = {
 };
 shaders.sphere = {
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: MeshData_MeshData.POSITION,
+		vertexUV0: MeshData_MeshData.TEXCOORD0
 	},
 	uniforms: {
-		normalMatrix: Shader.NORMAL_MATRIX,
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		near: Shader.NEAR_PLANE,
-		diffuseMap: Shader.DIFFUSE_MAP
+		normalMatrix: Shader_Shader.NORMAL_MATRIX,
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		near: Shader_Shader.NEAR_PLANE,
+		diffuseMap: Shader_Shader.DIFFUSE_MAP
 	},
 	vshader: [
 		'attribute vec3 vertexPosition;',
@@ -145,4 +146,11 @@ shaders.sphere = {
 	].join('\n')
 };
 
-module.exports = Skybox;
+/**
+ * Skybox
+ * @param type
+ * @param images
+ * @param textureMode
+ * @param yRotation
+ */
+export { mod_Skybox as Skybox };

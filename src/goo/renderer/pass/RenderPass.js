@@ -1,6 +1,7 @@
-var Renderer = require('../../renderer/Renderer');
-var Pass = require('../../renderer/pass/Pass');
-var Vector4 = require('../../math/Vector4');
+var mod_RenderPass = RenderPass;
+import { Renderer as Renderer_Renderer } from "../../renderer/Renderer";
+import { Pass as Pass_Pass } from "../../renderer/pass/Pass";
+import { Vector4 as Vector4_Vector4 } from "../../math/Vector4";
 
 /**
  * A pass that renders provided renderlist to the rendertarget or screen
@@ -9,8 +10,8 @@ function RenderPass(renderList, filter) {
 	this.renderList = renderList;
 	this.filter = filter;
 
-	this.clearColor = new Vector4(0.0, 0.0, 0.0, 0.0);
-	this.oldClearColor = new Vector4();
+	this.clearColor = new Vector4_Vector4(0.0, 0.0, 0.0, 0.0);
+	this.oldClearColor = new Vector4_Vector4();
 	this.renderToScreen = false;
 
 	this.overrideMaterial = null;
@@ -21,12 +22,12 @@ function RenderPass(renderList, filter) {
 	this.viewportSize = undefined;
 }
 
-RenderPass.prototype = Object.create(Pass.prototype);
+RenderPass.prototype = Object.create(Pass_Pass.prototype);
 RenderPass.prototype.constructor = RenderPass;
 
 // RenderPasses may have a fourth additional parameter called delta
 RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta, maskActive, camera, lights, clearColor) {
-	camera = camera || Renderer.mainCamera;
+	camera = camera || Renderer_Renderer.mainCamera;
 
 	if (!camera) {
 		return;
@@ -55,4 +56,7 @@ RenderPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta
 	}
 };
 
-module.exports = RenderPass;
+/**
+ * A pass that renders provided renderlist to the rendertarget or screen
+ */
+export { mod_RenderPass as RenderPass };

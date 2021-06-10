@@ -1,4 +1,4 @@
-module.exports = {
+mod_AnimationConfigjs = {
 	skeleton: function () {
 		var skeleton = this.gooObject('skeleton', 'Dummy');
 		skeleton.joints = {};
@@ -84,3 +84,5 @@ module.exports = {
 		return channel;
 	}
 };
+var mod_AnimationConfigjs;
+export { mod_AnimationConfigjs as AnimationConfigjs };

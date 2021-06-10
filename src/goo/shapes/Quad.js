@@ -1,5 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_Quad = Quad;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * A rectangular, two dimensional shape. The local height of the Quad defines it's size about the y-axis,
@@ -43,13 +44,13 @@ function Quad(width, height, tileX, tileY) {
 	 */
 	this.tileY = tileY || 1;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, 4, 6);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.NORMAL, MeshData_MeshData.TEXCOORD0]);
+	MeshData_MeshData.call(this, attributeMap, 4, 6);
 
 	this.rebuild();
 }
 
-Quad.prototype = Object.create(MeshData.prototype);
+Quad.prototype = Object.create(MeshData_MeshData.prototype);
 Quad.prototype.constructor = Quad;
 
 /**
@@ -62,9 +63,9 @@ Quad.prototype.rebuild = function () {
 	var tileX = this.tileX;
 	var tileY = this.tileY;
 
-	this.getAttributeBuffer(MeshData.POSITION).set([-xExtent, -yExtent, 0, -xExtent, yExtent, 0, xExtent, yExtent, 0, xExtent, -yExtent, 0]);
-	this.getAttributeBuffer(MeshData.NORMAL).set([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set([0, 0, 0, tileY, tileX, tileY, tileX, 0]);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set([-xExtent, -yExtent, 0, -xExtent, yExtent, 0, xExtent, yExtent, 0, xExtent, -yExtent, 0]);
+	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set([0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1]);
+	this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0).set([0, 0, 0, tileY, tileX, tileY, tileX, 0]);
 
 	this.getIndexBuffer().set([0, 3, 1, 1, 3, 2]);
 
@@ -76,9 +77,18 @@ Quad.prototype.rebuild = function () {
  * @returns {Quad}
  */
 Quad.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['xExtent', 'yExtent', 'tileX', 'tileY']);
+	var options = ObjectUtils_ObjectUtils.shallowSelectiveClone(this, ['xExtent', 'yExtent', 'tileX', 'tileY']);
 
 	return new Quad(options);
 };
 
-module.exports = Quad;
+/**
+ * A rectangular, two dimensional shape. The local height of the Quad defines it's size about the y-axis,
+ * while the width defines the x-axis. The z-axis will always be 0.
+ * @extends MeshData
+ * @param {number} [width=1] Total width of quad.
+ * @param {number} [height=1] Total height of quad.
+ * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
+ * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
+ */
+export { mod_Quad as Quad };

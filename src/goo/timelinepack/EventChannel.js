@@ -1,14 +1,15 @@
-var AbstractTimelineChannel = require('../timelinepack/AbstractTimelineChannel');
+var mod_EventChannel = EventChannel;
+import { AbstractTimelineChannel as AbstractTimelineChannel_AbstractTimelineChannel } from "../timelinepack/AbstractTimelineChannel";
 
 function EventChannel(id) {
-	AbstractTimelineChannel.call(this, id);
+	AbstractTimelineChannel_AbstractTimelineChannel.call(this, id);
 
 	this.oldTime = 0;
 	this.callbackIndex = 0;
 }
 
-EventChannel.prototype = Object.create(AbstractTimelineChannel.prototype);
-EventChannel.prototype.constructor = AbstractTimelineChannel;
+EventChannel.prototype = Object.create(AbstractTimelineChannel_AbstractTimelineChannel.prototype);
+EventChannel.prototype.constructor = AbstractTimelineChannel_AbstractTimelineChannel;
 
 /**
  * Add a callback to be called at a specific point in time
@@ -85,4 +86,4 @@ EventChannel.prototype.setTime = function (time) {
 	return this;
 };
 
-module.exports = EventChannel;
+export { mod_EventChannel as EventChannel };

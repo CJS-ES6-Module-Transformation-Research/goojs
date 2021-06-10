@@ -1,4 +1,5 @@
-var System = require('../../entities/systems/System');
+var mod_P2System = P2System;
+import { System as System_System } from "../../entities/systems/System";
 
 /* global p2 */
 
@@ -20,7 +21,7 @@ var System = require('../../entities/systems/System');
  * goo.world.setSystem(p2System);
  */
 function P2System(settings) {
-	System.call(this, 'P2System', ['P2Component', 'TransformComponent']);
+	System_System.call(this, 'P2System', ['P2Component', 'TransformComponent']);
 
 	settings = settings || {};
 
@@ -31,7 +32,7 @@ function P2System(settings) {
 	this.stepFrequency = settings.stepFrequency || 60;
 }
 
-P2System.prototype = Object.create(System.prototype);
+P2System.prototype = Object.create(System_System.prototype);
 P2System.prototype.constructor = P2System;
 
 function updateTransform(transformComponent, p2Component) {
@@ -105,4 +106,23 @@ P2System.prototype.process = function (entities /*, tpf */) {
 	}
 };
 
-module.exports = P2System;
+/* global p2 */
+
+/**
+ * Handles integration with p2.js.
+ * Depends on the global p2 object,
+ * so load p2.js using a script tag before using this system.
+ * See also {@link P2Component}
+ * @extends System
+ * @param {Object} [settings]
+ * @param {number} [settings.stepFrequency=60]
+ * @param {Array<number>} [settings.gravity=[0,-9.82]]
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/p2/p2-vtest.html Working example
+ * @example
+ * var p2System = new P2System({
+ *     stepFrequency: 60,
+ *     gravity: [0, -10]
+ * });
+ * goo.world.setSystem(p2System);
+ */
+export { mod_P2System as P2System };

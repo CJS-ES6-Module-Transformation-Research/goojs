@@ -1,3 +1,4 @@
+var mod_PhysicsMaterial = PhysicsMaterial;
 /**
  * @param {Object} [settings]
  * @param {number} [settings.friction=0.3]
@@ -19,4 +20,9 @@ function PhysicsMaterial(settings) {
 	this.restitution = settings.restitution !== undefined ? settings.restitution : 0;
 }
 
-module.exports = PhysicsMaterial;
+/**
+ * @param {Object} [settings]
+ * @param {number} [settings.friction=0.3]
+ * @param {number} [settings.restitution=0]
+ */
+export { mod_PhysicsMaterial as PhysicsMaterial };

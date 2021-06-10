@@ -1,4 +1,5 @@
-var MeshData = require('../renderer/MeshData');
+var mod_DoubleQuad = DoubleQuad;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
 
 /**
  * A rectangular, two dimensional shape. The local height of the
@@ -43,17 +44,17 @@ function DoubleQuad(width, height, tileX, tileY) {
 	 */
 	this.tileY = tileY || 1;
 
-	var attributeMap = MeshData.defaultMap([
-		MeshData.POSITION,
-		MeshData.NORMAL,
-		MeshData.TEXCOORD0
+	var attributeMap = MeshData_MeshData.defaultMap([
+		MeshData_MeshData.POSITION,
+		MeshData_MeshData.NORMAL,
+		MeshData_MeshData.TEXCOORD0
 	]);
-	MeshData.call(this, attributeMap, 8, 12);
+	MeshData_MeshData.call(this, attributeMap, 8, 12);
 
 	this.rebuild();
 }
 
-DoubleQuad.prototype = Object.create(MeshData.prototype);
+DoubleQuad.prototype = Object.create(MeshData_MeshData.prototype);
 DoubleQuad.prototype.constructor = DoubleQuad;
 
 /**
@@ -66,15 +67,15 @@ DoubleQuad.prototype.rebuild = function () {
 	var tileX = this.tileX;
 	var tileY = this.tileY;
 
-	this.getAttributeBuffer(MeshData.POSITION).set([
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set([
 		-xExtent, -yExtent, 0,   -xExtent, yExtent, 0,   xExtent, yExtent, 0,   xExtent, -yExtent, 0,
 		-xExtent, -yExtent, 0,   -xExtent, yExtent, 0,   xExtent, yExtent, 0,   xExtent, -yExtent, 0
 	]);
-	this.getAttributeBuffer(MeshData.NORMAL).set([
+	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set([
 		0, 0,  1,   0, 0,  1,   0, 0,  1,   0, 0,  1,
 		0, 0, -1,   0, 0, -1,   0, 0, -1,   0, 0, -1
 	]);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set([
+	this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0).set([
 		0, 0,   0, tileY,   tileX, tileY,   tileX, 0,
 		0, 0,   0, tileY,   tileX, tileY,   tileX, 0
 	]);
@@ -87,4 +88,14 @@ DoubleQuad.prototype.rebuild = function () {
 	return this;
 };
 
-module.exports = DoubleQuad;
+/**
+ * A rectangular, two dimensional shape. The local height of the
+ * DoubleQuad defines it's size about the y-axis, while the width defines
+ * the x-axis. The z-axis will always be 0.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/quadpack/DoubleQuad/DoubleQuad-vtest.html Working example
+ * @param {number} [width=1] Total width of quad.
+ * @param {number} [height=1] Total height of quad.
+ * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
+ * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
+ */
+export { mod_DoubleQuad as DoubleQuad };

@@ -1,18 +1,19 @@
-var AbstractPhysicsSystem = require('../../../addons/physicspack/systems/AbstractPhysicsSystem');
-var RaycastResult = require('../../../addons/physicspack/RaycastResult');
-var RigidBodyComponent = require('../../../addons/physicspack/components/RigidBodyComponent');
-var Vector3 = require('../../../math/Vector3');
-var Quaternion = require('../../../math/Quaternion');
-var Transform = require('../../../math/Transform');
+var mod_PhysicsSystem = PhysicsSystem;
+import { AbstractPhysicsSystem as AbstractPhysicsSystem_AbstractPhysicsSystem } from "../../../addons/physicspack/systems/AbstractPhysicsSystem";
+import { RaycastResult as RaycastResult_RaycastResult } from "../../../addons/physicspack/RaycastResult";
+import { RigidBodyComponent as RigidBodyComponent_RigidBodyComponent } from "../../../addons/physicspack/components/RigidBodyComponent";
+import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+import { Quaternion as Quaternion_Quaternion } from "../../../math/Quaternion";
+import { Transform as Transform_Transform } from "../../../math/Transform";
 
 /* global CANNON */
 
 var tmpVec1;
 var tmpVec2;
-var tmpQuat = new Quaternion();
-var tmpVec = new Vector3();
+var tmpQuat = new Quaternion_Quaternion();
+var tmpVec = new Vector3_Vector3();
 var tmpCannonResult;
-var tmpTransform = new Transform();
+var tmpTransform = new Transform_Transform();
 
 /**
  * A physics system using [Cannon.js]{@link http://github.com/schteppe/cannon.js}.
@@ -97,14 +98,14 @@ function PhysicsSystem(settings) {
 		tmpCannonResult = new CANNON.RaycastResult();
 	}
 
-	this.setGravity(settings.gravity || new Vector3(0, -10, 0));
+	this.setGravity(settings.gravity || new Vector3_Vector3(0, -10, 0));
 
 	this.initialized = false;
 
-	AbstractPhysicsSystem.call(this, 'PhysicsSystem', ['RigidBodyComponent']);
+	AbstractPhysicsSystem_AbstractPhysicsSystem.call(this, 'PhysicsSystem', ['RigidBodyComponent']);
 }
 
-PhysicsSystem.prototype = Object.create(AbstractPhysicsSystem.prototype);
+PhysicsSystem.prototype = Object.create(AbstractPhysicsSystem_AbstractPhysicsSystem.prototype);
 PhysicsSystem.prototype.constructor = PhysicsSystem;
 
 /**
@@ -176,12 +177,12 @@ PhysicsSystem.prototype._getCannonStartEnd = function (start, direction, distanc
  * @returns {boolean} True if hit, else false
  */
 PhysicsSystem.prototype.raycastAny = function (start, direction, maxDistance, options, result) {
-	if (options instanceof RaycastResult) {
+	if (options instanceof RaycastResult_RaycastResult) {
 		result = options;
 		options = {};
 	}
 	options = options || {};
-	result = result || new RaycastResult();
+	result = result || new RaycastResult_RaycastResult();
 
 	var cannonStart = tmpVec1;
 	var cannonEnd = tmpVec2;
@@ -205,12 +206,12 @@ PhysicsSystem.prototype.raycastAny = function (start, direction, maxDistance, op
  * @returns {boolean} True if hit, else false
  */
 PhysicsSystem.prototype.raycastClosest = function (start, direction, maxDistance, options, result) {
-	if (options instanceof RaycastResult) {
+	if (options instanceof RaycastResult_RaycastResult) {
 		result = options;
 		options = {};
 	}
 	options = options || {};
-	result = result || new RaycastResult();
+	result = result || new RaycastResult_RaycastResult();
 
 	var cannonStart = tmpVec1;
 	var cannonEnd = tmpVec2;
@@ -221,7 +222,7 @@ PhysicsSystem.prototype.raycastClosest = function (start, direction, maxDistance
 	return this._copyCannonRaycastResultToGoo(tmpCannonResult, result, start);
 };
 
-var tmpResult = new RaycastResult();
+var tmpResult = new RaycastResult_RaycastResult();
 
 /**
  * Make a ray cast into the world of colliders, evaluating the given callback once at every hit.
@@ -453,7 +454,7 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 		rigidBodyComponent._updated = true;
 
 		// Get physics orientation
-		if (rigidBodyComponent.interpolation === RigidBodyComponent.INTERPOLATE) {
+		if (rigidBodyComponent.interpolation === RigidBodyComponent_RigidBodyComponent.INTERPOLATE) {
 			rigidBodyComponent.getInterpolatedPosition(tmpVec);
 			rigidBodyComponent.getInterpolatedQuaternion(tmpQuat);
 		} else {
@@ -470,7 +471,7 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 			// The rigid body is a child, but we have its physics world transform
 			// and need to set the world transform of it.
 			parent.entity.transformComponent.sync().worldTransform.invert(tmpTransform);
-			Transform.combine(tmpTransform, transform, tmpTransform);
+			Transform_Transform.combine(tmpTransform, transform, tmpTransform);
 
 			transform.rotation.copy(tmpTransform.rotation);
 			transform.translation.copy(tmpTransform.translation);
@@ -480,4 +481,10 @@ PhysicsSystem.prototype.syncTransforms = function (entities) {
 	}
 };
 
-module.exports = PhysicsSystem;
+/**
+ * A physics system using [Cannon.js]{@link http://github.com/schteppe/cannon.js}.
+ * @extends AbstractPhysicsSystem
+ * @param {Object} [settings]
+ * @param {Vector3} [settings.gravity]
+ */
+export { mod_PhysicsSystem as PhysicsSystem };

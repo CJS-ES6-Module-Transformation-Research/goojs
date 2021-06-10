@@ -1,3 +1,4 @@
+var mod_Stats = Stats;
 /**
  * Shows render statistics
  * @example
@@ -144,4 +145,10 @@ function Stats() {
 	};
 }
 
-module.exports = Stats;
+/**
+ * Shows render statistics
+ * @example
+ * this.stats = new Stats();
+ * document.body.appendChild(this.stats.domElement);
+ */
+export { mod_Stats as Stats };

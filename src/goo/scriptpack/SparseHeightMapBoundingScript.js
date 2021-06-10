@@ -1,3 +1,4 @@
+var mod_SparseHeightMapBoundingScript = SparseHeightMapBoundingScript;
 /**
  * Bounds the host entity to a height map computed from a set of terrain points
  * @param {Array<Number>} elevationData The array of height points given as a flat array
@@ -34,4 +35,8 @@ SparseHeightMapBoundingScript.prototype.run = function (entity) {
 	translation.y -= diff * 0.1;
 };
 
-module.exports = SparseHeightMapBoundingScript;
+/**
+ * Bounds the host entity to a height map computed from a set of terrain points
+ * @param {Array<Number>} elevationData The array of height points given as a flat array
+ */
+export { mod_SparseHeightMapBoundingScript as SparseHeightMapBoundingScript };

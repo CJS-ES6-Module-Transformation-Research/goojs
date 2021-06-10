@@ -1,7 +1,8 @@
-var Component = require('../../entities/components/Component');
-var Particle = require('../../particles/Particle');
-var ParticleEmitter = require('../../particles/ParticleEmitter');
-var MeshData = require('../../renderer/MeshData');
+var mod_ParticleComponent = ParticleComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { Particle as Particle_Particle } from "../../particles/Particle";
+import { ParticleEmitter as ParticleEmitter_ParticleEmitter } from "../../particles/ParticleEmitter";
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
 
 /**
  * Creates and modifies {@link MeshData} to simulate particle effects.<br /><br />ParticleComponents may have one or
@@ -26,18 +27,18 @@ var MeshData = require('../../renderer/MeshData');
  * @extends Component
  */
 function ParticleComponent(settings) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'ParticleComponent';
 
-	Component.call(this);
+	Component_Component.call(this);
 
 	settings = settings || {};
 
 	this.emitters = [];
 	if (settings.emitters) {
 		for ( var i = 0, max = settings.emitters.length; i < max; i++) {
-			this.emitters.push(new ParticleEmitter(settings.emitters[i]));
+			this.emitters.push(new ParticleEmitter_ParticleEmitter(settings.emitters[i]));
 		}
 	}
 
@@ -58,16 +59,16 @@ function ParticleComponent(settings) {
 
 ParticleComponent.type = 'ParticleComponent';
 
-ParticleComponent.prototype = Object.create(Component.prototype);
+ParticleComponent.prototype = Object.create(Component_Component.prototype);
 ParticleComponent.prototype.constructor = ParticleComponent;
 
 ParticleComponent.prototype.generateMeshData = function () {
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.COLOR, MeshData.TEXCOORD0]);
-	this.meshData = new MeshData(attributeMap, this.particleCount * 4, this.particleCount * 6);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.COLOR, MeshData_MeshData.TEXCOORD0]);
+	this.meshData = new MeshData_MeshData(attributeMap, this.particleCount * 4, this.particleCount * 6);
 	this.meshData.vertexData.setDataUsage('DynamicDraw');
 
 	// setup texture coords
-	var uvBuffer = this.meshData.getAttributeBuffer(MeshData.TEXCOORD0);
+	var uvBuffer = this.meshData.getAttributeBuffer(MeshData_MeshData.TEXCOORD0);
 	var indexBuffer = this.meshData.getIndexBuffer();
 	for ( var i = 0, max = this.particleCount; i < max; i++) {
 		uvBuffer.set([1.0, 0.0], i * 8 + 0);
@@ -83,9 +84,31 @@ ParticleComponent.prototype.recreateParticles = function (particleCount) {
 	this.particleCount = particleCount;
 	this.particles = [];
 	for ( var i = 0; i < this.particleCount; i++) {
-		this.particles[i] = new Particle(this, i);
+		this.particles[i] = new Particle_Particle(this, i);
 	}
 	this.generateMeshData();
 };
 
-module.exports = ParticleComponent;
+/**
+ * Creates and modifies {@link MeshData} to simulate particle effects.<br /><br />ParticleComponents may have one or
+ * more emitters. Each emitter spawns particles, controlling spawn rate, lifetime, initial velocity vector and
+ * position of each particle. Each Particle System also contains a timeline describing changes each particle should
+ * perform over its lifetime, including:
+ * <ul>
+ * <li>Size of particle</li>
+ * <li>Color of particle</li>
+ * <li>Orientation of particle (rotation on screen plane)</li>
+ * <li>Texture coords used.</li>
+ * <li>Other user defined params.</li>
+ * </ul><br />
+ * External influences can exert on particles via a defined callback function system.<br /><br />
+ * Particles billboard toward the screen using a provided Camera as reference.
+ * @param {Object} [settings]
+ * @param {Array} [settings.emitters] Array of emitter settings
+ * @param {Array} [settings.timeline]
+ * @param {number} [settings.uRange=1]
+ * @param {number} [settings.vRange=1]
+ * @param {number} [settings.particleCount=100]
+ * @extends Component
+ */
+export { mod_ParticleComponent as ParticleComponent };

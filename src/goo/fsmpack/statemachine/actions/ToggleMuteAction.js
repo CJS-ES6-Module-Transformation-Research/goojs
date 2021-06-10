@@ -1,9 +1,10 @@
-var Action = require('./Action');
+var mod_ToggleMuteAction = ToggleMuteAction;
+import { Action as Action_Action } from "./Action";
 
 function ToggleMuteAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
-ToggleMuteAction.prototype = Object.create(Action.prototype);
+ToggleMuteAction.prototype = Object.create(Action_Action.prototype);
 ToggleMuteAction.prototype.constructor = ToggleMuteAction;
 
 ToggleMuteAction.external = {
@@ -30,4 +31,4 @@ ToggleMuteAction.prototype.enter = function (fsm) {
 	}
 };
 
-module.exports = ToggleMuteAction;
+export { mod_ToggleMuteAction as ToggleMuteAction };

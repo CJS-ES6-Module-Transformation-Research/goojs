@@ -1,4 +1,5 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
+var mod_ProjectHandler = ProjectHandler;
+import { ConfigHandler as ConfigHandler_ConfigHandler } from "../../loaders/handlers/ConfigHandler";
 
 /**
  * Handler for loading project into engine (actually loading mainScene)
@@ -9,7 +10,7 @@ var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
  * @param {Function} updateObject
  */
 function ProjectHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 	/**
 	this._skybox = null;
 	this._skyboxTexture = null;
@@ -21,9 +22,9 @@ function ProjectHandler() {
 	*/
 }
 
-ProjectHandler.prototype = Object.create(ConfigHandler.prototype);
+ProjectHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 ProjectHandler.prototype.constructor = ProjectHandler;
-ConfigHandler._registerClass('project', ProjectHandler);
+ConfigHandler_ConfigHandler._registerClass('project', ProjectHandler);
 
 /**
  * Removes project from engine, i e removes mainScene, i e removes scene entities from world
@@ -57,7 +58,7 @@ ProjectHandler.prototype._create = function () {
  */
 ProjectHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (project) {
+	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (project) {
 		if (!project) { return; }
 		function loadPromise() {
 			return that._load(config.mainSceneRef, options).then(function (scene) {
@@ -74,4 +75,12 @@ ProjectHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = ProjectHandler;
+/**
+ * Handler for loading project into engine (actually loading mainScene)
+ * @private
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ */
+export { mod_ProjectHandler as ProjectHandler };

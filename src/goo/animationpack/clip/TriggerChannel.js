@@ -1,5 +1,6 @@
-var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
-var TriggerData = require('../../animationpack/clip/TriggerData');
+var mod_TriggerChannel = TriggerChannel;
+import {     AbstractAnimationChannel as AbstractAnimationChannel_AbstractAnimationChannel, } from "../../animationpack/clip/AbstractAnimationChannel";
+import { TriggerData as TriggerData_TriggerData } from "../../animationpack/clip/TriggerData";
 
 /**
  * An animation source channel consisting of keyword samples indicating when a specific trigger condition is met. Each channel can only be in one keyword "state" at a given moment in time.
@@ -9,19 +10,19 @@ var TriggerData = require('../../animationpack/clip/TriggerData');
  * @private
  */
 function TriggerChannel(channelName, times, keys, blendType) {
-	AbstractAnimationChannel.call(this, channelName, times, blendType);
+	AbstractAnimationChannel_AbstractAnimationChannel.call(this, channelName, times, blendType);
 	this._keys = keys ? keys.slice(0) : null;
 	this.guarantee = false;
 }
 
-TriggerChannel.prototype = Object.create(AbstractAnimationChannel.prototype);
+TriggerChannel.prototype = Object.create(AbstractAnimationChannel_AbstractAnimationChannel.prototype);
 
 /**
  * Creates a data item for this type of channel
  * @returns {TriggerData}
  */
 TriggerChannel.prototype.createStateDataObject = function () {
-	return new TriggerData();
+	return new TriggerData_TriggerData();
 };
 
 /**
@@ -52,4 +53,11 @@ TriggerChannel.prototype.setCurrentSample = function (sampleIndex, progressPerce
 	}
 };
 
-module.exports = TriggerChannel;
+/**
+ * An animation source channel consisting of keyword samples indicating when a specific trigger condition is met. Each channel can only be in one keyword "state" at a given moment in time.
+ * @param {string} channelName the name of this channel.
+ * @param {Array<number>} times the time samples
+ * @param {Array<string>} keys our key samples. Entries may be null. Should have as many entries as the times array.
+ * @private
+ */
+export { mod_TriggerChannel as TriggerChannel };

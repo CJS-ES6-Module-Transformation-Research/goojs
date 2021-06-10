@@ -1,14 +1,15 @@
-var System = require('../entities/systems/System');
+var mod_TimelineSystem = TimelineSystem;
+import { System as System_System } from "../entities/systems/System";
 
 /**
  * Manages entities with a TimelineComponent
  * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
  */
 function TimelineSystem() {
-	System.call(this, 'TimelineSystem', ['TimelineComponent']);
+	System_System.call(this, 'TimelineSystem', ['TimelineComponent']);
 }
 
-TimelineSystem.prototype = Object.create(System.prototype);
+TimelineSystem.prototype = Object.create(System_System.prototype);
 TimelineSystem.prototype.constructor = TimelineSystem;
 
 TimelineSystem.prototype.process = function (entities, tpf) {
@@ -62,4 +63,8 @@ TimelineSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = TimelineSystem;
+/**
+ * Manages entities with a TimelineComponent
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/timelinepack/TimelineComponent/TimelineComponent-vtest.html Working example
+ */
+export { mod_TimelineSystem as TimelineSystem };

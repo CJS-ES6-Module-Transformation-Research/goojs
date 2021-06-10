@@ -1,3 +1,4 @@
+var mod_Manager = Manager;
 /**
  * Base class for managers.
  */
@@ -17,4 +18,7 @@ Manager.prototype.applyAPI = function (worldBy) {
 	}
 };
 
-module.exports = Manager;
+/**
+ * Base class for managers.
+ */
+export { mod_Manager as Manager };

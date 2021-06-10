@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+mod_MaterialConfigjs = {
 	material: function () {
 		var material = this.gooObject('material', 'Dummy');
 		_.extend(material, {
@@ -100,3 +100,5 @@ module.exports = {
 		return ref;
 	}
 };
+var mod_MaterialConfigjs;
+export { mod_MaterialConfigjs as MaterialConfigjs };

@@ -1,3 +1,4 @@
+var mod_Curve = Curve;
 /**
  * A curve that has a time-dependent value (time is always between 0 and 1), and can be translated into GLSL code.
  * @constructor
@@ -82,4 +83,11 @@ Curve.prototype = {
 	}
 };
 
-module.exports = Curve;
+/**
+ * A curve that has a time-dependent value (time is always between 0 and 1), and can be translated into GLSL code.
+ * @constructor
+ * @param {object} [options]
+ * @param {string} [options.type]
+ * @param {number} [options.timeOffset=0]
+ */
+export { mod_Curve as Curve };

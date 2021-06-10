@@ -1,8 +1,9 @@
-var AbstractTimelineChannel = require('../timelinepack/AbstractTimelineChannel');
-var MathUtils = require('../math/MathUtils');
+var mod_ValueChannel = ValueChannel;
+import { AbstractTimelineChannel as AbstractTimelineChannel_AbstractTimelineChannel } from "../timelinepack/AbstractTimelineChannel";
+import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
 
 function ValueChannel(id, options) {
-	AbstractTimelineChannel.call(this, id);
+	AbstractTimelineChannel_AbstractTimelineChannel.call(this, id);
 
 	this.value = 0;
 
@@ -11,7 +12,7 @@ function ValueChannel(id, options) {
 	this.callbackEnd = options.callbackEnd;
 }
 
-ValueChannel.prototype = Object.create(AbstractTimelineChannel.prototype);
+ValueChannel.prototype = Object.create(AbstractTimelineChannel_AbstractTimelineChannel.prototype);
 ValueChannel.prototype.constructor = ValueChannel;
 
 /**
@@ -64,7 +65,7 @@ ValueChannel.prototype.update = function (time) {
 		var progressInEntry = (time - newEntry.time) / (nextEntry.time - newEntry.time);
 		var progressValue = newEntry.easingFunction(progressInEntry);
 
-		newValue = MathUtils.lerp(progressValue, newEntry.value, nextEntry.value);
+		newValue = MathUtils_MathUtils.lerp(progressValue, newEntry.value, nextEntry.value);
 	}
 
 	//! AT: comparing floats with === is ok here
@@ -109,7 +110,7 @@ ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rota
 		//! AT: same here as above; a tmp fix
 		if (entity) {
 			var rotation = func.rotation;
-			rotation[angleIndex] = value * MathUtils.DEG_TO_RAD;
+			rotation[angleIndex] = value * MathUtils_MathUtils.DEG_TO_RAD;
 			entity.transformComponent.transform.rotation.fromAngles(rotation[0], rotation[1], rotation[2]);
 			entity.transformComponent.setUpdated();
 		}
@@ -118,4 +119,4 @@ ValueChannel.getRotationTweener = function (angleIndex, entityId, resolver, rota
 	return func;
 };
 
-module.exports = ValueChannel;
+export { mod_ValueChannel as ValueChannel };

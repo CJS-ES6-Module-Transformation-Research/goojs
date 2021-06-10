@@ -1,5 +1,6 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
+var mod_OscillatorSound = OscillatorSound;
+import { AudioContextjs as AudioContext } from "../sound/AudioContext";
+import { MathUtils as MathUtils_MathUtils } from "../math/MathUtils";
 
 function OscillatorSound() {
 	// Settings
@@ -30,7 +31,7 @@ OscillatorSound.prototype.play = function () {
 
 OscillatorSound.prototype.update = function (config) {
 	if (config.volume !== undefined) {
-		this._volume = MathUtils.clamp(config.volume, 0, 1);
+		this._volume = MathUtils_MathUtils.clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.frequency !== undefined) {
@@ -76,4 +77,4 @@ OscillatorSound.TYPES = [
 	'custom'
 ];
 
-module.exports = OscillatorSound;
+export { mod_OscillatorSound as OscillatorSound };

@@ -1,9 +1,10 @@
-var Action = require('./Action');
+var mod_StopParticleSystemAction = StopParticleSystemAction;
+import { Action as Action_Action } from "./Action";
 
 function StopParticleSystemAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
-StopParticleSystemAction.prototype = Object.create(Action.prototype);
+StopParticleSystemAction.prototype = Object.create(Action_Action.prototype);
 StopParticleSystemAction.prototype.constructor = StopParticleSystemAction;
 
 StopParticleSystemAction.external = {
@@ -22,4 +23,4 @@ StopParticleSystemAction.prototype.enter = function (fsm) {
 	entity.particleSystemComponent.stop();
 };
 
-module.exports = StopParticleSystemAction;
+export { mod_StopParticleSystemAction as StopParticleSystemAction };

@@ -230,4 +230,7 @@ var Easing = {
 	}
 };
 
-module.exports = Easing;
+var mod_Easing;
+
+mod_Easing = Easing;
+export { mod_Easing as Easing };

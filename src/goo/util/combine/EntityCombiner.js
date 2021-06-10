@@ -1,9 +1,10 @@
-var Entity = require('../../entities/Entity');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var BoundingBox = require('../../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../../renderer/bounds/BoundingSphere');
+var mod_EntityCombiner = EntityCombiner;
+import { Entity as Entity_Entity } from "../../entities/Entity";
+import { MeshBuilder as MeshBuilder_MeshBuilder } from "../../util/MeshBuilder";
+import { Transform as Transform_Transform } from "../../math/Transform";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { BoundingBox as BoundingBox_BoundingBox } from "../../renderer/bounds/BoundingBox";
+import { BoundingSphere as BoundingSphere_BoundingSphere } from "../../renderer/bounds/BoundingSphere";
 
 /**
  * Runs a mesh combine optimization on the whole scene, based on
@@ -40,7 +41,7 @@ EntityCombiner.prototype.combine = function () {
 EntityCombiner.prototype._combineList = function (entities) {
 	var root = entities;
 	this.createdEntities = [];
-	if (entities instanceof Entity === true) {
+	if (entities instanceof Entity_Entity === true) {
 		root = [entities];
 	}
 
@@ -86,8 +87,8 @@ EntityCombiner.prototype._buildSubs = function (entity, baseSubs, subs) {
 
 EntityCombiner.prototype._combine = function (root, combineList) {
 	var rootTransform = root.transformComponent.sync().worldTransform;
-	var invertTransform = new Transform();
-	var calcTransform = new Transform();
+	var invertTransform = new Transform_Transform();
+	var calcTransform = new Transform_Transform();
 	rootTransform.invert(invertTransform);
 
 	var entities = new Map();
@@ -128,7 +129,7 @@ EntityCombiner.prototype._combine = function (root, combineList) {
 				return;
 			}
 
-			var meshBuilder = new MeshBuilder();
+			var meshBuilder = new MeshBuilder_MeshBuilder();
 			for (var k = 0; k < toCombine.length; k++) {
 				var entity = toCombine[k];
 
@@ -167,20 +168,20 @@ EntityCombiner.prototype._combine = function (root, combineList) {
 
 EntityCombiner.prototype._calculateBounds = function (entities) {
 	var first = true;
-	var wb = new BoundingBox();
+	var wb = new BoundingBox_BoundingBox();
 	for (var i = 0; i < entities.length; i++) {
 		var rootEntity = entities[i];
 		rootEntity.traverse(function (entity) {
 			if (entity.meshRendererComponent && !entity.particleComponent) {
 				if (first) {
 					var bound = entity.meshRendererComponent.worldBound;
-					if (bound instanceof BoundingBox) {
+					if (bound instanceof BoundingBox_BoundingBox) {
 						wb.copy(bound);
-					} else if (bound instanceof BoundingSphere) {
+					} else if (bound instanceof BoundingSphere_BoundingSphere) {
 						wb.center.set(bound.center);
 						wb.xExtent = wb.yExtent = wb.zExtent = bound.radius;
 					} else {
-						wb.center.set(Vector3.ZERO);
+						wb.center.set(Vector3_Vector3.ZERO);
 						wb.xExtent = wb.yExtent = wb.zExtent = 10;
 					}
 
@@ -206,4 +207,12 @@ EntityCombiner.prototype.cleanup = function () {
 	}
 };
 
-module.exports = EntityCombiner;
+/**
+ * Runs a mesh combine optimization on the whole scene, based on
+ * material, components etc
+ * @param {World} gooWorld An instance of a goo.world object
+ * @param {number} [gridCount=1] Number of grid segments to split the world in during combine
+ * @param {boolean} [removeOldData=true] Remove old data which is now unused after combining
+ * @param {boolean} [keepEntities=false] Keep all entities even if they are unused after combine
+ */
+export { mod_EntityCombiner as EntityCombiner };

@@ -1,9 +1,10 @@
-var Capabilities = require('../../renderer/Capabilities');
+var mod_DdsUtils = DdsUtils;
+import { Capabilities as Capabilities_Capabilities } from "../../renderer/Capabilities";
 
 function DdsUtils() {}
 
 DdsUtils.isSupported = function () {
-	return !!Capabilities.CompressedTextureS3TC;
+	return !!Capabilities_Capabilities.CompressedTextureS3TC;
 };
 
 /**
@@ -241,4 +242,4 @@ DdsUtils.flipUInt24 = function (uint24) {
 	return result;
 };
 
-module.exports = DdsUtils;
+export { mod_DdsUtils as DdsUtils };
