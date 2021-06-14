@@ -1,14 +1,15 @@
-var System = require('../../../entities/systems/System');
+var mod_ParticleSystemSystem = ParticleSystemSystem;
+import { System as System_System } from "../../../entities/systems/System";
 
 /**
  * System that runs all the ParticleSystemComponents.
  * @extends System
  */
 function ParticleSystemSystem() {
-	System.call(this, 'ParticleSystemSystem', ['ParticleSystemComponent', 'TransformComponent']);
+	System_System.call(this, 'ParticleSystemSystem', ['ParticleSystemComponent', 'TransformComponent']);
 	this.priority = 1;
 }
-ParticleSystemSystem.prototype = Object.create(System.prototype);
+ParticleSystemSystem.prototype = Object.create(System_System.prototype);
 ParticleSystemSystem.prototype.constructor = ParticleSystemSystem;
 
 /**
@@ -81,4 +82,8 @@ ParticleSystemSystem.prototype.stop = function () {
 	}
 };
 
-module.exports = ParticleSystemSystem;
+/**
+ * System that runs all the ParticleSystemComponents.
+ * @extends System
+ */
+export { mod_ParticleSystemSystem as ParticleSystemSystem };

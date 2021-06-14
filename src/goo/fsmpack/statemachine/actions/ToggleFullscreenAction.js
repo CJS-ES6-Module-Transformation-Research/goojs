@@ -1,11 +1,12 @@
-var Action = require('./Action');
-var GameUtils = require('./../../../util/GameUtils');
+var mod_ToggleFullscreenAction = ToggleFullscreenAction;
+import { Action as Action_Action } from "./Action";
+import { toggleFullScreen as GameUtilsjs_toggleFullScreen } from "./../../../util/GameUtils";
 
 function ToggleFullscreenAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-ToggleFullscreenAction.prototype = Object.create(Action.prototype);
+ToggleFullscreenAction.prototype = Object.create(Action_Action.prototype);
 ToggleFullscreenAction.prototype.constructor = ToggleFullscreenAction;
 
 ToggleFullscreenAction.external = {
@@ -18,7 +19,7 @@ ToggleFullscreenAction.external = {
 };
 
 ToggleFullscreenAction.prototype.enter = function (/*fsm*/) {
-	GameUtils.toggleFullScreen();
+	GameUtilsjs_toggleFullScreen();
 };
 
-module.exports = ToggleFullscreenAction;
+export { mod_ToggleFullscreenAction as ToggleFullscreenAction };

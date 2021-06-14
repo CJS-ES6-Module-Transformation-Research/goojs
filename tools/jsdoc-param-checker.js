@@ -1,3 +1,8 @@
+import ext_fs_fs from "fs";
+import ext_glob_glob from "glob";
+import { extract as modocsrcextractor_extract } from "./modoc/src/extractor";
+import { extract as modocsrcjsdocparser_extract } from "./modoc/src/jsdoc-parser";
+import "colors";
 // jshint node:true
 /**
  * Reports any undocumented function parameter
@@ -8,15 +13,7 @@
 
 'use strict';
 
-var fs = require('fs');
-var glob = require('glob');
-
-require('colors');
-
-var extractor = require('./modoc/src/extractor');
-var jsdocParser = require('./modoc/src/jsdoc-parser');
-
-var allFiles = glob.sync('src/**/*.js');
+var allFiles = ext_glob_glob.sync('src/**/*.js');
 
 function pluck(property) {
 	return function (obj) {
@@ -42,7 +39,7 @@ function validate(data) {
 
 		var functionParams = data.params;
 
-		var jsdoc = jsdocParser.extract(data.rawComment);
+		var jsdoc = modocsrcjsdocparser_extract(data.rawComment);
 
 		if (!jsdoc['@param']) {
 			if (functionParams.length) {
@@ -75,9 +72,9 @@ function validate(data) {
 var count = 0;
 
 allFiles.forEach(function (file) {
-	var source = fs.readFileSync(file, 'utf8');
+	var source = ext_fs_fs.readFileSync(file, 'utf8');
 
-	var data = extractor.extract(source, file);
+	var data = modocsrcextractor_extract(source, file);
 
 	var errors = validate(data, file);
 

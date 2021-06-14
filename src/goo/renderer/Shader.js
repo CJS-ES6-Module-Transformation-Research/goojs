@@ -1,10 +1,11 @@
-var ShaderCall = require('../renderer/ShaderCall');
-var Matrix3 = require('../math/Matrix3');
-var Matrix4 = require('../math/Matrix4');
-var World = require('../entities/World');
-var RenderQueue = require('../renderer/RenderQueue');
-var ObjectUtils = require('../util/ObjectUtils');
-var SystemBus = require('../entities/SystemBus');
+var mod_Shader = Shader;
+import { ShaderCall as ShaderCall_ShaderCall } from "../renderer/ShaderCall";
+import { Matrix3 as Matrix3_Matrix3 } from "../math/Matrix3";
+import { Matrix4 as Matrix4_Matrix4 } from "../math/Matrix4";
+import { World as World_World } from "../entities/World";
+import { OPAQUE as RenderQueuejs_OPAQUE } from "../renderer/RenderQueue";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { SystemBusjs as SystemBus } from "../entities/SystemBus";
 
 /* global WebGLRenderingContext */
 
@@ -110,7 +111,7 @@ function Shader(name, shaderDefinition) {
 	 * By default materials use the render queue of the shader. See {@link RenderQueue} for more info
 	 * @type {number}
 	 */
-	this.renderQueue = RenderQueue.OPAQUE;
+	this.renderQueue = RenderQueuejs_OPAQUE;
 
 	// this._id = Shader.id++;
 	if (Shader.cache.has(shaderDefinition)) {
@@ -135,7 +136,7 @@ function Shader(name, shaderDefinition) {
 Shader.cache = new Map();
 
 Shader.prototype.clone = function () {
-	return new Shader(this.name, ObjectUtils.deepClone({
+	return new Shader(this.name, ObjectUtils_ObjectUtils.deepClone({
 		precision: this.precision,
 		processors: this.processors,
 		builder: this.builder,
@@ -522,7 +523,7 @@ Shader.prototype.compile = function (renderer) {
 			continue;
 		}
 
-		this.uniformCallMapping[key] = new ShaderCall(context, uniform, this.uniformMapping[key].format);
+		this.uniformCallMapping[key] = new ShaderCall_ShaderCall(context, uniform, this.uniformMapping[key].format);
 	}
 
 	if (this.attributes) {
@@ -636,12 +637,12 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 	defaultCallbacks[Shader.WORLD_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : Matrix4.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.matrix : Matrix4_Matrix4.IDENTITY;
 		uniformCall.uniformMatrix4fv(matrix);
 	};
 	defaultCallbacks[Shader.NORMAL_MATRIX] = function (uniformCall, shaderInfo) {
 		//! AT: when is this condition ever true?
-		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : Matrix3.IDENTITY;
+		var matrix = shaderInfo.transform !== undefined ? shaderInfo.transform.normalMatrix : Matrix3_Matrix3.IDENTITY;
 		uniformCall.uniformMatrix3fv(matrix);
 	};
 
@@ -730,10 +731,10 @@ function setupDefaultCallbacks(defaultCallbacks) {
 	};
 
 	defaultCallbacks[Shader.TIME] = function (uniformCall) {
-		uniformCall.uniform1f(World.time);
+		uniformCall.uniform1f(World_World.time);
 	};
 	defaultCallbacks[Shader.TPF] = function (uniformCall) {
-		uniformCall.uniform1f(World.tpf);
+		uniformCall.uniform1f(World_World.tpf);
 	};
 
 	defaultCallbacks[Shader.RESOLUTION] = function (uniformCall, shaderInfo) {
@@ -814,4 +815,23 @@ Shader.DEFAULT_SHININESS = 64.0;
 Shader.prototype.defaultCallbacks = {};
 setupDefaultCallbacks(Shader.prototype.defaultCallbacks);
 
-module.exports = Shader;
+/* global WebGLRenderingContext */
+
+/**
+ * Defines vertex and fragment shader and uniforms to shader callbacks
+ * @param {string} name Shader name (mostly for debug/tool use)
+ * @param {ShaderDefinition} shaderDefinition Shader data
+ *
+ * <code>
+ * {
+ *    vshader: [required] vertex shader source
+ *    fshader: [required] fragment shader source
+ *    defines : shader definitions (becomes #define)
+ *    attributes : attribute bindings
+ *       attribute bindings need to map to an attribute in the meshdata being rendered
+ *    uniforms : uniform bindings
+ *       uniform bindings can be a value (like 2.5 or [1, 2]) or a function
+ * }
+ * </code>
+ */
+export { mod_Shader as Shader };

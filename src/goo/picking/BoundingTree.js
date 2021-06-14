@@ -1,6 +1,9 @@
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var BoundingSphere = require('../renderer/bounds/BoundingSphere');
-var Vector3 = require('../math/Vector3');
+import { BoundingBox as BoundingBox_BoundingBox } from "../renderer/bounds/BoundingBox";
+import { BoundingSphere as BoundingSphere_BoundingSphere } from "../renderer/bounds/BoundingSphere";
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+var MAX_PRIMITIVES_PER_LEAF;
+var BOUNDTYPE_BOX;
+var BOUNDTYPE_SPHERE;
 
 /**
  * Bounding tree node
@@ -16,15 +19,15 @@ function BoundingTree(boundType) {
 	this.start = 0;
 	this.end = 0;
 
-	this.boundType = boundType ? boundType : BoundingTree.BOUNDTYPE_BOX;
+	this.boundType = boundType ? boundType : BOUNDTYPE_BOX;
 }
 
-var vecStore = new Vector3();
+var vecStore = new Vector3_Vector3();
 
-BoundingTree.BOUNDTYPE_SPHERE = 'sphere';
-BoundingTree.BOUNDTYPE_BOX = 'box';
+BOUNDTYPE_SPHERE = 'sphere';
+BOUNDTYPE_BOX = 'box';
 
-BoundingTree.MAX_PRIMITIVES_PER_LEAF = 16;
+MAX_PRIMITIVES_PER_LEAF = 16;
 
 BoundingTree.prototype.construct = function (entity) {
 	// check entity has required components
@@ -65,7 +68,7 @@ BoundingTree.prototype.createTree = function (entity, section, start, end) {
 
 	// check to see if we are a leaf, if the number of primitives we reference is less than or equal to the maximum
 	// defined by the CollisionTreeManager we are done.
-	if (end - start + 1 <= BoundingTree.MAX_PRIMITIVES_PER_LEAF) {
+	if (end - start + 1 <= MAX_PRIMITIVES_PER_LEAF) {
 		return;
 	}
 
@@ -138,13 +141,13 @@ BoundingTree.prototype.split = function (entity, sectionStart, sectionEnd) {
 
 BoundingTree.prototype.createBounds = function () {
 	switch (this.boundType) {
-		case BoundingTree.BOUNDTYPE_BOX:
-			this.localBound = new BoundingBox();
-			this.worldBound = new BoundingBox();
+		case BOUNDTYPE_BOX:
+			this.localBound = new BoundingBox_BoundingBox();
+			this.worldBound = new BoundingBox_BoundingBox();
 			break;
-		case BoundingTree.BOUNDTYPE_SPHERE:
-			this.localBound = new BoundingSphere();
-			this.worldBound = new BoundingSphere();
+		case BOUNDTYPE_SPHERE:
+			this.localBound = new BoundingSphere_BoundingSphere();
+			this.worldBound = new BoundingSphere_BoundingSphere();
 			break;
 		default:
 			break;
@@ -178,7 +181,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 			if (ray.intersects(vertices, false, vecStore)) {
 				var worldTransform = entity.transformComponent.sync().worldTransform;
 
-				var point = new Vector3();
+				var point = new Vector3_Vector3();
 				point.set(vecStore);
 				point.applyPostPoint(worldTransform.matrix);
 
@@ -188,7 +191,7 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 
 				var verticesCopy = [];
 				for (var copyIndex = vertices.length - 1; copyIndex >= 0; copyIndex--) {
-					verticesCopy[copyIndex] = new Vector3().set(vertices[copyIndex]);
+					verticesCopy[copyIndex] = new Vector3_Vector3().set(vertices[copyIndex]);
 					verticesCopy[copyIndex].applyPostPoint(worldTransform.matrix);
 				}
 
@@ -204,4 +207,4 @@ BoundingTree.prototype.findPick = function (ray, entity, result) {
 	return result;
 };
 
-module.exports = BoundingTree;
+export { BoundingTree };

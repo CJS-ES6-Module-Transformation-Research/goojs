@@ -1,6 +1,7 @@
-var Component = require('../entities/components/Component');
-var StringUtils = require('../util/StringUtils');
-var EventTarget = require('../util/EventTarget');
+var mod_Entity = Entity;
+import { Component as Component_Component } from "../entities/components/Component";
+import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
+import { EventTarget as EventTarget_EventTarget } from "../util/EventTarget";
 
 /**
  * An Entity is a generic container of data.
@@ -13,11 +14,11 @@ var EventTarget = require('../util/EventTarget');
  * @param {number} [id] Entity id.
  */
 function Entity(world, name, id) {
-	EventTarget.apply(this);
+	EventTarget_EventTarget.apply(this);
 
 	this._world = world;
 	this._components = [];
-	this.id = id !== undefined ? id : StringUtils.createUniqueId('entity');
+	this.id = id !== undefined ? id : StringUtils_StringUtils.createUniqueId('entity');
 	this._index = Entity.entityCount;
 
 	this._tags = new Set();
@@ -66,7 +67,7 @@ function Entity(world, name, id) {
 
 	Entity.entityCount++;
 }
-Entity.prototype = Object.create(EventTarget.prototype);
+Entity.prototype = Object.create(EventTarget_EventTarget.prototype);
 Entity.prototype.constructor = Entity;
 
 //! AT: not sure if 'add' is a better name - need to search for something short and compatible with the other 'set' methods
@@ -84,7 +85,7 @@ Entity.prototype.constructor = Entity;
 Entity.prototype.set = function () {
 	for (var i = 0; i < arguments.length; i++) {
 		var argument = arguments[i];
-		if (argument instanceof Component) {
+		if (argument instanceof Component_Component) {
 			this.setComponent(argument);
 		} else {
 			// ask all components if they are compatible with the given data
@@ -330,4 +331,14 @@ Entity.prototype.toString = function () {
 
 Entity.entityCount = 0;
 
-module.exports = Entity;
+/**
+ * An Entity is a generic container of data.
+ * This data is wrapped in [Components]{@link Component}, which usually provide isolated features (transforms, geometries, materials, scripts and so on).
+ * By setting components to an entity, the entity will get the functionality provided by the components.
+ * For example, an entity with a {@link TransformComponent} and a {@link LightComponent} will be a light source in 3D space.
+ * Note that when attaching components to an entity, methods of the component will be injected into the entity, extending its interface.
+ * @param {World} world The {@link World} this entity will be part of after calling .addToWorld().
+ * @param {string} [name] Entity name.
+ * @param {number} [id] Entity id.
+ */
+export { mod_Entity as Entity };

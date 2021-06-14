@@ -1,14 +1,15 @@
-var Selection = require('./Selection');
+var mod_EntitySelection = EntitySelection;
+import { Selection as Selection_Selection } from "./Selection";
 
 /**
  * A specialised selection object for entities
  * @extends Selection
  */
 function EntitySelection() {
-	Selection.apply(this, arguments);
+	Selection_Selection.apply(this, arguments);
 }
 
-EntitySelection.prototype = Object.create(Selection.prototype);
+EntitySelection.prototype = Object.create(Selection_Selection.prototype);
 EntitySelection.prototype.constructor = EntitySelection;
 
 /**
@@ -246,4 +247,8 @@ function toArray() {
 	}
 }
 
-module.exports = EntitySelection;
+/**
+ * A specialised selection object for entities
+ * @extends Selection
+ */
+export { mod_EntitySelection as EntitySelection };

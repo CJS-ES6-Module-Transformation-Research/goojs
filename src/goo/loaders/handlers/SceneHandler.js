@@ -1,7 +1,12 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var SystemBus = require('../../entities/SystemBus');
-var ObjectUtils = require('../../util/ObjectUtils');
-var RSVP = require('../../util/rsvp');
+var mod_SceneHandler = SceneHandler;
+
+import {
+    ConfigHandler as ConfigHandler_ConfigHandler,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../../loaders/handlers/ConfigHandler";
+
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { rsvpjs as RSVP } from "../../util/rsvp";
 
 /**
  * Handler for loading scene into engine
@@ -12,12 +17,12 @@ var RSVP = require('../../util/rsvp');
  * @private
  */
 function SceneHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 }
 
-SceneHandler.prototype = Object.create(ConfigHandler.prototype);
+SceneHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 SceneHandler.prototype.constructor = SceneHandler;
-ConfigHandler._registerClass('scene', SceneHandler);
+ConfigHandlerjs__registerClass('scene', SceneHandler);
 
 /**
  * Removes the scene, i e removes all entities in scene from engine world
@@ -61,7 +66,7 @@ SceneHandler.prototype._create = function () {
  */
 SceneHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
+	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (scene) {
 		if (!scene) { return; }
 		scene.id = ref;
 		var promises = [];
@@ -161,4 +166,12 @@ SceneHandler.prototype._handleEnvironment = function (config, scene, options) {
 	return this._load(config.environmentRef, options);
 };
 
-module.exports = SceneHandler;
+/**
+ * Handler for loading scene into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { mod_SceneHandler as SceneHandler };

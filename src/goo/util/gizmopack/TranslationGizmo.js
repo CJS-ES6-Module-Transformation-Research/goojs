@@ -1,32 +1,33 @@
-var Gizmo = require('../../util/gizmopack/Gizmo');
-var MeshData = require('../../renderer/MeshData');
-var MeshBuilder = require('../../util/MeshBuilder');
-var Disk = require('../../shapes/Disk');
-var Quad = require('../../shapes/Quad');
-var Transform = require('../../math/Transform');
-var Vector3 = require('../../math/Vector3');
-var Ray = require('../../math/Ray');
-var Renderer = require('../../renderer/Renderer');
+var mod_TranslationGizmo = TranslationGizmo;
+import { Gizmo as Gizmo_Gizmo } from "../../util/gizmopack/Gizmo";
+import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
+import { MeshBuilder as MeshBuilder_MeshBuilder } from "../../util/MeshBuilder";
+import { Disk as Disk_Disk } from "../../shapes/Disk";
+import { Quad as Quad_Quad } from "../../shapes/Quad";
+import { Transform as Transform_Transform } from "../../math/Transform";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Ray as Ray_Ray } from "../../math/Ray";
+import { mainCamera as Rendererjs_mainCamera } from "../../renderer/Renderer";
 
 /**
  * @extends Gizmo
  * @hidden
  */
 function TranslationGizmo() {
-	Gizmo.call(this, 'TranslationGizmo');
+	Gizmo_Gizmo.call(this, 'TranslationGizmo');
 
-	this.realTranslation = new Vector3();
+	this.realTranslation = new Vector3_Vector3();
 	this._snap = false;
 
 	this.compileRenderables();
 }
 
-TranslationGizmo.prototype = Object.create(Gizmo.prototype);
+TranslationGizmo.prototype = Object.create(Gizmo_Gizmo.prototype);
 TranslationGizmo.prototype.constructor = TranslationGizmo;
 
 // Triggered when you have mousedown on a gizmo handle
 TranslationGizmo.prototype.activate = function (props) {
-	Gizmo.prototype.activate.call(this, props);
+	Gizmo_Gizmo.prototype.activate.call(this, props);
 	this._setPlane();
 	if (this._activeHandle.type === 'Axis') {
 		this._setLine();
@@ -35,7 +36,7 @@ TranslationGizmo.prototype.activate = function (props) {
 };
 
 TranslationGizmo.prototype.copyTransform = function () {
-	Gizmo.prototype.copyTransform.apply(this, arguments);
+	Gizmo_Gizmo.prototype.copyTransform.apply(this, arguments);
 };
 
 function snapToGrid(vector3) {
@@ -49,12 +50,12 @@ TranslationGizmo.prototype.setSnap = function (snap) {
 };
 
 (function () {
-	var oldRay = new Ray();
-	var newRay = new Ray();
+	var oldRay = new Ray_Ray();
+	var newRay = new Ray_Ray();
 
 	TranslationGizmo.prototype.process = function (mouseState, oldMouseState) {
-		Renderer.mainCamera.getPickRay(oldMouseState.x, oldMouseState.y, 1, 1, oldRay);
-		Renderer.mainCamera.getPickRay(mouseState.x, mouseState.y, 1, 1, newRay);
+		Rendererjs_mainCamera.getPickRay(oldMouseState.x, oldMouseState.y, 1, 1, oldRay);
+		Rendererjs_mainCamera.getPickRay(mouseState.x, mouseState.y, 1, 1, newRay);
 
 		if (this._activeHandle.type === 'Plane') {
 			this._moveOnPlane(oldRay, newRay, this._plane);
@@ -76,9 +77,9 @@ TranslationGizmo.prototype._addTranslation = function (moveVector) {
 };
 
 (function () {
-	var oldWorldPos = new Vector3();
-	var worldPos = new Vector3();
-	var moveVector = new Vector3();
+	var oldWorldPos = new Vector3_Vector3();
+	var worldPos = new Vector3_Vector3();
+	var moveVector = new Vector3_Vector3();
 
 	TranslationGizmo.prototype._moveOnPlane = function (oldRay, newRay, plane) {
 		// Project mouse move to plane
@@ -92,9 +93,9 @@ TranslationGizmo.prototype._addTranslation = function (moveVector) {
 })();
 
 (function () {
-	var oldWorldPos = new Vector3();
-	var worldPos = new Vector3();
-	var moveVector = new Vector3();
+	var oldWorldPos = new Vector3_Vector3();
+	var worldPos = new Vector3_Vector3();
+	var moveVector = new Vector3_Vector3();
 
 	TranslationGizmo.prototype._moveOnLine = function (oldRay, newRay, plane, line) {
 		// Project mousemove to plane
@@ -112,7 +113,7 @@ TranslationGizmo.prototype._addTranslation = function (moveVector) {
 
 TranslationGizmo.prototype.compileRenderables = function () {
 	var arrowMesh = buildArrowMesh();
-	var quadMesh = new Quad(2, 2);
+	var quadMesh = new Quad_Quad(2, 2);
 
 	buildArrow(arrowMesh, quadMesh, 0).forEach(this.addRenderable, this);
 	buildArrow(arrowMesh, quadMesh, 1).forEach(this.addRenderable, this);
@@ -120,8 +121,8 @@ TranslationGizmo.prototype.compileRenderables = function () {
 };
 
 function buildArrow(arrowMesh, quadMesh, dim) {
-	var arrowTransform = new Transform();
-	var quadTransform = new Transform();
+	var arrowTransform = new Transform_Transform();
+	var quadTransform = new Transform_Transform();
 
 	var size = 1.0;
 	quadTransform.scale.setDirect(size, size, size);
@@ -139,34 +140,34 @@ function buildArrow(arrowMesh, quadMesh, dim) {
 
 	return [{
 		meshData: arrowMesh,
-		materials: [Gizmo.buildMaterialForAxis(dim)],
+		materials: [Gizmo_Gizmo.buildMaterialForAxis(dim)],
 		transform: arrowTransform,
-		id: Gizmo.registerHandle({ type: 'Axis', axis: dim }),
+		id: Gizmo_Gizmo.registerHandle({ type: 'Axis', axis: dim }),
 		thickness: 0.6
 	}, {
 		meshData: quadMesh,
-		materials: [Gizmo.buildMaterialForAxis(dim, 0.6)],
+		materials: [Gizmo_Gizmo.buildMaterialForAxis(dim, 0.6)],
 		transform: quadTransform,
-		id: Gizmo.registerHandle({ type: 'Plane', axis: dim })
+		id: Gizmo_Gizmo.registerHandle({ type: 'Plane', axis: dim })
 	}];
 }
 
 function buildArrowMesh() {
-	var meshBuilder = new MeshBuilder();
+	var meshBuilder = new MeshBuilder_MeshBuilder();
 
 	// Arrow head
-	var mesh1Data = new Disk(32, 0.6, 2.3);
+	var mesh1Data = new Disk_Disk(32, 0.6, 2.3);
 	// Arrow base
-	var mesh2Data = new Disk(32, 0.6);
+	var mesh2Data = new Disk_Disk(32, 0.6);
 	// Line
-	var mesh3Data = new MeshData(MeshData.defaultMap([MeshData.POSITION]), 2, 2);
-	mesh3Data.getAttributeBuffer(MeshData.POSITION).set([0, 0, 0, 0, 0, 7]);
+	var mesh3Data = new MeshData_MeshData(MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]), 2, 2);
+	mesh3Data.getAttributeBuffer(MeshData_MeshData.POSITION).set([0, 0, 0, 0, 0, 7]);
 	mesh3Data.getIndexBuffer().set([0, 1]);
 	mesh3Data.indexLengths = null;
 	mesh3Data.indexModes = ['Lines'];
 
 	// Arrow head
-	var transform = new Transform();
+	var transform = new Transform_Transform();
 	transform.translation.setDirect(0, 0, 7);
 	transform.update();
 	meshBuilder.addMeshData(mesh1Data, transform);
@@ -177,7 +178,7 @@ function buildArrowMesh() {
 	meshBuilder.addMeshData(mesh2Data, transform);
 
 	// Line
-	var transform = new Transform();
+	var transform = new Transform_Transform();
 	transform.update();
 	meshBuilder.addMeshData(mesh3Data, transform);
 
@@ -186,4 +187,8 @@ function buildArrowMesh() {
 	return mergedMeshData;
 }
 
-module.exports = TranslationGizmo;
+/**
+ * @extends Gizmo
+ * @hidden
+ */
+export { mod_TranslationGizmo as TranslationGizmo };

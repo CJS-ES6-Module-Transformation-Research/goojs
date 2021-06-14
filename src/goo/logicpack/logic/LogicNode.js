@@ -1,3 +1,4 @@
+var mod_LogicNode = LogicNode;
 /**
  * Base class/module for all logic boxes
  * @private
@@ -87,4 +88,8 @@ LogicNode.prototype.onInputChanged = function () {};
 
 LogicNode._instanceCount = 0;
 
-module.exports = LogicNode;
+/**
+ * Base class/module for all logic boxes
+ * @private
+ */
+export { mod_LogicNode as LogicNode };

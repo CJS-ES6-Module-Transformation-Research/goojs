@@ -1,3 +1,4 @@
+var mod_PickAndRotateScript = PickAndRotateScript;
 function PickAndRotateScript() {
 	var gooRunner;
 	var validPick;
@@ -162,4 +163,4 @@ PickAndRotateScript.externals = {
 	}]
 };
 
-module.exports = PickAndRotateScript;
+export { mod_PickAndRotateScript as PickAndRotateScript };

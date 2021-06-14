@@ -1,3 +1,4 @@
+var mod_Capabilities = Capabilities;
 /**
  * Enabled and stores webgl extensions and capabilities
 
@@ -155,4 +156,49 @@ Capabilities.getCapabilitiesString = function () {
 	return caps.join('\n');
 };
 
-module.exports = Capabilities;
+/**
+ * Enabled and stores webgl extensions and capabilities
+
+ * Extensions
+ * @property {Object} CompressedTextureS3TC S3TC (DXT) compression, WEBGL_compressed_texture_s3tc
+ * @property {Object} TextureFloat Floating point textures, OES_texture_float
+ * @property {Object} TextureFloatLinear Linear filtering of floating point textures, OES_texture_float_linear
+ * @property {Object} TextureHalfFloat 16-bit floating point textures, OES_texture_half_float
+ * @property {Object} TextureHalfFloatLinear Linear filtering of 16-bit floating point textures, OES_texture_half_float_linear
+ * @property {Object} StandardDerivatives Enabled dFdx/dFdy/fwidth in fragment shaders, OES_standard_derivatives
+ * @property {Object} TextureFilterAnisotropic Anisotropic filtering of textures, EXT_texture_filter_anisotropic
+ * @property {Object} DepthTexture Depth textures, WEBGL_depth_texture
+ * @property {Object} ElementIndexUInt 32-bit index buffers, OES_element_index_uint
+ * @property {Object} InstancedArrays Instanced arrays, ANGLE_instanced_arrays
+ * @property {Object} BlendMinmax BlendMinmax, EXT_blend_minmax
+ * @property {Object} FragDepth FragDepth, EXT_frag_depth
+ * @property {Object} ShaderTextureLod ShaderTextureLod, EXT_shader_texture_lod
+ * @property {Object} VertexArrayObject VertexArrayObject, OES_vertex_array_object
+ * @property {Object} DrawBuffers Multiple rendertargets, WEBGL_draw_buffers
+
+ * Properties
+ * @property {number} maxTexureSize Maximum 2D texture size
+ * @property {number} maxCubemapSize Maximum cubemap size
+ * @property {number} maxRenderbufferSize Maximum renderbuffer size
+ * @property {Array<number>} maxViewPortDims Maximum viewport size [x, y]
+ * @property {number} maxVertexTextureUnits Maximum vertex shader texture units
+ * @property {number} maxFragmentTextureUnits Maximum fragment shader texture units
+ * @property {number} maxCombinedTextureUnits Maximum total texture units
+ * @property {number} maxVertexAttributes Maximum vertex attributes
+ * @property {number} maxVertexUniformVectors Maximum vertex uniform vectors
+ * @property {number} maxFragmentUniformVectors Maximum fragment uniform vectors
+ * @property {number} maxVaryingVectors Maximum varying vectors
+ * @property {number} aliasedPointSizeRange Point size min/max [min, max]
+ * @property {number} aliasedLineWidthRange Line width min/max [min, max]
+ * @property {number} samples Antialiasing sample size
+ * @property {number} sampleBuffers Sample buffer count
+ * @property {number} depthBits Depth bits
+ * @property {number} stencilBits Stencil bits
+ * @property {number} subpixelBits Sub-pixel bits
+ * @property {number} supportedExtensionsList Supported extension as an array
+ * @property {number} renderer Renderer name
+ * @property {number} vendor Vendor name
+ * @property {number} version Version string
+ * @property {number} shadingLanguageVersion Shadinglanguage version string
+ */
+export { mod_Capabilities as Capabilities };

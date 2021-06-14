@@ -1,3 +1,31 @@
+var MathUtils_warnNaN;
+var floatToHalfFloat;
+var MathUtils_fastRandom;
+var randomSeed;
+var MathUtils_smoothstep;
+var MathUtils_barycentricInterpolation;
+var MathUtils_triangleArea;
+var MathUtils_sign;
+var MathUtils_closeTo;
+var nearestHigherPowerOfTwo;
+var MathUtils_nearestPowerOfTwo;
+var MathUtils_isPowerOfTwo;
+var MathUtils_getTriangleNormal;
+var MathUtils_cartesianToSpherical;
+var MathUtils_sphericalToCartesian;
+var MathUtils_scurve5;
+var MathUtils_scurve3;
+var MathUtils_moduloPositive;
+var MathUtils_radialClamp;
+var MathUtils_clamp;
+var MathUtils_lerp;
+var MathUtils_degFromRad;
+var MathUtils_radFromDeg;
+var EPSILON;
+var TWO_PI;
+var HALF_PI;
+var RAD_TO_DEG;
+var DEG_TO_RAD;
 /**
  * A collection of useful math-related functions, constants and helpers.
  * Only used to define the class. Should never be instantiated.
@@ -9,28 +37,28 @@ function MathUtils() {}
  * // converts 75 degrees to radians
  * var rot = 75 * MathUtils.DEG_TO_RAD;
  */
-MathUtils.DEG_TO_RAD = Math.PI / 180.0;
+DEG_TO_RAD = Math.PI / 180.0;
 
 /** @type {number}
  * @example
  * // converts Math.PI to 180 degrees
  * var rot = Math.PI  MathUtils.RAD_TO_DEG;
  */
-MathUtils.RAD_TO_DEG = 180.0 / Math.PI;
+RAD_TO_DEG = 180.0 / Math.PI;
 
 /** @type {number}
  * @example
  * // uses HALF_PI and converts it to degress
  * var rot = MathUtils.HALF_PI * MathUtils.RAD_TO_DEG; // rot == 90
  */
-MathUtils.HALF_PI = 0.5 * Math.PI;
+HALF_PI = 0.5 * Math.PI;
 
 /** @type {number}
  * @example
  * // uses TWO_PI and converts it to degrees
  * var rot = MathUtils.TWO_PI * RAD_TO_DEG; // rot == 360
  */
-MathUtils.TWO_PI = 2.0 * Math.PI;
+TWO_PI = 2.0 * Math.PI;
 
 /** @type {number}
  * @example
@@ -39,7 +67,7 @@ MathUtils.TWO_PI = 2.0 * Math.PI;
  * 		// not equal
  * }
  */
-MathUtils.EPSILON = 0.00001; //! AT: unfortunately Matrix.invert is too unstable to use a smaller epsilon
+EPSILON = 0.00001; //! AT: unfortunately Matrix.invert is too unstable to use a smaller epsilon
 
 //! AT: why do we have both these functions and the constant above?
 // why are the constants named x_TO_y and and the functions y_FROM_x ?
@@ -51,8 +79,8 @@ MathUtils.EPSILON = 0.00001; //! AT: unfortunately Matrix.invert is too unstable
  * // converts 70 degrees to a radian
  * var a = MathUtils.radFromDeg(70);
  */
-MathUtils.radFromDeg = function (degrees) {
-	return degrees * MathUtils.DEG_TO_RAD;
+MathUtils_radFromDeg = function (degrees) {
+	return degrees * DEG_TO_RAD;
 };
 
 /**
@@ -63,8 +91,8 @@ MathUtils.radFromDeg = function (degrees) {
  * // converts Math.PI to 180 degrees
  * var a = MathUtils.degFromRad(Math.PI);
  */
-MathUtils.degFromRad = function (radians) {
-	return radians * MathUtils.RAD_TO_DEG;
+MathUtils_degFromRad = function (radians) {
+	return radians * RAD_TO_DEG;
 };
 
 /**
@@ -79,7 +107,7 @@ MathUtils.degFromRad = function (radians) {
  * // inside the update loop
  * x = MathUtils.lerp(tpf, x, 5);
  */
-MathUtils.lerp = function (factor, start, end) {
+MathUtils_lerp = function (factor, start, end) {
 	if (start === end) {
 		return start;
 	} else {
@@ -98,7 +126,7 @@ MathUtils.lerp = function (factor, start, end) {
  * var a = -1;
  * a = Math.clamp(a, 0, 9); // a == 0
  */
-MathUtils.clamp = function (value, min, max) {
+MathUtils_clamp = function (value, min, max) {
 	if (min < max) {
 		return value < min ? min : value > max ? max : value;
 	} else {
@@ -116,17 +144,17 @@ MathUtils.clamp = function (value, min, max) {
  * var a = -1;
  * a = Math.radialClamp(a, 0, 9); // a == 0
  */
-MathUtils.radialClamp = function (value, min, max) {
+MathUtils_radialClamp = function (value, min, max) {
 	// Rotating coordinates to be mirrored
 	var zero = (min + max) / 2 + ((max > min) ? Math.PI : 0);
-	var _value = MathUtils.moduloPositive(value - zero, MathUtils.TWO_PI);
-	var _min = MathUtils.moduloPositive(min - zero, MathUtils.TWO_PI);
-	var _max = MathUtils.moduloPositive(max - zero, MathUtils.TWO_PI);
+	var _value = MathUtils_moduloPositive(value - zero, TWO_PI);
+	var _min = MathUtils_moduloPositive(min - zero, TWO_PI);
+	var _max = MathUtils_moduloPositive(max - zero, TWO_PI);
 
 	// Putting min, max and value on the same circle
-	if (value < 0 && min > 0) { min -= MathUtils.TWO_PI; }
-	else if (value > 0 && min < 0) { min += MathUtils.TWO_PI; }
-	if (value > MathUtils.TWO_PI && max < MathUtils.TWO_PI) { max += MathUtils.TWO_PI; }
+	if (value < 0 && min > 0) { min -= TWO_PI; }
+	else if (value > 0 && min < 0) { min += TWO_PI; }
+	if (value > TWO_PI && max < TWO_PI) { max += TWO_PI; }
 
 	return _value < _min ? min : _value > _max ? max : value;
 };
@@ -138,7 +166,7 @@ MathUtils.radialClamp = function (value, min, max) {
  * @param {number} size
  * @returns {number} Wrapped value
  */
-MathUtils.moduloPositive = function (value, size) {
+MathUtils_moduloPositive = function (value, size) {
 	var wrappedValue = value % size;
 	wrappedValue += wrappedValue < 0 ? size : 0;
 	return wrappedValue;
@@ -149,7 +177,7 @@ MathUtils.moduloPositive = function (value, size) {
  * @param {number} x Input value in the range between zero and one.
  * @returns {number} Value on curve.
  */
-MathUtils.scurve3 = function (x) {
+MathUtils_scurve3 = function (x) {
 	return (-2.0 * x + 3.0) * x * x;
 };
 
@@ -158,7 +186,7 @@ MathUtils.scurve3 = function (x) {
  * @param {number} x Input value in the range between zero and one.
  * @returns {number} Value on curve.
  */
-MathUtils.scurve5 = function (x) {
+MathUtils_scurve5 = function (x) {
 	return ((6.0 * x - 15.0) * x + 10.0) * x * x * x;
 };
 
@@ -175,7 +203,7 @@ MathUtils.scurve5 = function (x) {
  * var position = new Vector3();
  * MathUtils.sphericalToCartesian(distance, heading, elevation, position);
  */
-MathUtils.sphericalToCartesian = function (radius, azimuth, polar, store) {
+MathUtils_sphericalToCartesian = function (radius, azimuth, polar, store) {
 	var a = radius * Math.cos(polar);
 
 	store.x = a * Math.cos(azimuth);
@@ -194,7 +222,7 @@ MathUtils.sphericalToCartesian = function (radius, azimuth, polar, store) {
  * var pos = entity.transformComponent.transform.translation.
  * MathUtils.cartesianToSpherical(pos.x, pos.y, pos.z, sphericalCoord);
  */
-MathUtils.cartesianToSpherical = function (x, y, z, store) {
+MathUtils_cartesianToSpherical = function (x, y, z, store) {
 	var a = Math.sqrt(x * x + z * z);
 	store.x = Math.sqrt(x * x + y * y + z * z); // radius
 	store.y = Math.atan2(z, x); // azimuth
@@ -214,7 +242,7 @@ MathUtils.cartesianToSpherical = function (x, y, z, store) {
  * @param {number} R.z
  * @returns {Array<number>} The triangle's normal
  */
-MathUtils.getTriangleNormal = function (p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z) {
+MathUtils_getTriangleNormal = function (p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, p3z) {
 	var ux = p2x - p1x;
 	var uy = p2y - p1y;
 	var uz = p2z - p1z;
@@ -235,7 +263,7 @@ MathUtils.getTriangleNormal = function (p1x, p1y, p1z, p2x, p2y, p2z, p3x, p3y, 
  * @param {number} value Number to check for power of two
  * @returns {boolean} true if value is power of two
  */
-MathUtils.isPowerOfTwo = function (value) {
+MathUtils_isPowerOfTwo = function (value) {
 	return (value & (value - 1)) === 0;
 };
 
@@ -244,7 +272,7 @@ MathUtils.isPowerOfTwo = function (value) {
  * @param {number} value Number to get the nearest power of two from
  * @returns {number} Nearest power of two
  */
-MathUtils.nearestPowerOfTwo = function (value) {
+MathUtils_nearestPowerOfTwo = function (value) {
 	value--;
 	value |= value >> 1;
 	value |= value >> 2;
@@ -262,7 +290,7 @@ MathUtils.nearestPowerOfTwo = function (value) {
  * @param {number} value Number to get the nearest power of two from
  * @returns {number} Nearest power of two
  */
-MathUtils.nearestHigherPowerOfTwo = MathUtils.nearestPowerOfTwo;
+nearestHigherPowerOfTwo = MathUtils_nearestPowerOfTwo;
 
 /**
  * Returns true if the 2 values supplied are approximately the same
@@ -271,7 +299,7 @@ MathUtils.nearestHigherPowerOfTwo = MathUtils.nearestPowerOfTwo;
  * @param tolerance
  * @returns {boolean}
  */
-MathUtils.closeTo = function (v1, v2, tolerance) {
+MathUtils_closeTo = function (v1, v2, tolerance) {
 	tolerance = typeof tolerance !== 'undefined' ? tolerance : 0.001;
 	return Math.abs(v1 - v2) <= tolerance;
 };
@@ -281,7 +309,7 @@ MathUtils.closeTo = function (v1, v2, tolerance) {
  * @param value
  * @returns {number}
  */
-MathUtils.sign = function (value) {
+MathUtils_sign = function (value) {
 	return value < 0 ? -1 : value > 0 ? 1 : 0;
 };
 
@@ -292,7 +320,7 @@ MathUtils.sign = function (value) {
  * @param {Vector2} t3 Third point of the triangle
  * @returns {number}
  */
-MathUtils.triangleArea = function (t1, t2, t3) {
+MathUtils_triangleArea = function (t1, t2, t3) {
 	return Math.abs(t1.x * t2.y + t2.x * t3.y + t3.x * t1.y
 		- t2.y * t3.x - t3.y * t1.x - t1.y * t2.x) / 2;
 };
@@ -305,10 +333,10 @@ MathUtils.triangleArea = function (t1, t2, t3) {
  * @param {Vector3} p The point for which to compute the height
  * @returns {Vector3}
  */
-MathUtils.barycentricInterpolation = function (t1, t2, t3, p) {
-	var t1Area = MathUtils.triangleArea(t2, t3, p);
-	var t2Area = MathUtils.triangleArea(t1, t3, p);
-	var t3Area = MathUtils.triangleArea(t1, t2, p);
+MathUtils_barycentricInterpolation = function (t1, t2, t3, p) {
+	var t1Area = MathUtils_triangleArea(t2, t3, p);
+	var t2Area = MathUtils_triangleArea(t1, t3, p);
+	var t3Area = MathUtils_triangleArea(t1, t2, p);
 
 	// assuming the point is inside the triangle
 	var totalArea = t1Area + t2Area + t3Area;
@@ -334,8 +362,8 @@ MathUtils.barycentricInterpolation = function (t1, t2, t3, p) {
  * @param {number} x Specifies the source value for interpolation.
  * @returns {number}
  */
-MathUtils.smoothstep = function (edge0, edge1, x) {
-	x = MathUtils.clamp((x - edge0) / (edge1 - edge0), 0, 1);
+MathUtils_smoothstep = function (edge0, edge1, x) {
+	x = MathUtils_clamp((x - edge0) / (edge1 - edge0), 0, 1);
 	return x * x * (3 - 2 * x);
 };
 
@@ -344,15 +372,15 @@ MathUtils.smoothstep = function (edge0, edge1, x) {
 * // sets random seed to use with MathUtils.fastRandom()
 * MathUtils.randomSeed = 1337;
 */
-MathUtils.randomSeed = 1337;
+randomSeed = 1337;
 
 /**
  * Rough random generation with seeding. Set random seed through MathUtils.randomSeed = {new seed value}
  * @returns {number} Random number between 0 and 1.
  */
-MathUtils.fastRandom = function () {
-	MathUtils.randomSeed = (MathUtils.randomSeed * 9301 + 49297) % 233280;
-	return MathUtils.randomSeed / 233280;
+MathUtils_fastRandom = function () {
+	randomSeed = (randomSeed * 9301 + 49297) % 233280;
+	return randomSeed / 233280;
 };
 
 /**
@@ -360,7 +388,7 @@ MathUtils.fastRandom = function () {
  * @param {number} value The float value to convert
  * @returns {number} the half-float representation
  */
-MathUtils.floatToHalfFloat = (function () {
+floatToHalfFloat = (function () {
 	var floatView = new Float32Array(1);
 	var int32View = new Int32Array(floatView.buffer);
 
@@ -397,7 +425,7 @@ MathUtils.floatToHalfFloat = (function () {
  * @param object
  * @param property
  */
-MathUtils.warnNaN = function (object, property) {
+MathUtils_warnNaN = function (object, property) {
 	var value = object[property];
 
 	Object.defineProperty(object, property, {
@@ -409,4 +437,4 @@ MathUtils.warnNaN = function (object, property) {
 	});
 };
 
-module.exports = MathUtils;
+export { DEG_TO_RAD, RAD_TO_DEG, HALF_PI, TWO_PI, EPSILON, MathUtils_radFromDeg as radFromDeg, MathUtils_degFromRad as degFromRad, MathUtils_lerp as lerp, MathUtils_clamp as clamp, MathUtils_radialClamp as radialClamp, MathUtils_moduloPositive as moduloPositive, MathUtils_scurve3 as scurve3, MathUtils_scurve5 as scurve5, MathUtils_sphericalToCartesian as sphericalToCartesian, MathUtils_getTriangleNormal as getTriangleNormal, MathUtils_isPowerOfTwo as isPowerOfTwo, MathUtils_nearestPowerOfTwo as nearestPowerOfTwo, MathUtils_closeTo as closeTo, MathUtils_sign as sign, MathUtils_triangleArea as triangleArea, MathUtils_barycentricInterpolation as barycentricInterpolation, MathUtils_smoothstep as smoothstep, randomSeed, MathUtils_fastRandom as fastRandom, MathUtils };

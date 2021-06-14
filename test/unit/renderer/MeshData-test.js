@@ -1,11 +1,11 @@
-var MeshData = require('../../../src/goo/renderer/MeshData');
-var Quad = require('../../../src/goo/shapes/Quad');
-var Box = require('../../../src/goo/shapes/Box');
-var Transform = require('../../../src/goo/math/Transform');
+import { MeshData as MeshData_MeshData } from "../../../src/goo/renderer/MeshData";
+import { Quad as Quad_Quad } from "../../../src/goo/shapes/Quad";
+import { Box as Box_Box } from "../../../src/goo/shapes/Box";
+import { Transform as Transform_Transform } from "../../../src/goo/math/Transform";
 
 describe('MeshData', function () {
 	it('getNormalsMeshData: number of vertices and indices', function () {
-		var box = new Box();
+		var box = new Box_Box();
 		var normalsMD = box.getNormalsMeshData();
 
 		var nNormalsPerFace = 4;
@@ -18,7 +18,7 @@ describe('MeshData', function () {
 	});
 
 	it('can rebuild data with other counts', function () {
-		var box = new Box();
+		var box = new Box_Box();
 
 		box.rebuildData(3, 3);
 
@@ -27,7 +27,7 @@ describe('MeshData', function () {
 	});
 
 	it('can rebuild data with an indexCount of 0 and saveOldData', function () {
-		var box = new Box();
+		var box = new Box_Box();
 		var oldVertexCount = box.vertexCount;
 
 		box.rebuildData(oldVertexCount, 0, true);
@@ -37,12 +37,12 @@ describe('MeshData', function () {
 	});
 
 	it('can translate vertices', function () {
-		var box = new Quad();
+		var box = new Quad_Quad();
 
-		var transform = new Transform();
+		var transform = new Transform_Transform();
 		transform.translation.setDirect(1, 2, 3);
 		transform.update();
-		box.applyTransform(MeshData.POSITION, transform);
+		box.applyTransform(MeshData_MeshData.POSITION, transform);
 
 		expect(box.dataViews.POSITION[0]).toBeCloseTo(0.5); // -0.5 + 1
 		expect(box.dataViews.POSITION[1]).toBeCloseTo(1.5); // -0.5 + 2
@@ -62,12 +62,12 @@ describe('MeshData', function () {
 	});
 
 	it('can rotate vertices', function () {
-		var box = new Quad();
+		var box = new Quad_Quad();
 
-		var transform = new Transform();
+		var transform = new Transform_Transform();
 		transform.setRotationXYZ(Math.PI / 4, 0, 0);
 		transform.update();
-		box.applyTransform(MeshData.POSITION, transform);
+		box.applyTransform(MeshData_MeshData.POSITION, transform);
 
 		expect(box.dataViews.POSITION[0]).toBeCloseTo(-0.5 ); // -0.5
 		expect(box.dataViews.POSITION[1]).toBeCloseTo(-Math.sqrt(2) / 4); // -Math.sqrt(2) / 4
@@ -87,9 +87,9 @@ describe('MeshData', function () {
 	});
 
 	it('can apply a function on vertices', function () {
-		var box = new Quad();
+		var box = new Quad_Quad();
 
-		box.applyFunction(MeshData.POSITION, function (vert) {
+		box.applyFunction(MeshData_MeshData.POSITION, function (vert) {
 			vert.z = vert.x + vert.y;
 			return vert;
 		});
@@ -112,19 +112,19 @@ describe('MeshData', function () {
 	});
 
 	it('can get attribute buffer', function () {
-		var box = new Box();
+		var box = new Box_Box();
 
 		var getAttributeBuffer = box.getAttributeBuffer.bind(box);
 
-		expect(getAttributeBuffer(MeshData.POSITION)).toBeDefined();
-		expect(getAttributeBuffer(MeshData.NORMAL)).toBeDefined();
-		expect(getAttributeBuffer(MeshData.COLOR)).toBeUndefined();
-		expect(getAttributeBuffer(MeshData.TANGENT)).toBeUndefined();
-		expect(getAttributeBuffer(MeshData.TEXCOORD0)).toBeDefined();
-		expect(getAttributeBuffer(MeshData.TEXCOORD1)).toBeUndefined();
-		expect(getAttributeBuffer(MeshData.TEXCOORD2)).toBeUndefined();
-		expect(getAttributeBuffer(MeshData.TEXCOORD3)).toBeUndefined();
-		expect(getAttributeBuffer(MeshData.WEIGHTS)).toBeUndefined();
-		expect(getAttributeBuffer(MeshData.JOINTIDS)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.POSITION)).toBeDefined();
+		expect(getAttributeBuffer(MeshData_MeshData.NORMAL)).toBeDefined();
+		expect(getAttributeBuffer(MeshData_MeshData.COLOR)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.TANGENT)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.TEXCOORD0)).toBeDefined();
+		expect(getAttributeBuffer(MeshData_MeshData.TEXCOORD1)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.TEXCOORD2)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.TEXCOORD3)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.WEIGHTS)).toBeUndefined();
+		expect(getAttributeBuffer(MeshData_MeshData.JOINTIDS)).toBeUndefined();
 	});
 });

@@ -1,5 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+var TextureGrid_fromString;
 
 /**
  * Meshdata for a grid; useful for displaying tiles
@@ -11,14 +12,14 @@ function TextureGrid(matrix, textureUnitsPerLine) {
 	this.matrix = matrix;
 	this.textureUnitsPerLine = textureUnitsPerLine || 8;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.NORMAL, MeshData_MeshData.TEXCOORD0]);
 	var nCells = countCells(matrix);
-	MeshData.call(this, attributeMap, nCells * 4, nCells * 6);
+	MeshData_MeshData.call(this, attributeMap, nCells * 4, nCells * 6);
 
 	this.rebuild();
 }
 
-TextureGrid.prototype = Object.create(MeshData.prototype);
+TextureGrid.prototype = Object.create(MeshData_MeshData.prototype);
 TextureGrid.prototype.constructor = TextureGrid;
 
 function countCells(matrix) {
@@ -78,9 +79,9 @@ TextureGrid.prototype.rebuild = function () {
 		}
 	}
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0).set(tex);
 
 	this.getIndexBuffer().set(indices);
 
@@ -92,7 +93,7 @@ TextureGrid.prototype.rebuild = function () {
  * @returns {TextureGrid}
  */
 TextureGrid.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
+	var options = ObjectUtils_ObjectUtils.shallowSelectiveClone(this, ['matrix', 'textureUnitsPerLine']);
 
 	return new TextureGrid(options);
 };
@@ -110,8 +111,8 @@ function stringToMatrix(str) {
 	return matrix;
 }
 
-TextureGrid.fromString = function (str) {
+TextureGrid_fromString = function (str) {
 	return new TextureGrid(stringToMatrix(str), 16);
 };
 
-module.exports = TextureGrid;
+export { TextureGrid_fromString as fromString };

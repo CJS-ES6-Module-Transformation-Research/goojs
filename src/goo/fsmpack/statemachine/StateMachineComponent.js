@@ -1,13 +1,14 @@
-var Component = require('../../entities/components/Component');
-var ArrayUtils = require('../../util/ArrayUtils');
-var SystemBus = require('../../entities/SystemBus');
+var mod_StateMachineComponent = StateMachineComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { ArrayUtils as ArrayUtils_ArrayUtils } from "../../util/ArrayUtils";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
 
 /**
  * StateMachineComponent
  * @private
  */
 function StateMachineComponent() {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'StateMachineComponent';
 
@@ -22,7 +23,7 @@ function StateMachineComponent() {
 	this.active = true;
 }
 
-StateMachineComponent.prototype = Object.create(Component.prototype);
+StateMachineComponent.prototype = Object.create(Component_Component.prototype);
 
 StateMachineComponent.vars = {};
 
@@ -77,7 +78,7 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);4
+	ArrayUtils_ArrayUtils.remove(this._machines, machine);4
 
 	// delete this._machinesById[machine.id];
 	this._machinesById[machine.id] = null;
@@ -164,4 +165,8 @@ StateMachineComponent.prototype.play = function () {
 	SystemBus.emit('goo.entity.' + this.entity.name + '.fsm.play');
 };
 
-module.exports = StateMachineComponent;
+/**
+ * StateMachineComponent
+ * @private
+ */
+export { mod_StateMachineComponent as StateMachineComponent };

@@ -1,5 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_Cone = Cone;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * Cone mesh data
@@ -20,15 +21,15 @@ function Cone(radialSamples, radius, height) {
 	this.radius = radius || 1;
 	this.height = typeof height === 'undefined' ? 2 : height;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, this.radialSamples * 3 + this.radialSamples + 1, this.radialSamples * 3 * 2);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.NORMAL, MeshData_MeshData.TEXCOORD0]);
+	MeshData_MeshData.call(this, attributeMap, this.radialSamples * 3 + this.radialSamples + 1, this.radialSamples * 3 * 2);
 
 	this.indexModes = ['Triangles'];
 
 	this.rebuild();
 }
 
-Cone.prototype = Object.create(MeshData.prototype);
+Cone.prototype = Object.create(MeshData_MeshData.prototype);
 Cone.prototype.constructor = Cone;
 
 /**
@@ -89,9 +90,9 @@ Cone.prototype.rebuild = function () {
 
 	indices.push(baseCenterIndex + this.radialSamples, baseCenterIndex, baseCenterIndex + 1);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
-	this.getAttributeBuffer(MeshData.NORMAL).set(norms);
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0).set(tex);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -102,9 +103,17 @@ Cone.prototype.rebuild = function () {
  * @returns {Cone}
  */
 Cone.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['radialSamples', 'radius', 'height']);
+	var options = ObjectUtils_ObjectUtils.shallowSelectiveClone(this, ['radialSamples', 'radius', 'height']);
 
 	return new Cone(options);
 };
 
-module.exports = Cone;
+/**
+ * Cone mesh data
+ * @extends MeshData
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/shapes/Cone/Cone-vtest.html Working example
+ * @param {number} [radialSamples=8] Number of slices
+ * @param {number} [radius=1] Radius of the cone
+ * @param {number} [height=2] The height of the cone
+ */
+export { mod_Cone as Cone };

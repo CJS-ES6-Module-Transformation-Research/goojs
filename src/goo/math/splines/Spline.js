@@ -1,6 +1,8 @@
-var Vector2 = require('../Vector2');
-var Vector3 = require('../Vector3');
-var Vector4 = require('../Vector4');
+import { Vector2 as Vector2_Vector2 } from "../Vector2";
+import { Vector3 as Vector3_Vector3 } from "../Vector3";
+import { Vector4 as Vector4_Vector4 } from "../Vector4";
+var Spline_cubicInterpolation;
+var Spline_quadraticInterpolation;
 
 /**
  * Describes a cubic spline
@@ -14,17 +16,17 @@ function Spline(controlPoints) {
 
 (function () {
 	// should be of the same type as p0, p1, p2
-	var term0_v4 = new Vector4();
-	var term1_v4 = new Vector4();
-	var term2_v4 = new Vector4();
+	var term0_v4 = new Vector4_Vector4();
+	var term1_v4 = new Vector4_Vector4();
+	var term2_v4 = new Vector4_Vector4();
 
-	var term0_v3 = new Vector3();
-	var term1_v3 = new Vector3();
-	var term2_v3 = new Vector3();
+	var term0_v3 = new Vector3_Vector3();
+	var term1_v3 = new Vector3_Vector3();
+	var term2_v3 = new Vector3_Vector3();
 
-	var term0_v2 = new Vector2();
-	var term1_v2 = new Vector2();
-	var term2_v2 = new Vector2();
+	var term0_v2 = new Vector2_Vector2();
+	var term1_v2 = new Vector2_Vector2();
+	var term2_v2 = new Vector2_Vector2();
 
 	/**
 	 * Interpolate on a quadratic Bezier curve
@@ -34,7 +36,7 @@ function Spline(controlPoints) {
 	 * @param {number} t Takes values between 0 and 1
 	 * @param {Vector} store Vector to store the result to
 	 */
-	Spline.quadraticInterpolation = function (p0, p1, p2, t, store) {
+	Spline_quadraticInterpolation = function (p0, p1, p2, t, store) {
 		// B(t) =
 		// (1 - t)^2 * P0 +
 		// 2 * (1 - t) * t * P1 +
@@ -45,7 +47,7 @@ function Spline(controlPoints) {
 		var it = 1 - t;
 		var it2 = it * it;
 
-		if (store instanceof Vector4) {
+		if (store instanceof Vector4_Vector4) {
 			p0.copyTo(term0_v4);
 			term0_v4.scale(it2);
 
@@ -56,7 +58,7 @@ function Spline(controlPoints) {
 			term2_v4.scale(t2);
 
 			store.set(term0_v4).add(term1_v4).add(term2_v4);
-		} else if (store instanceof Vector3) {
+		} else if (store instanceof Vector3_Vector3) {
 			p0.copyTo(term0_v3);
 			term0_v3.scale(it2);
 
@@ -67,7 +69,7 @@ function Spline(controlPoints) {
 			term2_v3.scale(t2);
 
 			store.set(term0_v3).add(term1_v3).add(term2_v3);
-		} else if (store instanceof Vector2) {
+		} else if (store instanceof Vector2_Vector2) {
 			p0.copyTo(term0_v2);
 			term0_v2.scale(it2);
 
@@ -84,20 +86,20 @@ function Spline(controlPoints) {
 
 (function () {
 	// should be of the same type as p0, p1, p2, p3
-	var term0_v4 = new Vector4();
-	var term1_v4 = new Vector4();
-	var term2_v4 = new Vector4();
-	var term3_v4 = new Vector4();
+	var term0_v4 = new Vector4_Vector4();
+	var term1_v4 = new Vector4_Vector4();
+	var term2_v4 = new Vector4_Vector4();
+	var term3_v4 = new Vector4_Vector4();
 
-	var term0_v3 = new Vector3();
-	var term1_v3 = new Vector3();
-	var term2_v3 = new Vector3();
-	var term3_v3 = new Vector3();
+	var term0_v3 = new Vector3_Vector3();
+	var term1_v3 = new Vector3_Vector3();
+	var term2_v3 = new Vector3_Vector3();
+	var term3_v3 = new Vector3_Vector3();
 
-	var term0_v2 = new Vector2();
-	var term1_v2 = new Vector2();
-	var term2_v2 = new Vector2();
-	var term3_v2 = new Vector2();
+	var term0_v2 = new Vector2_Vector2();
+	var term1_v2 = new Vector2_Vector2();
+	var term2_v2 = new Vector2_Vector2();
+	var term3_v2 = new Vector2_Vector2();
 
 	/**
 	 * Interpolate on a quadratic Bezier curve
@@ -108,7 +110,7 @@ function Spline(controlPoints) {
 	 * @param {number} t Takes values between 0 and 1
 	 * @param {Vector} store Vector to store the result to
 	 */
-	Spline.cubicInterpolation = function (p0, p1, p2, p3, t, store) {
+	Spline_cubicInterpolation = function (p0, p1, p2, p3, t, store) {
 		// B(t) =
 		// (1 - t)^3 * P0 +
 		// 3 * (1 - t)^2 * t * P1 +
@@ -122,7 +124,7 @@ function Spline(controlPoints) {
 		var it2 = it * it;
 		var it3 = it2 * it;
 
-		if (store instanceof Vector4) {
+		if (store instanceof Vector4_Vector4) {
 			p0.copyTo(term0_v4);
 			term0_v4.scale(it3);
 
@@ -136,7 +138,7 @@ function Spline(controlPoints) {
 			term3_v4.scale(t3);
 
 			store.set(term0_v4).add(term1_v4).add(term2_v4).add(term3_v4);
-		} else if (store instanceof Vector3) {
+		} else if (store instanceof Vector3_Vector3) {
 			p0.copyTo(term0_v3);
 			term0_v3.scale(it3);
 
@@ -150,7 +152,7 @@ function Spline(controlPoints) {
 			term3_v3.scale(t3);
 
 			store.set(term0_v3).add(term1_v3).add(term2_v3).add(term3_v3);
-		} else if (store instanceof Vector2) {
+		} else if (store instanceof Vector2_Vector2) {
 			p0.copyTo(term0_v2);
 			term0_v2.scale(it3);
 
@@ -191,7 +193,7 @@ Spline.prototype.getPoint = function (t, store) {
 	var p2 = this.controlPoints[index * 3 + 2];
 	var p3 = this.controlPoints[index * 3 + 3];
 
-	Spline.cubicInterpolation(p0, p1, p2, p3, fraction, store);
+	Spline_cubicInterpolation(p0, p1, p2, p3, fraction, store);
 };
 
-module.exports = Spline;
+export { Spline_quadraticInterpolation as quadraticInterpolation, Spline_cubicInterpolation as cubicInterpolation, Spline };

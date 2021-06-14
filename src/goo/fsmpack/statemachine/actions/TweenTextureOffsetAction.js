@@ -1,16 +1,17 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var Vector2 = require('../../../math/Vector2');
-var Easing = require('../../../util/Easing');
+var mod_TweenTextureOffsetAction = TweenTextureOffsetAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { Vector2 as Vector2_Vector2 } from "../../../math/Vector2";
+import { Easing as Easing_Easing } from "../../../util/Easing";
 
 function TweenTextureOffsetAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 
-	this.fromOffset = new Vector2();
-	this.toOffset = new Vector2();
+	this.fromOffset = new Vector2_Vector2();
+	this.toOffset = new Vector2_Vector2();
 	this.completed = false;
 }
 
-TweenTextureOffsetAction.prototype = Object.create(Action.prototype);
+TweenTextureOffsetAction.prototype = Object.create(Action_Action.prototype);
 TweenTextureOffsetAction.prototype.constructor = TweenTextureOffsetAction;
 
 TweenTextureOffsetAction.external = {
@@ -96,7 +97,7 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing[this.easing1][this.easing2](t);
+	var fT = Easing_Easing[this.easing1][this.easing2](t);
 
 	this.texture.offset.set(this.fromOffset).lerp(this.toOffset, fT);
 
@@ -106,4 +107,4 @@ TweenTextureOffsetAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = TweenTextureOffsetAction;
+export { mod_TweenTextureOffsetAction as TweenTextureOffsetAction };

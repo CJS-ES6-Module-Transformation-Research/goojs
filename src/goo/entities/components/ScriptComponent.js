@@ -1,6 +1,7 @@
-var Component = require('../../entities/components/Component');
-var SystemBus = require('../../entities/SystemBus');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_ScriptComponent = ScriptComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 function getGooClasses(){
 	return (typeof window !== 'undefined' && window.goo) || {};
@@ -17,7 +18,7 @@ function getGooClasses(){
  * @extends Component
  */
 function ScriptComponent(scripts) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'ScriptComponent';
 
@@ -46,7 +47,7 @@ function ScriptComponent(scripts) {
 
 ScriptComponent.type = 'ScriptComponent';
 
-ScriptComponent.prototype = Object.create(Component.prototype);
+ScriptComponent.prototype = Object.create(Component_Component.prototype);
 ScriptComponent.prototype.constructor = ScriptComponent;
 
 /**
@@ -59,7 +60,7 @@ ScriptComponent.prototype.constructor = ScriptComponent;
 ScriptComponent.prototype.setup = function (entity) {
 	var systemContext = entity._world.getSystem('ScriptSystem').context;
 	var componentContext = Object.create(systemContext);
-	ObjectUtils.extend(componentContext, {
+	ObjectUtils_ObjectUtils.extend(componentContext, {
 		entity: entity,
 		entityData: {}
 	});
@@ -252,4 +253,14 @@ ScriptComponent.applyOnEntity = function (obj, entity) {
 	}
 };
 
-module.exports = ScriptComponent;
+/**
+ * Contains scripts to be executed each frame when set on an active entity.
+ * @param {(Object|Array<Object>)} [scripts] A script-object or an array of script-objects to attach to the
+ * entity.
+ * The script-object needs to define the function <code>run({@link Entity} entity, number tpf)</code>,
+ * which runs on every frame update.
+ *
+ * The script object can also define the function <code>setup({@link Entity} entity)</code>, called upon script creation.
+ * @extends Component
+ */
+export { mod_ScriptComponent as ScriptComponent };

@@ -1,11 +1,12 @@
-var Entity = require('./Entity');
-var EntityManager = require('./managers/EntityManager');
-var TransformComponent = require('./components/TransformComponent');
-var Manager = require('./managers/Manager');
-var System = require('./systems/System');
-var Component = require('./components/Component');
-var EntitySelection = require('./EntitySelection');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_World = World;
+import { Entity as Entity_Entity } from "./Entity";
+import { EntityManager as EntityManager_EntityManager } from "./managers/EntityManager";
+import { TransformComponent as TransformComponent_TransformComponent } from "./components/TransformComponent";
+import { Manager as Manager_Manager } from "./managers/Manager";
+import { System as System_System } from "./systems/System";
+import { Component as Component_Component } from "./components/Component";
+import { EntitySelection as EntitySelection_EntitySelection } from "./EntitySelection";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 var lastInstantiatedWorld;
 
@@ -86,7 +87,7 @@ function World(options) {
 	/** Main keeper of entities.
 	 * @type {EntityManager}
 	 */
-	this.entityManager = new EntityManager();
+	this.entityManager = new EntityManager_EntityManager();
 	this.setManager(this.entityManager);
 
 	this._components = [];
@@ -101,7 +102,7 @@ function World(options) {
 // Deprecated these with warnings on 2016-04-06
 Object.defineProperties(World, {
 	time: {
-		get: ObjectUtils.warnOnce('World.time is deprecated, use world.time instead.', function () {
+		get: ObjectUtils_ObjectUtils.warnOnce('World.time is deprecated, use world.time instead.', function () {
 			return lastInstantiatedWorld && lastInstantiatedWorld.time || 0;
 		}),
 		set: function () {
@@ -109,7 +110,7 @@ Object.defineProperties(World, {
 		}
 	},
 	tpf: {
-		get: ObjectUtils.warnOnce('World.tpf is deprecated, use world.tpf instead.', function () {
+		get: ObjectUtils_ObjectUtils.warnOnce('World.tpf is deprecated, use world.tpf instead.', function () {
 			return lastInstantiatedWorld && lastInstantiatedWorld.tpf || 1;
 		}),
 		set: function () {
@@ -131,13 +132,13 @@ Object.defineProperties(World, {
 World.prototype._installDefaultSelectors = function () {
 	this.by.system = function (systemType) {
 		var system = this.getSystem(systemType);
-		return new EntitySelection(system._activeEntities);
+		return new EntitySelection_EntitySelection(system._activeEntities);
 	}.bind(this);
 
 	this.by.component = function (componentType) {
 		var entities = this.entityManager.getEntities();
 
-		return new EntitySelection(entities.filter(function (entity) {
+		return new EntitySelection_EntitySelection(entities.filter(function (entity) {
 			return entity.hasComponent(componentType);
 		}));
 	}.bind(this);
@@ -146,7 +147,7 @@ World.prototype._installDefaultSelectors = function () {
 	this.by.tag = function (tag) {
 		var entities = this.entityManager.getEntities();
 
-		return new EntitySelection(entities.filter(function (entity) {
+		return new EntitySelection_EntitySelection(entities.filter(function (entity) {
 			return entity.hasTag(tag);
 		}));
 	}.bind(this);
@@ -155,7 +156,7 @@ World.prototype._installDefaultSelectors = function () {
 	this.by.attribute = function (attribute) {
 		var entities = this.entityManager.getEntities();
 
-		return new EntitySelection(entities.filter(function (entity) {
+		return new EntitySelection_EntitySelection(entities.filter(function (entity) {
 			return entity.hasAttribute(attribute);
 		}));
 	}.bind(this);
@@ -182,13 +183,13 @@ World.prototype.add = function () {
 	for (var i = 0; i < arguments.length; i++) {
 		var argument = arguments[i];
 
-		if (argument instanceof Entity) {
+		if (argument instanceof Entity_Entity) {
 			this.addEntity(argument);
-		} else if (argument instanceof Manager) {
+		} else if (argument instanceof Manager_Manager) {
 			this.setManager(argument);
-		} else if (argument instanceof System) {
+		} else if (argument instanceof System_System) {
 			this.setSystem(argument);
-		} else if (argument instanceof Component) {
+		} else if (argument instanceof Component_Component) {
 			//! AT: TransformComponent and co and NOT instances of Component
 			this.registerComponent(argument);
 		}
@@ -213,7 +214,7 @@ World.prototype.add = function () {
 World.prototype.registerComponent = function (componentConstructor) {
 	if (this._components.indexOf(componentConstructor) === -1) {
 		this._components.push(componentConstructor);
-		Component.applyEntitySelectionAPI(componentConstructor.entitySelectionAPI, componentConstructor.type);
+		Component_Component.applyEntitySelectionAPI(componentConstructor.entitySelectionAPI, componentConstructor.type);
 	}
 	return this;
 };
@@ -322,7 +323,7 @@ World.prototype.clearSystem = function (type) {
  * @returns {Entity}
  */
 World.prototype.createEntity = function () {
-	var entity = new Entity(this);
+	var entity = new Entity_Entity(this);
 	for (var i = 0; i < arguments.length; i++) {
 		if (typeof arguments[i] === 'string') { // does not cover new String()
 			entity.name = arguments[i];
@@ -333,7 +334,7 @@ World.prototype.createEntity = function () {
 
 	// separate treatment
 	if (!entity.transformComponent) {
-		entity.setComponent(new TransformComponent());
+		entity.setComponent(new TransformComponent_TransformComponent());
 	}
 
 	return entity;
@@ -629,4 +630,13 @@ World.prototype.clear = function () {
 	}
 };
 
-module.exports = World;
+/**
+ * Main handler for an entity world. The World keeps track of managers and systems,
+ * and also provides methods to create, select and remove entities.
+ * Note that process() has to be called manually if objects need to be added and retrieved within the same update loop.
+ * See [this engine overview article]{@link http://www.gootechnologies.com/learn/tutorials/engine/engine-overview/} for more info.
+ * @param {object} [options]
+ * @param {GooRunner} [options.gooRunner]
+ * @param {boolean} [options.tpfSmoothingCount=10] Specifies the amount of previous frames to use when computing the 'time per frame'
+ */
+export { mod_World as World };

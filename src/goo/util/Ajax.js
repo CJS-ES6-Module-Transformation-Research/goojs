@@ -1,8 +1,13 @@
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
-var StringUtils = require('../util/StringUtils');
-var RSVP = require('../util/rsvp');
+import { loaders as TextureHandlerjs_loaders } from "../loaders/handlers/TextureHandler";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
+import { rsvpjs as RSVP } from "../util/rsvp";
+var types;
+var ENGINE_SHADER_PREFIX;
+var responseType;
+var crossOrigin;
+var ARRAY_BUFFER;
 
 /**
  * Ajax helper class
@@ -29,7 +34,7 @@ Ajax.prototype.prefill = function (bundle, clear) {
 	if (clear) {
 		this._cache = bundle;
 	} else {
-		ObjectUtils.extend(this._cache, bundle);
+		ObjectUtils_ObjectUtils.extend(this._cache, bundle);
 	}
 };
 
@@ -61,7 +66,7 @@ Ajax.prototype.get = function (options) {
 		request.responseType = options.responseType;
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var handleStateChange = function () {
 			if (request.readyState === 4) {
 				if (request.status >= 200 && request.status <= 299) {
@@ -80,13 +85,13 @@ Ajax.prototype.get = function (options) {
 	});
 };
 
-Ajax.ARRAY_BUFFER = 'arraybuffer';
+ARRAY_BUFFER = 'arraybuffer';
 
 /**
  * Allow cross-origin requests (CORS) for images.
  * @type {boolean} [crossOrigin=false]
  */
-Ajax.crossOrigin = false;
+crossOrigin = false;
 
 
 var MIME_TYPES = {
@@ -106,20 +111,20 @@ var MIME_TYPES = {
  */
 Ajax.prototype.load = function (path, reload) {
 	var that = this;
-	var path2 = StringUtils.parseURL(path).path;//! AT: dunno what to call this
+	var path2 = StringUtils_StringUtils.parseURL(path).path;//! AT: dunno what to call this
 	var type = path2.substr(path2.lastIndexOf('.') + 1).toLowerCase();
 
 	function typeInGroup(type, group) {
-		return type && Ajax.types[group] && Ajax.types[group][type];
+		return type && types[group] && types[group][type];
 	}
 
 	if (!path) {
-		PromiseUtils.reject('Path was undefined'); //! AT: no return?
+		PromiseUtils_PromiseUtils.reject('Path was undefined'); //! AT: no return?
 		// anyways, the engine should not call this method without a path
 	}
 
-	if (path.indexOf(Ajax.ENGINE_SHADER_PREFIX) === 0) {
-		return PromiseUtils.resolve();
+	if (path.indexOf(ENGINE_SHADER_PREFIX) === 0) {
+		return PromiseUtils_PromiseUtils.resolve();
 	}
 
 	if (this._cache[path] && !reload) {
@@ -129,7 +134,7 @@ Ajax.prototype.load = function (path, reload) {
 		if (this._cache[path] instanceof RSVP.Promise) {
 			return this._cache[path];
 		} else {
-			return PromiseUtils.resolve(this._cache[path]);
+			return PromiseUtils_PromiseUtils.resolve(this._cache[path]);
 		}
 	}
 
@@ -151,7 +156,7 @@ Ajax.prototype.load = function (path, reload) {
 	};
 
 	if (typeInGroup(type, 'binary')) {
-		ajaxProperties.responseType = Ajax.ARRAY_BUFFER;
+		responseType = ARRAY_BUFFER;;
 	}
 
 	return this._cache[path] = this.get(ajaxProperties)
@@ -172,7 +177,7 @@ Ajax.prototype.load = function (path, reload) {
 
 Ajax.prototype.update = function (path, config) {
 	this._cache[path] = config;
-	return PromiseUtils.resolve(config);
+	return PromiseUtils_PromiseUtils.resolve(config);
 };
 
 /**
@@ -188,11 +193,11 @@ Ajax.prototype.update = function (path, config) {
 Ajax.prototype._loadImage = function (url) {
 	window.URL = window.URL || window.webkitURL;
 	var image = new Image();
-	if (Ajax.crossOrigin) {
+	if (crossOrigin) {
 		image.crossOrigin = 'anonymous';
 	}
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var onLoad = function loadHandler() {
 			image.dataReady = true;
 			if (window.URL && window.URL.revokeObjectURL !== undefined) {
@@ -220,11 +225,11 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 	var VIDEO_LOAD_TIMEOUT = 1000; // Timeout to 'canplay' event.
 	var video = document.createElement('video');
 	var iOS = /(iPad|iPhone|iPod)/g.test(navigator.userAgent);
-	if (Ajax.crossOrigin) {
+	if (crossOrigin) {
 		video.crossOrigin = 'anonymous';
 	}
 
-	var promise = PromiseUtils.createPromise(function (resolve, reject) {
+	var promise = PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var timeout;
 
 		var _resolve = function () {
@@ -262,7 +267,7 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 
 	var ajaxProperties = {
 		url: url,
-		responseType: Ajax.ARRAY_BUFFER
+		responseType: ARRAY_BUFFER
 	};
 
 	this.get(ajaxProperties).then(function (request) {
@@ -277,7 +282,7 @@ Ajax.prototype._loadVideo = function (url, mimeType) {
 Ajax.prototype._loadAudio = function (url) {
 	var ajaxProperties = {
 		url: url,
-		responseType: Ajax.ARRAY_BUFFER
+		responseType: ARRAY_BUFFER
 	};
 	return this.get(ajaxProperties).then(function (request) {
 		return request.response;
@@ -288,7 +293,7 @@ Ajax.prototype._loadAudio = function (url) {
 };
 
 // TODO Put this somewhere nicer
-Ajax.ENGINE_SHADER_PREFIX = 'GOO_ENGINE_SHADERS/';
+ENGINE_SHADER_PREFIX = 'GOO_ENGINE_SHADERS/';
 
 function addKeys(obj, keys) {
 	for (var i = 0; i < keys.length; i++) {
@@ -297,7 +302,7 @@ function addKeys(obj, keys) {
 	return obj;
 }
 
-Ajax.types = {
+types = {
 	text: {
 		vert: true,
 		frag: true // + Scripts in the future
@@ -336,7 +341,7 @@ Ajax.types = {
 	binary: addKeys({
 		dat: true,
 		bin: true
-	}, Object.keys(TextureHandler.loaders)),
+	}, Object.keys(TextureHandlerjs_loaders)),
 	audio: {
 		mp3: true,
 		wav: true,
@@ -347,10 +352,10 @@ Ajax.types = {
 	}
 };
 
-Ajax.types.asset = addKeys(
+types.asset = addKeys(
 	{},
-	Object.keys(Ajax.types.image)
-		.concat(Object.keys(Ajax.types.binary))
+	Object.keys(types.image)
+		.concat(Object.keys(types.binary))
 );
 
-module.exports = Ajax;
+export { types, Ajax };

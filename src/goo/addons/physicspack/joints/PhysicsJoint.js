@@ -1,3 +1,4 @@
+var mod_PhysicsJoint = PhysicsJoint;
 /**
  * Base class for physics joints, for example hinge or balljoint.
  * @param {Object} [settings]
@@ -20,4 +21,10 @@ function PhysicsJoint(settings) {
 	this.collideConnected = settings.collideConnected !== undefined ? settings.collideConnected : false;
 }
 
-module.exports = PhysicsJoint;
+/**
+ * Base class for physics joints, for example hinge or balljoint.
+ * @param {Object} [settings]
+ * @param {Entity} [settings.connectedEntity]
+ * @param {boolean} [settings.collideConnected=false]
+ */
+export { mod_PhysicsJoint as PhysicsJoint };

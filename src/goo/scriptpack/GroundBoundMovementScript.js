@@ -1,6 +1,7 @@
-var Vector3 = require('../math/Vector3');
+var mod_GroundBoundMovementScript = GroundBoundMovementScript;
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
 
-var calcVec = new Vector3();
+var calcVec = new Vector3_Vector3();
 var _defaults = {
 	gravity: -9.81,
 	worldFloor: -Infinity,
@@ -24,20 +25,20 @@ function GroundBoundMovementScript(properties) {
 			this[key] = properties[key] !== undefined ? properties[key] === true : _defaults[key];
 		} else if (!isNaN(_defaults[key])) {
 			this[key] = !isNaN(properties[key]) ? properties[key] : _defaults[key];
-		} else if (_defaults[key] instanceof Vector3) {
-			this[key] = (properties[key]) ? new Vector3(properties[key]) : new Vector3().set(_defaults[key]);
+		} else if (_defaults[key] instanceof Vector3_Vector3) {
+			this[key] = (properties[key]) ? new Vector3_Vector3(properties[key]) : new Vector3_Vector3().set(_defaults[key]);
 		} else {
 			this[key] = properties[key] || _defaults[key];
 		}
 	}
 
 	this.groundContact = 1;
-	this.targetVelocity = new Vector3();
-	this.targetHeading = new Vector3();
-	this.acceleration = new Vector3();
-	this.torque = new Vector3();
+	this.targetVelocity = new Vector3_Vector3();
+	this.targetHeading = new Vector3_Vector3();
+	this.acceleration = new Vector3_Vector3();
+	this.torque = new Vector3_Vector3();
 	this.groundHeight = 0;
-	this.groundNormal = new Vector3();
+	this.groundNormal = new Vector3_Vector3();
 	this.controlState = {
 		run: 0,
 		strafe: 0,
@@ -310,4 +311,8 @@ GroundBoundMovementScript.prototype.run = function (entity) {
 	this.applyGroundContact(entity, transform);
 };
 
-module.exports = GroundBoundMovementScript;
+/**
+ * A script for handling basic movement and jumping over a terrain.
+ * The standard usage of this script will likely also need some input listener and camera handling.
+ */
+export { mod_GroundBoundMovementScript as GroundBoundMovementScript };

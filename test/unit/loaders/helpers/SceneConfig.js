@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+mod_SceneConfigjs = {
 	scene: function (complex) {
 		var entities = {};
 		var components = complex ? ['transform', 'meshRenderer', 'meshData', 'animation', 'camera', 'light'] : null;
@@ -75,3 +75,5 @@ module.exports = {
 		return config;
 	}
 };
+var mod_SceneConfigjs;
+export { mod_SceneConfigjs as SceneConfigjs };

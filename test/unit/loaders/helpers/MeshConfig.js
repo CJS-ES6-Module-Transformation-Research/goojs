@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+mod_MeshConfigjs = {
 	mesh: function () {
 		var config = this.gooObject('mesh', 'Dummy');
 		var samples = 3;
@@ -29,3 +29,5 @@ module.exports = {
 		return config;
 	}
 };
+var mod_MeshConfigjs;
+export { mod_MeshConfigjs as MeshConfigjs };

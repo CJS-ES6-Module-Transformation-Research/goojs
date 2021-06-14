@@ -1,5 +1,6 @@
-var Component = require('../../../entities/components/Component');
-var Collider = require('../../../addons/physicspack/colliders/Collider');
+var mod_AbstractColliderComponent = AbstractColliderComponent;
+import { Component as Component_Component } from "../../../entities/components/Component";
+import { Collider as Collider_Collider } from "../../../addons/physicspack/colliders/Collider";
 
 /**
  * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
@@ -9,7 +10,7 @@ var Collider = require('../../../addons/physicspack/colliders/Collider');
  * @extends Component
  */
 function AbstractColliderComponent(settings) {
-	Component.apply(this);
+	Component_Component.apply(this);
 
 	settings = settings || {};
 
@@ -48,7 +49,7 @@ function AbstractColliderComponent(settings) {
 	 */
 	this.material = settings.material !== undefined ? settings.material : null;
 }
-AbstractColliderComponent.prototype = Object.create(Component.prototype);
+AbstractColliderComponent.prototype = Object.create(Component_Component.prototype);
 AbstractColliderComponent.prototype.constructor = AbstractColliderComponent;
 
 /**
@@ -99,7 +100,7 @@ AbstractColliderComponent.prototype.detached = function (/*entity*/) {
  * @returns {boolean}
  */
 AbstractColliderComponent.applyOnEntity = function (obj, entity) {
-	if (obj instanceof Collider) {
+	if (obj instanceof Collider_Collider) {
 		entity.setComponent(new AbstractColliderComponent({
 			collider: obj
 		}));
@@ -109,4 +110,11 @@ AbstractColliderComponent.applyOnEntity = function (obj, entity) {
 
 AbstractColliderComponent.prototype.api = {};
 
-module.exports = AbstractColliderComponent;
+/**
+ * Adds a physics collider to the entity. If the entity or any of its ancestors have a {RigidBodyComponent}, the collider is added to the physics world.
+ * @param {Object} [settings]
+ * @param {Collider} [settings.collider]
+ * @param {boolean} [settings.isTrigger=false]
+ * @extends Component
+ */
+export { mod_AbstractColliderComponent as AbstractColliderComponent };

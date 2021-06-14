@@ -1,4 +1,5 @@
-var Collider = require('../../../addons/physicspack/colliders/Collider');
+var mod_CylinderCollider = CylinderCollider;
+import { Collider as Collider_Collider } from "../../../addons/physicspack/colliders/Collider";
 
 /**
  * Cylinder collider, that extends along the Z axis.
@@ -20,9 +21,9 @@ function CylinderCollider(settings) {
 	 */
 	this.height = settings.height !== undefined ? settings.height : 1;
 
-	Collider.call(this);
+	Collider_Collider.call(this);
 }
-CylinderCollider.prototype = Object.create(Collider.prototype);
+CylinderCollider.prototype = Object.create(Collider_Collider.prototype);
 CylinderCollider.prototype.constructor = CylinderCollider;
 
 /**
@@ -46,4 +47,11 @@ CylinderCollider.prototype.clone = function () {
 	});
 };
 
-module.exports = CylinderCollider;
+/**
+ * Cylinder collider, that extends along the Z axis.
+ * @param {Object} [settings]
+ * @param {number} [settings.radius=0.5]
+ * @param {number} [settings.height=1]
+ * @extends Collider
+ */
+export { mod_CylinderCollider as CylinderCollider };

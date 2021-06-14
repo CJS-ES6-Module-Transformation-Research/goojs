@@ -1,3 +1,4 @@
+var mod_LogicInterface = LogicInterface;
 /**
  * @private
  * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that
@@ -140,4 +141,9 @@ LogicInterface.assignPortDataName = function (port, dataname) {
  */
 LogicInterface._portID = 0;
 
-module.exports = LogicInterface;
+/**
+ * @private
+ * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that
+ *        implements logic.
+ */
+export { mod_LogicInterface as LogicInterface };

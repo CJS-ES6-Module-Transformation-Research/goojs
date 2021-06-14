@@ -1,14 +1,24 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Texture = require('../../renderer/Texture');
-var DdsLoader = require('../../loaders/dds/DdsLoader');
-var CrunchLoader = require('../../loaders/crunch/CrunchLoader');
-var TgaLoader = require('../../loaders/tga/TgaLoader');
-var PromiseUtils = require('../../util/PromiseUtils');
-var ObjectUtils = require('../../util/ObjectUtils');
-var CanvasUtils = require('../../util/CanvasUtils');
-var StringUtils = require('../../util/StringUtils');
-var SystemBus = require('../../entities/SystemBus');
-var MathUtils = require('../../math/MathUtils');
+import {
+    ConfigHandler as ConfigHandler_ConfigHandler,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../../loaders/handlers/ConfigHandler";
+
+import { Texture as Texture_Texture } from "../../renderer/Texture";
+import { DdsLoader as DdsLoader_DdsLoader } from "../../loaders/dds/DdsLoader";
+import { CrunchLoader as CrunchLoader_CrunchLoader } from "../../loaders/crunch/CrunchLoader";
+import { TgaLoader as TgaLoader_TgaLoader } from "../../loaders/tga/TgaLoader";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
+import { renderSvgToCanvas as CanvasUtilsjs_renderSvgToCanvas } from "../../util/CanvasUtils";
+import { StringUtils as StringUtils_StringUtils } from "../../util/StringUtils";
+import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
+import { isPowerOfTwo as MathUtilsjs_isPowerOfTwo } from "../../math/MathUtils";
+var BLACK;
+var WHITE;
+var loaders;
+var noMipMapAlternatives;
+var magFilters;
+var minFilters;
 
 /**
  * Handler for loading materials into engine
@@ -19,7 +29,7 @@ var MathUtils = require('../../math/MathUtils');
  * @private
  */
 function TextureHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 	SystemBus.addListener('playStateChanged', function (playState) {
 		this._objects.forEach(function (texture) {
 			if (texture.image && texture.image.play && texture.image.pause) {
@@ -37,11 +47,11 @@ function TextureHandler() {
 	}.bind(this));
 }
 
-TextureHandler.prototype = Object.create(ConfigHandler.prototype);
+TextureHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 TextureHandler.prototype.constructor = TextureHandler;
-ConfigHandler._registerClass('texture', TextureHandler);
+ConfigHandlerjs__registerClass('texture', TextureHandler);
 
-TextureHandler.minFilters = [
+minFilters = [
 	'NearestNeighborNoMipMaps',
 	'NearestNeighborNearestMipMap',
 	'NearestNeighborLinearMipMap',
@@ -50,12 +60,12 @@ TextureHandler.minFilters = [
 	'Trilinear'
 ];
 
-TextureHandler.magFilters = [
+magFilters = [
 	'NearestNeighbor',
 	'Bilinear'
 ];
 
-TextureHandler.noMipMapAlternatives = {
+noMipMapAlternatives = {
 	'NearestNeighborNoMipMaps': 'NearestNeighborNoMipMaps',
 	'NearestNeighborNearestMipMap': 'NearestNeighborNoMipMaps',
 	'NearestNeighborLinearMipMap': 'NearestNeighborNoMipMaps',
@@ -64,15 +74,15 @@ TextureHandler.noMipMapAlternatives = {
 	'Trilinear': 'BilinearNoMipMaps'
 };
 
-TextureHandler.loaders = {
-	dds: DdsLoader,
-	crn: CrunchLoader, // TODO: not working atm.
-	tga: TgaLoader
+loaders = {
+	dds: DdsLoader_DdsLoader,
+	crn: CrunchLoader_CrunchLoader, // TODO: not working atm.
+	tga: TgaLoader_TgaLoader
 };
 
 // Dummy textures to use while loading image
-TextureHandler.WHITE = new Uint8Array([255, 255, 255, 255]);
-TextureHandler.BLACK = new Uint8Array([0, 0, 0, 255]);
+WHITE = new Uint8Array([255, 255, 255, 255]);
+BLACK = new Uint8Array([0, 0, 0, 255]);
 
 /**
  * Preparing texture config by populating it with defaults.
@@ -80,7 +90,7 @@ TextureHandler.BLACK = new Uint8Array([0, 0, 0, 255]);
  * @private
  */
 TextureHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	ObjectUtils_ObjectUtils.defaults(config, {
 		wrapS: 'Repeat',
 		wrapT: 'Repeat',
 		magFilter: 'Bilinear',
@@ -113,7 +123,7 @@ TextureHandler.prototype._remove = function (ref) {
  * @private
  */
 TextureHandler.prototype._create = function () {
-	return new Texture();
+	return new Texture_Texture();
 };
 
 
@@ -128,12 +138,12 @@ TextureHandler.prototype._loadWebSupportedImage = function (texture, config, opt
 
 TextureHandler.prototype._loadSpecialImage = function (texture, config, type/*, options*/) {
 	// Special (dds, tga, crn)
-	var Loader = TextureHandler.loaders[type];
+	var Loader = loaders[type];
 	var imageRef = config.imageRef;
 	return this.loadObject(imageRef)
 	.then(function (data) {
 		if (data && data.preloaded) {
-			ObjectUtils.extend(texture.image, data.image);
+			ObjectUtils_ObjectUtils.extend(texture.image, data.image);
 			texture.format = data.format;
 			texture.setNeedsUpdate();
 			return texture;
@@ -151,7 +161,7 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 		video.height = video.videoHeight;
 		video.loop = config.loop !== undefined ? config.loop : true;
 
-		if (!(MathUtils.isPowerOfTwo(video.width) && MathUtils.isPowerOfTwo(video.height))) {
+		if (!(MathUtilsjs_isPowerOfTwo(video.width) && MathUtilsjs_isPowerOfTwo(video.height))) {
 			texture.generateMipmaps = false;
 			texture.minFilter = 'BilinearNoMipMaps';
 		}
@@ -172,9 +182,9 @@ TextureHandler.prototype._loadVideo = function (texture, config, options) {
 
 TextureHandler.prototype._loadImage = function (texture, config, options) {
 	var imageRef = config.imageRef;
-	var path = StringUtils.parseURL(imageRef).path;
+	var path = StringUtils_StringUtils.parseURL(imageRef).path;
 	var type = path.substr(path.lastIndexOf('.') + 1).toLowerCase();
-	if (TextureHandler.loaders[type]) {
+	if (loaders[type]) {
 		return this._loadSpecialImage(texture, config, type, options);
 	}
 	if (['jpg', 'jpeg', 'png', 'gif'].indexOf(type) !== -1) {
@@ -184,7 +194,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
 		return this._loadVideo(texture, config, options);
 	}
 
-	return PromiseUtils.reject(new Error('Unknown image type: ' + type));
+	return PromiseUtils_PromiseUtils.reject(new Error('Unknown image type: ' + type));
 };
 
 /**
@@ -196,7 +206,7 @@ TextureHandler.prototype._loadImage = function (texture, config, options) {
  */
 TextureHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
+	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (texture) {
 		if (!texture) { return; }
 		var ret;
 
@@ -208,13 +218,13 @@ TextureHandler.prototype._update = function (ref, config, options) {
 		texture.wrapT = config.wrapT;
 
 		// SH: Why do we need to check this?
-		if (TextureHandler.magFilters.indexOf(config.magFilter) !== -1) {
+		if (magFilters.indexOf(config.magFilter) !== -1) {
 			texture.magFilter = config.magFilter;
 		}
-		if (TextureHandler.minFilters.indexOf(config.minFilter) !== -1) {
+		if (minFilters.indexOf(config.minFilter) !== -1) {
 			texture.minFilter = config.generateMipmaps !== false ?
 				config.minFilter :
-				TextureHandler.noMipMapAlternatives[config.minFilter];
+				noMipMapAlternatives[config.minFilter];
 		}
 
 		texture.anisotropy = Math.max(config.anisotropy, 1);
@@ -246,8 +256,8 @@ TextureHandler.prototype._update = function (ref, config, options) {
 			}
 		} else if (config.svgData) {
 			// Load SVG data
-			ret = PromiseUtils.createPromise(function (resolve, reject) {
-				CanvasUtils.renderSvgToCanvas(config.svgData, {}, function (canvas) {
+			ret = PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
+				CanvasUtilsjs_renderSvgToCanvas(config.svgData, {}, function (canvas) {
 					if (canvas) {
 						texture.setImage(canvas);
 						resolve(texture);
@@ -270,4 +280,4 @@ TextureHandler.prototype._update = function (ref, config, options) {
 	});
 };
 
-module.exports = TextureHandler;
+export { loaders, TextureHandler };

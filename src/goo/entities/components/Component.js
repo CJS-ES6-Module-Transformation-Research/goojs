@@ -1,4 +1,5 @@
-var EntitySelection = require('../EntitySelection');
+var mod_Component = Component;
+import { EntitySelection as EntitySelection_EntitySelection } from "../EntitySelection";
 
 /**
  * Base class/module for all components. Should not be used directly.
@@ -89,12 +90,15 @@ Component.applyEntitySelectionAPI = function (entitySelectionAPI, componentType)
 	var keys = Object.keys(entitySelectionAPI);
 	for (var i = 0; i < keys.length; i++) {
 		var key = keys[i];
-		if (typeof EntitySelection[key] === 'undefined') {
-			EntitySelection.installMethod(entitySelectionAPI[key], key, componentType);
+		if (typeof EntitySelection_EntitySelection[key] === 'undefined') {
+			EntitySelection_EntitySelection.installMethod(entitySelectionAPI[key], key, componentType);
 		} else {
 			throw new Error('Could not install method ' + key + ' on EntitySelection as it is already taken');
 		}
 	}
 };
 
-module.exports = Component;
+/**
+ * Base class/module for all components. Should not be used directly.
+ */
+export { mod_Component as Component };

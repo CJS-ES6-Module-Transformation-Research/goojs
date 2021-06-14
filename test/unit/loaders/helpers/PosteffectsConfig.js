@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+mod_PosteffectsConfigjs = {
 	posteffects: function () {
 		var config = this.gooObject('posteffects', 'Dummy');
 		_.extend(config, {
@@ -18,3 +18,5 @@ module.exports = {
 		return config;
 	}
 };
+var mod_PosteffectsConfigjs;
+export { mod_PosteffectsConfigjs as PosteffectsConfigjs };

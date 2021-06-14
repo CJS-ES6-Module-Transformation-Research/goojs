@@ -1,10 +1,16 @@
-var Texture = require('../renderer/Texture');
-var MathUtils = require('../math/MathUtils');
-var TextureHandler = require('../loaders/handlers/TextureHandler');
-var Ajax = require('../util/Ajax');
-var StringUtils = require('../util/StringUtils');
-var PromiseUtils = require('../util/PromiseUtils');
-var RSVP = require('../util/rsvp');
+import { Texture as Texture_Texture } from "../renderer/Texture";
+import { isPowerOfTwo as MathUtilsjs_isPowerOfTwo } from "../math/MathUtils";
+import { TextureHandler as TextureHandler_TextureHandler } from "../loaders/handlers/TextureHandler";
+import { Ajax as Ajax_Ajax } from "../util/Ajax";
+import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+import { rsvpjs as RSVP } from "../util/rsvp";
+var DEFAULT_TEXTURE_CUBE;
+var DEFAULT_TEXTURE_2D;
+var TextureCreator__finishedLoading;
+var _globalCallback;
+var TextureCreator_clearCache;
+var UNSUPPORTED_FALLBACK;
 
 //! AT: shouldn't this stay in util?
 
@@ -13,8 +19,8 @@ var RSVP = require('../util/rsvp');
  * @param {Settings} settings Texturing settings
  */
 function TextureCreator() {
-	var ajax = this.ajax = new Ajax();
-	this.textureHandler = new TextureHandler(
+	var ajax = this.ajax = new Ajax_Ajax();
+	this.textureHandler = new TextureHandler_TextureHandler(
 		{},
 		function (ref, options) {
 			return ajax.load(ref, options ? options.noCache : false);
@@ -27,8 +33,8 @@ function TextureCreator() {
 }
 
 //! AT: unused?
-TextureCreator.UNSUPPORTED_FALLBACK = '.png';
-TextureCreator.clearCache = function () {};
+UNSUPPORTED_FALLBACK = '.png';
+TextureCreator_clearCache = function () {};
 
 /**
  * Releases any references to cached objects
@@ -51,7 +57,7 @@ TextureCreator.prototype.clear = function () {
  * });
  */
 TextureCreator.prototype.loadTexture2D = function (imageUrl, settings) {
-	var id = StringUtils.createUniqueId('texture');
+	var id = StringUtils_StringUtils.createUniqueId('texture');
 	settings = settings || {};
 	settings.imageRef = imageUrl;
 
@@ -77,7 +83,7 @@ TextureCreator.prototype.loadTexture2D = function (imageUrl, settings) {
  * });
  */
 TextureCreator.prototype.loadTextureVideo = function (videoURL, options) {
-	var id = StringUtils.createUniqueId('texture');
+	var id = StringUtils_StringUtils.createUniqueId('texture');
 	options = options || {};
 	options.imageRef = videoURL;
 	options.loop = options.loop !== undefined ? options.loop : true;
@@ -104,12 +110,12 @@ TextureCreator.prototype.loadTextureVideo = function (videoURL, options) {
  */
 TextureCreator.prototype.loadTextureWebCam = function () {
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		var video = document.createElement('video');
 		video.autoplay = true;
 		video.loop = true;
 
-		var texture = new Texture(video, {
+		var texture = new Texture_Texture(video, {
 			wrapS: 'EdgeClamp',
 			wrapT: 'EdgeClamp'
 		});
@@ -120,7 +126,7 @@ TextureCreator.prototype.loadTextureWebCam = function () {
 				video.height = video.videoHeight;
 
 				// set minification filter based on pow2
-				if (!(MathUtils.isPowerOfTwo(video.width) && MathUtils.isPowerOfTwo(video.height))) {
+				if (!(MathUtilsjs_isPowerOfTwo(video.width) && MathUtilsjs_isPowerOfTwo(video.height))) {
 					texture.generateMipmaps = false;
 					texture.minFilter = 'BilinearNoMipMaps';
 				}
@@ -160,11 +166,11 @@ TextureCreator.prototype.loadTextureWebCam = function () {
  * @returns {RSVP.Promise} A promise that will resolve with the resulting Texture
  */
 TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
-	var texture = new Texture(null, settings);
+	var texture = new Texture_Texture(null, settings);
 	texture.variant = 'CUBE';
 
 	var promises = imageDataArray.map(function (queryImage) {
-		return PromiseUtils.createPromise(function (resolve, reject) {
+		return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 			if (typeof queryImage === 'string') {
 				this.ajax._loadImage(queryImage).then(resolve, reject);
 			} else {
@@ -174,7 +180,7 @@ TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
 	}.bind(this));
 
 	return RSVP.all(promises).then(function (images) {
-		return PromiseUtils.createPromise(function (resolve, reject) {
+		return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 			var width = images[0].width;
 			var height = images[0].height;
 			for (var i = 0; i < 6; i++) {
@@ -198,11 +204,11 @@ TextureCreator.prototype.loadTextureCube = function (imageDataArray, settings) {
 };
 
 //! AT: unused
-TextureCreator._globalCallback = null;
-TextureCreator._finishedLoading = function (image) {
-	if (TextureCreator._globalCallback) {
+_globalCallback = null;
+TextureCreator__finishedLoading = function (image) {
+	if (_globalCallback) {
 		try {
-			TextureCreator._globalCallback(image);
+			_globalCallback(image);
 		} catch (e) {
 			console.error('Error in texture callback:', e);
 		}
@@ -211,8 +217,8 @@ TextureCreator._finishedLoading = function (image) {
 
 // Add Object.freeze when fast enough in browsers
 var colorInfo = new Uint8Array([255, 255, 255, 255]);
-TextureCreator.DEFAULT_TEXTURE_2D = new Texture(colorInfo, null, 1, 1);
-TextureCreator.DEFAULT_TEXTURE_CUBE = new Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
-TextureCreator.DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
+DEFAULT_TEXTURE_2D = new Texture_Texture(colorInfo, null, 1, 1);
+DEFAULT_TEXTURE_CUBE = new Texture_Texture([colorInfo, colorInfo, colorInfo, colorInfo, colorInfo, colorInfo], null, 1, 1);
+DEFAULT_TEXTURE_CUBE.variant = 'CUBE';
 
-module.exports = TextureCreator;
+export { DEFAULT_TEXTURE_2D, DEFAULT_TEXTURE_CUBE, TextureCreator };

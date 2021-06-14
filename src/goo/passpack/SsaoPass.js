@@ -1,23 +1,24 @@
-var Material = require('../renderer/Material');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var ObjectUtils = require('../util/ObjectUtils');
-var MeshData = require('../renderer/MeshData');
-var Shader = require('../renderer/Shader');
-var ShaderFragment = require('../renderer/shaders/ShaderFragment');
-var RenderPass = require('../renderer/pass/RenderPass');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var BlurPass = require('../passpack/BlurPass');
-var ShaderLibExtra = require('../passpack/ShaderLibExtra');
-var Pass = require('../renderer/pass/Pass');
+var mod_SsaoPass = SsaoPass;
+import { Material as Material_Material } from "../renderer/Material";
+import { RenderTarget as RenderTarget_RenderTarget } from "../renderer/pass/RenderTarget";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { Shader as Shader_Shader } from "../renderer/Shader";
+import { methods as ShaderFragmentjs_methods } from "../renderer/shaders/ShaderFragment";
+import { RenderPass as RenderPass_RenderPass } from "../renderer/pass/RenderPass";
+import { FullscreenPass as FullscreenPass_FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { BlurPass as BlurPass_BlurPass } from "../passpack/BlurPass";
+import { ShaderLibExtra as ShaderLibExtra_ShaderLibExtra } from "../passpack/ShaderLibExtra";
+import { Pass as Pass_Pass } from "../renderer/pass/Pass";
 
 /**
  * Screen Space Ambient Occlusion pass
  * @param renderList
  */
 function SsaoPass(renderList) {
-	this.depthPass = new RenderPass(renderList);
+	this.depthPass = new RenderPass_RenderPass(renderList);
 	this.depthPass.clearColor.setDirect(1, 1, 1, 1);
-	var packDepthMaterial = new Material(packDepth);
+	var packDepthMaterial = new Material_Material(packDepth);
 	this.depthPass.overrideMaterial = packDepthMaterial;
 
 	this.downsampleAmount = 4;
@@ -32,26 +33,26 @@ function SsaoPass(renderList) {
 	this.needsSwap = true;
 }
 
-SsaoPass.prototype = Object.create(Pass.prototype);
+SsaoPass.prototype = Object.create(Pass_Pass.prototype);
 SsaoPass.prototype.constructor = SsaoPass;
 
 SsaoPass.prototype.updateSize = function (size) {
 	var width = Math.floor(size.width / this.downsampleAmount);
 	var height = Math.floor(size.height / this.downsampleAmount);
-	var shader = ObjectUtils.deepClone(ShaderLibExtra.ssao);
+	var shader = ObjectUtils_ObjectUtils.deepClone(ShaderLibExtra_ShaderLibExtra.ssao);
 	shader.uniforms.size = [width, height];
-	this.outPass = new FullscreenPass(shader);
+	this.outPass = new FullscreenPass_FullscreenPass(shader);
 	this.outPass.useReadBuffer = false;
 //			 this.outPass.clear = true;
 //			this.outPass.renderToScreen = true;
 
-	this.blurPass = new BlurPass({
+	this.blurPass = new BlurPass_BlurPass({
 		sizeX: width,
 		sizeY: height
 	});
 //			this.blurPass.needsSwap = true;
 
-	this.depthTarget = new RenderTarget(width, height, {
+	this.depthTarget = new RenderTarget_RenderTarget(width, height, {
 		magFilter: 'NearestNeighbor',
 		minFilter: 'NearestNeighborNoMipMaps'
 	});
@@ -63,19 +64,19 @@ SsaoPass.prototype.render = function (renderer, writeBuffer, readBuffer, delta) 
 
 	// this.blurPass.render(renderer, this.depthTarget, this.depthTarget, delta);
 
-	this.outPass.material.setTexture(Shader.DIFFUSE_MAP, readBuffer);
-	this.outPass.material.setTexture(Shader.DEPTH_MAP, this.depthTarget);
+	this.outPass.material.setTexture(Shader_Shader.DIFFUSE_MAP, readBuffer);
+	this.outPass.material.setTexture(Shader_Shader.DEPTH_MAP, this.depthTarget);
 	this.outPass.render(renderer, writeBuffer, readBuffer, delta);
 };
 
 var packDepth = {
 	attributes: {
-		vertexPosition: MeshData.POSITION
+		vertexPosition: MeshData_MeshData.POSITION
 	},
 	uniforms: {
-		viewMatrix: Shader.VIEW_MATRIX,
-		projectionMatrix: Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX
+		viewMatrix: Shader_Shader.VIEW_MATRIX,
+		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX
 //				nearPlane: Shader.NEAR_PLANE,
 //				farPlane: Shader.FAR_PLANE
 	},
@@ -96,7 +97,7 @@ var packDepth = {
 //				'uniform float nearPlane;',
 //				'uniform float farPlane;',
 
-		ShaderFragment.methods.packDepth,
+		ShaderFragmentjs_methods.packDepth,
 
 		'void main(void) {',
 		'	gl_FragColor = packDepth(gl_FragCoord.z);',
@@ -104,4 +105,8 @@ var packDepth = {
 	].join('\n')
 };
 
-module.exports = SsaoPass;
+/**
+ * Screen Space Ambient Occlusion pass
+ * @param renderList
+ */
+export { mod_SsaoPass as SsaoPass };

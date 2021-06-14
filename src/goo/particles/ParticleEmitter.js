@@ -1,6 +1,11 @@
-var ParticleUtils = require('../particles/ParticleUtils');
-var Renderer = require('../renderer/Renderer');
-var ObjectUtil = require('../util/ObjectUtil');
+import {
+    applyEntityTransformPoint as ParticleUtilsjs_applyEntityTransformPoint,
+    applyEntityTransformVector as ParticleUtilsjs_applyEntityTransformVector,
+} from "../particles/ParticleUtils";
+
+import { mainCamera as Rendererjs_mainCamera } from "../renderer/Renderer";
+import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
+var ParticleEmitter_CAMERA_BILLBOARD_FUNC;
 
 /**
  * A Particle Emitter spawns particles - controlling spawn rate, lifetime, initial velocity vector and position of each particle.
@@ -25,14 +30,14 @@ function ParticleEmitter(options) {
 		getEmissionPoint: function (particle, particleEntity) {
 			var vec3 = particle.position;
 			vec3.setDirect(0, 0, 0);
-			return ParticleUtils.applyEntityTransformPoint(vec3, particleEntity);
+			return ParticleUtilsjs_applyEntityTransformPoint(vec3, particleEntity);
 		},
 		getEmissionVelocity: function (particle, particleEntity) {
 			var vec3 = particle.velocity;
 			vec3.setDirect(0, 1, 0);
-			return ParticleUtils.applyEntityTransformVector(vec3, particleEntity);
+			return ParticleUtilsjs_applyEntityTransformVector(vec3, particleEntity);
 		},
-		getParticleBillboardVectors: ParticleEmitter.CAMERA_BILLBOARD_FUNC,
+		getParticleBillboardVectors: ParticleEmitter_CAMERA_BILLBOARD_FUNC,
 		releaseRatePerSecond: 10,
 		enabled: true
 	});
@@ -46,8 +51,8 @@ function ParticleEmitter(options) {
  * @param particle
  */
 // Was: function (particle, particleEntity)
-ParticleEmitter.CAMERA_BILLBOARD_FUNC = function (particle) {
-	var camera = Renderer.mainCamera;
+ParticleEmitter_CAMERA_BILLBOARD_FUNC = function (particle) {
+	var camera = Rendererjs_mainCamera;
 	if (camera) {
 		particle.bbX.set(camera._left);
 		particle.bbY.set(camera._up);
@@ -64,4 +69,4 @@ ParticleEmitter.prototype.nextParticleLifeSpan = function () {
 	return this.minLifetime + (this.maxLifetime - this.minLifetime) * Math.random();
 };
 
-module.exports = ParticleEmitter;
+export { ParticleEmitter };

@@ -1,5 +1,6 @@
-var Shader = require('../renderer/Shader');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_Material = Material;
+import { Shader as Shader_Shader } from "../renderer/Shader";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * A Material defines the look of an object
@@ -251,7 +252,7 @@ Material.prototype.clone = function (options) {
 	if (options.shareUniforms) {
 		clone.uniforms = this.uniforms;
 	} else {
-		clone.uniforms = ObjectUtils.deepClone(this.uniforms);
+		clone.uniforms = ObjectUtils_ObjectUtils.deepClone(this.uniforms);
 	}
 
 	if (options.shareTextures) {
@@ -306,7 +307,7 @@ Material.prototype.clone = function (options) {
  */
 Material.createShader = function (shaderDefinition, name) {
 	//! AT: function has parameters in reverse order than the constructor
-	var shader = new Shader(name || null, shaderDefinition);
+	var shader = new Shader_Shader(name || null, shaderDefinition);
 	if (shader.name === null) {
 		shader.name = 'DefaultShader' + shader._id;
 	}
@@ -356,4 +357,9 @@ Material.prototype.empty = function () {
 	this.uniforms = {};
 };
 
-module.exports = Material;
+/**
+ * A Material defines the look of an object
+ * @param {string} [name='Default Material'] Material name
+ * @param {{ vshader, fshader }} [shaderDefinition] Optional shader to associate with the material
+ */
+export { mod_Material as Material };

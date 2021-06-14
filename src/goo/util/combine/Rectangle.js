@@ -1,3 +1,4 @@
+var mod_Rectangle = Rectangle;
 /**
  * Rectangle
  * @hidden
@@ -13,4 +14,12 @@ function Rectangle(x, y, w, h) {
 	this.h = h;
 }
 
-module.exports = Rectangle;
+/**
+ * Rectangle
+ * @hidden
+ * @param {number} x
+ * @param {number} y
+ * @param {number} w Width
+ * @param {number} h Height
+ */
+export { mod_Rectangle as Rectangle };

@@ -1,4 +1,5 @@
-var MeshData = require('../renderer/MeshData');
+var mod_SimpleBox = SimpleBox;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
 
 /**
  * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
@@ -19,13 +20,13 @@ function SimpleBox(width, height, length) {
 	this.yExtent = height !== undefined ? height * 0.5 : 0.5;
 	this.zExtent = length !== undefined ? length * 0.5 : 0.5;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
-	MeshData.call(this, attributeMap, 8, 36);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
+	MeshData_MeshData.call(this, attributeMap, 8, 36);
 
 	this.rebuild();
 }
 
-SimpleBox.prototype = Object.create(MeshData.prototype);
+SimpleBox.prototype = Object.create(MeshData_MeshData.prototype);
 SimpleBox.prototype.constructor = SimpleBox;
 
 /**
@@ -37,7 +38,7 @@ SimpleBox.prototype.rebuild = function () {
 	var yExtent = this.yExtent;
 	var zExtent = this.zExtent;
 
-	this.getAttributeBuffer(MeshData.POSITION).set([
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set([
 		-xExtent, -yExtent, -zExtent,
 		xExtent, -yExtent, -zExtent,
 		xExtent,  yExtent, -zExtent,
@@ -81,4 +82,11 @@ SimpleBox.prototype.clone = function () {
 	return new SimpleBox(options);
 };
 
-module.exports = SimpleBox;
+/**
+ * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii) from that center.
+ * @extends MeshData
+ * @param {number} [width=1] Total width of box.
+ * @param {number} [height=1] Total height of box.
+ * @param {number} [length=1] Total length of box.
+ */
+export { mod_SimpleBox as SimpleBox };

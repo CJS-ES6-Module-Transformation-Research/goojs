@@ -1,4 +1,6 @@
-var Ray = require('../../math/Ray');
+import { Ray as Ray_Ray } from "../../math/Ray";
+var BoundingPicker_pickFromList;
+var BoundingPicker_pick;
 
 /**
  * BoundingPicker
@@ -6,14 +8,14 @@ var Ray = require('../../math/Ray');
 function BoundingPicker() {
 }
 
-var pickRay = new Ray();
+var pickRay = new Ray_Ray();
 
-BoundingPicker.pick = function (world, camera, x, y) {
+BoundingPicker_pick = function (world, camera, x, y) {
 	var entities = world.entityManager.getEntities();
-	return BoundingPicker.pickFromList(world, entities, camera, x, y);
+	return BoundingPicker_pickFromList(world, entities, camera, x, y);
 };
 
-BoundingPicker.pickFromList = function (world, entities, camera, x, y) {
+BoundingPicker_pickFromList = function (world, entities, camera, x, y) {
 	var renderer = world.gooRunner.renderer;
 	camera.getPickRay(x, y, renderer.domElement.offsetWidth, renderer.domElement.offsetHeight, pickRay);
 	// var dpx = renderer.devicePixelRatio;
@@ -44,4 +46,4 @@ BoundingPicker.pickFromList = function (world, entities, camera, x, y) {
 	return pickList;
 };
 
-module.exports = BoundingPicker;
+export { BoundingPicker_pick as pick, BoundingPicker };

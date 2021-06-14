@@ -1,5 +1,6 @@
-var AudioContext = require('../sound/AudioContext');
-var MathUtils = require('../math/MathUtils');
+import { AudioContextjs as AudioContext } from "../sound/AudioContext";
+import { clamp as MathUtilsjs_clamp } from "../math/MathUtils";
+var TYPES;
 
 function OscillatorSound() {
 	// Settings
@@ -30,7 +31,7 @@ OscillatorSound.prototype.play = function () {
 
 OscillatorSound.prototype.update = function (config) {
 	if (config.volume !== undefined) {
-		this._volume = MathUtils.clamp(config.volume, 0, 1);
+		this._volume = MathUtilsjs_clamp(config.volume, 0, 1);
 		this._outNode.gain.value = this._volume;
 	}
 	if (config.frequency !== undefined) {
@@ -39,7 +40,7 @@ OscillatorSound.prototype.update = function (config) {
 			this._oscNode.frequency.value = this._frequency;
 		}
 	}
-	if (config.type !== undefined && OscillatorSound.TYPES.indexOf(config.type) !== -1) {
+	if (config.type !== undefined && TYPES.indexOf(config.type) !== -1) {
 		this._type = config.type;
 		if (this._oscNode) {
 			this._oscNode.type = this._type;
@@ -68,12 +69,10 @@ OscillatorSound.prototype.connectTo = function (nodes) {
 	}
 };
 
-OscillatorSound.TYPES = [
+TYPES = [
 	'sine',
 	'square',
 	'sawtooth',
 	'triangle',
 	'custom'
 ];
-
-module.exports = OscillatorSound;

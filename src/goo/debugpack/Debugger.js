@@ -1,5 +1,6 @@
-var MarkerComponent = require('./components/MarkerComponent');
-var MarkerSystem = require('./systems/MarkerSystem');
+var mod_Debugger = Debugger;
+import { MarkerComponent as MarkerComponent_MarkerComponent } from "./components/MarkerComponent";
+import { MarkerSystem as MarkerSystem_MarkerSystem } from "./systems/MarkerSystem";
 
 //! AT: unused; should be removed
 /**
@@ -90,7 +91,7 @@ Debugger.prototype.inject = function (goo) {
 
 	// adding marker system if there is none
 	if (!this.goo.world.getSystem('MarkerSystem')) {
-		this.goo.world.setSystem(new MarkerSystem(this.goo));
+		this.goo.world.setSystem(new MarkerSystem_MarkerSystem(this.goo));
 	}
 
 	this._setUpPicking();
@@ -243,14 +244,14 @@ function updateMarker(picked, oldPicked) {
 			oldPicked.clearComponent('MarkerComponent');
 		}
 		if (picked !== null) {
-			picked.setComponent(new MarkerComponent(picked));
+			picked.setComponent(new MarkerComponent_MarkerComponent(picked));
 		}
 	}
 	else {
 		if (picked.hasComponent('MarkerComponent')) {
 			picked.clearComponent('MarkerComponent');
 		} else {
-			picked.setComponent(new MarkerComponent(picked));
+			picked.setComponent(new MarkerComponent_MarkerComponent(picked));
 		}
 	}
 }
@@ -272,4 +273,10 @@ function displayInfo(entity) {
 	elem.value = entityStr;
 }
 
-module.exports = Debugger;
+//! AT: unused; should be removed
+/**
+ * The debugger utility class adds a way to "select" entities and run a filtered serializer on them. It can also create a REPL and export the selected entity to global scope to aid in debugging with the browser's web console.
+ * @param {boolean} [exportPicked] True if the debugger should create and update window.picked that points to the currently picked entity
+ * @param {boolean} [maximumDeph] True if the debugger should come with it's own REPL
+ */
+export { mod_Debugger as Debugger };

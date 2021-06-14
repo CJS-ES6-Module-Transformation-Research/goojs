@@ -1,3 +1,6 @@
+var ParticleLib_getSnow;
+var ParticleLib_getFire;
+var ParticleLib_getSmoke;
 /**
  * Library of particles
  * @example-link http://code.gooengine.com/latest/visual-test/goo/misc/ParticleLib/ParticleLib-vtest.html Working example
@@ -7,7 +10,7 @@ function ParticleLib() {}
 /**
  * Returns a set of parameters for a smoke particle emitter
  */
-ParticleLib.getSmoke = function (options) {
+ParticleLib_getSmoke = function (options) {
 	options = options || {};
 	options.scale = typeof options.scale !== 'undefined' ? options.scale : 1;
 	options.spread = typeof options.spread !== 'undefined' ? options.spread : 2;
@@ -46,7 +49,7 @@ ParticleLib.getSmoke = function (options) {
 /**
  * Returns a set of parameters for a fire particle emitter
  */
-ParticleLib.getFire = function (options) {
+ParticleLib_getFire = function (options) {
 	options = options || {};
 	options.scale = typeof options.scale !== 'undefined' ? options.scale : 1;
 	options.spread = typeof options.spread !== 'undefined' ? options.spread : 2;
@@ -90,7 +93,7 @@ ParticleLib.getFire = function (options) {
 /**
  * Returns a set of parameters for a snow particle emitter
  */
-ParticleLib.getSnow = function (options) {
+ParticleLib_getSnow = function (options) {
 	options = options || {};
 	options.scale = typeof options.scale !== 'undefined' ? options.scale : 2;
 	options.spread = typeof options.spread !== 'undefined' ? options.spread : 50;
@@ -134,4 +137,4 @@ ParticleLib.getSnow = function (options) {
 	};
 };
 
-module.exports = ParticleLib;
+export { ParticleLib_getSmoke as getSmoke, ParticleLib_getFire as getFire, ParticleLib_getSnow as getSnow, ParticleLib };

@@ -1,4 +1,5 @@
-var FsmUtils = require('../../../fsmpack/statemachine/FsmUtils');
+var mod_Action = Action;
+import { FsmUtils as FsmUtils_FsmUtils } from "../../../fsmpack/statemachine/FsmUtils";
 
 /**
  * @param {string} id
@@ -12,8 +13,8 @@ function Action(id, settings) {
 
 /* this should be called by the constructor and by the handlers when new options are loaded */
 Action.prototype.configure = function (settings) {
-	FsmUtils.setParameters.call(this, settings, this.constructor.external.parameters);
-	FsmUtils.setTransitions.call(this, settings, this.constructor.external.transitions);
+	FsmUtils_FsmUtils.setParameters.call(this, settings, this.constructor.external.parameters);
+	FsmUtils_FsmUtils.setTransitions.call(this, settings, this.constructor.external.transitions);
 };
 
 /* this gets executed on enter - called once, when the host state becomes active */
@@ -36,4 +37,9 @@ Action.prototype.ready = function (/*fsm*/) {
 Action.prototype.cleanup = function (/*fsm*/) {
 };
 
-module.exports = Action;
+/**
+ * @param {string} id
+ * @param {Object} settings
+ * @private
+ */
+export { mod_Action as Action };

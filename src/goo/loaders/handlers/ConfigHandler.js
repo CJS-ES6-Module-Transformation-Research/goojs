@@ -1,5 +1,9 @@
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+import { rsvpjs as RSVP } from "../../util/rsvp";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
+var ConfigHandler__registerClass;
+var ConfigHandler_getHandler;
+var handlerClasses;
+var ConfigHandler_getTypeForRef;
 
 /**
  * Base class for resource handlers, used to load all types of resources into the engine.
@@ -70,10 +74,10 @@ ConfigHandler.prototype.load = function (ref, options) {
 		options = {};
 	}
 
-	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (this._loading.has(ref) && !(options.instantiate && ConfigHandler_getTypeForRef(ref) === 'machine')) {
 		return this._loading.get(ref);
 	} else if (this._objects.has(ref) && !options.reload) {
-		return PromiseUtils.resolve(this._objects.get(ref));
+		return PromiseUtils_PromiseUtils.resolve(this._objects.get(ref));
 	} else {
 		var promise = this.getConfig(ref, options).then(function (config) {
 			return this.update(ref, config, options);
@@ -122,36 +126,36 @@ ConfigHandler.prototype.update = function (ref, config, options) {
 	return promise;
 };
 
-ConfigHandler.getTypeForRef = function (ref) {
+ConfigHandler_getTypeForRef = function (ref) {
 	return ref.substr(ref.lastIndexOf('.') + 1).toLowerCase();
 };
 
 ConfigHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref, options);
-		return PromiseUtils.resolve();
+		return PromiseUtils_PromiseUtils.resolve();
 	}
 
 	if (!options) {
 		options = {};
 	}
 
-	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler.getTypeForRef(ref) === 'machine')) {
+	if (!this._objects.has(ref) || (options.instantiate && ConfigHandler_getTypeForRef(ref) === 'machine')) {
 		this._objects.set(ref, this._create());
 	}
 	this._prepare(config);
-	return PromiseUtils.resolve(this._objects.get(ref));
+	return PromiseUtils_PromiseUtils.resolve(this._objects.get(ref));
 };
 
-ConfigHandler.handlerClasses = {};
+handlerClasses = {};
 
 /**
  * Get a handler class for the specified type of resource. The resource can be e.g. 'texture', 'mesh', etc.
  * @param {string} type
  * @returns {Class} A subclass of {ConfigHandler}, or null if no registered handler for the given type was found.
  */
-ConfigHandler.getHandler = function (type) {
-	return ConfigHandler.handlerClasses[type];
+ConfigHandler_getHandler = function (type) {
+	return handlerClasses[type];
 };
 
 /**
@@ -159,9 +163,9 @@ ConfigHandler.getHandler = function (type) {
  * @param {string} type
  * @param {Class} klass the class to register for this component type
  */
-ConfigHandler._registerClass = function (type, klass) {
+ConfigHandler__registerClass = function (type, klass) {
 	klass._type = type;
-	return ConfigHandler.handlerClasses[type] = klass;
+	return handlerClasses[type] = klass;
 };
 
-module.exports = ConfigHandler;
+export { ConfigHandler_getHandler as getHandler, ConfigHandler__registerClass as _registerClass, ConfigHandler };

@@ -1,6 +1,16 @@
-var Vector3 = require('../math/Vector3');
-var MathUtils = require('../math/MathUtils');
-var GameUtils = require('../util/GameUtils');
+var mod_MouseLookControlScript = MouseLookControlScript;
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+
+import {
+    DEG_TO_RAD as MathUtilsjs_DEG_TO_RAD,
+    clamp as MathUtilsjs_clamp,
+    radialClamp as MathUtilsjs_radialClamp,
+} from "../math/MathUtils";
+
+import {
+    requestPointerLock as GameUtilsjs_requestPointerLock,
+    exitPointerLock as GameUtilsjs_exitPointerLock,
+} from "../util/GameUtils";
 
 var allButtons = ['Any', 'Left', 'Middle', 'Right', 'None'];
 
@@ -29,7 +39,7 @@ function MouseLookControlScript() {
 	// Helps attaching the lock if we failed in .setup().
 	function mouseDownToRequestPointerLock() {
 		if (!hasPointerLock) {
-			GameUtils.requestPointerLock();
+			GameUtilsjs_requestPointerLock();
 		}
 	}
 
@@ -90,7 +100,7 @@ function MouseLookControlScript() {
 		var domElement = environment.domElement;
 		if (button === 3) {
 			document.addEventListener('pointerlockchange', pointerLockChange);
-			GameUtils.requestPointerLock();
+			GameUtilsjs_requestPointerLock();
 			document.addEventListener('mousemove', documentMouseMove);
 			document.addEventListener('mousemove', documentMouseUp);
 			domElement.addEventListener('mousedown', mouseDownToRequestPointerLock);
@@ -100,7 +110,7 @@ function MouseLookControlScript() {
 		domElement.addEventListener('mousedown', mouseDown);
 		domElement.addEventListener('mouseup', mouseUp);
 
-		angles = new Vector3();
+		angles = new Vector3_Vector3();
 		var rotation = environment.entity.transformComponent.transform.rotation;
 		rotation.toAngles(angles);
 		_initialAzimuth = angles.y;
@@ -119,15 +129,15 @@ function MouseLookControlScript() {
 		var pitch = angles.x;
 		var yaw = angles.y;
 
-		var maxAscent = parameters.maxAscent * MathUtils.DEG_TO_RAD;
-		var minAscent = parameters.minAscent * MathUtils.DEG_TO_RAD;
-		pitch = MathUtils.clamp(pitch - deltaY * parameters.speed / 200, minAscent, maxAscent);
+		var maxAscent = parameters.maxAscent * MathUtilsjs_DEG_TO_RAD;
+		var minAscent = parameters.minAscent * MathUtilsjs_DEG_TO_RAD;
+		pitch = MathUtilsjs_clamp(pitch - deltaY * parameters.speed / 200, minAscent, maxAscent);
 
-		var maxAzimuth = parameters.maxAzimuth * MathUtils.DEG_TO_RAD - _initialAzimuth;
-		var minAzimuth = parameters.minAzimuth * MathUtils.DEG_TO_RAD - _initialAzimuth;
+		var maxAzimuth = parameters.maxAzimuth * MathUtilsjs_DEG_TO_RAD - _initialAzimuth;
+		var minAzimuth = parameters.minAzimuth * MathUtilsjs_DEG_TO_RAD - _initialAzimuth;
 		yaw -= deltaX * parameters.speed / 200;
 		if (parameters.clampAzimuth) {
-			yaw = MathUtils.radialClamp(yaw, minAzimuth, maxAzimuth);
+			yaw = MathUtilsjs_radialClamp(yaw, minAzimuth, maxAzimuth);
 		}
 
 		rotation.fromAngles(pitch, yaw, 0);
@@ -139,7 +149,7 @@ function MouseLookControlScript() {
 	function cleanup(parameters, environment) {
 		var domElement = environment.domElement;
 		if (button === 3) {
-			GameUtils.exitPointerLock();
+			GameUtilsjs_exitPointerLock();
 			document.removeEventListener('mousemove', documentMouseMove);
 			document.removeEventListener('pointerlockchange', pointerLockChange);
 			domElement.removeEventListener('mousedown', mouseDownToRequestPointerLock);
@@ -227,4 +237,4 @@ MouseLookControlScript.externals = {
 	]
 };
 
-module.exports = MouseLookControlScript;
+export { mod_MouseLookControlScript as MouseLookControlScript };

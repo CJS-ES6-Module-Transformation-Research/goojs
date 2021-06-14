@@ -1,13 +1,14 @@
-var Shader = require('../renderer/Shader');
-var ShaderLib = require('../renderer/shaders/ShaderLib');
-var MeshData = require('../renderer/MeshData');
-var RenderTarget = require('../renderer/pass/RenderTarget');
-var FullscreenPass = require('../renderer/pass/FullscreenPass');
-var Pass = require('../renderer/pass/Pass');
+var mod_MotionBlurPass = MotionBlurPass;
+import { Shader as Shader_Shader } from "../renderer/Shader";
+import { ShaderLib as ShaderLib_ShaderLib } from "../renderer/shaders/ShaderLib";
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { RenderTarget as RenderTarget_RenderTarget } from "../renderer/pass/RenderTarget";
+import { FullscreenPass as FullscreenPass_FullscreenPass } from "../renderer/pass/FullscreenPass";
+import { Pass as Pass_Pass } from "../renderer/pass/Pass";
 
 function MotionBlurPass() {
-	this.inPass = new FullscreenPass(blendShader);
-	this.outPass = new FullscreenPass(ShaderLib.copyPure);
+	this.inPass = new FullscreenPass_FullscreenPass(blendShader);
+	this.outPass = new FullscreenPass_FullscreenPass(ShaderLib_ShaderLib.copyPure);
 
 	var width = window.innerWidth || 1024;
 	var height = window.innerHeight || 1024;
@@ -22,7 +23,7 @@ function MotionBlurPass() {
 	this.needsSwap = true;
 }
 
-MotionBlurPass.prototype = Object.create(Pass.prototype);
+MotionBlurPass.prototype = Object.create(Pass_Pass.prototype);
 MotionBlurPass.prototype.constructor = MotionBlurPass;
 
 MotionBlurPass.prototype.destroy = function (renderer) {
@@ -53,8 +54,8 @@ MotionBlurPass.prototype.updateSize = function (size, renderer) {
 	}
 
 	this.targetSwap = [
-		new RenderTarget(sizeX, sizeY),
-		new RenderTarget(sizeX, sizeY)
+		new RenderTarget_RenderTarget(sizeX, sizeY),
+		new RenderTarget_RenderTarget(sizeX, sizeY)
 	];
 };
 
@@ -75,15 +76,15 @@ var blendShader = {
 		}
 	}],
 	attributes: {
-		vertexPosition: MeshData.POSITION,
-		vertexUV0: MeshData.TEXCOORD0
+		vertexPosition: MeshData_MeshData.POSITION,
+		vertexUV0: MeshData_MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader.WORLD_MATRIX,
+		viewProjectionMatrix: Shader_Shader.VIEW_PROJECTION_MATRIX,
+		worldMatrix: Shader_Shader.WORLD_MATRIX,
 		blend: 0.90,
 		scale: 1.0,
-		diffuseMap: Shader.DIFFUSE_MAP,
+		diffuseMap: Shader_Shader.DIFFUSE_MAP,
 		motionMap: 'MOTION_MAP'
 	},
 	vshader: [
@@ -122,4 +123,4 @@ var blendShader = {
 	].join('\n')
 };
 
-module.exports = MotionBlurPass;
+export { mod_MotionBlurPass as MotionBlurPass };
