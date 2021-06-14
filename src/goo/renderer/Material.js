@@ -184,7 +184,9 @@ Material.prototype.getTexture = function (name) {
  * @param {string} name Name of texture slot to remove
  */
 Material.prototype.removeTexture = function (name) {
-	delete this._textureMaps[name];
+	
+	// delete this._textureMaps[name];
+	this._textureMaps[name] = null;
 };
 
 /**

@@ -208,7 +208,9 @@ Entity.prototype.clearComponent = function (type) {
 		this._components.splice(index, 1);
 
 		// removing from entity
-		delete this[typeAttributeName];
+		
+		// delete this[typeAttributeName];
+		this[typeAttributeName] = null;
 
 		// notifying the world of the change
 		if (this._world && this._world.entityManager.containsEntity(this)) {

@@ -77,7 +77,9 @@ Component.prototype.applyAPI = function (entity) {
  */
 Component.prototype.removeAPI = function (entity) {
 	this.installedAPI.forEach(function (key) {
-		delete entity[key];
+		
+		// delete entity[key];
+		entity[key] = null;
 	});
 };
 

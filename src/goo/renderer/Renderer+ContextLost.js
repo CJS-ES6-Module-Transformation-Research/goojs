@@ -44,7 +44,9 @@ Renderer.prototype.invalidateRenderTarget = function (renderTarget) {
 	renderTarget.glTexture = null;
 	renderTarget._glRenderBuffer = null;
 	renderTarget._glFrameBuffer = null;
-	delete renderTarget.textureRecord;
+
+	// delete renderTarget.textureRecord;
+	renderTarget.textureRecord = null;
 };
 
 Renderer.prototype.invalidateComposer = function (composer) {

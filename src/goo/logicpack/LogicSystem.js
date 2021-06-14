@@ -24,7 +24,10 @@ LogicSystem.prototype.inserted = function (entity) {
 };
 
 LogicSystem.prototype.deleted = function (entity) {
-	delete this._entities[entity.name];
+	
+	// delete this._entities[entity.name];
+	this._entities[entity.name] = null;
+
 };
 
 LogicSystem.prototype.process = function (entities, tpf) {

@@ -55,7 +55,9 @@ StateMachineComponent.prototype.defineVariable = function (name, initialValue) {
 };
 
 StateMachineComponent.prototype.removeVariable = function (name) {
-	delete this.vars[name];
+	
+	// delete this.vars[name];
+	this.vars[name] = null;
 };
 
 StateMachineComponent.applyOnVariable = function (name, fun) {
@@ -75,8 +77,10 @@ StateMachineComponent.prototype.addMachine = function (machine) {
 
 StateMachineComponent.prototype.removeMachine = function (machine) {
 	machine.recursiveRemove();
-	ArrayUtils.remove(this._machines, machine);
-	delete this._machinesById[machine.id];
+	ArrayUtils.remove(this._machines, machine);4
+
+	// delete this._machinesById[machine.id];
+	this._machinesById[machine.id] = null;
 };
 
 /**

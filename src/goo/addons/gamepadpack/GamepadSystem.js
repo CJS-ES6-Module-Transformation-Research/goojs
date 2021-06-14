@@ -48,7 +48,10 @@ GamepadSystem.prototype.mozGamepadHandler = function (event, connecting) {
 		this.gamepads[gamepad.index] = gamepad;
 		this.checkGamepadMapping(gamepad);
 	} else {
-		delete this.gamepads[gamepad.index];
+
+		// delete this.gamepads[gamepad.index];
+
+		this.gamepads[gamepad.index] = null;
 	}
 };
 

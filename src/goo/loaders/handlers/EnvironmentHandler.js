@@ -126,7 +126,10 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 		} else if (EnvironmentHandler.currentSkyboxRef) {
 			var p = that.updateObject(EnvironmentHandler.currentSkyboxRef, null)
 			.then(function () {
-				delete EnvironmentHandler.currentSkyboxRef;
+
+				// delete EnvironmentHandler.currentSkyboxRef;
+				EnvironmentHandler.currentSkyboxRef = null;
+
 			});
 			promises.push(p);
 		}
@@ -167,14 +170,19 @@ EnvironmentHandler.weatherHandlers = {
 				// remove snow
 				weatherState.snow.snow.remove();
 				weatherState.snow.enabled = false;
-				delete weatherState.snow.snow;
+
+				// delete weatherState.snow.snow;
+				weatherState.snow.snow = null;
 			}
 		},
 		remove: function (weatherState) {
 			if (weatherState.snow && weatherState.snow.snow) {
 				weatherState.snow.snow.remove();
 				weatherState.snow.enabled = false;
-				delete weatherState.snow.snow;
+				
+				// delete weatherState.snow.snow;
+				weatherState.snow.snow = null;
+
 			}
 		}
 	}

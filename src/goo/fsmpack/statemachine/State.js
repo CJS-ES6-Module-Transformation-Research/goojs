@@ -53,7 +53,10 @@ function State(uuid) {
 			this.vars[name] = initialValue;
 		}.bind(this),
 		removeVariable: function (name) {
-			delete this.vars[name];
+
+			// delete this.vars[name];
+			this.vars[name] = null;
+
 		}.bind(this),
 		getVariable: function (name) {
 			if (this.vars[name] !== undefined) {
@@ -125,7 +128,9 @@ State.prototype.setTransition = function (eventName, target) {
 };
 
 State.prototype.clearTransition = function (eventName) {
-	delete this._transitions[eventName];
+
+	// delete this._transitions[eventName];
+	this._transitions[eventName] = null;
 };
 
 State.prototype.enter = function () {

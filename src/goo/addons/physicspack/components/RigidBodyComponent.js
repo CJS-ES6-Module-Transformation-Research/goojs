@@ -586,7 +586,10 @@ RigidBodyComponent.prototype.destroy = function () {
 	var body = this.cannonBody;
 	if (body) {
 		body.world.removeBody(body);
-		delete this._system._entities[body.id];
+
+		// delete this._system._entities[body.id];
+		this._system._entities[body.id] = null;
+
 		body.shapes.forEach(function (shape) {
 			this._system._shapeIdToColliderEntityMap.delete(shape.id);
 		}.bind(this));

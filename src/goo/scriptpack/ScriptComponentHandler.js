@@ -65,7 +65,9 @@ ScriptComponentHandler.prototype._updateScriptInstance = function (component, in
 				// Re-use the parameters object, but clean it before updating it.
 				var keys = Object.keys(newScript.parameters);
 				for (var i=0; i<keys.length; i++) {
-					delete newScript.parameters[keys[i]];
+
+					// delete newScript.parameters[keys[i]];
+					newScript.parameters[keys[i]] = null;
 				}
 			} else {
 				newScript.parameters = {};

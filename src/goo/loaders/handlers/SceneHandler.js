@@ -134,7 +134,10 @@ SceneHandler.prototype._addEntities = function (scene, entities) {
 SceneHandler.prototype._removeEntities = function (scene, entities) {
 	entities.forEach(function (entity) {
 		entity.removeFromWorld();
-		delete scene.entities[entity.id];
+
+		// delete scene.entities[entity.id];
+		scene.entities[entity.id] = null;
+
 	});
 };
 

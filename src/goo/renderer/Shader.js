@@ -509,7 +509,10 @@ Shader.prototype.compile = function (renderer) {
 				var slot = this.textureSlots[i];
 				if (slot.name === key) {
 					this.textureSlots.splice(i, 1);
-					delete this.textureSlotsNaming[slot.name];
+
+					// delete this.textureSlotsNaming[slot.name];
+					this.textureSlotsNaming[slot.name] = null;
+
 					for (; i < l - 1; i++) {
 						this.textureSlots[i].index--;
 					}

@@ -58,7 +58,9 @@ ScriptHandler.prototype._remove = function (ref) {
 		}
 	}
 	this._objects.delete(ref);
-	delete this._bodyCache[ref];
+
+	// delete this._bodyCache[ref];
+	this._bodyCache[ref] = null;
 };
 
 var updateId = 1; // Ugly hack to prevent devtools from not updating its scripts
@@ -75,7 +77,9 @@ ScriptHandler.prototype._updateFromCustom = function (script, config) {
 	// No change, do nothing
 	if (this._bodyCache[config.id] === config.body) { return script; }
 
-	delete script.errors;
+	// delete script.errors;
+	script.errors = null;
+	
 	this._bodyCache[config.id] = config.body;
 
 	// delete the old script tag and add a new one
@@ -346,7 +350,9 @@ ScriptHandler.prototype._addDependency = function (script, url, scriptId) {
 
 	var promise = loadExternalScript(script, scriptElem, url)
 		.then(function () {
-			delete that._dependencyPromises[url];
+
+			// delete that._dependencyPromises[url];
+			that._dependencyPromises[url] = null;
 		});
 
 	this._dependencyPromises[url] = promise;
@@ -364,7 +370,9 @@ ScriptHandler.prototype._update = function (ref, config, options) {
 		var addDependencyPromises = [];
 
 		if (isCustomScript(config) && config.dependencies) {
-			delete script.dependencyErrors;
+
+			// delete script.dependencyErrors;
+			script.dependencyErrors = null;
 
 			// Get all the script HTML elements which refer to the current
 			// script. As we add dependencies, we remove the script elements
@@ -518,7 +526,10 @@ ScriptHandler.prototype._addGlobalErrorListener = function () {
 			if (oldScriptElement) {
 				oldScriptElement.parentNode.removeChild(oldScriptElement);
 			}
-			delete window._gooScriptFactories[that._currentScriptLoading];
+
+			// delete window._gooScriptFactories[that._currentScriptLoading];
+			window._gooScriptFactories[that._currentScriptLoading] = null;
+
 			var script = that._objects.get(that._currentScriptLoading);
 			var error = {
 				message: evt.message,

@@ -110,7 +110,10 @@ Dom3dComponentHandler.prototype.update = function (entity, config, options) {
 				return htmlImage;
 			}, function (e) {
 				console.error(e);
-				delete htmlImage.src;
+
+				// delete htmlImage.src;
+				htmlImage.src = null;
+
 				return htmlImage;
 			});
 		}

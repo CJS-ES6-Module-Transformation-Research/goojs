@@ -46,7 +46,9 @@ LogicNode.prototype.addToLogicLayer = function (logicLayer, withId) {
 		}
 
 		// this prevents duplicate adding.
-		delete this.connections;
+
+		// delete this.connections;
+		this.connections = null;
 	}
 };
 

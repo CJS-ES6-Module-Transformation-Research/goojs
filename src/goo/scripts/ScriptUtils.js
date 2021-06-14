@@ -191,7 +191,9 @@ ScriptUtils.fillDefaultValues = function (parameters, specs) {
 	//! AT: when does this ever happen?
 	for (var key in parameters) {
 		if (keys.indexOf(key) === -1 && key !== 'enabled') {
-			delete parameters[key];
+
+			// delete parameters[key];
+			parameters[key] = null;
 		}
 	}
 };

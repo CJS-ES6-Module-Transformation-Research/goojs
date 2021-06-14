@@ -82,7 +82,9 @@ Light.prototype.destroy = function (renderer) {
 			shadowSettings.shadowData.shadowBlurred.destroy(renderer.context);
 		}
 	}
-	delete shadowSettings.shadowData;
+
+	// delete shadowSettings.shadowData;
+	shadowSettings.shadowData = null;
 };
 
 // should be overridable by light type (some may have more/less allocated resources)

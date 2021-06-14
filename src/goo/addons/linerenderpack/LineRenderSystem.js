@@ -160,7 +160,9 @@ LineRenderSystem.prototype.clear = function () {
 		var lineRenderer = this._lineRenderers[i];
 		lineRenderer._remove();
 	}
-	delete this._lineRenderers;
+
+	// delete this._lineRenderers;
+	this._lineRenderers = null;
 
 	this.world.gooRunner.renderer.clearShaderCache();
 };

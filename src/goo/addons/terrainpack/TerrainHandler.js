@@ -411,8 +411,12 @@ TerrainHandler.prototype.useLightmap = function (data, size) {
 		this.lightMapSize = size;
 		this.terrain.setLightmapTexture(lightMap);
 	} else {
-		delete this.lightMapData;
-		delete this.lightMapSize;
+
+		// delete this.lightMapData;
+		// delete this.lightMapSize;
+
+		this.lightMapData = null;
+		this.lightMapSize = null;
 		this.terrain.setLightmapTexture();
 	}
 };
@@ -433,8 +437,12 @@ TerrainHandler.prototype.useLightmap = function (data, size) {
 		this.lightMapSize = size;
 		this.terrain.setLightmapTexture(lightMap);
 	} else {
-		delete this.lightMapData;
-		delete this.lightMapSize;
+
+		// delete this.lightMapData;
+		// delete this.lightMapSize;
+		this.lightMapData = null;
+		this.lightMapSize = null;
+
 		this.terrain.setLightmapTexture();
 	}
 };

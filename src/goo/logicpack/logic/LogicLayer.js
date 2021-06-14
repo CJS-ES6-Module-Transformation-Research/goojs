@@ -56,8 +56,12 @@ LogicLayer.prototype.addInterfaceInstance = function (iface, instance, name, wan
 	// also supply self-destructing code
 	var _this = this;
 	instDesc.remove = function () {
-		delete this.outConnections;
-		delete _this._logicInterfaces[name];
+		
+		// delete this.outConnections;
+		// delete _this._logicInterfaces[name];
+
+		this.outConnections = null;
+		_this._logicInterfaces[name] = null;
 
 		// nice n^2 algo here to remove all instances.
 		_this.unresolveAllConnections();
@@ -194,7 +198,9 @@ LogicLayer.doConnections = function (instDesc, portID, func) {
 	}
 
 	if (cArr.length === 0) {
-		delete instDesc.outConnections;
+
+		// delete instDesc.outConnections;
+		instDesc.outConnections = null;
 	}
 
 	// Connections can be encountered as unresolved [x, y] or resolved [x, y, z, w].

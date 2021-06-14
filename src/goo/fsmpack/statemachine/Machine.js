@@ -135,7 +135,9 @@ Machine.prototype.removeState = function (id) {
 	if (this.currentState === this._states[id]) {
 		this.reset();
 	}
-	delete this._states[id];
+	
+	// delete this._states[id];
+	this._states[id] = null;
 };
 
 Machine.prototype.setInitialState = function (initialState) {

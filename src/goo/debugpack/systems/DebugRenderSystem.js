@@ -58,7 +58,9 @@ DebugRenderSystem.prototype.inserted = function (/*entity*/) {
 };
 
 DebugRenderSystem.prototype.deleted = function (entity) {
-	delete this._renderablesTree[entity.id];
+	
+	// delete this._renderablesTree[entity.id];
+	this._renderablesTree[entity.id] = null;
 };
 
 DebugRenderSystem.prototype.process = function (entities, tpf) {
