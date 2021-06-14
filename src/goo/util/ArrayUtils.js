@@ -1,3 +1,4 @@
+var mod_ArrayUtils = ArrayUtils;
 /**
  * Utilities for arrays and typed arrays
  */
@@ -114,4 +115,7 @@ ArrayUtils.fromValues = function (collection) {
 	return array;
 };
 
-module.exports = ArrayUtils;
+/**
+ * Utilities for arrays and typed arrays
+ */
+export { mod_ArrayUtils as ArrayUtils };

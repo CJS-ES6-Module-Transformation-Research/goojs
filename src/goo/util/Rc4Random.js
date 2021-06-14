@@ -1,3 +1,4 @@
+var mod_Rc4Random = Rc4Random;
 /**
  * Rc4 random generator with seeding
  */
@@ -44,4 +45,7 @@ function Rc4Random(seed) {
 	};
 }
 
-module.exports = Rc4Random;
+/**
+ * Rc4 random generator with seeding
+ */
+export { mod_Rc4Random as Rc4Random };

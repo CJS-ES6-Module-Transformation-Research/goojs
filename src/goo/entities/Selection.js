@@ -1,3 +1,4 @@
+var mod_Selection = Selection;
 /**
  * Generic selection class
  */
@@ -355,4 +356,7 @@ function toArray() {
 	}
 }
 
-module.exports = Selection;
+/**
+ * Generic selection class
+ */
+export { mod_Selection as Selection };

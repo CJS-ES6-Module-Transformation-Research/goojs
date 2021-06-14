@@ -1,3 +1,4 @@
+var mod_RotationScript = RotationScript;
 function RotationScript() {
 	var mouseState, actualState, entity;
 
@@ -54,4 +55,4 @@ RotationScript.externals = {
 	}]
 };
 
-module.exports = RotationScript;
+export { mod_RotationScript as RotationScript };

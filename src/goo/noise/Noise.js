@@ -1,4 +1,10 @@
-var MathUtils = require('../math/MathUtils');
+import { scurve5 as MathUtilsjs_scurve5 } from "../math/MathUtils";
+var Noise_fractal4d;
+var Noise_fractal3d;
+var Noise_fractal2d;
+var Noise_fractal1d;
+var Noise_split;
+var shifter;
 
 /**
  * A base class for procedural noise functions.
@@ -6,7 +12,7 @@ var MathUtils = require('../math/MathUtils');
  */
 function Noise() {}
 
-Noise.shifter = [
+shifter = [
 	0x25, 0x5B, 0x0C, 0x80, 0xD8, 0x60, 0x33, 0x99, 0x27, 0xE7, 0xDF, 0xB4, 0xA0, 0x9D, 0x87, 0xB3,
 	0x4A, 0x32, 0xCD, 0x97, 0x04, 0xD5, 0xC4, 0x3A, 0xD4, 0x78, 0x35, 0x2D, 0x0A, 0xC3, 0x89, 0x9F,
 	0x67, 0x90, 0x6D, 0xAA, 0xCA, 0x30, 0x79, 0x0D, 0xF5, 0x44, 0xE8, 0x1C, 0xD2, 0xAE, 0xC5, 0x50,
@@ -31,9 +37,9 @@ Noise.shifter = [
  * @param {Float} x Input value.
  * @returns {Object} Object containing 'i0', 'i1', 'f0' and 'f1' members. (Integer, Integer, Float, Float)
  */
-Noise.split = function (x) {
+Noise_split = function (x) {
 	var i = Math.floor(x);
-	var f = MathUtils.scurve5(x - i);
+	var f = MathUtilsjs_scurve5(x - i);
 
 	return { 'i0': i + 0, 'i1': i + 1, 'f0': 1.0 - f, 'f1': 0.0 + f };
 };
@@ -48,7 +54,7 @@ Noise.split = function (x) {
  * @param {Noise} type Name of noise class extending from Noise.
  * @returns {Float} Noise value.
  */
-Noise.fractal1d = function (x, scale, octaves, persistance, lacunarity, type) {
+Noise_fractal1d = function (x, scale, octaves, persistance, lacunarity, type) {
 	var result = 0.0;
 	var amplitude = 1.0;
 	var normalizer = 0.0;
@@ -74,7 +80,7 @@ Noise.fractal1d = function (x, scale, octaves, persistance, lacunarity, type) {
  * @param {Noise} type Name of noise class extending from Noise.
  * @returns {Float} Noise value.
  */
-Noise.fractal2d = function (x, y, scale, octaves, persistance, lacunarity, type) {
+Noise_fractal2d = function (x, y, scale, octaves, persistance, lacunarity, type) {
 	var result = 0.0;
 	var amplitude = 1.0;
 	var normalizer = 0.0;
@@ -102,7 +108,7 @@ Noise.fractal2d = function (x, y, scale, octaves, persistance, lacunarity, type)
  * @param {Noise} type Name of noise class extending from Noise.
  * @returns {Float} Noise value.
  */
-Noise.fractal3d = function (x, y, z, scale, octaves, persistance, lacunarity, type) {
+Noise_fractal3d = function (x, y, z, scale, octaves, persistance, lacunarity, type) {
 	var result = 0.0;
 	var amplitude = 1.0;
 	var normalizer = 0.0;
@@ -132,7 +138,7 @@ Noise.fractal3d = function (x, y, z, scale, octaves, persistance, lacunarity, ty
  * @param {Noise} type Name of noise class extending from Noise.
  * @returns {Float} Noise value.
  */
-Noise.fractal4d = function (x, y, z, w, scale, octaves, persistance, lacunarity, type) {
+Noise_fractal4d = function (x, y, z, w, scale, octaves, persistance, lacunarity, type) {
 	var result = 0.0;
 	var amplitude = 1.0;
 	var normalizer = 0.0;
@@ -150,4 +156,4 @@ Noise.fractal4d = function (x, y, z, w, scale, octaves, persistance, lacunarity,
 	return result / normalizer;
 };
 
-module.exports = Noise;
+export { shifter, Noise_split as split, Noise_fractal2d as fractal2d, Noise };

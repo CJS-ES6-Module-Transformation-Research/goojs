@@ -1,22 +1,22 @@
-var Machine = require('../../../../src/goo/fsmpack/statemachine/Machine');
-var State = require('../../../../src/goo/fsmpack/statemachine/State');
-var StateMachineComponent = require('../../../../src/goo/fsmpack/statemachine/StateMachineComponent');
+import { Machine as Machine_Machine } from "../../../../src/goo/fsmpack/statemachine/Machine";
+import { State as State_State } from "../../../../src/goo/fsmpack/statemachine/State";
+import { StateMachineComponent as StateMachineComponent_StateMachineComponent } from "../../../../src/goo/fsmpack/statemachine/StateMachineComponent";
 
 describe('StateMachineComponent', function () {
 	var stateMachineComponent;
 	beforeEach(function () {
-		stateMachineComponent = new StateMachineComponent();
+		stateMachineComponent = new StateMachineComponent_StateMachineComponent();
 	});
 
 	it('can run enter on initialisation on all machines', function () {
 		var gotData1 = 0, gotData2 = 0;
 
 		// set up machine 1
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		stateMachineComponent.addMachine(machine1);
 
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		machine1.addState(state1);
 
 		state1.addAction({
@@ -28,11 +28,11 @@ describe('StateMachineComponent', function () {
 
 
 		// set up machine 2
-		var machine2 = new Machine();
+		var machine2 = new Machine_Machine();
 		machine2.asyncMode = true;
 		stateMachineComponent.addMachine(machine2);
 
-		var state2 = new State('entry');
+		var state2 = new State_State('entry');
 		machine2.addState(state2);
 
 		state2.addAction({
@@ -55,10 +55,10 @@ describe('StateMachineComponent', function () {
 		var gotData1 = 0, gotData2 = 0;
 
 		// set up machine 1
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 
-		var state1 = new State('first');
+		var state1 = new State_State('first');
 		state1.addAction({
 			ready: function () {},
 			enter: function () { gotData1 += 123; },
@@ -66,7 +66,7 @@ describe('StateMachineComponent', function () {
 			update: function () {}
 		});
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		state2.addAction({
 			ready: function () {},
 			enter: function () { gotData2 += 234; },
@@ -91,7 +91,7 @@ describe('StateMachineComponent', function () {
 		var gotData1 = 0, gotData2 = 0;
 
 		// set up machine 1
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		state1.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -99,20 +99,20 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData1 += 123; }
 		});
 
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		machine1.addState(state1);
 
 
 		// set up machine 2
-		var state2 = new State('entry');
+		var state2 = new State_State('entry');
 		state2.addAction({
 			ready: function () {},
 			enter: function () {},
 			exit: function () {},
 			update: function () { gotData2 += 234; }
 		});
-		var machine2 = new Machine();
+		var machine2 = new Machine_Machine();
 		machine2.asyncMode = true;
 		machine2.addState(state2);
 
@@ -134,10 +134,10 @@ describe('StateMachineComponent', function () {
 		var gotData1 = 0, gotData2 = 0, gotData3 = 0;
 
 		// set up machine 1
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		machine1.addState(state1);
 		state1.addAction({
 			ready: function () {},
@@ -147,7 +147,7 @@ describe('StateMachineComponent', function () {
 		});
 		state1.setTransition('toSecond', 'second');
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		machine1.addState(state2);
 		state2.addAction({
 			ready: function () {},
@@ -177,7 +177,7 @@ describe('StateMachineComponent', function () {
 		var gotData1 = 0, gotData2 = 0, gotData3 = 0, gotData4 = 0, gotData5 = 0;
 
 		// set up machine 1
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		state1.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -186,7 +186,7 @@ describe('StateMachineComponent', function () {
 		});
 		state1.setTransition('toSecond', 'second');
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		state2.addAction({
 			ready: function () {},
 			enter: function () { gotData2 += 234; },
@@ -195,7 +195,7 @@ describe('StateMachineComponent', function () {
 		});
 
 
-		var state21 = new State('third');
+		var state21 = new State_State('third');
 		state21.addAction({
 			ready: function () {},
 			enter: function () { gotData4 += 456; },
@@ -203,13 +203,13 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData5 += 567; }
 		});
 
-		var machine11 = new Machine();
+		var machine11 = new Machine_Machine();
 		machine11.asyncMode = true;
 		machine11.addState(state21);
 
 		state2.addMachine(machine11);
 
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		machine1.addState(state1);
 		machine1.addState(state2);
@@ -237,7 +237,7 @@ describe('StateMachineComponent', function () {
 		var gotData1 = 0, gotData2 = 0, gotData3 = 0, gotData4 = 0;
 
 		// set up machine 1
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		state1.addAction({
 			ready: function () {},
 			enter: function () { gotData1 += 123; },
@@ -246,7 +246,7 @@ describe('StateMachineComponent', function () {
 		});
 		state1.setTransition('toSecond', 'second');
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		state2.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -254,7 +254,7 @@ describe('StateMachineComponent', function () {
 			update: function () {}
 		});
 
-		var state21 = new State('third');
+		var state21 = new State_State('third');
 		state21.addAction({
 			ready: function () {},
 			enter: function () { gotData3 += 345; },
@@ -263,13 +263,13 @@ describe('StateMachineComponent', function () {
 		});
 		state21.setTransition('toEntry', 'entry');
 
-		var machine11 = new Machine();
+		var machine11 = new Machine_Machine();
 		machine11.asyncMode = true;
 		machine11.addState(state21);
 
 		state2.addMachine(machine11);
 
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		machine1.addState(state1);
 		machine1.addState(state2);
@@ -296,7 +296,7 @@ describe('StateMachineComponent', function () {
 		var gotData = [0, 0, 0, 0, 0, 0];
 
 		// set up machine 1
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		state1.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -317,7 +317,7 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData[5] += 678; }
 		});
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		state2.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -325,7 +325,7 @@ describe('StateMachineComponent', function () {
 			update: function () {}
 		});
 
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		machine1.addState(state1);
 		machine1.addState(state2);
@@ -354,7 +354,7 @@ describe('StateMachineComponent', function () {
 		var gotData = [0, 0, 0, 0, 0, 0, 0];
 
 		// set up machine 1
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		state1.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -363,7 +363,7 @@ describe('StateMachineComponent', function () {
 		});
 		state1.setTransition('toSecond', 'second');
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		state2.addAction({
 			ready: function () {},
 			enter: function () { gotData[1] += 234; },
@@ -371,7 +371,7 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData[2] += 345; }
 		});
 		// {
-		var state21 = new State('third');
+		var state21 = new State_State('third');
 		state21.addAction({
 			ready: function () {},
 			enter: function () { gotData[3] += 456; },
@@ -379,7 +379,7 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData[4] += 567; }
 		});
 		// {
-		var state211 = new State('fourth');
+		var state211 = new State_State('fourth');
 		state211.addAction({
 			ready: function () {},
 			enter: function () { gotData[5] += 678; },
@@ -387,17 +387,17 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData[6] += 789; }
 		});
 
-		var machine111 = new Machine();
+		var machine111 = new Machine_Machine();
 		machine111.asyncMode = true;
 		machine111.addState(state211);
 		state21.addMachine(machine111);
 
-		var machine11 = new Machine();
+		var machine11 = new Machine_Machine();
 		machine11.asyncMode = true;
 		machine11.addState(state21);
 		state2.addMachine(machine11);
 
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		machine1.addState(state1);
 		machine1.addState(state2);
@@ -427,7 +427,7 @@ describe('StateMachineComponent', function () {
 		var gotData = [0, 0, 0, 0, 0, 0, 0];
 
 		// set up machine 1
-		var state1 = new State('entry');
+		var state1 = new State_State('entry');
 		state1.addAction({
 			ready: function () {},
 			enter: function () { gotData[0] += 123; },
@@ -436,7 +436,7 @@ describe('StateMachineComponent', function () {
 		});
 		state1.setTransition('toSecond', 'second');
 
-		var state2 = new State('second');
+		var state2 = new State_State('second');
 		state2.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -444,7 +444,7 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData[3] += 456; }
 		});
 		// {
-		var state21 = new State('third');
+		var state21 = new State_State('third');
 		state21.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -452,7 +452,7 @@ describe('StateMachineComponent', function () {
 			update: function () { gotData[5] += 678; }
 		});
 		// {
-		var state211 = new State('fourth');
+		var state211 = new State_State('fourth');
 		state211.addAction({
 			ready: function () {},
 			enter: function () {},
@@ -461,17 +461,17 @@ describe('StateMachineComponent', function () {
 		});
 		state211.setTransition('toEntry', 'entry');
 
-		var machine111 = new Machine();
+		var machine111 = new Machine_Machine();
 		machine111.asyncMode = true;
 		machine111.addState(state211);
 		state21.addMachine(machine111);
 
-		var machine11 = new Machine();
+		var machine11 = new Machine_Machine();
 		machine11.asyncMode = true;
 		machine11.addState(state21);
 		state2.addMachine(machine11);
 
-		var machine1 = new Machine();
+		var machine1 = new Machine_Machine();
 		machine1.asyncMode = true;
 		machine1.addState(state1);
 		machine1.addState(state2);

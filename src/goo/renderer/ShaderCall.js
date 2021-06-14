@@ -1,3 +1,4 @@
+var mod_ShaderCall = ShaderCall;
 /**
  * Makes sure shader calls are not done when already set
  */
@@ -367,4 +368,7 @@ ShaderCall.prototype.uniformMatrix4fv = function (matrix, transpose) {
 	this.context.uniformMatrix4fv(this.location, transpose, matrix.data);
 };
 
-module.exports = ShaderCall;
+/**
+ * Makes sure shader calls are not done when already set
+ */
+export { mod_ShaderCall as ShaderCall };

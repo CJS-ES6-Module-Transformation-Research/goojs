@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
+var mod_WaitAction = WaitAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
 
 /**
  * @private
  * @extends Action
  */
 function WaitAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 
 	/**
 	 * Current time, in milliseconds.
@@ -22,7 +23,7 @@ function WaitAction(/*id, settings*/) {
 	this.completed = false;
 }
 
-WaitAction.prototype = Object.create(Action.prototype);
+WaitAction.prototype = Object.create(Action_Action.prototype);
 WaitAction.prototype.constructor = WaitAction;
 
 WaitAction.external = {
@@ -68,4 +69,8 @@ WaitAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = WaitAction;
+/**
+ * @private
+ * @extends Action
+ */
+export { mod_WaitAction as WaitAction };

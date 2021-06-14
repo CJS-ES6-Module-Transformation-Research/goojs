@@ -1,6 +1,7 @@
-var System = require('../../entities/systems/System');
-var TextureGrid = require('../../shapes/TextureGrid');
-var MeshDataComponent = require('../../entities/components/MeshDataComponent');
+var mod_TextSystem = TextSystem;
+import { System as System_System } from "../../entities/systems/System";
+import { fromString as TextureGridjs_fromString } from "../../shapes/TextureGrid";
+import { MeshDataComponent as MeshDataComponent_MeshDataComponent } from "../../entities/components/MeshDataComponent";
 
 /**
  * Processes all entities with a text component<br>
@@ -8,10 +9,10 @@ var MeshDataComponent = require('../../entities/components/MeshDataComponent');
  * @extends System
  */
 function TextSystem() {
-	System.call(this, 'TextSystem', ['TextComponent']);
+	System_System.call(this, 'TextSystem', ['TextComponent']);
 }
 
-TextSystem.prototype = Object.create(System.prototype);
+TextSystem.prototype = Object.create(System_System.prototype);
 TextSystem.prototype.constructor = TextSystem;
 
 TextSystem.prototype.process = function (entities) {
@@ -20,11 +21,11 @@ TextSystem.prototype.process = function (entities) {
 		var textComponent = entity.textComponent;
 		if (textComponent.dirty) {
 			if (entity.hasComponent('MeshDataComponent')) {
-				entity.getComponent('MeshDataComponent').meshData = TextureGrid.fromString(textComponent.text);
+				entity.getComponent('MeshDataComponent').meshData = TextureGridjs_fromString(textComponent.text);
 			}
 			else {
-				var meshData = TextureGrid.fromString(textComponent.text);
-				var meshDataComponent = new MeshDataComponent(meshData);
+				var meshData = TextureGridjs_fromString(textComponent.text);
+				var meshDataComponent = new MeshDataComponent_MeshDataComponent(meshData);
 				entity.setComponent(meshDataComponent);
 			}
 			this.dirty = false;
@@ -32,4 +33,9 @@ TextSystem.prototype.process = function (entities) {
 	}
 };
 
-module.exports = TextSystem;
+/**
+ * Processes all entities with a text component<br>
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/components/TextComponent/TextComponent-vtest.html Working example
+ * @extends System
+ */
+export { mod_TextSystem as TextSystem };

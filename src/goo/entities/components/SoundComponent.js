@@ -1,7 +1,8 @@
-var Component = require('../../entities/components/Component');
-var AudioContext = require('../../sound/AudioContext');
-var Vector3 = require('../../math/Vector3');
-var MathUtils = require('../../math/MathUtils');
+var mod_SoundComponent = SoundComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { AudioContextjs as AudioContext } from "../../sound/AudioContext";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { clamp as MathUtilsjs_clamp } from "../../math/MathUtils";
 
 //! AT: every method here is prefixed with a check for AudioContext. Is it really needed? can it just be refactored away?
 //Or, isn't just one (the first) warning enough - it might ruing everything if flooding the console
@@ -12,7 +13,7 @@ var MathUtils = require('../../math/MathUtils');
  * @extends {Component}
  */
 function SoundComponent() {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	this.type = 'SoundComponent';
 
@@ -38,9 +39,9 @@ function SoundComponent() {
 	this._inNode2d = AudioContext.getContext().createGain();
 	this._inNode2d.connect(this._outDryNode);
 
-	this._oldPosition = new Vector3();
-	this._position = new Vector3();
-	this._orientation = new Vector3();
+	this._oldPosition = new Vector3_Vector3();
+	this._position = new Vector3_Vector3();
+	this._orientation = new Vector3_Vector3();
 	this._attachedToCamera = false;
 
 	this._autoPlayDirty = false;
@@ -52,7 +53,7 @@ function SoundComponent() {
 
 SoundComponent.type = 'SoundComponent';
 
-SoundComponent.prototype = Object.create(Component.prototype);
+SoundComponent.prototype = Object.create(Component_Component.prototype);
 SoundComponent.prototype.constructor = SoundComponent;
 
 /**
@@ -127,10 +128,10 @@ SoundComponent.prototype.connectTo = function (nodes) {
  */
 SoundComponent.prototype.updateConfig = function (config) {
 	if (config.volume !== undefined) {
-		this._outDryNode.gain.value = MathUtils.clamp(config.volume, 0, 1);
+		this._outDryNode.gain.value = MathUtilsjs_clamp(config.volume, 0, 1);
 	}
 	if (config.reverb !== undefined) {
-		this._outWetNode.gain.value = MathUtils.clamp(config.reverb, 0, 1);
+		this._outWetNode.gain.value = MathUtilsjs_clamp(config.reverb, 0, 1);
 	}
 };
 
@@ -186,4 +187,12 @@ SoundComponent.prototype.process = function (settings, mvMat/*, tpf*/) {
 	this._pannerNode.setOrientation(this._orientation.x, this._orientation.y, this._orientation.z);
 };
 
-module.exports = SoundComponent;
+//! AT: every method here is prefixed with a check for AudioContext. Is it really needed? can it just be refactored away?
+//Or, isn't just one (the first) warning enough - it might ruing everything if flooding the console
+
+/**
+ * Component that adds sound to an entity.
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Sound/Sound-vtest.html Working example
+ * @extends {Component}
+ */
+export { mod_SoundComponent as SoundComponent };

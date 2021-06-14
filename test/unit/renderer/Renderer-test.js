@@ -1,13 +1,13 @@
-var RendererRecord = require('../../../src/goo/renderer/RendererRecord');
-var Renderer = require('../../../src/goo/renderer/Renderer');
+import { RendererRecord as RendererRecord_RendererRecord } from "../../../src/goo/renderer/RendererRecord";
+import { Renderer as Renderer_Renderer } from "../../../src/goo/renderer/Renderer";
 
 describe('Renderer', function () {
 	describe('findOrCacheMaterialShader', function () {
 		var renderer;
 		beforeEach(function () {
 			renderer = {};
-			renderer.rendererRecord = new RendererRecord();
-			renderer.findOrCacheMaterialShader = Renderer.prototype.findOrCacheMaterialShader.bind(renderer);
+			renderer.rendererRecord = new RendererRecord_RendererRecord();
+			renderer.findOrCacheMaterialShader = Renderer_Renderer.prototype.findOrCacheMaterialShader.bind(renderer);
 		});
 
 		function getShader(key, uniforms) {

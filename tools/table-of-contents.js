@@ -1,13 +1,8 @@
+import ext_glob_glob from "glob";
+import ext_path_path from "path";
+import ext_fs_fs from "fs";
 // jshint node:true
 'use strict';
-
-/**
- * Generates the table of contents for the visual tests.
- */
-
-var glob = require('glob');
-var path = require('path');
-var fs = require('fs');
 
 var makeTree = function (files) {
 	var tree = {};
@@ -52,25 +47,31 @@ var printTree = function (tree) {
 	return ret;
 };
 
-exports.getFiles = function (path, callback) {
-	return glob(path + '/**/!(index).html', function (err, files) {
+var getFiles;
+
+getFiles = function (path, callback) {
+	return ext_glob_glob(path + '/**/!(index).html', function (err, files) {
 		return callback(err, files);
 	});
 };
 
-exports.getFilesSync = function (path) {
-	return glob.sync(path + '/**/!(index).html');
+var getFilesSync;
+
+getFilesSync = function (path) {
+	return ext_glob_glob.sync(path + '/**/!(index).html');
 };
 
-exports.run = function (rootPath, title) {
-	var files = exports.getFilesSync(rootPath);
+var run;
+
+run = function (rootPath, title) {
+	var files = getFilesSync(rootPath);
 	files = files.filter(function (fileName) {
 		return fileName.indexOf('carousel') === -1;
 	});
 
 	for (var i = 0; i < files.length; i++) {
 		var file = files[i];
-		files[i] = path.relative(rootPath, file).replace(/\\/g, '/');
+		files[i] = ext_path_path.relative(rootPath, file).replace(/\\/g, '/');
 	}
 
 	var tree = makeTree(files);
@@ -96,5 +97,5 @@ exports.run = function (rootPath, title) {
 		'</html>'
 	].join('\n');
 
-	fs.writeFileSync(path.resolve(rootPath + '/index.html'), content);
+	ext_fs_fs.writeFileSync(ext_path_path.resolve(rootPath + '/index.html'), content);
 };

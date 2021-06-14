@@ -1,5 +1,6 @@
-var Vector2 = require('../../math/Vector2');
-var ObjectUtil = require('../../util/ObjectUtil');
+var mod_RenderTarget = RenderTarget;
+import { Vector2 as Vector2_Vector2 } from "../../math/Vector2";
+import { ObjectUtils as ObjectUtil } from "../../util/ObjectUtil";
 
 /**
  * Creates a new RenderTarget object
@@ -35,8 +36,8 @@ function RenderTarget(width, height, options) {
 
 	this.variant = '2D'; // CUBE
 
-	this.offset = new Vector2(0, 0);
-	this.repeat = new Vector2(1, 1);
+	this.offset = new Vector2_Vector2(0, 0);
+	this.repeat = new Vector2_Vector2(1, 1);
 
 	this.textureRecord = {};
 }
@@ -103,4 +104,12 @@ RenderTarget.prototype.destroy = function (context) {
 	}
 };
 
-module.exports = RenderTarget;
+/**
+ * Creates a new RenderTarget object
+ *
+ * Post processing handler
+ * @param {number} width Width of rendertarget
+ * @param {number} height Height of rendertarget
+ * @param {Object} options Options
+ */
+export { mod_RenderTarget as RenderTarget };

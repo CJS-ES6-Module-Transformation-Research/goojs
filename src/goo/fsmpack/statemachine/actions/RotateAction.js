@@ -1,11 +1,12 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var MathUtils = require('../../../math/MathUtils');
+var mod_RotateAction = RotateAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { DEG_TO_RAD as MathUtilsjs_DEG_TO_RAD } from "../../../math/MathUtils";
 
 function RotateAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-RotateAction.prototype = Object.create(Action.prototype);
+RotateAction.prototype = Object.create(Action_Action.prototype);
 RotateAction.prototype.constructor = RotateAction;
 
 RotateAction.external = {
@@ -35,7 +36,7 @@ RotateAction.external = {
 	transitions: []
 };
 
-var DEG_TO_RAD = MathUtils.DEG_TO_RAD;
+var DEG_TO_RAD = MathUtilsjs_DEG_TO_RAD;
 
 RotateAction.prototype.applyRotation = function (fsm) {
 	var entity = fsm.getOwnerEntity();
@@ -89,4 +90,4 @@ RotateAction.prototype.update = function (fsm) {
 	}
 };
 
-module.exports = RotateAction;
+export { mod_RotateAction as RotateAction };

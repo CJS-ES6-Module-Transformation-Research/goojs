@@ -1,10 +1,16 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var LightComponent = require('../../entities/components/LightComponent');
-var PointLight = require('../../renderer/light/PointLight');
-var SpotLight = require('../../renderer/light/SpotLight');
-var DirectionalLight = require('../../renderer/light/DirectionalLight');
-var Vector3 = require('../../math/Vector3');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_LightComponentHandler = LightComponentHandler;
+
+import {
+    ComponentHandler as ComponentHandler_ComponentHandler,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../../loaders/handlers/ComponentHandler";
+
+import { LightComponent as LightComponent_LightComponent } from "../../entities/components/LightComponent";
+import { PointLight as PointLight_PointLight } from "../../renderer/light/PointLight";
+import { SpotLight as SpotLight_SpotLight } from "../../renderer/light/SpotLight";
+import { DirectionalLight as DirectionalLight_DirectionalLight } from "../../renderer/light/DirectionalLight";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * For handling loading of light components
@@ -15,13 +21,13 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @hidden
  */
 function LightComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandler_ComponentHandler.apply(this, arguments);
 	this._type = 'LightComponent';
 }
 
-LightComponentHandler.prototype = Object.create(ComponentHandler.prototype);
+LightComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
 LightComponentHandler.prototype.constructor = LightComponentHandler;
-ComponentHandler._registerClass('light', LightComponentHandler);
+ComponentHandlerjs__registerClass('light', LightComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -29,7 +35,7 @@ ComponentHandler._registerClass('light', LightComponentHandler);
  * @private
  */
 LightComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	ObjectUtils_ObjectUtils.defaults(config, {
 		direction: [0, 0, 0],
 		color: [1, 1, 1],
 		shadowCaster: false,
@@ -42,7 +48,7 @@ LightComponentHandler.prototype._prepare = function (config) {
 
 	if (config.shadowCaster) {
 		config.shadowSettings = config.shadowSettings || {};
-		ObjectUtils.defaults(config.shadowSettings, {
+		ObjectUtils_ObjectUtils.defaults(config.shadowSettings, {
 			shadowType: 'Basic',
 			near: 1,
 			far: 1000,
@@ -67,7 +73,7 @@ LightComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 LightComponentHandler.prototype._create = function () {
-	return new LightComponent();
+	return new LightComponent_LightComponent();
 };
 
 /**
@@ -80,12 +86,12 @@ LightComponentHandler.prototype._create = function () {
 LightComponentHandler.prototype.update = function (entity, config, options) {
 	var that = this;
 	var Light = {
-		SpotLight: SpotLight,
-		DirectionalLight: DirectionalLight,
-		PointLight: PointLight
+		SpotLight: SpotLight_SpotLight,
+		DirectionalLight: DirectionalLight_DirectionalLight,
+		PointLight: PointLight_PointLight
 	};
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
 		var light = component.light;
 		if (!light || Light[config.type] !== light.constructor) {
@@ -99,16 +105,16 @@ LightComponentHandler.prototype.update = function (entity, config, options) {
 				if (key === 'shadowSettings') {
 					for (var key in value) {
 						var shadowVal = value[key];
-						if (light.shadowSettings[key] instanceof Vector3) {
+						if (light.shadowSettings[key] instanceof Vector3_Vector3) {
 							light.shadowSettings[key].setDirect(shadowVal[0], shadowVal[1], shadowVal[2]);
 						} else {
-							light.shadowSettings[key] = ObjectUtils.clone(shadowVal);
+							light.shadowSettings[key] = ObjectUtils_ObjectUtils.clone(shadowVal);
 						}
 					}
-				} else if (light[key] instanceof Vector3) {
+				} else if (light[key] instanceof Vector3_Vector3) {
 					light[key].setDirect(value[0], value[1], value[2]);
 				} else {
-					light[key] = ObjectUtils.clone(value);
+					light[key] = ObjectUtils_ObjectUtils.clone(value);
 				}
 			}
 		}
@@ -136,4 +142,12 @@ LightComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = LightComponentHandler;
+/**
+ * For handling loading of light components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { mod_LightComponentHandler as LightComponentHandler };

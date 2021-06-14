@@ -1,11 +1,13 @@
+var mod_ScreenShooter = ScreenShooter;
+import ext_webdriver from "selenium-webdriver";
+import ext_fs_fs from "fs";
+import ext_path_path from "path";
+import ext_async_async from "async";
+import ext_mkdirp_mkdirp from "mkdirp";
+import ext_events from "events";
 'use strict';
 
-var webdriver = require('selenium-webdriver');
-var fs = require('fs');
-var path = require('path');
-var async = require('async');
-var mkdirp = require('mkdirp');
-var EventEmitter = require('events').EventEmitter;
+var EventEmitter = ext_events.EventEmitter;
 
 /**
  * @class ScreenShooter
@@ -30,7 +32,7 @@ function ScreenShooter(options) {
 	}
 
 	// Init driver
-	this.driver = new webdriver.Builder().withCapabilities(webdriver.Capabilities.chrome()).build();
+	this.driver = new ext_webdriver.Builder().withCapabilities(ext_webdriver.Capabilities.chrome()).build();
 
 	// Will update whenever needed.
 	this.browserLog = [];
@@ -45,18 +47,18 @@ ScreenShooter.prototype._storeImage = function (data, url, pngPath, callback) {
 	data = data.replace(/^data:image\/\w+;base64,/, '');
 
 	// Create out folder if it does not exist
-	mkdirp.mkdirp(path.dirname(pngPath), function (err) {
+	ext_mkdirp_mkdirp.mkdirp(ext_path_path.dirname(pngPath), function (err) {
 		if (err) {
 			return callback(err);
 		}
 
 		// Get the console log
-		var logs = new webdriver.WebDriver.Logs(driver);
+		var logs = new ext_webdriver.WebDriver.Logs(driver);
 		logs.get('browser').then(function (browserLog) {
 			self.browserLog = browserLog;
 
 			// Save screenshot
-			fs.writeFileSync(pngPath, data, 'base64');
+			ext_fs_fs.writeFileSync(pngPath, data, 'base64');
 
 			self.emit('shoot', {
 				url: url,
@@ -112,7 +114,7 @@ ScreenShooter.prototype.takeScreenshots = function (urlToPathMap, callback) {
 	}
 
 	// Loop asynchronously over all files
-	async.eachSeries(urls, function (url, done) {
+	ext_async_async.eachSeries(urls, function (url, done) {
 		// Take screenshot
 		self.takeScreenshot(url, urlToPathMap[url], function () {
 			done();
@@ -135,4 +137,11 @@ ScreenShooter.prototype.shutdown = function (callback) {
 	});
 };
 
-module.exports = ScreenShooter;
+/**
+ * @class ScreenShooter
+ * @param {object} [options]
+ * @param {number} [options.wait]   How long to wait before taking each screenshot.
+ * @param {number} [options.width]	Width of the browser window
+ * @param {number} [options.height]	Height of the window
+ */
+export { mod_ScreenShooter as ScreenShooter };

@@ -1,4 +1,5 @@
-var SystemBus = require('../entities/SystemBus');
+var mod_ButtonScript = ButtonScript;
+import { SystemBusjs as SystemBus } from "../entities/SystemBus";
 
 /**
  * Attaches mouse events to an entity.
@@ -203,4 +204,7 @@ ButtonScript.externals = {
 	}]
 };
 
-module.exports = ButtonScript;
+/**
+ * Attaches mouse events to an entity.
+ */
+export { mod_ButtonScript as ButtonScript };

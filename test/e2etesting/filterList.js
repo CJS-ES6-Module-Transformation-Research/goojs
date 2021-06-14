@@ -1,3 +1,4 @@
+var mod_filterListjs = {};
 // jshint node:true
 
 var filterList = [
@@ -48,4 +49,5 @@ var filterList = [
 	'GridRenderSystem' // until we can render updated screenshot
 ];
 
-exports.filterList = filterList;
+mod_filterListjs.filterList = filterList;
+export { mod_filterListjs as filterListjs };

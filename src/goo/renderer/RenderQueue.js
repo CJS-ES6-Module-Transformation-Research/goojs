@@ -1,4 +1,8 @@
-var Vector3 = require('../math/Vector3');
+import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+var OVERLAY;
+var TRANSPARENT;
+var OPAQUE;
+var BACKGROUND;
 
 /**
  * The RenderQueue handles sorting of entities. Entities are ordered by their renderQueue value into buckets.
@@ -36,7 +40,7 @@ function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3();
+var tmpVec = new Vector3_Vector3();
 
 /**
  * @param {Array<Entity>} renderList
@@ -84,7 +88,7 @@ RenderQueue.prototype.sort = function (renderList, camera) {
 		var bucket = buckets[key];
 		var bl = bucket.length;
 		if (bl > 1 && key >= 0) {
-			if (key < RenderQueue.TRANSPARENT) {
+			if (key < TRANSPARENT) {
 				bucket.sort(this.opaqueSorter);
 			} else {
 				bucket.sort(this.transparentSorter);
@@ -102,24 +106,24 @@ RenderQueue.prototype.sort = function (renderList, camera) {
  * @readonly
  * @default
  */
-RenderQueue.BACKGROUND = 0;
+BACKGROUND = 0;
 /** Used for most objects, typically opaque geometry. Rendered front to back
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue.OPAQUE = 1000;
+OPAQUE = 1000;
 /** For all alpha-blended objects. Rendered back to front
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue.TRANSPARENT = 2000;
+TRANSPARENT = 2000;
 /** For overlay effects like lens-flares etc
  * @type {number}
  * @readonly
  * @default
  */
-RenderQueue.OVERLAY = 3000;
+OVERLAY = 3000;
 
-module.exports = RenderQueue;
+export { OPAQUE, TRANSPARENT, RenderQueue };

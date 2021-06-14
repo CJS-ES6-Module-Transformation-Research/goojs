@@ -1,9 +1,9 @@
-var EventChannel = require('../../../src/goo/timelinepack/EventChannel');
+import { EventChannel as EventChannel_EventChannel } from "../../../src/goo/timelinepack/EventChannel";
 
 describe('EventChannel', function () {
 	var channel;
 	beforeEach(function () {
-		channel = new EventChannel();
+		channel = new EventChannel_EventChannel();
 	});
 
 	describe('addCallback', function () {

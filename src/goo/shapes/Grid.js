@@ -1,5 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_Grid = Grid;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * MeshData for a Grid.
@@ -23,15 +24,15 @@ function Grid(xSegments, ySegments, width, height) {
 	this.width = width || 1;
 	this.height = height || 1;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION]);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
 	var vertsCount = 4 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
 	var idcsCount = 8 + (this.xSegments - 1) * 2 + (this.ySegments - 1) * 2;
-	MeshData.call(this, attributeMap, vertsCount, idcsCount);
+	MeshData_MeshData.call(this, attributeMap, vertsCount, idcsCount);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
 
-Grid.prototype = Object.create(MeshData.prototype);
+Grid.prototype = Object.create(MeshData_MeshData.prototype);
 Grid.prototype.constructor = Grid;
 
 Grid.prototype.rebuild = function () {
@@ -79,7 +80,7 @@ Grid.prototype.rebuild = function () {
 	for (var i = indices.length / 2; i < verts.length / 3; i += 2) {
 		indices.push(i, i + 1);
 	}
-	this.getAttributeBuffer(MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 };
 
@@ -88,10 +89,19 @@ Grid.prototype.rebuild = function () {
  * @returns {Grid}
  */
 Grid.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['xSegments', 'ySegments', 'width', 'height']);
+	var options = ObjectUtils_ObjectUtils.shallowSelectiveClone(this, ['xSegments', 'ySegments', 'width', 'height']);
 
 	return new Grid(options);
 };
 
 
-module.exports = Grid;
+/**
+ * MeshData for a Grid.
+ * @extends MeshData
+ * @param {number} [xSegments=10] Number of columns.
+ * @param {number} [ySegments=10] Number of rows.
+ * @param {number} [width=1] Total width of the Grid.
+ * @param {number} [height=1] Total height of the Grid.
+ * @example var meshData = new Grid( 10, 10, 10, 10);
+ */
+export { mod_Grid as Grid };

@@ -1,4 +1,5 @@
-var Transform = require('../math/Transform');
+var mod_Joint = Joint;
+import { Transform as Transform_Transform } from "../math/Transform";
 
 /**
  * Representation of a Joint in a Skeleton. Meant to be used within a specific Skeleton object.
@@ -9,9 +10,13 @@ function Joint(name) {
 
 	this._index = 0;
 	this._parentIndex = Joint.NO_PARENT;
-	this._inverseBindPose = new Transform();
+	this._inverseBindPose = new Transform_Transform();
 }
 
 Joint.NO_PARENT = -32768;
 
-module.exports = Joint;
+/**
+ * Representation of a Joint in a Skeleton. Meant to be used within a specific Skeleton object.
+ * @param {string} name Name of joint
+ */
+export { mod_Joint as Joint };

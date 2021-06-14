@@ -1,7 +1,13 @@
-var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
-var CameraComponent = require('../../entities/components/CameraComponent');
-var Camera = require('../../renderer/Camera');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_CameraComponentHandler = CameraComponentHandler;
+
+import {
+    ComponentHandler as ComponentHandler_ComponentHandler,
+    _registerClass as ComponentHandlerjs__registerClass,
+} from "../../loaders/handlers/ComponentHandler";
+
+import { CameraComponent as CameraComponent_CameraComponent } from "../../entities/components/CameraComponent";
+import { Camera as Camera_Camera } from "../../renderer/Camera";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /**
  * For handling loading of camera components
@@ -12,12 +18,12 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * @hidden
  */
 function CameraComponentHandler() {
-	ComponentHandler.apply(this, arguments);
+	ComponentHandler_ComponentHandler.apply(this, arguments);
 	this._type = 'CameraComponent';
 }
 
-CameraComponentHandler.prototype = Object.create(ComponentHandler.prototype);
-ComponentHandler._registerClass('camera', CameraComponentHandler);
+CameraComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
+ComponentHandlerjs__registerClass('camera', CameraComponentHandler);
 CameraComponentHandler.prototype.constructor = CameraComponentHandler;
 
 /**
@@ -27,7 +33,7 @@ CameraComponentHandler.prototype.constructor = CameraComponentHandler;
  * @private
  */
 CameraComponentHandler.prototype._prepare = function (config) {
-	ObjectUtils.defaults(config, {
+	ObjectUtils_ObjectUtils.defaults(config, {
 		near: 1,
 		far: 10000,
 		projectionMode: 'Perspective',
@@ -52,8 +58,8 @@ CameraComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 CameraComponentHandler.prototype._create = function () {
-	var camera = new Camera(45, 1, 1, 1000);
-	var component = new CameraComponent(camera);
+	var camera = new Camera_Camera(45, 1, 1, 1000);
+	var component = new CameraComponent_CameraComponent(camera);
 	return component;
 };
 
@@ -67,9 +73,9 @@ CameraComponentHandler.prototype._create = function () {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 CameraComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
 		if (!component) { return; }
-		component.camera.setProjectionMode(Camera[config.projectionMode]);
+		component.camera.setProjectionMode(Camera_Camera[config.projectionMode]);
 		component.camera.lockedRatio = false;
 		if (config.projectionMode === 'Perspective') {
 			component.camera.setFrustumPerspective(config.fov, null, config.near, config.far);
@@ -82,4 +88,12 @@ CameraComponentHandler.prototype.update = function (entity, config, options) {
 	});
 };
 
-module.exports = CameraComponentHandler;
+/**
+ * For handling loading of camera components
+ * @param {World} world The goo world
+ * @param {Function} getConfig The config loader function. See {@see DynamicLoader._loadRef}.
+ * @param {Function} updateObject The handler function. See {@see DynamicLoader.update}.
+ * @extends ComponentHandler
+ * @hidden
+ */
+export { mod_CameraComponentHandler as CameraComponentHandler };

@@ -1,7 +1,7 @@
-var MathUtils = require('./MathUtils');
-var Matrix = require('./Matrix');
-var Vector3 = require('./Vector3');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_Matrix4 = Matrix4;
+import { EPSILON as MathUtilsjs_EPSILON } from "./MathUtils";
+import { Matrix as Matrix_Matrix } from "./Matrix";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * Matrix with 4x4 components.
@@ -9,7 +9,7 @@ var ObjectUtils = require('../util/ObjectUtils');
  * @param {(Matrix4|Array<number>)} arguments Initial values for the components.
  */
 function Matrix4() {
-	Matrix.call(this, 4, 4);
+	Matrix_Matrix.call(this, 4, 4);
 
 	if (arguments.length === 0) {
 		this.data[0] = 1;
@@ -33,10 +33,10 @@ function Matrix4() {
 	// @endif
 }
 
-Matrix4.prototype = Object.create(Matrix.prototype);
+Matrix4.prototype = Object.create(Matrix_Matrix.prototype);
 Matrix4.prototype.constructor = Matrix4;
 
-Matrix.setupAliases(Matrix4.prototype, [['e00'], ['e10'], ['e20'], ['e30'], ['e01'], ['e11'], ['e21'], ['e31'], ['e02'], ['e12'], ['e22'], ['e32'], ['e03'], ['e13'], ['e23'], ['e33']]);
+Matrix_Matrix.setupAliases(Matrix4.prototype, [['e00'], ['e10'], ['e20'], ['e30'], ['e01'], ['e11'], ['e21'], ['e31'], ['e02'], ['e12'], ['e22'], ['e32'], ['e03'], ['e13'], ['e23'], ['e33']]);
 
 Matrix4.IDENTITY = new Matrix4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
 
@@ -303,38 +303,38 @@ Matrix4.prototype.isOrthogonal = function () {
 
 	dot = this.e00 * this.e01 + this.e10 * this.e11 + this.e20 * this.e21 + this.e30 * this.e31;
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	dot = this.e00 * this.e02 + this.e10 * this.e12 + this.e20 * this.e22 + this.e30 * this.e32;
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	dot = this.e00 * this.e03 + this.e10 * this.e13 + this.e20 * this.e23 + this.e30 * this.e33;
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	dot = this.e01 * this.e02 + this.e11 * this.e12 + this.e21 * this.e22 + this.e31 * this.e32;
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	dot = this.e01 * this.e03 + this.e11 * this.e13 + this.e21 * this.e23 + this.e31 * this.e33;
 
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	dot = this.e02 * this.e03 + this.e12 * this.e13 + this.e22 * this.e23 + this.e32 * this.e33;
 
 	//! AT: why wrap in an if?!?!
-	if (Math.abs(dot) > MathUtils.EPSILON) {
+	if (Math.abs(dot) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
@@ -350,26 +350,26 @@ Matrix4.prototype.isNormal = function () {
 
 	l = this.e00 * this.e00 + this.e10 * this.e10 + this.e20 * this.e20 + this.e30 * this.e30;
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	l = this.e01 * this.e01 + this.e11 * this.e11 + this.e21 * this.e21 + this.e31 * this.e31;
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	l = this.e02 * this.e02 + this.e12 * this.e12 + this.e22 * this.e22 + this.e32 * this.e32;
 
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
 	l = this.e03 * this.e03 + this.e13 * this.e13 + this.e23 * this.e23 + this.e33 * this.e33;
 
 	//! AT: why wrap in an if?!?!
-	if (Math.abs(l - 1.0) > MathUtils.EPSILON) {
+	if (Math.abs(l - 1.0) > MathUtilsjs_EPSILON) {
 		return false;
 	}
 
@@ -671,7 +671,7 @@ Matrix4.prototype.decompose = function (position, rotation, scale) {
 Matrix4.prototype.equals = function (rhs, epsilon) {
 	var thisData = this.data;
 	var rhsData = rhs.data;
-	var eps = epsilon === undefined ? MathUtils.EPSILON : epsilon;
+	var eps = epsilon === undefined ? MathUtilsjs_EPSILON : epsilon;
 
 	if (eps === 0) {
 		return (
@@ -790,7 +790,7 @@ Matrix4.prototype.clone = function () {
  * @hidden
  * @deprecated
  */
-Matrix4.add = ObjectUtils.warnOnce(
+Matrix4.add = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.add is deprecated, use Matrix4.prototype.add instead',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -841,7 +841,7 @@ Matrix4.add = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.sub = ObjectUtils.warnOnce(
+Matrix4.sub = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.sub is deprecated',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -892,7 +892,7 @@ Matrix4.sub = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.mul = ObjectUtils.warnOnce(
+Matrix4.mul = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.mul is deprecated, use Matrix4.prototype.mul instead',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -943,7 +943,7 @@ Matrix4.mul = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.div = ObjectUtils.warnOnce(
+Matrix4.div = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.div is deprecated',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -996,7 +996,7 @@ Matrix4.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.prototype.div = ObjectUtils.warnOnce(
+Matrix4.prototype.div = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.prototype.div is deprecated',
 	function (rhs) {
 		return Matrix4.div(this, rhs, this);
@@ -1007,7 +1007,7 @@ Matrix4.prototype.div = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.combine = ObjectUtils.warnOnce(
+Matrix4.combine = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.combine is deprecated, use Matrix4.prototype.mul instead',
 	function (lhs, rhs, target) {
 		if (!target) {
@@ -1054,7 +1054,7 @@ Matrix4.combine = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.prototype.combine = ObjectUtils.warnOnce(
+Matrix4.prototype.combine = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.prototype.combine is deprecated, use Matrix4.prototype.mul instead',
 	function (rhs) {
 		return Matrix4.combine(this, rhs, this);
@@ -1065,7 +1065,7 @@ Matrix4.prototype.combine = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.transpose = ObjectUtils.warnOnce(
+Matrix4.transpose = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.transpose is deprecated, use Matrix4.prototype.transpose instead',
 	function (source, target) {
 		if (!target) {
@@ -1125,7 +1125,7 @@ Matrix4.transpose = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.prototype.applyPre = ObjectUtils.warnOnce(
+Matrix4.prototype.applyPre = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.prototype.applyPre is deprecated, use Vector4.prototype.applyPre instead',
 	function (rhs) {
 		var x = rhs.x;
@@ -1147,7 +1147,7 @@ Matrix4.prototype.applyPre = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.prototype.applyPost = ObjectUtils.warnOnce(
+Matrix4.prototype.applyPost = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.prototype.applyPost is deprecated, use Vector4.prototype.applyPost instead',
 	function (rhs) {
 		var x = rhs.x;
@@ -1169,7 +1169,7 @@ Matrix4.prototype.applyPost = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.prototype.applyPostPoint = ObjectUtils.warnOnce(
+Matrix4.prototype.applyPostPoint = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.prototype.applyPostPoint is deprecated, use Vector4.prototype.applyPostPoint instead',
 	function (rhs) {
 		return rhs.applyPostPoint(this);
@@ -1180,7 +1180,7 @@ Matrix4.prototype.applyPostPoint = ObjectUtils.warnOnce(
  * @hidden
  * @deprecated
  */
-Matrix4.prototype.applyPostVector = ObjectUtils.warnOnce(
+Matrix4.prototype.applyPostVector = ObjectUtils_ObjectUtils.warnOnce(
 	'Matrix4.prototype.applyPostVector is deprecated, use Vector4.prototype.applyPostVector instead',
 	function (rhs) {
 		var x = rhs.x;
@@ -1199,11 +1199,15 @@ Matrix4.prototype.applyPostVector = ObjectUtils.warnOnce(
 // SHIMS END
 
 // @ifdef DEBUG
-Matrix.addPostChecks(Matrix4.prototype, [
+Matrix_Matrix.addPostChecks(Matrix4.prototype, [
 	'add', 'sub', 'scale', 'transpose', 'invert',
 	'isOrthogonal', 'determinant',
 	'copy'
 ]);
-// @endif
 
-module.exports = Matrix4;
+/**
+ * Matrix with 4x4 components.
+ * @extends Matrix
+ * @param {(Matrix4|Array<number>)} arguments Initial values for the components.
+ */
+export { mod_Matrix4 as Matrix4 };

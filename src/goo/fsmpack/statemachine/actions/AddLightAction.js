@@ -1,14 +1,15 @@
-var Action = require('../../../fsmpack/statemachine/actions/Action');
-var LightComponent = require('../../../entities/components/LightComponent');
-var PointLight = require('../../../renderer/light/PointLight');
-var DirectionalLight = require('../../../renderer/light/DirectionalLight');
-var SpotLight = require('../../../renderer/light/SpotLight');
+var mod_AddLightAction = AddLightAction;
+import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+import { LightComponent as LightComponent_LightComponent } from "../../../entities/components/LightComponent";
+import { PointLight as PointLight_PointLight } from "../../../renderer/light/PointLight";
+import { DirectionalLight as DirectionalLight_DirectionalLight } from "../../../renderer/light/DirectionalLight";
+import { SpotLight as SpotLight_SpotLight } from "../../../renderer/light/SpotLight";
 
 function AddLightAction(/*id, settings*/) {
-	Action.apply(this, arguments);
+	Action_Action.apply(this, arguments);
 }
 
-AddLightAction.prototype = Object.create(Action.prototype);
+AddLightAction.prototype = Object.create(Action_Action.prototype);
 AddLightAction.prototype.constructor = AddLightAction;
 
 AddLightAction.external = {
@@ -71,20 +72,20 @@ AddLightAction.prototype.enter = function (fsm) {
 
 	var light;
 	if (this.type === 'Directional') {
-		light = new DirectionalLight();
+		light = new DirectionalLight_DirectionalLight();
 	} else if (this.type === 'Spot') {
-		light = new SpotLight();
+		light = new SpotLight_SpotLight();
 		light.range = +this.range;
 		light.angle = +this.angle;
 		light.penumbra = +this.penumbra;
 	} else {
-		light = new PointLight();
+		light = new PointLight_PointLight();
 		light.range = +this.range;
 	}
 
 	light.color.setDirect(this.color[0], this.color[1], this.color[2]);
 
-	entity.setComponent(new LightComponent(light));
+	entity.setComponent(new LightComponent_LightComponent(light));
 };
 
 AddLightAction.prototype.cleanup = function (fsm) {
@@ -96,4 +97,4 @@ AddLightAction.prototype.cleanup = function (fsm) {
 	}
 };
 
-module.exports = AddLightAction;
+export { mod_AddLightAction as AddLightAction };

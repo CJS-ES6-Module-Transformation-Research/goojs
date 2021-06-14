@@ -1,3 +1,6 @@
+var Logo_getLogo;
+var white;
+var blue;
 /**
  * Get logo svg in different formats
  * Only used to define the class. Should never be instantiated.
@@ -5,12 +8,12 @@
 function Logo() {}
 
 /** @type {string} */
-Logo.blue = '#2A3276';
+blue = '#2A3276';
 /** @type {string} */
-Logo.white = '#FFFFFF';
+white = '#FFFFFF';
 
 var defaults = {
-	color: Logo.white,
+	color: white,
 	shadow: false
 };
 
@@ -22,7 +25,7 @@ var defaults = {
  * @param {string} [properties.width]
  * @param {string} [properties.height]
  */
-Logo.getLogo = function (properties) {
+Logo_getLogo = function (properties) {
 	properties = properties || {};
 	for (var key in defaults) {
 		if (properties[key] === undefined) {
@@ -113,4 +116,4 @@ Logo.getLogo = function (properties) {
 	return str;
 };
 
-module.exports = Logo;
+export { white, Logo_getLogo as getLogo, Logo };

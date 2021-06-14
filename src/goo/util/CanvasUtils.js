@@ -1,5 +1,9 @@
-var PromiseUtils = require('../util/PromiseUtils');
-var ObjectUtils = require('../util/ObjectUtils');
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+var CanvasUtils_svgDataToImage;
+var CanvasUtils_getMatrixFromCanvas;
+var CanvasUtils_renderSvgToCanvas;
+var CanvasUtils_loadCanvasFromPath;
 
 // TODO: make promise based instead of sending callbacks
 
@@ -27,7 +31,7 @@ function CanvasUtils() {}
  * @param {number} [options.resizeToFit=false] If true, the image is stretched to fit and centered on the canvas.
  * @param {Function} callback
  */
-CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
+CanvasUtils_loadCanvasFromPath = function (canvasPath, callback) {
 	var options = {};
 	if (arguments.length === 3) {
 		// Called with loadCanvasFromPath(path, options, callback)
@@ -57,7 +61,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			return callback();
 		}
 
-		ObjectUtils.defaults(options, {
+		ObjectUtils_ObjectUtils.defaults(options, {
 			// Canvas size
 			width: img.width,
 			height: img.height,
@@ -73,7 +77,7 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
 			destY: 0
 		});
 
-		ObjectUtils.defaults(options, {
+		ObjectUtils_ObjectUtils.defaults(options, {
 			destWidth: options.width,
 			destHeight: options.height
 		});
@@ -123,10 +127,10 @@ CanvasUtils.loadCanvasFromPath = function (canvasPath, callback) {
  *     // canvas is an HTMLCanvasElement
  * });
  */
-CanvasUtils.renderSvgToCanvas = function (svgSource, options, callback) {
+CanvasUtils_renderSvgToCanvas = function (svgSource, options, callback) {
 	var url = 'data:image/svg+xml;base64,' + btoa(svgSource);
 
-	CanvasUtils.loadCanvasFromPath(url, options, callback);
+	CanvasUtils_loadCanvasFromPath(url, options, callback);
 };
 
 /**
@@ -136,7 +140,7 @@ CanvasUtils.renderSvgToCanvas = function (svgSource, options, callback) {
  * @param canvas
  * @returns {Array}
  */
-CanvasUtils.getMatrixFromCanvas = function (canvas) {
+CanvasUtils_getMatrixFromCanvas = function (canvas) {
 	var context = canvas.getContext('2d');
 
 	var getAt = function (x, y) {
@@ -163,7 +167,7 @@ CanvasUtils.getMatrixFromCanvas = function (canvas) {
  * @param  {string} data
  * @returns {RSVP.Promise} Promise that resolves with the Image.
  */
-CanvasUtils.svgDataToImage = function (data) {
+CanvasUtils_svgDataToImage = function (data) {
 	var DOMURL = window.URL || window.webkitURL || window;
 
 	var svg = new Blob([data], { type: 'image/svg+xml;charset=utf-8' });
@@ -171,7 +175,7 @@ CanvasUtils.svgDataToImage = function (data) {
 	var img = new Image();
 	img.src = DOMURL.createObjectURL(svg);
 
-	return PromiseUtils.createPromise(function (resolve, reject) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve, reject) {
 		img.onload = function () {
 			resolve(img);
 		};
@@ -181,4 +185,4 @@ CanvasUtils.svgDataToImage = function (data) {
 	});
 };
 
-module.exports = CanvasUtils;
+export { CanvasUtils_renderSvgToCanvas as renderSvgToCanvas, CanvasUtils };

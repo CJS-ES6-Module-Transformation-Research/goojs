@@ -1,5 +1,6 @@
-var Curve = require('../../../addons/particlepack/curves/Curve');
-var MathUtils = require('../../../math/MathUtils');
+var mod_LerpCurve = LerpCurve;
+import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve";
+import { lerp as MathUtilsjs_lerp } from "../../../math/MathUtils";
 
 /**
  * Curve that can lerp between two other curves.
@@ -13,7 +14,7 @@ var MathUtils = require('../../../math/MathUtils');
 function LerpCurve(options) {
 	options = options || {};
 
-	Curve.call(this, options);
+	Curve_Curve.call(this, options);
 
 	/**
 	 * @type {Curve}
@@ -25,7 +26,7 @@ function LerpCurve(options) {
 	 */
 	this.curveB = options.curveB !== undefined ? options.curveB.clone() : null;
 }
-LerpCurve.prototype = Object.create(Curve.prototype);
+LerpCurve.prototype = Object.create(Curve_Curve.prototype);
 LerpCurve.prototype.constructor = LerpCurve;
 
 LerpCurve.prototype.toGLSL = function (timeVariableName, lerpVariableName) {
@@ -37,11 +38,20 @@ LerpCurve.prototype.integralToGLSL = function (timeVariableName, lerpVariableNam
 };
 
 LerpCurve.prototype.getValueAt = function (t, lerpValue) {
-	return MathUtils.lerp(lerpValue, this.curveA.getValueAt(t, lerpValue), this.curveB.getValueAt(t, lerpValue));
+	return MathUtilsjs_lerp(lerpValue, this.curveA.getValueAt(t, lerpValue), this.curveB.getValueAt(t, lerpValue));
 };
 
 LerpCurve.prototype.getIntegralValueAt = function (t, lerpValue) {
-	return MathUtils.lerp(lerpValue, this.curveA.getIntegralValueAt(t, lerpValue), this.curveB.getIntegralValueAt(t, lerpValue));
+	return MathUtilsjs_lerp(lerpValue, this.curveA.getIntegralValueAt(t, lerpValue), this.curveB.getIntegralValueAt(t, lerpValue));
 };
 
-module.exports = LerpCurve;
+/**
+ * Curve that can lerp between two other curves.
+ * @class
+ * @constructor
+ * @extends Curve
+ * @param {object} [options]
+ * @param {Curve} [options.curveA]
+ * @param {Curve} [options.curveB]
+ */
+export { mod_LerpCurve as LerpCurve };

@@ -1,23 +1,30 @@
-var Terrain = require('../../addons/terrainpack/Terrain');
-var Vegetation = require('../../addons/terrainpack/Vegetation');
-var Forrest = require('../../addons/terrainpack/Forrest');
-var Vector3 = require('../../math/Vector3');
-var Ajax = require('../../util/Ajax');
-var MathUtils = require('../../math/MathUtils');
-var Texture = require('../../renderer/Texture');
-var TextureCreator = require('../../renderer/TextureCreator');
-var RSVP = require('../../util/rsvp');
+var mod_TerrainHandler = TerrainHandler;
+import { Terrain as Terrain_Terrain } from "../../addons/terrainpack/Terrain";
+import { Vegetation as Vegetation_Vegetation } from "../../addons/terrainpack/Vegetation";
+import { Forrest as Forrest_Forrest } from "../../addons/terrainpack/Forrest";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Ajax as Ajax_Ajax } from "../../util/Ajax";
+
+import {
+    lerp as MathUtilsjs_lerp,
+    moduloPositive as MathUtilsjs_moduloPositive,
+    smoothstep as MathUtilsjs_smoothstep,
+} from "../../math/MathUtils";
+
+import { Texture as Texture_Texture } from "../../renderer/Texture";
+import { TextureCreator as TextureCreator_TextureCreator } from "../../renderer/TextureCreator";
+import { rsvpjs as RSVP } from "../../util/rsvp";
 
 function TerrainHandler(goo, terrainSize, clipmapLevels, resourceFolder) {
 	this.goo = goo;
 	this.terrainSize = terrainSize;
 	this.resourceFolder = resourceFolder;
-	this.terrain = new Terrain(goo, this.terrainSize, clipmapLevels);
-	this.vegetation = new Vegetation();
-	this.forrest = new Forrest();
+	this.terrain = new Terrain_Terrain(goo, this.terrainSize, clipmapLevels);
+	this.vegetation = new Vegetation_Vegetation();
+	this.forrest = new Forrest_Forrest();
 
 	this.hidden = false;
-	this.store = new Vector3();
+	this.store = new Vector3_Vector3();
 	this.settings = null;
 	this.pick = true;
 	this.draw = false;
@@ -137,7 +144,7 @@ TerrainHandler.prototype.initLevel = function (terrainData, settings, forrestLOD
 TerrainHandler.prototype._loadData = function (url) {
 	var promise = new RSVP.Promise();
 
-	var ajax = new Ajax();
+	var ajax = new Ajax_Ajax();
 	ajax.get({
 		url: this.resourceFolder + url,
 		responseType: 'arraybuffer'
@@ -151,7 +158,7 @@ TerrainHandler.prototype._loadData = function (url) {
 };
 
 TerrainHandler.prototype._textureLoad = function (url) {
-	return new TextureCreator().loadTexture2D(url, {
+	return new TextureCreator_TextureCreator().loadTexture2D(url, {
 		anisotropy: 4
 	});
 };
@@ -178,7 +185,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 		this.terrainInfo = this.terrain.getTerrainData();
 
 		var terrainSize = this.terrainSize;
-		var calcVec = new Vector3();
+		var calcVec = new Vector3_Vector3();
 
 		var terrainQuery = this.terrainQuery = {
 			getHeightAt: function (pos) {
@@ -198,18 +205,18 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var col1 = col + 1;
 				var row1 = row + 1;
 
-				col = MathUtils.moduloPositive(col, terrainSize);
-				row = MathUtils.moduloPositive(row, terrainSize);
-				col1 = MathUtils.moduloPositive(col1, terrainSize);
-				row1 = MathUtils.moduloPositive(row1, terrainSize);
+				col = MathUtilsjs_moduloPositive(col, terrainSize);
+				row = MathUtilsjs_moduloPositive(row, terrainSize);
+				col1 = MathUtilsjs_moduloPositive(col1, terrainSize);
+				row1 = MathUtilsjs_moduloPositive(row1, terrainSize);
 
 				var topLeft = this.terrainInfo.heights[row * terrainSize + col];
 				var topRight = this.terrainInfo.heights[row * terrainSize + col1];
 				var bottomLeft = this.terrainInfo.heights[row1 * terrainSize + col];
 				var bottomRight = this.terrainInfo.heights[row1 * terrainSize + col1];
 
-				return MathUtils.lerp(intOnZ, MathUtils.lerp(intOnX, topLeft, topRight),
-					MathUtils.lerp(intOnX, bottomLeft, bottomRight));
+				return MathUtilsjs_lerp(intOnZ, MathUtilsjs_lerp(intOnX, topLeft, topRight),
+					MathUtilsjs_lerp(intOnX, bottomLeft, bottomRight));
 			}.bind(this),
 			getNormalAt: function (pos) {
 				var x = pos[0];
@@ -221,10 +228,10 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var col1 = col + 1;
 				var row1 = row + 1;
 
-				col = MathUtils.moduloPositive(col, terrainSize);
-				row = MathUtils.moduloPositive(row, terrainSize);
-				col1 = MathUtils.moduloPositive(col1, terrainSize);
-				row1 = MathUtils.moduloPositive(row1, terrainSize);
+				col = MathUtilsjs_moduloPositive(col, terrainSize);
+				row = MathUtilsjs_moduloPositive(row, terrainSize);
+				col1 = MathUtilsjs_moduloPositive(col1, terrainSize);
+				row1 = MathUtilsjs_moduloPositive(row1, terrainSize);
 
 				var topLeft = this.terrainInfo.heights[row * terrainSize + col];
 				var topRight = this.terrainInfo.heights[row * terrainSize + col1];
@@ -234,7 +241,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 			}.bind(this),
 			getVegetationType: function (xx, zz, slope) {
 				var rand = Math.random();
-				if (MathUtils.smoothstep(0.82, 0.91, slope) < rand) {
+				if (MathUtilsjs_smoothstep(0.82, 0.91, slope) < rand) {
 					return null;
 				}
 
@@ -268,7 +275,7 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				return null;
 			}.bind(this),
 			getForrestType: function (xx, zz, slope, rand) {
-				if (MathUtils.smoothstep(0.8, 0.88, slope) < rand) {
+				if (MathUtilsjs_smoothstep(0.8, 0.88, slope) < rand) {
 					return null;
 				}
 
@@ -322,22 +329,22 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 				var col1 = col + 1;
 				var row1 = row + 1;
 
-				col = MathUtils.moduloPositive(col, this.lightMapSize);
-				row = MathUtils.moduloPositive(row, this.lightMapSize);
-				col1 = MathUtils.moduloPositive(col1, this.lightMapSize);
-				row1 = MathUtils.moduloPositive(row1, this.lightMapSize);
+				col = MathUtilsjs_moduloPositive(col, this.lightMapSize);
+				row = MathUtilsjs_moduloPositive(row, this.lightMapSize);
+				col1 = MathUtilsjs_moduloPositive(col1, this.lightMapSize);
+				row1 = MathUtilsjs_moduloPositive(row1, this.lightMapSize);
 
 				var topLeft = this.lightMapData[row * this.lightMapSize + col];
 				var topRight = this.lightMapData[row * this.lightMapSize + col1];
 				var bottomLeft = this.lightMapData[row1 * this.lightMapSize + col];
 				var bottomRight = this.lightMapData[row1 * this.lightMapSize + col1];
 
-				return MathUtils.lerp(intOnZ, MathUtils.lerp(intOnX, topLeft, topRight),
-						MathUtils.lerp(intOnX, bottomLeft, bottomRight)) / 255.0;
+				return MathUtilsjs_lerp(intOnZ, MathUtilsjs_lerp(intOnX, topLeft, topRight),
+						MathUtilsjs_lerp(intOnX, bottomLeft, bottomRight)) / 255.0;
 			}.bind(this),
 
 			getType: function (xx, zz, slope, rand) {
-				if (MathUtils.smoothstep(0.8, 0.88, slope) < rand) {
+				if (MathUtilsjs_smoothstep(0.8, 0.88, slope) < rand) {
 					return terrainData.stone;
 				}
 
@@ -365,16 +372,16 @@ TerrainHandler.prototype._load = function (terrainData, parentMipmap, splatMap, 
 			}.bind(this)
 		};
 
-		return new TextureCreator().loadTexture2D(this.resourceFolder + terrainData.vegetationAtlas).then(function (vegetationAtlasTexture) {
+		return new TextureCreator_TextureCreator().loadTexture2D(this.resourceFolder + terrainData.vegetationAtlas).then(function (vegetationAtlasTexture) {
 
 			vegetationAtlasTexture.anisotropy = 4;
 			var vegetationTypes = terrainData.vegetationTypes;
 
-			return new TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlas).then(function (forrestAtlasTexture) {
+			return new TextureCreator_TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlas).then(function (forrestAtlasTexture) {
 
 				forrestAtlasTexture.anisotropy = 4;
 
-				return new TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlasNormals).then(function (forrestAtlasNormals) {
+				return new TextureCreator_TextureCreator().loadTexture2D(this.resourceFolder + terrainData.forrestAtlasNormals).then(function (forrestAtlasNormals) {
 
 					var forrestTypes = terrainData.forrestTypes;
 
@@ -397,7 +404,7 @@ TerrainHandler.prototype.initPhysics = function () {
 
 TerrainHandler.prototype.useLightmap = function (data, size) {
 	if (data) {
-		var lightMap = new Texture(data, {
+		var lightMap = new Texture_Texture(data, {
 			magFilter: 'Bilinear',
 			minFilter: 'NearestNeighborNoMipMaps',
 			wrapS: 'EdgeClamp',
@@ -419,7 +426,7 @@ TerrainHandler.prototype.useLightmap = function (data, size) {
 
 TerrainHandler.prototype.useLightmap = function (data, size) {
 	if (data) {
-		var lightMap = new Texture(data, {
+		var lightMap = new Texture_Texture(data, {
 			magFilter: 'Bilinear',
 			minFilter: 'NearestNeighborNoMipMaps',
 			wrapS: 'EdgeClamp',
@@ -483,4 +490,4 @@ TerrainHandler.prototype.update = function (cameraEntity) {
 	}
 };
 
-module.exports = TerrainHandler;
+export { mod_TerrainHandler as TerrainHandler };

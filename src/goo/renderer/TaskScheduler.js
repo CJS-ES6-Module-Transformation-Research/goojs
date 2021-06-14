@@ -1,4 +1,6 @@
-var PromiseUtils = require('../util/PromiseUtils');
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+var TaskScheduler_each;
+var maxTimePerFrame;
 
 var performance = typeof(window) !== 'undefined' ? window.performance : {};
 
@@ -15,16 +17,16 @@ performance.now = (
 
 function TaskScheduler() {}
 
-TaskScheduler.maxTimePerFrame = 50;
+maxTimePerFrame = 50;
 
 // Engine loop must be disabled while running this
-TaskScheduler.each = function (queue) {
-	return PromiseUtils.createPromise(function (resolve) {
+TaskScheduler_each = function (queue) {
+	return PromiseUtils_PromiseUtils.createPromise(function (resolve) {
 		var i = 0;
 
 		function process() {
 			var startTime = performance.now();
-			while (i < queue.length && performance.now() - startTime < TaskScheduler.maxTimePerFrame) {
+			while (i < queue.length && performance.now() - startTime < maxTimePerFrame) {
 				queue[i]();
 				i++;
 			}
@@ -42,4 +44,4 @@ TaskScheduler.each = function (queue) {
 	});
 };
 
-module.exports = TaskScheduler;
+export { TaskScheduler_each as each, TaskScheduler };

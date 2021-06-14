@@ -1,6 +1,10 @@
-var Scripts = require('../scripts/Scripts');
-var BoundingBox = require('../renderer/bounds/BoundingBox');
-var ObjectUtils = require('../util/ObjectUtils');
+import { getScript as Scriptsjs_getScript, create as Scriptsjs_create } from "../scripts/Scripts";
+import { BoundingBox as BoundingBox_BoundingBox } from "../renderer/bounds/BoundingBox";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+var EntityUtils_getTotalBoundingBox;
+var updateWorldTransform;
+var EntityUtils_getRoot;
+var EntityUtils_clone;
 
 /**
  * Utilities for entity creation etc
@@ -38,8 +42,8 @@ function cloneEntity(world, entity, settings) {
 	// settings is also used to store stuff on it, like animation skeletons
 	var newEntity = world.createEntity(entity.name);
 
-	newEntity._tags = ObjectUtils.cloneSet(entity._tags);
-	newEntity._attributes = ObjectUtils.cloneMap(entity._attributes);
+	newEntity._tags = ObjectUtils_ObjectUtils.cloneSet(entity._tags);
+	newEntity._attributes = ObjectUtils_ObjectUtils.cloneMap(entity._attributes);
 	newEntity._hidden = entity._hidden;
 	newEntity.static = entity.static;
 
@@ -63,15 +67,15 @@ function cloneEntity(world, entity, settings) {
 				var newScript;
 				var script = component.scripts[j];
 				var key = script.externals ? script.externals.key || script.externals.name : null;
-				if (key && Scripts.getScript(key)) { // Engine script
-					newScript = Scripts.create(key, script.parameters);
+				if (key && Scriptsjs_getScript(key)) { // Engine script
+					newScript = Scriptsjs_create(key, script.parameters);
 				} else { // Custom script
 					newScript = {
 						externals: script.externals,
 						name: (script.name || '') + '_clone',
 						enabled: !!script.enabled
 					};
-					if (script.parameters) { newScript.parameters = ObjectUtils.deepClone(script.parameters); }
+					if (script.parameters) { newScript.parameters = ObjectUtils_ObjectUtils.deepClone(script.parameters); }
 
 					if (script.setup) { newScript.setup = script.setup; }
 					if (script.update) { newScript.update = script.update; }
@@ -127,7 +131,7 @@ function cloneEntity(world, entity, settings) {
  *         shareTextures: false
  *     });
  */
-EntityUtils.clone = function (world, entity, settings) {
+EntityUtils_clone = function (world, entity, settings) {
 	settings = settings || {};
 	// REVIEW: It's bad style to modify the settings object provided by the caller.
 	// I.e. if the caller does:
@@ -151,7 +155,7 @@ EntityUtils.clone = function (world, entity, settings) {
  * @param {Entity} entity The entity to begin traversing from
  * @returns {Entity} The root entity
  */
-EntityUtils.getRoot = function (entity) {
+EntityUtils_getRoot = function (entity) {
 	while (entity.transformComponent.parent) {
 		entity = entity.transformComponent.parent.entity;
 	}
@@ -161,11 +165,11 @@ EntityUtils.getRoot = function (entity) {
 /**
  * @deprecated Deprecated with warning on 2016-04-06
  */
-EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
+updateWorldTransform = ObjectUtils_ObjectUtils.warnOnce('EntityUtils.updateWorldTransform is deprecated. Please use entity.transformComponent.sync instead', function (transformComponent) {
 	transformComponent.updateWorldTransform();
 
 	for (var i = 0; i < transformComponent.children.length; i++) {
-		EntityUtils.updateWorldTransform(transformComponent.children[i]);
+		updateWorldTransform(transformComponent.children[i]);
 	}
 });
 
@@ -173,14 +177,14 @@ EntityUtils.updateWorldTransform = ObjectUtils.warnOnce('EntityUtils.updateWorld
  * Returns the merged bounding box of the entity and its children
  * @param entity
  */
-EntityUtils.getTotalBoundingBox = function (entity) {
-	var mergedWorldBound = new BoundingBox();
+EntityUtils_getTotalBoundingBox = function (entity) {
+	var mergedWorldBound = new BoundingBox_BoundingBox();
 	var first = true;
 	entity.traverse(function (entity) {
 		if (entity.meshRendererComponent) {
 			if (first) {
 				var boundingVolume = entity.meshRendererComponent.worldBound;
-				if (boundingVolume instanceof BoundingBox) {
+				if (boundingVolume instanceof BoundingBox_BoundingBox) {
 					mergedWorldBound.copy(boundingVolume);
 				} else {
 					mergedWorldBound.center.set(boundingVolume.center);
@@ -197,10 +201,10 @@ EntityUtils.getTotalBoundingBox = function (entity) {
 	// a tiny bounding box centered around the coordinates of the parent
 	if (first) {
 		var translation = entity.transformComponent.worldTransform.translation;
-		mergedWorldBound = new BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
+		mergedWorldBound = new BoundingBox_BoundingBox(translation.clone(), 0.001, 0.001, 0.001);
 	}
 
 	return mergedWorldBound;
 };
 
-module.exports = EntityUtils;
+export { EntityUtils_clone as clone, EntityUtils_getRoot as getRoot, EntityUtils_getTotalBoundingBox as getTotalBoundingBox, EntityUtils };

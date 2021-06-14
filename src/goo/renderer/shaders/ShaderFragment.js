@@ -1,3 +1,8 @@
+var blendmodes;
+var methods;
+var noise3d;
+var noise2d;
+var noisecommon;
 /* eslint indent: "off" */
 
 /**
@@ -6,7 +11,7 @@
 function ShaderFragment() {
 }
 
-ShaderFragment.noisecommon = [
+noisecommon = [
 	'vec4 mod289(vec4 x) {',
 		'return x - floor(x * (1.0 / 289.0)) * 289.0;',
 	'}',
@@ -28,8 +33,8 @@ ShaderFragment.noisecommon = [
 	'}'
 ].join('\n');
 
-ShaderFragment.noise2d = [
-	ShaderFragment.noisecommon,
+noise2d = [
+	noisecommon,
 	'float snoise(vec2 v) {',
 		'const vec4 C = vec4(0.211324865405187, // (3.0-sqrt(3.0))/6.0',
 			'0.366025403784439, // 0.5*(sqrt(3.0)-1.0)',
@@ -64,8 +69,8 @@ ShaderFragment.noise2d = [
 	'}'
 ].join('\n');
 
-ShaderFragment.noise3d = [
-	ShaderFragment.noisecommon,
+noise3d = [
+	noisecommon,
 	'vec4 taylorInvSqrt(vec4 r) {',
 		'return 1.79284291400159 - 0.85373472095314 * r;',
 	'}',
@@ -134,7 +139,7 @@ var packCommon = [
 	'}'
 ].join('\n');
 
-ShaderFragment.methods = {
+methods = {
 	packDepth: [
 		'vec4 packDepth(const in float depth) {',
 			'const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);',
@@ -218,7 +223,7 @@ ShaderFragment.methods = {
 	].join('\n')
 };
 
-ShaderFragment.blendmodes = [
+blendmodes = [
 	'#define BlendLinearDodgef				BlendAddf',
 	'#define BlendLinearBurnf				BlendSubstractf',
 	'#define BlendAddf(base, blend)			min(base + blend, 1.0)',
@@ -268,4 +273,4 @@ ShaderFragment.blendmodes = [
 	'#define LevelsControl(color, minInput, gamma, maxInput, minOutput, maxOutput)	LevelsControlOutputRange(LevelsControlInput(color, minInput, gamma, maxInput), minOutput, maxOutput)'
 ].join('\n');
 
-module.exports = ShaderFragment;
+export { noise3d, methods, blendmodes, ShaderFragment };

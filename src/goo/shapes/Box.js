@@ -1,5 +1,6 @@
-var MeshData = require('../renderer/MeshData');
-var ObjectUtils = require('../util/ObjectUtils');
+var mod_Box = Box;
+import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
 
 /**
  * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii)
@@ -65,13 +66,13 @@ function Box(width, height, length, tileX, tileY, textureMode) {
 	 */
 	this.textureMode = textureMode !== undefined ? textureMode : Box.TextureModes.Uniform;
 
-	var attributeMap = MeshData.defaultMap([MeshData.POSITION, MeshData.NORMAL, MeshData.TEXCOORD0]);
-	MeshData.call(this, attributeMap, 24, 36);
+	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.NORMAL, MeshData_MeshData.TEXCOORD0]);
+	MeshData_MeshData.call(this, attributeMap, 24, 36);
 
 	this.rebuild();
 }
 
-Box.prototype = Object.create(MeshData.prototype);
+Box.prototype = Object.create(MeshData_MeshData.prototype);
 Box.prototype.constructor = Box;
 
 /**
@@ -115,7 +116,7 @@ Box.prototype.rebuild = function () {
 		0, 5, 4, 1
 	]);
 
-	this.getAttributeBuffer(MeshData.POSITION).set(vertices);
+	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(vertices);
 
 	var norms = [
 		0, 0, -1,
@@ -139,7 +140,7 @@ Box.prototype.rebuild = function () {
 	}
 	fillN();
 
-	this.getAttributeBuffer(MeshData.NORMAL).set(normals);
+	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set(normals);
 
 	var tex = [];
 	if (this.textureMode === Box.TextureModes.Uniform) {
@@ -165,7 +166,7 @@ Box.prototype.rebuild = function () {
 		tex.push(1 / 4, 0 / 3,   1 / 4, 1 / 3,   2 / 4, 1 / 3,   2 / 4, 0 / 3); // 6
 	}
 
-	this.getAttributeBuffer(MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0).set(tex);
 
 	this.getIndexBuffer().set([
 		2,  1,  0,  3,  2,  0,
@@ -184,7 +185,7 @@ Box.prototype.rebuild = function () {
  * @returns {Box}
  */
 Box.prototype.clone = function () {
-	var options = ObjectUtils.shallowSelectiveClone(this, ['tileX', 'tileY', 'textureMode']);
+	var options = ObjectUtils_ObjectUtils.shallowSelectiveClone(this, ['tileX', 'tileY', 'textureMode']);
 
 	// converting xExtent to width so the constructor will convert it the other way around again
 	options.width = this.xExtent * 2;
@@ -202,4 +203,15 @@ Box.TextureModes = {
 	Unfolded: 'Unfolded'
 };
 
-module.exports = Box;
+/**
+ * An axis-aligned rectangular prism defined by a center point and x-, y- and z-extents (radii)
+ * from that center (a box).
+ * @extends MeshData
+ * @param {number} [width=1] Total width of box.
+ * @param {number} [height=1] Total height of box.
+ * @param {number} [length=1] Total length of box.
+ * @param {number} [tileX=1] Number of texture repetitions in the texture's x direction.
+ * @param {number} [tileY=1] Number of texture repetitions in the texture's y direction.
+ * @param {Enum} [textureMode=Box.TextureModes.Uniform] Texture wrapping mode.
+ */
+export { mod_Box as Box };

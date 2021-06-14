@@ -1,3 +1,17 @@
+var GameUtils_initPointerLockShims;
+var GameUtils_initFullscreenShims;
+var GameUtils_initAnimationShims;
+var GameUtils_initWebGLShims;
+var GameUtils_initAllShims;
+var GameUtils_clearVisibilityChangeListeners;
+var GameUtils_addVisibilityChangeListener;
+var GameUtils_togglePointerLock;
+var GameUtils_exitPointerLock;
+var GameUtils_requestPointerLock;
+var GameUtils_toggleFullScreen;
+var GameUtils_exitFullScreen;
+var GameUtils_requestFullScreen;
+var supported;
 /**
  * Shims for standard gaming features
  * Only used to define the class. Should never be instantiated.
@@ -9,7 +23,7 @@ function GameUtils() {}
  * @property {boolean} fullscreen
  * @property {boolean} pointerLock
  */
-GameUtils.supported = {
+supported = {
 	fullscreen: true,
 	pointerLock: true
 };
@@ -17,7 +31,7 @@ GameUtils.supported = {
 /**
  * Attempts to request fullscreen.
  */
-GameUtils.requestFullScreen = function () {
+GameUtils_requestFullScreen = function () {
 	if (!document.fullscreenElement && document.documentElement.requestFullScreen) {
 		document.documentElement.requestFullScreen();
 	}
@@ -26,7 +40,7 @@ GameUtils.requestFullScreen = function () {
 /**
  * Attempts to exit fullscreen.
  */
-GameUtils.exitFullScreen = function () {
+GameUtils_exitFullScreen = function () {
 	if (document.fullscreenElement && document.cancelFullScreen) {
 		document.cancelFullScreen();
 	}
@@ -35,7 +49,7 @@ GameUtils.exitFullScreen = function () {
 /**
  * Attempts to toggle fullscreen.
  */
-GameUtils.toggleFullScreen = function () {
+GameUtils_toggleFullScreen = function () {
 	if (!document.fullscreenElement) {
 		if (document.documentElement.requestFullScreen) {
 			document.documentElement.requestFullScreen();
@@ -50,7 +64,7 @@ GameUtils.toggleFullScreen = function () {
 /**
  * Attempts to lock the mouse pointer in the window.
  */
-GameUtils.requestPointerLock = function (optionalTarget) {
+GameUtils_requestPointerLock = function (optionalTarget) {
 	var target = optionalTarget || document.documentElement;
 	if (target.requestPointerLock) {
 		target.requestPointerLock();
@@ -60,7 +74,7 @@ GameUtils.requestPointerLock = function (optionalTarget) {
 /**
  * Attempts to unlock the mouse pointer in the window.
  */
-GameUtils.exitPointerLock = function () {
+GameUtils_exitPointerLock = function () {
 	if (document.exitPointerLock) {
 		document.exitPointerLock();
 	}
@@ -69,11 +83,11 @@ GameUtils.exitPointerLock = function () {
 /**
  * Attempts to toggle the lock on the mouse pointer in the window.
  */
-GameUtils.togglePointerLock = function (optionalTarget) {
+GameUtils_togglePointerLock = function (optionalTarget) {
 	if (!document.pointerLockElement) {
-		GameUtils.requestPointerLock(optionalTarget);
+		GameUtils_requestPointerLock(optionalTarget);
 	} else {
-		GameUtils.exitPointerLock();
+		GameUtils_exitPointerLock();
 	}
 };
 
@@ -83,7 +97,7 @@ var visibilityChangeListeners = [];
  * Add a visibilitychange listener.
  * @param {Function} callback function called with a boolean (true=hidden, false=visible)
  */
-GameUtils.addVisibilityChangeListener = function (callback) {
+GameUtils_addVisibilityChangeListener = function (callback) {
 	if (typeof callback !== 'function') {
 		return;
 	}
@@ -119,7 +133,7 @@ GameUtils.addVisibilityChangeListener = function (callback) {
 	}
 };
 
-GameUtils.clearVisibilityChangeListeners = function () {
+GameUtils_clearVisibilityChangeListeners = function () {
 	visibilityChangeListeners.forEach(function (listener) {
 		document.removeEventListener(listener.eventName, listener.eventListener);
 	});
@@ -130,24 +144,24 @@ GameUtils.clearVisibilityChangeListeners = function () {
  * Attempts to initialize all shims (animation, fullscreen, pointer lock).
  * @param {Element} [global=window] The global element (for compatibility checks and patching)
  */
-GameUtils.initAllShims = function (global) {
-	GameUtils.initWebGLShims();
-	GameUtils.initAnimationShims();
-	GameUtils.initFullscreenShims(global);
-	GameUtils.initPointerLockShims(global);
+GameUtils_initAllShims = function (global) {
+	GameUtils_initWebGLShims();
+	GameUtils_initAnimationShims();
+	GameUtils_initFullscreenShims(global);
+	GameUtils_initPointerLockShims(global);
 };
 
 /**
  * Handle missing WebGL features like IE 11 Uint8ClampedArray
  */
-GameUtils.initWebGLShims = function () {
+GameUtils_initWebGLShims = function () {
 	window.Uint8ClampedArray = window.Uint8ClampedArray || window.Uint8Array;
 };
 
 /**
  * Attempts to initialize the animation shim, ie. defines requestAnimationFrame and cancelAnimationFrame
  */
-GameUtils.initAnimationShims = function () {
+GameUtils_initAnimationShims = function () {
 	var lastTime = 0;
 	var vendors = ['ms', 'moz', 'webkit', 'o'];
 
@@ -178,7 +192,7 @@ GameUtils.initAnimationShims = function () {
  * Attempts to initialize the fullscreen shim, ie. defines requestFullscreen and cancelFullscreen
  * @param {Element} [global=window] The global element (for compatibility checks and patching)
  */
-GameUtils.initFullscreenShims = function (global) {
+GameUtils_initFullscreenShims = function (global) {
 	global = global || window;
 	var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
@@ -195,7 +209,7 @@ GameUtils.initFullscreenShims = function (global) {
 				};
 			}
 
-			GameUtils.supported.fullscreen = false;
+			supported.fullscreen = false;
 
 			return function () {
 				return false;
@@ -296,7 +310,7 @@ GameUtils.initFullscreenShims = function (global) {
  * Attempts to initialize the pointer lock shim, ie. define requestPointerLock and exitPointerLock
  * @param {Element} [global=window] The global element (for compatibility checks and patching)
  */
-GameUtils.initPointerLockShims = function (global) {
+GameUtils_initPointerLockShims = function (global) {
 	global = global || window;
 	var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
@@ -395,7 +409,7 @@ GameUtils.initPointerLockShims = function (global) {
 				};
 			}
 
-			GameUtils.supported.pointerLock = false;
+			supported.pointerLock = false;
 
 			return function () {};
 		})();
@@ -412,4 +426,4 @@ GameUtils.initPointerLockShims = function (global) {
 	}
 };
 
-module.exports = GameUtils;
+export { GameUtils_toggleFullScreen as toggleFullScreen, GameUtils_requestPointerLock as requestPointerLock, GameUtils_exitPointerLock as exitPointerLock, GameUtils_togglePointerLock as togglePointerLock, GameUtils_addVisibilityChangeListener as addVisibilityChangeListener, GameUtils_clearVisibilityChangeListeners as clearVisibilityChangeListeners, GameUtils_initAllShims as initAllShims, GameUtils };

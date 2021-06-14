@@ -1,8 +1,9 @@
-var Component = require('../../entities/components/Component');
-var Quaternion = require('../../math/Quaternion');
-var Vector3 = require('../../math/Vector3');
-var Transform = require('../../math/Transform');
-var ObjectUtils = require('../../util/ObjectUtils');
+var mod_CannonRigidbodyComponent = CannonRigidbodyComponent;
+import { Component as Component_Component } from "../../entities/components/Component";
+import { Quaternion as Quaternion_Quaternion } from "../../math/Quaternion";
+import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+import { Transform as Transform_Transform } from "../../math/Transform";
+import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
 
 /* global CANNON */
 
@@ -25,26 +26,26 @@ var ObjectUtils = require('../../util/ObjectUtils');
  * entity.setComponent(boxColliderComponent);
  */
 function CannonRigidbodyComponent(settings) {
-	Component.apply(this, arguments);
+	Component_Component.apply(this, arguments);
 
 	settings = settings || {};
 	this.type = 'CannonRigidbodyComponent';
 
-	ObjectUtils.defaults(settings, {
+	ObjectUtils_ObjectUtils.defaults(settings, {
 		mass: 1,
-		velocity: new Vector3()
+		velocity: new Vector3_Vector3()
 		// Todo: a lot of more things from Cannon.js API
 	}); //! AT: this is modifying the settings object which is bad practice (as in 'unintended side effects')
 
 	this.mass = settings.mass;
 	this._initialPosition = null;
-	this._initialVelocity = new Vector3();
+	this._initialVelocity = new Vector3_Vector3();
 	this._initialVelocity.set(settings.velocity);
 	this.body = null;
-	this.centerOfMassOffset = new Vector3();
+	this.centerOfMassOffset = new Vector3_Vector3();
 }
 
-CannonRigidbodyComponent.prototype = Object.create(Component.prototype);
+CannonRigidbodyComponent.prototype = Object.create(Component_Component.prototype);
 CannonRigidbodyComponent.constructor = CannonRigidbodyComponent;
 
 CannonRigidbodyComponent.prototype.api = {
@@ -63,7 +64,7 @@ CannonRigidbodyComponent.prototype.api = {
 	}
 };
 
-var tmpQuat = new Quaternion();
+var tmpQuat = new Quaternion_Quaternion();
 
 /**
  * Set the force on the body
@@ -89,7 +90,7 @@ CannonRigidbodyComponent.prototype.setPosition = function (pos) {
 	if (this.body) {
 		this.body.position.set(pos.x, pos.y, pos.z);
 	} else {
-		this._initialPosition = new Vector3(pos);
+		this._initialPosition = new Vector3_Vector3(pos);
 	}
 };
 
@@ -116,10 +117,10 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 	if (!collider) {
 		// Needed for getting the Rigidbody-local transform of each collider
 		var bodyTransform = entity.transformComponent.sync().worldTransform;
-		var invBodyTransform = new Transform();
+		var invBodyTransform = new Transform_Transform();
 		invBodyTransform.copy(bodyTransform);
 		invBodyTransform.invert(invBodyTransform);
-		var gooTrans = new Transform();
+		var gooTrans = new Transform_Transform();
 
 		var cmOffset = this.centerOfMassOffset;
 
@@ -128,8 +129,8 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 			if (collider) {
 				// Look at the world transform and then get the transform relative to the root entity. This is needed for compounds with more than one level of recursion
 				gooTrans.copy(childEntity.transformComponent.sync().worldTransform);
-				var gooTrans2 = new Transform();
-				Transform.combine(invBodyTransform, gooTrans, gooTrans2);
+				var gooTrans2 = new Transform_Transform();
+				Transform_Transform.combine(invBodyTransform, gooTrans, gooTrans2);
 				gooTrans2.update();
 
 				// var gooTrans2 = new Transform();
@@ -165,4 +166,24 @@ CannonRigidbodyComponent.prototype.addShapesToBody = function (entity) {
 	}
 };
 
-module.exports = CannonRigidbodyComponent;
+/* global CANNON */
+
+/**
+ * Adds Cannon physics to an entity. Should be combined with one of the CannonCollider components, such as the {@link CannonSphereColliderComponent}. Also see {@link CannonSystem}.
+ * @extends Component
+ * @param {Object} [settings]
+ * @param {number} [settings.mass=1]
+ * @example-link http://code.gooengine.com/latest/visual-test/goo/addons/Cannon/Cannon-vtest.html Working example
+ * @example
+ * world.setSystem(new CannonSystem());
+ * var entity = world.createEntity();
+ * var rigidBodyComponent = new CannonRigidBodyComponent({
+ *   mass: 1
+ * });
+ * entity.setComponent(rigidBodyComponent);
+ * var boxColliderComponent = new CannonBoxColliderComponent({
+ *   halfExtents: new Vector3(1, 1, 1)
+ * });
+ * entity.setComponent(boxColliderComponent);
+ */
+export { mod_CannonRigidbodyComponent as CannonRigidbodyComponent };

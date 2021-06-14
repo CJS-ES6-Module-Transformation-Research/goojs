@@ -1,4 +1,7 @@
-var PromiseUtils = require('../../util/PromiseUtils');
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
+var ComponentHandler__registerClass;
+var ComponentHandler_getHandler;
+var handlerClasses;
 
 /**
  * Base class for component handlers. All different types of components that an entity
@@ -68,11 +71,11 @@ ComponentHandler.prototype._load = function (ref, options) {
  */
 ComponentHandler.prototype.update = function (entity, config/*, options*/) {
 	if (!entity) {
-		return PromiseUtils.reject('Entity is missing');
+		return PromiseUtils_PromiseUtils.reject('Entity is missing');
 	}
 	if (!config) {
 		this._remove(entity);
-		return PromiseUtils.resolve();
+		return PromiseUtils_PromiseUtils.resolve();
 	}
 	var component = entity.getComponent(this._type);
 	if (!component) {
@@ -81,11 +84,11 @@ ComponentHandler.prototype.update = function (entity, config/*, options*/) {
 	}
 	this._prepare(config);
 
-	return PromiseUtils.resolve(component);
+	return PromiseUtils_PromiseUtils.resolve(component);
 };
 
 
-ComponentHandler.handlerClasses = {};
+handlerClasses = {};
 
 /**
  * Get a handler class for the specified type of component. The type can be e.g. 'camera', 'transform', etc.
@@ -93,8 +96,8 @@ ComponentHandler.handlerClasses = {};
  * @param {string} type
  * @returns {Class} A subclass of {ComponentHandler}, or null if no registered handler for the given type was found.
  */
-ComponentHandler.getHandler = function (type) {
-	return ComponentHandler.handlerClasses[type];
+ComponentHandler_getHandler = function (type) {
+	return handlerClasses[type];
 };
 
 /**
@@ -102,8 +105,8 @@ ComponentHandler.getHandler = function (type) {
  * @param {string} type
  * @param {Class} klass the class to register for this component type
  */
-ComponentHandler._registerClass = function (type, klass) {
-	ComponentHandler.handlerClasses[type] = klass;
+ComponentHandler__registerClass = function (type, klass) {
+	handlerClasses[type] = klass;
 };
 
-module.exports = ComponentHandler;
+export { ComponentHandler_getHandler as getHandler, ComponentHandler__registerClass as _registerClass, ComponentHandler };

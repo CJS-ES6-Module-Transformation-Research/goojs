@@ -1,11 +1,12 @@
-var System = require('../../entities/systems/System');
+var mod_PickingSystem = PickingSystem;
+import { System as System_System } from "../../entities/systems/System";
 
 /**
  * Helps gather pickable entities
  * @extends System
  */
 function PickingSystem(settings) {
-	System.call(this, 'PickingSystem', ['MeshRendererComponent', 'TransformComponent']);
+	System_System.call(this, 'PickingSystem', ['MeshRendererComponent', 'TransformComponent']);
 	this.passive = true;
 	this.pickRay = null;
 	this.onPick = null;
@@ -15,7 +16,7 @@ function PickingSystem(settings) {
 	this.setPickLogic(settings.pickLogic || null);
 }
 
-PickingSystem.prototype = Object.create(System.prototype);
+PickingSystem.prototype = Object.create(System_System.prototype);
 PickingSystem.prototype.constructor = PickingSystem;
 
 PickingSystem.prototype.setPickLogic = function (pickLogic) {
@@ -86,4 +87,8 @@ PickingSystem.prototype.process = function (entities) {
 	this.onPick(pickList);
 };
 
-module.exports = PickingSystem;
+/**
+ * Helps gather pickable entities
+ * @extends System
+ */
+export { mod_PickingSystem as PickingSystem };

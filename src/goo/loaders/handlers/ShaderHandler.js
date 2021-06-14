@@ -1,8 +1,14 @@
-var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
-var Material = require('../../renderer/Material');
-var ShaderBuilder = require('../../renderer/shaders/ShaderBuilder');
-var RSVP = require('../../util/rsvp');
-var PromiseUtils = require('../../util/PromiseUtils');
+var mod_ShaderHandler = ShaderHandler;
+
+import {
+    ConfigHandler as ConfigHandler_ConfigHandler,
+    _registerClass as ConfigHandlerjs__registerClass,
+} from "../../loaders/handlers/ConfigHandler";
+
+import { Material as Material_Material } from "../../renderer/Material";
+import { ShaderBuilder as ShaderBuilder_ShaderBuilder } from "../../renderer/shaders/ShaderBuilder";
+import { rsvpjs as RSVP } from "../../util/rsvp";
+import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
 
 /**
  * Handler for loading shaders into engine
@@ -13,12 +19,12 @@ var PromiseUtils = require('../../util/PromiseUtils');
  * @private
  */
 function ShaderHandler() {
-	ConfigHandler.apply(this, arguments);
+	ConfigHandler_ConfigHandler.apply(this, arguments);
 }
 
-ShaderHandler.prototype = Object.create(ConfigHandler.prototype);
+ShaderHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
 ShaderHandler.prototype.constructor = ShaderHandler;
-ConfigHandler._registerClass('shader', ShaderHandler);
+ConfigHandlerjs__registerClass('shader', ShaderHandler);
 
 /**
  * Removes a shader
@@ -44,13 +50,13 @@ ShaderHandler.prototype._remove = function (ref) {
 ShaderHandler.prototype._update = function (ref, config, options) {
 	if (!config) {
 		this._remove(ref);
-		return PromiseUtils.resolve();
+		return PromiseUtils_PromiseUtils.resolve();
 	}
 	if (!config.vshaderRef) {
-		return PromiseUtils.reject('Shader error, missing vertex shader ref');
+		return PromiseUtils_PromiseUtils.reject('Shader error, missing vertex shader ref');
 	}
 	if (!config.fshaderRef) {
-		return PromiseUtils.reject('Shader error, missing fragment shader ref');
+		return PromiseUtils_PromiseUtils.reject('Shader error, missing fragment shader ref');
 	}
 
 	var promises = [
@@ -63,10 +69,10 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 		var fshader = shaders[1];
 
 		if (!vshader) {
-			return PromiseUtils.reject('Vertex shader' + config.vshaderRef + 'in shader' + ref + 'not found');
+			return PromiseUtils_PromiseUtils.reject('Vertex shader' + config.vshaderRef + 'in shader' + ref + 'not found');
 		}
 		if (!fshader) {
-			return PromiseUtils.reject('Fragment shader' + config.fshaderRef + 'in shader' + ref + 'not found');
+			return PromiseUtils_PromiseUtils.reject('Fragment shader' + config.fshaderRef + 'in shader' + ref + 'not found');
 		}
 
 		var shaderDefinition = {
@@ -81,15 +87,15 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 			shaderDefinition.processors = [];
 			for (var i = 0; i < config.processors.length; i++) {
 				var processor = config.processors[i];
-				if (ShaderBuilder[processor]) {
-					shaderDefinition.processors.push(ShaderBuilder[processor].processor);
+				if (ShaderBuilder_ShaderBuilder[processor]) {
+					shaderDefinition.processors.push(ShaderBuilder_ShaderBuilder[processor].processor);
 				} else {
 					console.error('Unknown processor ' + processor);
 				}
 			}
 		}
 
-		var shader = Material.createShader(shaderDefinition, ref);
+		var shader = Material_Material.createShader(shaderDefinition, ref);
 
 		this._objects.set(ref, shader);
 
@@ -97,4 +103,12 @@ ShaderHandler.prototype._update = function (ref, config, options) {
 	}.bind(this));
 };
 
-module.exports = ShaderHandler;
+/**
+ * Handler for loading shaders into engine
+ * @extends ConfigHandler
+ * @param {World} world
+ * @param {Function} getConfig
+ * @param {Function} updateObject
+ * @private
+ */
+export { mod_ShaderHandler as ShaderHandler };

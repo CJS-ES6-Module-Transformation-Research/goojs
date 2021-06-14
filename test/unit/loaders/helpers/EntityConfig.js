@@ -1,6 +1,6 @@
-var _ = require('../../../../src/goo/util/ObjectUtil');
+import { ObjectUtils as _ } from "../../../../src/goo/util/ObjectUtil";
 
-module.exports = {
+mod_EntityConfigjs = {
 	entity: function (components) {
 		components = components || ['transform'];
 		var entity = this.gooObject('entity', 'Dummy');
@@ -248,3 +248,5 @@ module.exports = {
 		};
 	}
 };
+var mod_EntityConfigjs;
+export { mod_EntityConfigjs as EntityConfigjs };

@@ -1,3 +1,4 @@
+var mod_Bus = Bus;
 /**
  * A generic message bus. Offers ways to receive and subscribe to messages on a hierarchy of channels.
  * @example
@@ -228,4 +229,19 @@ Bus.prototype.clear = function () {
 	this.trie = { name: '', listeners: [], children: new Map() };
 };
 
-module.exports = Bus;
+/**
+ * A generic message bus. Offers ways to receive and subscribe to messages on a hierarchy of channels.
+ * @example
+ * // Listen to an event on the global system bus
+ * function listener() {
+ *     console.log('caught message!');
+ * }
+ * SystemBus.addListener('eventName', listener);
+ *
+ * // Emit an event on the bus
+ * SystemBus.emit('eventName');
+ *
+ * // Remove the listener after you're done with it
+ * SystemBus.removeListener('eventName', listener);
+ */
+export { mod_Bus as Bus };

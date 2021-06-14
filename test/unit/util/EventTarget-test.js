@@ -1,9 +1,9 @@
-var EventTarget = require('../../../src/goo/util/EventTarget');
+import { EventTarget as EventTarget_EventTarget } from "../../../src/goo/util/EventTarget";
 
 function Test() {
-	EventTarget.apply(this, arguments);
+	EventTarget_EventTarget.apply(this, arguments);
 }
-Test.prototype = Object.create(EventTarget.prototype);
+Test.prototype = Object.create(EventTarget_EventTarget.prototype);
 
 describe('EventTarget', function () {
 	var test;

@@ -1,8 +1,8 @@
-var childProcess = require('child_process');
-var path = require('path');
+import ext_childProcess from "child_process";
+import ext_path_path from "path";
 
-var exec = childProcess.exec;
-var spawn = childProcess.spawn;
+var exec = ext_childProcess.exec;
+var spawn = ext_childProcess.spawn;
 
 function fail(message) {
 	process.stdout.write(message);
@@ -26,7 +26,7 @@ exec('git diff --staged --name-status', function (error, stdout, stderr) {
 		process.exit(0);
 	}
 
-	var args = [path.resolve('./node_modules/eslint/bin/eslint')].concat(files);
+	var args = [ext_path_path.resolve('./node_modules/eslint/bin/eslint')].concat(files);
 	var child1 = spawn('node', args, { stdio: 'inherit' });
 
 	child1.on('exit', function (code) {

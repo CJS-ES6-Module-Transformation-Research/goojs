@@ -1,18 +1,28 @@
-var Scripts = require('../scripts/Scripts');
+import { register as Scriptsjs_register } from "../scripts/Scripts";
+import {     OrbitCamControlScript as scriptsOrbitCamControlScript_OrbitCamControlScript, } from "../scripts/OrbitCamControlScript";
+import { OrbitNPan as OrbitNPanControlScript_OrbitNPan } from "./OrbitNPanControlScript";
+import { FlyControlScript as FlyControlScript_FlyControlScript } from "./FlyControlScript";
+import {     AxisAlignedCamControlScript as AxisAlignedCamControlScript_AxisAlignedCamControlScript, } from "./AxisAlignedCamControlScript";
+import { PanCamScript as PanCamScript_PanCamScript } from "./PanCamScript";
+import { MouseLookControlScript as MouseLookControlScript_MouseLookControlScript } from "./MouseLookControlScript";
+import { WasdControlScript as WasdControlScript_WasdControlScript } from "./WasdControlScript";
+import { ButtonScript as ButtonScript_ButtonScript } from "./ButtonScript";
+import { PickAndRotateScript as PickAndRotateScript_PickAndRotateScript } from "./PickAndRotateScript";
+import { LensFlareScript as LensFlareScript_LensFlareScript } from "./LensFlareScript";
 
 var scripts = {
-	OrbitCamControlScript: require('../scripts/OrbitCamControlScript'),
-	OrbitNPanControlScript: require('./OrbitNPanControlScript'),
-	FlyControlScript: require('./FlyControlScript'),
-	AxisAlignedCamControlScript: require('./AxisAlignedCamControlScript'),
-	PanCamScript: require('./PanCamScript'),
-	MouseLookControlScript: require('./MouseLookControlScript'),
-	WasdControlScript: require('./WasdControlScript'),
-	ButtonScript: require('./ButtonScript'),
-	PickAndRotateScript: require('./PickAndRotateScript'),
-	LensFlareScript: require('./LensFlareScript')
+	OrbitCamControlScript: scriptsOrbitCamControlScript_OrbitCamControlScript,
+	OrbitNPanControlScript: OrbitNPanControlScript_OrbitNPan,
+	FlyControlScript: FlyControlScript_FlyControlScript,
+	AxisAlignedCamControlScript: AxisAlignedCamControlScript_AxisAlignedCamControlScript,
+	PanCamScript: PanCamScript_PanCamScript,
+	MouseLookControlScript: MouseLookControlScript_MouseLookControlScript,
+	WasdControlScript: WasdControlScript_WasdControlScript,
+	ButtonScript: ButtonScript_ButtonScript,
+	PickAndRotateScript: PickAndRotateScript_PickAndRotateScript,
+	LensFlareScript: LensFlareScript_LensFlareScript
 };
 
 for (var key in scripts) {
-	Scripts.register(scripts[key]);
+	Scriptsjs_register(scripts[key]);
 }
