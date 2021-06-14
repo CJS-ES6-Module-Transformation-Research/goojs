@@ -1,4 +1,12 @@
-import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RenderQueue = exports.TRANSPARENT = exports.OPAQUE = undefined;
+
+var _Vector = require("../math/Vector3");
+
 var OVERLAY;
 var TRANSPARENT;
 var OPAQUE;
@@ -40,7 +48,7 @@ function RenderQueue() {
 
 var bucketSortList = [];
 
-var tmpVec = new Vector3_Vector3();
+var tmpVec = new _Vector.Vector3();
 
 /**
  * @param {Array<Entity>} renderList
@@ -112,13 +120,13 @@ BACKGROUND = 0;
  * @readonly
  * @default
  */
-OPAQUE = 1000;
+exports.OPAQUE = OPAQUE = 1000;
 /** For all alpha-blended objects. Rendered back to front
  * @type {number}
  * @readonly
  * @default
  */
-TRANSPARENT = 2000;
+exports.TRANSPARENT = TRANSPARENT = 2000;
 /** For overlay effects like lens-flares etc
  * @type {number}
  * @readonly
@@ -126,4 +134,6 @@ TRANSPARENT = 2000;
  */
 OVERLAY = 3000;
 
-export { OPAQUE, TRANSPARENT, RenderQueue };
+exports.OPAQUE = OPAQUE;
+exports.TRANSPARENT = TRANSPARENT;
+exports.RenderQueue = RenderQueue;

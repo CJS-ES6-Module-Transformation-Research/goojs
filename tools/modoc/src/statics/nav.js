@@ -1,9 +1,13 @@
+'use strict';
+
 (function () {
 	'use strict';
 
 	function setActiveClass(element) {
 		if (activeClass !== element) {
-			if (activeClass) { activeClass.classList.remove('active'); }
+			if (activeClass) {
+				activeClass.classList.remove('active');
+			}
 			element.classList.add('active');
 			activeClass = element;
 		}
@@ -19,31 +23,31 @@
 	}
 
 	var scoringCriteria = [
-		// 'exact match'
-		function (pattern, text) {
-			if (text === pattern) {
-				return 4;
-			} else {
-				return 0;
-			}
-		},
-		// 'starts with'
-		function (pattern, text) {
-			if (text.slice(0, pattern.length) === pattern) {
-				return 2;
-			} else {
-				return 0;
-			}
-		},
-		// 'contains'
-		function (pattern, text) {
-			if (text.indexOf(pattern) !== -1) {
-				return 1;
-			} else {
-				return 0;
-			}
+	// 'exact match'
+	function (pattern, text) {
+		if (text === pattern) {
+			return 4;
+		} else {
+			return 0;
 		}
-		// 'initials match' ?
+	},
+	// 'starts with'
+	function (pattern, text) {
+		if (text.slice(0, pattern.length) === pattern) {
+			return 2;
+		} else {
+			return 0;
+		}
+	},
+	// 'contains'
+	function (pattern, text) {
+		if (text.indexOf(pattern) !== -1) {
+			return 1;
+		} else {
+			return 0;
+		}
+	}
+	// 'initials match' ?
 	];
 
 	function displaySearchResults(pattern) {
@@ -129,7 +133,9 @@
 				element.scrollIntoView();
 				setActiveClass(element.parentNode);
 			} else {
-				if (activeClass) { activeClass.classList.remove('active'); }
+				if (activeClass) {
+					activeClass.classList.remove('active');
+				}
 			}
 		});
 
@@ -155,7 +161,6 @@
 	var searchText = '';
 
 	var anchorsByName = setupActiveClass();
-
 
 	var parameters = window.purl().param();
 

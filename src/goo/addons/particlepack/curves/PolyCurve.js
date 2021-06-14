@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PolyCurve = undefined;
+
+var _Curve = require("../../../addons/particlepack/curves/Curve");
+
 var mod_PolyCurve = PolyCurve;
-import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve";
 
 /**
  * A collection of Curve instances. Used to connect different types curves, joining them at their given time offsets.
@@ -11,11 +19,11 @@ import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve"
 function PolyCurve(options) {
 	options = options || {};
 
-	Curve_Curve.call(this, options);
+	_Curve.Curve.call(this, options);
 
 	/**
-	 * @type {Array<Curve>}
-	 */
+  * @type {Array<Curve>}
+  */
 	this.segments = options.segments ? options.segments.map(function (curve) {
 		return curve.clone();
 	}) : [];
@@ -23,88 +31,81 @@ function PolyCurve(options) {
 
 PolyCurve.prototype = {
 
-	clone: function () {
+	clone: function clone() {
 		return new PolyCurve(this);
 	},
 
 	/**
-	 * @param {Curve} curve
-	 */
-	addSegment: function (curve) {
+  * @param {Curve} curve
+  */
+	addSegment: function addSegment(curve) {
 		this.segments.push(curve);
 		this.sort();
 	},
 
 	/**
-	 * @param {number} i
-	 */
-	removeSegment: function (i) {
+  * @param {number} i
+  */
+	removeSegment: function removeSegment(i) {
 		this.segments.splice(i, 1);
 	},
 
 	/**
-	 * Sorts the segments depending on their timeOffset.
-	 */
-	sort: function () {
+  * Sorts the segments depending on their timeOffset.
+  */
+	sort: function sort() {
 		this.segments = this.segments.sort(function (curveA, curveB) {
 			return curveA.timeOffset - curveB.timeOffset;
 		});
 	},
 
 	/**
-	 * Returns a GLSL expression that gives the value of the curve at a given time.
-	 * @param {string} timeVariableName
-	 * @param {string} lerpVariableName
-	 */
-	toGLSL: function (timeVariableName, lerpValueVariableName) {
+  * Returns a GLSL expression that gives the value of the curve at a given time.
+  * @param {string} timeVariableName
+  * @param {string} lerpVariableName
+  */
+	toGLSL: function toGLSL(timeVariableName, lerpValueVariableName) {
 		var segments = this.segments;
 		var glsl = [];
 		for (var i = 0; i < segments.length; i++) {
 			var a = segments[i];
-			var t0 = Curve_Curve.numberToGLSL(a.timeOffset);
+			var t0 = _Curve.Curve.numberToGLSL(a.timeOffset);
 			var t1 = "1.0";
 			if (i < segments.length - 1) {
-				t1 = Curve_Curve.numberToGLSL(segments[i + 1].timeOffset);
+				t1 = _Curve.Curve.numberToGLSL(segments[i + 1].timeOffset);
 			}
-			glsl.push(
-				'step(' + t0 + ',t)*step(-' + t1 + ',-t)*' + a.toGLSL(timeVariableName, lerpValueVariableName)
-			);
+			glsl.push('step(' + t0 + ',t)*step(-' + t1 + ',-t)*' + a.toGLSL(timeVariableName, lerpValueVariableName));
 		}
 		return glsl.join('+');
 	},
 
 	/**
-	 * Returns a GLSL expression that gives the integral value of the curve at a given time.
-	 * @param {string} timeVariableName
-	 * @param {string} lerpVariableName
-	 */
-	integralToGLSL: function (timeVariableName, lerpValueVariableName) {
+  * Returns a GLSL expression that gives the integral value of the curve at a given time.
+  * @param {string} timeVariableName
+  * @param {string} lerpVariableName
+  */
+	integralToGLSL: function integralToGLSL(timeVariableName, lerpValueVariableName) {
 		var segments = this.segments;
 		var glsl = [];
 		for (var i = 0; i < segments.length; i++) {
 			var a = segments[i];
-			var t0 = Curve_Curve.numberToGLSL(a.timeOffset);
+			var t0 = _Curve.Curve.numberToGLSL(a.timeOffset);
 			var t1 = "1.0";
 			if (i < segments.length - 1) {
-				t1 = Curve_Curve.numberToGLSL(segments[i + 1].timeOffset);
+				t1 = _Curve.Curve.numberToGLSL(segments[i + 1].timeOffset);
 			}
-			glsl.push(
-				a.integralToGLSL(
-					'clamp(' + timeVariableName + ',' + t0 + ',' + t1 + ')',
-					lerpValueVariableName
-				)
-			);
+			glsl.push(a.integralToGLSL('clamp(' + timeVariableName + ',' + t0 + ',' + t1 + ')', lerpValueVariableName));
 		}
 		return glsl.join('+');
 	},
 
 	/**
-	 * Get the value of the curve at a given time.
-	 * @param {number} t
-	 * @param {number} lerpValue
-	 * @returns {number}
-	 */
-	getValueAt: function (t, lerpValue) {
+  * Get the value of the curve at a given time.
+  * @param {number} t
+  * @param {number} lerpValue
+  * @returns {number}
+  */
+	getValueAt: function getValueAt(t, lerpValue) {
 		// Find the matching segment
 		var segments = this.segments;
 		for (var i = 0; i < segments.length - 1; i++) {
@@ -118,12 +119,12 @@ PolyCurve.prototype = {
 	},
 
 	/**
-	 * Get the integral value of the curve at a given time.
-	 * @param {number} t
-	 * @param {number} lerpValue
-	 * @returns {number}
-	 */
-	getIntegralValueAt: function (t, lerpValue) {
+  * Get the integral value of the curve at a given time.
+  * @param {number} t
+  * @param {number} lerpValue
+  * @returns {number}
+  */
+	getIntegralValueAt: function getIntegralValueAt(t, lerpValue) {
 		// Add all integral values until the last segment
 		var segments = this.segments;
 		var value = 0;
@@ -151,4 +152,4 @@ PolyCurve.prototype = {
  * @param {object} [options]
  * @param {Array<Curve>} [options.segments]
  */
-export { mod_PolyCurve as PolyCurve };
+exports.PolyCurve = mod_PolyCurve;

@@ -11,7 +11,6 @@ describe('tokenizer', function () {
 		var makeIdentifier = makeToken.bind(null, 'identifier');
 		var makeSymbol = makeToken.bind(null, 'symbol');
 
-
 		it('chops an identifier', function () {
 			expect(tokenize('asd')).toEqual([makeIdentifier('asd')]);
 			expect(tokenize('asd123')).toEqual([makeIdentifier('asd123')]);
@@ -48,30 +47,12 @@ describe('tokenizer', function () {
 		});
 
 		it('chops an more tokens', function () {
-			expect(tokenize('asd123 *   dsa :')).toEqual([
-				makeIdentifier('asd123'),
-				makeSymbol('*'),
-				makeIdentifier('dsa'),
-				makeSymbol(':')
-			]);
+			expect(tokenize('asd123 *   dsa :')).toEqual([makeIdentifier('asd123'), makeSymbol('*'), makeIdentifier('dsa'), makeSymbol(':')]);
 		});
 
 		it('chops a real-world string', function () {
 			// google closure compiler type expression format for a function
-			expect(tokenize('function (s: string, times: number) : string')).toEqual([
-				makeIdentifier('function'),
-				makeSymbol('('),
-				makeIdentifier('s'),
-				makeSymbol(':'),
-				makeIdentifier('string'),
-				makeSymbol(','),
-				makeIdentifier('times'),
-				makeSymbol(':'),
-				makeIdentifier('number'),
-				makeSymbol(')'),
-				makeSymbol(':'),
-				makeIdentifier('string')
-			]);
+			expect(tokenize('function (s: string, times: number) : string')).toEqual([makeIdentifier('function'), makeSymbol('('), makeIdentifier('s'), makeSymbol(':'), makeIdentifier('string'), makeSymbol(','), makeIdentifier('times'), makeSymbol(':'), makeIdentifier('number'), makeSymbol(')'), makeSymbol(':'), makeIdentifier('string')]);
 		});
 	});
 });

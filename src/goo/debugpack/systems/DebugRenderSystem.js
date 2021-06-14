@@ -1,7 +1,17 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DebugRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _DebugDrawHelper = require("../../debugpack/DebugDrawHelper");
+
 var mod_DebugRenderSystem = DebugRenderSystem;
-import { System as System_System } from "../../entities/systems/System";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { DebugDrawHelper as DebugDrawHelper_DebugDrawHelper } from "../../debugpack/DebugDrawHelper";
 
 /**
  * Renders entities/renderables using a configurable partitioner for culling
@@ -9,7 +19,7 @@ import { DebugDrawHelper as DebugDrawHelper_DebugDrawHelper } from "../../debugp
  * @extends System
  */
 function DebugRenderSystem() {
-	System_System.call(this, 'DebugRenderSystem', ['TransformComponent']);
+	_System.System.call(this, 'DebugRenderSystem', ['TransformComponent']);
 
 	this._renderablesTree = {};
 	this.renderList = [];
@@ -23,10 +33,8 @@ function DebugRenderSystem() {
 	};
 	this.inserted();
 
-	this._interestComponents = [
-		'CameraComponent',
-		'LightComponent'
-		//'MeshRendererComponent'
+	this._interestComponents = ['CameraComponent', 'LightComponent'
+	//'MeshRendererComponent'
 	];
 
 	this.camera = null;
@@ -42,24 +50,23 @@ function DebugRenderSystem() {
 		this.lights = lights;
 	}.bind(this);
 
-	this.selectionRenderable = DebugDrawHelper_DebugDrawHelper.getRenderablesFor({ type: 'MeshRendererComponent' });
+	this.selectionRenderable = _DebugDrawHelper.DebugDrawHelper.getRenderablesFor({ type: 'MeshRendererComponent' });
 	this.selectionActive = false;
 	this.oldSelectionActive = false;
 }
 
-DebugRenderSystem.prototype = Object.create(System_System.prototype);
+DebugRenderSystem.prototype = Object.create(_System.System.prototype);
 DebugRenderSystem.prototype.constructor = DebugRenderSystem;
 
 DebugRenderSystem.prototype.setup = function () {
-	SystemBus.addListener('goo.setCurrentCamera', this.cameraListener);
-	SystemBus.addListener('goo.setLights', this.lightsListener);
+	_SystemBus.SystemBusjs.addListener('goo.setCurrentCamera', this.cameraListener);
+	_SystemBus.SystemBusjs.addListener('goo.setLights', this.lightsListener);
 };
 
-DebugRenderSystem.prototype.inserted = function (/*entity*/) {
-};
+DebugRenderSystem.prototype.inserted = function () /*entity*/{};
 
 DebugRenderSystem.prototype.deleted = function (entity) {
-	
+
 	// delete this._renderablesTree[entity.id];
 	this._renderablesTree[entity.id] = null;
 };
@@ -82,10 +89,10 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 				var options = { full: this.doRender[componentName] || component.debugLevel === 'full' };
 				var tree = this._renderablesTree[entity.id] = this._renderablesTree[entity.id] || {};
 
-				if (tree[componentName] && ((tree[componentName].length === 2 && options.full) || (tree[componentName].length === 1 && !options.full))) {
+				if (tree[componentName] && (tree[componentName].length === 2 && options.full || tree[componentName].length === 1 && !options.full)) {
 					renderables = tree[componentName];
 				} else {
-					renderables = DebugDrawHelper_DebugDrawHelper.getRenderablesFor(component, options);
+					renderables = _DebugDrawHelper.DebugDrawHelper.getRenderablesFor(component, options);
 					for (var k = 0; k < renderables.length; k++) {
 						var renderable = renderables[k];
 						renderable.id = entity.id;
@@ -101,7 +108,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 					renderable.transform.scale.setDirect(1, 1, 1);
 					renderable.transform.update();
 				}
-				DebugDrawHelper_DebugDrawHelper.update(renderables, component, this.camera, this.renderer);
+				_DebugDrawHelper.DebugDrawHelper.update(renderables, component, this.camera, this.renderer);
 				for (var k = 0; k < renderables.length; k++) {
 					this.renderList[count++] = renderables[k];
 				}
@@ -114,7 +121,7 @@ DebugRenderSystem.prototype.process = function (entities, tpf) {
 			if (tree.skeleton) {
 				renderables = tree.skeleton;
 			} else {
-				renderables = DebugDrawHelper_DebugDrawHelper.getRenderablesFor(pose);
+				renderables = _DebugDrawHelper.DebugDrawHelper.getRenderablesFor(pose);
 				for (var k = 0; k < renderables.length; k++) {
 					renderables[k].id = entity.id;
 				}
@@ -177,8 +184,8 @@ DebugRenderSystem.prototype.invalidateHandles = function (renderer) {
 };
 
 DebugRenderSystem.prototype.cleanup = function () {
-	SystemBus.removeListener('goo.setCurrentCamera', this.cameraListener);
-	SystemBus.removeListener('goo.setLights', this.lightsListener);
+	_SystemBus.SystemBusjs.removeListener('goo.setCurrentCamera', this.cameraListener);
+	_SystemBus.SystemBusjs.removeListener('goo.setLights', this.lightsListener);
 };
 
 /**
@@ -186,4 +193,4 @@ DebugRenderSystem.prototype.cleanup = function () {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { mod_DebugRenderSystem as DebugRenderSystem };
+exports.DebugRenderSystem = mod_DebugRenderSystem;

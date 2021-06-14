@@ -1,4 +1,11 @@
-import { Bus as Bus_Bus } from "./Bus";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SystemBusjs = undefined;
+
+var _Bus = require("./Bus");
 
 /**
  * SystemBus is a global instance of the {@link Bus} class.
@@ -6,6 +13,6 @@ import { Bus as Bus_Bus } from "./Bus";
  * @require-pathvar SystemBus = require('../../entities/SystemBus');
  * @group entities
  */
-mod_SystemBusjs = new Bus_Bus();
+exports.SystemBusjs = mod_SystemBusjs = new _Bus.Bus();
 var mod_SystemBusjs;
-export { mod_SystemBusjs as SystemBusjs };
+exports.SystemBusjs = mod_SystemBusjs;

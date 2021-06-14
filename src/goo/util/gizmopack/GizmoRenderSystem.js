@@ -1,19 +1,41 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GizmoRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderFragment = require("../../renderer/shaders/ShaderFragment");
+
+var _Matrix = require("../../math/Matrix3");
+
+var _Matrix2 = require("../../math/Matrix4");
+
+var _Vector = require("../../math/Vector2");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Shader = require("../../renderer/Shader");
+
+var _Gizmo = require("../../util/gizmopack/Gizmo");
+
+var _TranslationGizmo = require("../../util/gizmopack/TranslationGizmo");
+
+var _GlobalTranslationGizmo = require("../../util/gizmopack/GlobalTranslationGizmo");
+
+var _RotationGizmo = require("../../util/gizmopack/RotationGizmo");
+
+var _GlobalRotationGizmo = require("../../util/gizmopack/GlobalRotationGizmo");
+
+var _ScaleGizmo = require("../../util/gizmopack/ScaleGizmo");
+
 var mod_GizmoRenderSystem = GizmoRenderSystem;
-import { System as System_System } from "../../entities/systems/System";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { Material as Material_Material } from "../../renderer/Material";
-import { methods as ShaderFragmentjs_methods } from "../../renderer/shaders/ShaderFragment";
-import { Matrix3 as Matrix3_Matrix3 } from "../../math/Matrix3";
-import { Matrix4 as Matrix4_Matrix4 } from "../../math/Matrix4";
-import { Vector2 as Vector2_Vector2 } from "../../math/Vector2";
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
-import { Shader as Shader_Shader } from "../../renderer/Shader";
-import { Gizmo as Gizmo_Gizmo } from "../../util/gizmopack/Gizmo";
-import { TranslationGizmo as TranslationGizmo_TranslationGizmo } from "../../util/gizmopack/TranslationGizmo";
-import { GlobalTranslationGizmo as GlobalTranslationGizmo_GlobalTranslationGizmo } from "../../util/gizmopack/GlobalTranslationGizmo";
-import { RotationGizmo as RotationGizmo_RotationGizmo } from "../../util/gizmopack/RotationGizmo";
-import { GlobalRotationGizmo as GlobalRotationGizmo_GlobalRotationGizmo } from "../../util/gizmopack/GlobalRotationGizmo";
-import { ScaleGizmo as ScaleGizmo_ScaleGizmo } from "../../util/gizmopack/ScaleGizmo";
 
 /**
  * Renders transform gizmos<br>
@@ -22,18 +44,12 @@ import { ScaleGizmo as ScaleGizmo_ScaleGizmo } from "../../util/gizmopack/ScaleG
  * @extends System
  */
 function GizmoRenderSystem(callbacks) {
-	System_System.call(this, 'GizmoRenderSystem', null);
+	_System.System.call(this, 'GizmoRenderSystem', null);
 
 	this.renderables = [];
 	this.camera = null;
 
-	this.gizmos = [
-		new TranslationGizmo_TranslationGizmo(),
-		new GlobalTranslationGizmo_GlobalTranslationGizmo(),
-		new RotationGizmo_RotationGizmo(),
-		new GlobalRotationGizmo_GlobalRotationGizmo(),
-		new ScaleGizmo_ScaleGizmo()
-	];
+	this.gizmos = [new _TranslationGizmo.TranslationGizmo(), new _GlobalTranslationGizmo.GlobalTranslationGizmo(), new _RotationGizmo.RotationGizmo(), new _GlobalRotationGizmo.GlobalRotationGizmo(), new _ScaleGizmo.ScaleGizmo()];
 
 	this.active = false;
 	this.nextGizmo = null;
@@ -44,7 +60,7 @@ function GizmoRenderSystem(callbacks) {
 	this.viewportHeight = 0;
 	this.domElement = null;
 
-	this.pickingMaterial = Material_Material.createEmptyMaterial(customPickingShader, 'pickingMaterial');
+	this.pickingMaterial = _Material.Material.createEmptyMaterial(customPickingShader, 'pickingMaterial');
 	this.pickingMaterial.blendState = {
 		blending: 'NoBlending',
 		blendEquation: 'AddEquation',
@@ -54,41 +70,37 @@ function GizmoRenderSystem(callbacks) {
 
 	this._devicePixelRatio = 1;
 
-	this._mouseState = new Vector2_Vector2();
-	this._oldMouseState = new Vector2_Vector2();
+	this._mouseState = new _Vector.Vector2();
+	this._oldMouseState = new _Vector.Vector2();
 
 	this._dirty = false;
 
 	this._mouseMove = function (evt) {
-		if (!this.activeGizmo) { return; }
+		if (!this.activeGizmo) {
+			return;
+		}
 
-		var x = (evt.offsetX !== undefined) ? evt.offsetX : evt.layerX;
-		var y = (evt.offsetY !== undefined) ? evt.offsetY : evt.layerY;
+		var x = evt.offsetX !== undefined ? evt.offsetX : evt.layerX;
+		var y = evt.offsetY !== undefined ? evt.offsetY : evt.layerY;
 
-		this._mouseState.setDirect(
-			x / (this.viewportWidth / this._devicePixelRatio),
-			y / (this.viewportHeight / this._devicePixelRatio)
-		);
+		this._mouseState.setDirect(x / (this.viewportWidth / this._devicePixelRatio), y / (this.viewportHeight / this._devicePixelRatio));
 
 		this._dirty = true;
 	}.bind(this);
 
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	_SystemBus.SystemBusjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 }
 
-GizmoRenderSystem.prototype = Object.create(System_System.prototype);
+GizmoRenderSystem.prototype = Object.create(_System.System.prototype);
 GizmoRenderSystem.prototype.constructor = GizmoRenderSystem;
 
 GizmoRenderSystem.prototype.activate = function (id, x, y) {
 	this.active = true;
-	var handle = Gizmo_Gizmo.getHandle(id);
+	var handle = _Gizmo.Gizmo.getHandle(id);
 	if (handle && this.activeGizmo) {
-		this._oldMouseState.setDirect(
-			x / (this.viewportWidth / this._devicePixelRatio),
-			y / (this.viewportHeight / this._devicePixelRatio)
-		);
+		this._oldMouseState.setDirect(x / (this.viewportWidth / this._devicePixelRatio), y / (this.viewportHeight / this._devicePixelRatio));
 
 		this.activeGizmo.activate({
 			id: id,
@@ -157,7 +169,9 @@ GizmoRenderSystem.prototype.setActiveGizmo = function (id) {
 };
 
 GizmoRenderSystem.prototype.setSnap = function (state) {
-	if (!this.activeGizmo) { return; }
+	if (!this.activeGizmo) {
+		return;
+	}
 
 	this.activeGizmo.setSnap(state);
 };
@@ -172,12 +186,13 @@ GizmoRenderSystem.prototype.setupCallbacks = function (callbacks) {
 		return;
 	}
 
-	var inverseRotation = new Matrix3_Matrix3();
-	var inverseTransformation = new Matrix4_Matrix4();
-
+	var inverseRotation = new _Matrix.Matrix3();
+	var inverseTransformation = new _Matrix2.Matrix4();
 
 	var onTranslationChange = function (change) {
-		if (!this.entity) { return; }
+		if (!this.entity) {
+			return;
+		}
 
 		var translation = this.entity.transformComponent.sync().transform.translation;
 		translation.copy(change);
@@ -195,9 +210,10 @@ GizmoRenderSystem.prototype.setupCallbacks = function (callbacks) {
 
 	this.gizmos[1].onChange = onTranslationChange;
 
-
 	var onRotationChange = function (change) {
-		if (!this.entity) { return; }
+		if (!this.entity) {
+			return;
+		}
 
 		this.entity.transformComponent.sync().transform.rotation.copy(change);
 
@@ -215,10 +231,11 @@ GizmoRenderSystem.prototype.setupCallbacks = function (callbacks) {
 
 	this.gizmos[3].onChange = onRotationChange;
 
-
 	// Set bound entities scale
 	this.gizmos[4].onChange = function (change) {
-		if (!this.entity) { return; }
+		if (!this.entity) {
+			return;
+		}
 
 		var scale = this.entity.transformComponent.sync().transform.scale;
 
@@ -232,19 +249,20 @@ GizmoRenderSystem.prototype.setupCallbacks = function (callbacks) {
 	}.bind(this);
 };
 
-GizmoRenderSystem.prototype.inserted = function (/*entity*/) {};
+GizmoRenderSystem.prototype.inserted = function () /*entity*/{};
 
-GizmoRenderSystem.prototype.deleted = function (/*entity*/) {};
+GizmoRenderSystem.prototype.deleted = function () /*entity*/{};
 
-GizmoRenderSystem.prototype.process = function (/*entities, tpf*/) {
-	if (!this.activeGizmo) { return; }
+GizmoRenderSystem.prototype.process = function () /*entities, tpf*/{
+	if (!this.activeGizmo) {
+		return;
+	}
 
 	if (this._dirty) {
 		this.activeGizmo.process(this._mouseState, this._oldMouseState);
 		this._oldMouseState.copy(this._mouseState);
 		this._dirty = false;
 	}
-
 };
 
 GizmoRenderSystem.prototype.render = function (renderer) {
@@ -298,67 +316,30 @@ GizmoRenderSystem.prototype.renderToPick = function (renderer, skipUpdateBuffer)
 
 var customPickingShader = {
 	attributes: {
-		vertexPosition: MeshData_MeshData.POSITION,
-		vertexNormal: MeshData_MeshData.NORMAL
+		vertexPosition: _MeshData.MeshData.POSITION,
+		vertexNormal: _MeshData.MeshData.NORMAL
 	},
-	processors: [
-		function (shader, shaderInfo) {
-			var attributeMap = shaderInfo.meshData.attributeMap;
+	processors: [function (shader, shaderInfo) {
+		var attributeMap = shaderInfo.meshData.attributeMap;
 
-			shader.defines = shader.defines || {};
+		shader.defines = shader.defines || {};
 
-			for (var attribute in attributeMap) {
-				shader.setDefine(attribute, true);
-			}
+		for (var attribute in attributeMap) {
+			shader.setDefine(attribute, true);
 		}
-	],
+	}],
 	uniforms: {
-		viewMatrix: Shader_Shader.VIEW_MATRIX,
-		projectionMatrix: Shader_Shader.PROJECTION_MATRIX,
-		worldMatrix: Shader_Shader.WORLD_MATRIX,
-		cameraFar: Shader_Shader.FAR_PLANE,
+		viewMatrix: _Shader.Shader.VIEW_MATRIX,
+		projectionMatrix: _Shader.Shader.PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX,
+		cameraFar: _Shader.Shader.FAR_PLANE,
 		thickness: 0.0,
-		id: function (shaderInfo) {
+		id: function id(shaderInfo) {
 			return shaderInfo.renderable.id + 1;
 		}
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'#ifdef NORMAL',
-		'attribute vec3 vertexNormal;',
-		'#endif',
-
-		'uniform mat4 viewMatrix;',
-		'uniform mat4 projectionMatrix;',
-		'uniform mat4 worldMatrix;',
-		'uniform float cameraFar;',
-		'uniform float thickness;',
-
-		'varying float depth;',
-
-		'void main() {',
-		'  #ifdef NORMAL',
-		'  vec4 mvPosition = viewMatrix * worldMatrix * vec4( vertexPosition + vertexNormal * thickness, 1.0 );',
-		'  #else',
-		'  vec4 mvPosition = viewMatrix * worldMatrix * vec4( vertexPosition, 1.0 );',
-		'  #endif',
-		'  depth = length(mvPosition.xyz) / cameraFar;',
-		'  gl_Position = projectionMatrix * mvPosition;',
-		'}'
-	].join('\n'),
-	fshader: [
-		'uniform float id;',
-
-		'varying float depth;',
-
-		ShaderFragmentjs_methods.packDepth16,
-
-		'void main() {',
-		'  vec2 packedId = vec2(floor(id/255.0), mod(id, 255.0)) * vec2(1.0/255.0);',
-		'  vec2 packedDepth = packDepth16(depth);',
-		'  gl_FragColor = vec4(packedId, packedDepth);',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', '#ifdef NORMAL', 'attribute vec3 vertexNormal;', '#endif', 'uniform mat4 viewMatrix;', 'uniform mat4 projectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform float cameraFar;', 'uniform float thickness;', 'varying float depth;', 'void main() {', '  #ifdef NORMAL', '  vec4 mvPosition = viewMatrix * worldMatrix * vec4( vertexPosition + vertexNormal * thickness, 1.0 );', '  #else', '  vec4 mvPosition = viewMatrix * worldMatrix * vec4( vertexPosition, 1.0 );', '  #endif', '  depth = length(mvPosition.xyz) / cameraFar;', '  gl_Position = projectionMatrix * mvPosition;', '}'].join('\n'),
+	fshader: ['uniform float id;', 'varying float depth;', _ShaderFragment.methods.packDepth16, 'void main() {', '  vec2 packedId = vec2(floor(id/255.0), mod(id, 255.0)) * vec2(1.0/255.0);', '  vec2 packedDepth = packDepth16(depth);', '  gl_FragColor = vec4(packedId, packedDepth);', '}'].join('\n')
 };
 
 /**
@@ -367,4 +348,4 @@ var customPickingShader = {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { mod_GizmoRenderSystem as GizmoRenderSystem };
+exports.GizmoRenderSystem = mod_GizmoRenderSystem;

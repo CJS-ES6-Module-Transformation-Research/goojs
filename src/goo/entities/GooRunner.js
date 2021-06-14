@@ -1,35 +1,57 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.GooRunner = undefined;
+
+var _World = require("./World");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _TransformSystem = require("./systems/TransformSystem");
+
+var _RenderSystem = require("./systems/RenderSystem");
+
+var _BoundingUpdateSystem = require("./systems/BoundingUpdateSystem");
+
+var _ScriptSystem = require("./systems/ScriptSystem");
+
+var _LightingSystem = require("./systems/LightingSystem");
+
+var _CameraSystem = require("./systems/CameraSystem");
+
+var _ParticlesSystem = require("./systems/ParticlesSystem");
+
+var _Stats = require("../util/Stats");
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _SoundSystem = require("./systems/SoundSystem");
+
+var _TransformComponent = require("./components/TransformComponent");
+
+var _MeshDataComponent = require("./components/MeshDataComponent");
+
+var _MeshRendererComponent = require("./components/MeshRendererComponent");
+
+var _CameraComponent = require("./components/CameraComponent");
+
+var _LightComponent = require("./components/LightComponent");
+
+var _ScriptComponent = require("./components/ScriptComponent");
+
+var _GameUtils = require("../util/GameUtils");
+
+var _Logo = require("../util/Logo");
+
+var _SystemBus = require("./SystemBus");
+
+var _Material = require("../renderer/Material");
+
 var mod_GooRunner = GooRunner;
-import { World as World_World } from "./World";
-import { Renderer as Renderer_Renderer, mainCamera as Rendererjs_mainCamera } from "../renderer/Renderer";
-import { TransformSystem as TransformSystem_TransformSystem } from "./systems/TransformSystem";
-import { RenderSystem as RenderSystem_RenderSystem } from "./systems/RenderSystem";
-import { BoundingUpdateSystem as BoundingUpdateSystem_BoundingUpdateSystem } from "./systems/BoundingUpdateSystem";
-import { ScriptSystem as ScriptSystem_ScriptSystem } from "./systems/ScriptSystem";
-import { LightingSystem as LightingSystem_LightingSystem } from "./systems/LightingSystem";
-import { CameraSystem as CameraSystem_CameraSystem } from "./systems/CameraSystem";
-import { ParticlesSystem as ParticlesSystem_ParticlesSystem } from "./systems/ParticlesSystem";
-import { Stats as Stats_Stats } from "../util/Stats";
-import { AudioContextjs as AudioContext } from "../sound/AudioContext";
-import { SoundSystem as SoundSystem_SoundSystem } from "./systems/SoundSystem";
-import { TransformComponent as TransformComponent_TransformComponent } from "./components/TransformComponent";
-import { MeshDataComponent as MeshDataComponent_MeshDataComponent } from "./components/MeshDataComponent";
-import { MeshRendererComponent as MeshRendererComponent_MeshRendererComponent } from "./components/MeshRendererComponent";
-import { CameraComponent as CameraComponent_CameraComponent } from "./components/CameraComponent";
-import { LightComponent as LightComponent_LightComponent } from "./components/LightComponent";
-import { ScriptComponent as ScriptComponent_ScriptComponent } from "./components/ScriptComponent";
 
-import {
-    toggleFullScreen as GameUtilsjs_toggleFullScreen,
-    togglePointerLock as GameUtilsjs_togglePointerLock,
-    addVisibilityChangeListener as GameUtilsjs_addVisibilityChangeListener,
-    clearVisibilityChangeListeners as GameUtilsjs_clearVisibilityChangeListeners,
-    initAllShims as GameUtilsjs_initAllShims,
-} from "../util/GameUtils";
-
-import { white as Logojs_white, getLogo as Logojs_getLogo } from "../util/Logo";
-import { SystemBusjs as SystemBus } from "./SystemBus";
-import { Material as Material_Material } from "../renderer/Material";
-var Rendererjs_mainCamera_binding = Rendererjs_mainCamera;
+var Rendererjs_mainCamera_binding = _Renderer.mainCamera;
 
 /**
  * The main class that updates the world and calls the renderers.
@@ -57,28 +79,28 @@ var Rendererjs_mainCamera_binding = Rendererjs_mainCamera;
 function GooRunner(parameters) {
 	parameters = parameters || {};
 
-	GameUtilsjs_initAllShims();
+	(0, _GameUtils.initAllShims)();
 
 	/**
-	 * The Goo world.
-	 * @type {World}
-	 */
-	this.world = new World_World({
+  * The Goo world.
+  * @type {World}
+  */
+	this.world = new _World.World({
 		gooRunner: this,
 		tpfSmoothingCount: parameters.tpfSmoothingCount
 	});
 
 	/**
-	 * Automatically created renderer.
-	 * @type {Renderer}
-	 */
-	this.renderer = new Renderer_Renderer(parameters);
+  * Automatically created renderer.
+  * @type {Renderer}
+  */
+	this.renderer = new _Renderer.Renderer(parameters);
 
 	/**
-	 * Set to true to run user-defined callbacks within try/catch statements. Errors will be printed to console.
-	 * @type {boolean}
-	 * @default true
-	 */
+  * Set to true to run user-defined callbacks within try/catch statements. Errors will be printed to console.
+  * @type {boolean}
+  * @default true
+  */
 	this.useTryCatch = parameters.useTryCatch !== undefined ? parameters.useTryCatch : true;
 
 	this._setBaseSystems();
@@ -98,28 +120,28 @@ function GooRunner(parameters) {
 	}
 
 	/**
-	 * A list of callbacks to call every frame, before the world is processed.
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call every frame, before the world is processed.
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacksPreProcess = [];
 
 	/**
-	 * A list of callbacks to call every frame, after the world is processed and before the rendering is done.
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call every frame, after the world is processed and before the rendering is done.
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacksPreRender = [];
 
 	/**
-	 * A list of callbacks to call every frame, after the rendering is done.
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call every frame, after the rendering is done.
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacks = [];
 
 	/**
-	 * A list of callbacks to call once, in the following frame, before the world is processed.
-	 * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/CallbacksNextFrame/CallbacksNextFrame-vtest.html Working example
-	 * @type {Array<function (tpf: number)>}
-	 */
+  * A list of callbacks to call once, in the following frame, before the world is processed.
+  * @example-link http://code.gooengine.com/latest/visual-test/goo/entities/CallbacksNextFrame/CallbacksNextFrame-vtest.html Working example
+  * @type {Array<function (tpf: number)>}
+  */
 	this.callbacksNextFrame = [];
 
 	this._takeSnapshots = [];
@@ -164,7 +186,7 @@ function GooRunner(parameters) {
 		touchmove: null
 	};
 
-	GameUtilsjs_addVisibilityChangeListener(function (paused) {
+	(0, _GameUtils.addVisibilityChangeListener)(function (paused) {
 		if (paused) {
 			this._stopGameLoop();
 		} else {
@@ -190,7 +212,7 @@ function GooRunner(parameters) {
 }
 
 GooRunner.prototype._setupContextLost = function () {
-	SystemBus.addListener('goo.contextLost', function () {
+	_SystemBus.SystemBusjs.addListener('goo.contextLost', function () {
 		for (var i = 0; i < this.renderSystems.length; i++) {
 			var renderSystem = this.renderSystems[i];
 			if (renderSystem.invalidateHandles) {
@@ -213,7 +235,7 @@ GooRunner.prototype._setupContextLost = function () {
 		this.stopGameLoop();
 	}.bind(this));
 
-	SystemBus.addListener('goo.contextRestored', function () {
+	_SystemBus.SystemBusjs.addListener('goo.contextRestored', function () {
 		this.startGameLoop();
 	}.bind(this));
 };
@@ -223,18 +245,18 @@ GooRunner.prototype._setupContextLost = function () {
  * @private
  */
 GooRunner.prototype._setBaseSystems = function () {
-	this.world.setSystem(new ScriptSystem_ScriptSystem(this.world));
-	this.world.setSystem(new TransformSystem_TransformSystem());
-	this.world.setSystem(new CameraSystem_CameraSystem());
-	this.world.setSystem(new ParticlesSystem_ParticlesSystem());
-	this.world.setSystem(new BoundingUpdateSystem_BoundingUpdateSystem());
-	this.world.setSystem(new LightingSystem_LightingSystem());
+	this.world.setSystem(new _ScriptSystem.ScriptSystem(this.world));
+	this.world.setSystem(new _TransformSystem.TransformSystem());
+	this.world.setSystem(new _CameraSystem.CameraSystem());
+	this.world.setSystem(new _ParticlesSystem.ParticlesSystem());
+	this.world.setSystem(new _BoundingUpdateSystem.BoundingUpdateSystem());
+	this.world.setSystem(new _LightingSystem.LightingSystem());
 
-	if (AudioContext.isSupported()) {
-		this.world.setSystem(new SoundSystem_SoundSystem());
+	if (_AudioContext.AudioContextjs.isSupported()) {
+		this.world.setSystem(new _SoundSystem.SoundSystem());
 	}
 
-	this.renderSystem = new RenderSystem_RenderSystem();
+	this.renderSystem = new _RenderSystem.RenderSystem();
 	this.renderSystems = [this.renderSystem];
 	this.world.setSystem(this.renderSystem);
 };
@@ -244,12 +266,12 @@ GooRunner.prototype._setBaseSystems = function () {
  * @private
  */
 GooRunner.prototype._registerBaseComponents = function () {
-	this.world.registerComponent(TransformComponent_TransformComponent);
-	this.world.registerComponent(MeshDataComponent_MeshDataComponent);
-	this.world.registerComponent(MeshRendererComponent_MeshRendererComponent);
-	this.world.registerComponent(CameraComponent_CameraComponent);
-	this.world.registerComponent(LightComponent_LightComponent);
-	this.world.registerComponent(ScriptComponent_ScriptComponent);
+	this.world.registerComponent(_TransformComponent.TransformComponent);
+	this.world.registerComponent(_MeshDataComponent.MeshDataComponent);
+	this.world.registerComponent(_MeshRendererComponent.MeshRendererComponent);
+	this.world.registerComponent(_CameraComponent.CameraComponent);
+	this.world.registerComponent(_LightComponent.LightComponent);
+	this.world.registerComponent(_ScriptComponent.ScriptComponent);
 };
 
 /**
@@ -304,7 +326,8 @@ GooRunner.prototype._updateFrame = function (time) {
 
 	var tpf = (time - this.start) / 1000.0;
 
-	if (tpf < 0) { // skip a loop - original start time probably bad.
+	if (tpf < 0) {
+		// skip a loop - original start time probably bad.
 		this.start = time;
 		this.animationId = window.requestAnimationFrame(this.run.bind(this));
 		return;
@@ -410,11 +433,7 @@ GooRunner.prototype._updateFrame = function (time) {
 
 	// update the stats if there are any
 	if (this.stats) {
-		this.stats.update(
-			this.renderer.info.toString() + '<br>' +
-			'Transforms: ' + this.world.getSystem('TransformSystem').numUpdates +
-			'<br>Cached shaders: ' + this.renderer.rendererRecord.shaderCache.size
-		);
+		this.stats.update(this.renderer.info.toString() + '<br>' + 'Transforms: ' + this.world.getSystem('TransformSystem').numUpdates + '<br>Cached shaders: ' + this.renderer.rendererRecord.shaderCache.size);
 	}
 
 	// resolve any snapshot requests
@@ -444,9 +463,9 @@ GooRunner.prototype._updateFrame = function (time) {
 GooRunner.prototype._buildLogo = function (settings) {
 	var div = document.createElement('div');
 
-	var color = settings && settings.color ? settings.color : Logojs_white;
+	var color = settings && settings.color ? settings.color : _Logo.white;
 
-	var svg = Logojs_getLogo({
+	var svg = (0, _Logo.getLogo)({
 		width: '70px',
 		height: '50px',
 		color: color
@@ -521,16 +540,21 @@ GooRunner.prototype._addDebugKeys = function () {
 	};
 
 	document.addEventListener('keydown', function (event) {
-		if (!event[ACTIVE_KEY]) { return; }
+		if (!event[ACTIVE_KEY]) {
+			return;
+		}
 
 		switch (event.which) {
-			case 32: // Space
-				GameUtilsjs_toggleFullScreen();
+			case 32:
+				// Space
+				(0, _GameUtils.toggleFullScreen)();
 				break;
-			case 13: // Enter
-				GameUtilsjs_togglePointerLock();
+			case 13:
+				// Enter
+				(0, _GameUtils.togglePointerLock)();
 				break;
-			case 49: // 1
+			case 49:
+				// 1
 				this.renderSystem.setDebugMaterial();
 				break;
 			default:
@@ -620,9 +644,8 @@ GooRunner.prototype.triggerEvent = function (type, evt) {
 	evt.type = type;
 	this._eventTriggered[type] = evt.domEvent;
 	this._dispatchEvent(evt);
-	SystemBus.emit('goo.trigger.' + type, evt);
+	_SystemBus.SystemBusjs.emit('goo.trigger.' + type, evt);
 };
-
 
 GooRunner.prototype._dispatchEvent = function (evt) {
 	var types = Object.keys(this._eventTriggered);
@@ -812,17 +835,17 @@ GooRunner.prototype.clear = function () {
 	}
 
 	// a lot of stuff may reside in here
-	SystemBus.clear();
+	_SystemBus.SystemBusjs.clear();
 
 	// clearing cached materials
-	Material_Material.store = [];
-	Material_Material.hash = [];
+	_Material.Material.store = [];
+	_Material.Material.hash = [];
 
 	// this should never have existed in the first place
 	Rendererjs_mainCamera_binding = null;
 
 	// clears out whatever visibility-change listeners were attached to document
-	GameUtilsjs_clearVisibilityChangeListeners();
+	(0, _GameUtils.clearVisibilityChangeListeners)();
 
 	// severe some more connections
 	this.world = null;
@@ -843,7 +866,7 @@ GooRunner.prototype.clear = function () {
  * Adds a small stats widget showing fps, rendercalls, vertices, indices, transform updates and cached shaders
  */
 GooRunner.prototype.addStats = function () {
-	this.stats = new Stats_Stats();
+	this.stats = new _Stats.Stats();
 	this.stats.domElement.style.position = 'absolute';
 	this.stats.domElement.style.left = '10px';
 	this.stats.domElement.style.top = '10px';
@@ -883,4 +906,4 @@ GooRunner.prototype.removeStats = function () {
  * @param {boolean} [parameters.debugKeys=false] If enabled the hotkeys Shift+[1..6] will be enabled
  * @param {boolean} [parameters.useTryCatch=true]
  */
-export { mod_GooRunner as GooRunner };
+exports.GooRunner = mod_GooRunner;

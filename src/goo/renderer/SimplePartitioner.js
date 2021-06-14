@@ -1,11 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SimplePartitioner = undefined;
+
+var _Camera = require("../renderer/Camera");
+
 var mod_SimplePartitioner = SimplePartitioner;
-import { Camera as Camera_Camera } from "../renderer/Camera";
+
 
 /**
  * Culls entities based on camera frustum and boundings
  */
-function SimplePartitioner() {
-}
+function SimplePartitioner() {}
 
 SimplePartitioner.prototype.added = function () {
 	// needed for things like quadtrees etc
@@ -31,7 +39,7 @@ SimplePartitioner.prototype.process = function (camera, entities, renderList) {
 		} else {
 			var bounds = entity.meshRendererComponent.worldBound;
 			var result = camera.contains(bounds);
-			if (result !== Camera_Camera.Outside) {
+			if (result !== _Camera.Camera.Outside) {
 				renderList[index++] = entity;
 				entity.isVisible = true;
 			} else {
@@ -45,4 +53,4 @@ SimplePartitioner.prototype.process = function (camera, entities, renderList) {
 /**
  * Culls entities based on camera frustum and boundings
  */
-export { mod_SimplePartitioner as SimplePartitioner };
+exports.SimplePartitioner = mod_SimplePartitioner;

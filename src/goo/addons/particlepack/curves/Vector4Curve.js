@@ -1,7 +1,17 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Vector4Curve = undefined;
+
+var _ConstantCurve = require("../../../addons/particlepack/curves/ConstantCurve");
+
+var _Curve = require("../../../addons/particlepack/curves/Curve");
+
+var _ObjectUtils = require("../../../util/ObjectUtils");
+
 var mod_Vector4Curve = Vector4Curve;
-import { ConstantCurve as ConstantCurve_ConstantCurve } from "../../../addons/particlepack/curves/ConstantCurve";
-import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../../util/ObjectUtils";
 
 /**
  * Three scalar curves. Can be converted to a vec4-valued expression in GLSL code.
@@ -16,46 +26,40 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../../util/ObjectUtil
 function Vector4Curve(options) {
 	options = options || {};
 
-	options = ObjectUtils_ObjectUtils.clone(options);
+	options = _ObjectUtils.ObjectUtils.clone(options);
 	options.type = 'vec4';
-	Curve_Curve.call(this, options);
+	_Curve.Curve.call(this, options);
 
-	this.x = options.x ? options.x.clone() : new ConstantCurve_ConstantCurve();
-	this.y = options.y ? options.y.clone() : new ConstantCurve_ConstantCurve();
-	this.z = options.z ? options.z.clone() : new ConstantCurve_ConstantCurve();
-	this.w = options.w ? options.w.clone() : new ConstantCurve_ConstantCurve({ value: 1 });
+	this.x = options.x ? options.x.clone() : new _ConstantCurve.ConstantCurve();
+	this.y = options.y ? options.y.clone() : new _ConstantCurve.ConstantCurve();
+	this.z = options.z ? options.z.clone() : new _ConstantCurve.ConstantCurve();
+	this.w = options.w ? options.w.clone() : new _ConstantCurve.ConstantCurve({ value: 1 });
 
 	if (this.x.type !== 'float' || this.y.type !== 'float' || this.z.type !== 'float' || this.w.type !== 'float') {
 		throw new Error('Vector4Curve must have scalar components.');
 	}
 }
-Vector4Curve.prototype = Object.create(Curve_Curve.prototype);
+Vector4Curve.prototype = Object.create(_Curve.Curve.prototype);
 Vector4Curve.prototype.constructor = Vector4Curve;
 
 Vector4Curve.prototype.toGLSL = function (timeVariableName, lerpValueVariableName) {
-	return 'vec4(' + [this.x, this.y, this.z, this.w].map(function (c) { return c.toGLSL(timeVariableName, lerpValueVariableName); }).join(',') + ')';
+	return 'vec4(' + [this.x, this.y, this.z, this.w].map(function (c) {
+		return c.toGLSL(timeVariableName, lerpValueVariableName);
+	}).join(',') + ')';
 };
 
 Vector4Curve.prototype.integralToGLSL = function (timeVariableName, lerpValueVariableName) {
-	return 'vec4(' + [this.x, this.y, this.z, this.w].map(function (c) { return c.integralToGLSL(timeVariableName, lerpValueVariableName); }).join(',') + ')';
+	return 'vec4(' + [this.x, this.y, this.z, this.w].map(function (c) {
+		return c.integralToGLSL(timeVariableName, lerpValueVariableName);
+	}).join(',') + ')';
 };
 
 Vector4Curve.prototype.getVec4ValueAt = function (t, lerpValue, store) {
-	store.setDirect(
-		this.x.getValueAt(t, lerpValue),
-		this.y.getValueAt(t, lerpValue),
-		this.z.getValueAt(t, lerpValue),
-		this.w.getValueAt(t, lerpValue)
-	);
+	store.setDirect(this.x.getValueAt(t, lerpValue), this.y.getValueAt(t, lerpValue), this.z.getValueAt(t, lerpValue), this.w.getValueAt(t, lerpValue));
 };
 
 Vector4Curve.prototype.getVec4IntegralValueAt = function (t, lerpValue, store) {
-	store.setDirect(
-		this.x.getIntegralValueAt(t, lerpValue),
-		this.y.getIntegralValueAt(t, lerpValue),
-		this.z.getIntegralValueAt(t, lerpValue),
-		this.w.getIntegralValueAt(t, lerpValue)
-	);
+	store.setDirect(this.x.getIntegralValueAt(t, lerpValue), this.y.getIntegralValueAt(t, lerpValue), this.z.getIntegralValueAt(t, lerpValue), this.w.getIntegralValueAt(t, lerpValue));
 };
 
 /**
@@ -68,4 +72,4 @@ Vector4Curve.prototype.getVec4IntegralValueAt = function (t, lerpValue, store) {
  * @param {Curve} [options.z]
  * @param {Curve} [options.w]
  */
-export { mod_Vector4Curve as Vector4Curve };
+exports.Vector4Curve = mod_Vector4Curve;

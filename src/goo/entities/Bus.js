@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var mod_Bus = Bus;
 /**
  * A generic message bus. Offers ways to receive and subscribe to messages on a hierarchy of channels.
@@ -163,7 +168,9 @@ function nullifyElement(array, element) {
  */
 Bus.prototype.removeListener = function (channelName, callbackToRemove) {
 	var node = this._getNode(channelName);
-	if (node) { nullifyElement(node.listeners, callbackToRemove); }
+	if (node) {
+		nullifyElement(node.listeners, callbackToRemove);
+	}
 	return this;
 };
 
@@ -184,7 +191,9 @@ Bus.prototype.getLastMessageOn = function (channelName) {
  */
 Bus.prototype.removeAllOnChannel = function (channelName) {
 	var node = this._getNode(channelName);
-	if (node) { node.listeners = []; }
+	if (node) {
+		node.listeners = [];
+	}
 	return this;
 };
 
@@ -244,4 +253,4 @@ Bus.prototype.clear = function () {
  * // Remove the listener after you're done with it
  * SystemBus.removeListener('eventName', listener);
  */
-export { mod_Bus as Bus };
+exports.Bus = mod_Bus;

@@ -1,17 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenScaleAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var _Easing = require("../../../util/Easing");
+
 var mod_TweenScaleAction = TweenScaleAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
-import { Easing as Easing_Easing } from "../../../util/Easing";
 
-function TweenScaleAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+function TweenScaleAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 
-	this.fromScale = new Vector3_Vector3();
-	this.toScale = new Vector3_Vector3();
+	this.fromScale = new _Vector.Vector3();
+	this.toScale = new _Vector.Vector3();
 	this.completed = false;
 }
 
-TweenScaleAction.prototype = Object.create(Action_Action.prototype);
+TweenScaleAction.prototype = Object.create(_Action.Action.prototype);
 TweenScaleAction.prototype.constructor = TweenScaleAction;
 
 TweenScaleAction.external = {
@@ -61,7 +71,7 @@ TweenScaleAction.external = {
 	}]
 };
 
-TweenScaleAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenScaleAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Scale Complete' : undefined;
 };
 
@@ -85,7 +95,7 @@ TweenScaleAction.prototype.update = function (fsm) {
 	var transformComponent = fsm.getOwnerEntity().transformComponent;
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing_Easing[this.easing1][this.easing2](t);
+	var fT = _Easing.Easing[this.easing1][this.easing2](t);
 
 	transformComponent.transform.scale.set(this.fromScale).lerp(this.toScale, fT);
 	transformComponent.setUpdated();
@@ -96,4 +106,4 @@ TweenScaleAction.prototype.update = function (fsm) {
 	}
 };
 
-export { mod_TweenScaleAction as TweenScaleAction };
+exports.TweenScaleAction = mod_TweenScaleAction;

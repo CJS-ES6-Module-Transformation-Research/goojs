@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SyncFadeTransitionState = undefined;
+
+var _FadeTransitionState = require("../../animationpack/state/FadeTransitionState");
+
 var mod_SyncFadeTransitionState = SyncFadeTransitionState;
-import { FadeTransitionState as FadeTransitionState_FadeTransitionState } from "../../animationpack/state/FadeTransitionState";
 
 /**
  * A transition that blends over a given time from one animation state to another, synchronizing the target state to the initial state's start time. This is best used with two clips that have similar motions.
@@ -8,21 +16,21 @@ import { FadeTransitionState as FadeTransitionState_FadeTransitionState } from "
  * @param blendType {StateBlendType} the way we should interpolate the weighting during the transition.
  */
 function SyncFadeTransitionState() {
-	FadeTransitionState_FadeTransitionState.call(this);
+  _FadeTransitionState.FadeTransitionState.call(this);
 }
 
-SyncFadeTransitionState.prototype = Object.create(FadeTransitionState_FadeTransitionState.prototype);
+SyncFadeTransitionState.prototype = Object.create(_FadeTransitionState.FadeTransitionState.prototype);
 SyncFadeTransitionState.prototype.constructor = SyncFadeTransitionState;
 
 SyncFadeTransitionState.prototype.resetClips = function (globalTime) {
-	FadeTransitionState_FadeTransitionState.prototype.resetClips.call(this, globalTime);
-	this._targetState.resetClips(this._sourceState._globalStartTime);
+  _FadeTransitionState.FadeTransitionState.prototype.resetClips.call(this, globalTime);
+  this._targetState.resetClips(this._sourceState._globalStartTime);
 };
 
 SyncFadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
-	FadeTransitionState_FadeTransitionState.prototype.shiftClipTime.call(this, shiftTime);
-	this._targetState.shiftClipTime(this._sourceState._globalStartTime + shiftTime);
-	this._sourceState.shiftClipTime(shiftTime);
+  _FadeTransitionState.FadeTransitionState.prototype.shiftClipTime.call(this, shiftTime);
+  this._targetState.shiftClipTime(this._sourceState._globalStartTime + shiftTime);
+  this._sourceState.shiftClipTime(shiftTime);
 };
 
 /**
@@ -31,4 +39,4 @@ SyncFadeTransitionState.prototype.shiftClipTime = function (shiftTime) {
  * @param fadeTime the amount of time we should take to do the transition.
  * @param blendType {StateBlendType} the way we should interpolate the weighting during the transition.
  */
-export { mod_SyncFadeTransitionState as SyncFadeTransitionState };
+exports.SyncFadeTransitionState = mod_SyncFadeTransitionState;

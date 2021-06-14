@@ -1,11 +1,19 @@
-var mod_SetCounterAction = SetCounterAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
+'use strict';
 
-function SetCounterAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetCounterAction = undefined;
+
+var _Action = require('../../../fsmpack/statemachine/actions/Action');
+
+var mod_SetCounterAction = SetCounterAction;
+
+function SetCounterAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-SetCounterAction.prototype = Object.create(Action_Action.prototype);
+SetCounterAction.prototype = Object.create(_Action.Action.prototype);
 SetCounterAction.prototype.constructor = SetCounterAction;
 
 SetCounterAction.external = {
@@ -36,4 +44,4 @@ SetCounterAction.prototype.cleanup = function (fsm) {
 	fsm.getFsm().removeVariable(this.name);
 };
 
-export { mod_SetCounterAction as SetCounterAction };
+exports.SetCounterAction = mod_SetCounterAction;

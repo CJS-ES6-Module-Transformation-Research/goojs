@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Material = undefined;
+
+var _Shader = require("../renderer/Shader");
+
+var _ObjectUtils = require("../util/ObjectUtils");
+
 var mod_Material = Material;
-import { Shader as Shader_Shader } from "../renderer/Shader";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+
 
 /**
  * A Material defines the look of an object
@@ -11,13 +21,13 @@ function Material(name, shaderDefinition) {
 	this.id = null;
 
 	/** Material name
-	 * @type {string}
-	 */
+  * @type {string}
+  */
 	this.name = 'Default Material';
 
 	/** [Shader]{@link Shader} to use when rendering
-	 * @type {Shader}
-	 */
+  * @type {Shader}
+  */
 	this.shader = null;
 
 	//! AT: horrendous type checking follows
@@ -35,42 +45,42 @@ function Material(name, shaderDefinition) {
 	}
 
 	/** Possible overrides for shader uniforms
-	 * @type {Object}
-	 * @default
-	 */
+  * @type {Object}
+  * @default
+  */
 	this.uniforms = {};
 
 	// Texture storage
 	this._textureMaps = {};
 	/* REVIEW
-	 * There was an idea to specify and jsdoc uniforms.materialDiffuse etc instead,
-	 * since those are the ones we use now
-	 */
+  * There was an idea to specify and jsdoc uniforms.materialDiffuse etc instead,
+  * since those are the ones we use now
+  */
 
 	/* Specification of colors for this Material
-	 * @type {Object}
-	 * @property {Array<number>} ambient The ambient color, [r, g, b, a]
-	 * @property {Array<number>} diffuse The diffuse color, [r, g, b, a]
-	 * @property {Array<number>} emissive The emissive color, [r, g, b, a]
-	 * @property {Array<number>} specular The specular color, [r, g, b, a]
-	 * @property {number} shininess The shininess exponent.
-	 */
+  * @type {Object}
+  * @property {Array<number>} ambient The ambient color, [r, g, b, a]
+  * @property {Array<number>} diffuse The diffuse color, [r, g, b, a]
+  * @property {Array<number>} emissive The emissive color, [r, g, b, a]
+  * @property {Array<number>} specular The specular color, [r, g, b, a]
+  * @property {number} shininess The shininess exponent.
+  */
 	/*
-	this.materialState = {
-		ambient: Shader.DEFAULT_AMBIENT,
-		diffuse: Shader.DEFAULT_DIFFUSE,
-		emissive: Shader.DEFAULT_EMISSIVE,
-		specular: Shader.DEFAULT_SPECULAR,
-		shininess: Shader.DEFAULT_SHININESS
-	};
-	*/
+ this.materialState = {
+ 	ambient: Shader.DEFAULT_AMBIENT,
+ 	diffuse: Shader.DEFAULT_DIFFUSE,
+ 	emissive: Shader.DEFAULT_EMISSIVE,
+ 	specular: Shader.DEFAULT_SPECULAR,
+ 	shininess: Shader.DEFAULT_SHININESS
+ };
+ */
 
 	/** Specification of culling for this Material
-	 * @type {Object}
-	 * @property {boolean} enabled
-	 * @property {string} cullFace possible values: 'Front', 'Back', 'FrontAndBack', default 'Back'
-	 * @property {string} frontFace possible values: 'CW' (clockwise) and 'CCW' (counterclockwise - default)
-	 */
+  * @type {Object}
+  * @property {boolean} enabled
+  * @property {string} cullFace possible values: 'Front', 'Back', 'FrontAndBack', default 'Back'
+  * @property {string} frontFace possible values: 'CW' (clockwise) and 'CCW' (counterclockwise - default)
+  */
 	this.cullState = {
 		enabled: true,
 		cullFace: 'Back', // Front, Back, FrontAndBack
@@ -78,12 +88,12 @@ function Material(name, shaderDefinition) {
 	};
 
 	/** Specification of blending for this Material
-	 * @type {Object}
-	 * @property {string} blending possible values: <strong>'NoBlending'</strong>, 'TransparencyBlending', 'AdditiveBlending', 'SubtractiveBlending', 'MultiplyBlending', 'CustomBlending'
-	 * @property {string} blendEquation possible values: <strong>'AddEquation'</strong>, 'SubtractEquation', 'ReverseSubtractEquation'
-	 * @property {string} blendSrc possible values: <strong>'SrcAlphaFactor'</strong>, 'ZeroFactor', 'OneFactor', 'SrcColorFactor', 'OneMinusSrcColorFactor', 'OneMinusSrcAlphaFactor', 'OneMinusDstAlphaFactor''DstColorFactor', 'OneMinusDstColorFactor', 'SrcAlphaSaturateFactor', 'DstAlphaFactor'
-	 * @property {string} blendDst possible values: 'SrcAlphaFactor', 'ZeroFactor', 'OneFactor', 'SrcColorFactor', 'OneMinusSrcColorFactor', <strong>'OneMinusSrcAlphaFactor'</strong>, 'OneMinusDstAlphaFactor''DstColorFactor', 'OneMinusDstColorFactor', 'DstAlphaFactor'
-	 */
+  * @type {Object}
+  * @property {string} blending possible values: <strong>'NoBlending'</strong>, 'TransparencyBlending', 'AdditiveBlending', 'SubtractiveBlending', 'MultiplyBlending', 'CustomBlending'
+  * @property {string} blendEquation possible values: <strong>'AddEquation'</strong>, 'SubtractEquation', 'ReverseSubtractEquation'
+  * @property {string} blendSrc possible values: <strong>'SrcAlphaFactor'</strong>, 'ZeroFactor', 'OneFactor', 'SrcColorFactor', 'OneMinusSrcColorFactor', 'OneMinusSrcAlphaFactor', 'OneMinusDstAlphaFactor''DstColorFactor', 'OneMinusDstColorFactor', 'SrcAlphaSaturateFactor', 'DstAlphaFactor'
+  * @property {string} blendDst possible values: 'SrcAlphaFactor', 'ZeroFactor', 'OneFactor', 'SrcColorFactor', 'OneMinusSrcColorFactor', <strong>'OneMinusSrcAlphaFactor'</strong>, 'OneMinusDstAlphaFactor''DstColorFactor', 'OneMinusDstColorFactor', 'DstAlphaFactor'
+  */
 	this.blendState = {
 		blending: 'NoBlending',
 		blendEquation: 'AddEquation',
@@ -92,11 +102,11 @@ function Material(name, shaderDefinition) {
 	};
 
 	/** Specification of depth handling for this Material
-	 * @type {Object}
-	 * @property {boolean} enabled default: true
-	 * @property {boolean} write default: true
-	 * @property {string} depthFunc possible values: 'Never', 'Always', 'Less', 'LessEqual', 'Equal', 'GreaterEqual', 'Greater', 'NotEqual'
-	 */
+  * @type {Object}
+  * @property {boolean} enabled default: true
+  * @property {boolean} write default: true
+  * @property {string} depthFunc possible values: 'Never', 'Always', 'Less', 'LessEqual', 'Equal', 'GreaterEqual', 'Greater', 'NotEqual'
+  */
 	this.depthState = {
 		enabled: true,
 		write: true,
@@ -104,11 +114,11 @@ function Material(name, shaderDefinition) {
 	};
 
 	/** Specification of the polygon offset for this Material
-	 * @type {Object}
-	 * @property {boolean} enabled
-	 * @property {number} factor default: 1
-	 * @property {number} units default: 1
-	 */
+  * @type {Object}
+  * @property {boolean} enabled
+  * @property {number} factor default: 1
+  * @property {number} units default: 1
+  */
 	this.offsetState = {
 		enabled: false,
 		factor: 1,
@@ -116,39 +126,39 @@ function Material(name, shaderDefinition) {
 	};
 
 	/** Render the mesh twice with front/back-facing for double transparency rendering. Default is false.
-	 * @type {boolean}
-	 * @default false
-	 */
+  * @type {boolean}
+  * @default false
+  */
 	this.dualTransparency = false;
 
 	/** Show wireframe on this material. Default is false.
-	 * @type {boolean}
-	 * @default false
-	 */
+  * @type {boolean}
+  * @default false
+  */
 	this.wireframe = false;
 
 	/** Use flat rendering mode for this material. Default is false.
-	 * @type {boolean}
-	 * @default false
-	 */
+  * @type {boolean}
+  * @default false
+  */
 	this.flat = false;
 
 	/** Width of lines, if line rendering / wireframe is enabled. Default is 1.
-	 * @type {number}
-	 * @default 1
-	 */
+  * @type {number}
+  * @default 1
+  */
 	this.lineWidth = 1;
 
 	/** Determines the order in which an object is drawn. There are four pre-defined render queues:
-	 *		<ul>
-	 *			<li>RenderQueue.BACKGROUND = Rendered before any other objects. Commonly used for skyboxes and the likes (0-999)
-	 *			<li>RenderQueue.OPAQUE = Used for most objects, typically opaque geometry. Rendered front to back (1000-1999)
-	 *			<li>RenderQueue.TRANSPARENT = For all alpha-blended objects. Rendered back to front (2000-2999)
-	 *			<li>RenderQueue.OVERLAY = For overlay effects like lens-flares etc (3000+)
-	 *		</ul>
-	 * By default materials use the render queue of the shader. See {@link Shader} or {@link RenderQueue} for more info
-	 * @type {number}
-	 */
+  *		<ul>
+  *			<li>RenderQueue.BACKGROUND = Rendered before any other objects. Commonly used for skyboxes and the likes (0-999)
+  *			<li>RenderQueue.OPAQUE = Used for most objects, typically opaque geometry. Rendered front to back (1000-1999)
+  *			<li>RenderQueue.TRANSPARENT = For all alpha-blended objects. Rendered back to front (2000-2999)
+  *			<li>RenderQueue.OVERLAY = For overlay effects like lens-flares etc (3000+)
+  *		</ul>
+  * By default materials use the render queue of the shader. See {@link Shader} or {@link RenderQueue} for more info
+  * @type {number}
+  */
 	this.renderQueue = null;
 
 	this.fullOverride = false;
@@ -185,7 +195,7 @@ Material.prototype.getTexture = function (name) {
  * @param {string} name Name of texture slot to remove
  */
 Material.prototype.removeTexture = function (name) {
-	
+
 	// delete this._textureMaps[name];
 	this._textureMaps[name] = null;
 };
@@ -252,7 +262,7 @@ Material.prototype.clone = function (options) {
 	if (options.shareUniforms) {
 		clone.uniforms = this.uniforms;
 	} else {
-		clone.uniforms = ObjectUtils_ObjectUtils.deepClone(this.uniforms);
+		clone.uniforms = _ObjectUtils.ObjectUtils.deepClone(this.uniforms);
 	}
 
 	if (options.shareTextures) {
@@ -307,7 +317,7 @@ Material.prototype.clone = function (options) {
  */
 Material.createShader = function (shaderDefinition, name) {
 	//! AT: function has parameters in reverse order than the constructor
-	var shader = new Shader_Shader(name || null, shaderDefinition);
+	var shader = new _Shader.Shader(name || null, shaderDefinition);
 	if (shader.name === null) {
 		shader.name = 'DefaultShader' + shader._id;
 	}
@@ -318,8 +328,7 @@ Material.createShader = function (shaderDefinition, name) {
  * Clears the shader cache.
  * @deprecated Deprecated since 0.12.0 and scheduled for removal in 0.14.0
  */
-Material.clearShaderCache = function () {
-};
+Material.clearShaderCache = function () {};
 
 /**
  * Creates an 'empty' material
@@ -362,4 +371,4 @@ Material.prototype.empty = function () {
  * @param {string} [name='Default Material'] Material name
  * @param {{ vshader, fshader }} [shaderDefinition] Optional shader to associate with the material
  */
-export { mod_Material as Material };
+exports.Material = mod_Material;

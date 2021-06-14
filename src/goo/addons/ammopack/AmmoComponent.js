@@ -1,16 +1,36 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AmmoComponent = undefined;
+
+var _EntityUtils = require("../../entities/EntityUtils");
+
+var _Component = require("../../entities/components/Component");
+
+var _Quaternion = require("../../math/Quaternion");
+
+var _calculateTriangleMeshShape = require("../../addons/ammopack/calculateTriangleMeshShape");
+
+var _Box = require("../../shapes/Box");
+
+var _Quad = require("../../shapes/Quad");
+
+var _Sphere = require("../../shapes/Sphere");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _BoundingBox = require("../../renderer/bounds/BoundingBox");
+
+var _BoundingSphere = require("../../renderer/bounds/BoundingSphere");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
 var mod_AmmoComponent = AmmoComponent;
-import { getTotalBoundingBox as EntityUtilsjs_getTotalBoundingBox } from "../../entities/EntityUtils";
-import { Component as Component_Component } from "../../entities/components/Component";
-import { Quaternion as Quaternion_Quaternion } from "../../math/Quaternion";
-import {     calculateTriangleMeshShape as calculateTriangleMeshShape_calculateTriangleMeshShape, } from "../../addons/ammopack/calculateTriangleMeshShape";
-import { Box as Box_Box } from "../../shapes/Box";
-import { Quad as Quad_Quad } from "../../shapes/Quad";
-import { Sphere as Sphere_Sphere } from "../../shapes/Sphere";
-import { Material as Material_Material } from "../../renderer/Material";
-import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
-import { BoundingBox as BoundingBox_BoundingBox } from "../../renderer/bounds/BoundingBox";
-import { BoundingSphere as BoundingSphere_BoundingSphere } from "../../renderer/bounds/BoundingSphere";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
+
 
 /* global Ammo */
 
@@ -33,11 +53,11 @@ import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
  * entity.setComponent(new AmmoComponent({ mass: 5 }));
  */
 function AmmoComponent(settings) {
-	Component_Component.apply(this, arguments);
+	_Component.Component.apply(this, arguments);
 
 	this.settings = settings = settings || {};
 
-	ObjectUtils_ObjectUtils.defaults(settings, {
+	_ObjectUtils.ObjectUtils.defaults(settings, {
 		mass: 0,
 		useBounds: false,
 		useWorldBounds: false,
@@ -63,11 +83,11 @@ function AmmoComponent(settings) {
 
 	this.type = 'AmmoComponent';
 	this.ammoTransform = new Ammo.btTransform();
-	this.gooQuaternion = new Quaternion_Quaternion();
+	this.gooQuaternion = new _Quaternion.Quaternion();
 	this.shape = undefined;
 }
 
-AmmoComponent.prototype = Object.create(Component_Component.prototype);
+AmmoComponent.prototype = Object.create(_Component.Component.prototype);
 AmmoComponent.prototype.constructor = AmmoComponent;
 
 AmmoComponent.prototype.getAmmoShapefromGooShape = function (entity, gooTransform) {
@@ -82,24 +102,24 @@ AmmoComponent.prototype.getAmmoShapefromGooShape = function (entity, gooTransfor
 
 	if (entity.meshDataComponent && entity.meshDataComponent.meshData) {
 		var meshData = entity.meshDataComponent.meshData;
-		if (meshData instanceof Box_Box) {
+		if (meshData instanceof _Box.Box) {
 			shape = new Ammo.btBoxShape(new Ammo.btVector3(meshData.xExtent * scale[0], meshData.yExtent * scale[1], meshData.zExtent * scale[2]));
-		} else if (meshData instanceof Sphere_Sphere) {
+		} else if (meshData instanceof _Sphere.Sphere) {
 			shape = new Ammo.btSphereShape(meshData.radius * scale[0]);
-		} else if (meshData instanceof Quad_Quad) {
+		} else if (meshData instanceof _Quad.Quad) {
 			// there doesn't seem to be a Quad shape in Ammo
 			shape = new Ammo.btBoxShape(new Ammo.btVector3(meshData.xExtent, meshData.yExtent, 0.01)); //new Ammo.btPlane();
 		} else {
 			if (this.useBounds || this.mass > 0) {
 				entity.meshDataComponent.computeBoundFromPoints();
 				var bound = entity.meshDataComponent.modelBound;
-				if (bound instanceof BoundingBox_BoundingBox) {
+				if (bound instanceof _BoundingBox.BoundingBox) {
 					shape = new Ammo.btBoxShape(new Ammo.btVector3(bound.xExtent * scale[0], bound.yExtent * scale[1], bound.zExtent * scale[2]));
-				} else if (bound instanceof BoundingSphere_BoundingSphere) {
+				} else if (bound instanceof _BoundingSphere.BoundingSphere) {
 					shape = new Ammo.btSphereShape(bound.radius * scale[0]);
 				}
 			} else {
-				shape = calculateTriangleMeshShape_calculateTriangleMeshShape(entity, scale); // this can only be used for static meshes, i.e. mass == 0.
+				shape = (0, _calculateTriangleMeshShape.calculateTriangleMeshShape)(entity, scale); // this can only be used for static meshes, i.e. mass == 0.
 			}
 		}
 	} else {
@@ -120,7 +140,7 @@ AmmoComponent.prototype.getAmmoShapefromGooShape = function (entity, gooTransfor
 
 AmmoComponent.prototype.getAmmoShapefromGooShapeWorldBounds = function (entity) {
 	var shape;
-	var bound = EntityUtilsjs_getTotalBoundingBox(entity);
+	var bound = (0, _EntityUtils.getTotalBoundingBox)(entity);
 	this.center = bound.center;
 	shape = new Ammo.btBoxShape(new Ammo.btVector3(bound.xExtent, bound.yExtent, bound.zExtent));
 	//shape = new Ammo.btBoxShape(new Ammo.btVector3( bound.xExtent * scale, bound.yExtent * scale, bound.zExtent * scale));
@@ -173,15 +193,15 @@ AmmoComponent.prototype.initialize = function (entity) {
 };
 
 AmmoComponent.prototype.showBounds = function (entity) {
-	var bound = EntityUtilsjs_getTotalBoundingBox(entity);
+	var bound = (0, _EntityUtils.getTotalBoundingBox)(entity);
 	var bv;
 
-	var material = new Material_Material(ShaderLib_ShaderLib.simpleLit);
+	var material = new _Material.Material(_ShaderLib.ShaderLib.simpleLit);
 	material.wireframe = true;
 	if (bound.xExtent) {
-		bv = entity._world.createEntity(new Box_Box(bound.xExtent * 2, bound.yExtent * 2, bound.zExtent * 2), material);
+		bv = entity._world.createEntity(new _Box.Box(bound.xExtent * 2, bound.yExtent * 2, bound.zExtent * 2), material);
 	} else if (bound.radius) {
-		bv = entity._world.createEntity(new Sphere_Sphere(12, 12, bound.radius), material);
+		bv = entity._world.createEntity(new _Sphere.Sphere(12, 12, bound.radius), material);
 	}
 
 	bv.transformComponent.setTranslation(bound.center);
@@ -243,4 +263,4 @@ AmmoComponent.prototype.copyPhysicalTransformToVisual = function (entity) {
  * var entity = world.createEntity(new Box(20, 10, 1));
  * entity.setComponent(new AmmoComponent({ mass: 5 }));
  */
-export { mod_AmmoComponent as AmmoComponent };
+exports.AmmoComponent = mod_AmmoComponent;

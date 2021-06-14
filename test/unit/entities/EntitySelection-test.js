@@ -1,6 +1,10 @@
-import { EntitySelection as EntitySelection_EntitySelection } from "../../../src/goo/entities/EntitySelection";
-import { World as World_World } from "../../../src/goo/entities/World";
-import { TransformComponent as TransformComponent_TransformComponent } from "../../../src/goo/entities/components/TransformComponent";
+"use strict";
+
+var _EntitySelection = require("../../../src/goo/entities/EntitySelection");
+
+var _World = require("../../../src/goo/entities/World");
+
+var _TransformComponent = require("../../../src/goo/entities/components/TransformComponent");
 
 describe('EntitySelection', function () {
 	var world;
@@ -18,19 +22,19 @@ describe('EntitySelection', function () {
 	}
 
 	beforeEach(function () {
-		world = new World_World();
-		world.registerComponent(TransformComponent_TransformComponent);
+		world = new _World.World();
+		world.registerComponent(_TransformComponent.TransformComponent);
 	});
 
 	describe('constructor', function () {
-//			it('constructs an empty selection if given no parameters', function () {
-//
-//			});
+		//			it('constructs an empty selection if given no parameters', function () {
+		//
+		//			});
 	});
 
 	describe('children', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection_EntitySelection();
+			var selection = new _EntitySelection.EntitySelection();
 			selection.children(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -44,7 +48,7 @@ describe('EntitySelection', function () {
 			parent.attachChild(child1);
 			parent.attachChild(child2);
 
-			var selection = new EntitySelection_EntitySelection(parent);
+			var selection = new _EntitySelection.EntitySelection(parent);
 
 			var children = selection.children();
 
@@ -65,7 +69,7 @@ describe('EntitySelection', function () {
 			parent1.attachChild(child12);
 			parent3.attachChild(child31);
 
-			var selection = new EntitySelection_EntitySelection(parent1, parent2, parent3);
+			var selection = new _EntitySelection.EntitySelection(parent1, parent2, parent3);
 
 			var children = selection.children();
 
@@ -80,7 +84,7 @@ describe('EntitySelection', function () {
 
 	describe('parent', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection_EntitySelection();
+			var selection = new _EntitySelection.EntitySelection();
 			selection.parent(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -94,7 +98,7 @@ describe('EntitySelection', function () {
 			parent.attachChild(child1);
 			parent.attachChild(child2);
 
-			var selection = new EntitySelection_EntitySelection(child1, child2);
+			var selection = new _EntitySelection.EntitySelection(child1, child2);
 
 			var parents = selection.parent();
 
@@ -114,7 +118,7 @@ describe('EntitySelection', function () {
 			parent1.attachChild(child12);
 			parent3.attachChild(child31);
 
-			var selection = new EntitySelection_EntitySelection(child11, child12, child31);
+			var selection = new _EntitySelection.EntitySelection(child11, child12, child31);
 
 			var parents = selection.parent();
 
@@ -129,7 +133,7 @@ describe('EntitySelection', function () {
 
 	describe('and', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection_EntitySelection();
+			var selection = new _EntitySelection.EntitySelection();
 			selection.and(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -140,7 +144,7 @@ describe('EntitySelection', function () {
 			var array1 = [entities[0], entities[1], entities[2], entities[3], entities[4]];
 			var array2 = [entities[2], entities[3], entities[4], entities[5], entities[6]];
 
-			var selection = new EntitySelection_EntitySelection(array1);
+			var selection = new _EntitySelection.EntitySelection(array1);
 			selection.and(array2);
 
 			array1.forEach(function (entity) {
@@ -157,7 +161,7 @@ describe('EntitySelection', function () {
 
 	describe('intersects', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection_EntitySelection();
+			var selection = new _EntitySelection.EntitySelection();
 			selection.intersects(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -168,7 +172,7 @@ describe('EntitySelection', function () {
 			var array1 = [entities[0], entities[1], entities[2], entities[3], entities[4]];
 			var array2 = [entities[2], entities[3], entities[4], entities[5], entities[6]];
 
-			var selection = new EntitySelection_EntitySelection(array1);
+			var selection = new _EntitySelection.EntitySelection(array1);
 			selection.intersects(array2);
 
 			expect(selection.contains(entities[2])).toBeTruthy();
@@ -181,7 +185,7 @@ describe('EntitySelection', function () {
 
 	describe('without', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection_EntitySelection();
+			var selection = new _EntitySelection.EntitySelection();
 			selection.without(someEntity());
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -192,7 +196,7 @@ describe('EntitySelection', function () {
 			var array1 = [entities[0], entities[1], entities[2], entities[3], entities[4]];
 			var array2 = [entities[2], entities[3], entities[4], entities[5], entities[6]];
 
-			var selection = new EntitySelection_EntitySelection(array1);
+			var selection = new _EntitySelection.EntitySelection(array1);
 			selection.without(array2);
 
 			expect(selection.contains(entities[0])).toBeTruthy();
@@ -204,14 +208,14 @@ describe('EntitySelection', function () {
 
 	describe('andSelf', function () {
 		it('returns itself when applied to an empty selection', function () {
-			var selection = new EntitySelection_EntitySelection();
+			var selection = new _EntitySelection.EntitySelection();
 			selection.andSelf();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
 		});
 
 		it('returns itself when applied to an selection that has only one stack entry', function () {
-			var selection = new EntitySelection_EntitySelection(someEntities(5));
+			var selection = new _EntitySelection.EntitySelection(someEntities(5));
 			selection.andSelf();
 			expect(selection).toEqual(selection);
 			expect(selection).toBe(selection);
@@ -221,7 +225,7 @@ describe('EntitySelection', function () {
 			var entities = someEntities(5);
 			var children = [];
 
-			var selection = new EntitySelection_EntitySelection(entities);
+			var selection = new _EntitySelection.EntitySelection(entities);
 			// attach some children
 			selection.each(function (entity) {
 				var child = someEntity();

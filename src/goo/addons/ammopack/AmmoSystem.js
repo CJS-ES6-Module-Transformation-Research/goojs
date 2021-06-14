@@ -1,5 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.AmmoSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 var mod_AmmoSystem = AmmoSystem;
-import { System as System_System } from "../../entities/systems/System";
 
 
 /*global Ammo */
@@ -21,48 +29,48 @@ import { System as System_System } from "../../entities/systems/System";
  * goo.world.setSystem(ammoSystem);
  */
 function AmmoSystem(settings) {
-	System_System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
-	this.settings = settings || {};
-	this.fixedTime = 1 / (this.settings.stepFrequency || 60);
-	this.maxSubSteps = this.settings.maxSubSteps || 5;
-	var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
-	var dispatcher = new Ammo.btCollisionDispatcher( collisionConfiguration );
-	var overlappingPairCache = new Ammo.btDbvtBroadphase();
-	var solver = new Ammo.btSequentialImpulseConstraintSolver();
-	this.ammoWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-	var gravity = this.settings.gravity;
-	if (gravity == null) {
-		gravity = -9.81;
-	}
-	this.ammoWorld.setGravity(new Ammo.btVector3(0, gravity, 0));
+  _System.System.call(this, 'AmmoSystem', ['AmmoComponent', 'TransformComponent']);
+  this.settings = settings || {};
+  this.fixedTime = 1 / (this.settings.stepFrequency || 60);
+  this.maxSubSteps = this.settings.maxSubSteps || 5;
+  var collisionConfiguration = new Ammo.btDefaultCollisionConfiguration();
+  var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
+  var overlappingPairCache = new Ammo.btDbvtBroadphase();
+  var solver = new Ammo.btSequentialImpulseConstraintSolver();
+  this.ammoWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+  var gravity = this.settings.gravity;
+  if (gravity == null) {
+    gravity = -9.81;
+  }
+  this.ammoWorld.setGravity(new Ammo.btVector3(0, gravity, 0));
 }
 
-AmmoSystem.prototype = Object.create(System_System.prototype);
+AmmoSystem.prototype = Object.create(_System.System.prototype);
 
 AmmoSystem.prototype.inserted = function (entity) {
-	if (entity.ammoComponent) {
-		entity.ammoComponent.initialize(entity);
-		this.ammoWorld.addRigidBody(entity.ammoComponent.body);
-	} else {
-		console.log('Warning: missing entity.ammoComponent');
-	}
+  if (entity.ammoComponent) {
+    entity.ammoComponent.initialize(entity);
+    this.ammoWorld.addRigidBody(entity.ammoComponent.body);
+  } else {
+    console.log('Warning: missing entity.ammoComponent');
+  }
 };
 
 AmmoSystem.prototype.deleted = function (entity) {
-	if (entity.ammoComponent) {
-		this.ammoWorld.removeRigidBody(entity.ammoComponent.body);
-	}
+  if (entity.ammoComponent) {
+    this.ammoWorld.removeRigidBody(entity.ammoComponent.body);
+  }
 };
 
 AmmoSystem.prototype.process = function (entities, tpf) {
-	this.ammoWorld.stepSimulation( tpf, this.maxSubSteps, this.fixedTime);
+  this.ammoWorld.stepSimulation(tpf, this.maxSubSteps, this.fixedTime);
 
-	for (var i = 0; i < entities.length; i++) {
-		var e = entities[i];
-		if (e.ammoComponent.mass > 0) {
-			e.ammoComponent.copyPhysicalTransformToVisual(e);
-		}
-	}
+  for (var i = 0; i < entities.length; i++) {
+    var e = entities[i];
+    if (e.ammoComponent.mass > 0) {
+      e.ammoComponent.copyPhysicalTransformToVisual(e);
+    }
+  }
 };
 
 /*global Ammo */
@@ -83,4 +91,4 @@ AmmoSystem.prototype.process = function (entities, tpf) {
  * var ammoSystem = new AmmoSystem({stepFrequency: 60});
  * goo.world.setSystem(ammoSystem);
  */
-export { mod_AmmoSystem as AmmoSystem };
+exports.AmmoSystem = mod_AmmoSystem;

@@ -1,14 +1,18 @@
-import { Vector3 as Vector3_Vector3 } from "../../../src/goo/math/Vector3";
-import { Transform as Transform_Transform } from "../../../src/goo/math/Transform";
-import { CustomMatchers as CustomMatchers_CustomMatchers } from "../../../test/unit/CustomMatchers";
+"use strict";
+
+var _Vector = require("../../../src/goo/math/Vector3");
+
+var _Transform = require("../../../src/goo/math/Transform");
+
+var _CustomMatchers = require("../../../test/unit/CustomMatchers");
 
 /**
  * Checks whether Transform.invert works on a test vector.
  */
 function checkInversion(transform) {
-	var vec1 = new Vector3_Vector3(100, 200, 300);
-	var vec2 = new Vector3_Vector3();
-	var vec3 = new Vector3_Vector3();
+	var vec1 = new _Vector.Vector3(100, 200, 300);
+	var vec2 = new _Vector.Vector3();
+	var vec3 = new _Vector.Vector3();
 	var inverted = transform.invert();
 	transform.applyForward(vec1, vec2);
 	inverted.applyForward(vec2, vec3);
@@ -19,8 +23,8 @@ function checkInversion(transform) {
  * Numerically checks whether a transform changes a vector.
  */
 function expectNotIdentity(transform) {
-	var vec1 = new Vector3_Vector3(100, 200, 300);
-	var vec2 = new Vector3_Vector3();
+	var vec1 = new _Vector.Vector3(100, 200, 300);
+	var vec2 = new _Vector.Vector3();
 	transform.applyForward(vec1, vec2);
 	expect(vec1).not.toBeCloseToVector(vec2);
 }
@@ -38,10 +42,10 @@ describe('Transform', function () {
 	}
 
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers_CustomMatchers);
-		t = new Transform_Transform();
-		v1 = new Vector3_Vector3(10, 20, 30);
-		v2 = new Vector3_Vector3(0, 0, 0);
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
+		t = new _Transform.Transform();
+		v1 = new _Vector.Vector3(10, 20, 30);
+		v2 = new _Vector.Vector3(0, 0, 0);
 	});
 
 	it('is identity by default', function () {
@@ -55,7 +59,7 @@ describe('Transform', function () {
 		t.scale.z = 4;
 		t.update();
 		t.applyForward(v1, v2);
-		expect(v2).toBeCloseToVector(new Vector3_Vector3(10 * 2, 20 * 3, 30 * 4));
+		expect(v2).toBeCloseToVector(new _Vector.Vector3(10 * 2, 20 * 3, 30 * 4));
 	});
 
 	it('rotation changes a vector', function () {
@@ -68,7 +72,7 @@ describe('Transform', function () {
 		t.setRotationXYZ(Math.PI / 2, 0, 0);
 		t.update();
 		t.applyForward(v1, v2);
-		expect(v2).toBeCloseToVector(new Vector3_Vector3(10, -30, 20));
+		expect(v2).toBeCloseToVector(new _Vector.Vector3(10, -30, 20));
 	});
 
 	it('can be inverted if identity', function () {
@@ -96,12 +100,12 @@ describe('Transform', function () {
 		t.scale.setDirect(3, 3, 3);
 		t.setRotationXYZ(rnd(5), rnd(5), rnd(5));
 		t.update();
-		var t2 = new Transform_Transform();
+		var t2 = new _Transform.Transform();
 		t2.translation.setDirect(rnd(5), rnd(5), rnd(5));
 		t2.setRotationXYZ(rnd(5), rnd(5), rnd(5));
 		t2.scale.setDirect(rnd(5), rnd(5), rnd(5));
 		t2.update();
-		var t3 = Transform_Transform.combine(t, t2);
+		var t3 = _Transform.Transform.combine(t, t2);
 		t3.update();
 		t.matrix.mul(t2.matrix);
 		expect(t3.matrix).toBeCloseToMatrix(t.matrix);
@@ -109,21 +113,21 @@ describe('Transform', function () {
 
 	describe('lookAt', function () {
 		it('centers the lookAt point in the view', function () {
-			var lookAt = new Vector3_Vector3(5, 0, -10);
-			var up = new Vector3_Vector3(0, 1, 0);
+			var lookAt = new _Vector.Vector3(5, 0, -10);
+			var up = new _Vector.Vector3(0, 1, 0);
 			var distance = lookAt.length();
 			t.lookAt(lookAt, up);
 			t.update();
 			t.invert().applyForwardVector(lookAt, v2);
-			expect(v2).toBeCloseToVector(new Vector3_Vector3(0, 0, -distance));
+			expect(v2).toBeCloseToVector(new _Vector.Vector3(0, 0, -distance));
 		});
 
 		it('defaults up parameter of lookAt to UNIT_Y', function () {
-			var transform1 = new Transform_Transform();
-			var transform2 = new Transform_Transform();
+			var transform1 = new _Transform.Transform();
+			var transform2 = new _Transform.Transform();
 
-			transform1.lookAt(new Vector3_Vector3(1, 2, 3));
-			transform2.lookAt(new Vector3_Vector3(1, 2, 3), Vector3_Vector3.UNIT_Y);
+			transform1.lookAt(new _Vector.Vector3(1, 2, 3));
+			transform2.lookAt(new _Vector.Vector3(1, 2, 3), _Vector.Vector3.UNIT_Y);
 
 			transform1.update();
 			transform2.update();
@@ -131,11 +135,11 @@ describe('Transform', function () {
 			expect(transform1.matrix.equals(transform2.matrix)).toBeTruthy();
 
 			// --- check to see if other up vector can be set
-			var transform1 = new Transform_Transform();
-			var transform2 = new Transform_Transform();
+			var transform1 = new _Transform.Transform();
+			var transform2 = new _Transform.Transform();
 
-			transform1.lookAt(new Vector3_Vector3(1, 2, 3));
-			transform2.lookAt(new Vector3_Vector3(1, 2, 3), Vector3_Vector3.UNIT_Z);
+			transform1.lookAt(new _Vector.Vector3(1, 2, 3));
+			transform2.lookAt(new _Vector.Vector3(1, 2, 3), _Vector.Vector3.UNIT_Z);
 
 			transform1.update();
 			transform2.update();
@@ -144,12 +148,12 @@ describe('Transform', function () {
 		});
 
 		it('does nothing when trying to look at itself', function () {
-			var transform = new Transform_Transform();
+			var transform = new _Transform.Transform();
 			transform.translation.setDirect(11, 22, 33);
-			transform.lookAt(new Vector3_Vector3(11, 22, 33));
+			transform.lookAt(new _Vector.Vector3(11, 22, 33));
 			transform.update();
 
-			var expected = new Transform_Transform();
+			var expected = new _Transform.Transform();
 			expected.translation.setDirect(11, 22, 33);
 			expected.update();
 
@@ -160,14 +164,14 @@ describe('Transform', function () {
 
 	describe('combine', function () {
 		it('combines and updates the resulting transform', function () {
-			var transform1 = new Transform_Transform();
+			var transform1 = new _Transform.Transform();
 			transform1.translation.setDirect(1, 2, 3);
 
-			var transform2 = new Transform_Transform();
+			var transform2 = new _Transform.Transform();
 			transform2.translation.setDirect(11, 22, 33);
 
-			var result = Transform_Transform.combine(transform1, transform2);
-			expect(result.translation.equals(new Vector3_Vector3(1, 2, 3).add(new Vector3_Vector3(11, 22, 33)))).toBeTruthy();
+			var result = _Transform.Transform.combine(transform1, transform2);
+			expect(result.translation.equals(new _Vector.Vector3(1, 2, 3).add(new _Vector.Vector3(11, 22, 33)))).toBeTruthy();
 
 			expect(result.matrix[12]).toBeCloseTo(1 + 11);
 			expect(result.matrix[13]).toBeCloseTo(2 + 22);
@@ -175,24 +179,23 @@ describe('Transform', function () {
 		});
 	});
 
-
 	describe('multiply', function () {
 		it('can multiply and keep scaling correct', function () {
-			var transform1 = new Transform_Transform();
+			var transform1 = new _Transform.Transform();
 			transform1.scale.setDirect(1, 2, 3);
 
-			var transform2 = new Transform_Transform();
+			var transform2 = new _Transform.Transform();
 			transform2.scale.setDirect(4, 5, 6);
 
 			transform1.multiply(transform1, transform2);
 
-			expect(transform1.scale).toBeCloseToVector(new Vector3_Vector3(1 * 4, 2 * 5, 3 * 6));
+			expect(transform1.scale).toBeCloseToVector(new _Vector.Vector3(1 * 4, 2 * 5, 3 * 6));
 		});
 	});
 
 	describe('clone', function () {
 		it('clones a transform', function () {
-			var original = new Transform_Transform();
+			var original = new _Transform.Transform();
 
 			original.translation.setDirect(1, 2, 3);
 			original.rotation.e11 = 123; // no setDirect for matrices
@@ -200,7 +203,6 @@ describe('Transform', function () {
 
 			original.matrix.e11 = 456;
 			original.normalMatrix.e11 = 789;
-
 
 			var clone = original.clone();
 

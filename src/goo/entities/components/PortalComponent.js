@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PortalComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
 var mod_PortalComponent = PortalComponent;
-import { Component as Component_Component } from "../../entities/components/Component";
-import { RenderTarget as RenderTarget_RenderTarget } from "../../renderer/pass/RenderTarget";
 
 /**
  * Renders to the texture of the host object<br>
@@ -14,51 +23,51 @@ import { RenderTarget as RenderTarget_RenderTarget } from "../../renderer/pass/R
  * @extends Component
  */
 function PortalComponent(camera, height, options, overrideMaterial) {
-	Component_Component.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	height = height || 200;
+  height = height || 200;
 
-	this.options = options || {};
-	this.options.preciseRecursion = !!this.options.preciseRecursion;
-	this.options.autoUpdate = this.options.autoUpdate !== false;
+  this.options = options || {};
+  this.options.preciseRecursion = !!this.options.preciseRecursion;
+  this.options.autoUpdate = this.options.autoUpdate !== false;
 
-	this.overrideMaterial = overrideMaterial;
+  this.overrideMaterial = overrideMaterial;
 
-	this.doUpdate = true;
+  this.doUpdate = true;
 
-	var aspect = camera.aspect;
+  var aspect = camera.aspect;
 
-	this.type = 'PortalComponent';
+  this.type = 'PortalComponent';
 
-	/**
-	 * @type {Camera}
-	 */
-	this.camera = camera;
+  /**
+   * @type {Camera}
+   */
+  this.camera = camera;
 
-	/**
-	 * @type {RenderTarget}
-	 */
-	this.target = new RenderTarget_RenderTarget(height, height / aspect);
+  /**
+   * @type {RenderTarget}
+   */
+  this.target = new _RenderTarget.RenderTarget(height, height / aspect);
 
-	if (this.options.preciseRecursion) {
-		this.secondaryTarget = new RenderTarget_RenderTarget(height, height / aspect);
-	}
+  if (this.options.preciseRecursion) {
+    this.secondaryTarget = new _RenderTarget.RenderTarget(height, height / aspect);
+  }
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 PortalComponent.type = 'PortalComponent';
 
-PortalComponent.prototype = Object.create(Component_Component.prototype);
+PortalComponent.prototype = Object.create(_Component.Component.prototype);
 PortalComponent.prototype.constructor = PortalComponent;
 
 /**
  * Requests a rendering to be done to the material of the host object
  */
 PortalComponent.prototype.requestUpdate = function () {
-	this.doUpdate = true;
+  this.doUpdate = true;
 };
 
 /**
@@ -72,4 +81,4 @@ PortalComponent.prototype.requestUpdate = function () {
  * @param {Material} [overrideMaterial=null] Optional override material to use when rendering to the host object
  * @extends Component
  */
-export { mod_PortalComponent as PortalComponent };
+exports.PortalComponent = mod_PortalComponent;

@@ -1,14 +1,24 @@
-var mod_TweenOpacityAction = TweenOpacityAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Easing as Easing_Easing } from "../../../util/Easing";
-import { lerp as MathUtilsjs_lerp } from "../../../math/MathUtils";
+"use strict";
 
-function TweenOpacityAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TweenOpacityAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Easing = require("../../../util/Easing");
+
+var _MathUtils = require("../../../math/MathUtils");
+
+var mod_TweenOpacityAction = TweenOpacityAction;
+
+function TweenOpacityAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 	this.completed = false;
 }
 
-TweenOpacityAction.prototype = Object.create(Action_Action.prototype);
+TweenOpacityAction.prototype = Object.create(_Action.Action.prototype);
 TweenOpacityAction.prototype.constructor = TweenOpacityAction;
 
 TweenOpacityAction.external = {
@@ -53,7 +63,7 @@ TweenOpacityAction.external = {
 	}]
 };
 
-TweenOpacityAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+TweenOpacityAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return transitionKey === 'complete' ? 'On Tween Opacity Complete' : undefined;
 };
 
@@ -93,9 +103,9 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 
 	var t = Math.min((fsm.getTime() - this.startTime) * 1000 / this.time, 1);
-	var fT = Easing_Easing[this.easing1][this.easing2](t);
+	var fT = _Easing.Easing[this.easing1][this.easing2](t);
 
-	this.uniforms.opacity = MathUtilsjs_lerp(fT, this.from, this.to);
+	this.uniforms.opacity = (0, _MathUtils.lerp)(fT, this.from, this.to);
 
 	if (t >= 1) {
 		fsm.send(this.transitions.complete);
@@ -103,4 +113,4 @@ TweenOpacityAction.prototype.update = function (fsm) {
 	}
 };
 
-export { mod_TweenOpacityAction as TweenOpacityAction };
+exports.TweenOpacityAction = mod_TweenOpacityAction;

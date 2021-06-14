@@ -1,26 +1,34 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundCreator = undefined;
+
+var _SoundHandler = require("../loaders/handlers/SoundHandler");
+
+var _AudioContext = require("../sound/AudioContext");
+
+var _Ajax = require("../util/Ajax");
+
+var _StringUtils = require("../util/StringUtils");
+
+var _PromiseUtils = require("../util/PromiseUtils");
+
 var mod_SoundCreator = SoundCreator;
-import { SoundHandler as SoundHandler_SoundHandler } from "../loaders/handlers/SoundHandler";
-import { AudioContextjs as AudioContext } from "../sound/AudioContext";
-import { Ajax as Ajax_Ajax } from "../util/Ajax";
-import { StringUtils as StringUtils_StringUtils } from "../util/StringUtils";
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../util/PromiseUtils";
+
 
 /**
  * Provides a simple way to load sounds
  */
 function SoundCreator() {
-	var ajax = this.ajax = new Ajax_Ajax();
+	var ajax = this.ajax = new _Ajax.Ajax();
 
-	this.soundHandler = new SoundHandler_SoundHandler(
-		{},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		},
-		function () {},
-		function (ref, options) {
-			return ajax.load(ref, options ? options.noCache : false);
-		}
-	);
+	this.soundHandler = new _SoundHandler.SoundHandler({}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	}, function () {}, function (ref, options) {
+		return ajax.load(ref, options ? options.noCache : false);
+	});
 }
 
 /**
@@ -38,15 +46,15 @@ SoundCreator.prototype.clear = function () {
  * @returns {RSVP.Promise}
  */
 SoundCreator.prototype.loadSound = function (url, settings) {
-	if (!AudioContext.isSupported()) {
-		return PromiseUtils_PromiseUtils.reject(new Error('AudioContext is not supported!'));
+	if (!_AudioContext.AudioContextjs.isSupported()) {
+		return _PromiseUtils.PromiseUtils.reject(new Error('AudioContext is not supported!'));
 	}
 
-	var id = StringUtils_StringUtils.createUniqueId('sound');
+	var id = _StringUtils.StringUtils.createUniqueId('sound');
 	settings = settings || {};
 	settings.audioRefs = {};
 
-	var fileExtension = StringUtils_StringUtils.getAfterLast(url, '.');
+	var fileExtension = _StringUtils.StringUtils.getAfterLast(url, '.');
 	settings.audioRefs[fileExtension] = url;
 
 	var sound = this.soundHandler._create();
@@ -58,4 +66,4 @@ SoundCreator.prototype.loadSound = function (url, settings) {
 /**
  * Provides a simple way to load sounds
  */
-export { mod_SoundCreator as SoundCreator };
+exports.SoundCreator = mod_SoundCreator;

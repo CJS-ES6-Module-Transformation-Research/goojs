@@ -1,12 +1,21 @@
-var mod_KeyPressedAction = KeyPressedAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { FsmUtils as FsmUtils_FsmUtils } from "../../../fsmpack/statemachine/FsmUtils";
+"use strict";
 
-function KeyPressedAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.KeyPressedAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var mod_KeyPressedAction = KeyPressedAction;
+
+function KeyPressedAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-KeyPressedAction.prototype = Object.create(Action_Action.prototype);
+KeyPressedAction.prototype = Object.create(_Action.Action.prototype);
 KeyPressedAction.prototype.constructor = KeyPressedAction;
 
 KeyPressedAction.external = {
@@ -29,12 +38,12 @@ KeyPressedAction.external = {
 	}]
 };
 
-KeyPressedAction.getTransitionLabel = function (transitionKey, actionConfig){
+KeyPressedAction.getTransitionLabel = function (transitionKey, actionConfig) {
 	return 'On Key ' + (actionConfig.options.key || '') + ' pressed';
 };
 
 KeyPressedAction.prototype.configure = function (settings) {
-	this.key = settings.key ? FsmUtils_FsmUtils.getKey(settings.key) : null;
+	this.key = settings.key ? _FsmUtils.FsmUtils.getKey(settings.key) : null;
 	this.transitions = { keydown: settings.transitions.keydown };
 };
 
@@ -50,4 +59,4 @@ KeyPressedAction.prototype.update = function (fsm) {
 	}
 };
 
-export { mod_KeyPressedAction as KeyPressedAction };
+exports.KeyPressedAction = mod_KeyPressedAction;

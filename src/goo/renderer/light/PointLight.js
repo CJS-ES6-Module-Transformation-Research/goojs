@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.PointLight = undefined;
+
+var _Light = require("../../renderer/light/Light");
+
 var mod_PointLight = PointLight;
-import { Light as Light_Light } from "../../renderer/light/Light";
 
 /**
  * A omni-directional source of light. So far it has the same effect as {@link Light}<br>
@@ -8,20 +16,20 @@ import { Light as Light_Light } from "../../renderer/light/Light";
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
 function PointLight(color) {
-	Light_Light.call(this, color);
+  _Light.Light.call(this, color);
 
-	/**
-	 * The range of the light (default is 1000)
-	 * @type {number}
-	 */
-	this.range = 1000;
+  /**
+   * The range of the light (default is 1000)
+   * @type {number}
+   */
+  this.range = 1000;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
-PointLight.prototype = Object.create(Light_Light.prototype);
+PointLight.prototype = Object.create(_Light.Light.prototype);
 PointLight.prototype.constructor = PointLight;
 
 /**
@@ -30,21 +38,21 @@ PointLight.prototype.constructor = PointLight;
  * @param {Transform} transform
  */
 PointLight.prototype.update = function (transform) {
-	transform.matrix.getTranslation(this.translation);
+  transform.matrix.getTranslation(this.translation);
 };
 
 PointLight.prototype.copy = function (source) {
-	Light_Light.prototype.copy.call(this, source);
+  _Light.Light.prototype.copy.call(this, source);
 
-	this.range = source.range;
+  this.range = source.range;
 
-	return this;
+  return this;
 };
 
 PointLight.prototype.clone = function () {
-	var clone = new PointLight(this.color.clone());
-	clone.copy(this);
-	return clone;
+  var clone = new PointLight(this.color.clone());
+  clone.copy(this);
+  return clone;
 };
 
 /**
@@ -53,4 +61,4 @@ PointLight.prototype.clone = function () {
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export { mod_PointLight as PointLight };
+exports.PointLight = mod_PointLight;

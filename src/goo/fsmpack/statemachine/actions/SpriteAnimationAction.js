@@ -1,11 +1,19 @@
-var mod_SpriteAnimationAction = SpriteAnimationAction;
-import { Action as Action_Action } from "./Action";
+'use strict';
 
-function SpriteAnimationAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SpriteAnimationAction = undefined;
+
+var _Action = require('./Action');
+
+var mod_SpriteAnimationAction = SpriteAnimationAction;
+
+function SpriteAnimationAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 	this.completed = false;
 }
-SpriteAnimationAction.prototype = Object.create(Action_Action.prototype);
+SpriteAnimationAction.prototype = Object.create(_Action.Action.prototype);
 SpriteAnimationAction.prototype.constructor = SpriteAnimationAction;
 
 SpriteAnimationAction.external = {
@@ -53,7 +61,7 @@ SpriteAnimationAction.external = {
 	}]
 };
 
-SpriteAnimationAction.getTransitionLabel = function (/*transitionKey, actionConfig*/) {
+SpriteAnimationAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'Sprite Animation complete';
 };
 
@@ -107,12 +115,12 @@ SpriteAnimationAction.prototype.update = function (fsm) {
 	t += timeOffset;
 
 	var tileX = Math.floor(this.tiling[0] * this.tiling[1] * t % this.tiling[1]);
-	var tileY = Math.floor((this.tiling[1] * t) % this.tiling[1]);
+	var tileY = Math.floor(this.tiling[1] * t % this.tiling[1]);
 
 	this.texture.offset.setDirect(tileX, tileY).mul(this.texture.repeat);
 	this.texture.offset.y = -1 / this.tiling[1] - this.texture.offset.y + 1;
 };
 
-SpriteAnimationAction.prototype.exit = function (/*fsm*/) {};
+SpriteAnimationAction.prototype.exit = function () /*fsm*/{};
 
-export { mod_SpriteAnimationAction as SpriteAnimationAction };
+exports.SpriteAnimationAction = mod_SpriteAnimationAction;

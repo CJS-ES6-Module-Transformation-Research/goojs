@@ -1,10 +1,16 @@
-import {
-    applyEntityTransformPoint as ParticleUtilsjs_applyEntityTransformPoint,
-    applyEntityTransformVector as ParticleUtilsjs_applyEntityTransformVector,
-} from "../particles/ParticleUtils";
+"use strict";
 
-import { mainCamera as Rendererjs_mainCamera } from "../renderer/Renderer";
-import { ObjectUtils as ObjectUtil } from "../util/ObjectUtil";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleEmitter = undefined;
+
+var _ParticleUtils = require("../particles/ParticleUtils");
+
+var _Renderer = require("../renderer/Renderer");
+
+var _ObjectUtil = require("../util/ObjectUtil");
+
 var ParticleEmitter_CAMERA_BILLBOARD_FUNC;
 
 /**
@@ -21,21 +27,21 @@ var ParticleEmitter_CAMERA_BILLBOARD_FUNC;
  * @param {number} [options.releaseRatePerSecond=10] Target number of particles per second to spawn
  */
 function ParticleEmitter(options) {
-	ObjectUtil.copyOptions(this, options, {
+	_ObjectUtil.ObjectUtils.copyOptions(this, options, {
 		totalParticlesToSpawn: -1,
 		maxLifetime: 3.0,
 		minLifetime: 2.0,
 		timeline: undefined,
 		influences: [],
-		getEmissionPoint: function (particle, particleEntity) {
+		getEmissionPoint: function getEmissionPoint(particle, particleEntity) {
 			var vec3 = particle.position;
 			vec3.setDirect(0, 0, 0);
-			return ParticleUtilsjs_applyEntityTransformPoint(vec3, particleEntity);
+			return (0, _ParticleUtils.applyEntityTransformPoint)(vec3, particleEntity);
 		},
-		getEmissionVelocity: function (particle, particleEntity) {
+		getEmissionVelocity: function getEmissionVelocity(particle, particleEntity) {
 			var vec3 = particle.velocity;
 			vec3.setDirect(0, 1, 0);
-			return ParticleUtilsjs_applyEntityTransformVector(vec3, particleEntity);
+			return (0, _ParticleUtils.applyEntityTransformVector)(vec3, particleEntity);
 		},
 		getParticleBillboardVectors: ParticleEmitter_CAMERA_BILLBOARD_FUNC,
 		releaseRatePerSecond: 10,
@@ -51,8 +57,8 @@ function ParticleEmitter(options) {
  * @param particle
  */
 // Was: function (particle, particleEntity)
-ParticleEmitter_CAMERA_BILLBOARD_FUNC = function (particle) {
-	var camera = Rendererjs_mainCamera;
+ParticleEmitter_CAMERA_BILLBOARD_FUNC = function ParticleEmitter_CAMERA_BILLBOARD_FUNC(particle) {
+	var camera = _Renderer.mainCamera;
 	if (camera) {
 		particle.bbX.set(camera._left);
 		particle.bbY.set(camera._up);
@@ -69,4 +75,4 @@ ParticleEmitter.prototype.nextParticleLifeSpan = function () {
 	return this.minLifetime + (this.maxLifetime - this.minLifetime) * Math.random();
 };
 
-export { ParticleEmitter };
+exports.ParticleEmitter = ParticleEmitter;

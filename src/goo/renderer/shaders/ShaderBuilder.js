@@ -1,19 +1,34 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ShaderBuilder = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _PointLight = require("../../renderer/light/PointLight");
+
+var _DirectionalLight = require("../../renderer/light/DirectionalLight");
+
+var _SpotLight = require("../../renderer/light/SpotLight");
+
+var _Texture = require("../../renderer/Texture");
+
+var _MathUtils = require("../../math/MathUtils");
+
+var _TangentGenerator = require("../../util/TangentGenerator");
+
+var _ShaderFragment = require("../../renderer/shaders/ShaderFragment");
+
 var mod_ShaderBuilder = ShaderBuilder;
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
-import { PointLight as PointLight_PointLight } from "../../renderer/light/PointLight";
-import { DirectionalLight as DirectionalLight_DirectionalLight } from "../../renderer/light/DirectionalLight";
-import { SpotLight as SpotLight_SpotLight } from "../../renderer/light/SpotLight";
-import { Texture as Texture_Texture } from "../../renderer/Texture";
-import { DEG_TO_RAD as MathUtilsjs_DEG_TO_RAD } from "../../math/MathUtils";
-import { addTangentBuffer as TangentGeneratorjs_addTangentBuffer } from "../../util/TangentGenerator";
-import { methods as ShaderFragmentjs_methods } from "../../renderer/shaders/ShaderFragment";
 
 /**
  * Builds shaders
  */
 function ShaderBuilder() {}
 
-var defaultLight = new DirectionalLight_DirectionalLight();
+var defaultLight = new _DirectionalLight.DirectionalLight();
 defaultLight.translation.setDirect(10, 10, 10);
 defaultLight.direction.setDirect(1, 1, 1).normalize();
 ShaderBuilder.defaultLight = defaultLight;
@@ -28,14 +43,14 @@ ShaderBuilder.FOG_SETTINGS = [0, 10000];
 ShaderBuilder.FOG_COLOR = [1, 1, 1];
 
 ShaderBuilder.uber = {
-	defines: function (shader, attributeMap) {
+	defines: function defines(shader, attributeMap) {
 		var keys = Object.keys(attributeMap);
 		for (var i = 0, l = keys.length; i < l; i++) {
 			shader.setDefine(keys[i], true);
 		}
 	},
 
-	txMaps: function (shader, textureMaps) {
+	txMaps: function txMaps(shader, textureMaps) {
 		var keys = Object.keys(textureMaps);
 		for (var i = 0, l = keys.length; i < l; i++) {
 			var type = keys[i];
@@ -51,7 +66,7 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	reflectivity: function (shader, material) {
+	reflectivity: function reflectivity(shader, material) {
 		if (material.uniforms.reflectivity || material.uniforms.refractivity) {
 			shader.setDefine('REFLECTIVE', true);
 		} else {
@@ -60,7 +75,7 @@ ShaderBuilder.uber = {
 		shader.setDefine('REFLECTION_TYPE', material.uniforms.reflectionType !== undefined ? material.uniforms.reflectionType : 0);
 	},
 
-	sky: function (shader, material) {
+	sky: function sky(shader, material) {
 		if (material.getTexture('LOCAL_ENVIRONMENT')) {
 			material.setTexture('ENVIRONMENT_SPHERE', material.getTexture('LOCAL_ENVIRONMENT'));
 			shader.setDefine('ENVIRONMENT_TYPE', 0);
@@ -82,7 +97,7 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	uniforms: function (shader, textureMaps) {
+	uniforms: function uniforms(shader, textureMaps) {
 		if (textureMaps.DIFFUSE_MAP) {
 			var offset = textureMaps.DIFFUSE_MAP.offset;
 			var repeat = textureMaps.DIFFUSE_MAP.repeat;
@@ -100,26 +115,12 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	attributes: function (shader, attributeMap, textureMaps) {
+	attributes: function attributes(shader, attributeMap, textureMaps) {
 		// Exclude in a nicer way
 		var keys = Object.keys(shader.defines);
 		for (var i = 0, l = keys.length; i < l; i++) {
 			var attribute = keys[i];
-			if (attribute === 'SHADOW_TYPE' ||
-				attribute === 'JOINT_COUNT' ||
-				attribute === 'WEIGHTS' ||
-				attribute === 'PHYSICALLY_BASED_SHADING' ||
-				attribute === 'ENVIRONMENT_TYPE' ||
-				attribute === 'REFLECTIVE' ||
-				attribute === 'DISCARD' ||
-				attribute === 'OPACITY' ||
-				attribute === 'FOG' ||
-				attribute === 'REFLECTION_TYPE' ||
-				attribute === 'SKIP_SPECULAR' ||
-				attribute === 'LIGHT' ||
-				attribute === 'COOKIE' ||
-				attribute === 'TRANSPARENCY_BW' ||
-				attribute === 'WRAP_AROUND') {
+			if (attribute === 'SHADOW_TYPE' || attribute === 'JOINT_COUNT' || attribute === 'WEIGHTS' || attribute === 'PHYSICALLY_BASED_SHADING' || attribute === 'ENVIRONMENT_TYPE' || attribute === 'REFLECTIVE' || attribute === 'DISCARD' || attribute === 'OPACITY' || attribute === 'FOG' || attribute === 'REFLECTION_TYPE' || attribute === 'SKIP_SPECULAR' || attribute === 'LIGHT' || attribute === 'COOKIE' || attribute === 'TRANSPARENCY_BW' || attribute === 'WRAP_AROUND') {
 				continue;
 			}
 			if (!attributeMap[attribute] && !textureMaps[attribute]) {
@@ -128,7 +129,7 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	discard: function (shader, material) {
+	discard: function discard(shader, material) {
 		// discard
 		if (material.uniforms.discardThreshold >= 0.0) {
 			shader.setDefine('DISCARD', true);
@@ -137,7 +138,7 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	opacity: function (shader, material) {
+	opacity: function opacity(shader, material) {
 		// opacity
 		var opacity = material.uniforms.opacity;
 		if (opacity !== undefined && opacity < 1.0) {
@@ -154,7 +155,7 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	fog: function (shader) {
+	fog: function fog(shader) {
 		// fog
 		if (ShaderBuilder.USE_FOG) {
 			shader.setDefine('FOG', true);
@@ -165,14 +166,14 @@ ShaderBuilder.uber = {
 		}
 	},
 
-	normalTangents: function (shader, shaderInfo) {
+	normalTangents: function normalTangents(shader, shaderInfo) {
 		//TODO: Hacky?
-		if (shader.hasDefine('NORMAL') && shader.hasDefine('NORMAL_MAP') && !shaderInfo.meshData.getAttributeBuffer(MeshData_MeshData.TANGENT)) {
-			TangentGeneratorjs_addTangentBuffer(shaderInfo.meshData);
+		if (shader.hasDefine('NORMAL') && shader.hasDefine('NORMAL_MAP') && !shaderInfo.meshData.getAttributeBuffer(_MeshData.MeshData.TANGENT)) {
+			(0, _TangentGenerator.addTangentBuffer)(shaderInfo.meshData);
 		}
 	},
 
-	processor: function (shader, shaderInfo) {
+	processor: function processor(shader, shaderInfo) {
 		if (!shaderInfo.meshData) {
 			return;
 		}
@@ -185,10 +186,8 @@ ShaderBuilder.uber = {
 		ShaderBuilder.uber.reflectivity(shader, material);
 		ShaderBuilder.uber.sky(shader, material);
 
-
 		ShaderBuilder.uber.defines(shader, attributeMap);
 		ShaderBuilder.uber.txMaps(shader, textureMaps);
-
 
 		ShaderBuilder.uber.uniforms(shader, textureMaps);
 		ShaderBuilder.uber.attributes(shader, attributeMap, textureMaps);
@@ -206,7 +205,7 @@ ShaderBuilder.uber = {
 var lightDefines = [];
 
 ShaderBuilder.light = {
-	pointLight: function (light, uniforms, pointIndex) {
+	pointLight: function pointLight(light, uniforms, pointIndex) {
 		var uniform = uniforms.pointLights = uniforms.pointLights || [];
 
 		var ind = pointIndex * 8; // 2 vec4 = 8 floats
@@ -225,7 +224,7 @@ ShaderBuilder.light = {
 
 		lightDefines.push('P');
 	},
-	directionalLight: function (light, uniforms, directionalIndex) {
+	directionalLight: function directionalLight(light, uniforms, directionalIndex) {
 		var uniform = uniforms.directionalLights = uniforms.directionalLights || [];
 
 		var ind = directionalIndex * 8; // 2 vec4 = 8 floats
@@ -244,7 +243,7 @@ ShaderBuilder.light = {
 
 		lightDefines.push('D');
 	},
-	spotLight: function (light, uniforms, spotIndex) {
+	spotLight: function spotLight(light, uniforms, spotIndex) {
 		var uniform = uniforms.spotLights = uniforms.spotLights || [];
 
 		var ind = spotIndex * 16; // 4 vec4 = 16 floats
@@ -263,15 +262,15 @@ ShaderBuilder.light = {
 		uniform[ind + 10] = light.direction.z;
 		uniform[ind + 11] = 0; // padding
 
-		uniform[ind + 12] = Math.cos(light.angle * MathUtilsjs_DEG_TO_RAD / 2);
-		uniform[ind + 13] = light.penumbra !== undefined ? Math.sin(light.penumbra * MathUtilsjs_DEG_TO_RAD / 4) : 0;
+		uniform[ind + 12] = Math.cos(light.angle * _MathUtils.DEG_TO_RAD / 2);
+		uniform[ind + 13] = light.penumbra !== undefined ? Math.sin(light.penumbra * _MathUtils.DEG_TO_RAD / 4) : 0;
 		uniform[ind + 14] = 0; // padding
 		uniform[ind + 15] = 0; // padding
 
 		lightDefines.push('S');
 	},
-	shadows: function (light, uniforms, i, shader, shaderInfo, shadowIndex) {
-		var useLightCookie = light.lightCookie instanceof Texture_Texture;
+	shadows: function shadows(light, uniforms, i, shader, shaderInfo, shadowIndex) {
+		var useLightCookie = light.lightCookie instanceof _Texture.Texture;
 
 		if ((useLightCookie || light.shadowCaster) && light.shadowSettings.shadowData) {
 			var shadowData = light.shadowSettings.shadowData;
@@ -319,7 +318,7 @@ ShaderBuilder.light = {
 
 		return shadowIndex;
 	},
-	processor: function (shader, shaderInfo) {
+	processor: function processor(shader, shaderInfo) {
 		var uniforms = shader.uniforms;
 		uniforms.totalAmbient = uniforms.totalAmbient || [0.1, 0.1, 0.1];
 		shaderInfo.material.uniforms.totalAmbient = shaderInfo.material.uniforms.totalAmbient || [0.1, 0.1, 0.1];
@@ -335,9 +334,7 @@ ShaderBuilder.light = {
 			totalAmbient[2] = materialAmbient[2] + ShaderBuilder.GLOBAL_AMBIENT[2];
 		}
 
-		var receiveShadows = shaderInfo.renderable &&
-			shaderInfo.renderable.meshRendererComponent &&
-			shaderInfo.renderable.meshRendererComponent.receiveShadows;
+		var receiveShadows = shaderInfo.renderable && shaderInfo.renderable.meshRendererComponent && shaderInfo.renderable.meshRendererComponent.receiveShadows;
 		if (receiveShadows) {
 			shader.setDefine('RECEIVE_SHADOW', true);
 		} else {
@@ -348,7 +345,7 @@ ShaderBuilder.light = {
 			var lights = shaderInfo.lights;
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
-				var useLightCookie = light.lightCookie instanceof Texture_Texture;
+				var useLightCookie = light.lightCookie instanceof _Texture.Texture;
 
 				if ((useLightCookie || light.shadowCaster) && light.shadowSettings.shadowData) {
 					var shadowData = light.shadowSettings.shadowData;
@@ -383,13 +380,13 @@ ShaderBuilder.light = {
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
 
-				if (light instanceof PointLight_PointLight) {
+				if (light instanceof _PointLight.PointLight) {
 					ShaderBuilder.light.pointLight(light, uniforms, pointIndex);
 					pointIndex++;
-				} else if (light instanceof DirectionalLight_DirectionalLight) {
+				} else if (light instanceof _DirectionalLight.DirectionalLight) {
 					ShaderBuilder.light.directionalLight(light, uniforms, directionalIndex);
 					directionalIndex++;
-				} else if (light instanceof SpotLight_SpotLight) {
+				} else if (light instanceof _SpotLight.SpotLight) {
 					ShaderBuilder.light.spotLight(light, uniforms, spotIndex);
 					spotIndex++;
 				}
@@ -404,53 +401,27 @@ ShaderBuilder.light = {
 			shader.removeDefine('LIGHT');
 		}
 	},
-	builder: function (shader, shaderInfo) {
+	builder: function builder(shader, shaderInfo) {
 		var prevertex = [];
 		var vertex = [];
 		var prefragment = [];
 		var fragment = [];
 
-		prevertex.push(
-			'const mat4 ScaleMatrix = mat4(0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);'
-		);
+		prevertex.push('const mat4 ScaleMatrix = mat4(0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 0.5, 0.0, 0.5, 0.5, 0.5, 1.0);');
 
-		prefragment.push(
-			'uniform vec3 totalAmbient;',
+		prefragment.push('uniform vec3 totalAmbient;', 'uniform vec4 materialEmissive;', 'uniform vec4 materialDiffuse;', 'uniform vec4 materialSpecular;', 'uniform vec2 wrapSettings;',
 
-			'uniform vec4 materialEmissive;',
-			'uniform vec4 materialDiffuse;',
-			'uniform vec4 materialSpecular;',
-			'uniform vec2 wrapSettings;',
+		// 'float VsmFixLightBleed(in float pMax, in float amount) {',
+		// 	'return clamp((pMax - amount) / (1.0 - amount), 0.0, 1.0);',
+		// '}',
 
-			// 'float VsmFixLightBleed(in float pMax, in float amount) {',
-			// 	'return clamp((pMax - amount) / (1.0 - amount), 0.0, 1.0);',
-			// '}',
+		'float ChebychevInequality(in vec2 moments, in float t) {', 'if ( t <= moments.x ) return 1.0;', 'float variance = moments.y - (moments.x * moments.x);', 'variance = max(variance, 0.02);', 'float d = t - moments.x;', 'return variance / (variance + d * d);', '}');
 
-			'float ChebychevInequality(in vec2 moments, in float t) {',
-				'if ( t <= moments.x ) return 1.0;',
-				'float variance = moments.y - (moments.x * moments.x);',
-				'variance = max(variance, 0.02);',
-				'float d = t - moments.x;',
-				'return variance / (variance + d * d);',
-			'}'
-		);
-
-		fragment.push(
-			'#if defined(SPECULAR_MAP) && defined(TEXCOORD0)',
-				'float specularStrength = texture2D(specularMap, texCoord0).x;',
-			'#else',
-				'float specularStrength = 1.0;',
-			'#endif',
-
-			'vec3 totalDiffuse = vec3(0.0);',
-			'vec3 totalSpecular = vec3(0.0);'
-		);
+		fragment.push('#if defined(SPECULAR_MAP) && defined(TEXCOORD0)', 'float specularStrength = texture2D(specularMap, texCoord0).x;', '#else', 'float specularStrength = 1.0;', '#endif', 'vec3 totalDiffuse = vec3(0.0);', 'vec3 totalSpecular = vec3(0.0);');
 
 		var lights = shaderInfo.lights;
 		if (lights.length > 0) {
-			fragment.push(
-				'vec3 normalizedViewPosition = normalize(viewPosition);'
-			);
+			fragment.push('vec3 normalizedViewPosition = normalize(viewPosition);');
 
 			var pointIndex = 0;
 			var directionalIndex = 0;
@@ -459,41 +430,29 @@ ShaderBuilder.light = {
 
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
-				if (light instanceof PointLight_PointLight) {
+				if (light instanceof _PointLight.PointLight) {
 					pointIndex++;
-				} else if (light instanceof DirectionalLight_DirectionalLight) {
+				} else if (light instanceof _DirectionalLight.DirectionalLight) {
 					directionalIndex++;
-				} else if (light instanceof SpotLight_SpotLight) {
+				} else if (light instanceof _SpotLight.SpotLight) {
 					spotIndex++;
 				}
 
-				if (light.lightCookie instanceof Texture_Texture || light.shadowCaster) {
+				if (light.lightCookie instanceof _Texture.Texture || light.shadowCaster) {
 					shadowIndex++;
 				}
 			}
 			if (pointIndex > 0) {
-				prefragment.push(
-					'uniform vec4 pointLights[' + (pointIndex * 2) + '];'
-				);
+				prefragment.push('uniform vec4 pointLights[' + pointIndex * 2 + '];');
 			}
 			if (directionalIndex > 0) {
-				prefragment.push(
-					'uniform vec4 directionalLights[' + (directionalIndex * 2) + '];'
-				);
+				prefragment.push('uniform vec4 directionalLights[' + directionalIndex * 2 + '];');
 			}
 			if (spotIndex > 0) {
-				prefragment.push(
-					'uniform vec4 spotLights[' + (spotIndex * 4) + '];'
-				);
+				prefragment.push('uniform vec4 spotLights[' + spotIndex * 4 + '];');
 			}
 			if (shadowIndex > 0) {
-				prefragment.push(
-					ShaderFragmentjs_methods.unpackDepth,
-					'uniform vec4 shadowData[' + (shadowIndex * 2) + '];',
-					'float texture2DCompare(sampler2D depths, vec2 uv, float compare) {',
-						'return step(unpackDepth(texture2D(depths, uv)), compare);',
-					'}'
-				);
+				prefragment.push(_ShaderFragment.methods.unpackDepth, 'uniform vec4 shadowData[' + shadowIndex * 2 + '];', 'float texture2DCompare(sampler2D depths, vec2 uv, float compare) {', 'return step(unpackDepth(texture2D(depths, uv)), compare);', '}');
 			}
 
 			pointIndex = 0;
@@ -504,266 +463,88 @@ ShaderBuilder.light = {
 			for (var i = 0; i < lights.length; i++) {
 				var light = lights[i];
 
-				fragment.push(
-					'{',
-						'float shadow = 1.0;'
-				);
+				fragment.push('{', 'float shadow = 1.0;');
 
-				var useLightCookie = light.lightCookie instanceof Texture_Texture;
+				var useLightCookie = light.lightCookie instanceof _Texture.Texture;
 				if (light.shadowCaster || useLightCookie) {
-					prevertex.push(
-						'uniform mat4 shadowLightMatrices' + i + ';',
-						'varying vec4 shadowLightDepths' + i + ';'
-					);
+					prevertex.push('uniform mat4 shadowLightMatrices' + i + ';', 'varying vec4 shadowLightDepths' + i + ';');
 
-					vertex.push(
-						'shadowLightDepths' + i + ' = ScaleMatrix * shadowLightMatrices' + i + ' * worldPos;'
-					);
+					vertex.push('shadowLightDepths' + i + ' = ScaleMatrix * shadowLightMatrices' + i + ' * worldPos;');
 
 					if (light.shadowCaster) {
-						prefragment.push(
-							'uniform sampler2D shadowMaps' + i + ';'
-						);
-						fragment.push(
-							'float shadowOffset' + i + ' = shadowData[' + (shadowIndex * 2 + 0) + '].w;',
-							'float shadowDarkness' + i + ' = shadowData[' + (shadowIndex * 2 + 1) + '].y;'
-						);
+						prefragment.push('uniform sampler2D shadowMaps' + i + ';');
+						fragment.push('float shadowOffset' + i + ' = shadowData[' + (shadowIndex * 2 + 0) + '].w;', 'float shadowDarkness' + i + ' = shadowData[' + (shadowIndex * 2 + 1) + '].y;');
 						if (light.shadowSettings.shadowType === 'PCF') {
-							fragment.push(
-								'vec2 shadowMapSizes' + i + ' = shadowData[' + (shadowIndex * 2 + 1) + '].zw;'
-							);
+							fragment.push('vec2 shadowMapSizes' + i + ' = shadowData[' + (shadowIndex * 2 + 1) + '].zw;');
 						} else if (light.shadowSettings.shadowType === 'VSM') {
-							fragment.push(
-								'vec3 shadowLightPositions' + i + ' = shadowData[' + (shadowIndex * 2 + 0) + '].xyz;',
-								'float cameraScales' + i + ' = shadowData[' + (shadowIndex * 2 + 1) + '].x;'
-							);
+							fragment.push('vec3 shadowLightPositions' + i + ' = shadowData[' + (shadowIndex * 2 + 0) + '].xyz;', 'float cameraScales' + i + ' = shadowData[' + (shadowIndex * 2 + 1) + '].x;');
 						}
 					}
 					if (useLightCookie) {
-						prefragment.push(
-							'uniform sampler2D lightCookie' + i + ';'
-						);
+						prefragment.push('uniform sampler2D lightCookie' + i + ';');
 					}
 
-					prefragment.push(
-						'varying vec4 shadowLightDepths' + i + ';'
-					);
+					prefragment.push('varying vec4 shadowLightDepths' + i + ';');
 
-					fragment.push(
-						'vec3 depth = shadowLightDepths' + i + '.xyz / shadowLightDepths' + i + '.w;'
-					);
+					fragment.push('vec3 depth = shadowLightDepths' + i + '.xyz / shadowLightDepths' + i + '.w;');
 
 					if (light.shadowCaster) {
 						shadowIndex++;
-						fragment.push(
-							'#ifdef RECEIVE_SHADOW',
-							'depth.z += shadowOffset' + i + ';',
-							'if (depth.x >= 0.0 && depth.x <= 1.0 && depth.y >= 0.0 && depth.y <= 1.0 && shadowLightDepths' + i + '.z >= 0.0 && depth.z <= 1.0) {'
-						);
+						fragment.push('#ifdef RECEIVE_SHADOW', 'depth.z += shadowOffset' + i + ';', 'if (depth.x >= 0.0 && depth.x <= 1.0 && depth.y >= 0.0 && depth.y <= 1.0 && shadowLightDepths' + i + '.z >= 0.0 && depth.z <= 1.0) {');
 						if (light.shadowSettings.shadowType === 'PCF') {
-							fragment.push(
-								'float xPixelOffset = 1.0 / shadowMapSizes' + i + '.x;',
-								'float yPixelOffset = 1.0 / shadowMapSizes' + i + '.y;',
-								'float shadowRadius = 1.25;',
-
-								'float dx0 = -shadowRadius * xPixelOffset;',
-								'float dy0 = -shadowRadius * yPixelOffset;',
-								'float dx1 = shadowRadius * xPixelOffset;',
-								'float dy1 = shadowRadius * yPixelOffset;',
-
-								'shadow = 1.0 - (',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx0, dy0), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(0.0, dy0), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx1, dy0), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx0, 0.0), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy, depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx1, 0.0), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx0, dy1), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(0.0, dy1), depth.z) +',
-									'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx1, dy1), depth.z)',
-								') * (shadowDarkness' + i + ' / 9.0);'
-							);
+							fragment.push('float xPixelOffset = 1.0 / shadowMapSizes' + i + '.x;', 'float yPixelOffset = 1.0 / shadowMapSizes' + i + '.y;', 'float shadowRadius = 1.25;', 'float dx0 = -shadowRadius * xPixelOffset;', 'float dy0 = -shadowRadius * yPixelOffset;', 'float dx1 = shadowRadius * xPixelOffset;', 'float dy1 = shadowRadius * yPixelOffset;', 'shadow = 1.0 - (', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx0, dy0), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(0.0, dy0), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx1, dy0), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx0, 0.0), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy, depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx1, 0.0), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx0, dy1), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(0.0, dy1), depth.z) +', 'texture2DCompare(shadowMaps' + i + ', depth.xy + vec2(dx1, dy1), depth.z)', ') * (shadowDarkness' + i + ' / 9.0);');
 						} else if (light.shadowSettings.shadowType === 'VSM') {
-							fragment.push(
-								'depth.z = length(vWorldPos.xyz - shadowLightPositions' + i + ') * cameraScales' + i + ';',
-								'vec4 texel = texture2D(shadowMaps' + i + ', depth.xy);',
-								'vec2 moments = vec2(texel.x, texel.y);',
-								'shadow = ChebychevInequality(moments, depth.z);',
-								// 'shadow = VsmFixLightBleed(shadow, 0.5);'
-								'shadow = pow(shadow, shadowDarkness' + i + ' * 8.0);'
-							);
+							fragment.push('depth.z = length(vWorldPos.xyz - shadowLightPositions' + i + ') * cameraScales' + i + ';', 'vec4 texel = texture2D(shadowMaps' + i + ', depth.xy);', 'vec2 moments = vec2(texel.x, texel.y);', 'shadow = ChebychevInequality(moments, depth.z);',
+							// 'shadow = VsmFixLightBleed(shadow, 0.5);'
+							'shadow = pow(shadow, shadowDarkness' + i + ' * 8.0);');
 						} else {
-							fragment.push(
-								'shadow = 1.0 - texture2DCompare(shadowMaps' + i + ', depth.xy, depth.z) * shadowDarkness' + i + ';'
-							);
+							fragment.push('shadow = 1.0 - texture2DCompare(shadowMaps' + i + ', depth.xy, depth.z) * shadowDarkness' + i + ';');
 						}
-						fragment.push(
-							'} else {',
-								'shadow = 1.0;',
-							'}',
-							'shadow = clamp(shadow, 0.0, 1.0);',
-							'#endif'
-						);
+						fragment.push('} else {', 'shadow = 1.0;', '}', 'shadow = clamp(shadow, 0.0, 1.0);', '#endif');
 					}
 				}
 
-				if (light instanceof PointLight_PointLight) {
-					fragment.push(
-						'vec4 pointLight' + i + ' = pointLights[' + (pointIndex * 2 + 0) + '];',
-						'vec4 pointLightColor' + i + ' = pointLights[' + (pointIndex * 2 + 1) + '];'
-					);
+				if (light instanceof _PointLight.PointLight) {
+					fragment.push('vec4 pointLight' + i + ' = pointLights[' + (pointIndex * 2 + 0) + '];', 'vec4 pointLightColor' + i + ' = pointLights[' + (pointIndex * 2 + 1) + '];');
 
-					fragment.push(
-						'vec3 lVector = normalize(pointLight' + i + '.xyz - vWorldPos.xyz);',
-						'float lDistance = 1.0 - min((length(pointLight' + i + '.xyz - vWorldPos.xyz) / pointLight' + i + '.w), 1.0);',
-
-						'float dotProduct = dot(N, lVector);',
-
-						'float pointDiffuseWeightFull = max(dotProduct, 0.0);',
-						'float pointDiffuseWeightHalf = max(mix(dotProduct, 1.0, wrapSettings.x), 0.0);',
-						'vec3 pointDiffuseWeight = mix(vec3(pointDiffuseWeightFull), vec3(pointDiffuseWeightHalf), wrapSettings.y);',
-
-						'totalDiffuse += materialDiffuse.rgb * pointLightColor' + i + '.rgb * pointDiffuseWeight * lDistance * shadow;',
-
-						'vec3 pointHalfVector = normalize(lVector + normalizedViewPosition);',
-						'float pointDotNormalHalf = max(dot(N, pointHalfVector), 0.0);',
-						'float pointSpecularWeight = pointLightColor' + i + '.a * specularStrength * max(pow(pointDotNormalHalf, materialSpecular.a), 0.0);',
-
-						'#ifdef PHYSICALLY_BASED_SHADING',
-							'float specularNormalization = (materialSpecular.a + 2.0001 ) / 8.0;',
-							'vec3 schlick = materialSpecular.rgb + vec3(1.0 - materialSpecular.rgb) * pow(1.0 - dot(lVector, pointHalfVector), 5.0);',
-							'totalSpecular += schlick * pointLightColor' + i + '.rgb * pointSpecularWeight * pointDiffuseWeight * lDistance * specularNormalization * shadow;',
-						'#else',
-							'totalSpecular += materialSpecular.rgb * pointLightColor' + i + '.rgb * pointSpecularWeight * pointDiffuseWeight * lDistance * shadow;',
-						'#endif'
-					);
+					fragment.push('vec3 lVector = normalize(pointLight' + i + '.xyz - vWorldPos.xyz);', 'float lDistance = 1.0 - min((length(pointLight' + i + '.xyz - vWorldPos.xyz) / pointLight' + i + '.w), 1.0);', 'float dotProduct = dot(N, lVector);', 'float pointDiffuseWeightFull = max(dotProduct, 0.0);', 'float pointDiffuseWeightHalf = max(mix(dotProduct, 1.0, wrapSettings.x), 0.0);', 'vec3 pointDiffuseWeight = mix(vec3(pointDiffuseWeightFull), vec3(pointDiffuseWeightHalf), wrapSettings.y);', 'totalDiffuse += materialDiffuse.rgb * pointLightColor' + i + '.rgb * pointDiffuseWeight * lDistance * shadow;', 'vec3 pointHalfVector = normalize(lVector + normalizedViewPosition);', 'float pointDotNormalHalf = max(dot(N, pointHalfVector), 0.0);', 'float pointSpecularWeight = pointLightColor' + i + '.a * specularStrength * max(pow(pointDotNormalHalf, materialSpecular.a), 0.0);', '#ifdef PHYSICALLY_BASED_SHADING', 'float specularNormalization = (materialSpecular.a + 2.0001 ) / 8.0;', 'vec3 schlick = materialSpecular.rgb + vec3(1.0 - materialSpecular.rgb) * pow(1.0 - dot(lVector, pointHalfVector), 5.0);', 'totalSpecular += schlick * pointLightColor' + i + '.rgb * pointSpecularWeight * pointDiffuseWeight * lDistance * specularNormalization * shadow;', '#else', 'totalSpecular += materialSpecular.rgb * pointLightColor' + i + '.rgb * pointSpecularWeight * pointDiffuseWeight * lDistance * shadow;', '#endif');
 
 					pointIndex++;
-				} else if (light instanceof DirectionalLight_DirectionalLight) {
-					fragment.push(
-						'vec3 directionalLightDirection' + i + ' = directionalLights[' + (directionalIndex * 2 + 0) + '].xyz;',
-						'vec4 directionalLightColor' + i + ' = directionalLights[' + (directionalIndex * 2 + 1) + '];'
-					);
+				} else if (light instanceof _DirectionalLight.DirectionalLight) {
+					fragment.push('vec3 directionalLightDirection' + i + ' = directionalLights[' + (directionalIndex * 2 + 0) + '].xyz;', 'vec4 directionalLightColor' + i + ' = directionalLights[' + (directionalIndex * 2 + 1) + '];');
 
-					fragment.push(
-						'vec3 dirVector = normalize(-directionalLightDirection' + i + ');',
-						'float dotProduct = dot(N, dirVector);',
-
-						'float dirDiffuseWeightFull = max(dotProduct, 0.0);',
-						'float dirDiffuseWeightHalf = max(mix(dotProduct, 1.0, wrapSettings.x), 0.0);',
-						'vec3 dirDiffuseWeight = mix(vec3(dirDiffuseWeightFull), vec3(dirDiffuseWeightHalf), wrapSettings.y);',
-
-						'vec3 cookie = vec3(1.0);'
-					);
+					fragment.push('vec3 dirVector = normalize(-directionalLightDirection' + i + ');', 'float dotProduct = dot(N, dirVector);', 'float dirDiffuseWeightFull = max(dotProduct, 0.0);', 'float dirDiffuseWeightHalf = max(mix(dotProduct, 1.0, wrapSettings.x), 0.0);', 'vec3 dirDiffuseWeight = mix(vec3(dirDiffuseWeightFull), vec3(dirDiffuseWeightHalf), wrapSettings.y);', 'vec3 cookie = vec3(1.0);');
 					if (useLightCookie) {
-						fragment.push(
-							'vec4 cookieTex = texture2D(lightCookie' + i + ', depth.xy);',
-							'cookie = cookieTex.rgb * cookieTex.a;'
-						);
+						fragment.push('vec4 cookieTex = texture2D(lightCookie' + i + ', depth.xy);', 'cookie = cookieTex.rgb * cookieTex.a;');
 					}
-					fragment.push(
-						'totalDiffuse += materialDiffuse.rgb * directionalLightColor' + i + '.rgb * dirDiffuseWeight * shadow * cookie;',
-
-						'vec3 dirHalfVector = normalize(dirVector + normalizedViewPosition);',
-						'float dirDotNormalHalf = max(dot(N, dirHalfVector), 0.0);',
-						'float dirSpecularWeight = directionalLightColor' + i + '.a * specularStrength * max(pow(dirDotNormalHalf, materialSpecular.a), 0.0);',
-
-						'#ifdef PHYSICALLY_BASED_SHADING',
-							'float specularNormalization = (materialSpecular.a + 2.0001) / 8.0;',
-							'vec3 schlick = materialSpecular.rgb + vec3(1.0 - materialSpecular.rgb) * pow(1.0 - dot(dirVector, dirHalfVector), 5.0);',
-							'totalSpecular += schlick * directionalLightColor' + i + '.rgb * dirSpecularWeight * dirDiffuseWeight * specularNormalization * shadow * cookie;',
-						'#else',
-							'totalSpecular += materialSpecular.rgb * directionalLightColor' + i + '.rgb * dirSpecularWeight * dirDiffuseWeight * shadow * cookie;',
-						'#endif'
-					);
+					fragment.push('totalDiffuse += materialDiffuse.rgb * directionalLightColor' + i + '.rgb * dirDiffuseWeight * shadow * cookie;', 'vec3 dirHalfVector = normalize(dirVector + normalizedViewPosition);', 'float dirDotNormalHalf = max(dot(N, dirHalfVector), 0.0);', 'float dirSpecularWeight = directionalLightColor' + i + '.a * specularStrength * max(pow(dirDotNormalHalf, materialSpecular.a), 0.0);', '#ifdef PHYSICALLY_BASED_SHADING', 'float specularNormalization = (materialSpecular.a + 2.0001) / 8.0;', 'vec3 schlick = materialSpecular.rgb + vec3(1.0 - materialSpecular.rgb) * pow(1.0 - dot(dirVector, dirHalfVector), 5.0);', 'totalSpecular += schlick * directionalLightColor' + i + '.rgb * dirSpecularWeight * dirDiffuseWeight * specularNormalization * shadow * cookie;', '#else', 'totalSpecular += materialSpecular.rgb * directionalLightColor' + i + '.rgb * dirSpecularWeight * dirDiffuseWeight * shadow * cookie;', '#endif');
 
 					directionalIndex++;
-				} else if (light instanceof SpotLight_SpotLight) {
-					fragment.push(
-						'vec4 spotLight' + i + ' = spotLights[' + (spotIndex * 4 + 0) + '];',
-						'vec4 spotLightColor' + i + ' = spotLights[' + (spotIndex * 4 + 1) + '];',
-						'vec3 spotLightDirection' + i + ' = spotLights[' + (spotIndex * 4 + 2) + '].xyz;',
-						'float spotLightAngle' + i + ' = spotLights[' + (spotIndex * 4 + 3) + '].x;',
-						'float spotLightPenumbra' + i + ' = spotLights[' + (spotIndex * 4 + 3) + '].y;'
-					);
+				} else if (light instanceof _SpotLight.SpotLight) {
+					fragment.push('vec4 spotLight' + i + ' = spotLights[' + (spotIndex * 4 + 0) + '];', 'vec4 spotLightColor' + i + ' = spotLights[' + (spotIndex * 4 + 1) + '];', 'vec3 spotLightDirection' + i + ' = spotLights[' + (spotIndex * 4 + 2) + '].xyz;', 'float spotLightAngle' + i + ' = spotLights[' + (spotIndex * 4 + 3) + '].x;', 'float spotLightPenumbra' + i + ' = spotLights[' + (spotIndex * 4 + 3) + '].y;');
 
-					fragment.push(
-						'vec3 lVector = normalize(spotLight' + i + '.xyz - vWorldPos.xyz);',
-						'float lDistance = 1.0 - min((length(spotLight' + i + '.xyz - vWorldPos.xyz) / spotLight' + i + '.w), 1.0);',
-
-						'float spotEffect = dot(normalize(-spotLightDirection' + i + '), lVector);',
-
-						'if (spotEffect > spotLightAngle' + i + ') {',
-							'if (spotLightPenumbra' + i + ' > 0.0) {',
-								'spotEffect = (spotEffect - spotLightAngle' + i + ') / spotLightPenumbra' + i + ';',
-								'spotEffect = clamp(spotEffect, 0.0, 1.0);',
-							'} else {',
-								'spotEffect = 1.0;',
-							'}',
-
-							'float dotProduct = dot(N, lVector);',
-
-							'float spotDiffuseWeightFull = max(dotProduct, 0.0);',
-							'float spotDiffuseWeightHalf = max(mix(dotProduct, 1.0, wrapSettings.x), 0.0);',
-							'vec3 spotDiffuseWeight = mix(vec3(spotDiffuseWeightFull), vec3(spotDiffuseWeightHalf), wrapSettings.y);',
-
-							'vec3 cookie = vec3(1.0);'
-					);
+					fragment.push('vec3 lVector = normalize(spotLight' + i + '.xyz - vWorldPos.xyz);', 'float lDistance = 1.0 - min((length(spotLight' + i + '.xyz - vWorldPos.xyz) / spotLight' + i + '.w), 1.0);', 'float spotEffect = dot(normalize(-spotLightDirection' + i + '), lVector);', 'if (spotEffect > spotLightAngle' + i + ') {', 'if (spotLightPenumbra' + i + ' > 0.0) {', 'spotEffect = (spotEffect - spotLightAngle' + i + ') / spotLightPenumbra' + i + ';', 'spotEffect = clamp(spotEffect, 0.0, 1.0);', '} else {', 'spotEffect = 1.0;', '}', 'float dotProduct = dot(N, lVector);', 'float spotDiffuseWeightFull = max(dotProduct, 0.0);', 'float spotDiffuseWeightHalf = max(mix(dotProduct, 1.0, wrapSettings.x), 0.0);', 'vec3 spotDiffuseWeight = mix(vec3(spotDiffuseWeightFull), vec3(spotDiffuseWeightHalf), wrapSettings.y);', 'vec3 cookie = vec3(1.0);');
 					if (useLightCookie) {
-						fragment.push(
-							'vec4 cookieTex = texture2D(lightCookie' + i + ', depth.xy);',
-							'cookie = cookieTex.rgb * cookieTex.a;'
-						);
+						fragment.push('vec4 cookieTex = texture2D(lightCookie' + i + ', depth.xy);', 'cookie = cookieTex.rgb * cookieTex.a;');
 					}
-					fragment.push(
-							'totalDiffuse += materialDiffuse.rgb * spotLightColor' + i + '.rgb * spotDiffuseWeight * lDistance * spotEffect * shadow * cookie;',
-
-							'vec3 spotHalfVector = normalize(lVector + normalizedViewPosition);',
-							'float spotDotNormalHalf = max(dot(N, spotHalfVector), 0.0);',
-							'float spotSpecularWeight = spotLightColor' + i + '.a * specularStrength * max(pow(spotDotNormalHalf, materialSpecular.a), 0.0);',
-
-							'#ifdef PHYSICALLY_BASED_SHADING',
-								'float specularNormalization = (materialSpecular.a + 2.0001) / 8.0;',
-								'vec3 schlick = materialSpecular.rgb + vec3(1.0 - materialSpecular.rgb) * pow(1.0 - dot(lVector, spotHalfVector), 5.0);',
-								'totalSpecular += schlick * spotLightColor' + i + '.rgb * spotSpecularWeight * spotDiffuseWeight * lDistance * specularNormalization * spotEffect * shadow * cookie;',
-							'#else',
-								'totalSpecular += materialSpecular.rgb * spotLightColor' + i + '.rgb * spotSpecularWeight * spotDiffuseWeight * lDistance * spotEffect * shadow * cookie;',
-							'#endif',
-						'}'
-					);
+					fragment.push('totalDiffuse += materialDiffuse.rgb * spotLightColor' + i + '.rgb * spotDiffuseWeight * lDistance * spotEffect * shadow * cookie;', 'vec3 spotHalfVector = normalize(lVector + normalizedViewPosition);', 'float spotDotNormalHalf = max(dot(N, spotHalfVector), 0.0);', 'float spotSpecularWeight = spotLightColor' + i + '.a * specularStrength * max(pow(spotDotNormalHalf, materialSpecular.a), 0.0);', '#ifdef PHYSICALLY_BASED_SHADING', 'float specularNormalization = (materialSpecular.a + 2.0001) / 8.0;', 'vec3 schlick = materialSpecular.rgb + vec3(1.0 - materialSpecular.rgb) * pow(1.0 - dot(lVector, spotHalfVector), 5.0);', 'totalSpecular += schlick * spotLightColor' + i + '.rgb * spotSpecularWeight * spotDiffuseWeight * lDistance * specularNormalization * spotEffect * shadow * cookie;', '#else', 'totalSpecular += materialSpecular.rgb * spotLightColor' + i + '.rgb * spotSpecularWeight * spotDiffuseWeight * lDistance * spotEffect * shadow * cookie;', '#endif', '}');
 
 					spotIndex++;
 				}
 
-				fragment.push(
-					'}'
-				);
+				fragment.push('}');
 			}
 		}
 
-		fragment.push(
-			'#if defined(EMISSIVE_MAP) && defined(TEXCOORD0)',
-				'vec3 emissive = vec3(0.0);',
-			'#else',
-				'vec3 emissive = materialEmissive.rgb;',
-			'#endif',
+		fragment.push('#if defined(EMISSIVE_MAP) && defined(TEXCOORD0)', 'vec3 emissive = vec3(0.0);', '#else', 'vec3 emissive = materialEmissive.rgb;', '#endif',
 
-			// '#if defined(MULTIPLY_AMBIENT)',
-			// 	'vec3 ambient = globalAmbient * materialAmbient.rgb;',
-			// '#else',
-			// 	'vec3 ambient = globalAmbient + materialAmbient.rgb;',
-			// '#endif',
+		// '#if defined(MULTIPLY_AMBIENT)',
+		// 	'vec3 ambient = globalAmbient * materialAmbient.rgb;',
+		// '#else',
+		// 	'vec3 ambient = globalAmbient + materialAmbient.rgb;',
+		// '#endif',
 
-			'#ifdef SKIP_SPECULAR',
-				'final_color.xyz = final_color.xyz * (emissive + totalDiffuse + totalAmbient);',
-			'#else',
-				'final_color.xyz = final_color.xyz * (emissive + totalDiffuse + totalAmbient) + totalSpecular;',
-			'#endif',
-
-			'#if defined(EMISSIVE_MAP) && defined(TEXCOORD0)',
-				'final_color.rgb += texture2D(emissiveMap, texCoord0).rgb * materialEmissive.rgb;',
-			'#endif'
-		);
+		'#ifdef SKIP_SPECULAR', 'final_color.xyz = final_color.xyz * (emissive + totalDiffuse + totalAmbient);', '#else', 'final_color.xyz = final_color.xyz * (emissive + totalDiffuse + totalAmbient) + totalSpecular;', '#endif', '#if defined(EMISSIVE_MAP) && defined(TEXCOORD0)', 'final_color.rgb += texture2D(emissiveMap, texCoord0).rgb * materialEmissive.rgb;', '#endif');
 
 		ShaderBuilder.light.prevertex = prevertex.join('\n');
 		ShaderBuilder.light.vertex = vertex.join('\n');
@@ -773,7 +554,7 @@ ShaderBuilder.light = {
 };
 
 ShaderBuilder.animation = {
-	processor: function (shader, shaderInfo) {
+	processor: function processor(shader, shaderInfo) {
 		var pose = shaderInfo.currentPose;
 		if (pose) {
 			if (!shader.uniforms.jointPalette) {
@@ -786,7 +567,7 @@ ShaderBuilder.animation = {
 			shader.removeDefine('JOINT_COUNT');
 		}
 	},
-	jointPalette: function (shaderInfo) {
+	jointPalette: function jointPalette(shaderInfo) {
 		var skMesh = shaderInfo.meshData;
 		var pose = shaderInfo.currentPose;
 		if (pose) {
@@ -805,72 +586,22 @@ ShaderBuilder.animation = {
 					}
 				}
 				/*
-				for (var row = 0; row < 3; row++) {
-					for (var col = 0; col < 4; col++) {
-						// Transposed, so we can pad with translation
-						store[index * 12 + row * 4 + col] = refMat.data[col * 4 + row];
-					}
-				}*/
+    for (var row = 0; row < 3; row++) {
+    	for (var col = 0; col < 4; col++) {
+    		// Transposed, so we can pad with translation
+    		store[index * 12 + row * 4 + col] = refMat.data[col * 4 + row];
+    	}
+    }*/
 			}
 			return store;
 		}
 	},
-	order: [
-		0, 4, 8, 12,
-		1, 5, 9, 13,
-		2, 6, 10, 14
-	],
-	prevertex: [
-		'#if defined(JOINT_COUNT) && defined(WEIGHTS) && defined(JOINTIDS)',
-			'attribute vec4 vertexJointIDs;',
-			'attribute vec4 vertexWeights;',
-			'uniform vec4 jointPalette[JOINT_COUNT];',
-		'#endif'
-	].join('\n'),
-	vertex: [
-		'#if defined(JOINT_COUNT) && defined(WEIGHTS) && defined(JOINTIDS)',
-
-		'int x = 3*int(vertexJointIDs.x);',
-		'int y = 3*int(vertexJointIDs.y);',
-		'int z = 3*int(vertexJointIDs.z);',
-		'int w = 3*int(vertexJointIDs.w);',
-
-		'mat4 mat = mat4(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);',
-
-		'mat += mat4(',
-		'	jointPalette[x+0].x, jointPalette[x+1].x, jointPalette[x+2].x, 0,',
-		'	jointPalette[x+0].y, jointPalette[x+1].y, jointPalette[x+2].y, 0,',
-		'	jointPalette[x+0].z, jointPalette[x+1].z, jointPalette[x+2].z, 0,',
-		'	jointPalette[x+0].w, jointPalette[x+1].w, jointPalette[x+2].w, 1',
-		') * vertexWeights.x;',
-		'mat += mat4(',
-		'	jointPalette[y+0].x, jointPalette[y+1].x, jointPalette[y+2].x, 0,',
-		'	jointPalette[y+0].y, jointPalette[y+1].y, jointPalette[y+2].y, 0,',
-		'	jointPalette[y+0].z, jointPalette[y+1].z, jointPalette[y+2].z, 0,',
-		'	jointPalette[y+0].w, jointPalette[y+1].w, jointPalette[y+2].w, 1',
-		') * vertexWeights.y;',
-		'mat += mat4(',
-		'	jointPalette[z+0].x, jointPalette[z+1].x, jointPalette[z+2].x, 0,',
-		'	jointPalette[z+0].y, jointPalette[z+1].y, jointPalette[z+2].y, 0,',
-		'	jointPalette[z+0].z, jointPalette[z+1].z, jointPalette[z+2].z, 0,',
-		'	jointPalette[z+0].w, jointPalette[z+1].w, jointPalette[z+2].w, 1',
-		') * vertexWeights.z;',
-		'mat += mat4(',
-		'	jointPalette[w+0].x, jointPalette[w+1].x, jointPalette[w+2].x, 0,',
-		'	jointPalette[w+0].y, jointPalette[w+1].y, jointPalette[w+2].y, 0,',
-		'	jointPalette[w+0].z, jointPalette[w+1].z, jointPalette[w+2].z, 0,',
-		'	jointPalette[w+0].w, jointPalette[w+1].w, jointPalette[w+2].w, 1',
-		') * vertexWeights.w;',
-
-		'wMatrix = wMatrix * mat / mat[3][3];',
-		'#ifdef NORMAL',
-			'nMatrix = nMatrix * mat3(mat) / mat[3][3];',
-		'#endif',
-		'#endif'
-	].join('\n')
+	order: [0, 4, 8, 12, 1, 5, 9, 13, 2, 6, 10, 14],
+	prevertex: ['#if defined(JOINT_COUNT) && defined(WEIGHTS) && defined(JOINTIDS)', 'attribute vec4 vertexJointIDs;', 'attribute vec4 vertexWeights;', 'uniform vec4 jointPalette[JOINT_COUNT];', '#endif'].join('\n'),
+	vertex: ['#if defined(JOINT_COUNT) && defined(WEIGHTS) && defined(JOINTIDS)', 'int x = 3*int(vertexJointIDs.x);', 'int y = 3*int(vertexJointIDs.y);', 'int z = 3*int(vertexJointIDs.z);', 'int w = 3*int(vertexJointIDs.w);', 'mat4 mat = mat4(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);', 'mat += mat4(', '	jointPalette[x+0].x, jointPalette[x+1].x, jointPalette[x+2].x, 0,', '	jointPalette[x+0].y, jointPalette[x+1].y, jointPalette[x+2].y, 0,', '	jointPalette[x+0].z, jointPalette[x+1].z, jointPalette[x+2].z, 0,', '	jointPalette[x+0].w, jointPalette[x+1].w, jointPalette[x+2].w, 1', ') * vertexWeights.x;', 'mat += mat4(', '	jointPalette[y+0].x, jointPalette[y+1].x, jointPalette[y+2].x, 0,', '	jointPalette[y+0].y, jointPalette[y+1].y, jointPalette[y+2].y, 0,', '	jointPalette[y+0].z, jointPalette[y+1].z, jointPalette[y+2].z, 0,', '	jointPalette[y+0].w, jointPalette[y+1].w, jointPalette[y+2].w, 1', ') * vertexWeights.y;', 'mat += mat4(', '	jointPalette[z+0].x, jointPalette[z+1].x, jointPalette[z+2].x, 0,', '	jointPalette[z+0].y, jointPalette[z+1].y, jointPalette[z+2].y, 0,', '	jointPalette[z+0].z, jointPalette[z+1].z, jointPalette[z+2].z, 0,', '	jointPalette[z+0].w, jointPalette[z+1].w, jointPalette[z+2].w, 1', ') * vertexWeights.z;', 'mat += mat4(', '	jointPalette[w+0].x, jointPalette[w+1].x, jointPalette[w+2].x, 0,', '	jointPalette[w+0].y, jointPalette[w+1].y, jointPalette[w+2].y, 0,', '	jointPalette[w+0].z, jointPalette[w+1].z, jointPalette[w+2].z, 0,', '	jointPalette[w+0].w, jointPalette[w+1].w, jointPalette[w+2].w, 1', ') * vertexWeights.w;', 'wMatrix = wMatrix * mat / mat[3][3];', '#ifdef NORMAL', 'nMatrix = nMatrix * mat3(mat) / mat[3][3];', '#endif', '#endif'].join('\n')
 };
 
 /**
  * Builds shaders
  */
-export { mod_ShaderBuilder as ShaderBuilder };
+exports.ShaderBuilder = mod_ShaderBuilder;

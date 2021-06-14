@@ -1,13 +1,23 @@
-var mod_InFrustumAction = InFrustumAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Camera as Camera_Camera } from "../../../renderer/Camera";
-import { BoundingSphere as BoundingSphere_BoundingSphere } from "../../../renderer/bounds/BoundingSphere";
+"use strict";
 
-function InFrustumAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.InFrustumAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Camera = require("../../../renderer/Camera");
+
+var _BoundingSphere = require("../../../renderer/bounds/BoundingSphere");
+
+var mod_InFrustumAction = InFrustumAction;
+
+function InFrustumAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-InFrustumAction.prototype = Object.create(Action_Action.prototype);
+InFrustumAction.prototype = Object.create(_Action.Action.prototype);
 InFrustumAction.prototype.constructor = InFrustumAction;
 
 InFrustumAction.external = {
@@ -49,7 +59,7 @@ var labels = {
 	outside: 'On Outside Frustum'
 };
 
-InFrustumAction.getTransitionLabel = function (transitionKey/*, actionConfig*/){
+InFrustumAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
@@ -63,8 +73,8 @@ InFrustumAction.prototype.checkFrustum = function (fsm) {
 			fsm.send(this.transitions.outside);
 		}
 	} else {
-		var boundingVolume = entity.meshRendererComponent ? entity.meshRendererComponent.worldBound : new BoundingSphere_BoundingSphere(entity.transformComponent.sync().worldTransform.translation, 0.001);
-		if (this.camera.contains(boundingVolume) === Camera_Camera.Outside) {
+		var boundingVolume = entity.meshRendererComponent ? entity.meshRendererComponent.worldBound : new _BoundingSphere.BoundingSphere(entity.transformComponent.sync().worldTransform.translation, 0.001);
+		if (this.camera.contains(boundingVolume) === _Camera.Camera.Outside) {
 			fsm.send(this.transitions.outside);
 		} else {
 			fsm.send(this.transitions.inside);
@@ -90,4 +100,4 @@ InFrustumAction.prototype.update = function (fsm) {
 	}
 };
 
-export { mod_InFrustumAction as InFrustumAction };
+exports.InFrustumAction = mod_InFrustumAction;

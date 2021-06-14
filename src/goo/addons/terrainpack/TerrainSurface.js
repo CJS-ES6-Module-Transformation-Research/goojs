@@ -1,6 +1,16 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TerrainSurface = undefined;
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _MathUtils = require("../../math/MathUtils");
+
 var mod_TerrainSurface = TerrainSurface;
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
-import { getTriangleNormal as MathUtilsjs_getTriangleNormal } from "../../math/MathUtils";
+
 
 /**
  * A grid-like surface shape
@@ -10,32 +20,32 @@ import { getTriangleNormal as MathUtilsjs_getTriangleNormal } from "../../math/M
  * @param {number} zWidth z axis size in units
  */
 function TerrainSurface(heightMatrix, xWidth, yHeight, zWidth) {
-    var verts = [];
-    for (var i = 0; i < heightMatrix.length; i++) {
-        for (var j = 0; j < heightMatrix[i].length; j++) {
-            verts.push(i * xWidth / (heightMatrix.length-1), heightMatrix[i][j]*yHeight, j * zWidth / (heightMatrix.length-1));
-        }
-    }
+	var verts = [];
+	for (var i = 0; i < heightMatrix.length; i++) {
+		for (var j = 0; j < heightMatrix[i].length; j++) {
+			verts.push(i * xWidth / (heightMatrix.length - 1), heightMatrix[i][j] * yHeight, j * zWidth / (heightMatrix.length - 1));
+		}
+	}
 	this.verts = verts;
 	this.vertsPerLine = heightMatrix[0].length;
 
-	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.NORMAL, MeshData_MeshData.TEXCOORD0]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.NORMAL, _MeshData.MeshData.TEXCOORD0]);
 
 	var nVerts = this.verts.length / 3;
 	var nLines = nVerts / this.vertsPerLine;
-	MeshData_MeshData.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
+	_MeshData.MeshData.call(this, attributeMap, nVerts, (nLines - 1) * (this.vertsPerLine - 1) * 6);
 
 	this.rebuild();
 }
 
-TerrainSurface.prototype = Object.create(MeshData_MeshData.prototype);
+TerrainSurface.prototype = Object.create(_MeshData.MeshData.prototype);
 
 /**
  * Builds or rebuilds the mesh data
  * @returns {Surface} Self for chaining
  */
 TerrainSurface.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(this.verts);
 
 	var indices = [];
 
@@ -54,21 +64,7 @@ TerrainSurface.prototype.rebuild = function () {
 
 			indices.push(downLeft, upLeft, upRight, downLeft, upRight, downRight);
 
-			normals = MathUtilsjs_getTriangleNormal(
-				this.verts[upLeft * 3 + 0],
-				this.verts[upLeft * 3 + 1],
-				this.verts[upLeft * 3 + 2],
-
-                this.verts[upRight * 3 + 0],
-                this.verts[upRight * 3 + 1],
-                this.verts[upRight * 3 + 2],
-
-				this.verts[downLeft * 3 + 0],
-				this.verts[downLeft * 3 + 1],
-				this.verts[downLeft * 3 + 2]
-
-
-            );
+			normals = (0, _MathUtils.getTriangleNormal)(this.verts[upLeft * 3 + 0], this.verts[upLeft * 3 + 1], this.verts[upLeft * 3 + 2], this.verts[upRight * 3 + 0], this.verts[upRight * 3 + 1], this.verts[upRight * 3 + 2], this.verts[downLeft * 3 + 0], this.verts[downLeft * 3 + 1], this.verts[downLeft * 3 + 2]);
 
 			norms.push(normals[0], normals[1], normals[2]);
 		}
@@ -81,41 +77,28 @@ TerrainSurface.prototype.rebuild = function () {
 		var downLeft = (i + 1) * this.vertsPerLine + (j + 0);
 		var upRight = (i + 0) * this.vertsPerLine + (j + 1);
 
-		normals = MathUtilsjs_getTriangleNormal(
-			this.verts[upLeft * 3 + 0],
-			this.verts[upLeft * 3 + 1],
-			this.verts[upLeft * 3 + 2],
-
-            this.verts[upRight * 3 + 0],
-            this.verts[upRight * 3 + 1],
-            this.verts[upRight * 3 + 2],
-
-			this.verts[downLeft * 3 + 0],
-			this.verts[downLeft * 3 + 1],
-			this.verts[downLeft * 3 + 2]
-        );
-
+		normals = (0, _MathUtils.getTriangleNormal)(this.verts[upLeft * 3 + 0], this.verts[upLeft * 3 + 1], this.verts[upLeft * 3 + 2], this.verts[upRight * 3 + 0], this.verts[upRight * 3 + 1], this.verts[upRight * 3 + 2], this.verts[downLeft * 3 + 0], this.verts[downLeft * 3 + 1], this.verts[downLeft * 3 + 2]);
 
 		norms.push(normals[0], normals[1], normals[2]);
 	}
 
 	norms.push(normals[0], normals[1], normals[2]);
 
-	this.getAttributeBuffer(MeshData_MeshData.NORMAL).set(norms);
+	this.getAttributeBuffer(_MeshData.MeshData.NORMAL).set(norms);
 	this.getIndexBuffer().set(indices);
 
 	// compute texture coordinates
 	var tex = [];
 
-    var maxX = this.verts[this.verts.length-3];
-    var maxZ = this.verts[this.verts.length-1];
+	var maxX = this.verts[this.verts.length - 3];
+	var maxZ = this.verts[this.verts.length - 1];
 	for (var i = 0; i < this.verts.length; i += 3) {
-		var x = (this.verts[i + 0]) / maxX;
-		var z = (this.verts[i + 2]) / maxZ;
+		var x = this.verts[i + 0] / maxX;
+		var z = this.verts[i + 2] / maxZ;
 		tex.push(x, z);
 	}
 
-	this.getAttributeBuffer(MeshData_MeshData.TEXCOORD0).set(tex);
+	this.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0).set(tex);
 
 	return this;
 };
@@ -127,4 +110,4 @@ TerrainSurface.prototype.rebuild = function () {
  * @param {number} yHeight y axis size in units
  * @param {number} zWidth z axis size in units
  */
-export { mod_TerrainSurface as TerrainSurface };
+exports.TerrainSurface = mod_TerrainSurface;

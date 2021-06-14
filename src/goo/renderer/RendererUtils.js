@@ -1,11 +1,16 @@
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+"use strict";
 
-import {
-    isPowerOfTwo as MathUtilsjs_isPowerOfTwo,
-    nearestPowerOfTwo as MathUtilsjs_nearestPowerOfTwo,
-} from "../math/MathUtils";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.RendererUtils = exports.getGLBlendParam = exports.getGLDepthFunc = exports.getGLIndexMode = exports.getGLBufferUsage = exports.getGLCubeMapFace = exports.getGLByteSize = exports.getGLArrayType = exports.getGLBufferTarget = exports.getGLMinFilter = exports.getGLMagFilter = exports.getFilterFallback = exports.getGLDataType = exports.getGLInternalFormat = exports.getGLWrap = exports.getGLType = exports.scaleImage = exports.getBlankImage = exports.clone = exports.getByteSize = undefined;
 
-import { Capabilities as Capabilities_Capabilities } from "../renderer/Capabilities";
+var _ObjectUtils = require("../util/ObjectUtils");
+
+var _MathUtils = require("../math/MathUtils");
+
+var _Capabilities = require("../renderer/Capabilities");
+
 var RendererUtils_getGLBlendParam;
 var RendererUtils_getGLDepthFunc;
 var RendererUtils_getGLIndexMode;
@@ -41,7 +46,7 @@ function RendererUtils() {}
  *
  * @param {string} type Type to retrieve bytesize for
  */
-RendererUtils_getByteSize = function (type) {
+exports.getByteSize = RendererUtils_getByteSize = function RendererUtils_getByteSize(type) {
 	var byteSize;
 
 	switch (type) {
@@ -74,23 +79,19 @@ RendererUtils_getByteSize = function (type) {
  *
  * @param {WebGLRenderingContext} gl A valid WebGL context
  */
-RendererUtils_checkGLError = function (gl) {
+RendererUtils_checkGLError = function RendererUtils_checkGLError(gl) {
 	var error = gl.getError();
 	var wasError = false;
 	while (error !== gl.NO_ERROR) {
 		wasError = true;
 		if (error === gl.INVALID_ENUM) {
-			console
-				.error('An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('An unacceptable value is specified for an enumerated argument. The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.INVALID_VALUE) {
-			console
-				.error('A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('A numeric argument is out of range. The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.INVALID_OPERATION) {
-			console
-				.error('The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('The specified operation is not allowed in the current state. The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.FRAMEBUFFER_COMPLETE) {
-			console
-				.error('The command is trying to render to or read from the framebuffer while the currently bound framebuffer is not framebuffer complete (i.e. the return value from glCheckFramebufferStatus is not GL_FRAMEBUFFER_COMPLETE). The offending command is ignored and has no other side effect than to set the error flag.');
+			console.error('The command is trying to render to or read from the framebuffer while the currently bound framebuffer is not framebuffer complete (i.e. the return value from glCheckFramebufferStatus is not GL_FRAMEBUFFER_COMPLETE). The offending command is ignored and has no other side effect than to set the error flag.');
 		} else if (error === gl.OUT_OF_MEMORY) {
 			throw new Error('There is not enough memory left to execute the command. The state of the GL is undefined, except for the state of the error flags, after this error is recorded.');
 		}
@@ -109,7 +110,7 @@ RendererUtils_checkGLError = function (gl) {
  * @param {number} value Number to check for power of two
  * @returns true if value is power of two
  */
-isPowerOfTwo = MathUtilsjs_isPowerOfTwo;
+isPowerOfTwo = _MathUtils.isPowerOfTwo;
 
 /**
  * Converts input number to closest power of two
@@ -118,7 +119,7 @@ isPowerOfTwo = MathUtilsjs_isPowerOfTwo;
  * @param {number} number Number to convert to power of two
  * @returns {number} Nearest power of two of input
  */
-nearestPowerOfTwo = MathUtilsjs_nearestPowerOfTwo;
+nearestPowerOfTwo = _MathUtils.nearestPowerOfTwo;
 
 /**
  * Clones an object recursively
@@ -126,12 +127,12 @@ nearestPowerOfTwo = MathUtilsjs_nearestPowerOfTwo;
  * @param {*} object Object to clone
  * @returns {*} Cloned object
  */
-clone = ObjectUtils_ObjectUtils.deepClone;
+exports.clone = clone = _ObjectUtils.ObjectUtils.deepClone;
 
 _blankImages = {};
-RendererUtils_getBlankImage = function (texture, color, width, height, maxSize, index) {
-	var newWidth = MathUtilsjs_nearestPowerOfTwo(width);
-	var newHeight = MathUtilsjs_nearestPowerOfTwo(height);
+exports.getBlankImage = RendererUtils_getBlankImage = function RendererUtils_getBlankImage(texture, color, width, height, maxSize, index) {
+	var newWidth = (0, _MathUtils.nearestPowerOfTwo)(width);
+	var newHeight = (0, _MathUtils.nearestPowerOfTwo)(height);
 	newWidth = Math.min(newWidth, maxSize);
 	newHeight = Math.min(newHeight, maxSize);
 
@@ -171,9 +172,9 @@ function getImage(data, width, height) {
 	return canvas;
 }
 
-RendererUtils_scaleImage = function (texture, image, width, height, maxSize, index) {
-	var newWidth = MathUtilsjs_nearestPowerOfTwo(width);
-	var newHeight = MathUtilsjs_nearestPowerOfTwo(height);
+exports.scaleImage = RendererUtils_scaleImage = function RendererUtils_scaleImage(texture, image, width, height, maxSize, index) {
+	var newWidth = (0, _MathUtils.nearestPowerOfTwo)(width);
+	var newHeight = (0, _MathUtils.nearestPowerOfTwo)(height);
 	newWidth = Math.min(newWidth, maxSize);
 	newHeight = Math.min(newHeight, maxSize);
 
@@ -208,7 +209,7 @@ RendererUtils_scaleImage = function (texture, image, width, height, maxSize, ind
 	}
 };
 
-RendererUtils_getGLType = function (context, type) {
+exports.getGLType = RendererUtils_getGLType = function RendererUtils_getGLType(context, type) {
 	var glType;
 
 	switch (type) {
@@ -226,7 +227,7 @@ RendererUtils_getGLType = function (context, type) {
 	return glType;
 };
 
-RendererUtils_getGLWrap = function (context, wrap) {
+exports.getGLWrap = RendererUtils_getGLWrap = function RendererUtils_getGLWrap(context, wrap) {
 	var glWrap;
 
 	switch (wrap) {
@@ -247,7 +248,7 @@ RendererUtils_getGLWrap = function (context, wrap) {
 	return glWrap;
 };
 
-RendererUtils_getGLInternalFormat = function (context, format) {
+exports.getGLInternalFormat = RendererUtils_getGLInternalFormat = function RendererUtils_getGLInternalFormat(context, format) {
 	var glInternalFormat;
 
 	switch (format) {
@@ -274,11 +275,11 @@ RendererUtils_getGLInternalFormat = function (context, format) {
 	return glInternalFormat;
 };
 
-RendererUtils_getGLPixelDataType = function (context, type) {
+RendererUtils_getGLPixelDataType = function RendererUtils_getGLPixelDataType(context, type) {
 	return RendererUtils_getGLDataType(context, type);
 };
 
-RendererUtils_getGLDataType = function (context, type) {
+exports.getGLDataType = RendererUtils_getGLDataType = function RendererUtils_getGLDataType(context, type) {
 	var glDataType;
 
 	switch (type) {
@@ -314,7 +315,7 @@ RendererUtils_getGLDataType = function (context, type) {
 			glDataType = context.UNSIGNED_SHORT_5_5_5_1;
 			break;
 		case 'HalfFloat':
-			glDataType = Capabilities_Capabilities.TextureHalfFloat.HALF_FLOAT_OES;
+			glDataType = _Capabilities.Capabilities.TextureHalfFloat.HALF_FLOAT_OES;
 			break;
 
 		default:
@@ -324,7 +325,7 @@ RendererUtils_getGLDataType = function (context, type) {
 	return glDataType;
 };
 
-RendererUtils_getFilterFallback = function (filter) {
+exports.getFilterFallback = RendererUtils_getFilterFallback = function RendererUtils_getFilterFallback(filter) {
 	var filterFallback;
 
 	switch (filter) {
@@ -347,7 +348,7 @@ RendererUtils_getFilterFallback = function (filter) {
 	return filterFallback;
 };
 
-RendererUtils_getGLMagFilter = function (context, filter) {
+exports.getGLMagFilter = RendererUtils_getGLMagFilter = function RendererUtils_getGLMagFilter(context, filter) {
 	var glMagFilter;
 
 	switch (filter) {
@@ -365,7 +366,7 @@ RendererUtils_getGLMagFilter = function (context, filter) {
 	return glMagFilter;
 };
 
-RendererUtils_getGLMinFilter = function (context, filter) {
+exports.getGLMinFilter = RendererUtils_getGLMinFilter = function RendererUtils_getGLMinFilter(context, filter) {
 	var glMinFilter;
 
 	switch (filter) {
@@ -395,7 +396,7 @@ RendererUtils_getGLMinFilter = function (context, filter) {
 	return glMinFilter;
 };
 
-RendererUtils_getGLBufferTarget = function (context, target) {
+exports.getGLBufferTarget = RendererUtils_getGLBufferTarget = function RendererUtils_getGLBufferTarget(context, target) {
 	if (target === 'ElementArrayBuffer') {
 		return context.ELEMENT_ARRAY_BUFFER;
 	}
@@ -403,7 +404,7 @@ RendererUtils_getGLBufferTarget = function (context, target) {
 	return context.ARRAY_BUFFER;
 };
 
-RendererUtils_getGLArrayType = function (context, indices) {
+exports.getGLArrayType = RendererUtils_getGLArrayType = function RendererUtils_getGLArrayType(context, indices) {
 	var glArrayType = null;
 
 	if (indices instanceof Uint8Array) {
@@ -423,11 +424,11 @@ RendererUtils_getGLArrayType = function (context, indices) {
 	return glArrayType;
 };
 
-RendererUtils_getGLByteSize = function (indices) {
+exports.getGLByteSize = RendererUtils_getGLByteSize = function RendererUtils_getGLByteSize(indices) {
 	return indices.BYTES_PER_ELEMENT || 1;
 };
 
-RendererUtils_getGLCubeMapFace = function (context, face) {
+exports.getGLCubeMapFace = RendererUtils_getGLCubeMapFace = function RendererUtils_getGLCubeMapFace(context, face) {
 	var glCubeMapFace;
 
 	switch (face) {
@@ -457,7 +458,7 @@ RendererUtils_getGLCubeMapFace = function (context, face) {
 	return glCubeMapFace;
 };
 
-RendererUtils_getGLBufferUsage = function (context, usage) {
+exports.getGLBufferUsage = RendererUtils_getGLBufferUsage = function RendererUtils_getGLBufferUsage(context, usage) {
 	var glMode;
 
 	switch (usage) {
@@ -479,7 +480,7 @@ RendererUtils_getGLBufferUsage = function (context, usage) {
 	return glMode;
 };
 
-RendererUtils_getGLIndexMode = function (context, indexMode) {
+exports.getGLIndexMode = RendererUtils_getGLIndexMode = function RendererUtils_getGLIndexMode(context, indexMode) {
 	var glMode;
 
 	switch (indexMode) {
@@ -513,7 +514,7 @@ RendererUtils_getGLIndexMode = function (context, indexMode) {
 	return glMode;
 };
 
-RendererUtils_getGLDepthFunc = function (context, depthFunc) {
+exports.getGLDepthFunc = RendererUtils_getGLDepthFunc = function RendererUtils_getGLDepthFunc(context, depthFunc) {
 	var glDepthFunc;
 
 	switch (depthFunc) {
@@ -550,7 +551,7 @@ RendererUtils_getGLDepthFunc = function (context, depthFunc) {
 	return glDepthFunc;
 };
 
-RendererUtils_getGLBlendParam = function (context, param) {
+exports.getGLBlendParam = RendererUtils_getGLBlendParam = function RendererUtils_getGLBlendParam(context, param) {
 	var glBlendParam;
 
 	switch (param) {
@@ -606,4 +607,23 @@ RendererUtils_getGLBlendParam = function (context, param) {
 	return glBlendParam;
 };
 
-export { RendererUtils_getByteSize as getByteSize, clone, RendererUtils_getBlankImage as getBlankImage, RendererUtils_scaleImage as scaleImage, RendererUtils_getGLType as getGLType, RendererUtils_getGLWrap as getGLWrap, RendererUtils_getGLInternalFormat as getGLInternalFormat, RendererUtils_getGLDataType as getGLDataType, RendererUtils_getFilterFallback as getFilterFallback, RendererUtils_getGLMagFilter as getGLMagFilter, RendererUtils_getGLMinFilter as getGLMinFilter, RendererUtils_getGLBufferTarget as getGLBufferTarget, RendererUtils_getGLArrayType as getGLArrayType, RendererUtils_getGLByteSize as getGLByteSize, RendererUtils_getGLCubeMapFace as getGLCubeMapFace, RendererUtils_getGLBufferUsage as getGLBufferUsage, RendererUtils_getGLIndexMode as getGLIndexMode, RendererUtils_getGLDepthFunc as getGLDepthFunc, RendererUtils_getGLBlendParam as getGLBlendParam, RendererUtils };
+exports.getByteSize = RendererUtils_getByteSize;
+exports.clone = clone;
+exports.getBlankImage = RendererUtils_getBlankImage;
+exports.scaleImage = RendererUtils_scaleImage;
+exports.getGLType = RendererUtils_getGLType;
+exports.getGLWrap = RendererUtils_getGLWrap;
+exports.getGLInternalFormat = RendererUtils_getGLInternalFormat;
+exports.getGLDataType = RendererUtils_getGLDataType;
+exports.getFilterFallback = RendererUtils_getFilterFallback;
+exports.getGLMagFilter = RendererUtils_getGLMagFilter;
+exports.getGLMinFilter = RendererUtils_getGLMinFilter;
+exports.getGLBufferTarget = RendererUtils_getGLBufferTarget;
+exports.getGLArrayType = RendererUtils_getGLArrayType;
+exports.getGLByteSize = RendererUtils_getGLByteSize;
+exports.getGLCubeMapFace = RendererUtils_getGLCubeMapFace;
+exports.getGLBufferUsage = RendererUtils_getGLBufferUsage;
+exports.getGLIndexMode = RendererUtils_getGLIndexMode;
+exports.getGLDepthFunc = RendererUtils_getGLDepthFunc;
+exports.getGLBlendParam = RendererUtils_getGLBlendParam;
+exports.RendererUtils = RendererUtils;

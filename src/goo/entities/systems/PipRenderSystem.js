@@ -1,14 +1,31 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PipRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _Shader = require("../../renderer/Shader");
+
+var _Quad = require("../../shapes/Quad");
+
+var _RenderTarget = require("../../renderer/pass/RenderTarget");
+
+var _Material = require("../../renderer/Material");
+
+var _ShaderLib = require("../../renderer/shaders/ShaderLib");
+
+var _FullscreenPass = require("../../renderer/pass/FullscreenPass");
+
+var _FullscreenUtils = require("../../renderer/pass/FullscreenUtils");
+
 var mod_PipRenderSystem = PipRenderSystem;
-import { System as System_System } from "../../entities/systems/System";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
-import { Shader as Shader_Shader } from "../../renderer/Shader";
-import { Quad as Quad_Quad } from "../../shapes/Quad";
-import { RenderTarget as RenderTarget_RenderTarget } from "../../renderer/pass/RenderTarget";
-import { Material as Material_Material } from "../../renderer/Material";
-import { ShaderLib as ShaderLib_ShaderLib } from "../../renderer/shaders/ShaderLib";
-import { FullscreenPass as FullscreenPass_FullscreenPass } from "../../renderer/pass/FullscreenPass";
-import { FullscreenUtils as FullscreenUtils_FullscreenUtils } from "../../renderer/pass/FullscreenUtils";
 
 /**
  * Renders transform gizmos<br>
@@ -17,22 +34,22 @@ import { FullscreenUtils as FullscreenUtils_FullscreenUtils } from "../../render
  * @extends System
  */
 function PipRenderSystem(renderSystem) {
-	System_System.call(this, 'PipRenderSystem', null);
+	_System.System.call(this, 'PipRenderSystem', null);
 
 	this.renderSystem = renderSystem;
 
-	this.target = new RenderTarget_RenderTarget(512, 512);
+	this.target = new _RenderTarget.RenderTarget(512, 512);
 
-	this.outPass = new FullscreenPass_FullscreenPass(ShaderLib_ShaderLib.copy);
+	this.outPass = new _FullscreenPass.FullscreenPass(_ShaderLib.ShaderLib.copy);
 	var that = this;
 	this.outPass.render = function (renderer, writeBuffer, readBuffer) {
 		this.material.setTexture('DIFFUSE_MAP', readBuffer);
-		renderer.render(this.renderable, FullscreenUtils_FullscreenUtils.camera, [], that.target, true);
+		renderer.render(this.renderable, _FullscreenUtils.FullscreenUtils.camera, [], that.target, true);
 	};
 
-	var material = new Material_Material(renderPipQuad);
+	var material = new _Material.Material(renderPipQuad);
 	material.setTexture('DIFFUSE_MAP', this.target);
-	this.quad = new Quad_Quad(1, 1);
+	this.quad = new _Quad.Quad(1, 1);
 	this.aspect = null;
 	this.width = null;
 	this.height = null;
@@ -47,7 +64,7 @@ function PipRenderSystem(renderSystem) {
 	this.size = null;
 	this.dirty = false;
 
-	SystemBus.addListener('goo.setPipCamera', function (newCam) {
+	_SystemBus.SystemBusjs.addListener('goo.setPipCamera', function (newCam) {
 		this.camera = newCam.camera;
 		this.usePostEffects = newCam.usePostEffects !== undefined ? newCam.usePostEffects : false;
 		this.dirty = true;
@@ -58,19 +75,14 @@ function PipRenderSystem(renderSystem) {
 		this.dirty = true;
 	}.bind(this);
 
-	SystemBus.addListener('goo.viewportResize', this._viewportResizeHandler, true);
+	_SystemBus.SystemBusjs.addListener('goo.viewportResize', this._viewportResizeHandler, true);
 }
 
-PipRenderSystem.prototype = Object.create(System_System.prototype);
+PipRenderSystem.prototype = Object.create(_System.System.prototype);
 PipRenderSystem.prototype.constructor = PipRenderSystem;
 
 PipRenderSystem.prototype.updateQuad = function (quad, x, y, width, height) {
-	quad.getAttributeBuffer(MeshData_MeshData.POSITION).set([
-		x, y, 0,
-		x, y + height, 0,
-		x + width, y + height, 0,
-		x + width, y, 0
-	]);
+	quad.getAttributeBuffer(_MeshData.MeshData.POSITION).set([x, y, 0, x, y + height, 0, x + width, y + height, 0, x + width, y, 0]);
 	quad.setVertexDataUpdated();
 };
 
@@ -123,7 +135,7 @@ PipRenderSystem.prototype.render = function (renderer) {
 		renderer.render(this.renderList, this.camera, this.renderSystem.lights, this.target, true, overrideMaterial);
 	}
 
-	renderer.render(this.renderableQuad, FullscreenUtils_FullscreenUtils.camera, [], null, false);
+	renderer.render(this.renderableQuad, _FullscreenUtils.FullscreenUtils.camera, [], null, false);
 };
 
 var renderPipQuad = {
@@ -131,53 +143,17 @@ var renderPipQuad = {
 		EDGE: true
 	},
 	attributes: {
-		vertexPosition: MeshData_MeshData.POSITION,
-		vertexUV0: MeshData_MeshData.TEXCOORD0
+		vertexPosition: _MeshData.MeshData.POSITION,
+		vertexUV0: _MeshData.MeshData.TEXCOORD0
 	},
 	uniforms: {
-		viewProjectionMatrix: Shader_Shader.VIEW_PROJECTION_MATRIX,
-		worldMatrix: Shader_Shader.WORLD_MATRIX,
-		diffuseMap: Shader_Shader.DIFFUSE_MAP,
-		resolution: Shader_Shader.RESOLUTION
+		viewProjectionMatrix: _Shader.Shader.VIEW_PROJECTION_MATRIX,
+		worldMatrix: _Shader.Shader.WORLD_MATRIX,
+		diffuseMap: _Shader.Shader.DIFFUSE_MAP,
+		resolution: _Shader.Shader.RESOLUTION
 	},
-	vshader: [
-		'attribute vec3 vertexPosition;',
-		'attribute vec2 vertexUV0;',
-
-		'uniform mat4 viewProjectionMatrix;',
-		'uniform mat4 worldMatrix;',
-		'uniform vec2 resolution;',
-
-		'varying vec2 texCoord0;',
-
-		'void main(void) {',
-		'  texCoord0 = vertexUV0;',
-
-		'  gl_Position = vec4(',
-		'    2.0 * vertexPosition.x / resolution.x - 1.0,',
-		'    2.0 * vertexPosition.y / resolution.y - 1.0,',
-		'    -1.0,',
-		'    1.0',
-		'  );',
-		'}'
-	].join('\n'),
-	fshader: [
-		'uniform sampler2D diffuseMap;',
-		'uniform vec2 resolution;',
-
-		'varying vec2 texCoord0;',
-		'const vec4 edgeCol = vec4(0.2, 0.2, 0.2, 1.0);',
-
-		'void main(void) {',
-		'  vec4 color = texture2D(diffuseMap, texCoord0);',
-		'  #ifdef EDGE',
-		'  float edge = step(10.0 / resolution.x, min(texCoord0.x, 1.0 - texCoord0.x)) * step(10.0 / resolution.y, min(texCoord0.y, 1.0 - texCoord0.y));',
-		'  gl_FragColor = mix(edgeCol, color, edge);',
-		'  #else',
-		'  gl_FragColor = color;',
-		'  #endif',
-		'}'
-	].join('\n')
+	vshader: ['attribute vec3 vertexPosition;', 'attribute vec2 vertexUV0;', 'uniform mat4 viewProjectionMatrix;', 'uniform mat4 worldMatrix;', 'uniform vec2 resolution;', 'varying vec2 texCoord0;', 'void main(void) {', '  texCoord0 = vertexUV0;', '  gl_Position = vec4(', '    2.0 * vertexPosition.x / resolution.x - 1.0,', '    2.0 * vertexPosition.y / resolution.y - 1.0,', '    -1.0,', '    1.0', '  );', '}'].join('\n'),
+	fshader: ['uniform sampler2D diffuseMap;', 'uniform vec2 resolution;', 'varying vec2 texCoord0;', 'const vec4 edgeCol = vec4(0.2, 0.2, 0.2, 1.0);', 'void main(void) {', '  vec4 color = texture2D(diffuseMap, texCoord0);', '  #ifdef EDGE', '  float edge = step(10.0 / resolution.x, min(texCoord0.x, 1.0 - texCoord0.x)) * step(10.0 / resolution.y, min(texCoord0.y, 1.0 - texCoord0.y));', '  gl_FragColor = mix(edgeCol, color, edge);', '  #else', '  gl_FragColor = color;', '  #endif', '}'].join('\n')
 };
 
 /**
@@ -186,4 +162,4 @@ var renderPipQuad = {
  * @property {boolean} doRender Only render if set to true
  * @extends System
  */
-export { mod_PipRenderSystem as PipRenderSystem };
+exports.PipRenderSystem = mod_PipRenderSystem;

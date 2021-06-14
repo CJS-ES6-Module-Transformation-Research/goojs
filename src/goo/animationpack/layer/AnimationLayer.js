@@ -1,11 +1,25 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.AnimationLayer = undefined;
+
+var _FadeTransitionState = require("../../animationpack/state/FadeTransitionState");
+
+var _SyncFadeTransitionState = require("../../animationpack/state/SyncFadeTransitionState");
+
+var _FrozenTransitionState = require("../../animationpack/state/FrozenTransitionState");
+
+var _SteadyState = require("../../animationpack/state/SteadyState");
+
+var _LayerLerpBlender = require("../../animationpack/layer/LayerLerpBlender");
+
+var _World = require("../../entities/World");
+
+var _MathUtils = require("../../math/MathUtils");
+
 var mod_AnimationLayer = AnimationLayer;
-import { FadeTransitionState as FadeTransitionState_FadeTransitionState } from "../../animationpack/state/FadeTransitionState";
-import { SyncFadeTransitionState as SyncFadeTransitionState_SyncFadeTransitionState } from "../../animationpack/state/SyncFadeTransitionState";
-import { FrozenTransitionState as FrozenTransitionState_FrozenTransitionState } from "../../animationpack/state/FrozenTransitionState";
-import { SteadyState as SteadyState_SteadyState } from "../../animationpack/state/SteadyState";
-import { LayerLerpBlender as LayerLerpBlender_LayerLerpBlender } from "../../animationpack/layer/LayerLerpBlender";
-import { World as World_World } from "../../entities/World";
-import { clamp as MathUtilsjs_clamp } from "../../math/MathUtils";
 
 /**
  * Animation layers are essentially independent state machines, managed by a single AnimationManager. Each maintains a set of possible
@@ -20,7 +34,7 @@ function AnimationLayer(name, id) {
 
 	this._steadyStates = {};
 	this._currentState = null;
-	this._layerBlender = new LayerLerpBlender_LayerLerpBlender();
+	this._layerBlender = new _LayerLerpBlender.LayerLerpBlender();
 	this._transitions = {};
 	this._transitionStates = {};
 }
@@ -51,7 +65,7 @@ AnimationLayer.prototype.setState = function (stateKey, state) {
  */
 AnimationLayer.prototype.setBlendWeight = function (weight) {
 	if (this._layerBlender) {
-		this._layerBlender._blendWeight = MathUtilsjs_clamp(weight, 0, 1);
+		this._layerBlender._blendWeight = (0, _MathUtils.clamp)(weight, 0, 1);
 	}
 };
 
@@ -83,7 +97,7 @@ AnimationLayer.prototype.getTransitions = function () {
  */
 AnimationLayer.prototype.update = function (globalTime) {
 	if (this._currentState) {
-		this._currentState.update(typeof globalTime !== 'undefined' ? globalTime : World_World.time);
+		this._currentState.update(typeof globalTime !== 'undefined' ? globalTime : _World.World.time);
 	}
 };
 
@@ -105,7 +119,7 @@ AnimationLayer.prototype.postUpdate = function () {
  * @returns {boolean} true if a transition was found and started
  */
 AnimationLayer.prototype.transitionTo = function (state, globalTime, finishCallback) {
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World_World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : _World.World.time;
 	var cState = this._currentState;
 	var transition;
 	if (this._steadyStates[state] === cState) {
@@ -121,7 +135,7 @@ AnimationLayer.prototype.transitionTo = function (state, globalTime, finishCallb
 	if (!transition && this._transitions) {
 		transition = this._transitions[state] || this._transitions['*'];
 	}
-	if (cState instanceof SteadyState_SteadyState && transition) {
+	if (cState instanceof _SteadyState.SteadyState && transition) {
 		var transitionState = this._getTransitionByType(transition.type);
 		this._doTransition(transitionState, cState, this._steadyStates[state], transition, globalTime, finishCallback);
 		return true;
@@ -162,7 +176,7 @@ AnimationLayer.prototype._doTransition = function (transition, source, target, c
  * @param {Function} finishCallback If the target state has a limited number of repeats, this callback is called when the animation finishes.
  */
 AnimationLayer.prototype.setCurrentState = function (state, rewind, globalTime, finishCallback) {
-	globalTime = typeof globalTime !== 'undefined' ? globalTime : World_World.time;
+	globalTime = typeof globalTime !== 'undefined' ? globalTime : _World.World.time;
 	this._currentState = state;
 	if (state) {
 		if (rewind) {
@@ -170,7 +184,7 @@ AnimationLayer.prototype.setCurrentState = function (state, rewind, globalTime, 
 		}
 		state.onFinished = function () {
 			this.setCurrentState(state._targetState || null, false, undefined, finishCallback);
-			if (state instanceof SteadyState_SteadyState && finishCallback instanceof Function) {
+			if (state instanceof _SteadyState.SteadyState && finishCallback instanceof Function) {
 				finishCallback();
 			}
 			this.update();
@@ -276,7 +290,7 @@ AnimationLayer.prototype.clearCurrentState = function () {
 
 AnimationLayer.prototype.resetClips = function (globalTime) {
 	if (this._currentState) {
-		this._currentState.resetClips(typeof globalTime !== 'undefined' ? globalTime : World_World.time);
+		this._currentState.resetClips(typeof globalTime !== 'undefined' ? globalTime : _World.World.time);
 	}
 };
 
@@ -293,21 +307,23 @@ AnimationLayer.prototype.setTimeScale = function (timeScale) {
 };
 
 AnimationLayer.prototype._getTransitionByType = function (type) {
-	if (this._transitionStates[type]) { return this._transitionStates[type]; }
+	if (this._transitionStates[type]) {
+		return this._transitionStates[type];
+	}
 	var transition;
 	switch (type) {
 		case 'Fade':
-			transition = new FadeTransitionState_FadeTransitionState();
+			transition = new _FadeTransitionState.FadeTransitionState();
 			break;
 		case 'SyncFade':
-			transition = new SyncFadeTransitionState_SyncFadeTransitionState();
+			transition = new _SyncFadeTransitionState.SyncFadeTransitionState();
 			break;
 		case 'Frozen':
-			transition = new FrozenTransitionState_FrozenTransitionState();
+			transition = new _FrozenTransitionState.FrozenTransitionState();
 			break;
 		default:
 			console.log('Defaulting to frozen transition type');
-			transition = new FrozenTransitionState_FrozenTransitionState();
+			transition = new _FrozenTransitionState.FrozenTransitionState();
 	}
 	return this._transitionStates[type] = transition;
 };
@@ -317,7 +333,6 @@ AnimationLayer.prototype._getTransitionByType = function (type) {
  */
 AnimationLayer.prototype.clone = function () {
 	var cloned = new AnimationLayer(this._name);
-
 
 	for (var key in this._steadyStates) {
 		cloned._steadyStates[key] = this._steadyStates[key].clone();
@@ -344,4 +359,4 @@ AnimationLayer.prototype.clone = function () {
  * @param {string} name Name of layer
  * @param {string} id Id of layer
  */
-export { mod_AnimationLayer as AnimationLayer };
+exports.AnimationLayer = mod_AnimationLayer;

@@ -1,55 +1,64 @@
-import { World as World_World } from "../../../../src/goo/entities/World";
-import { Material as Material_Material } from "../../../../src/goo/renderer/Material";
-import { Shader as Shader_Shader } from "../../../../src/goo/renderer/Shader";
-import { Texture as Texture_Texture } from "../../../../src/goo/renderer/Texture";
-import { ShaderLib as ShaderLib_ShaderLib } from "../../../../src/goo/renderer/shaders/ShaderLib";
-import { DynamicLoader as DynamicLoader_DynamicLoader } from "../../../../src/goo/loaders/DynamicLoader";
-import { Configs as Configs_Configs } from "../../../../test/unit/loaders/Configs";
-import "../../../../src/goo/loaders/handlers/MaterialHandler";
+"use strict";
+
+var _World = require("../../../../src/goo/entities/World");
+
+var _Material = require("../../../../src/goo/renderer/Material");
+
+var _Shader = require("../../../../src/goo/renderer/Shader");
+
+var _Texture = require("../../../../src/goo/renderer/Texture");
+
+var _ShaderLib = require("../../../../src/goo/renderer/shaders/ShaderLib");
+
+var _DynamicLoader = require("../../../../src/goo/loaders/DynamicLoader");
+
+var _Configs = require("../../../../test/unit/loaders/Configs");
+
+require("../../../../src/goo/loaders/handlers/MaterialHandler");
 
 describe('MaterialHandler', function () {
 	var loader;
 
 	beforeEach(function () {
-		var world = new World_World();
-		loader = new DynamicLoader_DynamicLoader({
+		var world = new _World.World();
+		loader = new _DynamicLoader.DynamicLoader({
 			world: world,
-			rootPath: typeof(window) !== 'undefined' && window.__karma__ ? './' : 'loaders/res'
+			rootPath: typeof window !== 'undefined' && window.__karma__ ? './' : 'loaders/res'
 		});
 	});
 
 	it('loads a material with a shader', function (done) {
-		var config = Configs_Configs.material();
-		loader.preload(Configs_Configs.get());
+		var config = _Configs.Configs.material();
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (material) {
-			expect(material).toEqual(jasmine.any(Material_Material));
-			expect(material.shader).toEqual(jasmine.any(Shader_Shader));
+			expect(material).toEqual(jasmine.any(_Material.Material));
+			expect(material.shader).toEqual(jasmine.any(_Shader.Shader));
 			done();
 		});
 	});
 
 	it('loads a material with a shader and a texture', function (done) {
-		var config = Configs_Configs.material();
+		var config = _Configs.Configs.material();
 		config.texturesMapping.DIFFUSE_MAP = {
 			enabled: true,
-			textureRef: Configs_Configs.texture().id
+			textureRef: _Configs.Configs.texture().id
 		};
-		loader.preload(Configs_Configs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (material) {
 			var texture = material.getTexture('DIFFUSE_MAP');
-			expect(material.shader).toEqual(jasmine.any(Shader_Shader));
-			expect(texture).toEqual(jasmine.any(Texture_Texture));
+			expect(material.shader).toEqual(jasmine.any(_Shader.Shader));
+			expect(texture).toEqual(jasmine.any(_Texture.Texture));
 			expect(texture.image).toEqual(jasmine.any(Image));
 			done();
 		});
 	});
 
 	it('loads a material with an engine shader', function (done) {
-		var config = Configs_Configs.material();
+		var config = _Configs.Configs.material();
 		config.shaderRef = 'GOO_ENGINE_SHADERS/uber';
-		loader.preload(Configs_Configs.get());
+		loader.preload(_Configs.Configs.get());
 		loader.load(config.id).then(function (material) {
-			expect(material.shader.shaderDefinition).toBe(ShaderLib_ShaderLib.uber);
+			expect(material.shader.shaderDefinition).toBe(_ShaderLib.ShaderLib.uber);
 			done();
 		});
 	});

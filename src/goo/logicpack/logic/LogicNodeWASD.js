@@ -1,15 +1,26 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeWASD = undefined;
+
+var _LogicLayer = require("./LogicLayer");
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 var mod_LogicNodeWASD = LogicNodeWASD;
-import { LogicLayer as LogicLayer_LogicLayer } from "./LogicLayer";
-import { LogicNode as LogicNode_LogicNode } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodes } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterface } from "./LogicInterface";
 
 /**
  * Logic node handling WASD input.
  * @private
  */
 function LogicNodeWASD() {
-	LogicNode_LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeWASD.logicInterface;
 	this.type = 'LogicNodeWASD';
 
@@ -22,7 +33,7 @@ function LogicNodeWASD() {
 		var keyEvent = LogicNodeWASD.downKeys[character];
 		if (keyEvent) {
 			preventRepeat[character] = true;
-			LogicLayer_LogicLayer.fireEvent(this.logicInstance, keyEvent);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, keyEvent);
 		}
 	}.bind(this);
 	this.eventListenerUp = function (event) {
@@ -32,12 +43,12 @@ function LogicNodeWASD() {
 		}
 		var keyEvent = LogicNodeWASD.upKeys[character];
 		if (keyEvent) {
-			LogicLayer_LogicLayer.fireEvent(this.logicInstance, keyEvent);
+			_LogicLayer.LogicLayer.fireEvent(this.logicInstance, keyEvent);
 		}
 	}.bind(this);
 }
 
-LogicNodeWASD.prototype = Object.create(LogicNode_LogicNode.prototype);
+LogicNodeWASD.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeWASD.editorName = 'WASD';
 
 LogicNodeWASD.prototype.onSystemStarted = function () {
@@ -50,7 +61,7 @@ LogicNodeWASD.prototype.onSystemStopped = function () {
 	document.removeEventListener('keyup', this.eventListenerUp);
 };
 
-LogicNodeWASD.logicInterface = new LogicInterface_LogicInterface();
+LogicNodeWASD.logicInterface = new _LogicInterface.LogicInterface();
 LogicNodeWASD.downKeys = {
 	'w': LogicNodeWASD.logicInterface.addOutputEvent('W-down'),
 	'a': LogicNodeWASD.logicInterface.addOutputEvent('A-down'),
@@ -64,10 +75,10 @@ LogicNodeWASD.upKeys = {
 	'd': LogicNodeWASD.logicInterface.addOutputEvent('D-up')
 };
 
-LogicNodes_LogicNodes.registerType('LogicNodeWASD', LogicNodeWASD);
+_LogicNodes.LogicNodes.registerType('LogicNodeWASD', LogicNodeWASD);
 
 /**
  * Logic node handling WASD input.
  * @private
  */
-export { mod_LogicNodeWASD as LogicNodeWASD };
+exports.LogicNodeWASD = mod_LogicNodeWASD;

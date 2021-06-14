@@ -1,10 +1,18 @@
-var mod_StopParticleSystemAction = StopParticleSystemAction;
-import { Action as Action_Action } from "./Action";
+'use strict';
 
-function StopParticleSystemAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.StopParticleSystemAction = undefined;
+
+var _Action = require('./Action');
+
+var mod_StopParticleSystemAction = StopParticleSystemAction;
+
+function StopParticleSystemAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
-StopParticleSystemAction.prototype = Object.create(Action_Action.prototype);
+StopParticleSystemAction.prototype = Object.create(_Action.Action.prototype);
 StopParticleSystemAction.prototype.constructor = StopParticleSystemAction;
 
 StopParticleSystemAction.external = {
@@ -19,8 +27,10 @@ StopParticleSystemAction.external = {
 
 StopParticleSystemAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity || !entity.particleSystemComponent) { return; }
+	if (!entity || !entity.particleSystemComponent) {
+		return;
+	}
 	entity.particleSystemComponent.stop();
 };
 
-export { mod_StopParticleSystemAction as StopParticleSystemAction };
+exports.StopParticleSystemAction = mod_StopParticleSystemAction;

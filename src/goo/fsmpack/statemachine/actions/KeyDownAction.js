@@ -1,12 +1,21 @@
-var mod_KeyDownAction = KeyDownAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { FsmUtils as FsmUtils_FsmUtils } from "../../../fsmpack/statemachine/FsmUtils";
+"use strict";
 
-function KeyDownAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.KeyDownAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _FsmUtils = require("../../../fsmpack/statemachine/FsmUtils");
+
+var mod_KeyDownAction = KeyDownAction;
+
+function KeyDownAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-KeyDownAction.prototype = Object.create(Action_Action.prototype);
+KeyDownAction.prototype = Object.create(_Action.Action.prototype);
 KeyDownAction.prototype.constructor = KeyDownAction;
 
 KeyDownAction.external = {
@@ -34,7 +43,7 @@ KeyDownAction.getTransitionLabel = function (transitionKey, actionConfig) {
 };
 
 KeyDownAction.prototype.configure = function (settings) {
-	this.key = settings.key ? FsmUtils_FsmUtils.getKey(settings.key) : null;
+	this.key = settings.key ? _FsmUtils.FsmUtils.getKey(settings.key) : null;
 	this.transitions = { keydown: settings.transitions.keydown };
 };
 
@@ -51,4 +60,4 @@ KeyDownAction.prototype.exit = function () {
 	document.removeEventListener('keydown', this.eventListener);
 };
 
-export { mod_KeyDownAction as KeyDownAction };
+exports.KeyDownAction = mod_KeyDownAction;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var GameUtils_initPointerLockShims;
 var GameUtils_initFullscreenShims;
 var GameUtils_initAnimationShims;
@@ -31,7 +36,7 @@ supported = {
 /**
  * Attempts to request fullscreen.
  */
-GameUtils_requestFullScreen = function () {
+GameUtils_requestFullScreen = function GameUtils_requestFullScreen() {
 	if (!document.fullscreenElement && document.documentElement.requestFullScreen) {
 		document.documentElement.requestFullScreen();
 	}
@@ -40,7 +45,7 @@ GameUtils_requestFullScreen = function () {
 /**
  * Attempts to exit fullscreen.
  */
-GameUtils_exitFullScreen = function () {
+GameUtils_exitFullScreen = function GameUtils_exitFullScreen() {
 	if (document.fullscreenElement && document.cancelFullScreen) {
 		document.cancelFullScreen();
 	}
@@ -49,7 +54,7 @@ GameUtils_exitFullScreen = function () {
 /**
  * Attempts to toggle fullscreen.
  */
-GameUtils_toggleFullScreen = function () {
+exports.toggleFullScreen = GameUtils_toggleFullScreen = function GameUtils_toggleFullScreen() {
 	if (!document.fullscreenElement) {
 		if (document.documentElement.requestFullScreen) {
 			document.documentElement.requestFullScreen();
@@ -64,7 +69,7 @@ GameUtils_toggleFullScreen = function () {
 /**
  * Attempts to lock the mouse pointer in the window.
  */
-GameUtils_requestPointerLock = function (optionalTarget) {
+exports.requestPointerLock = GameUtils_requestPointerLock = function GameUtils_requestPointerLock(optionalTarget) {
 	var target = optionalTarget || document.documentElement;
 	if (target.requestPointerLock) {
 		target.requestPointerLock();
@@ -74,7 +79,7 @@ GameUtils_requestPointerLock = function (optionalTarget) {
 /**
  * Attempts to unlock the mouse pointer in the window.
  */
-GameUtils_exitPointerLock = function () {
+exports.exitPointerLock = GameUtils_exitPointerLock = function GameUtils_exitPointerLock() {
 	if (document.exitPointerLock) {
 		document.exitPointerLock();
 	}
@@ -83,7 +88,7 @@ GameUtils_exitPointerLock = function () {
 /**
  * Attempts to toggle the lock on the mouse pointer in the window.
  */
-GameUtils_togglePointerLock = function (optionalTarget) {
+exports.togglePointerLock = GameUtils_togglePointerLock = function GameUtils_togglePointerLock(optionalTarget) {
 	if (!document.pointerLockElement) {
 		GameUtils_requestPointerLock(optionalTarget);
 	} else {
@@ -97,7 +102,7 @@ var visibilityChangeListeners = [];
  * Add a visibilitychange listener.
  * @param {Function} callback function called with a boolean (true=hidden, false=visible)
  */
-GameUtils_addVisibilityChangeListener = function (callback) {
+exports.addVisibilityChangeListener = GameUtils_addVisibilityChangeListener = function GameUtils_addVisibilityChangeListener(callback) {
 	if (typeof callback !== 'function') {
 		return;
 	}
@@ -116,9 +121,8 @@ GameUtils_addVisibilityChangeListener = function (callback) {
 		}
 	}
 
-	if (typeof document.addEventListener !== 'undefined' &&
-		typeof hidden !== 'undefined') {
-		var eventListener = function () {
+	if (typeof document.addEventListener !== 'undefined' && typeof hidden !== 'undefined') {
+		var eventListener = function eventListener() {
 			if (document[hidden]) {
 				callback(true);
 			} else {
@@ -133,7 +137,7 @@ GameUtils_addVisibilityChangeListener = function (callback) {
 	}
 };
 
-GameUtils_clearVisibilityChangeListeners = function () {
+exports.clearVisibilityChangeListeners = GameUtils_clearVisibilityChangeListeners = function GameUtils_clearVisibilityChangeListeners() {
 	visibilityChangeListeners.forEach(function (listener) {
 		document.removeEventListener(listener.eventName, listener.eventListener);
 	});
@@ -144,7 +148,7 @@ GameUtils_clearVisibilityChangeListeners = function () {
  * Attempts to initialize all shims (animation, fullscreen, pointer lock).
  * @param {Element} [global=window] The global element (for compatibility checks and patching)
  */
-GameUtils_initAllShims = function (global) {
+exports.initAllShims = GameUtils_initAllShims = function GameUtils_initAllShims(global) {
 	GameUtils_initWebGLShims();
 	GameUtils_initAnimationShims();
 	GameUtils_initFullscreenShims(global);
@@ -154,14 +158,14 @@ GameUtils_initAllShims = function (global) {
 /**
  * Handle missing WebGL features like IE 11 Uint8ClampedArray
  */
-GameUtils_initWebGLShims = function () {
+GameUtils_initWebGLShims = function GameUtils_initWebGLShims() {
 	window.Uint8ClampedArray = window.Uint8ClampedArray || window.Uint8Array;
 };
 
 /**
  * Attempts to initialize the animation shim, ie. defines requestAnimationFrame and cancelAnimationFrame
  */
-GameUtils_initAnimationShims = function () {
+GameUtils_initAnimationShims = function GameUtils_initAnimationShims() {
 	var lastTime = 0;
 	var vendors = ['ms', 'moz', 'webkit', 'o'];
 
@@ -172,10 +176,11 @@ GameUtils_initAnimationShims = function () {
 
 	if (window.requestAnimationFrame === undefined) {
 		window.requestAnimationFrame = function (callback) {
-			var currTime = Date.now(), timeToCall = Math.max(0, 16 - (currTime - lastTime));
+			var currTime = Date.now(),
+			    timeToCall = Math.max(0, 16 - (currTime - lastTime));
 			var id = window.setTimeout(function () {
-					callback(currTime + timeToCall);
-				}, timeToCall);
+				callback(currTime + timeToCall);
+			}, timeToCall);
 			lastTime = currTime + timeToCall;
 			return id;
 		};
@@ -192,12 +197,12 @@ GameUtils_initAnimationShims = function () {
  * Attempts to initialize the fullscreen shim, ie. defines requestFullscreen and cancelFullscreen
  * @param {Element} [global=window] The global element (for compatibility checks and patching)
  */
-GameUtils_initFullscreenShims = function (global) {
+GameUtils_initFullscreenShims = function GameUtils_initFullscreenShims(global) {
 	global = global || window;
 	var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
 	if (!document.hasOwnProperty('fullscreenEnabled')) {
-		var getter = (function () {
+		var getter = function () {
 			if ('webkitIsFullScreen' in document) {
 				return function () {
 					return document.webkitFullscreenEnabled;
@@ -214,7 +219,7 @@ GameUtils_initFullscreenShims = function (global) {
 			return function () {
 				return false;
 			};
-		})();
+		}();
 
 		Object.defineProperty(document, 'fullscreenEnabled', {
 			enumerable: true,
@@ -225,10 +230,10 @@ GameUtils_initFullscreenShims = function (global) {
 	}
 
 	if (!document.hasOwnProperty('fullscreenElement')) {
-		var getter = (function () {
+		var getter = function () {
 			var name = ['webkitCurrentFullScreenElement', 'webkitFullscreenElement', 'mozFullScreenElement'];
 
-			var getNameInDocument = function (i) {
+			var getNameInDocument = function getNameInDocument(i) {
 				return function () {
 					return document[name[i]];
 				};
@@ -242,7 +247,7 @@ GameUtils_initFullscreenShims = function (global) {
 			return function () {
 				return null;
 			};
-		})();
+		}();
 
 		Object.defineProperty(document, 'fullscreenElement', {
 			enumerable: true,
@@ -269,7 +274,7 @@ GameUtils_initFullscreenShims = function (global) {
 	document.addEventListener('mozfullscreenerror', fullscreenerror, false);
 
 	if (!elementPrototype.requestFullScreen) {
-		elementPrototype.requestFullScreen = (function () {
+		elementPrototype.requestFullScreen = function () {
 			if (elementPrototype.msRequestFullscreen) {
 				return function () {
 					this.msRequestFullscreen();
@@ -295,14 +300,13 @@ GameUtils_initFullscreenShims = function (global) {
 			}
 
 			return function () {};
-		})();
+		}();
 	}
 
 	if (!document.cancelFullScreen) {
-		document.cancelFullScreen = (function () {
-			return document.webkitCancelFullScreen || document.mozCancelFullScreen || function () {
-			};
-		})();
+		document.cancelFullScreen = function () {
+			return document.webkitCancelFullScreen || document.mozCancelFullScreen || function () {};
+		}();
 	}
 };
 
@@ -310,7 +314,7 @@ GameUtils_initFullscreenShims = function (global) {
  * Attempts to initialize the pointer lock shim, ie. define requestPointerLock and exitPointerLock
  * @param {Element} [global=window] The global element (for compatibility checks and patching)
  */
-GameUtils_initPointerLockShims = function (global) {
+GameUtils_initPointerLockShims = function GameUtils_initPointerLockShims(global) {
 	global = global || window;
 	var elementPrototype = (global.HTMLElement || global.Element).prototype;
 
@@ -325,7 +329,7 @@ GameUtils_initPointerLockShims = function (global) {
 			enumerable: true,
 			configurable: false,
 			writeable: false,
-			get: function () {
+			get: function get() {
 				return this.webkitMovementX || this.mozMovementX || 0;
 			}
 		});
@@ -336,7 +340,7 @@ GameUtils_initPointerLockShims = function (global) {
 			enumerable: true,
 			configurable: false,
 			writeable: false,
-			get: function () {
+			get: function get() {
 				return this.webkitMovementY || this.mozMovementY || 0;
 			}
 		});
@@ -365,7 +369,7 @@ GameUtils_initPointerLockShims = function (global) {
 	document.addEventListener('mozpointerlockerror', pointerlockerror, false);
 
 	if (!("pointerLockElement" in document)) {
-		var getter = (function () {
+		var getter = function () {
 			if ('webkitPointerLockElement' in document) {
 				return function () {
 					return document.webkitPointerLockElement;
@@ -379,7 +383,7 @@ GameUtils_initPointerLockShims = function (global) {
 			return function () {
 				return null;
 			};
-		})();
+		}();
 
 		Object.defineProperty(document, 'pointerLockElement', {
 			enumerable: true,
@@ -390,7 +394,7 @@ GameUtils_initPointerLockShims = function (global) {
 	}
 
 	if (!elementPrototype.requestPointerLock) {
-		elementPrototype.requestPointerLock = (function () {
+		elementPrototype.requestPointerLock = function () {
 			if (elementPrototype.webkitRequestPointerLock) {
 				return function () {
 					this.webkitRequestPointerLock();
@@ -412,18 +416,25 @@ GameUtils_initPointerLockShims = function (global) {
 			supported.pointerLock = false;
 
 			return function () {};
-		})();
+		}();
 	}
 
 	if (!document.exitPointerLock) {
-		document.exitPointerLock = (function () {
+		document.exitPointerLock = function () {
 			return document.webkitExitPointerLock || document.mozExitPointerLock || function () {
 				if (navigator.pointer) {
 					navigator.pointer.unlock();
 				}
 			};
-		})();
+		}();
 	}
 };
 
-export { GameUtils_toggleFullScreen as toggleFullScreen, GameUtils_requestPointerLock as requestPointerLock, GameUtils_exitPointerLock as exitPointerLock, GameUtils_togglePointerLock as togglePointerLock, GameUtils_addVisibilityChangeListener as addVisibilityChangeListener, GameUtils_clearVisibilityChangeListeners as clearVisibilityChangeListeners, GameUtils_initAllShims as initAllShims, GameUtils };
+exports.toggleFullScreen = GameUtils_toggleFullScreen;
+exports.requestPointerLock = GameUtils_requestPointerLock;
+exports.exitPointerLock = GameUtils_exitPointerLock;
+exports.togglePointerLock = GameUtils_togglePointerLock;
+exports.addVisibilityChangeListener = GameUtils_addVisibilityChangeListener;
+exports.clearVisibilityChangeListeners = GameUtils_clearVisibilityChangeListeners;
+exports.initAllShims = GameUtils_initAllShims;
+exports.GameUtils = GameUtils;

@@ -1,15 +1,24 @@
-var mod_HoverEnterAction = HoverEnterAction;
-import { Action as Action_Action } from "./Action";
-import { pick as BoundingPickerjs_pick } from "./../../../renderer/bounds/BoundingPicker";
+"use strict";
 
-function HoverEnterAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.HoverEnterAction = undefined;
+
+var _Action = require("./Action");
+
+var _BoundingPicker = require("./../../../renderer/bounds/BoundingPicker");
+
+var mod_HoverEnterAction = HoverEnterAction;
+
+function HoverEnterAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 
 	this.first = true;
 	this.hit = false;
 }
 
-HoverEnterAction.prototype = Object.create(Action_Action.prototype);
+HoverEnterAction.prototype = Object.create(_Action.Action.prototype);
 HoverEnterAction.prototype.constructor = HoverEnterAction;
 
 HoverEnterAction.types = {
@@ -38,13 +47,13 @@ HoverEnterAction.external = {
 	}]
 };
 
-HoverEnterAction.getTransitionLabel = function (/*transitionKey, actionConfig*/){
+HoverEnterAction.getTransitionLabel = function () /*transitionKey, actionConfig*/{
 	return 'On Entity Hover Enter';
 };
 
 HoverEnterAction.prototype.enter = function (fsm) {
 	var that = this;
-	var isHit = function (entity) {
+	var isHit = function isHit(entity) {
 		if (!entity) {
 			return false;
 		}
@@ -58,7 +67,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 		return hit;
 	};
 
-	var checkEnter = function (entity) {
+	var checkEnter = function checkEnter(entity) {
 		var hit = isHit(entity);
 
 		if ((that.first || !that.hit) && hit) {
@@ -88,7 +97,7 @@ HoverEnterAction.prototype.enter = function (fsm) {
 			var pickingStore = that.goo.pickSync(x, y);
 			pickedEntity = that.goo.world.entityManager.getEntityByIndex(pickingStore.id);
 		} else {
-			var pickList = BoundingPickerjs_pick(that.goo.world, camera, x, y);
+			var pickList = (0, _BoundingPicker.pick)(that.goo.world, camera, x, y);
 			if (pickList.length > 0) {
 				pickedEntity = pickList[0].entity;
 			}
@@ -112,4 +121,4 @@ HoverEnterAction.prototype.exit = function () {
 	document.removeEventListener('touchmove', this.moveListener);
 };
 
-export { mod_HoverEnterAction as HoverEnterAction };
+exports.HoverEnterAction = mod_HoverEnterAction;

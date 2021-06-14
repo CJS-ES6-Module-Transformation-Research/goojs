@@ -1,19 +1,29 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicNodeEntityProxy = undefined;
+
+var _LogicNode = require("./LogicNode");
+
+var _LogicNodes = require("./LogicNodes");
+
+var _LogicInterface = require("./LogicInterface");
+
 var mod_LogicNodeEntityProxy = LogicNodeEntityProxy;
-import { LogicNode as LogicNode_LogicNode } from "./LogicNode";
-import { LogicNodes as LogicNodes_LogicNodes } from "./LogicNodes";
-import { LogicInterface as LogicInterface_LogicInterface } from "./LogicInterface";
 
 /**
  * Logic node that lets you access the logic layer of a different entity.
  * @private
  */
 function LogicNodeEntityProxy() {
-	LogicNode_LogicNode.call(this);
+	_LogicNode.LogicNode.call(this);
 	this.logicInterface = LogicNodeEntityProxy.logicInterface;
 	this.type = 'LogicNodeEntityProxy';
 }
 
-LogicNodeEntityProxy.prototype = Object.create(LogicNode_LogicNode.prototype);
+LogicNodeEntityProxy.prototype = Object.create(_LogicNode.LogicNode.prototype);
 LogicNodeEntityProxy.editorName = 'EntityProxy';
 
 LogicNodeEntityProxy.prototype.onConfigure = function (config) {
@@ -21,17 +31,17 @@ LogicNodeEntityProxy.prototype.onConfigure = function (config) {
 };
 
 // Empty.
-LogicNodeEntityProxy.logicInterface = new LogicInterface_LogicInterface('Component Proxy');
+LogicNodeEntityProxy.logicInterface = new _LogicInterface.LogicInterface('Component Proxy');
 LogicNodeEntityProxy.logicInterface.addConfigEntry({
 	name: 'entityRef',
 	type: 'entityRef',
 	label: 'Entity'
 });
 
-LogicNodes_LogicNodes.registerType('LogicNodeEntityProxy', LogicNodeEntityProxy);
+_LogicNodes.LogicNodes.registerType('LogicNodeEntityProxy', LogicNodeEntityProxy);
 
 /**
  * Logic node that lets you access the logic layer of a different entity.
  * @private
  */
-export { mod_LogicNodeEntityProxy as LogicNodeEntityProxy };
+exports.LogicNodeEntityProxy = mod_LogicNodeEntityProxy;

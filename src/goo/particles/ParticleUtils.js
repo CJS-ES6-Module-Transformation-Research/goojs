@@ -1,4 +1,12 @@
-import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ParticleUtils = exports.applyTimeline = exports.applyEntityTransformVector = exports.applyEntityTransformPoint = undefined;
+
+var _Vector = require("../math/Vector3");
+
 var ParticleUtils_applyTimeline;
 var ParticleUtils_applyEntityTransformVector;
 var ParticleUtils_applyEntityTransformPoint;
@@ -11,7 +19,7 @@ var ParticleUtils_getRandomVelocityOffY;
  */
 function ParticleUtils() {}
 
-ParticleUtils_getRandomVelocityOffY = function (store, minOffsetAngle, maxOffsetAngle, scale, particleEntity) {
+ParticleUtils_getRandomVelocityOffY = function ParticleUtils_getRandomVelocityOffY(store, minOffsetAngle, maxOffsetAngle, scale, particleEntity) {
 	var randomAngle = minOffsetAngle + Math.random() * (maxOffsetAngle - minOffsetAngle);
 	var randomDir = Math.PI * 2 * Math.random();
 
@@ -27,21 +35,21 @@ ParticleUtils_getRandomVelocityOffY = function (store, minOffsetAngle, maxOffset
 	return store;
 };
 
-ParticleUtils_randomPointInCube = function (store, xRadius, yRadius, zRadius, center) {
+ParticleUtils_randomPointInCube = function ParticleUtils_randomPointInCube(store, xRadius, yRadius, zRadius, center) {
 	store.x = Math.random() * 2 * xRadius - xRadius + (center ? center.x : 0);
 	store.y = Math.random() * 2 * yRadius - yRadius + (center ? center.y : 0);
 	store.z = Math.random() * 2 * zRadius - zRadius + (center ? center.z : 0);
 	return store;
 };
 
-ParticleUtils_createConstantForce = function (force) {
-	var applyForce = new Vector3_Vector3(force);
+ParticleUtils_createConstantForce = function ParticleUtils_createConstantForce(force) {
+	var applyForce = new _Vector.Vector3(force);
 	return {
 		enabled: true,
 		/* Was: function (particleEntity, emitter) */
-		prepare: function () {},
+		prepare: function prepare() {},
 		/* Was: function (tpf, particle, particleIndex) */
-		apply: function (tpf, particle) {
+		apply: function apply(tpf, particle) {
 			particle.velocity.x += applyForce.x * tpf;
 			particle.velocity.y += applyForce.y * tpf;
 			particle.velocity.z += applyForce.z * tpf;
@@ -49,7 +57,7 @@ ParticleUtils_createConstantForce = function (force) {
 	};
 };
 
-ParticleUtils_applyEntityTransformPoint = function (vec3, entity) {
+exports.applyEntityTransformPoint = ParticleUtils_applyEntityTransformPoint = function ParticleUtils_applyEntityTransformPoint(vec3, entity) {
 	if (!entity.transformComponent || !entity.transformComponent.worldTransform) {
 		return vec3;
 	}
@@ -57,7 +65,7 @@ ParticleUtils_applyEntityTransformPoint = function (vec3, entity) {
 	return entity.transformComponent.sync().worldTransform.applyForward(vec3, vec3);
 };
 
-ParticleUtils_applyEntityTransformVector = function (vec3, entity) {
+exports.applyEntityTransformVector = ParticleUtils_applyEntityTransformVector = function ParticleUtils_applyEntityTransformVector(vec3, entity) {
 	if (!entity.transformComponent || !entity.transformComponent.worldTransform) {
 		return vec3;
 	}
@@ -65,13 +73,28 @@ ParticleUtils_applyEntityTransformVector = function (vec3, entity) {
 	return entity.transformComponent.sync().worldTransform.applyForwardVector(vec3, vec3);
 };
 
-ParticleUtils_applyTimeline = function (particle, timeline) {
-	var age = particle.age, lifeSpan = particle.lifeSpan;
-	var prevCAge = 0, prevMAge = 0, prevSiAge = 0, prevSpAge = 0;
-	var nextCAge = lifeSpan, nextMAge = lifeSpan, nextSiAge = lifeSpan, nextSpAge = lifeSpan;
-	var trAge = 0, ratio;
-	var prevCEntry = null, prevMEntry = null, prevSiEntry = null, prevSpEntry = null, prevUVEntry = null;
-	var nextCEntry = null, nextMEntry = null, nextSiEntry = null, nextSpEntry = null;
+exports.applyTimeline = ParticleUtils_applyTimeline = function ParticleUtils_applyTimeline(particle, timeline) {
+	var age = particle.age,
+	    lifeSpan = particle.lifeSpan;
+	var prevCAge = 0,
+	    prevMAge = 0,
+	    prevSiAge = 0,
+	    prevSpAge = 0;
+	var nextCAge = lifeSpan,
+	    nextMAge = lifeSpan,
+	    nextSiAge = lifeSpan,
+	    nextSpAge = lifeSpan;
+	var trAge = 0,
+	    ratio;
+	var prevCEntry = null,
+	    prevMEntry = null,
+	    prevSiEntry = null,
+	    prevSpEntry = null,
+	    prevUVEntry = null;
+	var nextCEntry = null,
+	    nextMEntry = null,
+	    nextSiEntry = null,
+	    nextSpEntry = null;
 
 	for (var i = 0, max = timeline.length; i < max; i++) {
 		var entry = timeline[i];
@@ -157,4 +180,7 @@ ParticleUtils_applyTimeline = function (particle, timeline) {
 	particle.spin = (1 - ratio) * start + ratio * end;
 };
 
-export { ParticleUtils_applyEntityTransformPoint as applyEntityTransformPoint, ParticleUtils_applyEntityTransformVector as applyEntityTransformVector, ParticleUtils_applyTimeline as applyTimeline, ParticleUtils };
+exports.applyEntityTransformPoint = ParticleUtils_applyEntityTransformPoint;
+exports.applyEntityTransformVector = ParticleUtils_applyEntityTransformVector;
+exports.applyTimeline = ParticleUtils_applyTimeline;
+exports.ParticleUtils = ParticleUtils;

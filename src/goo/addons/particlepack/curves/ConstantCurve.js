@@ -1,5 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ConstantCurve = undefined;
+
+var _Curve = require('../../../addons/particlepack/curves/Curve');
+
 var mod_ConstantCurve = ConstantCurve;
-import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve";
 
 /**
  * A curve with a constant value.
@@ -10,33 +18,33 @@ import { Curve as Curve_Curve } from "../../../addons/particlepack/curves/Curve"
  * @param {number} [options.value=1]
  */
 function ConstantCurve(options) {
-	options = options || {};
+  options = options || {};
 
-	Curve_Curve.call(this, options);
+  _Curve.Curve.call(this, options);
 
-	/**
-	 * @type {number}
-	 */
-	this.value = options.value !== undefined ? options.value : 1;
+  /**
+   * @type {number}
+   */
+  this.value = options.value !== undefined ? options.value : 1;
 }
-ConstantCurve.prototype = Object.create(Curve_Curve.prototype);
+ConstantCurve.prototype = Object.create(_Curve.Curve.prototype);
 ConstantCurve.prototype.constructor = ConstantCurve;
 
-ConstantCurve.prototype.toGLSL = function (/*timeVariableName, lerpValueVariableName*/) {
-	return Curve_Curve.numberToGLSL(this.value);
+ConstantCurve.prototype.toGLSL = function () /*timeVariableName, lerpValueVariableName*/{
+  return _Curve.Curve.numberToGLSL(this.value);
 };
 
-ConstantCurve.prototype.integralToGLSL = function (timeVariableName/*, lerpValueVariableName*/) {
-	var value = Curve_Curve.numberToGLSL(this.value);
-	return '(' + value + '*' + timeVariableName + ')';
+ConstantCurve.prototype.integralToGLSL = function (timeVariableName /*, lerpValueVariableName*/) {
+  var value = _Curve.Curve.numberToGLSL(this.value);
+  return '(' + value + '*' + timeVariableName + ')';
 };
 
-ConstantCurve.prototype.getValueAt = function (/*t, lerpFactor*/) {
-	return this.value;
+ConstantCurve.prototype.getValueAt = function () /*t, lerpFactor*/{
+  return this.value;
 };
 
 ConstantCurve.prototype.getIntegralValueAt = function (t /*, lerpFactor*/) {
-	return this.value * t;
+  return this.value * t;
 };
 
 /**
@@ -47,4 +55,4 @@ ConstantCurve.prototype.getIntegralValueAt = function (t /*, lerpFactor*/) {
  * @param {object} [options]
  * @param {number} [options.value=1]
  */
-export { mod_ConstantCurve as ConstantCurve };
+exports.ConstantCurve = mod_ConstantCurve;

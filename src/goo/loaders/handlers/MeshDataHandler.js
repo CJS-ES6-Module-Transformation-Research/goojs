@@ -1,15 +1,23 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MeshDataHandler = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _MeshData = require("../../renderer/MeshData");
+
+var _BufferUtils = require("../../renderer/BufferUtils");
+
+var _Capabilities = require("../../renderer/Capabilities");
+
+var _PromiseUtils = require("../../util/PromiseUtils");
+
+var _ArrayUtils = require("../../util/ArrayUtils");
+
 var mod_MeshDataHandler = MeshDataHandler;
-
-import {
-    ConfigHandler as ConfigHandler_ConfigHandler,
-    _registerClass as ConfigHandlerjs__registerClass,
-} from "../../loaders/handlers/ConfigHandler";
-
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
-import { browserType as BufferUtilsjs_browserType } from "../../renderer/BufferUtils";
-import { Capabilities as Capabilities_Capabilities } from "../../renderer/Capabilities";
-import { PromiseUtils as PromiseUtils_PromiseUtils } from "../../util/PromiseUtils";
-import { ArrayUtils as ArrayUtils_ArrayUtils } from "../../util/ArrayUtils";
 
 var WEIGHTS_PER_VERT = 4;
 
@@ -21,12 +29,12 @@ var WEIGHTS_PER_VERT = 4;
  * @private
  */
 function MeshDataHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-MeshDataHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+MeshDataHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 MeshDataHandler.prototype.constructor = MeshDataHandler;
-ConfigHandlerjs__registerClass('mesh', MeshDataHandler);
+(0, _ConfigHandler._registerClass)('mesh', MeshDataHandler);
 
 /**
  * Removes the meshdata from the objects config
@@ -51,12 +59,12 @@ MeshDataHandler.prototype._update = function (ref, config, options) {
 	// Don't call ConfigHandler.prototype.update, since we don't want to do ._create in the normal way
 	if (!config) {
 		this._remove(ref);
-		return PromiseUtils_PromiseUtils.resolve();
+		return _PromiseUtils.PromiseUtils.resolve();
 	}
 
 	var meshData = this._objects.get(ref);
 	if (meshData) {
-		return PromiseUtils_PromiseUtils.resolve(meshData);
+		return _PromiseUtils.PromiseUtils.resolve(meshData);
 	}
 
 	return this.loadObject(config.binaryRef, options).then(function (bindata) {
@@ -86,7 +94,9 @@ MeshDataHandler.prototype._createMeshData = function (config) {
 
 	var indexCount = 0;
 	if (config.indexLengths) {
-		indexCount = config.indexLengths.reduce(function (store, val) { return store + val; });
+		indexCount = config.indexLengths.reduce(function (store, val) {
+			return store + val;
+		});
 	} else if (config.indices) {
 		indexCount = config.indices.wordLength;
 	}
@@ -99,7 +109,7 @@ MeshDataHandler.prototype._createMeshData = function (config) {
 		'uint32': 'UnsignedInt'
 	};
 
-	if (BufferUtilsjs_browserType === 'Trident') {
+	if (_BufferUtils.browserType === 'Trident') {
 		typeMatch.uint8 = 'UnsignedShort';
 	}
 
@@ -107,11 +117,11 @@ MeshDataHandler.prototype._createMeshData = function (config) {
 	for (var key in config.attributes) {
 		var map = config.attributes[key];
 		var type = map.value[2];
-		attributeMap[key] = MeshData_MeshData.createAttribute(map.dimensions, typeMatch[type]);
+		attributeMap[key] = _MeshData.MeshData.createAttribute(map.dimensions, typeMatch[type]);
 	}
 
-	var meshData = new MeshData_MeshData(attributeMap, vertexCount, indexCount);
-	meshData.type = skinned ? MeshData_MeshData.SKINMESH : MeshData_MeshData.MESH;
+	var meshData = new _MeshData.MeshData(attributeMap, vertexCount, indexCount);
+	meshData.type = skinned ? _MeshData.MeshData.SKINMESH : _MeshData.MeshData.MESH;
 	return meshData;
 };
 
@@ -124,7 +134,7 @@ MeshDataHandler.prototype._createMeshData = function (config) {
  * @private
  */
 MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
-	var skinned = meshData.type === MeshData_MeshData.SKINMESH;
+	var skinned = meshData.type === _MeshData.MeshData.SKINMESH;
 
 	for (var key in config.attributes) {
 		if (key === 'JOINTIDS') {
@@ -132,15 +142,15 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 			continue;
 		}
 		var data = config.attributes[key].value;
-		meshData.getAttributeBuffer(key).set(ArrayUtils_ArrayUtils.getTypedArray(bindata, data));
+		meshData.getAttributeBuffer(key).set(_ArrayUtils.ArrayUtils.getTypedArray(bindata, data));
 	}
 
 	/**Remapping the joints. This will enable us to have skeleton with hundreds of joints even
-	 * though meshes can only have ~70
-	 */
+  * though meshes can only have ~70
+  */
 	if (skinned && config.attributes.JOINTIDS) {
-		var buffer = meshData.getAttributeBuffer(MeshData_MeshData.JOINTIDS);
-		var jointData = ArrayUtils_ArrayUtils.getTypedArray(bindata, config.attributes.JOINTIDS.value);
+		var buffer = meshData.getAttributeBuffer(_MeshData.MeshData.JOINTIDS);
+		var jointData = _ArrayUtils.ArrayUtils.getTypedArray(bindata, config.attributes.JOINTIDS.value);
 
 		// Map skeleton joint index local joint index
 		var localJointMap = [];
@@ -168,7 +178,7 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 		meshData.weightsPerVertex = WEIGHTS_PER_VERT;
 	}
 
-	meshData.getIndexBuffer().set(ArrayUtils_ArrayUtils.getTypedArray(bindata, config.indices));
+	meshData.getIndexBuffer().set(_ArrayUtils.ArrayUtils.getTypedArray(bindata, config.indices));
 	meshData.indexModes = config.indexModes.slice();
 	meshData.indexLengths = config.indexLengths.slice();
 
@@ -181,7 +191,7 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
 		}
 	}
 
-	if (!Capabilities_Capabilities.ElementIndexUInt && meshData.vertexCount > 65536) {
+	if (!_Capabilities.Capabilities.ElementIndexUInt && meshData.vertexCount > 65536) {
 		meshData.deIndex();
 	}
 
@@ -195,4 +205,4 @@ MeshDataHandler.prototype._fillMeshData = function (meshData, config, bindata) {
  * @param {Function} updateObject
  * @private
  */
-export { mod_MeshDataHandler as MeshDataHandler };
+exports.MeshDataHandler = mod_MeshDataHandler;

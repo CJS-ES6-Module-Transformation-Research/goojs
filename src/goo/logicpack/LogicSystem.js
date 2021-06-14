@@ -1,7 +1,18 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LogicSystem = undefined;
+
+var _System = require("../entities/systems/System");
+
+var _LogicLayer = require("./logic/LogicLayer");
+
+var _LogicInterface = require("./logic/LogicInterface");
+
 var mod_LogicSystem = LogicSystem;
-import { System as System_System } from "../entities/systems/System";
-import { LogicLayer as LogicLayer_LogicLayer } from "./logic/LogicLayer";
-import { LogicInterface as LogicInterface_LogicInterface } from "./logic/LogicInterface";
+
 
 // REVIEW: this description seems inaccurate
 /**
@@ -9,13 +20,13 @@ import { LogicInterface as LogicInterface_LogicInterface } from "./logic/LogicIn
  * @private
  */
 function LogicSystem() {
-	System_System.call(this, 'LogicSystem', null);
+	_System.System.call(this, 'LogicSystem', null);
 
 	this.passive = true;
 	this._entities = {};
 }
 
-LogicSystem.prototype = Object.create(System_System.prototype);
+LogicSystem.prototype = Object.create(_System.System.prototype);
 
 LogicSystem.prototype.inserted = function (entity) {
 	this._entities[entity.name] = {
@@ -25,10 +36,9 @@ LogicSystem.prototype.inserted = function (entity) {
 };
 
 LogicSystem.prototype.deleted = function (entity) {
-	
+
 	// delete this._entities[entity.name];
 	this._entities[entity.name] = null;
-
 };
 
 LogicSystem.prototype.process = function (entities, tpf) {
@@ -74,14 +84,14 @@ LogicSystem.prototype.makeOutputWriteFn = function (sourceEntity, outPortDesc) {
 	this.forEachLogicObject(function (o) {
 		// Look for entities that point to this here.
 		if (o.type === 'LogicNodeEntityProxy' && o.entityRef === sourceEntity.name) {
-			matches.push([o.logicInstance, LogicInterface_LogicInterface.makePortDataName(outPortDesc)]);
+			matches.push([o.logicInstance, _LogicInterface.LogicInterface.makePortDataName(outPortDesc)]);
 			// REVIEW: use objects instead of arrays when representing pairs ('0' and '1' are harder to read than some proper names)
 		}
 	});
 
 	return function (v) {
 		for (var i = 0; i < matches.length; i++) {
-			LogicLayer_LogicLayer.writeValue(matches[i][0], matches[i][1], v);
+			_LogicLayer.LogicLayer.writeValue(matches[i][0], matches[i][1], v);
 		}
 	};
 };
@@ -89,7 +99,8 @@ LogicSystem.prototype.makeOutputWriteFn = function (sourceEntity, outPortDesc) {
 LogicSystem.prototype.forEachLogicObject = function (f) {
 	for (var n in this._entities) {
 		var e = this._entities[n].entity;
-		if (e.logicComponent !== undefined) { // REVIEW: can this ever be undefined?
+		if (e.logicComponent !== undefined) {
+			// REVIEW: can this ever be undefined?
 			e.logicComponent.logicLayer.forEachLogicObject(f);
 		}
 	}
@@ -138,4 +149,4 @@ LogicSystem.prototype.stop = function () {
  * Updates cameras/cameracomponents with ther transform component transforms
  * @private
  */
-export { mod_LogicSystem as LogicSystem };
+exports.LogicSystem = mod_LogicSystem;

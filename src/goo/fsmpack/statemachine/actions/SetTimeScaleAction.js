@@ -1,12 +1,20 @@
-var mod_SetTimeScaleAction = SetTimeScaleAction;
-import { Action as Action_Action } from "./Action";
+'use strict';
 
-function SetTimeScaleAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SetTimeScaleAction = undefined;
+
+var _Action = require('./Action');
+
+var mod_SetTimeScaleAction = SetTimeScaleAction;
+
+function SetTimeScaleAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 	this.everyFrame = false;
 }
 
-SetTimeScaleAction.prototype = Object.create(Action_Action.prototype);
+SetTimeScaleAction.prototype = Object.create(_Action.Action.prototype);
 SetTimeScaleAction.prototype.constructor = SetTimeScaleAction;
 
 SetTimeScaleAction.external = {
@@ -31,4 +39,4 @@ SetTimeScaleAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { mod_SetTimeScaleAction as SetTimeScaleAction };
+exports.SetTimeScaleAction = mod_SetTimeScaleAction;

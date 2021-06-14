@@ -1,11 +1,20 @@
-import { SphereCollider as SphereCollider_SphereCollider } from "../../../../../src/goo/addons/physicspack/colliders/SphereCollider";
-import { Vector3 as Vector3_Vector3 } from "../../../../../src/goo/math/Vector3";
-import { World as World_World } from "../../../../../src/goo/entities/World";
-import { TransformSystem as TransformSystem_TransformSystem } from "../../../../../src/goo/entities/systems/TransformSystem";
-import { PhysicsMaterial as PhysicsMaterial_PhysicsMaterial } from "../../../../../src/goo/addons/physicspack/PhysicsMaterial";
-import { PhysicsSystem as PhysicsSystem_PhysicsSystem } from "../../../../../src/goo/addons/physicspack/systems/PhysicsSystem";
-import { ColliderSystem as ColliderSystem_ColliderSystem } from "../../../../../src/goo/addons/physicspack/systems/ColliderSystem";
-import { ColliderComponent as ColliderComponent_ColliderComponent } from "../../../../../src/goo/addons/physicspack/components/ColliderComponent";
+"use strict";
+
+var _SphereCollider = require("../../../../../src/goo/addons/physicspack/colliders/SphereCollider");
+
+var _Vector = require("../../../../../src/goo/math/Vector3");
+
+var _World = require("../../../../../src/goo/entities/World");
+
+var _TransformSystem = require("../../../../../src/goo/entities/systems/TransformSystem");
+
+var _PhysicsMaterial = require("../../../../../src/goo/addons/physicspack/PhysicsMaterial");
+
+var _PhysicsSystem = require("../../../../../src/goo/addons/physicspack/systems/PhysicsSystem");
+
+var _ColliderSystem = require("../../../../../src/goo/addons/physicspack/systems/ColliderSystem");
+
+var _ColliderComponent = require("../../../../../src/goo/addons/physicspack/components/ColliderComponent");
 
 /* global CANNON */
 
@@ -13,19 +22,19 @@ describe('ColliderComponent', function () {
 	var world, system;
 
 	beforeEach(function () {
-		world = new World_World();
-		system = new PhysicsSystem_PhysicsSystem({
+		world = new _World.World();
+		system = new _PhysicsSystem.PhysicsSystem({
 			maxSubSteps: 1
 		});
-		system.setGravity(new Vector3_Vector3());
+		system.setGravity(new _Vector.Vector3());
 		world.setSystem(system);
-		world.setSystem(new TransformSystem_TransformSystem());
-		world.setSystem(new ColliderSystem_ColliderSystem());
+		world.setSystem(new _TransformSystem.TransformSystem());
+		world.setSystem(new _ColliderSystem.ColliderSystem());
 	});
 
 	it('can update its world collider', function () {
-		var colliderComponent = new ColliderComponent_ColliderComponent({
-			collider: new SphereCollider_SphereCollider({ radius: 1 })
+		var colliderComponent = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 })
 		});
 		var entity = world.createEntity(colliderComponent).addToWorld();
 
@@ -38,12 +47,12 @@ describe('ColliderComponent', function () {
 	});
 
 	it('instantiates as a static body without a rigid body component', function () {
-		var material = new PhysicsMaterial_PhysicsMaterial({
+		var material = new _PhysicsMaterial.PhysicsMaterial({
 			friction: 0.6,
 			restitution: 0.7
 		});
-		var colliderComponent = new ColliderComponent_ColliderComponent({
-			collider: new SphereCollider_SphereCollider({ radius: 1 }),
+		var colliderComponent = new _ColliderComponent.ColliderComponent({
+			collider: new _SphereCollider.SphereCollider({ radius: 1 }),
 			material: material
 		});
 		var entity = world.createEntity(colliderComponent).addToWorld();

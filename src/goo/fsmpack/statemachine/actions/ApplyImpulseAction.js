@@ -1,12 +1,21 @@
-var mod_ApplyImpulseAction = ApplyImpulseAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
+"use strict";
 
-function ApplyImpulseAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ApplyImpulseAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _Vector = require("../../../math/Vector3");
+
+var mod_ApplyImpulseAction = ApplyImpulseAction;
+
+function ApplyImpulseAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-ApplyImpulseAction.prototype = Object.create(Action_Action.prototype);
+ApplyImpulseAction.prototype = Object.create(_Action.Action.prototype);
 ApplyImpulseAction.prototype.constructor = ApplyImpulseAction;
 
 ApplyImpulseAction.external = {
@@ -39,11 +48,13 @@ ApplyImpulseAction.external = {
 	transitions: []
 };
 
-var impulseVector = new Vector3_Vector3();
-var applyPoint = new Vector3_Vector3();
+var impulseVector = new _Vector.Vector3();
+var applyPoint = new _Vector.Vector3();
 ApplyImpulseAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
-	if (!entity.rigidBodyComponent) { return; }
+	if (!entity.rigidBodyComponent) {
+		return;
+	}
 
 	impulseVector.setArray(this.impulse);
 	applyPoint.setArray(this.point);
@@ -54,4 +65,4 @@ ApplyImpulseAction.prototype.enter = function (fsm) {
 	}
 };
 
-export { mod_ApplyImpulseAction as ApplyImpulseAction };
+exports.ApplyImpulseAction = mod_ApplyImpulseAction;

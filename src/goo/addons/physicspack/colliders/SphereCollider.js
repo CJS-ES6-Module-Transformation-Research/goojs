@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.SphereCollider = undefined;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
 var mod_SphereCollider = SphereCollider;
-import { Collider as Collider_Collider } from "../../../addons/physicspack/colliders/Collider";
 
 /**
  * @param {Object} [settings]
@@ -7,16 +15,16 @@ import { Collider as Collider_Collider } from "../../../addons/physicspack/colli
  * @extends Collider
  */
 function SphereCollider(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * @type {number}
-	 */
-	this.radius = settings.radius !== undefined ? settings.radius : 0.5;
+  /**
+   * @type {number}
+   */
+  this.radius = settings.radius !== undefined ? settings.radius : 0.5;
 
-	Collider_Collider.call(this);
+  _Collider.Collider.call(this);
 }
-SphereCollider.prototype = Object.create(Collider_Collider.prototype);
+SphereCollider.prototype = Object.create(_Collider.Collider.prototype);
 SphereCollider.prototype.constructor = SphereCollider;
 
 /**
@@ -25,21 +33,17 @@ SphereCollider.prototype.constructor = SphereCollider;
  * @param {Collider} targetCollider
  */
 SphereCollider.prototype.transform = function (transform, targetCollider) {
-	var scale = transform.scale;
-	targetCollider.radius = this.radius * Math.max(
-		Math.abs(scale.x),
-		Math.abs(scale.y),
-		Math.abs(scale.z)
-	);
+  var scale = transform.scale;
+  targetCollider.radius = this.radius * Math.max(Math.abs(scale.x), Math.abs(scale.y), Math.abs(scale.z));
 };
 
 /**
  * @returns {SphereCollider}
  */
 SphereCollider.prototype.clone = function () {
-	return new SphereCollider({
-		radius: this.radius
-	});
+  return new SphereCollider({
+    radius: this.radius
+  });
 };
 
 /**
@@ -47,4 +51,4 @@ SphereCollider.prototype.clone = function () {
  * @param {number} [settings.radius=0.5]
  * @extends Collider
  */
-export { mod_SphereCollider as SphereCollider };
+exports.SphereCollider = mod_SphereCollider;

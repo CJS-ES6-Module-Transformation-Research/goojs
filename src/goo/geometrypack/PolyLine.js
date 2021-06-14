@@ -1,8 +1,20 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PolyLine = undefined;
+
+var _MeshData = require("../renderer/MeshData");
+
+var _Surface = require("../geometrypack/Surface");
+
+var _Matrix = require("../math/Matrix3");
+
+var _Vector = require("../math/Vector3");
+
 var mod_PolyLine = PolyLine;
-import { MeshData as MeshData_MeshData } from "../renderer/MeshData";
-import { Surface as Surface_Surface } from "../geometrypack/Surface";
-import { Matrix3 as Matrix3_Matrix3 } from "../math/Matrix3";
-import { Vector3 as Vector3_Vector3 } from "../math/Vector3";
+
 
 /**
  * A polygonal line
@@ -13,27 +25,26 @@ function PolyLine(verts, closed) {
 	this.verts = verts;
 	this.closed = !!closed;
 
-	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
-	MeshData_MeshData.call(this, attributeMap, this.verts.length / 3, this.verts.length / 3);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]);
+	_MeshData.MeshData.call(this, attributeMap, this.verts.length / 3, this.verts.length / 3);
 
 	if (this.closed) {
 		this.indexModes = ['LineLoop'];
-	}
-	else {
+	} else {
 		this.indexModes = ['LineStrip'];
 	}
 
 	this.rebuild();
 }
 
-PolyLine.prototype = Object.create(MeshData_MeshData.prototype);
+PolyLine.prototype = Object.create(_MeshData.MeshData.prototype);
 
 /**
  * Builds or rebuilds the mesh data
  * @returns {PolyLine} Self for chaining
  */
 PolyLine.prototype.rebuild = function () {
-	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(this.verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(this.verts);
 
 	var indices = [];
 	var nVerts = this.verts.length / 3;
@@ -62,14 +73,11 @@ PolyLine.prototype.mul = function (rhs) {
 
 	for (var i = 0; i < this.verts.length; i += 3) {
 		for (var j = 0; j < rhs.verts.length; j += 3) {
-			verts.push(
-				this.verts[i + 0] + rhs.verts[j + 0],
-				this.verts[i + 1] + rhs.verts[j + 1],
-				this.verts[i + 2] + rhs.verts[j + 2]);
+			verts.push(this.verts[i + 0] + rhs.verts[j + 0], this.verts[i + 1] + rhs.verts[j + 1], this.verts[i + 2] + rhs.verts[j + 2]);
 		}
 	}
 
-	return new Surface_Surface(verts, rhsNVerts);
+	return new _Surface.Surface(verts, rhsNVerts);
 };
 
 (function () {
@@ -84,38 +92,34 @@ PolyLine.prototype.mul = function (rhs) {
 			futureIndex = index + 1;
 		}
 
-		var lookAtVector = new Vector3_Vector3(
-			verts[futureIndex * 3 + 0] - verts[oldIndex * 3 + 0],
-			verts[futureIndex * 3 + 1] - verts[oldIndex * 3 + 1],
-			verts[futureIndex * 3 + 2] - verts[oldIndex * 3 + 2]
-		);
+		var lookAtVector = new _Vector.Vector3(verts[futureIndex * 3 + 0] - verts[oldIndex * 3 + 0], verts[futureIndex * 3 + 1] - verts[oldIndex * 3 + 1], verts[futureIndex * 3 + 2] - verts[oldIndex * 3 + 2]);
 
 		lookAtVector.normalize();
 
 		store.lookAt(lookAtVector, up);
 	}
 
-	var FORWARD = Vector3_Vector3.UNIT_Z;
+	var FORWARD = _Vector.Vector3.UNIT_Z;
 
 	/**
-	 * Extrudes and rotates a PolyLine along another PolyLine.
-	 * @param {PolyLine} that The PolyLine to extrude; should be bidimensional and defined on the XY plane.
-	 * @param {Object} [options]
-	 * @param {function (number) : number} [options.scale] Takes values between 0 and 1; the returned value is used to scale the extruded PolyLine
-	 * @param {function (number) : number} [options.twist] Takes values between 0 and 1; the returned value is used to twist the extruded PolyLine along the tangent of the extruding PolyLine. The twist value is expressed in radians.
-	 * @returns {Surface} The resulting surface
-	 */
+  * Extrudes and rotates a PolyLine along another PolyLine.
+  * @param {PolyLine} that The PolyLine to extrude; should be bidimensional and defined on the XY plane.
+  * @param {Object} [options]
+  * @param {function (number) : number} [options.scale] Takes values between 0 and 1; the returned value is used to scale the extruded PolyLine
+  * @param {function (number) : number} [options.twist] Takes values between 0 and 1; the returned value is used to twist the extruded PolyLine along the tangent of the extruding PolyLine. The twist value is expressed in radians.
+  * @returns {Surface} The resulting surface
+  */
 	PolyLine.prototype.pipe = function (polyLine, options) {
 		options = options || {};
 		var polyLineNVerts = polyLine.verts.length / 3;
 		var verts = [];
 
-		var forward = new Vector3_Vector3();
-		var up = Vector3_Vector3.UNIT_Y.clone();
-		var right = new Vector3_Vector3();
+		var forward = new _Vector.Vector3();
+		var up = _Vector.Vector3.UNIT_Y.clone();
+		var right = new _Vector.Vector3();
 
-		var rotation = new Matrix3_Matrix3();
-		var twist = new Matrix3_Matrix3();
+		var rotation = new _Matrix.Matrix3();
+		var twist = new _Matrix.Matrix3();
 		var scale;
 
 		for (var i = 0; i < this.verts.length; i += 3) {
@@ -136,7 +140,7 @@ PolyLine.prototype.mul = function (rhs) {
 			up.copy(right).cross(forward);
 
 			for (var j = 0; j < polyLine.verts.length; j += 3) {
-				var vertex = new Vector3_Vector3(polyLine.verts[j + 0], polyLine.verts[j + 1], polyLine.verts[j + 2]);
+				var vertex = new _Vector.Vector3(polyLine.verts[j + 0], polyLine.verts[j + 1], polyLine.verts[j + 2]);
 				vertex.applyPost(rotation);
 				vertex.scale(scale);
 				vertex.addDirect(this.verts[i + 0], this.verts[i + 1], this.verts[i + 2]);
@@ -145,7 +149,7 @@ PolyLine.prototype.mul = function (rhs) {
 			}
 		}
 
-		return new Surface_Surface(verts, polyLineNVerts);
+		return new _Surface.Surface(verts, polyLineNVerts);
 	};
 })();
 
@@ -163,14 +167,11 @@ PolyLine.prototype.lathe = function (nSegments) {
 
 	for (var i = 0; i < this.verts.length; i += 3) {
 		for (var j = 0, k = 0; j <= nSegments; j++, k += ak) {
-			verts.push(
-				Math.cos(k) * this.verts[i + 0],
-				this.verts[i + 1],
-				Math.sin(k) * this.verts[i + 0]);
+			verts.push(Math.cos(k) * this.verts[i + 0], this.verts[i + 1], Math.sin(k) * this.verts[i + 0]);
 		}
 	}
 
-	return new Surface_Surface(verts, nSegments + 1, true);
+	return new _Surface.Surface(verts, nSegments + 1, true);
 };
 
 /**
@@ -182,11 +183,7 @@ PolyLine.prototype.lathe = function (nSegments) {
 PolyLine.prototype.concat = function (that, closed) {
 	var length = this.verts.length - 1;
 
-	if (
-		this.verts[length - 2] === that.verts[0] &&
-		this.verts[length - 1] === that.verts[1] &&
-		this.verts[length - 0] === that.verts[2]
-	) {
+	if (this.verts[length - 2] === that.verts[0] && this.verts[length - 1] === that.verts[1] && this.verts[length - 0] === that.verts[2]) {
 		return new PolyLine(this.verts.slice(0, -3).concat(that.verts), closed);
 	} else {
 		return new PolyLine(this.verts.concat(that.verts), closed);
@@ -209,8 +206,11 @@ PolyLine.fromCubicBezier = function (verts, nSegments, startFraction) {
 
 	var plVerts = [];
 
-	var p01 = [], p12 = [], p23 = [];
-	var p012 = [], p123 = [];
+	var p01 = [],
+	    p12 = [],
+	    p23 = [];
+	var p012 = [],
+	    p123 = [];
 	var p0123 = [];
 
 	// better off with a bernstein polynomial?
@@ -249,7 +249,7 @@ PolyLine.fromCubicBezier = function (verts, nSegments, startFraction) {
 };
 
 PolyLine.fromQuadraticSpline = function (verts, nSegments, closed) {
-	if (verts.length % 3 !== 0 && (verts.length / 3) % 2 !== 0) {
+	if (verts.length % 3 !== 0 && verts.length / 3 % 2 !== 0) {
 		console.error('Wrong number of coordinates supplied in first argument to PolyLine.fromQuadraticSpline');
 		return;
 	}
@@ -259,19 +259,7 @@ PolyLine.fromQuadraticSpline = function (verts, nSegments, closed) {
 		var p2 = verts.slice(i + 3, i + 6);
 		var p3 = verts.slice(i + 6, i + 9);
 
-		newVerts.push.apply(newVerts, [
-			p1[0],
-			p1[1],
-			p1[2],
-
-			p1[0] + 2 / 3 * (p2[0] - p1[0]),
-			p1[1] + 2 / 3 * (p2[1] - p1[1]),
-			p1[2] + 2 / 3 * (p2[2] - p1[2]),
-
-			p3[0] + 2 / 3 * (p2[0] - p3[0]),
-			p3[1] + 2 / 3 * (p2[1] - p3[1]),
-			p3[2] + 2 / 3 * (p2[2] - p3[2])
-		]);
+		newVerts.push.apply(newVerts, [p1[0], p1[1], p1[2], p1[0] + 2 / 3 * (p2[0] - p1[0]), p1[1] + 2 / 3 * (p2[1] - p1[1]), p1[2] + 2 / 3 * (p2[2] - p1[2]), p3[0] + 2 / 3 * (p2[0] - p3[0]), p3[1] + 2 / 3 * (p2[1] - p3[1]), p3[2] + 2 / 3 * (p2[2] - p3[2])]);
 	}
 
 	newVerts.push.apply(newVerts, verts.slice(verts.length - 3, verts.length));
@@ -287,7 +275,7 @@ PolyLine.fromQuadraticSpline = function (verts, nSegments, closed) {
  */
 PolyLine.fromCubicSpline = function (verts, nSegments, closed) {
 	if (closed) {
-		if (verts.length % 3 !== 0 && (verts.length / 3) % 3 !== 0) {
+		if (verts.length % 3 !== 0 && verts.length / 3 % 3 !== 0) {
 			console.error('Wrong number of coordinates supplied in first argument to PolyLine.fromCubicSpline');
 			return;
 		}
@@ -306,9 +294,8 @@ PolyLine.fromCubicSpline = function (verts, nSegments, closed) {
 		ret = ret.concat(plToAdd);
 
 		return ret;
-	}
-	else {
-		if (verts.length % 3 !== 0 && (verts.length / 3) % 3 !== 1) {
+	} else {
+		if (verts.length % 3 !== 0 && verts.length / 3 % 3 !== 1) {
 			console.error('Wrong number of coordinates supplied in first argument to PolyLine.fromCubicSpline');
 			return;
 		}
@@ -332,4 +319,4 @@ PolyLine.fromCubicSpline = function (verts, nSegments, closed) {
  * @param {Array<number>} [verts] The vertices data array
  * @param {boolean} [closed=false] True if its ends should be connected
  */
-export { mod_PolyLine as PolyLine };
+exports.PolyLine = mod_PolyLine;

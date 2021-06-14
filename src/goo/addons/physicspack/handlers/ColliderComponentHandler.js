@@ -1,17 +1,27 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ColliderComponentHandler = undefined;
+
+var _ComponentHandler = require("../../../loaders/handlers/ComponentHandler");
+
+var _ColliderComponent = require("../../../addons/physicspack/components/ColliderComponent");
+
+var _ObjectUtils = require("../../../util/ObjectUtils");
+
+var _SphereCollider = require("../../../addons/physicspack/colliders/SphereCollider");
+
+var _BoxCollider = require("../../../addons/physicspack/colliders/BoxCollider");
+
+var _PlaneCollider = require("../../../addons/physicspack/colliders/PlaneCollider");
+
+var _CylinderCollider = require("../../../addons/physicspack/colliders/CylinderCollider");
+
+var _PhysicsMaterial = require("../../../addons/physicspack/PhysicsMaterial");
+
 var mod_ColliderComponentHandler = ColliderComponentHandler;
-
-import {
-    ComponentHandler as ComponentHandler_ComponentHandler,
-    _registerClass as ComponentHandlerjs__registerClass,
-} from "../../../loaders/handlers/ComponentHandler";
-
-import { ColliderComponent as ColliderComponent_ColliderComponent } from "../../../addons/physicspack/components/ColliderComponent";
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../../util/ObjectUtils";
-import { SphereCollider as SphereCollider_SphereCollider } from "../../../addons/physicspack/colliders/SphereCollider";
-import { BoxCollider as BoxCollider_BoxCollider } from "../../../addons/physicspack/colliders/BoxCollider";
-import { PlaneCollider as PlaneCollider_PlaneCollider } from "../../../addons/physicspack/colliders/PlaneCollider";
-import { CylinderCollider as CylinderCollider_CylinderCollider } from "../../../addons/physicspack/colliders/CylinderCollider";
-import { PhysicsMaterial as PhysicsMaterial_PhysicsMaterial } from "../../../addons/physicspack/PhysicsMaterial";
 
 /**
  * For handling loading of collider components
@@ -19,13 +29,13 @@ import { PhysicsMaterial as PhysicsMaterial_PhysicsMaterial } from "../../../add
  * @hidden
  */
 function ColliderComponentHandler() {
-	ComponentHandler_ComponentHandler.apply(this, arguments);
+	_ComponentHandler.ComponentHandler.apply(this, arguments);
 	this._type = 'ColliderComponent';
 }
 
-ColliderComponentHandler.prototype = Object.create(ComponentHandler_ComponentHandler.prototype);
+ColliderComponentHandler.prototype = Object.create(_ComponentHandler.ComponentHandler.prototype);
 ColliderComponentHandler.prototype.constructor = ColliderComponentHandler;
-ComponentHandlerjs__registerClass('collider', ColliderComponentHandler);
+(0, _ComponentHandler._registerClass)('collider', ColliderComponentHandler);
 
 /**
  * Prepare component. Set defaults on config here.
@@ -34,7 +44,7 @@ ComponentHandlerjs__registerClass('collider', ColliderComponentHandler);
  * @private
  */
 ColliderComponentHandler.prototype._prepare = function (config) {
-	return ObjectUtils_ObjectUtils.defaults(config, {
+	return _ObjectUtils.ObjectUtils.defaults(config, {
 		shape: 'Box',
 		shapeOptions: {
 			halfExtents: [1, 1, 1],
@@ -53,7 +63,7 @@ ColliderComponentHandler.prototype._prepare = function (config) {
  * @private
  */
 ColliderComponentHandler.prototype._create = function () {
-	return new ColliderComponent_ColliderComponent({ material: new PhysicsMaterial_PhysicsMaterial() });
+	return new _ColliderComponent.ColliderComponent({ material: new _PhysicsMaterial.PhysicsMaterial() });
 };
 
 /**
@@ -72,27 +82,29 @@ ColliderComponentHandler.prototype._remove = function (entity) {
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
 ColliderComponentHandler.prototype.update = function (entity, config, options) {
-	return ComponentHandler_ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
+	return _ComponentHandler.ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+		if (!component) {
+			return;
+		}
 
 		switch (config.shape) {
-		default:
-		case 'Box':
-			component.collider = new BoxCollider_BoxCollider(config.shapeOptions);
-			component.worldCollider = new BoxCollider_BoxCollider();
-			break;
-		case 'Sphere':
-			component.collider = new SphereCollider_SphereCollider(config.shapeOptions);
-			component.worldCollider = new SphereCollider_SphereCollider();
-			break;
-		case 'Plane':
-			component.collider = new PlaneCollider_PlaneCollider();
-			component.worldCollider = new PlaneCollider_PlaneCollider();
-			break;
-		case 'Cylinder':
-			component.collider = new CylinderCollider_CylinderCollider(config.shapeOptions);
-			component.worldCollider = new CylinderCollider_CylinderCollider();
-			break;
+			default:
+			case 'Box':
+				component.collider = new _BoxCollider.BoxCollider(config.shapeOptions);
+				component.worldCollider = new _BoxCollider.BoxCollider();
+				break;
+			case 'Sphere':
+				component.collider = new _SphereCollider.SphereCollider(config.shapeOptions);
+				component.worldCollider = new _SphereCollider.SphereCollider();
+				break;
+			case 'Plane':
+				component.collider = new _PlaneCollider.PlaneCollider();
+				component.worldCollider = new _PlaneCollider.PlaneCollider();
+				break;
+			case 'Cylinder':
+				component.collider = new _CylinderCollider.CylinderCollider(config.shapeOptions);
+				component.worldCollider = new _CylinderCollider.CylinderCollider();
+				break;
 		}
 
 		component.material.friction = config.friction;
@@ -108,4 +120,4 @@ ColliderComponentHandler.prototype.update = function (entity, config, options) {
  * @extends ComponentHandler
  * @hidden
  */
-export { mod_ColliderComponentHandler as ColliderComponentHandler };
+exports.ColliderComponentHandler = mod_ColliderComponentHandler;

@@ -1,3 +1,8 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
 var mod_LogicNode = LogicNode;
 /**
  * Base class/module for all logic boxes
@@ -54,7 +59,7 @@ LogicNode.prototype.addToLogicLayer = function (logicLayer, withId) {
 };
 
 LogicNode.prototype.configure = function (nodeData) {
-	var c = (nodeData.config !== undefined) ? nodeData.config : {};
+	var c = nodeData.config !== undefined ? nodeData.config : {};
 	this.onConfigure(c);
 	this.config = c;
 	this.connections = nodeData.connections;
@@ -92,4 +97,4 @@ LogicNode._instanceCount = 0;
  * Base class/module for all logic boxes
  * @private
  */
-export { mod_LogicNode as LogicNode };
+exports.LogicNode = mod_LogicNode;

@@ -1,5 +1,13 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.MovementSystem = undefined;
+
+var _System = require('../../entities/systems/System');
+
 var mod_MovementSystem = MovementSystem;
-import { System as System_System } from "../../entities/systems/System";
 
 //! AT: unused; should be removed
 /**
@@ -9,10 +17,10 @@ import { System as System_System } from "../../entities/systems/System";
  * @extends System
  */
 function MovementSystem() {
-	System_System.call(this, 'MovementSystem', ['MovementComponent']);
+	_System.System.call(this, 'MovementSystem', ['MovementComponent']);
 }
 
-MovementSystem.prototype = Object.create(System_System.prototype);
+MovementSystem.prototype = Object.create(_System.System.prototype);
 MovementSystem.prototype.constructor = MovementSystem;
 
 MovementSystem.prototype.addVelocityToTransform = function (vel, transform, tpf) {
@@ -48,4 +56,4 @@ MovementSystem.prototype.process = function (entities) {
  * to the transform of the entity which has it every frame.
  * @extends System
  */
-export { mod_MovementSystem as MovementSystem };
+exports.MovementSystem = mod_MovementSystem;

@@ -1,13 +1,22 @@
-import {
-    ConfigHandler as ConfigHandler_ConfigHandler,
-    _registerClass as ConfigHandlerjs__registerClass,
-} from "../../loaders/handlers/ConfigHandler";
+"use strict";
 
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../../util/ObjectUtils";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { ShaderBuilder as ShaderBuilder_ShaderBuilder } from "../../renderer/shaders/ShaderBuilder";
-import { Snow as Snow_Snow } from "../../util/Snow";
-import { rsvpjs as RSVP } from "../../util/rsvp";
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.EnvironmentHandler = exports.currentSkyboxRef = undefined;
+
+var _ConfigHandler = require("../../loaders/handlers/ConfigHandler");
+
+var _ObjectUtils = require("../../util/ObjectUtils");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _ShaderBuilder = require("../../renderer/shaders/ShaderBuilder");
+
+var _Snow = require("../../util/Snow");
+
+var _rsvp = require("../../util/rsvp");
+
 var weatherHandlers;
 var currentSkyboxRef;
 
@@ -36,15 +45,15 @@ var soundDefaults = {
  * @private
  */
 function EnvironmentHandler() {
-	ConfigHandler_ConfigHandler.apply(this, arguments);
+	_ConfigHandler.ConfigHandler.apply(this, arguments);
 }
 
-EnvironmentHandler.prototype = Object.create(ConfigHandler_ConfigHandler.prototype);
+EnvironmentHandler.prototype = Object.create(_ConfigHandler.ConfigHandler.prototype);
 EnvironmentHandler.prototype.constructor = EnvironmentHandler;
-ConfigHandlerjs__registerClass('environment', EnvironmentHandler);
+(0, _ConfigHandler._registerClass)('environment', EnvironmentHandler);
 
 EnvironmentHandler.prototype._prepare = function (config) {
-	ObjectUtils_ObjectUtils.defaults(config, defaults);
+	_ObjectUtils.ObjectUtils.defaults(config, defaults);
 };
 
 EnvironmentHandler.prototype._create = function () {
@@ -66,12 +75,12 @@ EnvironmentHandler.prototype._remove = function (ref) {
 	}
 
 	// Reset environment
-	SystemBus.emit('goo.setClearColor', defaults.backgroundColor);
-	ShaderBuilder_ShaderBuilder.CLEAR_COLOR = defaults.backgroundColor;
-	ShaderBuilder_ShaderBuilder.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
-	ShaderBuilder_ShaderBuilder.USE_FOG = defaults.fog.enabled;
-	ShaderBuilder_ShaderBuilder.FOG_COLOR = defaults.fog.color.slice(0, 3);
-	ShaderBuilder_ShaderBuilder.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
+	_SystemBus.SystemBusjs.emit('goo.setClearColor', defaults.backgroundColor);
+	_ShaderBuilder.ShaderBuilder.CLEAR_COLOR = defaults.backgroundColor;
+	_ShaderBuilder.ShaderBuilder.GLOBAL_AMBIENT = defaults.globalAmbient.slice(0, 3);
+	_ShaderBuilder.ShaderBuilder.USE_FOG = defaults.fog.enabled;
+	_ShaderBuilder.ShaderBuilder.FOG_COLOR = defaults.fog.color.slice(0, 3);
+	_ShaderBuilder.ShaderBuilder.FOG_SETTINGS = [defaults.fog.near, defaults.fog.far];
 
 	// Reset Sound
 	var soundSystem = this.world.getSystem('SoundSystem');
@@ -90,30 +99,27 @@ EnvironmentHandler.prototype._remove = function (ref) {
  */
 EnvironmentHandler.prototype._update = function (ref, config, options) {
 	var that = this;
-	return ConfigHandler_ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
-		if (!object) { return; }
+	return _ConfigHandler.ConfigHandler.prototype._update.call(this, ref, config, options).then(function (object) {
+		if (!object) {
+			return;
+		}
 
 		var backgroundColor = config.backgroundColor;
 		var alpha = backgroundColor[3];
-		object.backgroundColor = [
-			backgroundColor[0] * alpha,
-			backgroundColor[1] * alpha,
-			backgroundColor[2] * alpha,
-			backgroundColor[3]
-		];
+		object.backgroundColor = [backgroundColor[0] * alpha, backgroundColor[1] * alpha, backgroundColor[2] * alpha, backgroundColor[3]];
 		object.globalAmbient = config.globalAmbient.slice(0, 3);
 
-		object.fog = ObjectUtils_ObjectUtils.deepClone(config.fog);
+		object.fog = _ObjectUtils.ObjectUtils.deepClone(config.fog);
 
 		// Background color
-		SystemBus.emit('goo.setClearColor', object.backgroundColor);
+		_SystemBus.SystemBusjs.emit('goo.setClearColor', object.backgroundColor);
 
 		// Fog and ambient
-		ShaderBuilder_ShaderBuilder.CLEAR_COLOR = object.backgroundColor;
-		ShaderBuilder_ShaderBuilder.GLOBAL_AMBIENT = object.globalAmbient;
-		ShaderBuilder_ShaderBuilder.USE_FOG = object.fog.enabled;
-		ShaderBuilder_ShaderBuilder.FOG_COLOR = object.fog.color.slice(0, 3);
-		ShaderBuilder_ShaderBuilder.FOG_SETTINGS = [object.fog.near, config.fog.far];
+		_ShaderBuilder.ShaderBuilder.CLEAR_COLOR = object.backgroundColor;
+		_ShaderBuilder.ShaderBuilder.GLOBAL_AMBIENT = object.globalAmbient;
+		_ShaderBuilder.ShaderBuilder.USE_FOG = object.fog.enabled;
+		_ShaderBuilder.ShaderBuilder.FOG_COLOR = object.fog.color.slice(0, 3);
+		_ShaderBuilder.ShaderBuilder.FOG_SETTINGS = [object.fog.near, config.fog.far];
 
 		// Weather
 		for (var key in config.weather) {
@@ -127,15 +133,13 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 
 		// Skybox
 		if (config.skyboxRef) {
-			currentSkyboxRef = config.skyboxRef;
+			exports.currentSkyboxRef = currentSkyboxRef = config.skyboxRef;
 			promises.push(that._load(config.skyboxRef, { reload: true }));
 		} else if (currentSkyboxRef) {
-			var p = that.updateObject(currentSkyboxRef, null)
-			.then(function () {
+			var p = that.updateObject(currentSkyboxRef, null).then(function () {
 
 				// delete EnvironmentHandler.currentSkyboxRef;
-				currentSkyboxRef = null;
-
+				exports.currentSkyboxRef = currentSkyboxRef = null;
 			});
 			promises.push(p);
 		}
@@ -153,20 +157,21 @@ EnvironmentHandler.prototype._update = function (ref, config, options) {
 				soundSystem.setReverb(null);
 			}
 		}
-		return RSVP.all(promises).then(function () { return object; });
+		return _rsvp.rsvpjs.all(promises).then(function () {
+			return object;
+		});
 	});
 };
 
-
 weatherHandlers = {
 	snow: {
-		update: function (config, weatherState) {
+		update: function update(config, weatherState) {
 			if (config.enabled) {
 				if (!weatherState.snow || !weatherState.snow.enabled) {
 					// add snow
 					weatherState.snow = weatherState.snow || {};
 					weatherState.snow.enabled = true;
-					weatherState.snow.snow = new Snow_Snow(this.world.gooRunner);
+					weatherState.snow.snow = new _Snow.Snow(this.world.gooRunner);
 				}
 
 				weatherState.snow.snow.setEmissionVelocity(config.velocity);
@@ -181,17 +186,17 @@ weatherHandlers = {
 				weatherState.snow.snow = null;
 			}
 		},
-		remove: function (weatherState) {
+		remove: function remove(weatherState) {
 			if (weatherState.snow && weatherState.snow.snow) {
 				weatherState.snow.snow.remove();
 				weatherState.snow.enabled = false;
-				
+
 				// delete weatherState.snow.snow;
 				weatherState.snow.snow = null;
-
 			}
 		}
 	}
 };
 
-export { currentSkyboxRef, EnvironmentHandler };
+exports.currentSkyboxRef = currentSkyboxRef;
+exports.EnvironmentHandler = EnvironmentHandler;

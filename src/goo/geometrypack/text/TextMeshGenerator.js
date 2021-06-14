@@ -1,8 +1,19 @@
-import { Vector2 as Vector2_Vector2 } from "../../math/Vector2";
-import { Transform as Transform_Transform } from "../../math/Transform";
-import { MeshBuilder as MeshBuilder_MeshBuilder } from "../../util/MeshBuilder";
-import { FilledPolygon as FilledPolygon_FilledPolygon } from "../../geometrypack/FilledPolygon";
-import { PolyLine as PolyLine_PolyLine } from "../../geometrypack/PolyLine";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.TextMeshGeneratorjs = undefined;
+
+var _Vector = require("../../math/Vector2");
+
+var _Transform = require("../../math/Transform");
+
+var _MeshBuilder = require("../../util/MeshBuilder");
+
+var _FilledPolygon = require("../../geometrypack/FilledPolygon");
+
+var _PolyLine = require("../../geometrypack/PolyLine");
 
 /**
  * Serializes an svg path command
@@ -13,14 +24,26 @@ function serializeCommand(command) {
 	var str = command.type;
 
 	// a check for xs should be enough?
-	if (command.x2 !== undefined) { str += ' ' + command.x2; }
-	if (command.y2 !== undefined) { str += ' ' + command.y2; }
+	if (command.x2 !== undefined) {
+		str += ' ' + command.x2;
+	}
+	if (command.y2 !== undefined) {
+		str += ' ' + command.y2;
+	}
 
-	if (command.x1 !== undefined) { str += ' ' + command.x1; }
-	if (command.y1 !== undefined) { str += ' ' + command.y1; }
+	if (command.x1 !== undefined) {
+		str += ' ' + command.x1;
+	}
+	if (command.y1 !== undefined) {
+		str += ' ' + command.y1;
+	}
 
-	if (command.x !== undefined) { str += ' ' + command.x; }
-	if (command.y !== undefined) { str += ' ' + command.y; }
+	if (command.x !== undefined) {
+		str += ' ' + command.x;
+	}
+	if (command.y !== undefined) {
+		str += ' ' + command.y;
+	}
 
 	return str;
 }
@@ -73,7 +96,7 @@ function groupPoints(points, stepLength) {
 
 		var latestDistance = distance(p1, p2);
 
-		if (latestDistance > (stepLength + 0.1)) {
+		if (latestDistance > stepLength + 0.1) {
 			groups.push(group);
 			group = [];
 		}
@@ -122,7 +145,7 @@ function simplifyPath(polygon) {
  * @returns {{ min: Vector2, max: Vector2 }}
  */
 function getBoundingVolume(polygon) {
-	var min = new Vector2_Vector2(polygon[0].x, polygon[0].y);
+	var min = new _Vector.Vector2(polygon[0].x, polygon[0].y);
 	var max = min.clone();
 
 	for (var i = 1; i < polygon.length; i++) {
@@ -154,14 +177,13 @@ function getBoundingVolume(polygon) {
  * @returns {boolean}
  */
 function containsBox(a, b) {
-	return a.min.x < b.min.x && a.max.x > b.max.x &&
-		a.min.y < b.min.y && a.max.y > b.max.y;
+	return a.min.x < b.min.x && a.max.x > b.max.x && a.min.y < b.min.y && a.max.y > b.max.y;
 }
 
 function mergeBoxes(a, b) {
 	return {
-		min: new Vector2_Vector2(Math.min(a.min.x, b.min.x), Math.min(a.min.y, b.min.y)),
-		max: new Vector2_Vector2(Math.max(a.max.x, b.max.x), Math.max(a.max.y, b.max.y))
+		min: new _Vector.Vector2(Math.min(a.min.x, b.min.x), Math.min(a.min.y, b.min.y)),
+		max: new _Vector.Vector2(Math.max(a.max.x, b.max.x), Math.max(a.max.y, b.max.y))
 	};
 }
 
@@ -256,11 +278,7 @@ function addIndices(polygons) {
 function getIndices(triangles) {
 	var indices = [];
 	triangles.forEach(function (triangle) {
-		indices.push(
-			triangle.getPoint(0)._index,
-			triangle.getPoint(1)._index,
-			triangle.getPoint(2)._index
-		);
+		indices.push(triangle.getPoint(0)._index, triangle.getPoint(1)._index, triangle.getPoint(2)._index);
 	});
 	return indices;
 }
@@ -272,7 +290,9 @@ function getIndices(triangles) {
  */
 function getVerts(points) {
 	// use an inverse map from indices to _indices
-	points.sort(function (a, b) { return a._index - b._index; });
+	points.sort(function (a, b) {
+		return a._index - b._index;
+	});
 
 	var verts = [];
 	points.forEach(function (point) {
@@ -289,7 +309,9 @@ function getVerts(points) {
  */
 function triangulate(contour, holes) {
 	var swctx = new poly2tri.SweepContext(contour.slice(0));
-	holes.forEach(function (hole) { swctx.addHole(hole.polygon.slice(0)); });
+	holes.forEach(function (hole) {
+		swctx.addHole(hole.polygon.slice(0));
+	});
 
 	swctx.triangulate();
 	var triangles = swctx.getTriangles();
@@ -365,7 +387,6 @@ function meshesForText(text, font, options) {
 	options.stepLength = options.stepLength || 1;
 	options.fontSize = options.fontSize || 48;
 
-
 	var dataSets = [];
 	font.forEachGlyph(text, 0, 0, options.fontSize, {}, function (glyph, x, y) {
 		if (glyph.path.commands.length > 0) {
@@ -377,13 +398,12 @@ function meshesForText(text, font, options) {
 		}
 	});
 
-
-	var meshBuilder = new MeshBuilder_MeshBuilder();
+	var meshBuilder = new _MeshBuilder.MeshBuilder();
 
 	function meshForGlyph(data, x, y, options) {
 		function frontFace() {
-			var meshData = new FilledPolygon_FilledPolygon(data.surfaceVerts, data.surfaceIndices);
-			var transform = new Transform_Transform();
+			var meshData = new _FilledPolygon.FilledPolygon(data.surfaceVerts, data.surfaceIndices);
+			var transform = new _Transform.Transform();
 			transform.translation.setDirect(x, y, -options.extrusion / 2);
 			transform.scale.setDirect(1, -1, 1);
 			transform.update();
@@ -391,8 +411,8 @@ function meshesForText(text, font, options) {
 		}
 
 		function backFace() {
-			var meshData = new FilledPolygon_FilledPolygon(data.surfaceVerts, invertWinding(data.surfaceIndices));
-			var transform = new Transform_Transform();
+			var meshData = new _FilledPolygon.FilledPolygon(data.surfaceVerts, invertWinding(data.surfaceIndices));
+			var transform = new _Transform.Transform();
 			transform.translation.setDirect(x, y, options.extrusion / 2);
 			transform.scale.setDirect(1, -1, 1);
 			transform.update();
@@ -407,11 +427,11 @@ function meshesForText(text, font, options) {
 				var contourVerts = getVerts(polygon);
 				contourVerts.push(contourVerts[0], contourVerts[1], contourVerts[2]);
 
-				var contourPolyLine = new PolyLine_PolyLine(contourVerts, true);
-				var extrusionPolyLine = new PolyLine_PolyLine([0, 0, -options.extrusion / 2, 0, 0, options.extrusion / 2]);
+				var contourPolyLine = new _PolyLine.PolyLine(contourVerts, true);
+				var extrusionPolyLine = new _PolyLine.PolyLine([0, 0, -options.extrusion / 2, 0, 0, options.extrusion / 2]);
 				var meshData = contourPolyLine.mul(extrusionPolyLine);
 
-				var transform = new Transform_Transform();
+				var transform = new _Transform.Transform();
 				transform.translation.setDirect(x, y, 0);
 				transform.scale.setDirect(1, -1, -1);
 				transform.update();
@@ -420,7 +440,6 @@ function meshesForText(text, font, options) {
 			});
 		}
 	}
-
 
 	// get the total bounds; it's enough to merge the first and last chars
 	var firstDataSet = dataSets[0];
@@ -440,8 +459,8 @@ function meshesForText(text, font, options) {
 	return meshBuilder.build();
 }
 
-mod_TextMeshGeneratorjs = {
+exports.TextMeshGeneratorjs = mod_TextMeshGeneratorjs = {
 	meshesForText: meshesForText
 };
 var mod_TextMeshGeneratorjs;
-export { mod_TextMeshGeneratorjs as TextMeshGeneratorjs };
+exports.TextMeshGeneratorjs = mod_TextMeshGeneratorjs;

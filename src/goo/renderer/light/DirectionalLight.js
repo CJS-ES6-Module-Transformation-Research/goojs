@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DirectionalLight = undefined;
+
+var _Vector = require("../../math/Vector3");
+
+var _Light = require("../../renderer/light/Light");
+
 var mod_DirectionalLight = DirectionalLight;
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
-import { Light as Light_Light } from "../../renderer/light/Light";
 
 /**
  * A directional light
@@ -9,21 +18,21 @@ import { Light as Light_Light } from "../../renderer/light/Light";
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
 function DirectionalLight(color) {
-	Light_Light.call(this, color);
+  _Light.Light.call(this, color);
 
-	/**
-	 * The direction vector of the light
-	 * @readonly
-	 * @type {Vector3}
-	 */
-	this.direction = new Vector3_Vector3();
+  /**
+   * The direction vector of the light
+   * @readonly
+   * @type {Vector3}
+   */
+  this.direction = new _Vector.Vector3();
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
-DirectionalLight.prototype = Object.create(Light_Light.prototype);
+DirectionalLight.prototype = Object.create(_Light.Light.prototype);
 DirectionalLight.prototype.constructor = DirectionalLight;
 
 /**
@@ -32,23 +41,23 @@ DirectionalLight.prototype.constructor = DirectionalLight;
  * @param {Transform} transform
  */
 DirectionalLight.prototype.update = function (transform) {
-	transform.matrix.getTranslation(this.translation);
-	this.direction.setDirect(0.0, 0.0, -1.0);
-	this.direction.applyPostVector(transform.matrix);
+  transform.matrix.getTranslation(this.translation);
+  this.direction.setDirect(0.0, 0.0, -1.0);
+  this.direction.applyPostVector(transform.matrix);
 };
 
 DirectionalLight.prototype.copy = function (source) {
-	Light_Light.prototype.copy.call(this, source);
+  _Light.Light.prototype.copy.call(this, source);
 
-	this.direction.copy(source.direction);
+  this.direction.copy(source.direction);
 
-	return this;
+  return this;
 };
 
 DirectionalLight.prototype.clone = function () {
-	var clone = new DirectionalLight(this.color.clone());
-	clone.copy(this);
-	return clone;
+  var clone = new DirectionalLight(this.color.clone());
+  clone.copy(this);
+  return clone;
 };
 
 /**
@@ -57,4 +66,4 @@ DirectionalLight.prototype.clone = function () {
  * @extends Light
  * @param {Vector3} [color=(1, 1, 1)] The color of the light
  */
-export { mod_DirectionalLight as DirectionalLight };
+exports.DirectionalLight = mod_DirectionalLight;

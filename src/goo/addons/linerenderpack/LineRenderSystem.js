@@ -1,55 +1,67 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.LineRenderSystem = undefined;
+
+var _System = require("../../entities/systems/System");
+
+var _SystemBus = require("../../entities/SystemBus");
+
+var _LineRenderer = require("../../addons/linerenderpack/LineRenderer");
+
+var _Vector = require("../../math/Vector3");
+
 var mod_LineRenderSystem = LineRenderSystem;
-import { System as System_System } from "../../entities/systems/System";
-import { SystemBusjs as SystemBus } from "../../entities/SystemBus";
-import { LineRenderer as LineRenderer_LineRenderer } from "../../addons/linerenderpack/LineRenderer";
-import { Vector3 as Vector3_Vector3 } from "../../math/Vector3";
+
 
 /**
  * Updates all of it's LineRenderers and exposes methods for drawing primitive line shapes.
  * @param {World} world the world this system exists in.
  */
 function LineRenderSystem(world) {
-	System_System.call(this, 'LineRenderSystem', []);
+	_System.System.call(this, 'LineRenderSystem', []);
 
 	this._lineRenderers = [];
 
 	this.world = world;
 
 	//adds a new LineRenderer to the list
-	this._lineRenderers.push(new LineRenderer_LineRenderer(this.world));
+	this._lineRenderers.push(new _LineRenderer.LineRenderer(this.world));
 
 	this.camera = null;
 
 	/**
-	 * A managed array of all the LineRenderers render objects.
-	 * @type {Object}
-	 */
+  * A managed array of all the LineRenderers render objects.
+  * @type {Object}
+  */
 	this.renderList = [];
 
 	//add the camera
-	SystemBus.addListener('goo.setCurrentCamera', function (newCam) {
+	_SystemBus.SystemBusjs.addListener('goo.setCurrentCamera', function (newCam) {
 		this.camera = newCam.camera;
 	}.bind(this));
 }
 
-LineRenderSystem.prototype = Object.create(System_System.prototype);
+LineRenderSystem.prototype = Object.create(_System.System.prototype);
 LineRenderSystem.prototype.constructor = LineRenderSystem;
 
-var tmpVec1 = new Vector3_Vector3();
-var tmpVec2 = new Vector3_Vector3();
-var tmpVec3 = new Vector3_Vector3();
+var tmpVec1 = new _Vector.Vector3();
+var tmpVec2 = new _Vector.Vector3();
+var tmpVec3 = new _Vector.Vector3();
 
 LineRenderSystem.axis = ['x', 'y', 'z'];
 
 //setup a preset of colors
-LineRenderSystem.prototype.WHITE = new Vector3_Vector3(1, 1, 1);
-LineRenderSystem.prototype.RED = new Vector3_Vector3(1, 0, 0);
-LineRenderSystem.prototype.GREEN = new Vector3_Vector3(0, 1, 0);
-LineRenderSystem.prototype.BLUE = new Vector3_Vector3(0, 0, 1);
-LineRenderSystem.prototype.AQUA = new Vector3_Vector3(0, 1, 1);
-LineRenderSystem.prototype.MAGENTA = new Vector3_Vector3(1, 0, 1);
-LineRenderSystem.prototype.YELLOW = new Vector3_Vector3(1, 1, 0);
-LineRenderSystem.prototype.BLACK = new Vector3_Vector3(0, 0, 0);
+LineRenderSystem.prototype.WHITE = new _Vector.Vector3(1, 1, 1);
+LineRenderSystem.prototype.RED = new _Vector.Vector3(1, 0, 0);
+LineRenderSystem.prototype.GREEN = new _Vector.Vector3(0, 1, 0);
+LineRenderSystem.prototype.BLUE = new _Vector.Vector3(0, 0, 1);
+LineRenderSystem.prototype.AQUA = new _Vector.Vector3(0, 1, 1);
+LineRenderSystem.prototype.MAGENTA = new _Vector.Vector3(1, 0, 1);
+LineRenderSystem.prototype.YELLOW = new _Vector.Vector3(1, 1, 0);
+LineRenderSystem.prototype.BLACK = new _Vector.Vector3(0, 0, 0);
 
 /**
  * Draws a line between two {@link Vector3}'s with the specified color.
@@ -172,4 +184,4 @@ LineRenderSystem.prototype.clear = function () {
  * Updates all of it's LineRenderers and exposes methods for drawing primitive line shapes.
  * @param {World} world the world this system exists in.
  */
-export { mod_LineRenderSystem as LineRenderSystem };
+exports.LineRenderSystem = mod_LineRenderSystem;

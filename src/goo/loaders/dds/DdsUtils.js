@@ -1,4 +1,12 @@
-import { Capabilities as Capabilities_Capabilities } from "../../renderer/Capabilities";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.DdsUtils = exports.flipDXT = exports.getComponents = exports.getIntFromBytes = exports.getIntFromString = exports.isSet = exports.shiftCount = undefined;
+
+var _Capabilities = require('../../renderer/Capabilities');
+
 var DdsUtils_flipUInt24;
 var ThreeBitMask;
 var DdsUtils_getBytesFromUInt24;
@@ -13,8 +21,8 @@ var DdsUtils_isSupported;
 
 function DdsUtils() {}
 
-DdsUtils_isSupported = function () {
-	return !!Capabilities_Capabilities.CompressedTextureS3TC;
+DdsUtils_isSupported = function DdsUtils_isSupported() {
+	return !!_Capabilities.Capabilities.CompressedTextureS3TC;
 };
 
 /**
@@ -22,7 +30,7 @@ DdsUtils_isSupported = function () {
  * @param mask the bit mask to test
  * @returns number of bits to shift to the right to align mask with 0.
  */
-DdsUtils_shiftCount = function (mask) {
+exports.shiftCount = DdsUtils_shiftCount = function DdsUtils_shiftCount(mask) {
 	if (mask === 0) {
 		return 0;
 	}
@@ -45,7 +53,7 @@ DdsUtils_shiftCount = function (mask) {
  * @param bitMask our mask
  * @returns true if the mask passes
  */
-DdsUtils_isSet = function (value, bitMask) {
+exports.isSet = DdsUtils_isSet = function DdsUtils_isSet(value, bitMask) {
 	return (value & bitMask) === bitMask;
 };
 
@@ -54,7 +62,7 @@ DdsUtils_isSet = function (value, bitMask) {
  * @param string our string... should only be 1-4 chars long. Expected to be 1 byte chars.
  * @returns the int value
  */
-DdsUtils_getIntFromString = function (string) {
+exports.getIntFromString = DdsUtils_getIntFromString = function DdsUtils_getIntFromString(string) {
 	var bytes = [];
 	for (var i = 0; i < string.length; i++) {
 		bytes[i] = string.charCodeAt(i);
@@ -67,7 +75,7 @@ DdsUtils_getIntFromString = function (string) {
  * @param bytes our array... should only be 1-4 bytes long.
  * @returns the int value
  */
-DdsUtils_getIntFromBytes = function (bytes) {
+exports.getIntFromBytes = DdsUtils_getIntFromBytes = function DdsUtils_getIntFromBytes(bytes) {
 	var rVal = 0;
 	rVal |= (bytes[0] & 0xff) << 0;
 	if (bytes.length > 1) {
@@ -82,7 +90,7 @@ DdsUtils_getIntFromBytes = function (bytes) {
 	return rVal;
 };
 
-DdsUtils_getComponents = function (format) {
+exports.getComponents = DdsUtils_getComponents = function DdsUtils_getComponents(format) {
 	switch (format) {
 		case 'Alpha':
 			return 1;
@@ -114,7 +122,7 @@ DdsUtils_getComponents = function (format) {
  * @param format our image's format
  * @returns the flipped image as raw bytes.
  */
-DdsUtils_flipDXT = function (rawData, width, height, format) {
+exports.flipDXT = DdsUtils_flipDXT = function DdsUtils_flipDXT(rawData, width, height, format) {
 	var returnData = new Uint8Array(rawData.length);
 
 	var blocksPerColumn = width + 3 >> 2;
@@ -200,7 +208,7 @@ DdsUtils_flipDXT = function (rawData, width, height, format) {
 };
 
 // DXT5 Alpha block flipping, inspired by code from Evan Hart (nVidia SDK)
-DdsUtils_getUInt24 = function (input, offset) {
+DdsUtils_getUInt24 = function DdsUtils_getUInt24(input, offset) {
 	var result = 0;
 	result |= (input[offset + 0] & 0xff) << 0;
 	result |= (input[offset + 1] & 0xff) << 8;
@@ -208,36 +216,36 @@ DdsUtils_getUInt24 = function (input, offset) {
 	return result;
 };
 
-DdsUtils_getBytesFromUInt24 = function (input, offset, uint24) {
-	input[offset + 0] = (uint24 & 0x000000ff);
-	input[offset + 1] = ((uint24 & 0x0000ff00) >> 8);
-	input[offset + 2] = ((uint24 & 0x00ff0000) >> 16);
+DdsUtils_getBytesFromUInt24 = function DdsUtils_getBytesFromUInt24(input, offset, uint24) {
+	input[offset + 0] = uint24 & 0x000000ff;
+	input[offset + 1] = (uint24 & 0x0000ff00) >> 8;
+	input[offset + 2] = (uint24 & 0x00ff0000) >> 16;
 };
 
 ThreeBitMask = 0x7;
 
-DdsUtils_flipUInt24 = function (uint24) {
+DdsUtils_flipUInt24 = function DdsUtils_flipUInt24(uint24) {
 	var threeBits = [];
 	for (var i = 0; i < 2; i++) {
 		threeBits.push([0, 0, 0, 0]);
 	}
 
 	// extract 3 bits each into the array
-	threeBits[0][0] = (uint24 & ThreeBitMask);
+	threeBits[0][0] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[0][1] = (uint24 & ThreeBitMask);
+	threeBits[0][1] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[0][2] = (uint24 & ThreeBitMask);
+	threeBits[0][2] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[0][3] = (uint24 & ThreeBitMask);
+	threeBits[0][3] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][0] = (uint24 & ThreeBitMask);
+	threeBits[1][0] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][1] = (uint24 & ThreeBitMask);
+	threeBits[1][1] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][2] = (uint24 & ThreeBitMask);
+	threeBits[1][2] = uint24 & ThreeBitMask;
 	uint24 >>= 3;
-	threeBits[1][3] = (uint24 & ThreeBitMask);
+	threeBits[1][3] = uint24 & ThreeBitMask;
 
 	// stuff 8x 3bits into 3 bytes
 	var result = 0;
@@ -252,4 +260,10 @@ DdsUtils_flipUInt24 = function (uint24) {
 	return result;
 };
 
-export { DdsUtils_shiftCount as shiftCount, DdsUtils_isSet as isSet, DdsUtils_getIntFromString as getIntFromString, DdsUtils_getIntFromBytes as getIntFromBytes, DdsUtils_getComponents as getComponents, DdsUtils_flipDXT as flipDXT, DdsUtils };
+exports.shiftCount = DdsUtils_shiftCount;
+exports.isSet = DdsUtils_isSet;
+exports.getIntFromString = DdsUtils_getIntFromString;
+exports.getIntFromBytes = DdsUtils_getIntFromBytes;
+exports.getComponents = DdsUtils_getComponents;
+exports.flipDXT = DdsUtils_flipDXT;
+exports.DdsUtils = DdsUtils;

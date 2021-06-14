@@ -1,12 +1,21 @@
-var mod_SoundFadeInAction = SoundFadeInAction;
-import { Action as Action_Action } from "../../../fsmpack/statemachine/actions/Action";
-import { PromiseUtils as PromiseUtil } from "../../../util/PromiseUtil";
+"use strict";
 
-function SoundFadeInAction(/*id, settings*/) {
-	Action_Action.apply(this, arguments);
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.SoundFadeInAction = undefined;
+
+var _Action = require("../../../fsmpack/statemachine/actions/Action");
+
+var _PromiseUtil = require("../../../util/PromiseUtil");
+
+var mod_SoundFadeInAction = SoundFadeInAction;
+
+function SoundFadeInAction() /*id, settings*/{
+	_Action.Action.apply(this, arguments);
 }
 
-SoundFadeInAction.prototype = Object.create(Action_Action.prototype);
+SoundFadeInAction.prototype = Object.create(_Action.Action.prototype);
 SoundFadeInAction.prototype.constructor = SoundFadeInAction;
 
 SoundFadeInAction.external = {
@@ -43,17 +52,21 @@ var labels = {
 	complete: 'On Sound Fade In Complete'
 };
 
-SoundFadeInAction.getTransitionLabel = function (transitionKey /*, actionConfig*/){
+SoundFadeInAction.getTransitionLabel = function (transitionKey /*, actionConfig*/) {
 	return labels[transitionKey];
 };
 
 SoundFadeInAction.prototype.enter = function (fsm) {
 	var entity = fsm.getOwnerEntity();
 
-	if (!entity.hasComponent('SoundComponent')) { return; }
+	if (!entity.hasComponent('SoundComponent')) {
+		return;
+	}
 
 	var sound = entity.soundComponent.getSoundById(this.sound);
-	if (!sound) { return; }
+	if (!sound) {
+		return;
+	}
 
 	var endPromise;
 	try {
@@ -64,7 +77,7 @@ SoundFadeInAction.prototype.enter = function (fsm) {
 		}
 	} catch (e) {
 		console.warn('Could not play sound: ' + e);
-		endPromise = PromiseUtil.resolve();
+		endPromise = _PromiseUtil.PromiseUtils.resolve();
 	}
 
 	endPromise.then(function () {
@@ -72,4 +85,4 @@ SoundFadeInAction.prototype.enter = function (fsm) {
 	}.bind(this));
 };
 
-export { mod_SoundFadeInAction as SoundFadeInAction };
+exports.SoundFadeInAction = mod_SoundFadeInAction;

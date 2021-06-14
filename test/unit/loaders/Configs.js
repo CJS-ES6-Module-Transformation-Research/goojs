@@ -1,19 +1,31 @@
-import { EntityConfigjs as EntityConfig } from "./helpers/EntityConfig";
-import { AnimationConfigjs as AnimationConfig } from "./helpers/AnimationConfig";
-import { MaterialConfigjs as MaterialConfig } from "./helpers/MaterialConfig";
-import { MeshConfigjs as MeshConfig } from "./helpers/MeshConfig";
-import { SceneConfigjs as SceneConfig } from "./helpers/SceneConfig";
-import { PosteffectsConfigjs as PosteffectsConfig } from "./helpers/PosteffectsConfig";
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.Configs = undefined;
+
+var _EntityConfig = require("./helpers/EntityConfig");
+
+var _AnimationConfig = require("./helpers/AnimationConfig");
+
+var _MaterialConfig = require("./helpers/MaterialConfig");
+
+var _MeshConfig = require("./helpers/MeshConfig");
+
+var _SceneConfig = require("./helpers/SceneConfig");
+
+var _PosteffectsConfig = require("./helpers/PosteffectsConfig");
 
 var bundle = {};
 var Configs = {
-	randomRef: function (type) {
-		var hash = 'aaaabbbbaaaabbbbaaaabbbbaaaabbbb'.replace(/[ab]/g, function(a) {
-			return ((Math.random() * 16) % 16 | 0).toString(16);
+	randomRef: function randomRef(type) {
+		var hash = 'aaaabbbbaaaabbbbaaaabbbbaaaabbbb'.replace(/[ab]/g, function (a) {
+			return (Math.random() * 16 % 16 | 0).toString(16);
 		});
 		return hash + '.' + (type || '');
 	},
-	gooObject: function (type, name) {
+	gooObject: function gooObject(type, name) {
 		var config = {
 			id: Configs.randomRef(type),
 			name: name,
@@ -34,13 +46,13 @@ var Configs = {
 		this.addToBundle(config);
 		return config;
 	},
-	addToBundle: function (config, ref) {
+	addToBundle: function addToBundle(config, ref) {
 		ref = ref || config.id;
 		if (ref) {
 			bundle[ref] = config;
 		}
 	},
-	binary: function (size) {
+	binary: function binary(size) {
 		var arr = new Float32Array(size);
 		for (var i = 0; i < size; i++) {
 			arr[i] = i / size;
@@ -49,7 +61,7 @@ var Configs = {
 		Configs.addToBundle(arr.buffer, ref);
 		return ref;
 	},
-	get: function () {
+	get: function get() {
 		return bundle;
 	}
 };
@@ -67,16 +79,16 @@ function attach(attachee, attacher) {
 	}
 }
 
-attach(Configs, EntityConfig);
-attach(Configs, AnimationConfig);
-attach(Configs, MaterialConfig);
-attach(Configs, MeshConfig);
-attach(Configs, SceneConfig);
-attach(Configs, PosteffectsConfig);
+attach(Configs, _EntityConfig.EntityConfigjs);
+attach(Configs, _AnimationConfig.AnimationConfigjs);
+attach(Configs, _MaterialConfig.MaterialConfigjs);
+attach(Configs, _MeshConfig.MeshConfigjs);
+attach(Configs, _SceneConfig.SceneConfigjs);
+attach(Configs, _PosteffectsConfig.PosteffectsConfigjs);
 var mod_Configs;
 // for (var i = 0; i < arguments.length; i++) {
 // 	attach(Configs, arguments[i]);
 // }
 
-mod_Configs = Configs;
-export { mod_Configs as Configs };
+exports.Configs = mod_Configs = Configs;
+exports.Configs = mod_Configs;

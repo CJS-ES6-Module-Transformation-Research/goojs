@@ -1,4 +1,12 @@
-import { ObjectUtils as ObjectUtils_ObjectUtils } from "../util/ObjectUtils";
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ScriptUtils = exports.keyForCode = exports.fillDefaultNames = exports.fillDefaultValues = exports.PROPERTY_TYPES = exports.TYPE_VALIDATORS = exports.isRefType = exports.DEFAULTS_BY_TYPE = undefined;
+
+var _ObjectUtils = require('../util/ObjectUtils');
+
 var ScriptUtils_keyForCode;
 var _keyInverse;
 var _keys;
@@ -15,7 +23,7 @@ var DEFAULTS_BY_TYPE;
 
 function ScriptUtils() {}
 
-DEFAULTS_BY_TYPE = {
+exports.DEFAULTS_BY_TYPE = DEFAULTS_BY_TYPE = {
 	'array': [],
 	'float': 0,
 	'int': 0,
@@ -34,31 +42,22 @@ DEFAULTS_BY_TYPE = {
 	'text': null
 };
 
-REF_TYPES = [
-	'animation',
-	'camera',
-	'entity',
-	'image',
-	'sound',
-	'texture',
-	'json',
-	'text'
-];
+REF_TYPES = ['animation', 'camera', 'entity', 'image', 'sound', 'texture', 'json', 'text'];
 
-ScriptUtils_isRefType = function (type) {
-	return ObjectUtils_ObjectUtils.contains(REF_TYPES, type);
+exports.isRefType = ScriptUtils_isRefType = function ScriptUtils_isRefType(type) {
+	return _ObjectUtils.ObjectUtils.contains(REF_TYPES, type);
 };
 
-TYPE_VALIDATORS = (function () {
-	var isVec = function (length) {
+exports.TYPE_VALIDATORS = TYPE_VALIDATORS = function () {
+	var isVec = function isVec(length) {
 		return function (data) {
 			return Array.isArray(data) && data.length === length;
 		};
 	};
 
-	var isRef = function (type) {
+	var isRef = function isRef(type) {
 		function isDirectRef(data) {
-			return ObjectUtils_ObjectUtils.isString(data) && ObjectUtils_ObjectUtils.getExtension(data) === type;
+			return _ObjectUtils.ObjectUtils.isString(data) && _ObjectUtils.ObjectUtils.getExtension(data) === type;
 		}
 
 		// Checks for references passed like:
@@ -76,12 +75,12 @@ TYPE_VALIDATORS = (function () {
 	};
 
 	return {
-		'array': ObjectUtils_ObjectUtils.isArray,
-		'float': ObjectUtils_ObjectUtils.isNumber,
-		'number': ObjectUtils_ObjectUtils.isNumber,
-		'string': ObjectUtils_ObjectUtils.isString,
-		'boolean': ObjectUtils_ObjectUtils.isBoolean,
-		'int': ObjectUtils_ObjectUtils.isInteger,
+		'array': _ObjectUtils.ObjectUtils.isArray,
+		'float': _ObjectUtils.ObjectUtils.isNumber,
+		'number': _ObjectUtils.ObjectUtils.isNumber,
+		'string': _ObjectUtils.ObjectUtils.isString,
+		'boolean': _ObjectUtils.ObjectUtils.isBoolean,
+		'int': _ObjectUtils.ObjectUtils.isInteger,
 		'vec2': isVec(2),
 		'vec3': isVec(3),
 		'vec4': isVec(4),
@@ -94,28 +93,13 @@ TYPE_VALIDATORS = (function () {
 		'json': isRef('json'),
 		'text': isRef('text')
 	};
-})();
+}();
 
 // The types that are allowed for script parameters.
-PARAMETER_TYPES = [
-	'string',
-	'int',
-	'float',
-	'vec2',
-	'vec3',
-	'vec4',
-	'boolean',
-	'texture',
-	'sound',
-	'camera',
-	'entity',
-	'animation',
-	'json',
-	'text'
-];
+PARAMETER_TYPES = ['string', 'int', 'float', 'vec2', 'vec3', 'vec4', 'boolean', 'texture', 'sound', 'camera', 'entity', 'animation', 'json', 'text'];
 
 // Specifies which controls can be used with each type.
-PARAMETER_CONTROLS = (function () {
+PARAMETER_CONTROLS = function () {
 	var typeControls = {
 		'string': ['key'],
 		'int': ['spinner', 'slider', 'jointSelector'],
@@ -140,41 +124,30 @@ PARAMETER_CONTROLS = (function () {
 	}
 
 	return typeControls;
-})();
+}();
 
 // Types used to validate the properties of a script parameter config.
-PROPERTY_TYPES = [
-	{
-		prop: 'key',
-		type: 'string',
-		mustBeDefined: true,
-		minLength: 1
-	},
-	{
-		prop: 'type',
-		type: 'string',
-		mustBeDefined: true,
-		minLength: 1,
-		getAllowedValues: function () {
-			return PARAMETER_TYPES;
-		}
-	},
-	{
-		prop: 'control',
-		type: 'string',
-		getAllowedValues: function (parameter) {
-			// Allowed controls depend on the parameter type.
-			return PARAMETER_CONTROLS[parameter.type];
-		}
-	},
-	{ prop: 'name', type: 'string' },
-	{ prop: 'min', type: 'number' },
-	{ prop: 'max', type: 'number' },
-	{ prop: 'scale', type: 'number' },
-	{ prop: 'decimals', type: 'number' },
-	{ prop: 'precision', type: 'number' },
-	{ prop: 'exponential', type: 'boolean' }
-];
+exports.PROPERTY_TYPES = PROPERTY_TYPES = [{
+	prop: 'key',
+	type: 'string',
+	mustBeDefined: true,
+	minLength: 1
+}, {
+	prop: 'type',
+	type: 'string',
+	mustBeDefined: true,
+	minLength: 1,
+	getAllowedValues: function getAllowedValues() {
+		return PARAMETER_TYPES;
+	}
+}, {
+	prop: 'control',
+	type: 'string',
+	getAllowedValues: function getAllowedValues(parameter) {
+		// Allowed controls depend on the parameter type.
+		return PARAMETER_CONTROLS[parameter.type];
+	}
+}, { prop: 'name', type: 'string' }, { prop: 'min', type: 'number' }, { prop: 'max', type: 'number' }, { prop: 'scale', type: 'number' }, { prop: 'decimals', type: 'number' }, { prop: 'precision', type: 'number' }, { prop: 'exponential', type: 'boolean' }];
 
 /**
  * Fill a passed parameters object with defaults from spec
@@ -182,8 +155,10 @@ PROPERTY_TYPES = [
  * @param parameters {Object} The type of object passed as parameters to a script
  * @param specs {Array<{key, name, default, description}>}
  */
-ScriptUtils_fillDefaultValues = function (parameters, specs) {
-	if (!(specs instanceof Array)) { return; }
+exports.fillDefaultValues = ScriptUtils_fillDefaultValues = function ScriptUtils_fillDefaultValues(parameters, specs) {
+	if (!(specs instanceof Array)) {
+		return;
+	}
 
 	var keys = [];
 	specs.forEach(function (spec) {
@@ -192,12 +167,12 @@ ScriptUtils_fillDefaultValues = function (parameters, specs) {
 		}
 
 		if (spec.default === null || spec.default === undefined) {
-			spec.default = ObjectUtils_ObjectUtils.deepClone(DEFAULTS_BY_TYPE[spec.type]);
+			spec.default = _ObjectUtils.ObjectUtils.deepClone(DEFAULTS_BY_TYPE[spec.type]);
 		}
 
 		keys.push(spec.key);
 		if (typeof parameters[spec.key] === 'undefined') {
-			parameters[spec.key] = ObjectUtils_ObjectUtils.clone(spec.default);
+			parameters[spec.key] = _ObjectUtils.ObjectUtils.clone(spec.default);
 		}
 	});
 
@@ -216,17 +191,23 @@ ScriptUtils_fillDefaultValues = function (parameters, specs) {
  * @hidden
  * @param specs {Array<{key, name, default, description}>}
  */
-ScriptUtils_fillDefaultNames = function (specs) {
-	if (!(specs instanceof Array)) { return; }
+exports.fillDefaultNames = ScriptUtils_fillDefaultNames = function ScriptUtils_fillDefaultNames(specs) {
+	if (!(specs instanceof Array)) {
+		return;
+	}
 
 	function getNameFromKey(key) {
-		if (typeof key !== 'string' || key.length === 0) { return ''; }
+		if (typeof key !== 'string' || key.length === 0) {
+			return '';
+		}
 		var capitalisedKey = key[0].toUpperCase() + key.slice(1);
 		return capitalisedKey.replace(/(.)([A-Z])/g, '$1 $2');
 	}
 
 	specs.forEach(function (spec) {
-		if (!spec) { return; }
+		if (!spec) {
+			return;
+		}
 		if (typeof spec.name === 'undefined') {
 			spec.name = getNameFromKey(spec.key);
 		}
@@ -235,7 +216,7 @@ ScriptUtils_fillDefaultNames = function (specs) {
 
 // TODO Copied from FSMUtils. Should be put in another util
 // And keys should probably be defined ScriptUtil.keys.BackSpace = 'BackSpace';
-ScriptUtils_getKey = function (str) {
+ScriptUtils_getKey = function ScriptUtils_getKey(str) {
 	if (_keys[str]) {
 		return _keys[str];
 	} else {
@@ -360,7 +341,7 @@ _keys = {
 	'Backslash': 220
 };
 
-_keyInverse = (function (assoc) {
+_keyInverse = function (assoc) {
 	var inverseAssoc = {};
 
 	var keys = Object.keys(assoc);
@@ -368,10 +349,17 @@ _keyInverse = (function (assoc) {
 		inverseAssoc[assoc[keys[i]]] = keys[i];
 	}
 	return inverseAssoc;
-}(_keys));
+}(_keys);
 
-ScriptUtils_keyForCode = function (code) {
+exports.keyForCode = ScriptUtils_keyForCode = function ScriptUtils_keyForCode(code) {
 	return _keyInverse[code];
 };
 
-export { DEFAULTS_BY_TYPE, ScriptUtils_isRefType as isRefType, TYPE_VALIDATORS, PROPERTY_TYPES, ScriptUtils_fillDefaultValues as fillDefaultValues, ScriptUtils_fillDefaultNames as fillDefaultNames, ScriptUtils_keyForCode as keyForCode, ScriptUtils };
+exports.DEFAULTS_BY_TYPE = DEFAULTS_BY_TYPE;
+exports.isRefType = ScriptUtils_isRefType;
+exports.TYPE_VALIDATORS = TYPE_VALIDATORS;
+exports.PROPERTY_TYPES = PROPERTY_TYPES;
+exports.fillDefaultValues = ScriptUtils_fillDefaultValues;
+exports.fillDefaultNames = ScriptUtils_fillDefaultNames;
+exports.keyForCode = ScriptUtils_keyForCode;
+exports.ScriptUtils = ScriptUtils;

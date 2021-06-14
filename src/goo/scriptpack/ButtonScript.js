@@ -1,5 +1,14 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.ButtonScript = undefined;
+
+var _SystemBus = require('../entities/SystemBus');
+
 var mod_ButtonScript = ButtonScript;
-import { SystemBusjs as SystemBus } from "../entities/SystemBus";
+
 
 /**
  * Attaches mouse events to an entity.
@@ -15,7 +24,7 @@ function ButtonScript() {
 		env.renderToPickHandler = function () {
 			env.skipUpdateBuffer = true;
 		};
-		SystemBus.addListener('ButtonScript.renderToPick', env.renderToPickHandler, false);
+		_SystemBus.SystemBusjs.addListener('ButtonScript.renderToPick', env.renderToPickHandler, false);
 
 		env.mouseState = {
 			x: 0,
@@ -26,8 +35,10 @@ function ButtonScript() {
 		};
 
 		env.listeners = {
-			mousedown: function (event) {
-				if (!params.whenUsed) { return; }
+			mousedown: function mousedown(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				var pressedButton = getButton(event);
 				if (pressedButton === env.button || env.button === -1) {
 					env.mouseState.down = true;
@@ -35,8 +46,10 @@ function ButtonScript() {
 					onMouseEvent(params, env, 'mousedown');
 				}
 			},
-			mouseup: function (event) {
-				if (!params.whenUsed) { return; }
+			mouseup: function mouseup(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				var pressedButton = getButton(event);
 				if (pressedButton === env.button || env.button === -1) {
 					env.mouseState.down = false;
@@ -47,8 +60,10 @@ function ButtonScript() {
 					onMouseEvent(params, env, 'mouseup');
 				}
 			},
-			dblclick: function (event) {
-				if (!params.whenUsed) { return; }
+			dblclick: function dblclick(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				var pressedButton = getButton(event);
 				if (pressedButton === env.button || env.button === -1) {
 					env.mouseState.down = false;
@@ -56,14 +71,18 @@ function ButtonScript() {
 					onMouseEvent(params, env, 'dblclick');
 				}
 			},
-			mousemove: function (event) {
-				if (!params.whenUsed || !params.enableOnMouseMove) { return; }
+			mousemove: function mousemove(event) {
+				if (!params.whenUsed || !params.enableOnMouseMove) {
+					return;
+				}
 				env.mouseState.down = false;
 				getMousePos(params, env, event);
 				onMouseEvent(params, env, 'mousemove');
 			},
-			touchstart: function (event) {
-				if (!params.whenUsed) { return; }
+			touchstart: function touchstart(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				env.mouseState.down = true;
 
 				var touches = event.targetTouches;
@@ -72,8 +91,10 @@ function ButtonScript() {
 				env.mouseState.y = touches[0].pageY - rect.top;
 				onMouseEvent(params, env, 'touchstart');
 			},
-			touchend: function (event) {
-				if (!params.whenUsed) { return; }
+			touchend: function touchend(event) {
+				if (!params.whenUsed) {
+					return;
+				}
 				event.preventDefault();
 				event.stopPropagation();
 				env.mouseState.down = false;
@@ -100,7 +121,7 @@ function ButtonScript() {
 		for (var event in env.listeners) {
 			env.domElement.removeEventListener(event, env.listeners[event]);
 		}
-		SystemBus.removeListener('ButtonScript.renderToPick', env.renderToPickHandler);
+		_SystemBus.SystemBusjs.removeListener('ButtonScript.renderToPick', env.renderToPickHandler);
 	}
 
 	function getButton(event) {
@@ -120,12 +141,12 @@ function ButtonScript() {
 
 		var pickResult = gooRunner.pickSync(env.mouseState.x, env.mouseState.y, env.skipUpdateBuffer);
 		if (!env.skipUpdateBuffer) {
-			SystemBus.emit('ButtonScript.renderToPick');
+			_SystemBus.SystemBusjs.emit('ButtonScript.renderToPick');
 		}
 		var entity = gooRunner.world.entityManager.getEntityByIndex(pickResult.id);
 		env.mouseState.downOnEntity = false;
 		if (entity === env.entity) {
-			SystemBus.emit(params.channel + '.' + type, {
+			_SystemBus.SystemBusjs.emit(params.channel + '.' + type, {
 				type: type,
 				entity: entity
 			});
@@ -139,19 +160,19 @@ function ButtonScript() {
 
 		// mouseover
 		if (type === 'mousemove' && !env.mouseState.overEntity && entity === env.entity) {
-			SystemBus.emit(params.channel + '.mouseover', {
+			_SystemBus.SystemBusjs.emit(params.channel + '.mouseover', {
 				type: 'mouseover',
 				entity: entity
 			});
 		}
 		// mouseout
 		if (type === 'mousemove' && env.mouseState.overEntity && entity !== env.entity) {
-			SystemBus.emit(params.channel + '.mouseout', {
+			_SystemBus.SystemBusjs.emit(params.channel + '.mouseout', {
 				type: 'mouseout',
 				entity: entity
 			});
 		}
-		env.mouseState.overEntity = (entity === env.entity);
+		env.mouseState.overEntity = entity === env.entity;
 	}
 
 	return {
@@ -207,4 +228,4 @@ ButtonScript.externals = {
 /**
  * Attaches mouse events to an entity.
  */
-export { mod_ButtonScript as ButtonScript };
+exports.ButtonScript = mod_ButtonScript;

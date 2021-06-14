@@ -1,6 +1,15 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MeshCollider = undefined;
+
+var _Collider = require("../../../addons/physicspack/colliders/Collider");
+
+var _Vector = require("../../../math/Vector3");
+
 var mod_MeshCollider = MeshCollider;
-import { Collider as Collider_Collider } from "../../../addons/physicspack/colliders/Collider";
-import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
 
 /**
  * Physics mesh collider.
@@ -10,21 +19,21 @@ import { Vector3 as Vector3_Vector3 } from "../../../math/Vector3";
  * @extends Collider
  */
 function MeshCollider(settings) {
-	settings = settings || {};
+  settings = settings || {};
 
-	/**
-	 * @type {MeshData}
-	 */
-	this.meshData = settings.meshData;
+  /**
+   * @type {MeshData}
+   */
+  this.meshData = settings.meshData;
 
-	/**
-	 * @type {Vector3}
-	 */
-	this.scale = settings.scale !== undefined ? new Vector3_Vector3(settings.scale) : new Vector3_Vector3(1, 1, 1);
+  /**
+   * @type {Vector3}
+   */
+  this.scale = settings.scale !== undefined ? new _Vector.Vector3(settings.scale) : new _Vector.Vector3(1, 1, 1);
 
-	Collider_Collider.call(this);
+  _Collider.Collider.call(this);
 }
-MeshCollider.prototype = Object.create(Collider_Collider.prototype);
+MeshCollider.prototype = Object.create(_Collider.Collider.prototype);
 MeshCollider.prototype.constructor = MeshCollider;
 
 /**
@@ -33,17 +42,17 @@ MeshCollider.prototype.constructor = MeshCollider;
  * @param {Collider} targetCollider
  */
 MeshCollider.prototype.transform = function (transform, targetCollider) {
-	targetCollider.scale.set(this.scale).mul(transform.scale);
+  targetCollider.scale.set(this.scale).mul(transform.scale);
 };
 
 /**
  * @returns {MeshCollider}
  */
 MeshCollider.prototype.clone = function () {
-	return new MeshCollider({
-		meshData: this.meshData,
-		scale: this.scale
-	});
+  return new MeshCollider({
+    meshData: this.meshData,
+    scale: this.scale
+  });
 };
 
 /**
@@ -53,4 +62,4 @@ MeshCollider.prototype.clone = function () {
  * @param {Vector3} [settings.scale]
  * @extends Collider
  */
-export { mod_MeshCollider as MeshCollider };
+exports.MeshCollider = mod_MeshCollider;

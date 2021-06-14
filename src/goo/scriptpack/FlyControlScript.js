@@ -1,11 +1,22 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.FlyControlScript = undefined;
+
+var _Scripts = require("../scripts/Scripts");
+
+var _WasdControlScript = require("../scriptpack/WasdControlScript");
+
+var _MouseLookControlScript = require("../scriptpack/MouseLookControlScript");
+
 var mod_FlyControlScript = FlyControlScript;
-import { create as Scriptsjs_create } from "../scripts/Scripts";
-import { WasdControlScript as WasdControlScript_WasdControlScript } from "../scriptpack/WasdControlScript";
-import { MouseLookControlScript as MouseLookControlScript_MouseLookControlScript } from "../scriptpack/MouseLookControlScript";
+
 
 function FlyControlScript() {
-	var wasdScript = Scriptsjs_create(WasdControlScript_WasdControlScript);
-	var lookScript = Scriptsjs_create(MouseLookControlScript_MouseLookControlScript);
+	var wasdScript = (0, _Scripts.create)(_WasdControlScript.WasdControlScript);
+	var lookScript = (0, _Scripts.create)(_MouseLookControlScript.MouseLookControlScript);
 
 	function setup(parameters, environment) {
 		lookScript.setup(parameters, environment);
@@ -29,8 +40,8 @@ function FlyControlScript() {
 	};
 }
 
-var wasdParams = WasdControlScript_WasdControlScript.externals.parameters;
-var mouseLookParams = MouseLookControlScript_MouseLookControlScript.externals.parameters;
+var wasdParams = _WasdControlScript.WasdControlScript.externals.parameters;
+var mouseLookParams = _MouseLookControlScript.MouseLookControlScript.externals.parameters;
 var params = wasdParams.concat(mouseLookParams.slice(1));
 
 FlyControlScript.externals = {
@@ -40,4 +51,4 @@ FlyControlScript.externals = {
 	parameters: params
 };
 
-export { mod_FlyControlScript as FlyControlScript };
+exports.FlyControlScript = mod_FlyControlScript;

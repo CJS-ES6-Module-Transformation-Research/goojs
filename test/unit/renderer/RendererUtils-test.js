@@ -1,20 +1,23 @@
-import { clone as RendererUtilsjs_clone } from "../../../src/goo/renderer/RendererUtils";
-import { CustomMatchers as CustomMatchers_CustomMatchers } from "../../../test/unit/CustomMatchers";
+"use strict";
+
+var _RendererUtils = require("../../../src/goo/renderer/RendererUtils");
+
+var _CustomMatchers = require("../../../test/unit/CustomMatchers");
 
 describe('RendererUtils', function () {
 	beforeEach(function () {
-		jasmine.addMatchers(CustomMatchers_CustomMatchers);
+		jasmine.addMatchers(_CustomMatchers.CustomMatchers);
 	});
 
 	describe('clone', function () {
-		var clone = RendererUtilsjs_clone;
+		var clone = _RendererUtils.clone;
 
 		it('does not clone primitives and functions', function () {
 			expect(clone(123)).toBe(123);
 			expect(clone(true)).toBe(true);
 			expect(clone('asd')).toBe('asd');
 
-			var func = function () {};
+			var func = function func() {};
 			expect(clone(func)).toBe(func);
 		});
 

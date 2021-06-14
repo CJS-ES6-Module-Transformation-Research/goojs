@@ -1,4 +1,9 @@
-mod_defaultterndefinitionsjs = {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.defaultterndefinitionsjs = mod_defaultterndefinitionsjs = {
 	"Context": {
 		"!type": "fn()",
 		"!url": "http://goocreate.com/learn/the-ctx-object/",
@@ -49,4 +54,4 @@ mod_defaultterndefinitionsjs = {
 	}
 };
 var mod_defaultterndefinitionsjs;
-export { mod_defaultterndefinitionsjs as defaultterndefinitionsjs };
+exports.defaultterndefinitionsjs = mod_defaultterndefinitionsjs;

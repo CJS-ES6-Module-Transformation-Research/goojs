@@ -1,8 +1,19 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.ParticleComponent = undefined;
+
+var _Component = require("../../entities/components/Component");
+
+var _Particle = require("../../particles/Particle");
+
+var _ParticleEmitter = require("../../particles/ParticleEmitter");
+
+var _MeshData = require("../../renderer/MeshData");
+
 var mod_ParticleComponent = ParticleComponent;
-import { Component as Component_Component } from "../../entities/components/Component";
-import { Particle as Particle_Particle } from "../../particles/Particle";
-import { ParticleEmitter as ParticleEmitter_ParticleEmitter } from "../../particles/ParticleEmitter";
-import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
 
 /**
  * Creates and modifies {@link MeshData} to simulate particle effects.<br /><br />ParticleComponents may have one or
@@ -27,66 +38,66 @@ import { MeshData as MeshData_MeshData } from "../../renderer/MeshData";
  * @extends Component
  */
 function ParticleComponent(settings) {
-	Component_Component.apply(this, arguments);
+  _Component.Component.apply(this, arguments);
 
-	this.type = 'ParticleComponent';
+  this.type = 'ParticleComponent';
 
-	Component_Component.call(this);
+  _Component.Component.call(this);
 
-	settings = settings || {};
+  settings = settings || {};
 
-	this.emitters = [];
-	if (settings.emitters) {
-		for ( var i = 0, max = settings.emitters.length; i < max; i++) {
-			this.emitters.push(new ParticleEmitter_ParticleEmitter(settings.emitters[i]));
-		}
-	}
+  this.emitters = [];
+  if (settings.emitters) {
+    for (var i = 0, max = settings.emitters.length; i < max; i++) {
+      this.emitters.push(new _ParticleEmitter.ParticleEmitter(settings.emitters[i]));
+    }
+  }
 
-	this.timeline = settings.timeline ? settings.timeline : [];
+  this.timeline = settings.timeline ? settings.timeline : [];
 
-	this.uRange = isNaN(settings.uRange) ? 1 : settings.uRange;
-	this.vRange = isNaN(settings.vRange) ? 1 : settings.vRange;
+  this.uRange = isNaN(settings.uRange) ? 1 : settings.uRange;
+  this.vRange = isNaN(settings.vRange) ? 1 : settings.vRange;
 
-	var particleCount = isNaN(settings.particleCount) ? 100 : settings.particleCount;
-	this.recreateParticles(particleCount);
+  var particleCount = isNaN(settings.particleCount) ? 100 : settings.particleCount;
+  this.recreateParticles(particleCount);
 
-	this.enabled = true;
+  this.enabled = true;
 
-	// @ifdef DEBUG
-	Object.seal(this);
-	// @endif
+  // @ifdef DEBUG
+  Object.seal(this);
+  // @endif
 }
 
 ParticleComponent.type = 'ParticleComponent';
 
-ParticleComponent.prototype = Object.create(Component_Component.prototype);
+ParticleComponent.prototype = Object.create(_Component.Component.prototype);
 ParticleComponent.prototype.constructor = ParticleComponent;
 
 ParticleComponent.prototype.generateMeshData = function () {
-	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION, MeshData_MeshData.COLOR, MeshData_MeshData.TEXCOORD0]);
-	this.meshData = new MeshData_MeshData(attributeMap, this.particleCount * 4, this.particleCount * 6);
-	this.meshData.vertexData.setDataUsage('DynamicDraw');
+  var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION, _MeshData.MeshData.COLOR, _MeshData.MeshData.TEXCOORD0]);
+  this.meshData = new _MeshData.MeshData(attributeMap, this.particleCount * 4, this.particleCount * 6);
+  this.meshData.vertexData.setDataUsage('DynamicDraw');
 
-	// setup texture coords
-	var uvBuffer = this.meshData.getAttributeBuffer(MeshData_MeshData.TEXCOORD0);
-	var indexBuffer = this.meshData.getIndexBuffer();
-	for ( var i = 0, max = this.particleCount; i < max; i++) {
-		uvBuffer.set([1.0, 0.0], i * 8 + 0);
-		uvBuffer.set([1.0, 1.0], i * 8 + 2);
-		uvBuffer.set([0.0, 1.0], i * 8 + 4);
-		uvBuffer.set([0.0, 0.0], i * 8 + 6);
+  // setup texture coords
+  var uvBuffer = this.meshData.getAttributeBuffer(_MeshData.MeshData.TEXCOORD0);
+  var indexBuffer = this.meshData.getIndexBuffer();
+  for (var i = 0, max = this.particleCount; i < max; i++) {
+    uvBuffer.set([1.0, 0.0], i * 8 + 0);
+    uvBuffer.set([1.0, 1.0], i * 8 + 2);
+    uvBuffer.set([0.0, 1.0], i * 8 + 4);
+    uvBuffer.set([0.0, 0.0], i * 8 + 6);
 
-		indexBuffer.set([i * 4 + 0, i * 4 + 3, i * 4 + 1, i * 4 + 1, i * 4 + 3, i * 4 + 2], i * 6);
-	}
+    indexBuffer.set([i * 4 + 0, i * 4 + 3, i * 4 + 1, i * 4 + 1, i * 4 + 3, i * 4 + 2], i * 6);
+  }
 };
 
 ParticleComponent.prototype.recreateParticles = function (particleCount) {
-	this.particleCount = particleCount;
-	this.particles = [];
-	for ( var i = 0; i < this.particleCount; i++) {
-		this.particles[i] = new Particle_Particle(this, i);
-	}
-	this.generateMeshData();
+  this.particleCount = particleCount;
+  this.particles = [];
+  for (var i = 0; i < this.particleCount; i++) {
+    this.particles[i] = new _Particle.Particle(this, i);
+  }
+  this.generateMeshData();
 };
 
 /**
@@ -111,4 +122,4 @@ ParticleComponent.prototype.recreateParticles = function (particleCount) {
  * @param {number} [settings.particleCount=100]
  * @extends Component
  */
-export { mod_ParticleComponent as ParticleComponent };
+exports.ParticleComponent = mod_ParticleComponent;

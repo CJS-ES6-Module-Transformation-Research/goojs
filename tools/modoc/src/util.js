@@ -1,25 +1,37 @@
 // jshint node:true
 'use strict';
 
+var _typeof2 = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "symbol" ? function (obj) {
+	return typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+} : function (obj) {
+	return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof2(obj);
+};
+
 var isWin = /^win/.test(process.platform);
 
 var PATH_SEPARATOR = isWin ? '\\' : '/';
 
 var regex = isWin ? /\\?(\w+)\.js$/ : /\/?(\w+)\.js$/;
 
-var getFileName = function (file) {
+var getFileName = function getFileName(file) {
 	return file.match(regex)[1];
 };
 
-var stringUntil = function (string, until) {
+var stringUntil = function stringUntil(string, until) {
 	return string.slice(0, string.indexOf(until));
 };
 
-var stringFrom = function (string, from) {
+var stringFrom = function stringFrom(string, from) {
 	return string.slice(string.indexOf(from) + 1);
 };
 
-var pipe = function (f, g) {
+var pipe = function pipe(f, g) {
 	return function () {
 		return g(f.apply(null, arguments));
 	};
@@ -27,13 +39,13 @@ var pipe = function (f, g) {
 
 // underscore doesn't have it
 // NB! this is not a general-purpose deepClone
-var deepClone = function (obj) {
+var _deepClone = function deepClone(obj) {
 	if (obj instanceof Array) {
-		return obj.map(deepClone);
-	} else if (typeof obj === 'object') {
+		return obj.map(_deepClone);
+	} else if ((typeof obj === 'undefined' ? 'undefined' : _typeof(obj)) === 'object') {
 		var clone = {};
 		Object.keys(obj).forEach(function (key) {
-			clone[key] = deepClone(obj[key]);
+			clone[key] = _deepClone(obj[key]);
 		});
 		return clone;
 	} else {
@@ -41,19 +53,19 @@ var deepClone = function (obj) {
 	}
 };
 
-var upperFirst = function (string) {
+var upperFirst = function upperFirst(string) {
 	return string[0].toUpperCase() + string.slice(1);
 };
 
-var lowerFirst = function (string) {
+var lowerFirst = function lowerFirst(string) {
 	return string[0].toLowerCase() + string.slice(1);
 };
 
-var tagToIdentifier = function (tagName) {
+var tagToIdentifier = function tagToIdentifier(tagName) {
 	return lowerFirst(tagName.slice(1).split('-').map(upperFirst).join(''));
 };
 
-var createIdGenerator = function (prefix) {
+var createIdGenerator = function createIdGenerator(prefix) {
 	var counter = 0;
 	return function (override) {
 		if (arguments.length) {
@@ -65,32 +77,37 @@ var createIdGenerator = function (prefix) {
 	};
 };
 
-mod_getFileName = getFileName;
-mod_stringUntil = stringUntil;
-mod_stringFrom = stringFrom;
+exports.getFileName = mod_getFileName = getFileName;
+exports.stringUntil = mod_stringUntil = stringUntil;
+exports.stringFrom = mod_stringFrom = stringFrom;
 var pipe;
 pipe = pipe;
-var deepClone;
-deepClone = deepClone;
+var _deepClone;
+_deepClone = _deepClone;
 
-mod_tagToIdentifier = tagToIdentifier;
+exports.tagToIdentifier = mod_tagToIdentifier = tagToIdentifier;
 var upperFirst;
 upperFirst = upperFirst;
 var lowerFirst;
 lowerFirst = lowerFirst;
 
-mod_createIdGenerator = createIdGenerator;
+exports.createIdGenerator = mod_createIdGenerator = createIdGenerator;
 
-mod_PATH_SEPARATOR = PATH_SEPARATOR;
+exports.PATH_SEPARATOR = mod_PATH_SEPARATOR = PATH_SEPARATOR;
 var mod_stringUntil;
-export { mod_stringUntil as stringUntil };
+exports.stringUntil = mod_stringUntil;
+
 var mod_stringFrom;
-export { mod_stringFrom as stringFrom };
+exports.stringFrom = mod_stringFrom;
+
 var mod_getFileName;
-export { mod_getFileName as getFileName };
+exports.getFileName = mod_getFileName;
+
 var mod_createIdGenerator;
-export { mod_createIdGenerator as createIdGenerator };
+exports.createIdGenerator = mod_createIdGenerator;
+
 var mod_PATH_SEPARATOR;
-export { mod_PATH_SEPARATOR as PATH_SEPARATOR };
+exports.PATH_SEPARATOR = mod_PATH_SEPARATOR;
+
 var mod_tagToIdentifier;
-export { mod_tagToIdentifier as tagToIdentifier };
+exports.tagToIdentifier = mod_tagToIdentifier;

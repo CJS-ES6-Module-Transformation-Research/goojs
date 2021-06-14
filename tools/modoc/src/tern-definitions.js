@@ -1,18 +1,29 @@
-import ext_fs_fs from "fs";
-import ext__ from "underscore";
+"use strict";
 
-import {
-    createIdGenerator as util_createIdGenerator,
-    PATH_SEPARATOR as util_PATH_SEPARATOR,
-} from "./util";
+var _fs = require("fs");
 
-import { getFiles as trunk_getFiles, compileDoc as trunk_compileDoc } from "./trunk";
-import { parse as typeexpressionstypeparser_parse } from "./type-expressions/type-parser";
-import { serialize as typeexpressionsternserializer_serialize } from "./type-expressions/tern-serializer";
-import { defaultterndefinitionsjs as defaultTernDefinitions } from "./default-tern-definitions";
+var _fs2 = _interopRequireDefault(_fs);
+
+var _underscore = require("underscore");
+
+var _underscore2 = _interopRequireDefault(_underscore);
+
+var _util = require("./util");
+
+var _trunk = require("./trunk");
+
+var _typeParser = require("./type-expressions/type-parser");
+
+var _ternSerializer = require("./type-expressions/tern-serializer");
+
+var _defaultTernDefinitions = require("./default-tern-definitions");
+
+function _interopRequireDefault(obj) {
+	return obj && obj.__esModule ? obj : { default: obj };
+}
+
 // jshint node:true
 'use strict';
-
 
 function processArguments() {
 	if (process.argv.length < 4) {
@@ -26,15 +37,13 @@ function processArguments() {
 }
 
 // --- tern related ---
-var convertParameters = function (parameters) {
+var convertParameters = function convertParameters(parameters) {
 	var pair = compileOptions(parameters);
 
-	ext__.extend(additionalDefinitions, pair.definitions);
+	_underscore2.default.extend(additionalDefinitions, pair.definitions);
 
 	return pair.parameters.map(function (parameter) {
-		var decoratedName = parameter.optional || parameter.default_ ?
-			parameter.name + '?' :
-			parameter.name;
+		var decoratedName = parameter.optional || parameter.default_ ? parameter.name + '?' : parameter.name;
 
 		var type = parameter.rawType ? convert(parameter.rawType) : '?';
 
@@ -48,9 +57,9 @@ var convertParameters = function (parameters) {
 var DOC_BASE_URL = 'http://code.gooengine.com/latest/docs/index.html?';
 
 function compileTypelessFunction(parameters) {
-	return 'fn(' +
-		parameters.map(function (parameter) { return parameter + ': ?'; }).join(', ') +
-		')';
+	return 'fn(' + parameters.map(function (parameter) {
+		return parameter + ': ?';
+	}).join(', ') + ')';
 }
 
 /**
@@ -60,8 +69,8 @@ function compileTypelessFunction(parameters) {
  * @param {name, type, rawType} parameters
  * @returns {{definitions: *, parameters: *}}
  */
-var compileOptions = (function () {
-	var generateId = util_createIdGenerator('_options_');
+var compileOptions = function () {
+	var generateId = (0, _util.createIdGenerator)('_options_');
 
 	function insert(node, key, data) {
 		key.split('.').forEach(function (part) {
@@ -89,7 +98,7 @@ var compileOptions = (function () {
 
 				definitions[id] = definition;
 
-				ext__(node.children).forEach(function (node, name) {
+				(0, _underscore2.default)(node.children).forEach(function (node, name) {
 					definition[name] = translate(node, definitions);
 				});
 
@@ -97,7 +106,7 @@ var compileOptions = (function () {
 			}
 		}
 
-		return ext__(node.children).mapObject(function (node, name) {
+		return (0, _underscore2.default)(node.children).mapObject(function (node, name) {
 			return translate(node, definitions);
 		});
 	}
@@ -139,7 +148,7 @@ var compileOptions = (function () {
 			parameters: topLevel
 		};
 	};
-})();
+}();
 
 function compileFunction(fun, urlParameter) {
 	var ternDefinition = {
@@ -149,13 +158,10 @@ function compileFunction(fun, urlParameter) {
 	// just for debugging
 	try {
 		if (fun.comment) {
-			ternDefinition['!doc'] = (fun.comment.deprecated ? '[Deprecated] ' : '') +
-				(fun.comment.description || '');
+			ternDefinition['!doc'] = (fun.comment.deprecated ? '[Deprecated] ' : '') + (fun.comment.description || '');
 
 			if (fun.comment.param) {
-				var ending = fun.comment.returns && fun.comment.returns.rawType ?
-					') -> ' + convert(fun.comment.returns.rawType) :
-					')';
+				var ending = fun.comment.returns && fun.comment.returns.rawType ? ') -> ' + convert(fun.comment.returns.rawType) : ')';
 
 				ternDefinition['!type'] = 'fn(' + convertParameters(fun.comment.param) + ending;
 			} else {
@@ -179,8 +185,7 @@ function compileMember(member, urlParameter) {
 	// just for debugging
 	try {
 		if (member.comment) {
-			ternDefinition['!doc'] = (member.comment.deprecated ? '[Deprecated] ' : '') +
-				(member.comment.description || '');
+			ternDefinition['!doc'] = (member.comment.deprecated ? '[Deprecated] ' : '') + (member.comment.description || '');
 
 			if (member.comment.type) {
 				ternDefinition['!type'] = convert(member.comment.type.rawType);
@@ -263,14 +268,14 @@ function makeConverter(classNames) {
 	var typesRegex = new RegExp(typesRegexStr, 'g');
 
 	return function (closureType) {
-		var parsed = typeexpressionstypeparser_parse(closureType);
-		var ternType = typeexpressionsternserializer_serialize(parsed);
+		var parsed = (0, _typeParser.parse)(closureType);
+		var ternType = (0, _ternSerializer.serialize)(parsed);
 
 		// perform the substitutions after the conversion as this inflates the string with `goo.` prefixes
 		// should this prefixing be done on the expression in parsed form instead? why?
 
-		ext__.forEach(ternType.definitions, function (definition, key) {
-			additionalDefinitions[key] = ext__.mapObject(definition, function (member) {
+		_underscore2.default.forEach(ternType.definitions, function (definition, key) {
+			additionalDefinitions[key] = _underscore2.default.mapObject(definition, function (member) {
 				return member.replace(typesRegex, 'goo.$1');
 			});
 		});
@@ -289,13 +294,13 @@ function buildClasses(classes) {
 	var ternDefinitions = {
 		'!name': 'goo',
 		'!define': additionalDefinitions,
-		'Context': defaultTernDefinitions['Context'],
-		'Arguments': defaultTernDefinitions['Arguments']
+		'Context': _defaultTernDefinitions.defaultterndefinitionsjs['Context'],
+		'Arguments': _defaultTernDefinitions.defaultterndefinitionsjs['Arguments']
 	};
 
 	convert = makeConverter(Object.keys(classes));
 
-	ternDefinitions.goo = ext__.mapObject(classes, compileClass);
+	ternDefinitions.goo = _underscore2.default.mapObject(classes, compileClass);
 
 	// store this here for a bit
 	ternDefinitions.goo['!url'] = 'http://goocreate.com/learn/the-goo-object/';
@@ -303,18 +308,17 @@ function buildClasses(classes) {
 
 	var result = JSON.stringify(ternDefinitions, null, '\t');
 
-	ext_fs_fs.writeFileSync(args.outPath + util_PATH_SEPARATOR + 'tern-defs.json', result);
+	_fs2.default.writeFileSync(args.outPath + _util.PATH_SEPARATOR + 'tern-defs.json', result);
 }
-
 
 var args = processArguments();
 
 var IGNORE_FILES = ['goo.js', 'pack.js', 'logicpack', 'soundmanager', '+'];
 
 (function () {
-	var files = trunk_getFiles(args.sourcePath, IGNORE_FILES);
+	var files = (0, _trunk.getFiles)(args.sourcePath, IGNORE_FILES);
 
-	var classes = trunk_compileDoc(files);
+	var classes = (0, _trunk.compileDoc)(files);
 
 	buildClasses(classes);
 

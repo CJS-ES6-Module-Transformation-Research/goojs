@@ -1,5 +1,13 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.PhysicsSphereDebugShape = undefined;
+
+var _MeshData = require("../../../renderer/MeshData");
+
 var mod_PhysicsSphereDebugShape = PhysicsSphereDebugShape;
-import { MeshData as MeshData_MeshData } from "../../../renderer/MeshData";
 
 /**
  * A wireframe mesh indicating the position and orientation of a SphereCollider.
@@ -8,13 +16,13 @@ import { MeshData as MeshData_MeshData } from "../../../renderer/MeshData";
  */
 function PhysicsSphereDebugShape(numSegments) {
 	numSegments = numSegments || 32;
-	var attributeMap = MeshData_MeshData.defaultMap([MeshData_MeshData.POSITION]);
+	var attributeMap = _MeshData.MeshData.defaultMap([_MeshData.MeshData.POSITION]);
 	this.numSegments = numSegments;
-	MeshData_MeshData.call(this, attributeMap, 3 * 3 * numSegments, 3 * 2 * numSegments);
+	_MeshData.MeshData.call(this, attributeMap, 3 * 3 * numSegments, 3 * 2 * numSegments);
 	this.indexModes[0] = 'Lines';
 	this.rebuild();
 }
-PhysicsSphereDebugShape.prototype = Object.create(MeshData_MeshData.prototype);
+PhysicsSphereDebugShape.prototype = Object.create(_MeshData.MeshData.prototype);
 PhysicsSphereDebugShape.prototype.constructor = PhysicsSphereDebugShape;
 
 /**
@@ -50,7 +58,7 @@ PhysicsSphereDebugShape.prototype.rebuild = function () {
 		indices.push(2 * numSegments + i, 2 * numSegments + (i + 1) % numSegments);
 	}
 
-	this.getAttributeBuffer(MeshData_MeshData.POSITION).set(verts);
+	this.getAttributeBuffer(_MeshData.MeshData.POSITION).set(verts);
 	this.getIndexBuffer().set(indices);
 
 	return this;
@@ -61,4 +69,4 @@ PhysicsSphereDebugShape.prototype.rebuild = function () {
  * @param {number} [numSegments=32]
  * @extends MeshData
  */
-export { mod_PhysicsSphereDebugShape as PhysicsSphereDebugShape };
+exports.PhysicsSphereDebugShape = mod_PhysicsSphereDebugShape;
