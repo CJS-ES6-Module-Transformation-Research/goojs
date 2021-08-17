@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Enabled and stores webgl extensions and capabilities
 

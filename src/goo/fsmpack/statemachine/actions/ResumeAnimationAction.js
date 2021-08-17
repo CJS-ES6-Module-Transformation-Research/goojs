@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 
 function ResumeAnimationAction(/*id, settings*/) {

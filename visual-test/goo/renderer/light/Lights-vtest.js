@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('All supported light types are featured in this scene');
+    V.describe('All supported light types are featured in this scene');
 
-	function addPointLight() {
+    function addPointLight() {
 		var pointLight = new PointLight(new Vector3(0.9, 0.0, 0.2));
 		pointLight.range = 5;
 
@@ -31,7 +32,7 @@
 		pointlightGui.open();
 	}
 
-	function addDirectionalLight() {
+    function addDirectionalLight() {
 		var directionalLight = new DirectionalLight(new Vector3(0.2, 0.9, 0.0));
 		directionalLight.intensity = 0.05;
 
@@ -55,7 +56,7 @@
 		directionallightGui.open();
 	}
 
-	function addSpotLight() {
+    function addSpotLight() {
 		var spotLight = new SpotLight(new Vector3(0.2, 0.4, 1.0));
 		spotLight.angle = 25;
 		spotLight.range = 10;
@@ -92,24 +93,24 @@
 		spotLightGui.open();
 	}
 
-	var gui = new window.dat.GUI();
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gui = new window.dat.GUI();
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	var debugRenderSystem = new DebugRenderSystem();
-	debugRenderSystem.doRender.CameraComponent = true;
-	debugRenderSystem.doRender.LightComponent = true;
-	gooRunner.renderSystems.push(debugRenderSystem);
-	world.setSystem(debugRenderSystem);
+    var debugRenderSystem = new DebugRenderSystem();
+    debugRenderSystem.doRender.CameraComponent = true;
+    debugRenderSystem.doRender.LightComponent = true;
+    gooRunner.renderSystems.push(debugRenderSystem);
+    world.setSystem(debugRenderSystem);
 
-	// add some spheres to cast the light on
-	V.addSpheres();
+    // add some spheres to cast the light on
+    V.addSpheres();
 
-	addPointLight();
-	addDirectionalLight();
-	addSpotLight();
+    addPointLight();
+    addDirectionalLight();
+    addSpotLight();
 
-	// camera
-	V.addOrbitCamera();
+    // camera
+    V.addOrbitCamera();
 
-	V.process();
+    V.process();

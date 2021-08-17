@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	CustomMatchers: 'test/unit/CustomMatchers',
 	Configs: 'test/unit/loaders/Configs',

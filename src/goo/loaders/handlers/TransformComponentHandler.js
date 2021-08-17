@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var TransformComponent = require('../../entities/components/TransformComponent');
 var MathUtils = require('../../math/MathUtils');

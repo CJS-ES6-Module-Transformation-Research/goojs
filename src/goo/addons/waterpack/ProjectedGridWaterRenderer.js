@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../../renderer/MeshData');
 var Shader = require('../../renderer/Shader');
 var Camera = require('../../renderer/Camera');

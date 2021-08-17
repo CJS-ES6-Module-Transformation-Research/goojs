@@ -1,3 +1,4 @@
+"use strict";
 var ScriptSystem = require('../../../../src/goo/entities/systems/ScriptSystem');
 var ScriptComponent = require('../../../../src/goo/entities/components/ScriptComponent');
 var World = require('../../../../src/goo/entities/World');

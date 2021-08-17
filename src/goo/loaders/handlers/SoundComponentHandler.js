@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var SoundComponent = require('../../entities/components/SoundComponent');
 var AudioContext = require('../../sound/AudioContext');

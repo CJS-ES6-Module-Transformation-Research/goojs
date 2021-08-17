@@ -1,3 +1,4 @@
+"use strict";
 var GroundBoundMovementScript = require('../../../src/goo/scriptpack/GroundBoundMovementScript');
 var MovementSystem = require('../../../src/goo/entities/systems/MovementSystem');
 var MovementComponent = require('../../../src/goo/entities/components/MovementComponent');

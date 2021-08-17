@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var SteadyState = require('../../animationpack/state/SteadyState');
 var ClipSource = require('../../animationpack/blendtree/ClipSource');

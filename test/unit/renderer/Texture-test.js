@@ -1,3 +1,4 @@
+"use strict";
 var Texture = require('../../../src/goo/renderer/Texture');
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 

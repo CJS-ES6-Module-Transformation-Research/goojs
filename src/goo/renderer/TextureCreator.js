@@ -1,3 +1,4 @@
+"use strict";
 var Texture = require('../renderer/Texture');
 var MathUtils = require('../math/MathUtils');
 var TextureHandler = require('../loaders/handlers/TextureHandler');

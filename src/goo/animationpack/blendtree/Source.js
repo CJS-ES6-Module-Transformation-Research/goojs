@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Class to use for animation sources. Base class - not supposed to be used directly.
  */

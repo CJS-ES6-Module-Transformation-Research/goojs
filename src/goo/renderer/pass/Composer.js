@@ -1,3 +1,4 @@
+"use strict";
 var RenderTarget = require('../../renderer/pass/RenderTarget');
 var FullscreenPass = require('../../renderer/pass/FullscreenPass');
 var ShaderLib = require('../../renderer/shaders/ShaderLib');

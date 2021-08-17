@@ -1,3 +1,4 @@
+"use strict";
 var SystemBus = require('../entities/SystemBus');
 
 /**

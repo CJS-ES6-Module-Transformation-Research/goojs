@@ -1,3 +1,4 @@
+"use strict";
 var Entity = require('../../../src/goo/entities/Entity');
 var World = require('../../../src/goo/entities/World');
 var TransformComponent = require('../../../src/goo/entities/components/TransformComponent');

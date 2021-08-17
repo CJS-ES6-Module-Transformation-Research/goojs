@@ -1,3 +1,4 @@
+"use strict";
 var Gizmo = require('../../util/gizmopack/Gizmo');
 var Sphere = require('../../shapes/Sphere');
 var Torus = require('../../shapes/Torus');

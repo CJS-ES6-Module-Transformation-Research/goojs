@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var Material = require('../../renderer/Material');
 var ShaderLib = require('../../renderer/shaders/ShaderLib');

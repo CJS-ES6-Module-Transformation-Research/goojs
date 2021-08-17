@@ -1,3 +1,4 @@
+"use strict";
 var SimplePartitioner = require('../../../src/goo/renderer/SimplePartitioner');
 var Camera = require('../../../src/goo/renderer/Camera');
 var BoundingSphere = require('../../../src/goo/renderer/bounds/BoundingSphere');

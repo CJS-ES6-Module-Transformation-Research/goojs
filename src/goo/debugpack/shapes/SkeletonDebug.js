@@ -1,3 +1,4 @@
+"use strict";
 var Box = require('../../shapes/Box');
 var Transform = require('../../math/Transform');
 var Joint = require('../../animationpack/Joint');

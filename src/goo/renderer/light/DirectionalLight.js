@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../../math/Vector3');
 var Light = require('../../renderer/light/Light');
 

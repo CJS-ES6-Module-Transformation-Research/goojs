@@ -1,3 +1,4 @@
+"use strict";
 var Cone = require('../../../src/goo/shapes/Cone');
 
 describe('Cone', function () {

@@ -1,37 +1,38 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('1 = requestFullScreen, 2 = exitFullScreen, 3 = toggleFullScreen\n' +
+    V.describe('1 = requestFullScreen, 2 = exitFullScreen, 3 = toggleFullScreen\n' +
 				'4 = requestPointerLock, 5 = exitPointerLock, 6 = togglePointerLock');
 
-	var gooRunner = V.initGoo();
+    var gooRunner = V.initGoo();
 
-	var box = new Box(0.3, 1, 1.6);
-	gooRunner.world.createEntity(box, new Material(ShaderLib.uber), function (entity, tpf) {
+    var box = new Box(0.3, 1, 1.6);
+    gooRunner.world.createEntity(box, new Material(ShaderLib.uber), function (entity, tpf) {
 		entity.addRotation(0, tpf, 0);
 	}).addToWorld();
 
-	V.button('requestFullScreen', function () {
+    V.button('requestFullScreen', function () {
 		GameUtils.requestFullScreen();
 	});
-	V.button('exitFullScreen', function () {
+    V.button('exitFullScreen', function () {
 		GameUtils.exitFullScreen();
 	});
-	V.button('toggleFullScreen', function () {
+    V.button('toggleFullScreen', function () {
 		GameUtils.toggleFullScreen();
 	});
 
-	V.button('requestPointerLock', function () {
+    V.button('requestPointerLock', function () {
 		GameUtils.requestPointerLock();
 	});
-	V.button('exitPointerLock', function () {
+    V.button('exitPointerLock', function () {
 		GameUtils.exitPointerLock();
 	});
-	V.button('togglePointerLock', function () {
+    V.button('togglePointerLock', function () {
 		GameUtils.togglePointerLock();
 	});
 
-	document.addEventListener('keydown', function (evt) {
+    document.addEventListener('keydown', function (evt) {
 		switch (evt.keyCode) {
 			case 49: // 1
 				GameUtils.requestFullScreen();
@@ -58,8 +59,8 @@
 		}
 	}, false);
 
-	V.addLights();
+    V.addLights();
 
-	V.addOrbitCamera(new Vector3(10, Math.PI / 2, Math.PI / 8));
+    V.addOrbitCamera(new Vector3(10, Math.PI / 2, Math.PI / 8));
 
-	V.process();
+    V.process();

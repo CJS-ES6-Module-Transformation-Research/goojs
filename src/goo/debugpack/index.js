@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	BoundingVolumeMeshBuilder: require('./BoundingVolumeMeshBuilder'),
 	MarkerComponent: require('./components/MarkerComponent'),

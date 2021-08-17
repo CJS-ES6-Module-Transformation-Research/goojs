@@ -1,3 +1,4 @@
+"use strict";
 var ObjectUtils = require('../../../src/goo/util/ObjectUtils');
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 

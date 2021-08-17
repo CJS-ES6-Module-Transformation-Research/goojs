@@ -1,3 +1,4 @@
+"use strict";
 var ScriptUtils = require('../../../src/goo/scripts/ScriptUtils');
 
 describe('ScriptUtils', function () {

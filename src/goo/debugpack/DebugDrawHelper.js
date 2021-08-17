@@ -1,3 +1,4 @@
+"use strict";
 var SkeletonPose = require('../animationpack/SkeletonPose');
 var DirectionalLight = require('../renderer/light/DirectionalLight');
 var SpotLight = require('../renderer/light/SpotLight');

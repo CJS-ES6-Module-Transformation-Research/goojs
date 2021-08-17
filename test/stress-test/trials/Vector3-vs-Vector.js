@@ -1,3 +1,4 @@
+"use strict";
 define([
 	'goo/math/Vector',
 	'goo/math/Vector3'

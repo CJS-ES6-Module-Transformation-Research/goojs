@@ -1,3 +1,4 @@
+"use strict";
 var FadeTransitionState = require('../../animationpack/state/FadeTransitionState');
 
 /**

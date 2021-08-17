@@ -1,3 +1,4 @@
+"use strict";
 var MathUtils = require('../../../src/goo/math/MathUtils');
 var Vector3 = require('../../../src/goo/math/Vector3');
 var Vector2 = require('../../../src/goo/math/Vector2');

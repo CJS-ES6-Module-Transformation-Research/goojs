@@ -1,3 +1,4 @@
+"use strict";
 var AudioContext = require('../sound/AudioContext');
 var MathUtils = require('../math/MathUtils');
 

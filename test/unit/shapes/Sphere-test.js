@@ -1,3 +1,4 @@
+"use strict";
 var Sphere = require('../../../src/goo/shapes/Sphere');
 
 describe('Sphere', function () {

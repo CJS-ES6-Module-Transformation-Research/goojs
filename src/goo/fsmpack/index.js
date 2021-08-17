@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	MachineHandler: require('./MachineHandler'),
 	ProximityComponent: require('./proximity/ProximityComponent'),

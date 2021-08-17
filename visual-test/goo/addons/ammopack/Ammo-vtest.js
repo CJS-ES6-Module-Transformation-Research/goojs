@@ -1,3 +1,4 @@
+"use strict";
 /* global goo */
 
 goo.V.describe('All entities in the scene have an ammo component which updates their transform. Press any key to add entities.');

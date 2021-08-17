@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../../../../src/goo/renderer/MeshData');
 var GooRunner = require('../../../../src/goo/entities/GooRunner');
 var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');

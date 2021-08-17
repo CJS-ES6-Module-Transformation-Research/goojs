@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../loaders/handlers/ComponentHandler');
 var TimelineComponent = require('../timelinepack/TimelineComponent');
 var ValueChannel = require('../timelinepack/ValueChannel');

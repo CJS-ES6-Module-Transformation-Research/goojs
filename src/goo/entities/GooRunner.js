@@ -1,3 +1,4 @@
+"use strict";
 var World = require('./World');
 var Renderer = require('../renderer/Renderer');
 var TransformSystem = require('./systems/TransformSystem');

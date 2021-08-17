@@ -1,3 +1,4 @@
+"use strict";
 var ScriptHandler = require('../../../../src/goo/scriptpack/ScriptHandler');
 
 describe('ScriptHandler', function () {

@@ -1,16 +1,17 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'A scene with a goon and the bloom post effect is loaded and unloaded repeatedly.',
 		'All resources should be deallocated on unload and with time the memory usage should not go up.',
 		'Use a webgl inspector to track how many textures/buffers/programs are used at any time.',
 	].join('\n'));
 
-	// to replace this scene with another, just clean the res folder and drop new assets in it
+    // to replace this scene with another, just clean the res folder and drop new assets in it
 
-	var gooRunner;
-	function init() {
+    var gooRunner;
+    function init() {
 
 		// Init the GooEngine
 		gooRunner = initGoo();
@@ -50,7 +51,7 @@
 		});
 	}
 
-	function initGoo() {
+    function initGoo() {
 
 		// Create typical Goo application.
 		var gooRunner = new GooRunner({
@@ -71,7 +72,7 @@
 	}
 
 
-	function loadProject(gooRunner) {
+    function loadProject(gooRunner) {
 
 		// The loader takes care of loading the data.
 		var loader = new DynamicLoader({
@@ -148,4 +149,4 @@
 			return loader.load(project.id);
 		});
 	}
-	init();
+    init();

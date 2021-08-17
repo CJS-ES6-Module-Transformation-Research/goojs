@@ -1,11 +1,12 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'Tests that cubemaps with mipmaps works with typed array images. Should display two spheres with checkerboard reflections (left using images and right using arrays).'
 	].join('\n'));
 
-	var cubemapShader = {
+    var cubemapShader = {
 		attributes: {
 			vertexPosition: MeshData.POSITION,
 			vertexNormal: MeshData.NORMAL
@@ -53,7 +54,7 @@
 		].join('\n')
 	};
 
-	function createSphereEntity(texture) {
+    function createSphereEntity(texture) {
 		var meshData = new Sphere(16, 16, 1);
 		var material = new Material(cubemapShader);
 
@@ -64,13 +65,13 @@
 		return entity;
 	}
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	var settings = {};
+    var settings = {};
 
-	// Images with checkerboard pattern
-	var images = [
+    // Images with checkerboard pattern
+    var images = [
 		'../../../../resources/check.png',
 		'../../../../resources/check-alt.png',
 		'../../../../resources/check.png',
@@ -78,17 +79,17 @@
 		'../../../../resources/check.png',
 		'../../../../resources/check-alt.png'
 	];
-	new TextureCreator().loadTextureCube(images, settings).then(function (texture) {
+    new TextureCreator().loadTextureCube(images, settings).then(function (texture) {
 		var sphereEntity = createSphereEntity(texture);
 		sphereEntity.setTranslation(-1.5, 0, 0).addToWorld();
 	});
 
-	// Typed array checkerboard of same size as above images
-	var size = 256;
-	var tiles = 4;
-	var tileSize = size / tiles;
-	var imageData = [];
-	for (var x = 0; x < tiles; x++) {
+    // Typed array checkerboard of same size as above images
+    var size = 256;
+    var tiles = 4;
+    var tileSize = size / tiles;
+    var imageData = [];
+    for (var x = 0; x < tiles; x++) {
 		for (var y = 0; y < tiles; y++) {
 			var r = Math.floor(MathUtils.fastRandom() * 255);
 			var g = Math.floor(MathUtils.fastRandom() * 255);
@@ -104,17 +105,17 @@
 			}
 		}
 	}
-	var image = new Uint8Array(imageData);
-	for (var i = 0; i < 6; i++) {
+    var image = new Uint8Array(imageData);
+    for (var i = 0; i < 6; i++) {
 		images[i] = image;
 	}
-	var texture = new Texture(images, settings, size, size);
-	texture.variant = 'CUBE';
-	var sphereEntity = createSphereEntity(texture);
-	sphereEntity.setTranslation(1.5, 0, 0).addToWorld();
+    var texture = new Texture(images, settings, size, size);
+    texture.variant = 'CUBE';
+    var sphereEntity = createSphereEntity(texture);
+    sphereEntity.setTranslation(1.5, 0, 0).addToWorld();
 
-	V.addLights();
+    V.addLights();
 
-	V.addOrbitCamera(new Vector3(10, Math.PI / 2, 0), new Vector3(0, 0.5, 0));
+    V.addOrbitCamera(new Vector3(10, Math.PI / 2, 0), new Vector3(0, 0.5, 0));
 
-	V.process();
+    V.process();

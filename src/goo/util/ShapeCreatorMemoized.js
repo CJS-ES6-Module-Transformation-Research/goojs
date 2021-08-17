@@ -1,3 +1,4 @@
+"use strict";
 var Box = require('../shapes/Box');
 var Quad = require('../shapes/Quad');
 var Sphere = require('../shapes/Sphere');

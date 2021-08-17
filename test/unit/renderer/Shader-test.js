@@ -1,3 +1,4 @@
+"use strict";
 var DirectionalLight = require('../../../src/goo/renderer/light/DirectionalLight');
 var Texture = require('../../../src/goo/renderer/Texture');
 var Camera = require('../../../src/goo/renderer/Camera');

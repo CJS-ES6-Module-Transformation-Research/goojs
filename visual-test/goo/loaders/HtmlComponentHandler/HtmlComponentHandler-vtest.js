@@ -1,21 +1,22 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('Html component handler');
+    V.describe('Html component handler');
 
-	var gooRunner = V.initGoo();
+    var gooRunner = V.initGoo();
 
-	var world = gooRunner.world;
-	var htmlSystem = new HtmlSystem(gooRunner.renderer);
-	world.add(htmlSystem);
+    var world = gooRunner.world;
+    var htmlSystem = new HtmlSystem(gooRunner.renderer);
+    world.add(htmlSystem);
 
-	// The loader takes care of loading the data
-	var loader = new DynamicLoader({
+    // The loader takes care of loading the data
+    var loader = new DynamicLoader({
 		world: world,
 		rootPath: './'
 	});
 
-	loader.load('root.bundle', {
+    loader.load('root.bundle', {
 		preloadBinaries: true
 	}).then(function (result) {
 		// Grab the first project in the bundle.

@@ -1,3 +1,4 @@
+"use strict";
 var AbstractAnimationChannel = require('../../animationpack/clip/AbstractAnimationChannel');
 var TriggerData = require('../../animationpack/clip/TriggerData');
 

@@ -1,3 +1,4 @@
+"use strict";
 /* global opentype */
 
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');

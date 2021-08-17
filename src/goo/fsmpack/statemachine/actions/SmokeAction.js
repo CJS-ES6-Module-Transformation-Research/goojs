@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 var Material = require('../../../renderer/Material');
 var ShaderLib = require('../../../renderer/shaders/ShaderLib');

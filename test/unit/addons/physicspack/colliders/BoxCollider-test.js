@@ -1,3 +1,4 @@
+"use strict";
 describe('BoxCollider', function () {
 
 	var BoxCollider = require('../../../../../src/goo/addons/physicspack/colliders/BoxCollider');

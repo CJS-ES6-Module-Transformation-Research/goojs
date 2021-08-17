@@ -1,3 +1,4 @@
+"use strict";
 var PolyCurve = require('../../../../../src/goo/addons/particlepack/curves/PolyCurve');
 var Vector3Curve = require('../../../../../src/goo/addons/particlepack/curves/Vector3Curve');
 var Vector4Curve = require('../../../../../src/goo/addons/particlepack/curves/Vector4Curve');

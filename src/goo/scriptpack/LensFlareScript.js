@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../math/Vector3');
 var ParticleSystemUtils = require('../util/ParticleSystemUtils');
 var Material = require('../renderer/Material');

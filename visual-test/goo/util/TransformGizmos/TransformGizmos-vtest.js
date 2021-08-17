@@ -1,43 +1,44 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'Select and entity and transform it using the transform gizmos.',
 		'Change the active gizmo by hitting 1, 2, 3, 4 or 5.'
 	].join('\n'));
 
-	V.button('1', key1);
-	V.button('2', key2);
-	V.button('3', key3);
-	V.button('4', key4);
-	V.button('5', key5);
+    V.button('1', key1);
+    V.button('2', key2);
+    V.button('3', key3);
+    V.button('4', key4);
+    V.button('5', key5);
 
-	function key1() {
+    function key1() {
 		console.log('translation, global');
 		gizmoRenderSystem.setActiveGizmo(0);
 	}
 
-	function key2() {
+    function key2() {
 		console.log('translation, local');
 		gizmoRenderSystem.setActiveGizmo(1);
 	}
 
-	function key3() {
+    function key3() {
 		console.log('rotation, local');
 		gizmoRenderSystem.setActiveGizmo(2);
 	}
 
-	function key4() {
+    function key4() {
 		console.log('rotation, global');
 		gizmoRenderSystem.setActiveGizmo(3);
 	}
 
-	function key5() {
+    function key5() {
 		console.log('scale');
 		gizmoRenderSystem.setActiveGizmo(4);
 	}
 
-	function setupKeys() {
+    function setupKeys() {
 		document.body.addEventListener('keydown', function (e) {
 			switch (e.which) {
 				case 17: // ctrl
@@ -80,7 +81,7 @@
 		});
 	}
 
-	function setupMouse() {
+    function setupMouse() {
 		function onPick(e) {
 			if (e.domEvent.button !== 0) { return; }
 			if (e.domEvent.shiftKey || e.domEvent.altKey) { return; }
@@ -110,40 +111,40 @@
 		document.addEventListener('touchend', onUnpick);
 	}
 
-	function setupGizmos() {
+    function setupGizmos() {
 		gizmoRenderSystem = new GizmoRenderSystem();
 		gizmoRenderSystem.setActiveGizmo(0);
 		gooRunner.setRenderSystem(gizmoRenderSystem);
 	}
 
-	// initialise goo
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    // initialise goo
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	var gizmoRenderSystem;
+    var gizmoRenderSystem;
 
-	// add some lights
-	V.addLights();
+    // add some lights
+    V.addLights();
 
-	V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3), new Vector3(), 'Right');
+    V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3), new Vector3(), 'Right');
 
-	// standard material
-	var material = new Material(ShaderLib.simpleLit);
+    // standard material
+    var material = new Material(ShaderLib.simpleLit);
 
-	// add some entities
-	world.createEntity(new Box(), material, [3, 0, 0]).addToWorld();
-	var sphereEntity = world.createEntity(new Sphere(32, 32), material, [0, 0, 0]).addToWorld();
-	world.createEntity(new Torus(32, 32, 0.1, 0.5), material, [-3, 0, 0]).addToWorld();
+    // add some entities
+    world.createEntity(new Box(), material, [3, 0, 0]).addToWorld();
+    var sphereEntity = world.createEntity(new Sphere(32, 32), material, [0, 0, 0]).addToWorld();
+    world.createEntity(new Torus(32, 32, 0.1, 0.5), material, [-3, 0, 0]).addToWorld();
 
-	// add the gizmo render system
-	setupGizmos();
+    // add the gizmo render system
+    setupGizmos();
 
-	// allow using the mouse to select what entity to transform
-	setupMouse();
+    // allow using the mouse to select what entity to transform
+    setupMouse();
 
-	// allow switching of active gizmo with the 1, 2 and 3 keys
-	setupKeys();
+    // allow switching of active gizmo with the 1, 2 and 3 keys
+    setupKeys();
 
-	gizmoRenderSystem.show(sphereEntity);
+    gizmoRenderSystem.show(sphereEntity);
 
-	V.process();
+    V.process();

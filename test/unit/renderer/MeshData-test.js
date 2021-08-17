@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../../../src/goo/renderer/MeshData');
 var Quad = require('../../../src/goo/shapes/Quad');
 var Box = require('../../../src/goo/shapes/Box');

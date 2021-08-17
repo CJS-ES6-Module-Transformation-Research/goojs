@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 var Quaternion = require('../../../math/Quaternion');
 var Matrix3 = require('../../../math/Matrix3');

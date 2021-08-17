@@ -1,3 +1,4 @@
+"use strict";
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 var BufferData = require('../../../src/goo/renderer/BufferData');
 

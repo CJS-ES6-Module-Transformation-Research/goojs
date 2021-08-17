@@ -1,3 +1,4 @@
+"use strict";
 var SoundHandler = require('../loaders/handlers/SoundHandler');
 var AudioContext = require('../sound/AudioContext');
 var Ajax = require('../util/Ajax');

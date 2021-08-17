@@ -1,3 +1,4 @@
+"use strict";
 var GooRunner = require('../../../../src/goo/entities/GooRunner');
 var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
 var Texture = require('../../../../src/goo/renderer/Texture');

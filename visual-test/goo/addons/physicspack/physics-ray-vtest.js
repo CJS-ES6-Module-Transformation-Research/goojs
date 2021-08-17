@@ -1,3 +1,4 @@
+"use strict";
 /* global goo, V */
 goo.V.attachToGlobal();
 V.describe(

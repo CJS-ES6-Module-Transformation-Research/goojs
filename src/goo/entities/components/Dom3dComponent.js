@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var Quad = require('../../shapes/Quad');
 var MeshRendererComponent = require('../../entities/components/MeshRendererComponent');

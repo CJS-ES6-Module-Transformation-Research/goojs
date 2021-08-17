@@ -1,26 +1,27 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('The quad component/handler are used to render 2 svgs to double-faced quads');
+    V.describe('The quad component/handler are used to render 2 svgs to double-faced quads');
 
-	var svgData1 =	"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 -50 200 150' width='513' height='513'>" +
+    var svgData1 =	"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 -50 200 150' width='513' height='513'>" +
 		'<rect x="0" y="0" width="200" height="100" stroke="black" stroke-width="3" fill="blue" fill-opacity="0.5" />' +
 		'<circle cx="100" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />' +
 		"</svg>";
 
-	var svgData2 =	"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 -50 200 150' width='512' height='512'>" +
+    var svgData2 =	"<svg xmlns='http://www.w3.org/2000/svg' version='1.1' viewBox='0 -50 200 150' width='512' height='512'>" +
 		'<rect x="0" y="0" width="200" height="100" stroke="black" stroke-width="3" fill="blue" fill-opacity="0.5" />' +
 		'<circle cx="100" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />' +
 		"</svg>";
 
-	// 3d test ---
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    // 3d test ---
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	addQuad(svgData1, -5);
-	addQuad(svgData2,  5);
+    addQuad(svgData1, -5);
+    addQuad(svgData2,  5);
 
-	function getImage(svgData) {
+    function getImage(svgData) {
 		var img = new Image();
 		var svg = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
 		var DOMURL = window.URL || window.webkitURL || window;
@@ -30,7 +31,7 @@
 		return img;
 	}
 
-	function addQuad(svgData, x) {
+    function addQuad(svgData, x) {
 		var img = getImage(svgData);
 
 		img.onload = function () {
@@ -47,17 +48,17 @@
 		};
 	}
 
-	V.addLights();
+    V.addLights();
 
-	V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
+    V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
 
-	V.process();
+    V.process();
 
-	// 2d test ---
-	draw(createCanvas(), svgData1);
-	draw(createCanvas(), svgData2);
+    // 2d test ---
+    draw(createCanvas(), svgData1);
+    draw(createCanvas(), svgData2);
 
-	function createCanvas() {
+    function createCanvas() {
 		var canvas = document.createElement('canvas');
 		canvas.width = 512;
 		canvas.height = 512;
@@ -67,7 +68,7 @@
 		return canvas;
 	}
 
-	function draw(canvas, svgData) {
+    function draw(canvas, svgData) {
 		var img = getImage(svgData);
 
 		img.onload = function () {

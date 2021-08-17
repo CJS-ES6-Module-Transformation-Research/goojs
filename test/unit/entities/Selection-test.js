@@ -1,3 +1,4 @@
+"use strict";
 var Selection = require('../../../src/goo/entities/Selection');
 
 describe('Selection', function () {

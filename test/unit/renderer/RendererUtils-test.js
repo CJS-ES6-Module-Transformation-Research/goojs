@@ -1,3 +1,4 @@
+"use strict";
 var RendererUtils = require('../../../src/goo/renderer/RendererUtils');
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 

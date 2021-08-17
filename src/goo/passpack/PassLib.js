@@ -1,3 +1,4 @@
+"use strict";
 var ShaderLibExtra = require('../passpack/ShaderLibExtra');
 var FullscreenPass = require('../renderer/pass/FullscreenPass');
 var BloomPass = require('../passpack/BloomPass');

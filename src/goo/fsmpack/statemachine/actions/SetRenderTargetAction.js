@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 var PortalComponent = require('../../../entities/components/PortalComponent');
 var PortalSystem = require('../../../entities/systems/PortalSystem');

@@ -1,3 +1,4 @@
+"use strict";
 var Vector2 = require('../../../src/goo/math/Vector2');
 var CustomMatchers = require('../../../test/unit/CustomMatchers');
 

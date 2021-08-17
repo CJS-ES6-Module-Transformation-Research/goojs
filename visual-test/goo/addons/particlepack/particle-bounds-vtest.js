@@ -1,3 +1,4 @@
+"use strict";
 goo.V.attachToGlobal();
 
 var gooRunner = V.initGoo();

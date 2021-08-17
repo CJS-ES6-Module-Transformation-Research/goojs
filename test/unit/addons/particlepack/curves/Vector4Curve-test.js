@@ -1,3 +1,4 @@
+"use strict";
 var Vector4Curve = require('../../../../../src/goo/addons/particlepack/curves/Vector4Curve');
 var ConstantCurve = require('../../../../../src/goo/addons/particlepack/curves/ConstantCurve');
 var Vector4 = require('../../../../../src/goo/math/Vector4');

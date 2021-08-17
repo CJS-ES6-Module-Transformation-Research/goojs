@@ -1,3 +1,4 @@
+"use strict";
 var MarkerComponent = require('./components/MarkerComponent');
 var MarkerSystem = require('./systems/MarkerSystem');
 

@@ -1,3 +1,4 @@
+"use strict";
 var Joint = require('./Joint');
 
 /**

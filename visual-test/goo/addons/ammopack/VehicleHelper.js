@@ -1,3 +1,4 @@
+"use strict";
 /* global Ammo, gooRunner */
 
 function VehicleHelper(goo, ammoSystem, chassis, wheelRadius, suspensionLength, doCreateDebugTire) {

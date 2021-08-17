@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('All implemented shadow types');
+    V.describe('All implemented shadow types');
 
-	function addPointLight() {
+    function addPointLight() {
 		var pointLight = new PointLight(new Vector3(0.9, 0.0, 0.2));
 		pointLight.range = 5;
 		pointLight.shadowSettings.shadowType = 'PCF';
@@ -33,7 +34,7 @@
 		pointlightGui.open();
 	}
 
-	function addDirectionalLight() {
+    function addDirectionalLight() {
 		var directionalLight = new DirectionalLight(new Vector3(0.2, 0.9, 0.0));
 		directionalLight.intensity = 0.05;
 		directionalLight.shadowSettings.size = 10;
@@ -60,8 +61,8 @@
 		directionallightGui.open();
 	}
 
-	var ind = 0;
-	function addSpotLight() {
+    var ind = 0;
+    function addSpotLight() {
 		var spotLight = new SpotLight(new Vector3(0.2, 0.4, 1.0));
 		spotLight.angle = 35;
 		spotLight.penumbra = 0;
@@ -103,37 +104,37 @@
 		return spotLightEntity;
 	}
 
-	var gui = new window.dat.GUI();
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gui = new window.dat.GUI();
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	var debugRenderSystem = new DebugRenderSystem();
-	debugRenderSystem.doRender.LightComponent = true;
-	gooRunner.renderSystems.push(debugRenderSystem);
-	world.setSystem(debugRenderSystem);
+    var debugRenderSystem = new DebugRenderSystem();
+    debugRenderSystem.doRender.LightComponent = true;
+    gooRunner.renderSystems.push(debugRenderSystem);
+    world.setSystem(debugRenderSystem);
 
-	// add some spheres to cast the light on
-	V.addShapes(5, new Sphere(32, 32, 0.5)).each(function (sphere) {
+    // add some spheres to cast the light on
+    V.addShapes(5, new Sphere(32, 32, 0.5)).each(function (sphere) {
 		sphere.meshRendererComponent.castShadows = true;
 	});
 
-	var plane = gooRunner.world.createEntity(
+    var plane = gooRunner.world.createEntity(
 		new Box(30, 30, 0.5),
 		V.getColoredMaterial(1, 1, 1, 1),
 		[0, 0, -6]
 	).addToWorld();
 
-	gui.add(plane.meshRendererComponent, 'receiveShadows');
+    gui.add(plane.meshRendererComponent, 'receiveShadows');
 
-	addPointLight(gooRunner);
-	addDirectionalLight(gooRunner);
-	addSpotLight(gooRunner);
+    addPointLight(gooRunner);
+    addDirectionalLight(gooRunner);
+    addSpotLight(gooRunner);
 
-	addSpotLight(gooRunner)
+    addSpotLight(gooRunner)
 		.set([3, -4, 5])
 		.lookAt(Vector3.ZERO, Vector3.UNIT_Y);
 
-	// camera
-	V.addOrbitCamera(new Vector3(25, Math.PI / 3, 0));
+    // camera
+    V.addOrbitCamera(new Vector3(25, Math.PI / 3, 0));
 
-	V.process();
+    V.process();

@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	CannonBoxColliderComponent: require('./CannonBoxColliderComponent'),
 	CannonCylinderColliderComponent: require('./CannonCylinderColliderComponent'),

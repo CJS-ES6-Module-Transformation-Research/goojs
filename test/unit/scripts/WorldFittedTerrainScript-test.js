@@ -1,3 +1,4 @@
+"use strict";
 var WorldFittedTerrainScript = require('../../../src/goo/scriptpack/WorldFittedTerrainScript');
 var Vector3 = require('../../../src/goo/math/Vector3');
 

@@ -1,3 +1,4 @@
+"use strict";
 var ProximitySystem = require('../../../../src/goo/fsmpack/proximity/ProximitySystem');
 var ProximityComponent = require('../../../../src/goo/fsmpack/proximity/ProximityComponent');
 var World = require('../../../../src/goo/entities/World');

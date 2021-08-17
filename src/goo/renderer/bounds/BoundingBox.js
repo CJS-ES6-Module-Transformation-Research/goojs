@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../../math/Vector3');
 var BoundingVolume = require('../../renderer/bounds/BoundingVolume');
 var BoundingSphere = require('../../renderer/bounds/BoundingSphere');

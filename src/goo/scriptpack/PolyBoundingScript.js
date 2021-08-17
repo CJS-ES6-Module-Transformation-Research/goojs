@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Checks for collisions against a set of `collidables` and repositions the host object accordingly.
  * This script uses the PolyK library which is not part of the engine; make sure you add it manually.<br>

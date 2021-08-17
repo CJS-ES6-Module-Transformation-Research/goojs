@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../loaders/handlers/ComponentHandler');
 var LogicComponent = require('./LogicComponent');
 var PromiseUtils = require('../util/PromiseUtils');

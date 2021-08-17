@@ -1,3 +1,4 @@
+"use strict";
 var Curve = require('../../../../../src/goo/addons/particlepack/curves/Curve');
 
 describe('Curve', function () {

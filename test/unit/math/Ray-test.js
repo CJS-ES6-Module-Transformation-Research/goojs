@@ -1,3 +1,4 @@
+"use strict";
 var Ray = require('../../../src/goo/math/Ray');
 var Plane = require('../../../src/goo/math/Plane');
 var Vector3 = require('../../../src/goo/math/Vector3');

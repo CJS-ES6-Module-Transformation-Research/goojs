@@ -1,3 +1,4 @@
+"use strict";
 var ParticleUtils = require('../particles/ParticleUtils');
 var Renderer = require('../renderer/Renderer');
 var ObjectUtil = require('../util/ObjectUtil');

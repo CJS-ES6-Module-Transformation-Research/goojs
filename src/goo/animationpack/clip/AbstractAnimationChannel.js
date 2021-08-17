@@ -1,3 +1,4 @@
+"use strict";
 var MathUtils = require('../../math/MathUtils');
 
 /**

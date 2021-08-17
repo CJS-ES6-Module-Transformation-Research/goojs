@@ -1,3 +1,4 @@
+"use strict";
 var TransformData = require('../../animationpack/clip/TransformData');
 
 /**

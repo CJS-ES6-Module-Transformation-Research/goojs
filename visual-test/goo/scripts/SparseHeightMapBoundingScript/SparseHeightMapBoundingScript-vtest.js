@@ -1,7 +1,8 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	function addSpheres(sparseHeightMapBoundingScript) {
+    function addSpheres(sparseHeightMapBoundingScript) {
 		var meshData = new Sphere(32, 32);
 
 		var nSpheres = 10;
@@ -36,13 +37,13 @@
 		}
 	}
 
-	function addCube(x, y, z) {
+    function addCube(x, y, z) {
 		var cubeMeshData = new Box(1, 0.1, 1);
 		var cubeMaterial = new Material(ShaderLib.textured);
 		world.createEntity(cubeMeshData, cubeMaterial, [x, y, z]).addToWorld();
 	}
 
-	function getMatrix(sparseHeightMapBoundingScript, nSamples) {
+    function getMatrix(sparseHeightMapBoundingScript, nSamples) {
 		var mat = [];
 		for (var i = 0; i < nSamples; i++) {
 			mat.push([]);
@@ -54,7 +55,7 @@
 		return mat;
 	}
 
-	function randomTerrain(nPoints, maxX, maxZ) {
+    function randomTerrain(nPoints, maxX, maxZ) {
 		var elevationData = [];
 		for (var i = 0; i < nPoints; i++) {
 			var x = V.rng.nextFloat() * maxX;
@@ -69,33 +70,33 @@
 		return elevationData;
 	}
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	// add terrain
-	var elevationData = randomTerrain(50, 100, 100);
-	var sparseHeightMapBoundingScript = new SparseHeightMapBoundingScript(elevationData);
+    // add terrain
+    var elevationData = randomTerrain(50, 100, 100);
+    var sparseHeightMapBoundingScript = new SparseHeightMapBoundingScript(elevationData);
 
-	var matrix = getMatrix(sparseHeightMapBoundingScript, 128);
-	var meshData = Surface.createFromHeightMap(matrix);
+    var matrix = getMatrix(sparseHeightMapBoundingScript, 128);
+    var meshData = Surface.createFromHeightMap(matrix);
 
-	var material = new Material(ShaderLib.simpleLit);
-	//material.wireframe = true;
-	var surfaceEntity = world.createEntity(meshData, material);
-	surfaceEntity.addToWorld();
+    var material = new Material(ShaderLib.simpleLit);
+    //material.wireframe = true;
+    var surfaceEntity = world.createEntity(meshData, material);
+    surfaceEntity.addToWorld();
 
-	// add spheres
-	addSpheres(sparseHeightMapBoundingScript);
+    // add spheres
+    addSpheres(sparseHeightMapBoundingScript);
 
-	V.addLights();
+    V.addLights();
 
-	// Add camera
-	var cameraEntity = world.createEntity(new Camera(), [0, 30, 0])
+    // Add camera
+    var cameraEntity = world.createEntity(new Camera(), [0, 30, 0])
 		.lookAt(40, 0, 40)
 		.addToWorld();
 
-	// Camera control set up
-	var scriptComponent = new ScriptComponent([
+    // Camera control set up
+    var scriptComponent = new ScriptComponent([
 		Scripts.create('WASD', {
 			domElement : gooRunner.renderer.domElement,
 			walkSpeed : 25.0,
@@ -106,6 +107,6 @@
 		})
 	]);
 
-	cameraEntity.set(scriptComponent);
+    cameraEntity.set(scriptComponent);
 
-	V.process();
+    V.process();

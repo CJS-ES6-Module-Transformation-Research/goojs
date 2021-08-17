@@ -1,3 +1,4 @@
+"use strict";
 var Disk = require('../../../src/goo/shapes/Disk');
 
 describe('Disk', function () {

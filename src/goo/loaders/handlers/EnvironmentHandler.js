@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var ObjectUtils = require('../../util/ObjectUtils');
 var SystemBus = require('../../entities/SystemBus');

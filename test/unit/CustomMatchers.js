@@ -1,3 +1,4 @@
+"use strict";
 var Matrix = require('../../src/goo/math/Matrix');
 var MathUtils = require('../../src/goo/math/MathUtils');
 

@@ -1,3 +1,4 @@
+"use strict";
 define([
 	'goo/entities/Entity',
 	'goo/entities/managers/EntityManager',

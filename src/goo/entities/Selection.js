@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Generic selection class
  */

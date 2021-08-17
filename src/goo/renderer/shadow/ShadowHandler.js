@@ -1,3 +1,4 @@
+"use strict";
 var Capabilities = require('../../renderer/Capabilities');
 var Vector3 = require('../../math/Vector3');
 var FullscreenPass = require('../../renderer/pass/FullscreenPass');

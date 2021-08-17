@@ -1,3 +1,4 @@
+"use strict";
 var MathUtils = require('../../math/MathUtils');
 var TransformData = require('../../animationpack/clip/TransformData');
 var Source = require('../../animationpack/blendtree/Source');

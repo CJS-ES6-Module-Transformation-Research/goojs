@@ -1,3 +1,4 @@
+"use strict";
 var LogicNode = require('./LogicNode');
 var LogicNodes = require('./LogicNodes');
 var LogicInterface = require('./LogicInterface');

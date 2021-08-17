@@ -1,3 +1,4 @@
+"use strict";
 var RigidBodyComponent = require('../../../../../src/goo/addons/physicspack/components/RigidBodyComponent');
 var ColliderComponent = require('../../../../../src/goo/addons/physicspack/components/ColliderComponent');
 var RaycastResult = require('../../../../../src/goo/addons/physicspack/RaycastResult');

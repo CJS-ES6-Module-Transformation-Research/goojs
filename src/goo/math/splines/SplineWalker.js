@@ -1,3 +1,4 @@
+"use strict";
 var Spline = require('./Spline');
 
 /**

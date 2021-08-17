@@ -1,3 +1,4 @@
+"use strict";
 describe('MeshCollider', function () {
 
 	var MeshCollider = require('../../../../../src/goo/addons/physicspack/colliders/MeshCollider');

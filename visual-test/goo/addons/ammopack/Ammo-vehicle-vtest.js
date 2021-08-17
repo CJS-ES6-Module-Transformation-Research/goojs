@@ -1,3 +1,4 @@
+"use strict";
 /* global goo */
 
 var Material = goo.Material;

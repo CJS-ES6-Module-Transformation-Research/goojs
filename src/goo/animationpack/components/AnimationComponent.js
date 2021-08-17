@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var World = require('../../entities/World'); //! AT: this should not exist
 var AnimationLayer = require('../../animationpack/layer/AnimationLayer');

@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../../../../src/goo/math/Vector3');
 var TransformSystem = require('../../../../src/goo/entities/systems/TransformSystem');
 var World = require('../../../../src/goo/entities/World');

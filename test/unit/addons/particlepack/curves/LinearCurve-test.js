@@ -1,3 +1,4 @@
+"use strict";
 var LinearCurve = require('../../../../../src/goo/addons/particlepack/curves/LinearCurve');
 
 describe('LinearCurve', function () {

@@ -1,3 +1,4 @@
+"use strict";
 var HeightMapBoundingScript = require('../scriptpack/HeightMapBoundingScript');
 var Vector3 = require('../math/Vector3');
 

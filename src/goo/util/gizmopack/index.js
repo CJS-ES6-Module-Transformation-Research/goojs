@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	Gizmo: require('./Gizmo'),
 	GizmoRenderSystem: require('./GizmoRenderSystem'),

@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var CameraComponent = require('../../entities/components/CameraComponent');
 var Camera = require('../../renderer/Camera');

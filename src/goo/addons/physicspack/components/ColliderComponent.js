@@ -1,3 +1,4 @@
+"use strict";
 var AbstractColliderComponent = require('../../../addons/physicspack/components/AbstractColliderComponent');
 var BoxCollider = require('../../../addons/physicspack/colliders/BoxCollider');
 var SphereCollider = require('../../../addons/physicspack/colliders/SphereCollider');

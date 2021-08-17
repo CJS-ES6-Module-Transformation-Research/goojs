@@ -1,3 +1,4 @@
+"use strict";
 var TransformData = require('../../animationpack/clip/TransformData');
 var Vector3 = require('../../math/Vector3');
 var Quaternion = require('../../math/Quaternion');

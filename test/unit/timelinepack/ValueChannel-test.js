@@ -1,3 +1,4 @@
+"use strict";
 var ValueChannel = require('../../../src/goo/timelinepack/ValueChannel');
 var TransformComponent = require('../../../src/goo/entities/components/TransformComponent');
 var MathUtils = require('../../../src/goo/math/MathUtils');

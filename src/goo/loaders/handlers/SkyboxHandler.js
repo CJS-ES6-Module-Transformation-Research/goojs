@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var EnvironmentHandler = require('../../loaders/handlers/EnvironmentHandler');
 var Texture = require('../../renderer/Texture');

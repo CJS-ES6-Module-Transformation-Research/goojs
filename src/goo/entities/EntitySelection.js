@@ -1,3 +1,4 @@
+"use strict";
 var Selection = require('./Selection');
 
 /**

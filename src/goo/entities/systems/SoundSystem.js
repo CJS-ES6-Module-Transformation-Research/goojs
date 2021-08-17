@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var AudioContext = require('../../sound/AudioContext');
 var MathUtils = require('../../math/MathUtils');

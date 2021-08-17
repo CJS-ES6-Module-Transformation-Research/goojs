@@ -1,3 +1,4 @@
+"use strict";
 describe('CylinderCollider', function () {
 
 	var CylinderCollider = require('../../../../../src/goo/addons/physicspack/colliders/CylinderCollider');

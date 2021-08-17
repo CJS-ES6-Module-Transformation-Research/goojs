@@ -1,3 +1,4 @@
+"use strict";
 var Vector4 = require('../../../src/goo/math/Vector4');
 var Matrix4 = require('../../../src/goo/math/Matrix4');
 var CustomMatchers = require('../../../test/unit/CustomMatchers');

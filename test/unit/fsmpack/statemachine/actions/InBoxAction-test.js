@@ -1,3 +1,4 @@
+"use strict";
 var InBoxAction = require('../../../../../src/goo/fsmpack/statemachine/actions/InBoxAction');
 var Vector3 = require('../../../../../src/goo/math/Vector3');
 var World = require('../../../../../src/goo/entities/World');

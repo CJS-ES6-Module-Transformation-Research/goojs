@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var MeshRendererComponent = require('../../entities/components/MeshRendererComponent');
 var Material = require('../../renderer/Material');
@@ -55,40 +56,40 @@ MeshRendererComponentHandler.prototype._create = function () {
  * @param {Object} options
  * @returns {RSVP.Promise} promise that resolves with the component when loading is done.
  */
- MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
-	var that = this;
+MeshRendererComponentHandler.prototype.update = function (entity, config, options) {
+   var that = this;
 
-	return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
-		if (!component) { return; }
-		// Component settings
-		component.cullMode = config.cullMode;
-		component.castShadows = config.castShadows;
-		component.receiveShadows = config.receiveShadows;
-		component.isReflectable = config.reflectable;
-		//component.isPickable = config.pickable;
+   return ComponentHandler.prototype.update.call(this, entity, config, options).then(function (component) {
+       if (!component) { return; }
+       // Component settings
+       component.cullMode = config.cullMode;
+       component.castShadows = config.castShadows;
+       component.receiveShadows = config.receiveShadows;
+       component.isReflectable = config.reflectable;
+       //component.isPickable = config.pickable;
 
-		// Materials
-		var materials = config.materials;
-		if (!materials || !Object.keys(materials).length) {
-			var selectionMaterial = component.materials.filter(function (material) {
-				return material.name === 'gooSelectionIndicator';
-			});
-			component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
-			return component;
-		}
+       // Materials
+       var materials = config.materials;
+       if (!materials || !Object.keys(materials).length) {
+           var selectionMaterial = component.materials.filter(function (material) {
+               return material.name === 'gooSelectionIndicator';
+           });
+           component.materials = [MeshRendererComponentHandler.DEFAULT_MATERIAL].concat(selectionMaterial);
+           return component;
+       }
 
-		var promises = [];
-		ObjectUtils.forEach(materials, function (item) {
-			promises.push(that._load(item.materialRef, options));
-		}, null, 'sortValue');
-		return RSVP.all(promises).then(function (materials) {
-			var selectionMaterial = component.materials.filter(function (material) {
-				return material.name === 'gooSelectionIndicator';
-			});
-			component.materials = materials.concat(selectionMaterial);
-			return component;
-		});
-	});
+       var promises = [];
+       ObjectUtils.forEach(materials, function (item) {
+           promises.push(that._load(item.materialRef, options));
+       }, null, 'sortValue');
+       return RSVP.all(promises).then(function (materials) {
+           var selectionMaterial = component.materials.filter(function (material) {
+               return material.name === 'gooSelectionIndicator';
+           });
+           component.materials = materials.concat(selectionMaterial);
+           return component;
+       });
+   });
 };
 
 module.exports = MeshRendererComponentHandler;

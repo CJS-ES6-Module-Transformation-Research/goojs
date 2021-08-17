@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 var Easing = require('../../../util/Easing');
 var MathUtils = require('../../../math/MathUtils');

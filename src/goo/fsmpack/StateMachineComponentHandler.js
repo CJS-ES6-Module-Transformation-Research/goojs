@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../loaders/handlers/ComponentHandler');
 var StateMachineComponent = require('../fsmpack/statemachine/StateMachineComponent');
 var RSVP = require('../util/rsvp');

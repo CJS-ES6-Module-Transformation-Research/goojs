@@ -1,3 +1,4 @@
+"use strict";
 var CustomMatchers = require('../../../CustomMatchers');
 var LinearCurve = require('../../../../../src/goo/addons/particlepack/curves/LinearCurve');
 var MeshData = require('../../../../../src/goo/renderer/MeshData');

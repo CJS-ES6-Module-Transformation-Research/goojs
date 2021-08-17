@@ -1,3 +1,4 @@
+"use strict";
 var World = require('../../../../src/goo/entities/World');
 var LightComponent = require('../../../../src/goo/entities/components/LightComponent');
 var PointLight = require('../../../../src/goo/renderer/light/PointLight');

@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var MeshDataComponent = require('../../entities/components/MeshDataComponent');
 var TextMeshGenerator = require('./TextMeshGenerator');

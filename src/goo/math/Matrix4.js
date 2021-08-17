@@ -1,3 +1,4 @@
+"use strict";
 var MathUtils = require('./MathUtils');
 var Matrix = require('./Matrix');
 var Vector3 = require('./Vector3');

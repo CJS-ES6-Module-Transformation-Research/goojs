@@ -1,3 +1,4 @@
+"use strict";
 var Bus = require('../../../src/goo/entities/Bus');
 
 describe('Bus', function () {

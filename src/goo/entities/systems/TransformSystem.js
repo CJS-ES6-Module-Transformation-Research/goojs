@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 
 // has to stay here because it's used by traverseFunc below

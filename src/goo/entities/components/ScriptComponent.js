@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var SystemBus = require('../../entities/SystemBus');
 var ObjectUtils = require('../../util/ObjectUtils');

@@ -1,3 +1,4 @@
+"use strict";
 /* global Ammo */
 
 module.exports = function (entity, scale) {

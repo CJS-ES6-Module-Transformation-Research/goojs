@@ -1,3 +1,4 @@
+"use strict";
 var PromiseUtils = require('../../../src/goo/util/PromiseUtils');
 
 describe('PromiseUtils', function () {

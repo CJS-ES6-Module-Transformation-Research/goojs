@@ -1,3 +1,4 @@
+"use strict";
 var SphereCollider = require('../../../../../src/goo/addons/physicspack/colliders/SphereCollider');
 var Vector3 = require('../../../../../src/goo/math/Vector3');
 var World = require('../../../../../src/goo/entities/World');

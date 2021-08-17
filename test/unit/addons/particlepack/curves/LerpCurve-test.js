@@ -1,3 +1,4 @@
+"use strict";
 var ConstantCurve = require('../../../../../src/goo/addons/particlepack/curves/ConstantCurve');
 var LerpCurve = require('../../../../../src/goo/addons/particlepack/curves/LerpCurve');
 

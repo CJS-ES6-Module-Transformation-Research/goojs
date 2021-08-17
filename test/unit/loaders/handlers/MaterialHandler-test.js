@@ -1,3 +1,4 @@
+"use strict";
 var World = require('../../../../src/goo/entities/World');
 var Material = require('../../../../src/goo/renderer/Material');
 var Shader = require('../../../../src/goo/renderer/Shader');

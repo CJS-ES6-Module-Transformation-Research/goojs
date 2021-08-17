@@ -1,3 +1,4 @@
+"use strict";
 var Matrix3 = require('./Matrix3');
 var ObjectUtils = require('../util/ObjectUtils');
 

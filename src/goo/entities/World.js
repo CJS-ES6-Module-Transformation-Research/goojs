@@ -1,3 +1,4 @@
+"use strict";
 var Entity = require('./Entity');
 var EntityManager = require('./managers/EntityManager');
 var TransformComponent = require('./components/TransformComponent');

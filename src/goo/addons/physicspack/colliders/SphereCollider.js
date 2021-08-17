@@ -1,3 +1,4 @@
+"use strict";
 var Collider = require('../../../addons/physicspack/colliders/Collider');
 
 /**

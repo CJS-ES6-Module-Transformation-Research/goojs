@@ -1,3 +1,4 @@
+"use strict";
 var supported = true;
 
 var AudioContext = typeof(window) !== 'undefined' && (window.AudioContext || window.webkitAudioContext);

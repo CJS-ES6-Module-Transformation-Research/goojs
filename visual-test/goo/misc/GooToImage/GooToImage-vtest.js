@@ -1,29 +1,30 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'This vtest shows how to get an image from a canvas.',
 		'Press A to slice the scene in several images display them and kill the goo renderer.'
 	].join('\n'));
 
-	V.button('A', keyA);
+    V.button('A', keyA);
 
-	// --- setting up some a scene
-	function addPointLight() {
+    // --- setting up some a scene
+    function addPointLight() {
 		var pointLight = new PointLight(new Vector3(0.9, 0.0, 0.2));
 		pointLight.range = 5;
 
 		world.createEntity(pointLight, 'pointLight', [0, 0, 3]).addToWorld();
 	}
 
-	function addDirectionalLight() {
+    function addDirectionalLight() {
 		var directionalLight = new DirectionalLight(new Vector3(0.2, 0.9, 0.0));
 		directionalLight.intensity = 0.1;
 
 		world.createEntity(directionalLight, 'directionalLight', [0, -5, 3]).addToWorld();
 	}
 
-	function addSpotLight() {
+    function addSpotLight() {
 		var spotLight = new SpotLight(new Vector3(0.2, 0.4, 1.0));
 		spotLight.angle = 25;
 		spotLight.range = 10;
@@ -32,7 +33,7 @@
 		world.createEntity(spotLight, 'spotLight', [0, 5, 5]).addToWorld();
 	}
 
-	function addSpheres(nSpheres) {
+    function addSpheres(nSpheres) {
 		var sphereMeshData = new Sphere(32, 32);
 
 		for (var i = 0; i < nSpheres; i++) {
@@ -42,15 +43,15 @@
 			}
 		}
 	}
-	// ---
+    // ---
 
 
-	// --- screenshot assembling
-	var allEntities = [];
-	var shots = [];
-	var nShots = 3;
+    // --- screenshot assembling
+    var allEntities = [];
+    var shots = [];
+    var nShots = 3;
 
-	function assembleShots() {
+    function assembleShots() {
 		// stop goo
 		gooRunner.stopGameLoop();
 
@@ -76,8 +77,8 @@
 		}, 33);
 	}
 
-	// set only entities in a specific range as visible
-	function visibleInRange(start, end) {
+    // set only entities in a specific range as visible
+    function visibleInRange(start, end) {
 		var camera = Renderer.mainCamera;
 		var normal = camera._direction;
 		var plane = new Plane(normal, camera.translation.length());
@@ -91,8 +92,8 @@
 		});
 	}
 
-	// takes a screenshot of only the entities in a specific rage (relative to the camera)
-	function takeShotInRange(start, end, i) {
+    // takes a screenshot of only the entities in a specific rage (relative to the camera)
+    function takeShotInRange(start, end, i) {
 		visibleInRange(start, end);
 
 		gooRunner.renderer.clear(true, true, true);
@@ -117,8 +118,8 @@
 		}
 	}
 
-	// take all shots and animate them when done
-	function takeAllShots() {
+    // take all shots and animate them when done
+    function takeAllShots() {
 		var camera = Renderer.mainCamera;
 		var normal = camera._direction;
 		var plane = new Plane(normal, camera.translation.length());
@@ -145,42 +146,42 @@
 			takeShotInRange(zOffset, zOffset + zInterval, i);
 		}
 	}
-	// ---
+    // ---
 
-	// --- setting up everything
-	var gooRunner = V.initGoo({
+    // --- setting up everything
+    var gooRunner = V.initGoo({
 		antialias: false, // for some reason lines don't render nice when using antialias on some hardware
 		alpha: true,
 		logo: { position: 'bottomright', color: '#FFF' }
 	});
 
-	var world = gooRunner.world;
+    var world = gooRunner.world;
 
-	// we don't want any scrollbars when the images will be moving
-	document.body.style.overflow = 'hidden';
+    // we don't want any scrollbars when the images will be moving
+    document.body.style.overflow = 'hidden';
 
-	// add a bunch of spheres
-	addSpheres(15);
+    // add a bunch of spheres
+    addSpheres(15);
 
-	// and some lights
-	addPointLight();
-	addDirectionalLight();
-	addSpotLight();
+    // and some lights
+    addPointLight();
+    addDirectionalLight();
+    addSpotLight();
 
-	// camera
-	V.addOrbitCamera(new Vector3(20, Math.PI / 2, 0));
+    // camera
+    V.addOrbitCamera(new Vector3(20, Math.PI / 2, 0));
 
-	gooRunner.renderer.setClearColor(0.05, 0.05, 0.05, 0.0);
+    gooRunner.renderer.setClearColor(0.05, 0.05, 0.05, 0.0);
 
-	function keyA() {
+    function keyA() {
 		// getting all entities in an array
 		allEntities = gooRunner.world.getEntities();
 
 		takeAllShots();
 	}
 
-	// listen for 'A'
-	window.addEventListener('keyup', function (e) {
+    // listen for 'A'
+    window.addEventListener('keyup', function (e) {
 		if (e.which === 65) {
 			keyA();
 		} else {
@@ -188,4 +189,4 @@
 		}
 	});
 
-	console.log('A - take screenshots and animate');
+    console.log('A - take screenshots and animate');

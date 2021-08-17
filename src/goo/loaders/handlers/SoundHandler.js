@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var AudioContext = require('../../sound/AudioContext');
 var Sound = require('../../sound/Sound');

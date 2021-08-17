@@ -1,3 +1,4 @@
+"use strict";
 var EntityUtils = require('../../../src/goo/entities/EntityUtils');
 var Entity = require('../../../src/goo/entities/Entity');
 var World = require('../../../src/goo/entities/World');

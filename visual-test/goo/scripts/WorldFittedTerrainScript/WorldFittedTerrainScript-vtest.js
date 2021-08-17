@@ -1,3 +1,4 @@
+    "use strict";
     goo.V.attachToGlobal();
 
     var gooRunner;
@@ -54,7 +55,7 @@
         }
     }
 
-	function addNormalPointers(goo, worldFittedTerrainScript, dims) {
+    function addNormalPointers(goo, worldFittedTerrainScript, dims) {
 		var meshData = new Sphere(32, 32);
 
 		var nSpheres = 20;

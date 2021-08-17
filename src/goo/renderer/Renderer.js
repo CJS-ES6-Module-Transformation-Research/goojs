@@ -1,3 +1,4 @@
+"use strict";
 var Capabilities = require('../renderer/Capabilities');
 var RendererRecord = require('../renderer/RendererRecord');
 var RendererUtils = require('../renderer/RendererUtils');

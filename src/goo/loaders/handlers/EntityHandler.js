@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var RSVP = require('../../util/rsvp');

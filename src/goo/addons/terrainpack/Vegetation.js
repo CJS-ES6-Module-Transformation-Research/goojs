@@ -1,3 +1,4 @@
+"use strict";
 var MeshDataComponent = require('../../entities/components/MeshDataComponent');
 var Material = require('../../renderer/Material');
 var MathUtils = require('../../math/MathUtils');

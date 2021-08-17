@@ -1,3 +1,4 @@
+"use strict";
 var ConstantCurve = require('../../../addons/particlepack/curves/ConstantCurve');
 var Curve = require('../../../addons/particlepack/curves/Curve');
 var ObjectUtils = require('../../../util/ObjectUtils');

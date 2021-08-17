@@ -1,30 +1,31 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('NPOT textures were at some point believed to cause transparency issues. This is the minimal test scene to prove or disprove the bug.');
+    V.describe('NPOT textures were at some point believed to cause transparency issues. This is the minimal test scene to prove or disprove the bug.');
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	createEntity([ 1, 0, 0], [255, 255, 255, 100, 0, 0, 0, 100, 0, 0, 0, 255, 255, 255, 255, 255]);
-	createEntity([ 1, 0, 1], [255, 255, 255, 100, 0, 0, 0, 100, 0, 0, 0, 255, 255, 255, 255, 255]);
+    createEntity([ 1, 0, 0], [255, 255, 255, 100, 0, 0, 0, 100, 0, 0, 0, 255, 255, 255, 255, 255]);
+    createEntity([ 1, 0, 1], [255, 255, 255, 100, 0, 0, 0, 100, 0, 0, 0, 255, 255, 255, 255, 255]);
 
-	createEntity([-1, 0, 0], [
+    createEntity([-1, 0, 0], [
 		255, 255, 255, 100,    0,   0,   0, 100,  255, 255, 255, 100,
 		  0,   0,   0, 255,  255, 255, 255, 255,    0,   0,   0, 255,
 		255, 255, 255, 255,    0,   0,   0, 255,  255, 255, 255, 255]);
-	createEntity([-1, 0, 1], [
+    createEntity([-1, 0, 1], [
 		255, 255, 255, 100,    0,   0,   0, 100,  255, 255, 255, 100,
 		  0,   0,   0, 255,  255, 255, 255, 255,    0,   0,   0, 255,
 		255, 255, 255, 255,    0,   0,   0, 255,  255, 255, 255, 255]);
 
-	V.addLights();
+    V.addLights();
 
-	V.addOrbitCamera();
+    V.addOrbitCamera();
 
-	V.process();
+    V.process();
 
-	function getImage(data, width, height) {
+    function getImage(data, width, height) {
 		var canvas = document.createElement('canvas');
 		canvas.width = width;
 		canvas.height = height;
@@ -38,7 +39,7 @@
 		return canvas;
 	}
 
-	function createEntity(translation, textureData) {
+    function createEntity(translation, textureData) {
 		var material = new Material(ShaderLib.texturedLit);
 
 		var squareSize = Math.sqrt(textureData.length / 4);

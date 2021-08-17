@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	Source: require('./blendtree/Source'),
 	BinaryLerpSource: require('./blendtree/BinaryLerpSource'),

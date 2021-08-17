@@ -1,3 +1,4 @@
+"use strict";
 var ParticleComponent = require('../entities/components/ParticleComponent');
 var MeshRendererComponent = require('../entities/components/MeshRendererComponent');
 var MeshDataComponent = require('../entities/components/MeshDataComponent');

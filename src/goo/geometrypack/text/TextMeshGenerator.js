@@ -1,3 +1,4 @@
+"use strict";
 /* global poly2tri */
 
 var Vector2 = require('../../math/Vector2');

@@ -1,3 +1,4 @@
+"use strict";
 var StringUtils = require('../../../src/goo/util/StringUtils');
 
 describe('StringUtils', function () {

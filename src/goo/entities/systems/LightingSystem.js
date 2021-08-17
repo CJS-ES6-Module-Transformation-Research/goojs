@@ -1,3 +1,4 @@
+"use strict";
 var Capabilities = require('../../renderer/Capabilities');
 var System = require('../../entities/systems/System');
 var SystemBus = require('../../entities/SystemBus');

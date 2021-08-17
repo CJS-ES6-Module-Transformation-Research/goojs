@@ -1,3 +1,4 @@
+"use strict";
 var EntitySelection = require('../../../entities/EntitySelection');
 var System = require('../../../entities/systems/System');
 var SystemBus = require('../../../entities/SystemBus');

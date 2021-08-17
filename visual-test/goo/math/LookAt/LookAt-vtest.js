@@ -1,12 +1,13 @@
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('The 2 cones look at the sphere using different methods');
+    V.describe('The 2 cones look at the sphere using different methods');
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
 
-	function addCone() {
+    function addCone() {
 		var box = world.createEntity(new Box(), V.getColoredMaterial(), [0, 1, 0])
 			.addToWorld();
 
@@ -20,7 +21,7 @@
 			.addToWorld();
 	}
 
-	function addSphere() {
+    function addSphere() {
 		var sphere = world.createEntity(new Sphere(32, 32), V.getColoredMaterial())
 			.addToWorld();
 
@@ -35,27 +36,27 @@
 		return sphere;
 	}
 
-	var sphere = addSphere();
-	var getSphereTranslation = function () {
+    var sphere = addSphere();
+    var getSphereTranslation = function () {
 		return sphere.transformComponent.worldTransform.translation;
 	};
 
 
-	var cone1 = addCone();
-	cone1.set(function (entity) {
+    var cone1 = addCone();
+    cone1.set(function (entity) {
 		entity.transformComponent.transform.lookAt(getSphereTranslation());
 		entity.transformComponent.setUpdated();
 	}).set([5, 6, 7]);
 
-	var cone2 = addCone();
-	cone2.set(function (entity) {
+    var cone2 = addCone();
+    cone2.set(function (entity) {
 		var delta = getSphereTranslation().clone().sub(entity.transformComponent.worldTransform.translation);
 		entity.transformComponent.transform.rotation.lookAt(delta, Vector3.UNIT_Y);
 		entity.transformComponent.setUpdated();
 	}).set([-5, 4, 3]);
 
 
-	V.addOrbitCamera(new Vector3(20, Math.PI / 2, 0));
-	V.addLights();
+    V.addOrbitCamera(new Vector3(20, Math.PI / 2, 0));
+    V.addLights();
 
-	V.process();
+    V.process();

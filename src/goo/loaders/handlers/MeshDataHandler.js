@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var MeshData = require('../../renderer/MeshData');
 var BufferUtils = require('../../renderer/BufferUtils');

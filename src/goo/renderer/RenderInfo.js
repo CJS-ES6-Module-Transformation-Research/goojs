@@ -1,3 +1,4 @@
+"use strict";
 var Entity = require('../entities/Entity');
 var Transform = require('../math/Transform');
 

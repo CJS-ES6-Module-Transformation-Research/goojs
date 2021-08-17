@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	AxisAlignedCamControlScript: require('./AxisAlignedCamControlScript'),
 	BasicControlScript: require('./BasicControlScript'),

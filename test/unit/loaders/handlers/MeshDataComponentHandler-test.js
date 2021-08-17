@@ -1,3 +1,4 @@
+"use strict";
 var World = require('../../../../src/goo/entities/World');
 var MeshDataComponent = require('../../../../src/goo/entities/components/MeshDataComponent');
 var MeshData = require('../../../../src/goo/renderer/MeshData');

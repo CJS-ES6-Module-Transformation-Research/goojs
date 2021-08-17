@@ -1,3 +1,4 @@
+"use strict";
 var Vector2 = require('../math/Vector2');
 var PromiseUtils = require('../util/PromiseUtils');
 var ObjectUtils = require('../util/ObjectUtils');

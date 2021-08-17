@@ -1,3 +1,4 @@
+"use strict";
 var Entity = require('../../entities/Entity');
 var MeshBuilder = require('../../util/MeshBuilder');
 var Transform = require('../../math/Transform');

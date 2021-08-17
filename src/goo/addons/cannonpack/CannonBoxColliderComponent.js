@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var Vector3 = require('../../math/Vector3');
 

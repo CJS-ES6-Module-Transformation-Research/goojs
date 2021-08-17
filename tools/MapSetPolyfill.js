@@ -1,3 +1,4 @@
+"use strict";
 // based on es6-collections by Andrea Giammarchi, @WebReflection
 // Object.is shim from the MDN
 (function (global) {

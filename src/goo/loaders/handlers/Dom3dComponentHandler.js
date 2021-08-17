@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var Dom3dComponent = require('../../entities/components/Dom3dComponent');
 var RSVP = require('../../util/rsvp');

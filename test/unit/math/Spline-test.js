@@ -1,3 +1,4 @@
+"use strict";
 var Spline = require('../../../src/goo/math/splines/Spline');
 var Vector2 = require('../../../src/goo/math/Vector2');
 var Vector3 = require('../../../src/goo/math/Vector3');

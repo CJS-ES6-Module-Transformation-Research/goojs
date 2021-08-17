@@ -1,3 +1,4 @@
+"use strict";
 var LogicLayer = require('./logic/LogicLayer');
 var LogicNodes = require('./logic/LogicNodes');
 var Component = require('../entities/components/Component');

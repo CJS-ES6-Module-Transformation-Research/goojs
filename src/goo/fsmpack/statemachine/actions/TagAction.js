@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 var ProximityComponent = require('../../../fsmpack/proximity/ProximityComponent');
 

@@ -1,3 +1,4 @@
+"use strict";
 var Renderer = require('../../renderer/Renderer');
 var Pass = require('../../renderer/pass/Pass');
 var Vector4 = require('../../math/Vector4');

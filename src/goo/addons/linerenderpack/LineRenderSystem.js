@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var SystemBus = require('../../entities/SystemBus');
 var LineRenderer = require('../../addons/linerenderpack/LineRenderer');

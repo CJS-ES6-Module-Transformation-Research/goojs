@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../../entities/components/Component');
 var Collider = require('../../../addons/physicspack/colliders/Collider');
 

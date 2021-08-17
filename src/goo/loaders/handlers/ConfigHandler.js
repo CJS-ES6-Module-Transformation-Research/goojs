@@ -1,3 +1,4 @@
+"use strict";
 var RSVP = require('../../util/rsvp');
 var PromiseUtils = require('../../util/PromiseUtils');
 

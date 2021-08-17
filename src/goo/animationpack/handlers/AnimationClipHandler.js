@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var AnimationClip = require('../../animationpack/clip/AnimationClip');
 var JointChannel = require('../../animationpack/clip/JointChannel');

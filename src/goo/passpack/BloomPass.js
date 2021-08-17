@@ -1,3 +1,4 @@
+"use strict";
 var Material = require('../renderer/Material');
 var FullscreenUtils = require('../renderer/pass/FullscreenUtils');
 var RenderTarget = require('../renderer/pass/RenderTarget');

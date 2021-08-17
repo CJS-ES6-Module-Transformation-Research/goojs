@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	FlatWaterRenderer: require('./FlatWaterRenderer'),
 	ProjectedGrid: require('./ProjectedGrid'),

@@ -1,17 +1,18 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	var gooRunner = V.initGoo();
+    var gooRunner = V.initGoo();
 
-	V.addLights();
+    V.addLights();
 
-	V.addColoredBoxes();
+    V.addColoredBoxes();
 
-	// add camera
-	var camera = new Camera();
-	var cameraEntity = gooRunner.world.createEntity(camera, 'CameraEntity').addToWorld();
+    // add camera
+    var camera = new Camera();
+    var cameraEntity = gooRunner.world.createEntity(camera, 'CameraEntity').addToWorld();
 
-	var script = Scripts.create('OrbitNPanControlScript', {
+    var script = Scripts.create('OrbitNPanControlScript', {
 		// Orbit
 		dragButton: 'Right',
 		lookAtDistance: null,
@@ -36,8 +37,8 @@
 		panSpeed : 0.005
 	});
 
-	// camera control set up
-	var scriptComponent = new ScriptComponent();
-	scriptComponent.scripts.push(script);
+    // camera control set up
+    var scriptComponent = new ScriptComponent();
+    scriptComponent.scripts.push(script);
 
-	cameraEntity.setComponent(scriptComponent);
+    cameraEntity.setComponent(scriptComponent);

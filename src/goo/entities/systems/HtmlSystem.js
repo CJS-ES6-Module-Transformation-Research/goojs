@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var Renderer = require('../../renderer/Renderer');
 var Vector3 = require('../../math/Vector3');

@@ -1,3 +1,4 @@
+"use strict";
 /*eslint indent: "off" */
 
 var MeshData = require('../../renderer/MeshData');

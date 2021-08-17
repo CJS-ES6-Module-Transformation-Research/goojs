@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../entities/systems/System');
 var LogicLayer = require('./logic/LogicLayer');
 var LogicInterface = require('./logic/LogicInterface');

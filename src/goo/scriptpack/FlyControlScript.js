@@ -1,3 +1,4 @@
+"use strict";
 var Scripts = require('../scripts/Scripts');
 var WasdControlScript = require('../scriptpack/WasdControlScript');
 var MouseLookControlScript = require('../scriptpack/MouseLookControlScript');

@@ -1,8 +1,9 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
 
-	var keepOnYControlScript = function () {
+    var keepOnYControlScript = function () {
 		var externals = {
 			name: 'KeepOnY',
 			description: 'Locks the entity on a plane parallel to the ground',
@@ -35,7 +36,7 @@
 		};
 	};
 
-	function keepOnYControlScriptDemo() {
+    function keepOnYControlScriptDemo() {
 		var gooRunner = V.initGoo();
 
 		V.addLights();
@@ -67,4 +68,4 @@
 		cameraEntity.setComponent(scripts);
 	}
 
-	keepOnYControlScriptDemo();
+    keepOnYControlScriptDemo();

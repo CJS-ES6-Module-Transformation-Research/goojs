@@ -1,22 +1,23 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('The colored spheres change colors when clicked on or when the mouse exits/enters their projected image.');
+    V.describe('The colored spheres change colors when clicked on or when the mouse exits/enters their projected image.');
 
-	function swapChannels(colors) {
+    function swapChannels(colors) {
 		var tmp;
 		tmp = colors[0]; colors[0] = colors[1];	colors[1] = colors[2]; colors[2] = tmp;
 	}
 
-	var gooRunner = V.initGoo();
-	V.addColoredSpheres();
-	V.addLights();
-	V.addOrbitCamera();
+    var gooRunner = V.initGoo();
+    V.addColoredSpheres();
+    V.addLights();
+    V.addOrbitCamera();
 
-	var lastEntity;
-	var lastDepth;
+    var lastEntity;
+    var lastDepth;
 
-	gooRunner.addEventListener('mousemove', function(evt) {
+    gooRunner.addEventListener('mousemove', function(evt) {
 		if(evt.entity && lastEntity !== evt.entity) {
 			console.log('Entity is ' + evt.entity + ' at ' + evt.depth);
 			var color = evt.entity.meshRendererComponent.materials[0].uniforms.color;
@@ -29,7 +30,7 @@
 		lastDepth = evt.depth;
 	});
 
-	var onPick = function(evt) {
+    var onPick = function(evt) {
 		console.log('Entity is ' + evt.entity + ' at ' + evt.depth);
 		if(evt.entity) {
 			var color = evt.entity.meshRendererComponent.materials[0].uniforms.color;
@@ -37,7 +38,7 @@
 		}
 	};
 
-	gooRunner.addEventListener('click', onPick);
-	gooRunner.addEventListener('touchstart', onPick);
+    gooRunner.addEventListener('click', onPick);
+    gooRunner.addEventListener('touchstart', onPick);
 
-	V.process();
+    V.process();

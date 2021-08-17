@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var BoundingBox = require('../../renderer/bounds/BoundingBox');
 

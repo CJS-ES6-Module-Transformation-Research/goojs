@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 
 //! AT: unused; should be removed

@@ -1,3 +1,4 @@
+"use strict";
 var BoundingBox = require('../../renderer/bounds/BoundingBox');
 var Component = require('../../entities/components/Component');
 var MeshData = require('../../renderer/MeshData');

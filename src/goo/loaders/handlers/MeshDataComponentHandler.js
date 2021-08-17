@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var MeshDataComponent = require('../../entities/components/MeshDataComponent');
 var BoundingBox = require('../../renderer/bounds/BoundingBox');

@@ -1,3 +1,4 @@
+"use strict";
 var Manager = require('../../../src/goo/entities/managers/Manager');
 var Entity = require('../../../src/goo/entities/Entity');
 var System = require('../../../src/goo/entities/systems/System');

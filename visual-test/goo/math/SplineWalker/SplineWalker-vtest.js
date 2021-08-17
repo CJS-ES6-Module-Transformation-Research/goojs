@@ -1,18 +1,19 @@
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'The spheres on the spline to the left distributed by interpolating with a constant increment on `t`.',
 		'The spheres on the spline to the right are distributed uniformly by using a SplineWalker.'
 	].join(''));
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	var lineMaterial = V.getColoredMaterial();
+    var lineMaterial = V.getColoredMaterial();
 
 
 
-	var dot = (function () {
+    var dot = (function () {
 		var mesh = new Sphere(16, 16, 0.05);
 		var material = V.getColoredMaterial();
 
@@ -21,7 +22,7 @@
 		};
 	})();
 
-	var box = (function () {
+    var box = (function () {
 		var mesh = new Box(0.1, 0.1, 0.1);
 		var material = V.getColoredMaterial();
 
@@ -30,7 +31,7 @@
 		};
 	})();
 
-	var line = function (from, to, ends) {
+    var line = function (from, to, ends) {
 		var mesh = new PolyLine([from.x, from.y, from.z, to.x, to.y, to.z]);
 		world.createEntity(mesh, lineMaterial).addToWorld();
 
@@ -44,7 +45,7 @@
 		}
 	};
 
-	function splineHelpers(controlPoints) {
+    function splineHelpers(controlPoints) {
 		var segments = (controlPoints.length - 1) / 3;
 
 		for (var i = 0; i < segments; i++) {
@@ -58,7 +59,7 @@
 		}
 	}
 
-	function basicSpline(controlPoints, nSteps) {
+    function basicSpline(controlPoints, nSteps) {
 		var spline = new Spline(controlPoints);
 
 		var cursor = new Vector3();
@@ -76,7 +77,7 @@
 		world.createEntity(new PolyLine(splinePoints), lineMaterial).addToWorld();
 	}
 
-	function betterSpline(controlPoints, distance) {
+    function betterSpline(controlPoints, distance) {
 		var spline = new Spline(controlPoints);
 		var splineWalker = new SplineWalker(spline);
 
@@ -96,7 +97,7 @@
 	}
 
 
-	var controlPoints0 = [
+    var controlPoints0 = [
 		new Vector3(-1, -1, 0),
 		new Vector3(1, -1, 0),
 		new Vector3(1, 0.5, 0),
@@ -106,21 +107,21 @@
 		new Vector3(0, 2, 0)
 	];
 
-	function displace(x, y, z) {
+    function displace(x, y, z) {
 		return function (point) {
 			return point.clone().addDirect(x, y, z);
 		};
 	}
 
-	var controlPoints1 = controlPoints0.map(displace(-1.5, -0.5, 0));
-	basicSpline(controlPoints1, 20);
-	splineHelpers(controlPoints1);
+    var controlPoints1 = controlPoints0.map(displace(-1.5, -0.5, 0));
+    basicSpline(controlPoints1, 20);
+    splineHelpers(controlPoints1);
 
-	var controlPoints2 = controlPoints0.map(displace(1.5, -0.5, 0));
-	betterSpline(controlPoints2, 0.2);
-	splineHelpers(controlPoints2);
+    var controlPoints2 = controlPoints0.map(displace(1.5, -0.5, 0));
+    betterSpline(controlPoints2, 0.2);
+    splineHelpers(controlPoints2);
 
-	V.addOrbitCamera(new Vector3(6, Math.PI / 2, 0));
-	V.addLights();
+    V.addOrbitCamera(new Vector3(6, Math.PI / 2, 0));
+    V.addLights();
 
-	V.process();
+    V.process();

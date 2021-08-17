@@ -1,3 +1,4 @@
+"use strict";
 /**
  * A generic message bus. Offers ways to receive and subscribe to messages on a hierarchy of channels.
  * @example

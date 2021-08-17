@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var Texture = require('../../renderer/Texture');
 var DdsLoader = require('../../loaders/dds/DdsLoader');

@@ -1,3 +1,4 @@
+"use strict";
 var AbstractState = require('../../animationpack/state/AbstractState');
 var BinaryLerpSource = require('../../animationpack/blendtree/BinaryLerpSource');
 var MathUtils = require('../../math/MathUtils');

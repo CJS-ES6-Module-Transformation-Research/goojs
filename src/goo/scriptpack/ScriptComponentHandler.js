@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../loaders/handlers/ComponentHandler');
 var ScriptComponent = require('../entities/components/ScriptComponent');
 var RSVP = require('../util/rsvp');

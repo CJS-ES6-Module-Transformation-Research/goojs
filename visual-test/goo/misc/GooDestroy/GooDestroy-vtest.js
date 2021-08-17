@@ -1,25 +1,26 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	var gooRunner;
+    var gooRunner;
 
-	V.describe([
+    V.describe([
 		'Hit 1 to create a goo instance and 2 to destroy it.',
 		' Use this visual test to check if the garbage collector can collect anything related to goo'
 	].join('\n'));
 
-	V.button('1', key1);
-	V.button('2', key2);
+    V.button('1', key1);
+    V.button('2', key2);
 
-	function key1() {
+    function key1() {
 		if (!gooRunner) { create(); }
 	}
 
-	function key2() {
+    function key2() {
 		if (gooRunner) { destroy(); }
 	}
 
-	window.addEventListener('keyup', function (e) {
+    window.addEventListener('keyup', function (e) {
 		if (e.which === 49) {
 			key1();
 		} else if (e.which === 50) {
@@ -27,7 +28,7 @@
 		}
 	});
 
-	function create() {
+    function create() {
 		console.log('create');
 
 		// create goo
@@ -53,7 +54,7 @@
 		world.createEntity(new Camera(), [0, 0, 10]).addToWorld();
 	}
 
-	function destroy() {
+    function destroy() {
 		console.log('destroy');
 
 		gooRunner.clear();

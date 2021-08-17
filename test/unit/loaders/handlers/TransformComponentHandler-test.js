@@ -1,3 +1,4 @@
+"use strict";
 var TransformComponent = require('../../../../src/goo/entities/components/TransformComponent');
 var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');
 var World = require('../../../../src/goo/entities/World');

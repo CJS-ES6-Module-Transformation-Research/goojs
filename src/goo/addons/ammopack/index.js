@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	AmmoComponent: require('./AmmoComponent'),
 	AmmoSystem: require('./AmmoSystem'),

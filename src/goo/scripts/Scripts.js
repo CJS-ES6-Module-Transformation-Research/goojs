@@ -1,3 +1,4 @@
+"use strict";
 var ScriptUtils = require('../scripts/ScriptUtils');
 var ObjectUtils = require('../util/ObjectUtils');
 

@@ -1,3 +1,4 @@
+"use strict";
 var Scripts = require('../scripts/Scripts');
 var OrbitCamControlScript = require('../scripts/OrbitCamControlScript');
 var PanCamControlScript = require('../scriptpack/PanCamScript');

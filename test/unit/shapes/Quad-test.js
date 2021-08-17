@@ -1,3 +1,4 @@
+"use strict";
 var Quad = require('../../../src/goo/shapes/Quad');
 
 describe('Quad', function () {

@@ -1,11 +1,12 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('The cubes\' textures are compressed using the crunch algorithm');
+    V.describe('The cubes\' textures are compressed using the crunch algorithm');
 
-	var resourcePath = '../../../resources';
+    var resourcePath = '../../../resources';
 
-	function createBox(size, x, y, textureUrl, goo) {
+    function createBox(size, x, y, textureUrl, goo) {
 		var meshData = new Box(size, size, size, 1, 1);
 
 		var material = new Material('TestMaterial');
@@ -21,25 +22,25 @@
 		gooRunner.world.createEntity(meshData, material, [x, y, 0]).addToWorld();
 	}
 
-	// Create typical goo application
-	var gooRunner = V.initGoo();
-	document.body.appendChild(gooRunner.renderer.domElement);
+    // Create typical goo application
+    var gooRunner = V.initGoo();
+    document.body.appendChild(gooRunner.renderer.domElement);
 
-	V.addOrbitCamera();
+    V.addOrbitCamera();
 
-	// Setup light
-	var light = new PointLight();
-	var entity = gooRunner.world.createEntity('Light1');
-	entity.setComponent(new LightComponent(light));
-	var transformComponent = entity.transformComponent;
-	transformComponent.transform.translation.x = 80;
-	transformComponent.transform.translation.y = 50;
-	transformComponent.transform.translation.z = 80;
-	entity.addToWorld();
+    // Setup light
+    var light = new PointLight();
+    var entity = gooRunner.world.createEntity('Light1');
+    entity.setComponent(new LightComponent(light));
+    var transformComponent = entity.transformComponent;
+    transformComponent.transform.translation.x = 80;
+    transformComponent.transform.translation.y = 50;
+    transformComponent.transform.translation.z = 80;
+    entity.addToWorld();
 
-	createBox(10, -10, 10, '/Pot_Diffuse.dds', goo);
-	createBox(10, 10, 10, '/Pot_Diffuse.crn', goo);
-	createBox(10, -10, -10, '/collectedBottles_diffuse_1024.dds', goo);
-	createBox(10, 10, -10, '/collectedBottles_diffuse_1024.crn', goo);
+    createBox(10, -10, 10, '/Pot_Diffuse.dds', goo);
+    createBox(10, 10, 10, '/Pot_Diffuse.crn', goo);
+    createBox(10, -10, -10, '/collectedBottles_diffuse_1024.dds', goo);
+    createBox(10, 10, -10, '/collectedBottles_diffuse_1024.crn', goo);
 
-	V.process();
+    V.process();

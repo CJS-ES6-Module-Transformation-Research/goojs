@@ -1,3 +1,4 @@
+"use strict";
 var MeshRendererComponent = require('../../../../src/goo/entities/components/MeshRendererComponent');
 var Material = require('../../../../src/goo/renderer/Material');
 var World = require('../../../../src/goo/entities/World');

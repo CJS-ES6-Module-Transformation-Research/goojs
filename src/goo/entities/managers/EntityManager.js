@@ -1,3 +1,4 @@
+"use strict";
 var Manager = require('../../entities/managers/Manager');
 var EntitySelection = require('../../entities/EntitySelection');
 

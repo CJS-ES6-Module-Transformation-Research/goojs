@@ -1,3 +1,4 @@
+"use strict";
 var ShaderCall = require('../renderer/ShaderCall');
 var Matrix3 = require('../math/Matrix3');
 var Matrix4 = require('../math/Matrix4');

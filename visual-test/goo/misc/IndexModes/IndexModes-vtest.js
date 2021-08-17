@@ -1,18 +1,19 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('All possble index modes are featured in this scene: GL_POINTS, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP, GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN');
+    V.describe('All possble index modes are featured in this scene: GL_POINTS, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP, GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN');
 
-	// points =======
-	function buildPoints(verts) {
+    // points =======
+    function buildPoints(verts) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.indexModes = ['Points'];
 		return meshData;
 	}
 
-	// lines ========
-	function buildLines(verts, indices) {
+    // lines ========
+    function buildLines(verts, indices) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.getIndexBuffer().set(indices);
@@ -20,7 +21,7 @@
 		return meshData;
 	}
 
-	function buildLineStrip(verts, indices) {
+    function buildLineStrip(verts, indices) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.getIndexBuffer().set(indices);
@@ -28,7 +29,7 @@
 		return meshData;
 	}
 
-	function buildLineLoop(verts, indices) {
+    function buildLineLoop(verts, indices) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.getIndexBuffer().set(indices);
@@ -36,8 +37,8 @@
 		return meshData;
 	}
 
-	// triangles ====
-	function buildTriangles(verts, indices) {
+    // triangles ====
+    function buildTriangles(verts, indices) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.getIndexBuffer().set(indices);
@@ -45,7 +46,7 @@
 		return meshData;
 	}
 
-	function buildTriangleStrip(verts, indices) {
+    function buildTriangleStrip(verts, indices) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.getIndexBuffer().set(indices);
@@ -53,15 +54,15 @@
 		return meshData;
 	}
 
-	function buildTriangleFan(verts, indices) {
+    function buildTriangleFan(verts, indices) {
 		var meshData = new MeshData(MeshData.defaultMap([MeshData.POSITION]), verts.length / 3, indices.length);
 		meshData.getAttributeBuffer(MeshData.POSITION).set(verts);
 		meshData.getIndexBuffer().set(indices);
 		meshData.indexModes = ['TriangleFan'];
 		return meshData;
 	}
-	//--------
-	function wrapAndAdd(goo, meshData, x, y, z) {
+    //--------
+    function wrapAndAdd(goo, meshData, x, y, z) {
 		x = x || 0;
 		y = y || 0;
 		z = z || 0;
@@ -72,73 +73,73 @@
 		console.log('Added', entity);
 		return entity;
 	}
-	//--------
-	var gooRunner = V.initGoo();
+    //--------
+    var gooRunner = V.initGoo();
 
-	// points =======
-	var pointsMesh = buildPoints([
+    // points =======
+    var pointsMesh = buildPoints([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 2, 0
 	]);
-	wrapAndAdd(goo, pointsMesh, -5, 5);
-	// lines ========
-	var linesMesh = buildLines([
+    wrapAndAdd(goo, pointsMesh, -5, 5);
+    // lines ========
+    var linesMesh = buildLines([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 2, 0
 	], [0, 1, 0, 2, 0, 3]);
-	wrapAndAdd(goo, linesMesh, -5, 0);
+    wrapAndAdd(goo, linesMesh, -5, 0);
 
-	var lineStripMesh = buildLineStrip([
+    var lineStripMesh = buildLineStrip([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 2, 0
 	], [0, 1, 2, 3]);
-	wrapAndAdd(goo, lineStripMesh, 0, 0);
+    wrapAndAdd(goo, lineStripMesh, 0, 0);
 
-	var lineLoopMesh = buildLineLoop([
+    var lineLoopMesh = buildLineLoop([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 2, 0
 	], [0, 1, 2, 3]);
-	wrapAndAdd(goo, lineLoopMesh, 5, 0);
+    wrapAndAdd(goo, lineLoopMesh, 5, 0);
 
-	// triangles ====
-	var trianglesMesh = buildTriangles([
+    // triangles ====
+    var trianglesMesh = buildTriangles([
 		 0, 0, 0,
 		 1, 0, 0,
 		 1, 1, 0,
 		 0, 2, 0,
 		-1, 2, 0
 	], [0, 1, 2, 0, 3, 4]);
-	wrapAndAdd(goo, trianglesMesh, -5, -5);
+    wrapAndAdd(goo, trianglesMesh, -5, -5);
 
-	var triangleStripMesh = buildTriangleStrip([
+    var triangleStripMesh = buildTriangleStrip([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 2, 0,
 		2, 2, 0
 	], [0, 1, 3, 2, 4]);
-	wrapAndAdd(goo, triangleStripMesh, 0, -5);
+    wrapAndAdd(goo, triangleStripMesh, 0, -5);
 
-	var triangleFanMesh = buildTriangleFan([
+    var triangleFanMesh = buildTriangleFan([
 		0, 0, 0,
 		1, 0, 0,
 		1, 1, 0,
 		0, 2, 0
 	], [0, 1, 2, 3]);
-	wrapAndAdd(goo, triangleFanMesh, 5, -5);
+    wrapAndAdd(goo, triangleFanMesh, 5, -5);
 
-	// light
-	V.addLights();
+    // light
+    V.addLights();
 
-	// camera
-	V.addOrbitCamera(new Vector3(20, Math.PI / 2, 0));
+    // camera
+    V.addOrbitCamera(new Vector3(20, Math.PI / 2, 0));
 
-	V.process();
+    V.process();

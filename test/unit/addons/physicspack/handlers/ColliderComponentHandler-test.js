@@ -1,3 +1,4 @@
+"use strict";
 var DynamicLoader = require('../../../../../src/goo/loaders/DynamicLoader');
 var Vector3 = require('../../../../../src/goo/math/Vector3');
 var World = require('../../../../../src/goo/entities/World');

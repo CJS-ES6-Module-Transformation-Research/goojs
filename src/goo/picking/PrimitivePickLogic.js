@@ -1,3 +1,4 @@
+"use strict";
 var BoundingTree = require('../picking/BoundingTree');
 var Ray = require('../math/Ray');
 var Matrix4 = require('../math/Matrix4');

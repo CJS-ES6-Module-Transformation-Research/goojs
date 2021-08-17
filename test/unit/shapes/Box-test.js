@@ -1,3 +1,4 @@
+"use strict";
 var Box = require('../../../src/goo/shapes/Box');
 
 describe('Box', function () {

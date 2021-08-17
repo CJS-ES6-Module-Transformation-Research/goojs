@@ -1,3 +1,4 @@
+"use strict";
 var Box = goo.Box;
 var Cylinder = goo.Cylinder;
 var Vector3 = goo.Vector3;

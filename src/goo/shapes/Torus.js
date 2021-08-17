@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../renderer/MeshData');
 var Vector3 = require('../math/Vector3');
 var MathUtils = require('../math/MathUtils');

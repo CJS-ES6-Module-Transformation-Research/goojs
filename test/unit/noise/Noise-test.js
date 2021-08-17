@@ -1,3 +1,4 @@
+"use strict";
 var Noise = require('../../../src/goo/noise/Noise');
 var ValueNoise = require('../../../src/goo/noise/ValueNoise');
 

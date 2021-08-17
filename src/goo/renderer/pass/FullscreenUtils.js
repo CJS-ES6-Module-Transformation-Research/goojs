@@ -1,3 +1,4 @@
+"use strict";
 var Quad = require('../../shapes/Quad');
 var Camera = require('../../renderer/Camera');
 var Vector3 = require('../../math/Vector3');

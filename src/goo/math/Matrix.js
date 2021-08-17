@@ -1,3 +1,4 @@
+"use strict";
 var MathUtils = require('./MathUtils');
 var ObjectUtils = require('../util/ObjectUtils');
 

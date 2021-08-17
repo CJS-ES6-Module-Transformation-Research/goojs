@@ -1,3 +1,4 @@
+"use strict";
 var Gizmo = require('../../util/gizmopack/Gizmo');
 var RotationGizmo = require('../../util/gizmopack/RotationGizmo');
 var Vector3 = require('../../math/Vector3');

@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
 var ColliderComponent = require('../../../addons/physicspack/components/ColliderComponent');
 var ObjectUtils = require('../../../util/ObjectUtils');

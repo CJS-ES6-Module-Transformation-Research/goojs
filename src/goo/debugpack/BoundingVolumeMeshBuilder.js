@@ -1,3 +1,4 @@
+"use strict";
 var BoundingBox = require('../renderer/bounds/BoundingBox');
 var BoundingSphere = require('../renderer/bounds/BoundingSphere');
 var MeshBuilder = require('../util/MeshBuilder');

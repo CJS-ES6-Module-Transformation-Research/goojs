@@ -1,3 +1,4 @@
+"use strict";
 var EntityConfig = require('./helpers/EntityConfig');
 var AnimationConfig = require('./helpers/AnimationConfig');
 var MaterialConfig = require('./helpers/MaterialConfig');

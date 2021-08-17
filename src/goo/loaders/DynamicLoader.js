@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('./handlers/ConfigHandler');
 var Ajax = require('../util/Ajax');
 var RSVP = require('../util/rsvp');

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @param {Object} [settings]
  * @param {number} [settings.friction=0.3]

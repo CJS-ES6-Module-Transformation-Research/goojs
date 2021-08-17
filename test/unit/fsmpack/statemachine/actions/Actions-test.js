@@ -1,3 +1,4 @@
+"use strict";
 var Actions = require('../../../../../src/goo/fsmpack/statemachine/actions/Actions');
 
 describe('Actions', function () {

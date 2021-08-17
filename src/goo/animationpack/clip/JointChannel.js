@@ -1,3 +1,4 @@
+"use strict";
 var TransformChannel = require('../../animationpack/clip/TransformChannel');
 var JointData = require('../../animationpack/clip/JointData');
 

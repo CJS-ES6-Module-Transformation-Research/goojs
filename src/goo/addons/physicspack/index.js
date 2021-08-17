@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	BoxCollider: require('./colliders/BoxCollider'),
 	Collider: require('./colliders/Collider'),

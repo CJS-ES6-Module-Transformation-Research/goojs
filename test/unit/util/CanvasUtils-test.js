@@ -1,3 +1,4 @@
+"use strict";
 var CanvasUtils = require('../../../src/goo/util/CanvasUtils');
 
 describe('CanvasUtils', function () {

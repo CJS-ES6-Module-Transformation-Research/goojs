@@ -1,3 +1,4 @@
+"use strict";
 var Box = require('../shapes/Box');
 var Sphere = require('../shapes/Sphere');
 var MeshData = require('../renderer/MeshData');

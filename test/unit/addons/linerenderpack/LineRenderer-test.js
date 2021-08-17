@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../../../../src/goo/math/Vector3');
 var World = require('../../../../src/goo/entities/World');
 var LineRenderer = require('../../../../src/goo/addons/linerenderpack/LineRenderer');

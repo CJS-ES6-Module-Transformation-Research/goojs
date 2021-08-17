@@ -1,3 +1,4 @@
+"use strict";
 var Machine = require('../../../../src/goo/fsmpack/statemachine/Machine');
 var State = require('../../../../src/goo/fsmpack/statemachine/State');
 var StateMachineComponent = require('../../../../src/goo/fsmpack/statemachine/StateMachineComponent');

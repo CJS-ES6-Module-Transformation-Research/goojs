@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../renderer/MeshData');
 var Surface = require('../geometrypack/Surface');
 var Matrix3 = require('../math/Matrix3');

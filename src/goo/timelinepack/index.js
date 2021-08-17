@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	AbstractTimelineChannel: require('./AbstractTimelineChannel'),
 	EventChannel: require('./EventChannel'),

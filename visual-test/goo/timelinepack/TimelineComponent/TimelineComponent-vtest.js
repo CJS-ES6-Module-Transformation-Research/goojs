@@ -1,17 +1,18 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'Value/event channels in action.',
 		'The shapes\' rotation and scale are controlled by a value channel and the messages in the console are triggered by event channels.'
 	].join('\n'));
 
-	/* global TWEEN */
+    /* global TWEEN */
 
-	var trace = [];
-	var valueChannel;
+    var trace = [];
+    var valueChannel;
 
-	function getValueChannel() {
+    function getValueChannel() {
 
 		function callback(time, value, index) {
 			drawClear();
@@ -47,7 +48,7 @@
 		return channel;
 	}
 
-	function getEventChannel() {
+    function getEventChannel() {
 		function getMessenger(message) {
 			return function () {
 				console.log(message);
@@ -63,12 +64,12 @@
 		return channel;
 	}
 
-	function drawClear() {
+    function drawClear() {
 		con2d.fillStyle = '#AAA';
 		con2d.fillRect(0, 0, 500, 500);
 	}
 
-	function drawChannel() {
+    function drawChannel() {
 		con2d.lineWidth = 1;
 		con2d.strokeStyle = '#DDD';
 
@@ -78,7 +79,7 @@
 		});
 	}
 
-	function drawPointer(time, value, index) {
+    function drawPointer(time, value, index) {
 		con2d.lineWidth = 1;
 		con2d.strokeStyle = '#000';
 		con2d.beginPath();
@@ -96,7 +97,7 @@
 		//con2d.fillText('i: ' + index, time + 10, value + 15);
 	}
 
-	function drawTrace() {
+    function drawTrace() {
 		con2d.fillStyle = '#F00';
 
 		trace.forEach(function (point) {
@@ -104,7 +105,7 @@
 		});
 	}
 
-	function setupCanvas2D() {
+    function setupCanvas2D() {
 		var canvas = document.createElement('canvas');
 		canvas.width = 500;
 		canvas.height = 500;
@@ -115,7 +116,7 @@
 		con2d.fillRect(0, 0, 500, 500);
 	}
 
-	function setupButtons() {
+    function setupButtons() {
 		var buttonReset = document.createElement('button');
 		buttonReset.innerHTML = 'reset';
 		buttonReset.addEventListener('click', function () {
@@ -141,37 +142,37 @@
 	}
 
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
-	var con2d;
-	var paused = false;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
+    var con2d;
+    var paused = false;
 
 
-	// standard material
-	var material = new Material(ShaderLib.simpleLit);
+    // standard material
+    var material = new Material(ShaderLib.simpleLit);
 
-	// add some entities
-	var box = world.createEntity(new Box(), material, [3, 0, 0]).addToWorld();
-	var sphere = world.createEntity(new Sphere(32, 32), material, [0, 0, 0]).addToWorld();
-	var torus = world.createEntity(new Torus(32, 32, 0.1, 0.5), material, [-3, 0, 0]).addToWorld();
+    // add some entities
+    var box = world.createEntity(new Box(), material, [3, 0, 0]).addToWorld();
+    var sphere = world.createEntity(new Sphere(32, 32), material, [0, 0, 0]).addToWorld();
+    var torus = world.createEntity(new Torus(32, 32, 0.1, 0.5), material, [-3, 0, 0]).addToWorld();
 
-	V.addLights();
+    V.addLights();
 
-	V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
+    V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
 
-	// timeline related
-	setupCanvas2D();
+    // timeline related
+    setupCanvas2D();
 
-	setupButtons();
+    setupButtons();
 
-	valueChannel = getValueChannel();
-	drawChannel(valueChannel);
+    valueChannel = getValueChannel();
+    drawChannel(valueChannel);
 
-	var eventChannel = getEventChannel();
+    var eventChannel = getEventChannel();
 
-	// gotta trigger the update somehow
-	var time = 0;
-	gooRunner.callbacks.push(function () {
+    // gotta trigger the update somehow
+    var time = 0;
+    gooRunner.callbacks.push(function () {
 		if (!paused) {
 			time += gooRunner.world.tpf * 1000 * 0.1;
 			valueChannel.update(time);
@@ -179,4 +180,4 @@
 		}
 	});
 
-	V.process();
+    V.process();

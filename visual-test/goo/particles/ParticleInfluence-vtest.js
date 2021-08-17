@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('Modify particles with ParticleInfluence. The particles on the left have no influence.');
+    V.describe('Modify particles with ParticleInfluence. The particles on the left have no influence.');
 
-	function addParticleEntity(translation) {
+    function addParticleEntity(translation) {
 		var material = new Material(ShaderLib.particles);
 		var texture = ParticleSystemUtils.createSnowflakeTexture();
 		texture.generateMipmaps = true;
@@ -37,21 +38,21 @@
 		return entity;
 	}
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	V.addOrbitCamera(new Vector3(60, Math.PI / 2, 0));
+    V.addOrbitCamera(new Vector3(60, Math.PI / 2, 0));
 
-	var entity1 = addParticleEntity([-5, 0, 0]);
+    var entity1 = addParticleEntity([-5, 0, 0]);
 
-	var entity2 = addParticleEntity([5, 0, 0]);
-	var spiralInfluence = new ParticleInfluence({
+    var entity2 = addParticleEntity([5, 0, 0]);
+    var spiralInfluence = new ParticleInfluence({
 		apply: function (tpf, particle, particleIndex) {
 			var pos = particle.position;
 			pos.x += Math.sin(particle.age) * 0.1;
 			pos.z += Math.cos(particle.age) * 0.1;
 		}
 	});
-	entity2.particleComponent.emitters[0].influences.push(spiralInfluence);
+    entity2.particleComponent.emitters[0].influences.push(spiralInfluence);
 
-	V.process();
+    V.process();

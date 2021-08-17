@@ -1,3 +1,4 @@
+"use strict";
 var EventTarget = require('../../../src/goo/util/EventTarget');
 
 function Test() {

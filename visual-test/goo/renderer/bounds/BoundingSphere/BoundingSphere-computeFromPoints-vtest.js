@@ -1,7 +1,8 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	function buildCustomTriangle(verts) {
+    function buildCustomTriangle(verts) {
 		var indices = [];
 		indices.push(0, 1, 2);
 
@@ -16,32 +17,32 @@
 		return meshData;
 	}
 
-	var gooRunner = V.initGoo();
+    var gooRunner = V.initGoo();
 
-	var shapeMeshData = buildCustomTriangle([0, -1, 0, 1, 0, 0, 0, 1, 0]);
+    var shapeMeshData = buildCustomTriangle([0, -1, 0, 1, 0, 0, 0, 1, 0]);
 
-	// shape and boundingBox material
-	var material1 = new Material(ShaderLib.simpleColored, '');
-	material1.uniforms.color = [0.3, 0.6, 0.9];
-	var material2 = new Material(ShaderLib.simpleColored, '');
-	material2.uniforms.color = [0.3, 0.9, 0.6];
-	material2.wireframe = true;
+    // shape and boundingBox material
+    var material1 = new Material(ShaderLib.simpleColored, '');
+    material1.uniforms.color = [0.3, 0.6, 0.9];
+    var material2 = new Material(ShaderLib.simpleColored, '');
+    material2.uniforms.color = [0.3, 0.9, 0.6];
+    material2.wireframe = true;
 
-	// wrap shapeMeshData in an entity
-	gooRunner.world.createEntity(shapeMeshData, material1).addToWorld();
+    // wrap shapeMeshData in an entity
+    gooRunner.world.createEntity(shapeMeshData, material1).addToWorld();
 
-	// bounding sphere
-	var boundingSphere = new BoundingSphere();
-	boundingSphere.computeFromPoints(shapeMeshData.dataViews.POSITION);
-	var radius = boundingSphere.radius;
-	var xCenter = boundingSphere.center.x;
-	var yCenter = boundingSphere.center.y;
-	var zCenter = boundingSphere.center.z;
+    // bounding sphere
+    var boundingSphere = new BoundingSphere();
+    boundingSphere.computeFromPoints(shapeMeshData.dataViews.POSITION);
+    var radius = boundingSphere.radius;
+    var xCenter = boundingSphere.center.x;
+    var yCenter = boundingSphere.center.y;
+    var zCenter = boundingSphere.center.z;
 
-	var sphereMeshData = new Sphere(10, 16, radius);
-	gooRunner.world.createEntity(sphereMeshData, material2, [xCenter, yCenter, zCenter]).addToWorld();
+    var sphereMeshData = new Sphere(10, 16, radius);
+    gooRunner.world.createEntity(sphereMeshData, material2, [xCenter, yCenter, zCenter]).addToWorld();
 
-	// camera
-	V.addOrbitCamera(new Vector3(5, Math.PI / 2, 0));
+    // camera
+    V.addOrbitCamera(new Vector3(5, Math.PI / 2, 0));
 
-	V.process();
+    V.process();

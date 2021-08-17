@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('Particle system presets covered by ParticleLib');
+    V.describe('Particle system presets covered by ParticleLib');
 
-	function addFire(translation) {
+    function addFire(translation) {
 		var material = new Material(ShaderLib.particles);
 		var texture = ParticleSystemUtils.createFlareTexture();
 		texture.generateMipmaps = true;
@@ -25,7 +26,7 @@
 		.addToWorld();
 	}
 
-	function addSmoke(translation) {
+    function addSmoke(translation) {
 		var material = new Material(ShaderLib.particles);
 		var texture = ParticleSystemUtils.createFlareTexture();
 		texture.generateMipmaps = true;
@@ -46,12 +47,12 @@
 		.addToWorld();
 	}
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	V.addOrbitCamera(new Vector3(60, Math.PI / 2, 0));
+    V.addOrbitCamera(new Vector3(60, Math.PI / 2, 0));
 
-	addFire([ 10, 0, 0]);
-	addSmoke([-10, 0, 0]);
+    addFire([ 10, 0, 0]);
+    addSmoke([-10, 0, 0]);
 
-	V.process();
+    V.process();

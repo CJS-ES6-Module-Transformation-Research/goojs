@@ -1,3 +1,4 @@
+"use strict";
 var Material = require('../../renderer/Material');
 var MeshData = require('../../renderer/MeshData');
 var Shader = require('../../renderer/Shader');

@@ -1,3 +1,4 @@
+"use strict";
 var Source = require('../../animationpack/blendtree/Source');
 
 /**

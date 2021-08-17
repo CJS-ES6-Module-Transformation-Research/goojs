@@ -1,3 +1,4 @@
+"use strict";
 var HeightMapBoundingScript = require('../../../src/goo/scriptpack/HeightMapBoundingScript');
 
 describe('Build a basic heightmap and check basic points', function () {

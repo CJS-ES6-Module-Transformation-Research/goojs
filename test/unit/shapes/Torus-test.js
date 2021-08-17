@@ -1,3 +1,4 @@
+"use strict";
 var Torus = require('../../../src/goo/shapes/Torus');
 
 describe('Torus', function () {

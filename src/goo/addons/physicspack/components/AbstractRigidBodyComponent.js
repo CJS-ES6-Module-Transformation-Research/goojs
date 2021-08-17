@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../../entities/components/Component');
 var Quaternion = require('../../../math/Quaternion');
 var Transform = require('../../../math/Transform');

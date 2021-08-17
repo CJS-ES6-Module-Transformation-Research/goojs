@@ -1,3 +1,4 @@
+"use strict";
 var Transform = require('../math/Transform');
 
 /**

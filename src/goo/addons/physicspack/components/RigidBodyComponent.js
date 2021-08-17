@@ -1,3 +1,4 @@
+"use strict";
 var AbstractRigidBodyComponent = require('../../../addons/physicspack/components/AbstractRigidBodyComponent');
 var Vector3 = require('../../../math/Vector3');
 var Quaternion = require('../../../math/Quaternion');

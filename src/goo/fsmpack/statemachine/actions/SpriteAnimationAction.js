@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('./Action');
 
 function SpriteAnimationAction(/*id, settings*/) {

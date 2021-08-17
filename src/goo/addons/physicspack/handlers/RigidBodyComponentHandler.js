@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
 var RigidBodyComponent = require('../../../addons/physicspack/components/RigidBodyComponent');
 var ObjectUtils = require('../../../util/ObjectUtils');

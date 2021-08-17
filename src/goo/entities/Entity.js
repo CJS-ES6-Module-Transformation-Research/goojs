@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../entities/components/Component');
 var StringUtils = require('../util/StringUtils');
 var EventTarget = require('../util/EventTarget');

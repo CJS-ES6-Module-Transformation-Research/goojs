@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../math/Vector3');
 var Renderer = require('../renderer/Renderer');
 var Plane = require('../math/Plane');

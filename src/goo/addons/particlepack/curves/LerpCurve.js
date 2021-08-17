@@ -1,3 +1,4 @@
+"use strict";
 var Curve = require('../../../addons/particlepack/curves/Curve');
 var MathUtils = require('../../../math/MathUtils');
 

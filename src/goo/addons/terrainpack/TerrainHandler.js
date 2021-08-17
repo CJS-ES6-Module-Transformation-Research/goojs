@@ -1,3 +1,4 @@
+"use strict";
 var Terrain = require('../../addons/terrainpack/Terrain');
 var Vegetation = require('../../addons/terrainpack/Vegetation');
 var Forrest = require('../../addons/terrainpack/Forrest');

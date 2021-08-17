@@ -1,3 +1,4 @@
+"use strict";
 var Shader = require('../renderer/Shader');
 var ObjectUtils = require('../util/ObjectUtils');
 

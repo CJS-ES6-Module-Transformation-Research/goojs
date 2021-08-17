@@ -1,3 +1,4 @@
+"use strict";
 var EntityUtils = require('../../entities/EntityUtils');
 var Component = require('../../entities/components/Component');
 var Quaternion = require('../../math/Quaternion');

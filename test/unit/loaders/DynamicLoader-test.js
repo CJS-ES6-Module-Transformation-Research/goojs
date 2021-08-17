@@ -1,3 +1,4 @@
+"use strict";
 var World = require('../../../src/goo/entities/World');
 var TransformSystem = require('../../../src/goo/entities/systems/TransformSystem');
 var CameraSystem = require('../../../src/goo/entities/systems/CameraSystem');

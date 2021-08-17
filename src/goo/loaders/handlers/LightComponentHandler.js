@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../loaders/handlers/ComponentHandler');
 var LightComponent = require('../../entities/components/LightComponent');
 var PointLight = require('../../renderer/light/PointLight');

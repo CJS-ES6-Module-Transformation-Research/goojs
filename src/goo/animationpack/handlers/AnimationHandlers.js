@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	AnimationClipHandler: require('../../animationpack/handlers/AnimationClipHandler'),
 	AnimationComponentHandler: require('../../animationpack/handlers/AnimationComponentHandler'),

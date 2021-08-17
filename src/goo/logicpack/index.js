@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	LogicInterface: require('./logic/LogicInterface'),
 	LogicLayer: require('./logic/LogicLayer'),

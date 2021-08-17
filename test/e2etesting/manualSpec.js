@@ -1,3 +1,4 @@
+"use strict";
 /*
 	p1: jasmine-reporters does not work with jasmine 2.0
 	p2: all our tests are written for jasmine 2.0

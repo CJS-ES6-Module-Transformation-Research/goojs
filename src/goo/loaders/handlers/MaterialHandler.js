@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../../loaders/handlers/ConfigHandler');
 var Material = require('../../renderer/Material');
 var ShaderLib = require('../../renderer/shaders/ShaderLib');

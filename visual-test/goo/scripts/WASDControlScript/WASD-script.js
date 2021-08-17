@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	//! schteppe: Already covered in other tests. Delete?
+    //! schteppe: Already covered in other tests. Delete?
 
-	function WasdControlScriptDemo() {
+    function WasdControlScriptDemo() {
 		var gooRunner = V.initGoo();
 
 		V.addLights();
@@ -32,4 +33,4 @@
 		cameraEntity.setComponent(scripts);
 	}
 
-	WasdControlScriptDemo();
+    WasdControlScriptDemo();

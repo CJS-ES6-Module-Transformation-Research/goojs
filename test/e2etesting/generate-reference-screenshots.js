@@ -1,3 +1,4 @@
+"use strict";
 var path = require('path');
 var program = require('commander');
 var toc = require(__dirname + '/../../tools/table-of-contents');

@@ -1,3 +1,4 @@
+"use strict";
 /**
  * @private
  * Describes all the inputs / outputs for this logic interface. Typically one instance of this class exists for every class that

@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var Light = require('../../renderer/light/Light');
 

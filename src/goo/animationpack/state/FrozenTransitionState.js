@@ -1,3 +1,4 @@
+"use strict";
 var AbstractTransitionState = require('../../animationpack/state/AbstractTransitionState');
 
 /**

@@ -1,3 +1,4 @@
+"use strict";
 var ConfigHandler = require('../loaders/handlers/ConfigHandler');
 var RSVP = require('../util/rsvp');
 var PromiseUtils = require('../util/PromiseUtils');
@@ -581,31 +582,31 @@ function loadExternalScript(script, scriptElem, url) {
  * @param parameter
  * @returns {{message: string}|undefined} May return an error
  */
- ScriptHandler.validateParameter = function validateParameter(parameter) {
-	for (var i = 0; i < ScriptUtils.PROPERTY_TYPES.length; ++i) {
-		var entry = ScriptUtils.PROPERTY_TYPES[i];
-		var propValue = parameter[entry.prop];
-		var isPropDefined = typeof propValue !== 'undefined';
+ScriptHandler.validateParameter = function validateParameter(parameter) {
+   for (var i = 0; i < ScriptUtils.PROPERTY_TYPES.length; ++i) {
+       var entry = ScriptUtils.PROPERTY_TYPES[i];
+       var propValue = parameter[entry.prop];
+       var isPropDefined = typeof propValue !== 'undefined';
 
-		var msgStart = 'Property "' + entry.prop + '" must be ';
+       var msgStart = 'Property "' + entry.prop + '" must be ';
 
-		if (entry.mustBeDefined || isPropDefined) {
-			var validator = ScriptUtils.TYPE_VALIDATORS[entry.type];
-			var allowedValues = entry.getAllowedValues ? entry.getAllowedValues(parameter) : null;
+       if (entry.mustBeDefined || isPropDefined) {
+           var validator = ScriptUtils.TYPE_VALIDATORS[entry.type];
+           var allowedValues = entry.getAllowedValues ? entry.getAllowedValues(parameter) : null;
 
-			if (isPropDefined && entry.minLength && propValue.length < entry.minLength) {
-				return { message: msgStart + 'longer than ' + (entry.minLength - 1) };
-			}
+           if (isPropDefined && entry.minLength && propValue.length < entry.minLength) {
+               return { message: msgStart + 'longer than ' + (entry.minLength - 1) };
+           }
 
-			if (allowedValues && allowedValues.indexOf(propValue) === -1) {
-				return { message: msgStart + 'one of: ' + allowedValues.join(', ') };
-			}
+           if (allowedValues && allowedValues.indexOf(propValue) === -1) {
+               return { message: msgStart + 'one of: ' + allowedValues.join(', ') };
+           }
 
-			if (!validator(propValue)) {
-				return { message: msgStart + 'of type ' + entry.type };
-			}
-		}
-	}
+           if (!validator(propValue)) {
+               return { message: msgStart + 'of type ' + entry.type };
+           }
+       }
+   }
 };
 
 /**

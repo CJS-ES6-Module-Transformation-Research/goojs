@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../../renderer/MeshData');
 var MeshBuilder = require('../../util/MeshBuilder');
 var Transform = require('../../math/Transform');

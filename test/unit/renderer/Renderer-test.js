@@ -1,3 +1,4 @@
+"use strict";
 var RendererRecord = require('../../../src/goo/renderer/RendererRecord');
 var Renderer = require('../../../src/goo/renderer/Renderer');
 

@@ -1,3 +1,4 @@
+"use strict";
 var ComponentHandler = require('../../../loaders/handlers/ComponentHandler');
 var ParticleSystemComponent = require('../../../addons/particlepack/components/ParticleSystemComponent');
 var LinearCurve = require('../../../addons/particlepack/curves/LinearCurve');

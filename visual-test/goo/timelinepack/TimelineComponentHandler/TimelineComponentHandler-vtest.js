@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('The sphere has a timeline component which was loadd using the dynamic loader.');
+    V.describe('The sphere has a timeline component which was loadd using the dynamic loader.');
 
-	function setupGUI() {
+    function setupGUI() {
 		var buttonReset = document.createElement('button');
 		buttonReset.innerHTML = 'reset';
 		buttonReset.addEventListener('click', function(){
@@ -26,27 +27,27 @@
 		document.body.appendChild(buttonResume);
 	}
 
-	function setupEventListener() {
+    function setupEventListener() {
 		SystemBus.addListener('eventchannel1', function (data) {
 			console.log('Got message on', 'eventchannel1', ':', data);
 		});
 	}
 
-	var gooRunner = V.initGoo({
+    var gooRunner = V.initGoo({
 		manuallyStartGameLoop: true
 	});
 
-	var world = gooRunner.world;
-	var timelineSystem = new TimelineSystem();
-	world.add(timelineSystem);
+    var world = gooRunner.world;
+    var timelineSystem = new TimelineSystem();
+    world.add(timelineSystem);
 
-	// The loader takes care of loading the data
-	var loader = new DynamicLoader({
+    // The loader takes care of loading the data
+    var loader = new DynamicLoader({
 		world: world,
 		rootPath: './'
 	});
 
-	loader.load('root.bundle', {
+    loader.load('root.bundle', {
 		preloadBinaries: true
 	}).then(function (result) {
 		// Grab the first project in the bundle.

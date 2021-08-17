@@ -1,22 +1,23 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('Boxes with different depth functions');
+    V.describe('Boxes with different depth functions');
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
-	world.setSystem(new HtmlSystem(gooRunner.renderer));
-	var box = new Box(1, 1, 1);
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
+    world.setSystem(new HtmlSystem(gooRunner.renderer));
+    var box = new Box(1, 1, 1);
 
-	// Create background box
-	var material = new Material(ShaderLib.simpleColored);
-	material.uniforms.color = [0.5, 0.5, 0.5];
-	material.renderQueue = 0;
-	var backgroundBox = world.createEntity(box, material).addToWorld();
-	backgroundBox.setScale(10, 10, 0.1);
+    // Create background box
+    var material = new Material(ShaderLib.simpleColored);
+    material.uniforms.color = [0.5, 0.5, 0.5];
+    material.renderQueue = 0;
+    var backgroundBox = world.createEntity(box, material).addToWorld();
+    backgroundBox.setScale(10, 10, 0.1);
 
-	// Create boxes with various depth functions
-	function addBox(depthFunc, pos) {
+    // Create boxes with various depth functions
+    function addBox(depthFunc, pos) {
 		var material = new Material(ShaderLib.simpleColored);
 		material.uniforms.color = [V.rng.nextFloat(), V.rng.nextFloat(), V.rng.nextFloat()];
 		material.depthState.write = false;
@@ -40,15 +41,15 @@
 		entity.meshRendererComponent.materials.push(materialWire);
 	}
 
-	addBox('Never', [-2, 2, 0]);
-	addBox('Always', [0, 2, 0]);
-	addBox('Less', [2, 2, 0]);
-	addBox('LessEqual', [-2, 0, 0]);
-	addBox('Equal', [0, 0, 0]);
-	addBox('GreaterEqual', [2, 0, 0]);
-	addBox('Greater', [-2, -2, 0]);
-	addBox('NotEqual', [0, -2, 0]);
+    addBox('Never', [-2, 2, 0]);
+    addBox('Always', [0, 2, 0]);
+    addBox('Less', [2, 2, 0]);
+    addBox('LessEqual', [-2, 0, 0]);
+    addBox('Equal', [0, 0, 0]);
+    addBox('GreaterEqual', [2, 0, 0]);
+    addBox('Greater', [-2, -2, 0]);
+    addBox('NotEqual', [0, -2, 0]);
 
-	V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0));
+    V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0));
 
-	V.process();
+    V.process();

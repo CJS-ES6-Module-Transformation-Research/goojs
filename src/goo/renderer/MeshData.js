@@ -1,3 +1,4 @@
+"use strict";
 var BufferData = require('../renderer/BufferData');
 var RendererUtils = require('../renderer/RendererUtils');
 var BufferUtils = require('../renderer/BufferUtils');

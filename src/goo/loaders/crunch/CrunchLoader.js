@@ -1,3 +1,4 @@
+"use strict";
 /*
  * Copyright (c) 2012 Brandon Jones
  *

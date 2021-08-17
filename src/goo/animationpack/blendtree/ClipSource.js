@@ -1,3 +1,4 @@
+"use strict";
 var MathUtils = require('../../math/MathUtils');
 var AnimationClipInstance = require('../../animationpack/clip/AnimationClipInstance');
 var Source = require('../../animationpack/blendtree/Source');

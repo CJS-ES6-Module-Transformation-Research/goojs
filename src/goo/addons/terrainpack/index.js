@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	Forrest: require('./Forrest'),
 	Terrain: require('./Terrain'),

@@ -1,15 +1,16 @@
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('From left to right: cubic interpolation, spline interpolation, quadratic interpolation');
+    V.describe('From left to right: cubic interpolation, spline interpolation, quadratic interpolation');
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	var lineMaterial = V.getColoredMaterial();
+    var lineMaterial = V.getColoredMaterial();
 
 
 
-	var dot = (function () {
+    var dot = (function () {
 		var mesh = new Sphere(16, 16, 0.05);
 		var material = V.getColoredMaterial();
 
@@ -18,7 +19,7 @@
 		};
 	})();
 
-	var box = (function () {
+    var box = (function () {
 		var mesh = new Box(0.1, 0.1, 0.1);
 		var material = V.getColoredMaterial();
 
@@ -27,7 +28,7 @@
 		};
 	})();
 
-	var line = function (from, to, ends) {
+    var line = function (from, to, ends) {
 		var mesh = new PolyLine([from.x, from.y, from.z, to.x, to.y, to.z]);
 		world.createEntity(mesh, lineMaterial).addToWorld();
 
@@ -41,7 +42,7 @@
 		}
 	};
 
-	function splineHelpers(controlPoints) {
+    function splineHelpers(controlPoints) {
 		var segments = (controlPoints.length - 1) / 3;
 
 		for (var i = 0; i < segments; i++) {
@@ -55,7 +56,7 @@
 		}
 	}
 
-	function spline(controlPoints, nSteps) {
+    function spline(controlPoints, nSteps) {
 		var spline = new Spline(controlPoints);
 
 		var cursor = new Vector3();
@@ -73,12 +74,12 @@
 		world.createEntity(new PolyLine(points), lineMaterial).addToWorld();
 	}
 
-	function cubicBezierHelpers(controlPoints) {
+    function cubicBezierHelpers(controlPoints) {
 		line(controlPoints[0], controlPoints[1], 'end');
 		line(controlPoints[3], controlPoints[2], 'end');
 	}
 
-	function cubicBezier(controlPoints, nSteps) {
+    function cubicBezier(controlPoints, nSteps) {
 		var getPoint = Spline.cubicInterpolation.bind(
 			null, controlPoints[0], controlPoints[1], controlPoints[2], controlPoints[3]
 		);
@@ -98,12 +99,12 @@
 		world.createEntity(new PolyLine(points), lineMaterial).addToWorld();
 	}
 
-	function quadraticBezierHelpers(controlPoints) {
+    function quadraticBezierHelpers(controlPoints) {
 		line(controlPoints[0], controlPoints[1], 'end');
 		line(controlPoints[2], controlPoints[1], 'end');
 	}
 
-	function quadraticBezier(controlPoints, nSteps) {
+    function quadraticBezier(controlPoints, nSteps) {
 		var getPoint = Spline.quadraticInterpolation.bind(
 			null, controlPoints[0], controlPoints[1], controlPoints[2]
 		);
@@ -123,7 +124,7 @@
 		world.createEntity(new PolyLine(points), lineMaterial).addToWorld();
 	}
 
-	var splineControlPoints = [
+    var splineControlPoints = [
 		new Vector3(-1, -1, 0),
 		new Vector3(1, -1, 0),
 		new Vector3(1, 0.5, 0),
@@ -133,31 +134,31 @@
 		new Vector3(0, 2, 0)
 	];
 
-	var cubicBezierControlPoints = [
+    var cubicBezierControlPoints = [
 		new Vector3(-4, -1, 0),
 		new Vector3(-5, 1, 0),
 		new Vector3(-2, 1, 0),
 		new Vector3(-3, -1, 0)
 	];
 
-	var quadraticBezierControlPoints = [
+    var quadraticBezierControlPoints = [
 		new Vector3(5, -1, 0),
 		new Vector3(3, -1, 0),
 		new Vector3(3, 0, 0)
 	];
 
 
-	spline(splineControlPoints, 20);
-	splineHelpers(splineControlPoints);
+    spline(splineControlPoints, 20);
+    splineHelpers(splineControlPoints);
 
-	cubicBezier(cubicBezierControlPoints, 16);
-	cubicBezierHelpers(cubicBezierControlPoints);
+    cubicBezier(cubicBezierControlPoints, 16);
+    cubicBezierHelpers(cubicBezierControlPoints);
 
-	quadraticBezier(quadraticBezierControlPoints, 14);
-	quadraticBezierHelpers(quadraticBezierControlPoints);
+    quadraticBezier(quadraticBezierControlPoints, 14);
+    quadraticBezierHelpers(quadraticBezierControlPoints);
 
 
-	V.addOrbitCamera(new Vector3(7, Math.PI / 2, 0));
-	V.addLights();
+    V.addOrbitCamera(new Vector3(7, Math.PI / 2, 0));
+    V.addLights();
 
-	V.process();
+    V.process();

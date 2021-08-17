@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Abstract pool class for object pooling.
  * @param {Object} [settings]

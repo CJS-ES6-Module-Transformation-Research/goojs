@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	ParticleSystemComponent: require('./components/ParticleSystemComponent'),
 	ConstantCurve: require('./curves/ConstantCurve'),

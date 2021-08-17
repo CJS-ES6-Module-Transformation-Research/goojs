@@ -1,3 +1,4 @@
+"use strict";
 var ArrayUtils = require('../../../src/goo/util/ArrayUtils');
 
 describe('ArrayUtils', function () {

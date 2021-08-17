@@ -1,3 +1,4 @@
+"use strict";
 var Transform = require('../../math/Transform');
 var Vector3 = require('../../math/Vector3');
 var Component = require('../../entities/components/Component');

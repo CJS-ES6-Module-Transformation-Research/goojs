@@ -1,3 +1,4 @@
+"use strict";
 var Quaternion = require('../../../src/goo/math/Quaternion');
 var Matrix3 = require('../../../src/goo/math/Matrix3');
 var Vector3 = require('../../../src/goo/math/Vector3');

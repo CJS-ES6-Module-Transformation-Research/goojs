@@ -1,3 +1,4 @@
+"use strict";
 var Scripts = require('../scripts/Scripts');
 var BoundingBox = require('../renderer/bounds/BoundingBox');
 var ObjectUtils = require('../util/ObjectUtils');

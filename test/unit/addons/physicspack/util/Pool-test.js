@@ -1,3 +1,4 @@
+"use strict";
 describe('Pool', function () {
 
 	var Pool = require('../../../../../src/goo/addons/physicspack/util/Pool');

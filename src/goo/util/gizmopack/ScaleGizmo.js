@@ -1,3 +1,4 @@
+"use strict";
 var Gizmo = require('../../util/gizmopack/Gizmo');
 var MeshData = require('../../renderer/MeshData');
 var MeshBuilder = require('../../util/MeshBuilder');

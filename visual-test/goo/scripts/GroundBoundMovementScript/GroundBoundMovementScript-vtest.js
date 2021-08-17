@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	var worldFittedTerrainScript = new WorldFittedTerrainScript();
+    var worldFittedTerrainScript = new WorldFittedTerrainScript();
 
-	var randomWalk = function(groundBoundMovementScript) {
+    var randomWalk = function(groundBoundMovementScript) {
 		function applySelection(selection) {
 			switch (selection) {
 				case 1:
@@ -28,7 +29,7 @@
 		applySelection(3);
 	};
 
-	function addMovementToEntity(entity, terrainScript, movementProperties) {
+    function addMovementToEntity(entity, terrainScript, movementProperties) {
 		entity.setComponent(new MovementComponent());
 		var groundBoundMovementScript = new GroundBoundMovementScript(movementProperties);
 		groundBoundMovementScript.setTerrainSystem(terrainScript);
@@ -39,7 +40,7 @@
 		randomWalk(groundBoundMovementScript);
 	}
 
-	function addSpheres(goo, worldFittedTerrainScript, dims) {
+    function addSpheres(goo, worldFittedTerrainScript, dims) {
 		/*jshint loopfunc: true */
 		var meshData = new Sphere(32, 32);
 
@@ -59,7 +60,7 @@
 		}
 	}
 
-	function addCar(goo, worldFittedTerrainScript, dims) {
+    function addCar(goo, worldFittedTerrainScript, dims) {
 		/*jshint loopfunc: true */
 		var meshData = new Sphere(32, 32);
 
@@ -123,7 +124,7 @@
 	}
 
 
-	function addBiped(goo, worldFittedTerrainScript, dims) {
+    function addBiped(goo, worldFittedTerrainScript, dims) {
 		/*jshint loopfunc: true */
 		var meshData = new Sphere(32, 32);
 
@@ -162,7 +163,7 @@
 		addMovementToEntity(rootEntity, worldFittedTerrainScript);
 	}
 
-	function addLight(dims) {
+    function addLight(dims) {
 		var light1 = new PointLight();
 		light1.color.setDirect(0.8, 0.7,0.61);
 		var light1Entity = gooRunner.world.createEntity('light');
@@ -171,7 +172,7 @@
 		light1Entity.addToWorld();
 	}
 
-	function buildTexturedGround(matrix, dimensions, id, gooWorld, txPath) {
+    function buildTexturedGround(matrix, dimensions, id, gooWorld, txPath) {
 		var meshData = new TerrainSurface(matrix, dimensions.maxX-dimensions.minX, dimensions.maxY-dimensions.minY, dimensions.maxZ-dimensions.minZ);
 		var material = new Material(ShaderLib.texturedLit, '');
 
@@ -204,18 +205,18 @@
 		surfaceEntity.transformComponent.setUpdated();
 		surfaceEntity.addToWorld();
 	}
-/*
-	function buildSurfaceMesh(matrix, dimensions, id, gooWorld) {
-		var meshData =  new TerrainSurface(matrix, dimensions.maxX-dimensions.minX, dimensions.maxY-dimensions.minY, dimensions.maxZ-dimensions.minZ);
-		var material = new Material(ShaderLib.simpleLit, '');
-		material.wireframe = true;
-		var surfaceEntity = EntityUtils.createTypicalEntity(gooWorld, meshData, material, id);
-		surfaceEntity.transformComponent.transform.translation.setDirect(dimensions.minX, dimensions.minY, dimensions.minZ);
-		surfaceEntity.transformComponent.setUpdated();
-		surfaceEntity.addToWorld();
-	}
- */
-	function groundBoundMovementScriptDemo() {
+    /*
+        function buildSurfaceMesh(matrix, dimensions, id, gooWorld) {
+            var meshData =  new TerrainSurface(matrix, dimensions.maxX-dimensions.minX, dimensions.maxY-dimensions.minY, dimensions.maxZ-dimensions.minZ);
+            var material = new Material(ShaderLib.simpleLit, '');
+            material.wireframe = true;
+            var surfaceEntity = EntityUtils.createTypicalEntity(gooWorld, meshData, material, id);
+            surfaceEntity.transformComponent.transform.translation.setDirect(dimensions.minX, dimensions.minY, dimensions.minZ);
+            surfaceEntity.transformComponent.setUpdated();
+            surfaceEntity.addToWorld();
+        }
+     */
+    function groundBoundMovementScriptDemo() {
 		CanvasUtils.loadCanvasFromPath('../../../resources/heightmap_walled.png', function(canvas) {
 			var matrix = CanvasUtils.getMatrixFromCanvas(canvas);
 
@@ -285,7 +286,7 @@
 
 	}
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	groundBoundMovementScriptDemo();
+    groundBoundMovementScriptDemo();

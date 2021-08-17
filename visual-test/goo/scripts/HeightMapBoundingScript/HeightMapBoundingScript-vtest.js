@@ -1,7 +1,8 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	function addSpheres(gooRunner, heightMapBoundingScript) {
+    function addSpheres(gooRunner, heightMapBoundingScript) {
 		/*jshint loopfunc: true */
 		var meshData = new Sphere(32, 32);
 
@@ -37,10 +38,10 @@
 		}
 	}
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	CanvasUtils.loadCanvasFromPath('../../../resources/heightmap_small.png', function(canvas) {
+    CanvasUtils.loadCanvasFromPath('../../../resources/heightmap_small.png', function(canvas) {
 		var matrix = CanvasUtils.getMatrixFromCanvas(canvas);
 		var heightMapBoundingScript = new HeightMapBoundingScript(matrix);
 

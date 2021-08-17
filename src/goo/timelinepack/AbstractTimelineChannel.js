@@ -1,3 +1,4 @@
+"use strict";
 function AbstractTimelineChannel(id) {
 	this.id = id;
 	this.enabled = true;

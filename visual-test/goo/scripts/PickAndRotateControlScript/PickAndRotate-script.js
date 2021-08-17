@@ -1,7 +1,8 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	function pickAndRotateScriptDemo() {
+    function pickAndRotateScriptDemo() {
 		var gooRunner = V.initGoo();
 
 		V.addLights();
@@ -28,4 +29,4 @@
 		cameraEntity.setComponent(scripts);
 	}
 
-	pickAndRotateScriptDemo();
+    pickAndRotateScriptDemo();

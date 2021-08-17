@@ -1,3 +1,4 @@
+"use strict";
 goo.V.attachToGlobal();
 
 V.describe('All spheres have an html component attached which should have it\'s transform synced');

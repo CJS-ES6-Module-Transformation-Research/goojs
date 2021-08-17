@@ -1,3 +1,4 @@
+"use strict";
 var FadeTransitionState = require('../../animationpack/state/FadeTransitionState');
 var SyncFadeTransitionState = require('../../animationpack/state/SyncFadeTransitionState');
 var FrozenTransitionState = require('../../animationpack/state/FrozenTransitionState');

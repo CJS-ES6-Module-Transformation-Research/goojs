@@ -1,3 +1,4 @@
+"use strict";
 var World = require('../../../../src/goo/entities/World');
 var EntityManager = require('../../../../src/goo/entities/managers/EntityManager');
 

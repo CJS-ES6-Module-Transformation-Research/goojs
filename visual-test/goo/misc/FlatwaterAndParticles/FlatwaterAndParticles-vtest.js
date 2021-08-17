@@ -1,9 +1,10 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe('Fire and water were at some point causing rendering artifacts. This scene serves as the minimal test case.');
+    V.describe('Fire and water were at some point causing rendering artifacts. This scene serves as the minimal test case.');
 
-	function addFire(gooRunner) {
+    function addFire(gooRunner) {
 		// particle material
 		var material = new Material(ShaderLib.particles);
 		material.blendState.blending = 'AlphaBlending';
@@ -51,7 +52,7 @@
 			.addToWorld();
 	}
 
-	function addWater(goo, waterY) {
+    function addWater(goo, waterY) {
 		// water
 		var meshData = new Quad(10000, 10000, 10, 10);
 
@@ -94,20 +95,20 @@
 		return waterRenderer;
 	}
 
-	function addBox(gooRunner) {
+    function addBox(gooRunner) {
 		var boxMeshData = new Box(10, 30, 10);
 		var boxMaterial = new Material(ShaderLib.simple);
 		gooRunner.world.createEntity(boxMeshData, boxMaterial, [0, 15.01, 0])
 			.addToWorld();
 	}
 
-	var gooRunner = V.initGoo();
+    var gooRunner = V.initGoo();
 
-	V.addOrbitCamera(new Vector3(60, Math.PI / 2, 0), new Vector3(0, 5, 0));
-	V.addLights();
+    V.addOrbitCamera(new Vector3(60, Math.PI / 2, 0), new Vector3(0, 5, 0));
+    V.addLights();
 
-	addBox(gooRunner);
-	addWater(goo, 0);
-	addFire(gooRunner);
+    addBox(gooRunner);
+    addWater(goo, 0);
+    addFire(gooRunner);
 
-	V.process();
+    V.process();

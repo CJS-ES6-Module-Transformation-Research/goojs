@@ -1,15 +1,16 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	var gooRunner = V.initGoo();
-	var world = gooRunner.world;
+    var gooRunner = V.initGoo();
+    var world = gooRunner.world;
 
-	world.setSystem(new HtmlSystem(gooRunner.renderer));
+    world.setSystem(new HtmlSystem(gooRunner.renderer));
 
-	V.addLights();
-	V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
+    V.addLights();
+    V.addOrbitCamera(new Vector3(15, Math.PI / 2, 0.3));
 
-	var entities = {
+    var entities = {
 		mousedown: null,
 		mouseup: null,
 		click: null,
@@ -21,11 +22,11 @@
 		mouseout: null
 	};
 
-	var i = 0;
-	var dist = 1.2;
-	var numEntities = Object.keys(entities).length;
+    var i = 0;
+    var dist = 1.2;
+    var numEntities = Object.keys(entities).length;
 
-	for (var eventType in entities) {
+    for (var eventType in entities) {
 		// Create a cube
 		var position = [i * dist - dist * (numEntities - 1) / 2, 0, 0];
 		var material = V.getColoredMaterial(1, 1, 1);
@@ -50,11 +51,11 @@
 		world.createEntity(position).addToWorld().set(htmlComponent);
 	}
 
-	SystemBus.addListener('goo.scriptError', function (event) {
+    SystemBus.addListener('goo.scriptError', function (event) {
 		console.log('Script error!', event);
 	});
 
-	function swapColor(entity) {
+    function swapColor(entity) {
 		var uniforms = entity.meshRendererComponent.materials[0].uniforms;
 		if (uniforms.materialDiffuse[1] === 1) {
 			uniforms.materialDiffuse = [1, 0, 0, 1];
@@ -63,16 +64,16 @@
 		}
 	}
 
-	function handler(event) {
+    function handler(event) {
 		swapColor(entities[event.type]);
 	}
 
-	SystemBus.addListener('button0.mousedown', handler);
-	SystemBus.addListener('button1.mouseup', handler);
-	SystemBus.addListener('button2.click', handler);
-	SystemBus.addListener('button3.dblclick', handler);
-	SystemBus.addListener('button4.touchstart', handler);
-	SystemBus.addListener('button5.touchend', handler);
-	SystemBus.addListener('button6.mousemove', handler);
-	SystemBus.addListener('button7.mouseover', handler);
-	SystemBus.addListener('button8.mouseout', handler);
+    SystemBus.addListener('button0.mousedown', handler);
+    SystemBus.addListener('button1.mouseup', handler);
+    SystemBus.addListener('button2.click', handler);
+    SystemBus.addListener('button3.dblclick', handler);
+    SystemBus.addListener('button4.touchstart', handler);
+    SystemBus.addListener('button5.touchend', handler);
+    SystemBus.addListener('button6.mousemove', handler);
+    SystemBus.addListener('button7.mouseover', handler);
+    SystemBus.addListener('button8.mouseout', handler);

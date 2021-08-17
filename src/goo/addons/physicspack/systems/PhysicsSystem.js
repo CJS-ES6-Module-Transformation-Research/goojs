@@ -1,3 +1,4 @@
+"use strict";
 var AbstractPhysicsSystem = require('../../../addons/physicspack/systems/AbstractPhysicsSystem');
 var RaycastResult = require('../../../addons/physicspack/RaycastResult');
 var RigidBodyComponent = require('../../../addons/physicspack/components/RigidBodyComponent');

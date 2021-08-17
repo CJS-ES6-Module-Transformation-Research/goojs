@@ -1,3 +1,4 @@
+"use strict";
 var Gizmo = require('../../util/gizmopack/Gizmo');
 var Vector3 = require('../../math/Vector3');
 var TranslationGizmo = require('../../util/gizmopack/TranslationGizmo');

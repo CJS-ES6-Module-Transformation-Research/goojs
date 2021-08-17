@@ -1,3 +1,4 @@
+"use strict";
 var Component = require('../../entities/components/Component');
 var RenderTarget = require('../../renderer/pass/RenderTarget');
 

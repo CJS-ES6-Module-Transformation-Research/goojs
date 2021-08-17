@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('./Action');
 var Vector3 = require('./../../../math/Vector3');
 

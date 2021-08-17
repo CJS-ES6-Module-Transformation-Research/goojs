@@ -1,3 +1,4 @@
+"use strict";
 var Scripts = require('../scripts/Scripts');
 
 var scripts = {

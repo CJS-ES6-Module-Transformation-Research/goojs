@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('../../../../src/goo/math/Vector3');
 var BoundingBox = require('../../../../src/goo/renderer/bounds/BoundingBox');
 var BoundingSphere = require('../../../../src/goo/renderer/bounds/BoundingSphere');

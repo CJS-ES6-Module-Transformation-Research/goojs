@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('./Action');
 
 function StopTimelineAction(/*id, settings*/) {

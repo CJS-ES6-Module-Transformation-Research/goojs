@@ -1,3 +1,4 @@
+"use strict";
 function FsmUtils() {}
 
 FsmUtils.setParameters = function (settings, externalParameters) {

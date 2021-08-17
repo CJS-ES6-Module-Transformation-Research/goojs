@@ -1,3 +1,4 @@
+"use strict";
 module.exports = {
 	FilledPolygon: require('./FilledPolygon'),
 	PolyLine: require('./PolyLine'),

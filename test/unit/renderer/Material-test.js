@@ -1,3 +1,4 @@
+"use strict";
 var Material = require('../../../src/goo/renderer/Material');
 var ShaderLib = require('../../../src/goo/renderer/shaders/ShaderLib');
 

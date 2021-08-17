@@ -1,3 +1,4 @@
+"use strict";
 var World = require('../../../../src/goo/entities/World');
 var HtmlComponent = require('../../../../src/goo/entities/components/HtmlComponent');
 var DynamicLoader = require('../../../../src/goo/loaders/DynamicLoader');

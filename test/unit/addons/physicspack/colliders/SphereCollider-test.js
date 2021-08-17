@@ -1,3 +1,4 @@
+"use strict";
 describe('SphereCollider', function () {
 
 	var SphereCollider = require('../../../../../src/goo/addons/physicspack/colliders/SphereCollider');

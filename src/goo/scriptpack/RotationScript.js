@@ -1,3 +1,4 @@
+"use strict";
 function RotationScript() {
 	var mouseState, actualState, entity;
 

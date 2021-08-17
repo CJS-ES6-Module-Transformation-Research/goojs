@@ -1,3 +1,4 @@
+"use strict";
 var Vector3 = require('./Vector3');
 var Matrix3 = require('./Matrix3');
 var Matrix4 = require('./Matrix4');

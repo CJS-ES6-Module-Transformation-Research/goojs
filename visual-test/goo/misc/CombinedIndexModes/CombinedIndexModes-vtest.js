@@ -1,12 +1,13 @@
 
-	goo.V.attachToGlobal();
+	"use strict";
+    goo.V.attachToGlobal();
 
-	V.describe([
+    V.describe([
 		'A 7x7 matrix of shapes using all possible combinations of index modes.',
 		'From left to right, top to bottom: GL_POINTS, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP, GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN'
 	].join('\n'));
 
-	function buildCombined(verts1, indices1, indexMode1, verts2, indices2, indexMode2) {
+    function buildCombined(verts1, indices1, indexMode1, verts2, indices2, indexMode2) {
 		var nVerts1 = verts1.length / 3;
 		var translatedVerts1 = verts1.map(function(e, i) { return e - (i % 3 === 0 ? 1 : 0); });
 		var translatedVerts2 = verts2.map(function(e, i) { return e + (i % 3 === 0 ? 1 : 0); });
@@ -29,8 +30,8 @@
 
 		return meshData;
 	}
-	//--------
-	function wrapAndAdd(goo, meshData, x, y, z) {
+    //--------
+    function wrapAndAdd(goo, meshData, x, y, z) {
 		x = x || 0;
 		y = y || 0;
 		z = z || 0;
@@ -41,10 +42,10 @@
 		console.log('Added', entity);
 		return entity;
 	}
-	//--------
-	var gooRunner = V.initGoo();
+    //--------
+    var gooRunner = V.initGoo();
 
-	var modes = [
+    var modes = [
 		{ v: [0, 0, 0, 1, 0, 0,	1, 1, 0, 0, 2, 0], i: [], m: 'Points'},
 		{ v: [0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 2, 0], i: [0, 1, 0, 2, 0, 3], m: 'Lines'},
 		{ v: [0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 2, 0], i: [0, 1, 2, 3], m: 'LineStrip'},
@@ -53,8 +54,8 @@
 		{ v: [0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 2, 0, 2, 2, 0], i: [0, 1, 3, 2, 4], m: 'TriangleStrip'},
 		{ v: [0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 2, 0, -0.5, 1, 0], i: [0, 1, 2, 3, 4], m: 'TriangleFan'}];
 
-	// build a grid of all possible 7x7 combinations
-	for (var i = 0; i < modes.length; i++) {
+    // build a grid of all possible 7x7 combinations
+    for (var i = 0; i < modes.length; i++) {
 		for (var j = 0; j < modes.length; j++) {
 			var mode1 = modes[i];
 			var mode2 = modes[j];
@@ -63,10 +64,10 @@
 		}
 	}
 
-	// light
-	V.addLights();
+    // light
+    V.addLights();
 
-	// camera
-	V.addOrbitCamera(new Vector3(35, Math.PI / 2, 0));
+    // camera
+    V.addOrbitCamera(new Vector3(35, Math.PI / 2, 0));
 
-	V.process();
+    V.process();

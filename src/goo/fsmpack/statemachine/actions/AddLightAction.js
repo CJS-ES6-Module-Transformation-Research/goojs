@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('../../../fsmpack/statemachine/actions/Action');
 var LightComponent = require('../../../entities/components/LightComponent');
 var PointLight = require('../../../renderer/light/PointLight');

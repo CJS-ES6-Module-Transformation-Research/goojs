@@ -1,3 +1,4 @@
+"use strict";
 var Light = require('../../renderer/light/Light');
 
 /**

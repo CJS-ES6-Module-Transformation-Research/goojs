@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var TextureGrid = require('../../shapes/TextureGrid');
 var MeshDataComponent = require('../../entities/components/MeshDataComponent');

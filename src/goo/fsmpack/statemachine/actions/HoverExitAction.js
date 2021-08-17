@@ -1,3 +1,4 @@
+"use strict";
 var Action = require('./Action');
 var BoundingPicker = require('./../../../renderer/bounds/BoundingPicker');
 

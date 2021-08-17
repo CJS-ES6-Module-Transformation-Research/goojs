@@ -1,3 +1,4 @@
+"use strict";
 var System = require('../../entities/systems/System');
 var World = require('../../entities/World');
 

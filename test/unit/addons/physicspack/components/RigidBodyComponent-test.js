@@ -1,3 +1,4 @@
+"use strict";
 /* global CANNON */
 
 describe('RigidBodyComponent', function () {

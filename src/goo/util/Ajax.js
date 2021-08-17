@@ -1,3 +1,4 @@
+"use strict";
 var TextureHandler = require('../loaders/handlers/TextureHandler');
 var PromiseUtils = require('../util/PromiseUtils');
 var ObjectUtils = require('../util/ObjectUtils');

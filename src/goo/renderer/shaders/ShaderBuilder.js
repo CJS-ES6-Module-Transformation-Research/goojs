@@ -1,3 +1,4 @@
+"use strict";
 var MeshData = require('../../renderer/MeshData');
 var PointLight = require('../../renderer/light/PointLight');
 var DirectionalLight = require('../../renderer/light/DirectionalLight');

@@ -1,3 +1,4 @@
+"use strict";
 var TextureCreator = require('../../../src/goo/renderer/TextureCreator');
 
 describe('TextureCreator', function () {
